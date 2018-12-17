@@ -1,0 +1,7 @@
+CM> 01/01/1970 00:00:19 - Vendor CM Agent w/ BRCM Factory Support raised bcmAlarmBatteryMissing
+01/01/1970 00:00:24 - emta factory agent cleared bcmAlarmBatteryMissing
+
+Active Command Table:  CM DOCSIS Control Thread Commands (docsis_ctl)
+
+CM/DocsisCtl/t tt/t-i t_u> Received RG Event 0x80000001 State 0x1
+eRouter Linux WAN Down
