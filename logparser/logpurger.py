@@ -1,7 +1,11 @@
+#!/usr/bin/env python3
+import os
 import re
 
-file = open('./logs/tmp.txt', 'r')
-newfile = open('./logs/tmp_new.txt', 'w')
+curfiledir = os.path.dirname(__file__)
+parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+file       = open(parentdir + '/logs/test.txt', 'r')
+newfile    = open(parentdir + '/logs/test_new.txt', 'w')
 
 # The pattern for the timestamp added by console tool
 pattern0 = re.compile(r'\[(([01]\d|2[0-3]):([0-5]\d):([0-5]\d):(\d{3})|24:00:00:000)\]')

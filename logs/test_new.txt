@@ -1,0 +1,873 @@
+Starting TFTP of CM Version file!
+
+Opening file 'cmversion.txt' on 172.31.255.40 for writing...
+
+Tftp transfer CM version file open successful!
+
+
+Tftp transfer CM version file is complete!
+
+Automatically stopping at console because non-vol settings told me to...
+
+Didn't run the system; use 'run_app' to start things...
+
+
+Type 'help' or '?' for a list of commands...
+
+Vendor CM Agent w/ BRCM Factory Support raised bcmAlarmBatteryMissing
+emta factory agent raised bcmAlarmBatteryMissing
+Vendor CM Agent w/ BRCM Factory Support cleared bcmAlarmBatteryMissing
+emta factory agent cleared bcmAlarmBatteryMissing
+
+cd do
+
+Active Command Table:  CM DOCSIS Control Thread Commands (docsis_ctl)
+
+docsis_ctl
+
+goto_ds 300
+
+Moving to Downstream Frequency 300000000 Hz.
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::Reset:  (CmDocsisCtlThread)   DefaultSnmpAgentClass::RestartPendingEvent for Vendor CM Agent w/ BRCM Factory Support
+
+Received RG Event 0x80000001 State 0x1
+eRouter Linux WAN Down
+[eRouterMsgPipe] eRouterMsgPipe::UpdateIpNetToMediaEntry:  (eRouterMsgPipe) eRouter IP address:0.0.0.0
+Stopping DHCP/ToD/TFTP (client requested)...
+[CmDocsisIpThread] BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!
+[CmDocsisIpThread] BcmDhcpV6ClientIf::ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
+BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 0
+SCQAM DSID filter control = 0x00
+OFDM DSID filter control = 0x01
+Deleting DOCSIS 1.0 CoS Settings for SID 0
+[CmDocsisCtlThread] BcmDocsisCmHalIf::DeleteAllServiceFlows:  (DOCSIS CableModem HalIf) Deleting all Upstream and Downstream Service Flows, along with associated Classifiers and PHS rules...
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::ResetRngState:  (CmDocsisCtlThread) 
+[CmDocsisCtlThread] BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 0 to 0
+Updating US chan 8 data Profile test msg for Sid: 0x0.
+Updating US chan 9 data Profile test msg for Sid: 0x0.
+BcmSetDocsis31CmtsRegistration:Setting Docsis3TransmitMode=false
+[CmDocsisCtlThread] BcmCmMultiDsHelper::PreRegDsChanChange:  
+                        target freq hz = 300000000
+                         reason string = ConsoleCmdOverride
+                          CmInitReason = 1
+
+Starting DS scanning at 300000000 Hz...
+[CmDocsisCtlThread] BcmCmDownstreamScan::StartScan:  Starting DS scan
+Scanning 300.000 MHz PLC/SC-QAM (ConsoleCmdOverride) locked SC-QAM
+[CmDocsisCtlThread] BcmCmDsChan::DsLockOk:  (BcmCmDsChan 0) hwRxId=0  freq=0  dcid=0
+
+******************************************
+            DOWNSTREAM STATUS
+******************************************
+              HW Channel ID = 0
+                    Phy type: SC-QAM
+  DS active chan settings:   
+                 ds chan id = 0
+            center freq, Hz = 300000000 Hz
+            primary capable = false
+   status event rpt bitmask = 0
+
+CM HW Detected DS Phy Settings:
+           Center Freq,  Hz = 300000000
+                        QAM = Locked
+                        FEC = Locked
+   Carrier Freq Offset, kHz = 0
+         Channel Width,  Hz = 8000000
+                 Modulation = Qam256
+                Interleaver = Taps12Incr17
+       Symbol Rate, sym/sec = 6952000
+
+
+******************************************
+
+[CmDocsisCtlThread] BcmCmMacDomainSetsState::StartDsMacMddInit:  
+**********************************************
+Waiting for MDDs...
+**********************************************
+
+
+BcmCmDocsisCtlMsgACT::HandleEvent() @time=36780  event_code=4 (kCmPriDsMddSetsOk) 
+MDD diplexer band edges specified.
+Requested Spectrum = US:(0 MHz..204 MHz) DS:(258 MHz..1218 MHz)
+Best Match = 1: US:(5 MHz..85 MHz) DS:(108 MHz..1002 MHz) (ACTIVE)
+[CmDocsisCtlThread] BcmCmMdDsSgDiscState::TrimSgSetWithoutThisDcid:  
+        1 candidate MD-DS-SG remain after TrimSgSetWithoutThisDcid( target_dcid ) 
+        for target_dcid=0x01 (1) 
+[CmDocsisCtlThread] BcmCmMdDsSgDiscState::StartMdDsSgDisc:  
+        special case: one and only one MD-DS-SG contains mdd_dcid.
+        fMdDsSgId=0x7f (127) 
+
+
+    MD-DS-SG discovery info:
+
+         fCmMdDsSgDiscState = 6 (kMdDsSgDiscDone)
+                  fMdDsSgId = 0x7f (127)
+          fMdDsSgDiscovered = 1
+
+
+      Trimmed Candidate Downstream Service Group Settings List:     list size = 1
+
+  sgid  size  member dcid's
+  ----  ----  -------------
+   127    10  1 2 3 4 5 6 7 8 66 99 
+
+
+    Downstream Active Channel Settings List: 
+
+  dcid      type  frequency  prim capable  rpt enable  mod/annex or PLC params
+  ----  --------  ---------  ------------  ----------  -----------------------
+     1    SC-QAM  300000000             y        0x36  256QAM/AnnexA
+     2    SC-QAM  308000000             n        0x36  256QAM/AnnexA
+     3    SC-QAM  316000000             n        0x36  256QAM/AnnexA
+     4    SC-QAM  324000000             n        0x36  256QAM/AnnexA
+     5    SC-QAM  332000000             n        0x36  256QAM/AnnexA
+     6    SC-QAM  340000000             n        0x36  256QAM/AnnexA
+     7    SC-QAM  348000000             n        0x36  256QAM/AnnexA
+     8    SC-QAM  356000000             n        0x36  256QAM/AnnexA
+    66  OFDM PLC  698000000             y        0x36  50Khz/1.25us/0.625us
+    99  OFDM PLC  903000000             n        0x36  50Khz/1.25us/0.625us
+
+
+      Trimmed Downstream Ambiguity Resolution Frequency List:       list size = 2
+
+        300000000-sc_qam 698000000-ofdm 
+
+           visible dcid set = 1 
+
+ freq with visible dcid set = 300000000 
+
+
+BcmCmDocsisCtlMsgACT::HandleEvent() @time=36970  event_code=11 (kCmMdDsSgDiscDone) 
+BcmSetDocsis31CmtsRegistration:Setting Docsis3TransmitMode=true
+[CmDocsisCtlThread] BcmDocsisCmHalIf::SetPrimaryDownstreamChannel:  (DOCSIS CableModem HalIf) Installing primary downstream channel index: 0
+SetRatios called with primary downstream channel number = 0
+AnnexMode[0] = 1    QAM_Mode[0] = 256
+Num/Den = 869/1280
+3390 SCDMA/OFDM mode - ChannelNumber = 0  Numerator = 869   Denominator = 1280
+... TCOFDM - DTR is now locked.... (T2=3420ms Sync=255)
+
+Given a 216 MHz TCOFDM clock, the nominal value for the DTR FCW is 0xC22E45067
+The DTR FCW is 0xc22e019b - that value is good (-5, within 100 ppm)
+*
+* Starting latency compensation thread.
+*
+Kicked off the DPLL
+LE Done bit was set
+LE Done bit was set
+SCQAM DS clock source.
+PLL in Leaky mode.
+PLL Fn = 6, k1 = 18, k2 = 19
+[CmDocsisCtlThread] BcmCmMultiUsHelper::StartPreRegUsInit:  (Cm Multi US Helper) 
+        targeting context=5 (ConsoleCmdOverride)
+[CmDocsisCtlThread] BcmCmMultiUsHelper::StartPreRegUsInit:  (Cm Multi US Helper) Locked on the downstream.  Waiting for UCDs...
+[CmDocsisCtlThread] BcmCmMultiUsHelper::TmUcdRxTimerEvent:  (Cm Multi US Helper) 
+        ucd gathering ok.
+
+[CmDocsisCtlThread] BcmCmMultiUsHelper::TargetNextDocs3CandidateUcid:  (Cm Multi US Helper) state at entry:
+
+
+  Channel targeting:
+    Downstream:
+            fTargetDsFreqHz = 0x11e1a300 (300000000)
+           fCurrentDsFreqHz = 0x11e1a300 (300000000)
+            fStoredDsFreqHz = 0 (0)
+
+      Upstream:
+fDestSingleTxTargetUsChanId = 0 (0)
+          fTargetingContext = 5 (ConsoleCmdOverride)
+
+
+    Startup UCD Selection Info:
+
+     low priority candidate ucid list = 99 51 56 55 58 52 54 57 53 
+                  happy home ucid set = 51 52 53 54 55 56 57 58 99 
+
+           Upstream Active Channel Settings: 
+
+  ucid  rpt enable  sel prio  MAP source dcid's
+  ----  ----------  --------  -----------------
+    51       0x1c0         0  1 66 
+    52       0x1c0         0  1 66 
+    53       0x1c0         0  1 66 
+    54       0x1c0         0  1 66 
+    55       0x1c0         0  1 66 
+    56       0x1c0         0  1 66 
+    57       0x1c0         0  1 66 
+    58       0x1c0         0  1 66 
+    99       0x1c0         0  1 66 
+
+
+BcmCmUsTargetMset (a.k.a. usable UCDs gathered during startup):
+
+   us               config
+   phy              change  ranging  scdma
+  type  ucid  dcid  count   tried?   enabled?
+  ----  ----  ----  ------  -------  --------
+     5    99     1       0     n        n
+     3    51     1       0     n        n
+     3    52     1       0     n        n
+     3    53     1       0     n        n
+     3    54     1       0     n        n
+     3    55     1       0     n        n
+     3    56     1       0     n        n
+     3    57     1       0     n        n
+     3    58     1       0     n        n
+
+[CmDocsisCtlThread] BcmCmMultiUsHelper::TargetNextDocs3CandidateUcid:  (Cm Multi US Helper) 
+        starting docs3 upstream initialization on target ucid=99
+        with upstream phy type 5 on hardware transmitter index 8
+
+
+[CmDocsisCtlThread] BcmCmUsChan::ExecuteTccCmd:    hwTxId=8  docs ucid=0
+Updating US chan 8 data Profile test msg for Sid: 0x0.
+[CmDocsisCtlThread] BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0
+[CmDocsisCtlThread] BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=99 for CM hardware tx chan 8
+
+[CmDocsisCtlThread] BcmCmUsSetsState::InstallUsSets:  Inserting minimum required kDataProfileIuc13 into empty OFDMA upstream profile assignments
+SetTXFreqOfdmInt for OFDM channel 0 - ffreq:111200000.000000
+  Fclk_us_pll is 540000000
+Setting FCW_SRC for OFDM channel 0 to use DS_FCW
+Diplexer US=85 MHz, best match pre-eq coeff is 85 MHz @ 0x80bde440
+[CmDocsisCtlThread] BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
+[CmDocsisCtlThread] BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+[CmDocsisCtlThread] BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
+
+== Beginning initial ranging for Docsis UCID 99 ==
+Minimum transmit power is 17 dBmV
+Maximum transmit power is 53 dBmV
+Stored power level for UCID 99 is 29 dBmV
+Using per transmitter stored initial upstream power = 29 dBmV hwTxId = 8 docsis UCID = 99
+Configured O-INIT-RNG-REQ : 
+  00 10 18 de   b5 18 01 30   cf f8  | .......0..
+
+
+Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
+RNG-RSP UsChanId=99  Adj: tim=6736 power=-2  Stat=Continue 
+[CmDocsisCtlThread] BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x1
+RNG-RSP UsChanId=99  Adj: power=2  Stat=Continue 
+RNG-RSP UsChanId=99  Stat=Continue 
+RNG-RSP UsChanId=99  Stat=Continue 
+RNG-RSP UsChanId=99  Stat=Continue 
+RNG-RSP UsChanId=99  Adj: power=-1  Stat=Continue 
+RNG-RSP UsChanId=99  Adj: power=1  Stat=Continue 
+RNG-RSP UsChanId=99  Stat=Continue 
+RNG-RSP UsChanId=99  Stat=Success 
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+        first RNG-RSP w/status==SUCCESS for hwTxId=8 and DOCSIS ucid=99
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::ConfigureAndStartIpInit:  (CmDocsisCtlThread) Beginning IP initialization.
+  Utilizing configured MDD IP initialization parameters
+
+== Starting IP Initialization in IPv4 Only provisioning mode ==
+
+[CmDocsisCtlThread] BcmEcosIpHalIf::FlushDefaultIPv6Routers:  (IP Stack1 HalIf) Flushing default IPv6 routers
+  CmSnmpAgent::ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support
+Logging event: Honoring MDD; IP provisioning mode = IPv4
+DHCPc:  Timed out waiting for offers for lease with client id htype=255, value=18 de b5 18 00 03 00 01 00 10 18 de b5 18
+
+Configuring IP stack 1:  IP Address = 172.16.8.0
+Logging event: DHCP WARNING - Non-critical field invalid in response ;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+CM successfully pushed IP 172.16.8.0 to eRouter
+Initiating TFTP over IPv4 in IPv4 only provisioning mode
+Starting Time Of Day...
+[CmDocsisIpThread] BcmCmDocsisIpThread::StartTod:  (CmDocsisIpThread) WARNING - Failed to get IPv4 Time Offset value!
+[CmDocsisIpThread] BcmDocsisTimeOfDayThread::SetTodServerIpAddress:  (Time Of Day Thread) ToD servers:  172.16.0.1
+Connecting to ToD server 172.16.0.1...
+Sending UDP ToD request to server...
+UTC returned by ToD server 3751800572; UTC offset 0
+Current system time -> Wed Nov 21 14:49:32 2018
+
+System start time -> Wed Nov 21 14:48:40 2018
+
+Using siaddr or option 66 for TFTP server.
+Starting Tftp of configuration file...
+TFTP server index 0 IP: 172.16.0.1
+Opening file 'cm.bin' on 172.16.0.1 for reading...
+[CmDocsisIpThread] Tftp Client::Send:  (Tftp Client) TFTP blocksize value returned by server: 1448
+Tftp transfer complete!
+TFTP Settings:
+            Stack Interface = 1
+          Server Ip Address = 172.16.0.1
+         Server Port Number = 42741
+                 Block size = 1448
+          Total Blocks Read = 1
+           Total Bytes Read = 249
+
+Config file was read!  IP Initialization completed...
+[11/21/2018 14:49:32] [BFCEV] CM cfg file: 172.16.0.1 cm.bin
+Time Of Day completed...
+  DefaultSnmpAgentClass::SystemTimeChangeEvent for Vendor CM Agent w/ BRCM Factory Support
+MAX CPE per CM is being set to 16
+[CfgVB Thread] BcmDocsisCfgVarBindEngine::AddVarBind:  (CfgVB Thread) Adding varbinds...
+[CfgVB Thread] BcmDocsisCfgVarBindEngine::Process:  (CfgVB Thread) Vendor CM Agent w/ BRCM Factory Support processing 6 TLV-11's
+[CfgVB Thread] BcmDocsisCfgVarBindEngine::ProcessViaBfc:  (CfgVB Thread) Processing 6 VBs via BFC
+[CfgVB Thread] BcmDocsisCfgVarBindEngine::Process:  (CfgVB Thread)   6 TLV-11's OK.
+
+Starting TFTP of eRouter configuration file!
+
+EROUTER I.P Address: 172.31.255.40
+Config File Name: eroutercfg.bin
+Contents of EROUTER Config File: 
+++++++++++++++++++++++++++++++
+Opening file 'eroutercfg.bin' on 172.31.255.40 for writing...
+
+Tftp transfer eRouter configuration file open successful!
+
+
+Tftp transfer eRouter configuration file is complete!
+
+Received RG Event 0x80000001 State 0x7
+eRouter configuration is complete.
+eRouter Linux WAN MAC address: 00:10:18:de:77:c0
+RouterProxySnmpAgent discovering router side interfaces from RG.
+eRouter config is complete.
+Verifying RG ifTable stability...
+  4  4  4
+Verifying ifTable size matches ifNumber...
+ifNumber = 4, ifTable entries = 4
+  1: Ethernet CPE Interface (eth0)
+  5: Ethernet CPE Interface (eth1)
+  6: Ethernet CPE Interface (eth2)
+  7: Ethernet CPE Interface (eth3)
+RouterProxySnmpAgent removing proxy_wifiMgmtGroup...
+RouterProxySnmpAgent removing proxy_wifiHotspotMibGroup...
+RouterProxySnmpAgent removing proxy_ieee802dot11Group...
+WARNING - Couldn't find group 1.2.840.10036 on Vendor CM Agent w/ BRCM Factory Support
+WARNING - Couldn't find group 1.2.840.10036 on eRouter Proxy Agent
+RouterProxySnmpAgent removing proxy_ieee802dot11MgmtGroup...
+RouterProxySnmpAgent removing proxy_clabWIFIMibGroup...
+RouterProxySnmpAgent removing proxy_wifiFactoryGroup...
+RouterProxySnmpAgent removing proxy_moca11Group...
+Done with RG interface discovery.
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::ResumePreRegSequence:  (CmDocsisCtlThread) Enabling forwarding from IP stack to CPE interfaces.
+Sending a REG-REQ to the CMTS...
+[11/21/2018 14:49:37] [BFCEV] REG-REQ init reason = 1 (kPowerOn)
+Applying legacy rules for copying cfg file TLVs to REG-REQ...
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...
+
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Waiting for more REG-RSP-MP fragments...
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...
+
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Waiting for more REG-RSP-MP fragments...
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...
+
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Waiting for more REG-RSP-MP fragments...
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...
+
+
+REG-RSP-MP Summary:
+
+TCC commands->
+ucid      action             ranging strategy              relative ranging
+----   ------------     -------------------------     -------------------------
+   0       Re-Range             Broadcast Ranging                 n/a
+  99         Change             Broadcast Ranging                 n/a
+  51            Add             Broadcast Ranging                 n/a
+  52            Add             Broadcast Ranging                 n/a
+  53            Add             Broadcast Ranging                 n/a
+  54            Add             Broadcast Ranging                 n/a
+  55            Add             Broadcast Ranging                 n/a
+  56            Add             Broadcast Ranging                 n/a
+  57            Add             Broadcast Ranging                 n/a
+  58            Add             Broadcast Ranging                 n/a
+   0         Change             Broadcast Ranging                 n/a
+
+Service Flow settings->
+sfid         sid              ucids
+-------    -------    ---------------------
+    0x1       0x1*     99 51 52 53 54 55 56 57 58 
+    0x1     0x801      99 51 52 53 54 55 56 57 58 
+  0x200     0x200      99 51 52 53 54 55 56 57 58 
+  0x200     0xa00      99 51 52 53 54 55 56 57 58 
+
+
+DSID settings->
+dsid         action    reseq     mcast
+--------     ------    -----     -----
+00 02 34        Add      yes        no
+00 05 34        Add       no       yes
+
+
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) We registered with a DOCSIS 1.1 config file!
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread) 
+        REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx.
+
+      Receive Channel Config:
+
+       Primary DS channel assignment vector: 1 66 
+   Non-primary DS channel assignment vector: 2 3 4 5 6 7 8 99 
+                   OFDM profile assignments:
+                                           66 -> 0 1 2 
+                                           99 -> 0 1 2 
+
+
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DsLockOk:  (BcmCmDsChanOfdm) hwRxId=32  freq=698000000  dcid=66 PLC found
+[CmDocsisCtlThread] BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting OCD/DPD gathering on PLC
+OCD/DPD Filtering being configured for hwRxId=32 -> filter enable = 0
+Logging event: DS profile assignment change. DS Chan ID: 32; Previous Profile: ; New Profile: 1 2.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DsLockOk:  (BcmCmDsChanOfdm) hwRxId=33  freq=903000000  dcid=99 PLC found
+[CmDocsisCtlThread] BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting OCD/DPD gathering on PLC
+OCD/DPD Filtering being configured for hwRxId=33 -> filter enable = 0
+Logging event: DS profile assignment change. DS Chan ID: 33; Previous Profile: ; New Profile: 1 2.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+[CmDocsisCtlThread] BcmBfcForwardAssistManager::OperatingConfigBitsEnable:  (Forward Assist Manager) New Config = 0x10000000
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DpdSetsRx:  (BcmCmDsChanOfdm) Received DPD on hwRxId=32 dcid=66 for assigned Profile A
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DpdSetsRx:  (BcmCmDsChanOfdm) Received DPD on hwRxId=32 dcid=66 for assigned Profile NCP
+[CmDocsisCtlThread] BcmCmDsChanOfdm::OcdSetsRx:  (BcmCmDsChanOfdm) hwRxId=32  dcid=0
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DetectOcdDpdGatheringPlcDone:  (BcmCmDsChanOfdm) hwRxId=32  dcid=66  OCD/DPD gathered via PLC.  install OCD settings.
+[CmDocsisCtlThread] BcmCmDsChan::DsLockOk:  (BcmCmDsChan 1) hwRxId=1  freq=308000000  dcid=2
+[CmDocsisCtlThread] BcmCmDsChan::DsLockOk:  (BcmCmDsChan 2) hwRxId=2  freq=316000000  dcid=3
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DpdSetsRx:  (BcmCmDsChanOfdm) Received DPD on hwRxId=33 dcid=99 for assigned Profile A
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DpdSetsRx:  (BcmCmDsChanOfdm) Received DPD on hwRxId=33 dcid=99 for assigned Profile NCP
+[CmDocsisCtlThread] BcmCmDsChanOfdm::OcdSetsRx:  (BcmCmDsChanOfdm) hwRxId=33  dcid=0
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DetectOcdDpdGatheringPlcDone:  (BcmCmDsChanOfdm) hwRxId=33  dcid=99  OCD/DPD gathered via PLC.  install OCD settings.
+[CmDocsisCtlThread] BcmCmDsChan::DsLockOk:  (BcmCmDsChan 3) hwRxId=3  freq=324000000  dcid=4
+[CmDocsisCtlThread] BcmCmDsChan::DsLockOk:  (BcmCmDsChan 4) hwRxId=4  freq=332000000  dcid=5
+[CmDocsisCtlThread] BcmCmDsChan::DsLockOk:  (BcmCmDsChan 5) hwRxId=5  freq=340000000  dcid=6
+[CmDocsisCtlThread] BcmCmDsChan::DsLockOk:  (BcmCmDsChan 6) hwRxId=6  freq=348000000  dcid=7
+[CmDocsisCtlThread] BcmCmDsChan::DsLockOk:  (BcmCmDsChan 7) hwRxId=7  freq=356000000  dcid=8
+[CmDocsisCtlThread] BcmCmDsChanOfdm::OcdInstallOk:  (BcmCmDsChanOfdm) hwRxId=32  dcid=66  OCD installed.
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::InstallDpdSets:    installing DPD for profile NCP
+[CmDocsisCtlThread] BcmCmDsChanOfdm::OcdInstallOk:  (BcmCmDsChanOfdm) hwRxId=33  dcid=99  OCD installed.
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::InstallDpdSets:    installing DPD for profile NCP
+Telling application we lost lock on channel 33 (lostbits=0x00000001)
+[LeapLostOfLockInterruptThread] BcmDocsisCmHalIf::HandleStatusIndication:  (DOCSIS CableModem HalIf) WARNING - CH33 lost PLC Lock
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DsLockFail:  (BcmCmDsChanOfdm) hwRxId=33  freq=903000000  dcid=99
+[CmDocsisCtlThread] BcmCmDsChanOfdm::CommonPlcErrorHandler:  (BcmCmDsChanOfdm) enter kPlcRecoveryInProg state
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockFail:  hwRxId=33  dcid=99  profId=255 (NCP)
+OCD/DPD Filtering being configured for hwRxId=33 -> filter enable = 1
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::InstallDpdSets:    installing DPD for profile A
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=255 (NCP)
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=33  dcid=99  profId=255 (NCP)
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::InstallDpdSets:    installing DPD for profile B
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::InstallDpdSets:    installing DPD for profile C
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=0 (A)
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=1 (B)
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=2 (C)
+OCD/DPD Filtering being configured for hwRxId=32 -> filter enable = 1
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::DetectRccInstallDone:  (CmDocsisCtlThread) 
+        RCC installation finished.  partial service outcome.
+
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::ResumeDocs11RegAfterRccOutcome:  (CmDocsisCtlThread) 
+        Resuming registration sequence after waiting for RCC installation outcome.
+
+activeTransmitterIndexBitmask = 0x000001ff
+Number of active SCQAM US channels = 8
+Number of active OFDMA US channels = 1
+[CmDocsisCtlThread] BcmCmMultiUsHelper::PhiQtrDb:  (Cm Multi US Helper) 
+        Phi qtr dB set to :195 (48.75 dB)
+[CmDocsisCtlThread] BcmCmMultiUsHelper::DynamicRangeWindowQtrDb:  (Cm Multi US Helper) 
+        Dynamic Range Window set to:73 (18.25 dB)
+[CmDocsisCtlThread] BcmCmUsChan::ExecuteTccCmd:    hwTxId=8  docs ucid=99
+
+BcmCmUsChan::TccChangeCmd()
+
+        CM tx chan 8 starting TCC change command.
+                 == TCC command ==
+                      TCC ref id = 2
+                          action = 2 (kTccChange)
+                      us chan id = 99
+                  new us chan id = 0 (not specified)
+                     ranging sid = 0x1
+                ranging strategy = 1 (kTccRngBcastInit) 
+              dyn ranging window = 0 (not specified)
+Assigned OFDMA Data Profile IUCs = 5 13 
+        data profile testing SID = 519
+              rng mode (CM spec) = 0 (not specified)
+                             UCD = (not specified)
+                  ranging params = (not specified)
+                       TCC error = (not specified)
+
+[CmDocsisCtlThread] BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 8 to 0x1
+[CmDocsisCtlThread] BcmCmUsChan::TccChangeCmd:  TCC changed upstream profile assignments
+[CmDocsisCtlThread] BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=99 for CM hardware tx chan 8
+
+[CmDocsisCtlThread] BcmCmUsChan::InstallOfdmaDataProfileTestingSID:  OFDMA testing SID: 0x207
+Updating US chan 8 data Profile test msg for Sid: 0x207.
+Readback Test pkt: 0x00 0x00 0x00 0x40 0xda 0xbe 0x00 0x80 0x42 0x42 0x20 0x9e 0x00 0x10 0x18 0xde 0xb5 0x18 0x00 0x2e 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0a 0x0b 0x0c 0x0d 0x0e 0x0f 0x10 0x11 0x12 0x13 0x14 0x15 0x16 0x17 0x18 0x19 0x1a 0x1b 0x1c 0x1d 0x1e 0x1f 0x20 0x21 0x22 0x23 0x24 0x25 0x26 0x27 0x28 0x29 0x2a 0x2b 0x2c 0x2d 0x2e 0x27 0x28 0x99 0xf4 
+[CmDocsisCtlThread] BcmCmUsChan::ExecuteTccCmd:    hwTxId=0  docs ucid=0
+[CmDocsisCtlThread] BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 0 to 0x1
+[CmDocsisCtlThread] BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=51 for CM hardware tx chan 0
+
+[CmDocsisCtlThread] BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
+Logging event: US profile assignment change. US Chan ID: 8; Previous Profile: 13; New Profile: 5 13.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+[CmDocsisCtlThread] BcmCmUsChan::ExecuteTccCmd:    hwTxId=1  docs ucid=0
+[CmDocsisCtlThread] BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 1 to 0x1
+[CmDocsisCtlThread] BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=52 for CM hardware tx chan 1
+
+[CmDocsisCtlThread] BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
+[CmDocsisCtlThread] BcmCmUsChan::ExecuteTccCmd:    hwTxId=2  docs ucid=0
+[CmDocsisCtlThread] BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 2 to 0x1
+[CmDocsisCtlThread] BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=53 for CM hardware tx chan 2
+
+[CmDocsisCtlThread] BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
+[CmDocsisCtlThread] BcmCmUsChan::ExecuteTccCmd:    hwTxId=3  docs ucid=0
+[CmDocsisCtlThread] BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 3 to 0x1
+[CmDocsisCtlThread] BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=54 for CM hardware tx chan 3
+
+[CmDocsisCtlThread] BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
+[CmDocsisCtlThread] BcmCmUsChan::ExecuteTccCmd:    hwTxId=4  docs ucid=0
+[CmDocsisCtlThread] BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 4 to 0x1
+[CmDocsisCtlThread] BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=55 for CM hardware tx chan 4
+
+[CmDocsisCtlThread] BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
+[CmDocsisCtlThread] BcmCmUsChan::ExecuteTccCmd:    hwTxId=5  docs ucid=0
+[CmDocsisCtlThread] BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 5 to 0x1
+[CmDocsisCtlThread] BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=56 for CM hardware tx chan 5
+
+[CmDocsisCtlThread] BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
+[CmDocsisCtlThread] BcmCmUsChan::ExecuteTccCmd:    hwTxId=6  docs ucid=0
+[CmDocsisCtlThread] BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 6 to 0x1
+[CmDocsisCtlThread] BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=57 for CM hardware tx chan 6
+
+[CmDocsisCtlThread] BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
+[CmDocsisCtlThread] BcmCmUsChan::ExecuteTccCmd:    hwTxId=7  docs ucid=0
+[CmDocsisCtlThread] BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 7 to 0x1
+[CmDocsisCtlThread] BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=58 for CM hardware tx chan 7
+
+[CmDocsisCtlThread] BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
+[CmDocsisCtlThread] BcmCmUsChan::ExecuteTccCmd:    hwTxId=8  docs ucid=99
+
+BcmCmUsChan::TccRangeCmd()
+
+        CM tx chan 8 starting TCC range command...
+                 == TCC command ==
+                      TCC ref id = 1
+                          action = 5 (kTccRange)
+                      us chan id = 0
+                  new us chan id = 0 (not specified)
+                     ranging sid = 0 (not specified)
+                ranging strategy = 1 (kTccRngBcastInit) 
+              dyn ranging window = 0 (not specified)
+              rng mode (CM spec) = 1
+                             UCD = (not specified)
+                  ranging params = (not specified)
+                       TCC error = (not specified)
+
+[CmDocsisCtlThread] BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
+[CmDocsisCtlThread] PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
+[CmDocsisCtlThread] PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
+[CmDocsisCtlThread] BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
+[CmDocsisCtlThread] BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=0
+
+== Beginning initial ranging for Docsis UCID 51 ==
+Minimum transmit power is 17 dBmV
+Maximum transmit power is 48.75 dBmV
+Dynamic Range Window is from 18.5dBmV to 30.5 dBmV
+Stored power level for UCID 51 is 27 dBmV
+Using per transmitter stored initial upstream power = 27 dBmV hwTxId = 0 docsis UCID = 51
+[CmDocsisCtlThread] BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+[CmDocsisCtlThread] BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
+
+== Beginning initial ranging for Docsis UCID 52 ==
+Minimum transmit power is 17 dBmV
+Maximum transmit power is 48.75 dBmV
+Dynamic Range Window is from 18.5dBmV to 30.5 dBmV
+Stored power level for UCID 52 is 28.25 dBmV
+Using per transmitter stored initial upstream power = 28.25 dBmV hwTxId = 1 docsis UCID = 52
+[CmDocsisCtlThread] BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+[CmDocsisCtlThread] BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
+
+== Beginning initial ranging for Docsis UCID 53 ==
+Minimum transmit power is 17 dBmV
+Maximum transmit power is 48.75 dBmV
+Dynamic Range Window is from 18.5dBmV to 30.5 dBmV
+Stored power level for UCID 53 is 27 dBmV
+Using per transmitter stored initial upstream power = 27 dBmV hwTxId = 2 docsis UCID = 53
+[CmDocsisCtlThread] BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
+[CmDocsisCtlThread] BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
+
+== Beginning initial ranging for Docsis UCID 54 ==
+Minimum transmit power is 17 dBmV
+Maximum transmit power is 48.75 dBmV
+Dynamic Range Window is from 18.5dBmV to 30.5 dBmV
+Stored power level for UCID 54 is 28 dBmV
+Using per transmitter stored initial upstream power = 28 dBmV hwTxId = 3 docsis UCID = 54
+[CmDocsisCtlThread] BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+[CmDocsisCtlThread] BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
+
+== Beginning initial ranging for Docsis UCID 55 ==
+Minimum transmit power is 17 dBmV
+Maximum transmit power is 48.75 dBmV
+Dynamic Range Window is from 18.5dBmV to 30.5 dBmV
+Stored power level for UCID 55 is 27 dBmV
+Using per transmitter stored initial upstream power = 27 dBmV hwTxId = 4 docsis UCID = 55
+[CmDocsisCtlThread] BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+[CmDocsisCtlThread] BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
+
+== Beginning initial ranging for Docsis UCID 56 ==
+Minimum transmit power is 17 dBmV
+Maximum transmit power is 48.75 dBmV
+Dynamic Range Window is from 18.5dBmV to 30.5 dBmV
+Stored power level for UCID 56 is 26.75 dBmV
+Using per transmitter stored initial upstream power = 26.75 dBmV hwTxId = 5 docsis UCID = 56
+[CmDocsisCtlThread] BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+[CmDocsisCtlThread] BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
+
+== Beginning initial ranging for Docsis UCID 57 ==
+Minimum transmit power is 17 dBmV
+Maximum transmit power is 48.75 dBmV
+Dynamic Range Window is from 18.5dBmV to 30.5 dBmV
+Stored power level for UCID 57 is 26 dBmV
+Using per transmitter stored initial upstream power = 26 dBmV hwTxId = 6 docsis UCID = 57
+[CmDocsisCtlThread] BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+[CmDocsisCtlThread] BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
+
+== Beginning initial ranging for Docsis UCID 58 ==
+Minimum transmit power is 17 dBmV
+Maximum transmit power is 48.75 dBmV
+Dynamic Range Window is from 18.5dBmV to 30.5 dBmV
+Stored power level for UCID 58 is 29 dBmV
+Using per transmitter stored initial upstream power = 29 dBmV hwTxId = 7 docsis UCID = 58
+[CmDocsisCtlThread] BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+[CmDocsisCtlThread] BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
+
+== Beginning initial ranging for Docsis UCID 99 ==
+Minimum transmit power is 17 dBmV
+Maximum transmit power is 48.75 dBmV
+Dynamic Range Window is from 18.5dBmV to 30.5 dBmV
+Stored power level for UCID 99 is 29 dBmV
+Using per transmitter stored initial upstream power = 29 dBmV hwTxId = 8 docsis UCID = 99
+Configured O-INIT-RNG-REQ : 
+  00 10 18 de   b5 18 01 30   cf f8  | .......0..
+
+
+Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
+RNG-RSP UsChanId=51  Adj: tim=1382 power=1  Stat=Continue  (CmdPwr (UsChanId-dBmV): (51-27.25) (52-0.00) (53-0.00) (54-0.00) (55-0.00) (56-0.00) (57-0.00) (58-0.00) (99-29.00) )
+RNG-RSP UsChanId=52  Adj: tim=1381  Stat=Continue 
+RNG-RSP UsChanId=55  Adj: tim=1382  Stat=Continue 
+RNG-RSP UsChanId=54  Adj: tim=1382  Stat=Continue 
+RNG-RSP UsChanId=56  Adj: tim=1382  Stat=Continue 
+RNG-RSP UsChanId=53  Adj: tim=1382  Stat=Continue 
+RNG-RSP UsChanId=57  Adj: tim=1382  Stat=Continue 
+RNG-RSP UsChanId=58  Adj: tim=1381  Stat=Continue 
+RNG-RSP UsChanId=51  Stat=Continue 
+RNG-RSP UsChanId=52  Stat=Continue 
+RNG-RSP UsChanId=55  Stat=Continue 
+RNG-RSP UsChanId=54  Stat=Continue 
+RNG-RSP UsChanId=53  Stat=Continue 
+RNG-RSP UsChanId=57  Stat=Continue 
+RNG-RSP UsChanId=56  Stat=Continue 
+RNG-RSP UsChanId=58  Stat=Continue 
+RNG-RSP UsChanId=51  Stat=Success 
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+        first RNG-RSP w/status==SUCCESS for hwTxId=0 and DOCSIS ucid=51
+RNG-RSP UsChanId=52  Stat=Success 
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+        first RNG-RSP w/status==SUCCESS for hwTxId=1 and DOCSIS ucid=52
+RNG-RSP UsChanId=55  Stat=Success 
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+        first RNG-RSP w/status==SUCCESS for hwTxId=4 and DOCSIS ucid=55
+RNG-RSP UsChanId=99  Adj: tim=6736 power=-2  Stat=Continue  (CmdPwr (UsChanId-dBmV): (51-27.25) (52-28.25) (53-27.00) (54-28.00) (55-27.00) (56-26.75) (57-26.00) (58-29.00) (99-29.00) )
+RNG-RSP UsChanId=54  Stat=Success 
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+        first RNG-RSP w/status==SUCCESS for hwTxId=3 and DOCSIS ucid=54
+RNG-RSP UsChanId=53  Stat=Success 
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+        first RNG-RSP w/status==SUCCESS for hwTxId=2 and DOCSIS ucid=53
+RNG-RSP UsChanId=56  Stat=Success 
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+        first RNG-RSP w/status==SUCCESS for hwTxId=5 and DOCSIS ucid=56
+RNG-RSP UsChanId=58  Stat=Success 
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+        first RNG-RSP w/status==SUCCESS for hwTxId=7 and DOCSIS ucid=58
+RNG-RSP UsChanId=57  Stat=Success 
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+        first RNG-RSP w/status==SUCCESS for hwTxId=6 and DOCSIS ucid=57
+RNG-RSP UsChanId=99  Stat=Continue 
+RNG-RSP UsChanId=99  Stat=Continue 
+RNG-RSP UsChanId=99  Stat=Continue 
+RNG-RSP UsChanId=99  Stat=Continue 
+RNG-RSP UsChanId=99  Stat=Continue 
+RNG-RSP UsChanId=99  Stat=Continue 
+RNG-RSP UsChanId=99  Stat=Success 
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+        first RNG-RSP w/status==SUCCESS for hwTxId=8 and DOCSIS ucid=99
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::DetectTccInstallDone:  (CmDocsisCtlThread) 
+        resume registration sequence.
+[CmDocsisCtlThread] BcmCmDocsisCtlThread::ResumeRegAfterTccOutcome:  (CmDocsisCtlThread) 
+        Resuming registration sequence after waiting for TCC installation outcome.
+
+
+
+MAC MGT header:
+            dest addr: 00:80:42:42:20:9e
+             src addr: 00:10:18:de:b5:18
+              msg len: 0x11 (17)
+                 DSAP: 0
+                 SSAP: 0
+              control: 0x3
+              version: 2
+             msg_type: REG_ACK (14)
+         fka reserved: 0
+
+MSG PDU:
+             primary sid: 0x1
+       confirmation code: 0x1e
+  receive channel config: T=0x31 (049)  L=0x06 (006)  V=
+     partial svc dcid(s): T=0x06 (006)  L=0x01 (001)  V=63  | c
+      primary ds channel: T=0x08 (008)  L=0x01 (001)  V=0x01 (1) 
+Registration complete!
+Process CVC
+[CmDocsisCtlThread] BcmBfcProcessCvc::ProcessConfigFileManufAndCosignerCvcs:  (Process CVC) WARNING - No CVC included in config file; software upgrade can't be performed!
+BPKM disabled via provisioned config file setting.
+
+Active Downstream Channel Diagnostics:
+
+  rx id  dcid    freq, hz  qam  fec   snr, dB   power, dBmV  modulation
+                           plc  prfA                                   
+  -----  ----  ----------  ---  ---  ---------  -----------  ----------
+      0*    1   300000000   y    y          37            5      Qam256
+  308000000   y    y          37            5      Qam256
+      2     3   316000000   y    y          37            5      Qam256
+      3     4   324000000   y    y          36            4      Qam256
+      4     5   332000000   y    y          36            5      Qam256
+      5     6   340000000   y    y          37            5      Qam256
+      6     7   348000000   y    y          37            5      Qam256
+      7     8   356000000   y    y          37            6      Qam256
+     32    66   698000000   y    y          41            5    OFDM PLCWarning! Ofdm Channel (1) is not locked! bhab_OfdmGetDiagnosticData() return
+ERROR: BcmRetrieverPerSubCarrierRxMer - bhab_OfdmGetDiagnosticData returned error 
+     33    99   903000000   y    n         945            0    OFDM PLC
+
+* indicates currently configured primary downstream channel
+
+Active Upstream Channels:
+
+                    rng     pwr       frequency     symbols   phy  ok tx 
+ txid  ucid  dcid   sid     dBmv         MHz          sec    type  data? 
+ ----  ----  ----  ------  -----   ---------------  -------  ----  ----- 
+    0    51     1     0x1   27.25            9.000  5120000     3      y
+    1    52     1     0x1   28.25           15.400  5120000     3      y
+    2    53     1     0x1   27.00           21.800  5120000     3      y
+    3    54     1     0x1   28.00           28.200  5120000     3      y
+    4    55     1     0x1   27.00           34.600  5120000     3      y
+    5    56     1     0x1   26.75           41.000  5120000     3      y
+    6    57     1     0x1   26.00           47.400  5120000     3      y
+    7    58     1     0x1   29.00           53.800  5120000     3      y
+    8    99     1     0x1   29.00  63.700 - 78.450        0     5      y
+
+Dynamic range window top: 30.50 dBmV, bottom: 18.50 dBmV
+
+Calculated Phi value: 48.77 dBmV
+
+Enabling network access for all CPE ports.
+Multicast Dsid Forwarding Mode:  GMAC Promiscuous
+BcmDocsis3DsMacEnableMulticastDsidForwarding 1; primary DS = 0
+SCQAM DSID filter control = 0x05
+OFDM DSID filter control = 0x01
+[IGMP Thread] BcmIgmpThread::Stopping Igmp Thread...:  (IGMP Thread) 
+Installing resequencing  DSID = 0x234 (564) index = 0
+Installing multicast     DSID = 0x534 (1332) index = 32
+[PowerMgmt] NumDsChans = 10, NumUsChans = 9
+[PowerMgmt] Informing HAL of current RF configuration.
+D31PowerSave 'On'
+Storing off OFDM DS MAC settings for channel 32
+Storing off OFDM DS MAC settings for channel 33
+  DS:  8 SC-QAM (0x000000FF),  2 OFDM  (0x00000003)
+  US:  8 SC-QAM (0x000000FF),  1 OFDMA (0x00000001)
+PnmTestDriveACT -  event code 40 Clearing kPnmStatusTempReject
+
+**********************************************
+********      CM is OPERATIONAL       ********
+**********************************************
+
+All IP initialization complete and CM operational.  Enabling IP services.
+CmSnmpAgent operating in 1.1 mode, including docsQos
+No UDC's, IP filters OK.
++++ No DH kickstart profiles or snmpCommunityTable entries installed.
+    We will operate in NMACCESS mode.
+Enabling SNMP link status checking.
+Vendor CM Agent w/ BRCM Factory Support updating ifTableLastChange.
+misc_dqnet_status ifname cm0 up
+CM-STATUS  trans=1  event=22 (kCmEvDsOfdmProfNcpLockRecover)  param type=4 (dcid)  param values= [ 99 ] 
+CM-STATUS-ACK  trans=1  event=22 (kCmEvDsOfdmProfNcpLockRecover)
+OFDM channel 99 Profile A marked BAD due to 10 out of the last 25 1000 ms intervals containing uncorrectable codewords
+---weihan: StartMinislotNum 38, loop 0, 0, 1
+---weihan: StartMinislotNum 38, loop 0, 0, 1
+CmSnmpAgent enabling management
+Logging event: CM-STATUS message sent. Event Type Code: 22; Chan ID: 99; DSID: N/A; MAC Addr: N/A; OFDM/OFDMA Profile ID: N/A.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+Add eRouter MAC 00:10:18:de:77:c0 to CM multicast table for IPv6 provision.
+[CmDocsisCtlThread] BcmCmDsChanOfdm::MddKeepAliveFailTrans:  (BcmCmDsChanOfdm) hwRxId=33  dcid=99
+[CmDocsisCtlThread] BcmCmDsChanOfdm::CheckMddKeepAliveStatus:  (BcmCmDsChanOfdm) Initiating channel recovery action due to no keepalive MDD received in 6590 ms
+[CmDocsisCtlThread] BcmCmDsChanOfdm::RecoverPlc:  (BcmCmDsChanOfdm) retry -> hwRxId=33  freq=903000000  dcid=99
+Logging event: MDD message timeout;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DsLockOk:  (BcmCmDsChanOfdm) hwRxId=33  freq=903000000  dcid=99 PLC found
+[CmDocsisCtlThread] BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting OCD/DPD gathering on PLC
+OCD/DPD Filtering being configured for hwRxId=33 -> filter enable = 0
+CM-STATUS  trans=1  event=1 (kCmEvNonPriDsMddFail)  param type=4 (dcid)  param values= [ 99 ] 
+Logging event: CM-STATUS message sent. Event Type Code: 1; Chan ID: 99; DSID: N/A; MAC Addr: N/A; OFDM/OFDMA Profile ID: N/A.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+CM-STATUS-ACK  trans=1  event=1 (kCmEvNonPriDsMddFail)
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DpdSetsRx:  (BcmCmDsChanOfdm) Received DPD on hwRxId=33 dcid=99 for assigned Profile A
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DpdSetsRx:  (BcmCmDsChanOfdm) Received DPD on hwRxId=33 dcid=99 for assigned Profile NCP
+[CmDocsisCtlThread] BcmCmDsChanOfdm::OcdSetsRx:  (BcmCmDsChanOfdm) hwRxId=33  dcid=0
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DetectOcdDpdGatheringPlcDone:  (BcmCmDsChanOfdm) hwRxId=33  dcid=99  OCD/DPD gathered via PLC.  install OCD settings.
+[CmDocsisCtlThread] BcmCmDsChanOfdm::OcdInstallOk:  (BcmCmDsChanOfdm) hwRxId=33  dcid=99  OCD installed.
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockFail:  hwRxId=33  dcid=99  profId=255 (NCP)
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::InstallDpdSets:    installing DPD for profile NCP
+CM-STATUS  trans=1  event=23 (kCmEvDsOfdmPlcLockRecover)  param type=4 (dcid)  param values= [ 99 ] 
+CM-STATUS  trans=1  event=20 (kCmEvDsOfdmProfNcpLockFail)  param type=4 (dcid)  param values= [ 99 ] 
+Logging event: CM-STATUS message sent. Event Type Code: 23; Chan ID: 99; DSID: N/A; MAC Addr: N/A; OFDM/OFDMA Profile ID: N/A.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+CM-STATUS-ACK  trans=1  event=23 (kCmEvDsOfdmPlcLockRecover)
+CM-STATUS-ACK  trans=1  event=20 (kCmEvDsOfdmProfNcpLockFail)
+Logging event: CM-STATUS message sent. Event Type Code: 20; Chan ID: 99; DSID: N/A; MAC Addr: N/A; OFDM/OFDMA Profile ID: N/A.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::InstallDpdSets:    installing DPD for profile A
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=33  dcid=99  profId=255 (NCP)
+CM-STATUS  trans=2  event=22 (kCmEvDsOfdmProfNcpLockRecover)  param type=4 (dcid)  param values= [ 99 ] 
+CM-STATUS-ACK  trans=2  event=22 (kCmEvDsOfdmProfNcpLockRecover)
+22; Chan ID: 99; DSID: N/A; MAC Addr: N/A; OFDM/OFDMA Profile ID: N/A.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+[CmDocsisCtlThread] BcmCmDsChanOfdm::MddKeepAliveRescueTrans:  (BcmCmDsChanOfdm) hwRxId=33  dcid=99
+CM-STATUS  trans=1  event=4 (kCmEvNonPriDsMddRescue)  param type=4 (dcid)  param values= [ 99 ] 
+CM-STATUS-ACK  trans=1  event=4 (kCmEvNonPriDsMddRescue)
+Logging event: CM-STATUS message sent. Event Type Code: 4; Chan ID: 99; DSID: N/A; MAC Addr: N/A; OFDM/OFDMA Profile ID: N/A.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::InstallDpdSets:    installing DPD for profile B
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::InstallDpdSets:    installing DPD for profile C
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=33  dcid=99  profId=0 (A)
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=33  dcid=99  profId=1 (B)
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=33  dcid=99  profId=2 (C)
+[CmDocsisCtlThread] BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+FirstRngRsp success - adjustment was 0
+Telling application we lost lock on channel 33 (lostbits=0x00000001)
+[LeapLostOfLockInterruptThread] BcmDocsisCmHalIf::HandleStatusIndication:  (DOCSIS CableModem HalIf) WARNING - CH33 lost PLC Lock
+[PowerMgmt] NumDsChans = 10, NumUsChans = 9
+[PowerMgmt] Clearing D31 PowerSave.
+D31PowerSave 'Off'
+  DS: 32 SC-QAM (0xFFFFFFFF),  2 OFDM  (0x00000003)
+  US:  8 SC-QAM (0x000000FF),  2 OFDMA (0x00000003)
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DsLockFail:  (BcmCmDsChanOfdm) hwRxId=33  freq=903000000  dcid=99
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockFail:  hwRxId=33  dcid=99  profId=255 (NCP)
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockFail:  hwRxId=33  dcid=99  profId=0 (A)
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockFail:  hwRxId=33  dcid=99  profId=1 (B)
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockFail:  hwRxId=33  dcid=99  profId=2 (C)
+[CmDocsisCtlThread] BcmCmDsChanOfdm::RecoverPlc:  (BcmCmDsChanOfdm) retry -> hwRxId=33  freq=903000000  dcid=99
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DsLockOk:  (BcmCmDsChanOfdm) hwRxId=33  freq=903000000  dcid=99 PLC found
+[CmDocsisCtlThread] BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting OCD/DPD gathering on PLC
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DpdSetsRx:  (BcmCmDsChanOfdm) Received DPD on hwRxId=33 dcid=99 for assigned Profile A
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DpdSetsRx:  (BcmCmDsChanOfdm) Received DPD on hwRxId=33 dcid=99 for assigned Profile NCP
+[CmDocsisCtlThread] BcmCmDsChanOfdm::OcdSetsRx:  (BcmCmDsChanOfdm) hwRxId=33  dcid=0
+[CmDocsisCtlThread] BcmCmDsChanOfdm::DetectOcdDpdGatheringPlcDone:  (BcmCmDsChanOfdm) hwRxId=33  dcid=99  OCD/DPD gathered via PLC.  install OCD settings.
+[CmDocsisCtlThread] BcmCmDsChanOfdm::OcdInstallOk:  (BcmCmDsChanOfdm) hwRxId=33  dcid=99  OCD installed.
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::InstallDpdSets:    installing DPD for profile NCP
+CM-STATUS  trans=2  event=20 (kCmEvDsOfdmProfNcpLockFail)  param type=4 (dcid)  param values= [ 99 ] 
+CM-STATUS  trans=1  event=16 (kCmEvDsOfdmProfLockFail)  param type=8 (dcid-OFDM profile ID)  param values= [ 99 0 99 1 99 2 ] 
+Logging event: CM-STATUS message sent. Event Type Code: 20; Chan ID: 99; DSID: N/A; MAC Addr: N/A; OFDM/OFDMA Profile ID: N/A.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+CM-STATUS  trans=2  event=23 (kCmEvDsOfdmPlcLockRecover)  param type=4 (dcid)  param values= [ 99 ] 
+Logging event: CM-STATUS message sent. Event Type Code: 16; Chan ID: 99; DSID: N/A; MAC Addr: N/A; OFDM/OFDMA Profile ID: 0 1 2.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+CM-STATUS-ACK  trans=2  event=20 (kCmEvDsOfdmProfNcpLockFail)
+CM-STATUS-ACK  trans=1  event=16 (kCmEvDsOfdmProfLockFail)
+CM-STATUS-ACK  trans=2  event=23 (kCmEvDsOfdmPlcLockRecover)
+Logging event: CM-STATUS message sent. Event Type Code: 23; Chan ID: 99; DSID: N/A; MAC Addr: N/A; OFDM/OFDMA Profile ID: N/A.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::InstallDpdSets:    installing DPD for profile A
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::InstallDpdSets:    installing DPD for profile B
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::InstallDpdSets:    installing DPD for profile C
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=33  dcid=99  profId=255 (NCP)
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=33  dcid=99  profId=0 (A)
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=33  dcid=99  profId=1 (B)
+[CmDocsisCtlThread] BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=33  dcid=99  profId=2 (C)
+CM-STATUS  trans=3  event=22 (kCmEvDsOfdmProfNcpLockRecover)  param type=4 (dcid)  param values= [ 99 ] 
+CM-STATUS  trans=1  event=24 (kCmEvDsOfdmProfLockRecover)  param type=8 (dcid-OFDM profile ID)  param values= [ 99 0 99 1 99 2 ] 
+Logging event: CM-STATUS message sent. Event Type Code: 22; Chan ID: 99; DSID: N/A; MAC Addr: N/A; OFDM/OFDMA Profile ID: N/A.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+CM-STATUS-ACK  trans=3  event=22 (kCmEvDsOfdmProfNcpLockRecover)
+CM-STATUS-ACK  trans=1  event=24 (kCmEvDsOfdmProfLockRecover)
+Logging event: CM-STATUS message sent. Event Type Code: 24; Chan ID: 99; DSID: N/A; MAC Addr: N/A; OFDM/OFDMA Profile ID: 0 1 2.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+DHCP lease renewed successfully!
+[CmDocsisIpThread] BcmCmDocsisCtlThread::CmDhcpRenewSuccessNote:  (CmDocsisCtlThread) Renew succeeded.  Enabling forwarding to CPE.
+Failed to get UTC Time Offset option from DHCP lease
+Logging event: DHCP RENEW WARNING - Field invalid in response v4 option;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
