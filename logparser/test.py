@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 import os
 
-teststrin = re.sub(' +', '\\s+', "123 abc  ABC")
+teststrin = re.sub(' +', '\\\\s+', "123 abc  ABC")
 
 print(teststrin)
 
