@@ -58,12 +58,23 @@ df.insert(0, 'LineId', None)
 df['LineId'] = [i + 1 for i in range(4)]
 print(type(df))
 print(type(df['LineId']))
+print(df['LineId'])
+
+"""
+df['LineId'] = ['a', 'b', 'c', 'd']
+print(df['LineId'])
+"""
+#No df.insert() for the new column. Work!
+df['test'] = ['a', 'a', 'c', 'd']
+print(df['test'])
+print(df['test'].value_counts())
 
 for dummy, line in df.iterrows():
     print(type(line['Content']))
 
 print(len(df))
 
+"""
 tmpDict = {'a':1, 'b':2, 'c':3}
 seqLen = 'c'
 if seqLen in tmpDict:
@@ -72,3 +83,18 @@ if seqLen in tmpDict:
 s = 'res12'
 any = any(char.isdigit() for char in s)
 print(any)
+
+for i, j in zip([1,2,3],['a','b','c']):
+    print(i, j)
+
+a = "i am a bo"
+b = "i am a boy"
+if ' '.join(a) == ' '.join(b):
+    print(True)
+print(' '.join(a))
+"""
+
+a = [(5, 2), (4, 1), (9, 10), (13, -3)]
+a.sort(key=lambda x: x[0])
+
+print(a)

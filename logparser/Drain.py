@@ -77,6 +77,7 @@ class LogParser:
                 return retLogClust
             currentDepth += 1
 
+        #If reach here it means we get into the leaf wherein the log cluster list resides
         logClustL = parentn.childD
 
         retLogClust = self.fastMatch(logClustL, seq)
@@ -96,7 +97,7 @@ class LogParser:
         currentDepth = 1
         for token in logClust.logTemplate:
 
-            #Add current log cluster to the leaf node
+            #Add current log cluster to the leaf node (childD) which is a list of clusters, not a dict anymore
             if currentDepth >= self.depth or currentDepth > seqLen:
                 if len(parentn.childD) == 0:
                     parentn.childD = [logClust]
@@ -109,7 +110,7 @@ class LogParser:
                 if not self.hasNumbers(token):
                     if '<*>' in parentn.childD:
                         if len(parentn.childD) < self.maxChild:
-                            newNode = Node(depth=currentDepth + 1, digitOrtoken=token)
+                            newNode = Node(depth=currentDepth+1, digitOrtoken=token)
                             parentn.childD[token] = newNode
                             parentn = newNode
                         else:
@@ -247,6 +248,7 @@ class LogParser:
         start_time = datetime.now()
         self.logName = logName
         rootNode = Node()
+        #The log cluster list here just stores all the cluster accross all the leaves
         logCluL = []
 
         self.load_data()
