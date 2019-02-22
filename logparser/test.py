@@ -4,7 +4,7 @@ import os
 import pandas as pd
 #import numpy as np
 
-teststrin = re.sub(' +', '\\\\s+', "123 abc  ABC")
+teststrin = re.sub(' +', '\\\\s+', "123 abc  ABC", count=0)
 
 m = re.search(r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$', '#$--++123@#456')
 print(m.group(0))

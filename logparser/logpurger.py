@@ -13,21 +13,32 @@ pattern0 = re.compile(r'\[(([01]\d|2[0-3]):([0-5]\d):([0-5]\d):(\d{3})|24:00:00:
 pattern1 = re.compile('CM[/a-z-_ ]*> ', re.IGNORECASE)
 # The pattern for the timestamp added by BFC
 pattern2 = re.compile(r'\[(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) \d{2}/\d{2}/\d{4}\] ')
+pattern3 = re.compile(r'\[\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00)\] ')
 # The pattern for the timestamp added by others
-pattern3 = re.compile(r'\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) - ')
+pattern4 = re.compile(r'\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) - ')
+# The pattern for the tag of thread
+pattern5 = re.compile(r'\[[a-z ]*\] ', re.IGNORECASE)
+
+regexPatterns = [pattern0, pattern1, pattern2, pattern3, pattern4, pattern5]
 
 for line in file:
     """
-    Remove the unwanted strings which include some kind of timestamps
-    and console prompts.
+    Remove the unwanted strings which include some kind of timestamps, console prompts and etc.
+    """
     """
     newline0 = pattern0.sub('', line)
     #print(newline0, '')
     newline1 = pattern1.sub('', newline0)
     newline2 = pattern2.sub('', newline1)
     newline3 = pattern3.sub('', newline2)
+    newline4 = pattern4.sub('', newline3)
+    """
 
-    newfile.write(newline3)
+    newline = line
+    for pattern in regexPatterns:
+        newline = pattern.sub('', newline, count=1)
+
+    newfile.write(newline)
 
 file.close()
 newfile.close()
