@@ -60,99 +60,96 @@ for line in file:
             continue
 
     # Remove specific table titles
-    match = re.match(r'           Upstream Active Channel Settings:', newline)
+    match = re.match(r' *Trimmed Candidate Downstream Service Group Settings List', newline)
     if match:
-        inTable = True
         continue
 
-    match = re.match(r'      ucid  rpt enable  sel prio', newline)
+    match = re.match(r' *sgid  size  member', newline)
     if match:
-        inTable = True
+        continue
+
+    match = re.match(r' *Downstream Active Channel Settings', newline)
+    if match:
+        continue
+
+    match = re.match(r' *dcid      type  frequency', newline)
+    if match:
+        continue
+
+    match = re.match(r' *Upstream Active Channel Settings', newline)
+    if match:
+        continue
+
+    match = re.match(r' *ucid  rpt enable', newline)
+    if match:
         continue
 
     match = re.match(r'BcmCmUsTargetMset (a.k.a. usable UCDs gathered during startup):', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'   us               config', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'   phy              change', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'  type  ucid  dcid  count', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'REG-RSP-MP Summary:', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'TCC commands->', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'ucid      action             ranging strategy', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'Service Flow settings->', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'sfid         sid              ucids', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'DSID settings->', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'dsid         action    reseq', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'Active Downstream Channel Diagnostics:', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'  rx id  dcid    freq', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'                           plc  prfA', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'Active Upstream Channels:', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r'                    rng     pwr', newline)
     if match:
-        inTable = True
         continue
 
     match = re.match(r' txid  ucid  dcid   sid', newline)
     if match:
-        inTable = True
         continue
 
     # It is time to remove empty line

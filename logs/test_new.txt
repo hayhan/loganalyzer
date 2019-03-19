@@ -74,8 +74,6 @@ BcmCmMdDsSgDiscState::StartMdDsSgDisc:
           fMdDsSgDiscovered = 1
       Trimmed Candidate Downstream Service Group Settings List:     list size = 1
   sgid  size  member dcid's
-    Downstream Active Channel Settings List: 
-  dcid      type  frequency  prim capable  rpt enable  mod/annex or PLC params
       Trimmed Downstream Ambiguity Resolution Frequency List:       list size = 2
         300000000-sc_qam 698000000-ofdm 
            visible dcid set = 1 
@@ -113,7 +111,6 @@ fDestSingleTxTargetUsChanId = 0 (0)
     Startup UCD Selection Info:
      low priority candidate ucid list = 99 51 56 55 58 52 54 57 53 
                   happy home ucid set = 51 52 53 54 55 56 57 58 99 
-  ucid  rpt enable  sel prio  MAP source dcid's
 BcmCmUsTargetMset (a.k.a. usable UCDs gathered during startup):
 BcmCmMultiUsHelper::TargetNextDocs3CandidateUcid:  (Cm Multi US Helper) 
         starting docs3 upstream initialization on target ucid=99
