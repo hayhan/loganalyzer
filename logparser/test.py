@@ -98,3 +98,8 @@ a = [(5, 2), (4, 1), (9, 10), (13, -3)]
 a.sort(key=lambda x: x[0])
 
 print(a)
+
+str1 = "ii am a     boy ii"
+str2 = str1.strip('i')
+print(str2)
+print(str2.split())
