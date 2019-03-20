@@ -137,14 +137,13 @@ for line in file:
         lastLineEmpty = True
         continue
 
-    else:
-        # Update lastLineEmpty for the next line processing
-        lastLineEmpty = False
-
     # Make an nested line as primary if two more empty lines proceeded
     if nestedLinePattern.match(newline):
         if (lastLineEmpty == True) and (sccvEmptyLineCnt >= 2):
             newline = newline.strip()
+
+    # Update lastLineEmpty for the next line processing
+    lastLineEmpty = False
 
     newfile.write(newline)
 
