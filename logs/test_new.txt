@@ -39,7 +39,7 @@ Starting DS scanning at 300000000 Hz...
 BcmCmDownstreamScan::StartScan:  Starting DS scan
 Scanning 300.000 MHz PLC/SC-QAM (ConsoleCmdOverride) locked SC-QAM
 BcmCmDsChan::DsLockOk:  (BcmCmDsChan 0) hwRxId=0  freq=0  dcid=0
-            DOWNSTREAM STATUS
+DOWNSTREAM STATUS
               HW Channel ID = 0
                     Phy type: SC-QAM
   DS active chan settings:   
@@ -68,10 +68,12 @@ BcmCmMdDsSgDiscState::TrimSgSetWithoutThisDcid:
 BcmCmMdDsSgDiscState::StartMdDsSgDisc:  
         special case: one and only one MD-DS-SG contains mdd_dcid.
         fMdDsSgId=0x7f (127) 
-MD-DS-SG discovery info:         fCmMdDsSgDiscState = 6 (kMdDsSgDiscDone)
+MD-DS-SG discovery info:
+         fCmMdDsSgDiscState = 6 (kMdDsSgDiscDone)
                   fMdDsSgId = 0x7f (127)
           fMdDsSgDiscovered = 1
-Trimmed Downstream Ambiguity Resolution Frequency List:       list size = 2        300000000-sc_qam 698000000-ofdm 
+Trimmed Downstream Ambiguity Resolution Frequency List:       list size = 2
+        300000000-sc_qam 698000000-ofdm 
            visible dcid set = 1 
  freq with visible dcid set = 300000000 
 BcmCmDocsisCtlMsgACT::HandleEvent() @time=36970  event_code=11 (kCmMdDsSgDiscDone) 
@@ -96,14 +98,16 @@ BcmCmMultiUsHelper::StartPreRegUsInit:  (Cm Multi US Helper) Locked on the downs
 BcmCmMultiUsHelper::TmUcdRxTimerEvent:  (Cm Multi US Helper) 
         ucd gathering ok.
 BcmCmMultiUsHelper::TargetNextDocs3CandidateUcid:  (Cm Multi US Helper) state at entry:
-Channel targeting:    Downstream:
+Channel targeting:
+    Downstream:
             fTargetDsFreqHz = 0x11e1a300 (300000000)
            fCurrentDsFreqHz = 0x11e1a300 (300000000)
             fStoredDsFreqHz = 0 (0)
       Upstream:
 fDestSingleTxTargetUsChanId = 0 (0)
           fTargetingContext = 5 (ConsoleCmdOverride)
-Startup UCD Selection Info:     low priority candidate ucid list = 99 51 56 55 58 52 54 57 53 
+Startup UCD Selection Info:
+     low priority candidate ucid list = 99 51 56 55 58 52 54 57 53 
                   happy home ucid set = 51 52 53 54 55 56 57 58 99 
 BcmCmMultiUsHelper::TargetNextDocs3CandidateUcid:  (Cm Multi US Helper) 
         starting docs3 upstream initialization on target ucid=99

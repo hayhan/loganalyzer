@@ -34,13 +34,13 @@ regexPatterns = [pattern0, pattern1, pattern2, pattern3, pattern4, pattern5]
 """
 Patterns for removing Table headers
 """
-title0  = re.compile(r' *Trimmed Candidate Downstream Service Group Settings List')
+title0  = re.compile(r' *Trimmed Candidate Downstream Service Group')
 title1  = re.compile(r' *sgid +size +member')
 title2  = re.compile(r' *Downstream Active Channel Settings')
 title3  = re.compile(r' *dcid +type +frequency')
 title4  = re.compile(r' *Upstream Active Channel Settings')
 title5  = re.compile(r' *ucid +rpt enable')
-title6  = re.compile(r' *BcmCmUsTargetMset \(a.k.a. usable UCDs gathered during startup\)')
+title6  = re.compile(r' *BcmCmUsTargetMset \(a.k.a. usable UCDs')
 title7  = re.compile(r' *us +config')
 title8  = re.compile(r' *phy +change')
 title9  = re.compile(r' *type +ucid +dcid +count')
@@ -70,6 +70,15 @@ Pattern for nested line
 nestedLinePattern = re.compile(r' +')
 
 """
+Patterns for specific lines which I want to make them as primary
+"""
+nestedLinePatternSpec0 = re.compile(r' +DOWNSTREAM STATUS')
+
+nestedLinePatternSpec = [
+    nestedLinePatternSpec0
+]
+
+"""
 Variables initialization
 """
 inTable = False
@@ -79,6 +88,7 @@ sccvEmptyLineCnt = 0
 """
 1). Remove timestamps, console prompts, tables, empty lines
 2). Make an nested line as primary if two more empty lines proceeded
+3). Make some specific lines as primary
 """
 for line in file:
     """
@@ -140,7 +150,13 @@ for line in file:
     # Make an nested line as primary if two more empty lines proceeded
     if nestedLinePattern.match(newline):
         if (lastLineEmpty == True) and (sccvEmptyLineCnt >= 2):
-            newline = newline.strip()
+            newline = newline.lstrip()
+
+    # Make some specific lines as primary
+    for pattern in nestedLinePatternSpec:
+        match = pattern.match(newline)
+        if match:
+            newline = newline.lstrip()
 
     # Update lastLineEmpty for the next line processing
     lastLineEmpty = False
