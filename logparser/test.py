@@ -4,6 +4,12 @@ import os
 import pandas as pd
 #import numpy as np
 
+curfiledir = os.path.dirname(__file__)
+parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+#file       = open(parentdir + '/logs/test.txt', 'r')
+newfile    = open(parentdir + '/logs/test_tmp.txt', 'w')
+
+
 teststrin = re.sub(' +', '\\\\s+', "123 abc  ABC", count=0)
 
 m = re.search(r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$', '#$--++123@#456')
@@ -103,3 +109,8 @@ str1 = "ii am a     boy ii"
 str2 = str1.strip('i')
 print(str2)
 print(str2.split())
+
+lastLine = 'abc\n'
+line = 'def'
+lastLine += line
+newfile.write(lastLine)

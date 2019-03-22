@@ -6,6 +6,7 @@ curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 file       = open(parentdir + '/logs/test.txt', 'r')
 newfile    = open(parentdir + '/logs/test_new.txt', 'w')
+normfile   = open(parentdir + '/logs/test_norm.txt', 'w')
 
 """
 Definitions:
@@ -165,3 +166,31 @@ for line in file:
 
 file.close()
 newfile.close()
+
+# Scan the new generated newfile
+newfile    = open(parentdir + '/logs/test_new.txt', 'r')
+normfile   = open(parentdir + '/logs/test_norm.txt', 'w')
+
+"""
+Variables initialization
+"""
+# The lastLine is initialized as empty w/o LF or CRLF
+lastLine = ''
+
+"""
+Concatenate nested line to its parent (primary) line
+"""
+for line in newfile:
+
+    if nestedLinePattern.match(line):
+        # Concatenate current line to lastLine
+        lastLine = lastLine.rstrip()
+        lastLine += ' '
+        lastLine += line.lstrip()
+    else:
+        # If current is primary line, it means concatenation ends
+        normfile.write(lastLine)
+        lastLine = line
+
+newfile.close()
+normfile.close()
