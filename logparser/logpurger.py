@@ -4,7 +4,16 @@ import re
 
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
-file       = open(parentdir + '/logs/test.txt', 'r')
+
+"""
+The original log usually comes from serial console tools like SecureCRT
+in Windows and the text file encoding is probably utf-8 (with BOM).
+https://en.wikipedia.org/wiki/Byte_order_mark#UTF-8
+
+To let python skip the BOM when decoding the file, use utf-8-sig codec.
+https://docs.python.org/3/library/codecs.html
+"""
+file       = open(parentdir + '/logs/test.txt', 'r', encoding='utf-8-sig')
 newfile    = open(parentdir + '/logs/test_new.txt', 'w')
 normfile   = open(parentdir + '/logs/test_norm.txt', 'w')
 
