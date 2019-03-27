@@ -1,4 +1,4 @@
-Starting TFTP of CM Version file!
+﻿Starting TFTP of CM Version file!
 
 Opening file 'cmversion.txt' on 172.31.255.40 for writing...
 

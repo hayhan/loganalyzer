@@ -1,4 +1,4 @@
-[13:47:30:161]CM/DocsisCtl> 
+﻿[13:47:30:161]CM/DocsisCtl> 
 [13:47:30:354]CM/DocsisCtl> 
 [13:47:32:794]CM/DocsisCtl> Logging event: RNG-RSP CCAP Commanded Power in Excess of 6 dB Below the Value Corresponding to the Top of the DRW;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 [13:47:32:814]Logging event: RNG-RSP CCAP Commanded Power in Excess of 6 dB Below the Value Corresponding to the Top of the DRW;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
