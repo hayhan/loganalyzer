@@ -226,7 +226,6 @@ Starting TFTP of eRouter configuration file!
 EROUTER I.P Address: 172.31.255.40
 Config File Name: eroutercfg.bin
 Contents of EROUTER Config File: 
-++++++++++++++++++++++++++++++
 Opening file 'eroutercfg.bin' on 172.31.255.40 for writing...
 Tftp transfer eRouter configuration file open successful!
 Tftp transfer eRouter configuration file is complete!
@@ -578,7 +577,7 @@ Storing off OFDM DS MAC settings for channel 33
 BcmBfcForwardAssistManager::OperatingConfigBitsEnable:  (Forward Assist Manager) New Config = 0x10000000
 CmSnmpAgent operating in 1.1 mode, including docsQos
 No UDC's, IP filters OK.
-+++ No DH kickstart profiles or snmpCommunityTable entries installed.
+No DH kickstart profiles or snmpCommunityTable entries installed.
     We will operate in NMACCESS mode.
 Enabling SNMP link status checking.
 misc_dqnet_status ifname cm0 up
@@ -809,7 +808,6 @@ Starting TFTP of eRouter configuration file!
 EROUTER I.P Address: 172.31.255.40
 Config File Name: eroutercfg.bin
 Contents of EROUTER Config File: 
-++++++++++++++++++++++++++++++
 Opening file 'eroutercfg.bin' on 172.31.255.40 for writing...
 Tftp transfer eRouter configuration file open successful!
 Tftp transfer eRouter configuration file is complete!
@@ -1157,7 +1155,7 @@ Storing off OFDM DS MAC settings for channel 33
 BcmBfcForwardAssistManager::OperatingConfigBitsEnable:  (Forward Assist Manager) New Config = 0x10000000
 CmSnmpAgent operating in 1.1 mode, including docsQos
 No UDC's, IP filters OK.
-+++ No DH kickstart profiles or snmpCommunityTable entries installed.
+No DH kickstart profiles or snmpCommunityTable entries installed.
     We will operate in NMACCESS mode.
 Enabling SNMP link status checking.
 misc_dqnet_status ifname cm0 up
@@ -1540,7 +1538,6 @@ Starting TFTP of eRouter configuration file!
 EROUTER I.P Address: 172.31.255.40
 Config File Name: eroutercfg.bin
 Contents of EROUTER Config File: 
-++++++++++++++++++++++++++++++
 Opening file 'eroutercfg.bin' on 172.31.255.40 for writing...
 Tftp transfer eRouter configuration file open successful!
 Tftp transfer eRouter configuration file is complete!
@@ -1915,7 +1912,7 @@ Storing off OFDM DS MAC settings for channel 33
 BcmBfcForwardAssistManager::OperatingConfigBitsEnable:  (Forward Assist Manager) New Config = 0x10000000
 CmSnmpAgent operating in 1.1 mode, including docsQos
 No UDC's, IP filters OK.
-+++ No DH kickstart profiles or snmpCommunityTable entries installed.
+No DH kickstart profiles or snmpCommunityTable entries installed.
     We will operate in NMACCESS mode.
 Enabling SNMP link status checking.
 misc_dqnet_status ifname cm0 up
@@ -2142,7 +2139,6 @@ Starting TFTP of eRouter configuration file!
 EROUTER I.P Address: 172.31.255.40
 Config File Name: eroutercfg.bin
 Contents of EROUTER Config File: 
-++++++++++++++++++++++++++++++
 Opening file 'eroutercfg.bin' on 172.31.255.40 for writing...
 Tftp transfer eRouter configuration file open successful!
 Tftp transfer eRouter configuration file is complete!
@@ -2492,7 +2488,7 @@ Storing off OFDM DS MAC settings for channel 33
 BcmBfcForwardAssistManager::OperatingConfigBitsEnable:  (Forward Assist Manager) New Config = 0x10000000
 CmSnmpAgent operating in 1.1 mode, including docsQos
 No UDC's, IP filters OK.
-+++ No DH kickstart profiles or snmpCommunityTable entries installed.
+No DH kickstart profiles or snmpCommunityTable entries installed.
     We will operate in NMACCESS mode.
 Enabling SNMP link status checking.
 misc_dqnet_status ifname cm0 up

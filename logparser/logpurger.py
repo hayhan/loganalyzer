@@ -28,18 +28,32 @@ empty line   - LF or CRLF only in one line
 Patterns for removing timestamp, console prompt and others
 """
 # The pattern for the timestamp added by console tool
-pattern0 = re.compile(r'\[(([01]\d|2[0-3]):([0-5]\d):([0-5]\d):(\d{3})|24:00:00:000)\]')
+strPattern0 = re.compile(r'\[(([01]\d|2[0-3]):([0-5]\d):([0-5]\d):(\d{3})|24:00:00:000)\]')
 # The pattern for CM console prompts
-pattern1 = re.compile('CM[/a-z-_ ]*> ', re.IGNORECASE)
+strPattern1 = re.compile('CM[/a-z-_ ]*> ', re.IGNORECASE)
 # The pattern for the timestamp added by BFC
-pattern2 = re.compile(r'\[(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) \d{2}/\d{2}/\d{4}\] ')
-pattern3 = re.compile(r'\[\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00)\] ')
+strPattern2 = re.compile(r'\[(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) \d{2}/\d{2}/\d{4}\] ')
+strPattern3 = re.compile(r'\[\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00)\] ')
 # The pattern for the timestamp added by others
-pattern4 = re.compile(r'\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) - ')
+strPattern4 = re.compile(r'\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) - ')
 # The pattern for the tag of thread
-pattern5 = re.compile(r'\[[a-z ]*\] ', re.IGNORECASE)
+strPattern5 = re.compile(r'\[[a-z ]*\] ', re.IGNORECASE)
+strPattern6 = re.compile(r'\+{3} ')
+strPatterns = [
+    strPattern0, strPattern1, strPattern2, strPattern3,
+    strPattern4, strPattern5, strPattern6
+]
 
-regexPatterns = [pattern0, pattern1, pattern2, pattern3, pattern4, pattern5]
+"""
+Patterns for specific lines which I want to remove
+"""
+sLinePattern0 = re.compile(r'\*')
+sLinePattern1 = re.compile(r'\+{10}')
+
+sLinePatterns = [
+    sLinePattern0,
+    sLinePattern1
+]
 
 """
 Patterns for removing Table headers
@@ -82,10 +96,10 @@ nestedLinePattern = re.compile(r' +')
 """
 Patterns for specific lines which I want to make them as primary
 """
-nestedLinePatternSpec0 = re.compile(r' +DOWNSTREAM STATUS')
+sNestedLinePattern0 = re.compile(r' +DOWNSTREAM STATUS')
 
-nestedLinePatternSpec = [
-    nestedLinePatternSpec0
+sNestedLinePatterns = [
+    sNestedLinePattern0
 ]
 
 """
@@ -115,12 +129,17 @@ for line in file:
     newline = line
 
     # Remove timestamp, console prompt and others
-    for pattern in regexPatterns:
+    for pattern in strPatterns:
         newline = pattern.sub('', newline, count=1)
 
-    # Remove line starting with '*'
-    match = re.match(r'\*', newline)
-    if match:
+    # Remove line starting with specific patterns
+    goNextLine = False
+    for pattern in sLinePatterns:
+        match = pattern.match(newline)
+        if match:
+            goNextLine = True
+            break
+    if goNextLine == True:
         continue
 
     # Remove table starting with "----", " ----" or "  ----"
@@ -157,13 +176,13 @@ for line in file:
         lastLineEmpty = True
         continue
 
-    # Make an nested line as primary if two more empty lines proceeded
+    # Make a nested line as primary if two more empty lines proceeded
     if nestedLinePattern.match(newline):
         if (lastLineEmpty == True) and (sccvEmptyLineCnt >= 2):
             newline = newline.lstrip()
 
-    # Make some specific lines as primary
-    for pattern in nestedLinePatternSpec:
+    # Make some specific nested lines as primary
+    for pattern in sNestedLinePatterns:
         match = pattern.match(newline)
         if match:
             newline = newline.lstrip()
