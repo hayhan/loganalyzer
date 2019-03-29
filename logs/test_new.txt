@@ -159,12 +159,12 @@ BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisit
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 53 dBmV
-Stored power level for UCID 149 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ : 
-  00 10 18 de   b5 18 01 30   cf f8  | .......0..
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 53 dBmV
+ Stored power level for UCID 149 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
+ Configured O-INIT-RNG-REQ : 
+   00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 BcmCmMultiUsHelper::DynamicRangeWindowQtrDb:  (Cm Multi US Helper) 
         Dynamic Range Window set to:42 (11 dB)
@@ -385,77 +385,77 @@ PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=0
 == Beginning initial ranging for Docsis UCID 101 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 101 is 38 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 0 docsis UCID = 101
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 101 is 38 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 0 docsis UCID = 101
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
 == Beginning initial ranging for Docsis UCID 102 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 102 is 36 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 1 docsis UCID = 102
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 102 is 36 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 1 docsis UCID = 102
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
 == Beginning initial ranging for Docsis UCID 103 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 103 is 35 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 2 docsis UCID = 103
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 103 is 35 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 2 docsis UCID = 103
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
 == Beginning initial ranging for Docsis UCID 104 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 104 is 34 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 3 docsis UCID = 104
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 104 is 34 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 3 docsis UCID = 104
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
 == Beginning initial ranging for Docsis UCID 105 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 105 is 33 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 4 docsis UCID = 105
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 105 is 33 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 4 docsis UCID = 105
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
 == Beginning initial ranging for Docsis UCID 106 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 106 is 32 dBmV
-Using per transmitter stored initial upstream power = 32 dBmV hwTxId = 5 docsis UCID = 106
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 106 is 32 dBmV
+ Using per transmitter stored initial upstream power = 32 dBmV hwTxId = 5 docsis UCID = 106
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
 == Beginning initial ranging for Docsis UCID 107 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 107 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 6 docsis UCID = 107
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 107 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 6 docsis UCID = 107
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
 == Beginning initial ranging for Docsis UCID 108 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 108 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 7 docsis UCID = 108
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 108 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 7 docsis UCID = 108
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 149 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ : 
-  00 10 18 de   b5 18 01 30   cf f8  | .......0..
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 149 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
+ Configured O-INIT-RNG-REQ : 
+   00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=106  Adj: tim=1468  Stat=Continue 
 RNG-RSP UsChanId=105  Adj: tim=1468 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-0.00) (103-0.00) (104-0.00) (105-22.00) (106-31.50) (107-0.00) (108-0.00) (149-30.25) )
@@ -743,12 +743,12 @@ BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisit
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 53 dBmV
-Stored power level for UCID 149 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ : 
-  00 10 18 de   b5 18 01 30   cf f8  | .......0..
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 53 dBmV
+ Stored power level for UCID 149 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
+ Configured O-INIT-RNG-REQ : 
+   00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=149  Adj: tim=7248  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x1
@@ -967,77 +967,77 @@ PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=0
 == Beginning initial ranging for Docsis UCID 101 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 101 is 38 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 0 docsis UCID = 101
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 101 is 38 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 0 docsis UCID = 101
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
 == Beginning initial ranging for Docsis UCID 102 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 102 is 36 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 1 docsis UCID = 102
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 102 is 36 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 1 docsis UCID = 102
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
 == Beginning initial ranging for Docsis UCID 103 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 103 is 35 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 2 docsis UCID = 103
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 103 is 35 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 2 docsis UCID = 103
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
 == Beginning initial ranging for Docsis UCID 104 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 104 is 34 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 3 docsis UCID = 104
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 104 is 34 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 3 docsis UCID = 104
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
 == Beginning initial ranging for Docsis UCID 105 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 105 is 33 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 4 docsis UCID = 105
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 105 is 33 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 4 docsis UCID = 105
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
 == Beginning initial ranging for Docsis UCID 106 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 106 is 32 dBmV
-Using per transmitter stored initial upstream power = 32 dBmV hwTxId = 5 docsis UCID = 106
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 106 is 32 dBmV
+ Using per transmitter stored initial upstream power = 32 dBmV hwTxId = 5 docsis UCID = 106
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
 == Beginning initial ranging for Docsis UCID 107 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 107 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 6 docsis UCID = 107
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 107 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 6 docsis UCID = 107
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
 == Beginning initial ranging for Docsis UCID 108 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 108 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 7 docsis UCID = 108
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 108 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 7 docsis UCID = 108
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 149 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ : 
-  00 10 18 de   b5 18 01 30   cf f8  | .......0..
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 149 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
+ Configured O-INIT-RNG-REQ : 
+   00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=103  Adj: tim=1408 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-0.00) (103-22.00) (104-0.00) (105-0.00) (106-0.00) (107-0.00) (108-0.00) (149-30.25) )
 RNG-RSP UsChanId=105  Adj: tim=1408 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-0.00) (103-22.00) (104-0.00) (105-22.00) (106-0.00) (107-0.00) (108-0.00) (149-30.25) )
@@ -1473,12 +1473,12 @@ BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisit
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 53 dBmV
-Stored power level for UCID 149 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ : 
-  00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 53 dBmV
+ Stored power level for UCID 149 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
+ Configured O-INIT-RNG-REQ : 
+   00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=149  Adj: tim=8896  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x1
@@ -1695,199 +1695,199 @@ PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 149 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ : 
-  00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 149 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
+ Configured O-INIT-RNG-REQ : 
+   00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=0
 == Beginning initial ranging for Docsis UCID 101 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 101 is 38 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 0 docsis UCID = 101
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 101 is 38 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 0 docsis UCID = 101
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
 == Beginning initial ranging for Docsis UCID 102 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 102 is 36 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 1 docsis UCID = 102
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 102 is 36 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 1 docsis UCID = 102
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
 == Beginning initial ranging for Docsis UCID 103 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 103 is 35 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 2 docsis UCID = 103
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 103 is 35 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 2 docsis UCID = 103
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
 == Beginning initial ranging for Docsis UCID 104 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 104 is 34 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 3 docsis UCID = 104
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 104 is 34 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 3 docsis UCID = 104
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
 == Beginning initial ranging for Docsis UCID 105 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 105 is 33 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 4 docsis UCID = 105
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 105 is 33 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 4 docsis UCID = 105
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
 == Beginning initial ranging for Docsis UCID 106 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 106 is 32 dBmV
-Using per transmitter stored initial upstream power = 32 dBmV hwTxId = 5 docsis UCID = 106
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 106 is 32 dBmV
+ Using per transmitter stored initial upstream power = 32 dBmV hwTxId = 5 docsis UCID = 106
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
 == Beginning initial ranging for Docsis UCID 107 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 107 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 6 docsis UCID = 107
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 107 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 6 docsis UCID = 107
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
 == Beginning initial ranging for Docsis UCID 108 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 108 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 7 docsis UCID = 108
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
-RNG-RSP UsChanId=102  Adj: tim=632 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-22.00) (103-0.00) (104-0.00) (105-0.00) (106-0.00) (107-0.00) (108-0.00) (149-30.25) )
-RNG-RSP UsChanId=105  Adj: tim=633 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-22.00) (103-0.00) (104-0.00) (105-22.00) (106-0.00) (107-0.00) (108-0.00) (149-30.25) )
-RNG-RSP UsChanId=149  Adj: tim=8896  Stat=Continue 
-RNG-RSP UsChanId=106  Adj: tim=632  Stat=Continue 
-RNG-RSP UsChanId=108  Adj: tim=632  Stat=Continue 
-BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=1 (B)
-BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=2 (C)
-RNG-RSP UsChanId=107  Adj: tim=632  Stat=Continue 
-RNG-RSP UsChanId=103  Adj: tim=632 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-22.00) (103-22.00) (104-0.00) (105-22.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
-RNG-RSP UsChanId=101  Adj: tim=633 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-22.00) (102-22.00) (103-22.00) (104-0.00) (105-22.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
-RNG-RSP UsChanId=102  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-22.00) (102-24.00) (103-22.00) (104-0.00) (105-22.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
-RNG-RSP UsChanId=105  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-22.00) (102-24.00) (103-22.00) (104-0.00) (105-24.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
-RNG-RSP UsChanId=106  Stat=Continue 
-RNG-RSP UsChanId=104  Adj: tim=632 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-22.00) (102-24.00) (103-22.00) (104-22.00) (105-24.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
-RNG-RSP UsChanId=107  Stat=Continue 
-RNG-RSP UsChanId=108  Stat=Continue 
-RNG-RSP UsChanId=149  Adj: power=-1  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-22.00) (102-24.00) (103-22.00) (104-22.00) (105-24.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-Logging event: RNG-RSP CCAP Commanded Power in Excess of 6 dB Below the Value Corresponding to the Top of the DRW;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
-Logging event: RNG-RSP CCAP Commanded Power in Excess of 6 dB Below the Value Corresponding to the Top of the DRW;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
-Logging event: RNG-RSP CCAP Commanded Power in Excess of 6 dB Below the Value Corresponding to the Top of the DRW;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
-RNG-RSP UsChanId=103  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-22.00) (102-24.00) (103-24.00) (104-22.00) (105-24.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-Logging event: RNG-RSP CCAP Commanded Power in Excess of 6 dB Below the Value Corresponding to the Top of the DRW;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
-Logging event: RNG-RSP CCAP Commanded Power in Excess of 6 dB Below the Value Corresponding to the Top of the DRW;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
-RNG-RSP UsChanId=101  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-24.00) (102-24.00) (103-24.00) (104-22.00) (105-24.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=102  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-24.00) (102-26.00) (103-24.00) (104-22.00) (105-24.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=105  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-24.00) (102-26.00) (103-24.00) (104-22.00) (105-26.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=106  Stat=Success 
-BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
-        first RNG-RSP w/status==SUCCESS for hwTxId=5 and DOCSIS ucid=106
-RNG-RSP UsChanId=104  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-24.00) (102-26.00) (103-24.00) (104-24.00) (105-26.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=107  Stat=Success 
-BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
-        first RNG-RSP w/status==SUCCESS for hwTxId=6 and DOCSIS ucid=107
-RNG-RSP UsChanId=108  Stat=Success 
-BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
-        first RNG-RSP w/status==SUCCESS for hwTxId=7 and DOCSIS ucid=108
-RNG-RSP UsChanId=149  Stat=Continue 
-RNG-RSP UsChanId=103  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-24.00) (102-26.00) (103-26.00) (104-24.00) (105-26.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=101  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-26.00) (102-26.00) (103-26.00) (104-24.00) (105-26.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=102  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-26.00) (102-28.00) (103-26.00) (104-24.00) (105-26.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=105  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-26.00) (102-28.00) (103-26.00) (104-24.00) (105-28.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=104  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-26.00) (102-28.00) (103-26.00) (104-26.00) (105-28.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=149  Stat=Continue 
-RNG-RSP UsChanId=103  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-26.00) (102-28.00) (103-28.00) (104-26.00) (105-28.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=101  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-28.00) (102-28.00) (103-28.00) (104-26.00) (105-28.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=149  Adj: power=-1  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-28.00) (102-28.00) (103-28.00) (104-26.00) (105-28.00) (106-31.50) (107-30.25) (108-30.00) (149-29.75) )
-RNG-RSP UsChanId=102  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-28.00) (102-30.00) (103-28.00) (104-26.00) (105-28.00) (106-31.50) (107-30.25) (108-30.00) (149-29.75) )
-RNG-RSP UsChanId=105  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-28.00) (102-30.00) (103-28.00) (104-26.00) (105-30.00) (106-31.50) (107-30.25) (108-30.00) (149-29.75) )
-RNG-RSP UsChanId=149  Adj: power=2  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-28.00) (102-30.00) (103-28.00) (104-26.00) (105-30.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
-RNG-RSP UsChanId=104  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-28.00) (102-30.00) (103-28.00) (104-28.00) (105-30.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
-RNG-RSP UsChanId=103  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-28.00) (102-30.00) (103-30.00) (104-28.00) (105-30.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
-RNG-RSP UsChanId=149  Stat=Continue 
-RNG-RSP UsChanId=101  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-30.00) (102-30.00) (103-30.00) (104-28.00) (105-30.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
-RNG-RSP UsChanId=149  Adj: power=-1  Stat=Success  (CmdPwr (UsChanId-dBmV): (101-30.00) (102-30.00) (103-30.00) (104-28.00) (105-30.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
-        first RNG-RSP w/status==SUCCESS for hwTxId=8 and DOCSIS ucid=149
-BcmCmMultiUsHelper::DynamicRangeWindowQtrDb:  (Cm Multi US Helper) 
-        Dynamic Range Window set to:61 (15 dB)
-RNG-RSP UsChanId=102  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-30.00) (102-32.00) (103-30.00) (104-28.00) (105-30.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=105  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-30.00) (102-32.00) (103-30.00) (104-28.00) (105-32.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=104  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-30.00) (102-32.00) (103-30.00) (104-30.00) (105-32.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=103  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-30.00) (102-32.00) (103-32.00) (104-30.00) (105-32.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=101  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-32.00) (102-32.00) (103-32.00) (104-30.00) (105-32.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-BcmDocsisCmHalIf::HandleStatusIndication:  (DOCSIS CableModem HalIf) WARNING - CM HAL declared PULSE lost!
-BcmCmDocsisCtlThread::DsPulseFail:  (CmDocsisCtlThread) WARNING - RFI-N-00089 - attempting to re-acquire Ds pulse without resetting the MAC.
-BcmCmDocsisCtlThread::DsPulsePollEvent:  (CmDocsisCtlThread) ds pulse is not ok.  starting poll timer.
-BcmCmDocsisCtlThread::DsPulsePollEvent:  (CmDocsisCtlThread) ds pulse is ok.
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
-BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=0
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
-BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=1
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
-BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=2
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
-BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=3
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
-BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=4
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
-BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=5
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
-BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=6
-BcmCmMultiUsHelper::DynamicRangeWindowQtrDb:  (Cm Multi US Helper) 
-        Dynamic Range Window set to:53 (13 dB)
-RNG-RSP UsChanId=101  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-34.00) (102-32.00) (103-32.00) (104-30.00) (105-32.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
-BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=7
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
-BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=8
-BcmCmMultiUsHelper::DynamicRangeWindowQtrDb:  (Cm Multi US Helper) 
-        Dynamic Range Window set to:45 (11 dB)
-RNG-RSP UsChanId=101  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-36.00) (102-32.00) (103-32.00) (104-30.00) (105-32.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=105  Adj: power=2  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-36.00) (102-32.00) (103-32.00) (104-30.00) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=102  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-36.00) (102-34.00) (103-32.00) (104-30.00) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=104  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-36.00) (102-34.00) (103-32.00) (104-32.00) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=103  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-36.00) (102-34.00) (103-34.00) (104-32.00) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-BcmCmMultiUsHelper::DynamicRangeWindowQtrDb:  (Cm Multi US Helper) 
-        Dynamic Range Window set to:38 (9.5 dB)
-RNG-RSP UsChanId=101  Adj: power=7  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-37.75) (102-34.00) (103-34.00) (104-32.00) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=105  Stat=Success 
-BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
-        first RNG-RSP w/status==SUCCESS for hwTxId=4 and DOCSIS ucid=105
-RNG-RSP UsChanId=102  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-37.75) (102-36.00) (103-34.00) (104-32.00) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=104  Adj: power=6  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-37.75) (102-36.00) (103-34.00) (104-33.50) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=103  Adj: power=2  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-37.75) (102-36.00) (103-34.50) (104-33.50) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-RNG-RSP UsChanId=101  Stat=Success 
-BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
-        first RNG-RSP w/status==SUCCESS for hwTxId=0 and DOCSIS ucid=101
-RNG-RSP UsChanId=102  Stat=Success 
-BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
-        first RNG-RSP w/status==SUCCESS for hwTxId=1 and DOCSIS ucid=102
-RNG-RSP UsChanId=104  Stat=Success 
-BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
-        first RNG-RSP w/status==SUCCESS for hwTxId=3 and DOCSIS ucid=104
-RNG-RSP UsChanId=103  Adj: power=1  Stat=Success  (CmdPwr (UsChanId-dBmV): (101-37.75) (102-36.00) (103-34.75) (104-33.50) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
-BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
-        first RNG-RSP w/status==SUCCESS for hwTxId=2 and DOCSIS ucid=103
-BcmCmDocsisCtlThread::DetectTccInstallDone:  (CmDocsisCtlThread) 
-        resume registration sequence.
-BcmCmDocsisCtlThread::ResumeRegAfterTccOutcome:  (CmDocsisCtlThread) 
-        Resuming registration sequence after waiting for TCC installation outcome.
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 108 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 7 docsis UCID = 108
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+ RNG-RSP UsChanId=102  Adj: tim=632 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-22.00) (103-0.00) (104-0.00) (105-0.00) (106-0.00) (107-0.00) (108-0.00) (149-30.25) )
+ RNG-RSP UsChanId=105  Adj: tim=633 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-22.00) (103-0.00) (104-0.00) (105-22.00) (106-0.00) (107-0.00) (108-0.00) (149-30.25) )
+ RNG-RSP UsChanId=149  Adj: tim=8896  Stat=Continue 
+ RNG-RSP UsChanId=106  Adj: tim=632  Stat=Continue 
+ RNG-RSP UsChanId=108  Adj: tim=632  Stat=Continue 
+ BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=1 (B)
+ BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=2 (C)
+ RNG-RSP UsChanId=107  Adj: tim=632  Stat=Continue 
+ RNG-RSP UsChanId=103  Adj: tim=632 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-22.00) (103-22.00) (104-0.00) (105-22.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
+ RNG-RSP UsChanId=101  Adj: tim=633 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-22.00) (102-22.00) (103-22.00) (104-0.00) (105-22.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
+ RNG-RSP UsChanId=102  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-22.00) (102-24.00) (103-22.00) (104-0.00) (105-22.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
+ RNG-RSP UsChanId=105  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-22.00) (102-24.00) (103-22.00) (104-0.00) (105-24.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
+ RNG-RSP UsChanId=106  Stat=Continue 
+ RNG-RSP UsChanId=104  Adj: tim=632 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-22.00) (102-24.00) (103-22.00) (104-22.00) (105-24.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
+ RNG-RSP UsChanId=107  Stat=Continue 
+ RNG-RSP UsChanId=108  Stat=Continue 
+ RNG-RSP UsChanId=149  Adj: power=-1  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-22.00) (102-24.00) (103-22.00) (104-22.00) (105-24.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ Logging event: RNG-RSP CCAP Commanded Power in Excess of 6 dB Below the Value Corresponding to the Top of the DRW;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+ Logging event: RNG-RSP CCAP Commanded Power in Excess of 6 dB Below the Value Corresponding to the Top of the DRW;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+ Logging event: RNG-RSP CCAP Commanded Power in Excess of 6 dB Below the Value Corresponding to the Top of the DRW;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+ RNG-RSP UsChanId=103  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-22.00) (102-24.00) (103-24.00) (104-22.00) (105-24.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ Logging event: RNG-RSP CCAP Commanded Power in Excess of 6 dB Below the Value Corresponding to the Top of the DRW;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+ Logging event: RNG-RSP CCAP Commanded Power in Excess of 6 dB Below the Value Corresponding to the Top of the DRW;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+ RNG-RSP UsChanId=101  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-24.00) (102-24.00) (103-24.00) (104-22.00) (105-24.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=102  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-24.00) (102-26.00) (103-24.00) (104-22.00) (105-24.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=105  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-24.00) (102-26.00) (103-24.00) (104-22.00) (105-26.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=106  Stat=Success 
+ BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+         first RNG-RSP w/status==SUCCESS for hwTxId=5 and DOCSIS ucid=106
+ RNG-RSP UsChanId=104  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-24.00) (102-26.00) (103-24.00) (104-24.00) (105-26.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=107  Stat=Success 
+ BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+         first RNG-RSP w/status==SUCCESS for hwTxId=6 and DOCSIS ucid=107
+ RNG-RSP UsChanId=108  Stat=Success 
+ BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+         first RNG-RSP w/status==SUCCESS for hwTxId=7 and DOCSIS ucid=108
+ RNG-RSP UsChanId=149  Stat=Continue 
+ RNG-RSP UsChanId=103  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-24.00) (102-26.00) (103-26.00) (104-24.00) (105-26.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=101  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-26.00) (102-26.00) (103-26.00) (104-24.00) (105-26.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=102  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-26.00) (102-28.00) (103-26.00) (104-24.00) (105-26.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=105  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-26.00) (102-28.00) (103-26.00) (104-24.00) (105-28.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=104  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-26.00) (102-28.00) (103-26.00) (104-26.00) (105-28.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=149  Stat=Continue 
+ RNG-RSP UsChanId=103  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-26.00) (102-28.00) (103-28.00) (104-26.00) (105-28.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=101  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-28.00) (102-28.00) (103-28.00) (104-26.00) (105-28.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=149  Adj: power=-1  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-28.00) (102-28.00) (103-28.00) (104-26.00) (105-28.00) (106-31.50) (107-30.25) (108-30.00) (149-29.75) )
+ RNG-RSP UsChanId=102  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-28.00) (102-30.00) (103-28.00) (104-26.00) (105-28.00) (106-31.50) (107-30.25) (108-30.00) (149-29.75) )
+ RNG-RSP UsChanId=105  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-28.00) (102-30.00) (103-28.00) (104-26.00) (105-30.00) (106-31.50) (107-30.25) (108-30.00) (149-29.75) )
+ RNG-RSP UsChanId=149  Adj: power=2  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-28.00) (102-30.00) (103-28.00) (104-26.00) (105-30.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
+ RNG-RSP UsChanId=104  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-28.00) (102-30.00) (103-28.00) (104-28.00) (105-30.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
+ RNG-RSP UsChanId=103  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-28.00) (102-30.00) (103-30.00) (104-28.00) (105-30.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
+ RNG-RSP UsChanId=149  Stat=Continue 
+ RNG-RSP UsChanId=101  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-30.00) (102-30.00) (103-30.00) (104-28.00) (105-30.00) (106-31.50) (107-30.25) (108-30.00) (149-30.25) )
+ RNG-RSP UsChanId=149  Adj: power=-1  Stat=Success  (CmdPwr (UsChanId-dBmV): (101-30.00) (102-30.00) (103-30.00) (104-28.00) (105-30.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+         first RNG-RSP w/status==SUCCESS for hwTxId=8 and DOCSIS ucid=149
+ BcmCmMultiUsHelper::DynamicRangeWindowQtrDb:  (Cm Multi US Helper) 
+         Dynamic Range Window set to:61 (15 dB)
+ RNG-RSP UsChanId=102  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-30.00) (102-32.00) (103-30.00) (104-28.00) (105-30.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=105  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-30.00) (102-32.00) (103-30.00) (104-28.00) (105-32.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=104  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-30.00) (102-32.00) (103-30.00) (104-30.00) (105-32.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=103  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-30.00) (102-32.00) (103-32.00) (104-30.00) (105-32.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=101  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-32.00) (102-32.00) (103-32.00) (104-30.00) (105-32.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ BcmDocsisCmHalIf::HandleStatusIndication:  (DOCSIS CableModem HalIf) WARNING - CM HAL declared PULSE lost!
+ BcmCmDocsisCtlThread::DsPulseFail:  (CmDocsisCtlThread) WARNING - RFI-N-00089 - attempting to re-acquire Ds pulse without resetting the MAC.
+ BcmCmDocsisCtlThread::DsPulsePollEvent:  (CmDocsisCtlThread) ds pulse is not ok.  starting poll timer.
+ BcmCmDocsisCtlThread::DsPulsePollEvent:  (CmDocsisCtlThread) ds pulse is ok.
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
+ BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=0
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+ BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=1
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+ BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=2
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
+ BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=3
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+ BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=4
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+ BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=5
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+ BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=6
+ BcmCmMultiUsHelper::DynamicRangeWindowQtrDb:  (Cm Multi US Helper) 
+         Dynamic Range Window set to:53 (13 dB)
+ RNG-RSP UsChanId=101  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-34.00) (102-32.00) (103-32.00) (104-30.00) (105-32.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+ BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=7
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+ BcmCmUsChan::UsTimeRefOk:  locked and synced to rescue CMTS...all is well for fHwTxId=8
+ BcmCmMultiUsHelper::DynamicRangeWindowQtrDb:  (Cm Multi US Helper) 
+         Dynamic Range Window set to:45 (11 dB)
+ RNG-RSP UsChanId=101  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-36.00) (102-32.00) (103-32.00) (104-30.00) (105-32.00) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=105  Adj: power=2  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-36.00) (102-32.00) (103-32.00) (104-30.00) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=102  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-36.00) (102-34.00) (103-32.00) (104-30.00) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=104  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-36.00) (102-34.00) (103-32.00) (104-32.00) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=103  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-36.00) (102-34.00) (103-34.00) (104-32.00) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ BcmCmMultiUsHelper::DynamicRangeWindowQtrDb:  (Cm Multi US Helper) 
+         Dynamic Range Window set to:38 (9.5 dB)
+ RNG-RSP UsChanId=101  Adj: power=7  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-37.75) (102-34.00) (103-34.00) (104-32.00) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=105  Stat=Success 
+ BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+         first RNG-RSP w/status==SUCCESS for hwTxId=4 and DOCSIS ucid=105
+ RNG-RSP UsChanId=102  Adj: power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-37.75) (102-36.00) (103-34.00) (104-32.00) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=104  Adj: power=6  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-37.75) (102-36.00) (103-34.00) (104-33.50) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=103  Adj: power=2  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-37.75) (102-36.00) (103-34.50) (104-33.50) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ RNG-RSP UsChanId=101  Stat=Success 
+ BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+         first RNG-RSP w/status==SUCCESS for hwTxId=0 and DOCSIS ucid=101
+ RNG-RSP UsChanId=102  Stat=Success 
+ BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+         first RNG-RSP w/status==SUCCESS for hwTxId=1 and DOCSIS ucid=102
+ RNG-RSP UsChanId=104  Stat=Success 
+ BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+         first RNG-RSP w/status==SUCCESS for hwTxId=3 and DOCSIS ucid=104
+ RNG-RSP UsChanId=103  Adj: power=1  Stat=Success  (CmdPwr (UsChanId-dBmV): (101-37.75) (102-36.00) (103-34.75) (104-33.50) (105-32.50) (106-31.50) (107-30.25) (108-30.00) (149-30.00) )
+ BcmCmDocsisCtlThread::FirstRngSuccess:  (CmDocsisCtlThread) 
+         first RNG-RSP w/status==SUCCESS for hwTxId=2 and DOCSIS ucid=103
+ BcmCmDocsisCtlThread::DetectTccInstallDone:  (CmDocsisCtlThread) 
+         resume registration sequence.
+ BcmCmDocsisCtlThread::ResumeRegAfterTccOutcome:  (CmDocsisCtlThread) 
+         Resuming registration sequence after waiting for TCC installation outcome.
 Registration complete!
 Process CVC
 BcmBfcProcessCvc::ProcessConfigFileManufAndCosignerCvcs:  (Process CVC) WARNING - No CVC included in config file; software upgrade can't be performed!
@@ -2072,12 +2072,12 @@ BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisit
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 53 dBmV
-Stored power level for UCID 149 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ : 
-  00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 53 dBmV
+ Stored power level for UCID 149 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
+ Configured O-INIT-RNG-REQ : 
+   00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 BcmCmMultiUsHelper::DynamicRangeWindowQtrDb:  (Cm Multi US Helper) 
         Dynamic Range Window set to:38 (9.5 dB)
@@ -2294,77 +2294,77 @@ PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=0
 == Beginning initial ranging for Docsis UCID 101 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 101 is 38 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 0 docsis UCID = 101
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 101 is 38 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 0 docsis UCID = 101
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
 == Beginning initial ranging for Docsis UCID 102 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 102 is 36 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 1 docsis UCID = 102
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 102 is 36 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 1 docsis UCID = 102
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
 == Beginning initial ranging for Docsis UCID 103 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 103 is 35 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 2 docsis UCID = 103
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 103 is 35 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 2 docsis UCID = 103
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
 == Beginning initial ranging for Docsis UCID 104 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 104 is 34 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 3 docsis UCID = 104
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 104 is 34 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 3 docsis UCID = 104
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
 == Beginning initial ranging for Docsis UCID 105 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 105 is 33 dBmV
-Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 4 docsis UCID = 105
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 105 is 33 dBmV
+ Using bottom of DRW initial upstream power = 20 dBmV hwTxId = 4 docsis UCID = 105
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
 == Beginning initial ranging for Docsis UCID 106 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 106 is 32 dBmV
-Using per transmitter stored initial upstream power = 32 dBmV hwTxId = 5 docsis UCID = 106
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 106 is 32 dBmV
+ Using per transmitter stored initial upstream power = 32 dBmV hwTxId = 5 docsis UCID = 106
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
 == Beginning initial ranging for Docsis UCID 107 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 107 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 6 docsis UCID = 107
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 107 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 6 docsis UCID = 107
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
 == Beginning initial ranging for Docsis UCID 108 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 108 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 7 docsis UCID = 108
-BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
-BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 108 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 7 docsis UCID = 108
+ BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==
-Minimum transmit power is 17 dBmV
-Maximum transmit power is 49 dBmV
-Dynamic Range Window is from 20dBmV to 32 dBmV
-Stored power level for UCID 149 is 30 dBmV
-Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ : 
-  00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+ Minimum transmit power is 17 dBmV
+ Maximum transmit power is 49 dBmV
+ Dynamic Range Window is from 20dBmV to 32 dBmV
+ Stored power level for UCID 149 is 30 dBmV
+ Using per transmitter stored initial upstream power = 30 dBmV hwTxId = 8 docsis UCID = 149
+ Configured O-INIT-RNG-REQ : 
+   00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=105  Adj: tim=632 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-0.00) (103-0.00) (104-0.00) (105-21.75) (106-0.00) (107-0.00) (108-0.00) (149-30.00) )
 RNG-RSP UsChanId=102  Adj: tim=632 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-21.75) (103-0.00) (104-0.00) (105-21.75) (106-0.00) (107-0.00) (108-0.00) (149-30.00) )

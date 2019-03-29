@@ -106,6 +106,7 @@ sNestedLinePatterns = [
 Variables initialization
 """
 inTable = False
+inMultiLine = False
 lastLineEmpty = False
 sccvEmptyLineCnt = 0
 
@@ -165,6 +166,19 @@ for line in file:
     if goNextLine == True:
         continue
 
+    # Indent some specific lines as multi-line log
+    match = re.match(r'== Beginning initial ranging for Docsis UCID', newline)
+    if match:
+        inMultiLine = True
+    elif inMultiLine == True:
+        if newline in ['\n', '\r\n']:
+            # Suppose multi-line log ended with empty line
+            inMultiLine = False
+        else:
+            # Still multi-line, indent it, say add a space at the start
+            newline = ' ' + newline
+
+
     # It is time to remove empty line
     if newline in ['\n', '\r\n']:
         if lastLineEmpty == False:
@@ -213,7 +227,7 @@ for line in newfile:
     if nestedLinePattern.match(line):
         # Concatenate current line to lastLine
         lastLine = lastLine.rstrip()
-        lastLine += ' '
+        lastLine += ', '
         lastLine += line.lstrip()
     else:
         # If current is primary line, it means concatenation ends
