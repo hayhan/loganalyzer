@@ -39,6 +39,7 @@ strPattern4 = re.compile(r'\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d
 # The pattern for the tag of thread
 strPattern5 = re.compile(r'\[[a-z ]*\] ', re.IGNORECASE)
 strPattern6 = re.compile(r'\+{3} ')
+
 strPatterns = [
     strPattern0, strPattern1, strPattern2, strPattern3,
     strPattern4, strPattern5, strPattern6
@@ -106,7 +107,7 @@ sNestedLinePatterns = [
 Variables initialization
 """
 inTable = False
-inMultiLine = False
+inMultiLineCnt = 0
 lastLineEmpty = False
 sccvEmptyLineCnt = 0
 
@@ -141,12 +142,16 @@ for line in file:
             goNextLine = True
             break
     if goNextLine == True:
+        # Update for the next line
+        lastLineEmpty = False
         continue
 
     # Remove table starting with "----", " ----" or "  ----"
     match = re.match(r' *----', newline)
     if match:
         inTable = True
+        # Update for the next line
+        lastLineEmpty = False
         continue
     elif inTable == True:
         if newline in ['\n', '\r\n']:
@@ -154,6 +159,8 @@ for line in file:
             inTable = False
         else:
             # Still table line, remove it
+            # Update for the next line
+            lastLineEmpty = False
             continue
 
     # Remove specific table title line
@@ -164,20 +171,24 @@ for line in file:
             goNextLine = True
             break
     if goNextLine == True:
+        # Update for the next line
+        lastLineEmpty = False
         continue
 
     # Indent some specific lines as multi-line log
     match = re.match(r'== Beginning initial ranging for Docsis UCID', newline)
     if match:
-        inMultiLine = True
-    elif inMultiLine == True:
-        if newline in ['\n', '\r\n']:
-            # Suppose multi-line log ended with empty line
-            inMultiLine = False
+        inMultiLineCnt = 1
+    elif inMultiLineCnt >= 1:
+        if ((inMultiLineCnt > 8) or
+            ((newline in ['\n', '\r\n']) and ((inMultiLineCnt == 7) or (inMultiLineCnt == 8))) or
+            ((newline not in ['\n', '\r\n']) and (inMultiLineCnt == 7) and (not nestedLinePattern.match(newline)) and (not re.match(r'BcmCmUsChan', newline)))):
+            # Suppose multi-line log ended with empty line or with special cases
+            inMultiLineCnt = 0
         else:
             # Still multi-line, indent it, say add a space at the start
+            inMultiLineCnt += 1
             newline = ' ' + newline
-
 
     # It is time to remove empty line
     if newline in ['\n', '\r\n']:

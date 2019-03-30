@@ -114,3 +114,7 @@ lastLine = 'abc\n'
 line = 'def'
 lastLine += line
 newfile.write(lastLine)
+
+aa = 0
+if aa not in [1, 2]:
+    print('hello')
