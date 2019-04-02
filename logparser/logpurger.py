@@ -95,12 +95,27 @@ Pattern for nested line
 nestedLinePattern = re.compile(r' +')
 
 """
+Patterns for specific primary lines which I want to indent them
+"""
+sPrimaryLinePattern0 = re.compile(r'Assigned OFDMA Data Profile IUCs')
+sPrimaryLinePattern1 = re.compile(r'fDestSingleTxTargetUsChanId')
+sPrimaryLinePattern2 = re.compile(r'fTmT4NoUnicastRngOpStdMlsec')
+
+sPrimaryLinePatterns = [
+    sPrimaryLinePattern0,
+    sPrimaryLinePattern1,
+    sPrimaryLinePattern2
+]
+
+"""
 Patterns for specific lines which I want to make them as primary
 """
 sNestedLinePattern0 = re.compile(r' +DOWNSTREAM STATUS')
+sNestedLinePattern1 = re.compile(r' +CM Upstream channel info')
 
 sNestedLinePatterns = [
-    sNestedLinePattern0
+    sNestedLinePattern0,
+    sNestedLinePattern1
 ]
 
 """
@@ -175,19 +190,26 @@ for line in file:
         lastLineEmpty = False
         continue
 
-    # Indent some specific lines as multi-line log
+    # Indent lines as multi-line log for initial ranging
     match = re.match(r'== Beginning initial ranging for Docsis UCID', newline)
     if match:
         inMultiLineCnt = 1
     elif inMultiLineCnt >= 1:
         if ((inMultiLineCnt > 8) or
-            ((newline in ['\n', '\r\n']) and ((inMultiLineCnt == 7) or (inMultiLineCnt == 8))) or
+            ((newline in ['\n', '\r\n']) and (inMultiLineCnt in [7, 8, 9])) or
             ((newline not in ['\n', '\r\n']) and (inMultiLineCnt == 7) and (not nestedLinePattern.match(newline)) and (not re.match(r'BcmCmUsChan', newline)))):
             # Suppose multi-line log ended with empty line or with special cases
             inMultiLineCnt = 0
         else:
             # Still multi-line, indent it, say add a space at the start
             inMultiLineCnt += 1
+            newline = ' ' + newline
+
+    # Indent some specific lines
+    for pattern in sPrimaryLinePatterns:
+        match = pattern.match(newline)
+        if match:
+            # Indent this line
             newline = ' ' + newline
 
     # It is time to remove empty line
