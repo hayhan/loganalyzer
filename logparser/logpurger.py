@@ -119,6 +119,15 @@ sNestedLinePatterns = [
 ]
 
 """
+Patterns for nested lines (exceptions) which I do not want to make them as primary
+"""
+eNestedLinePattern0 = re.compile(r' +Ranging state info:')
+
+eNestedLinePatterns = [
+    eNestedLinePattern0
+]
+
+"""
 Variables initialization
 """
 inTable = False
@@ -226,13 +235,21 @@ for line in file:
     # Make a nested line as primary if two more empty lines proceeded
     if nestedLinePattern.match(newline):
         if (lastLineEmpty == True) and (sccvEmptyLineCnt >= 2):
-            newline = newline.lstrip()
+            # Try to see if there are any exceptions
+            noException = True
+            for pattern in eNestedLinePatterns:
+                if pattern.match(newline):
+                    noException = False
+                    break
+            if noException:
+                newline = newline.lstrip()
 
     # Make some specific nested lines as primary
     for pattern in sNestedLinePatterns:
         match = pattern.match(newline)
         if match:
             newline = newline.lstrip()
+            break
 
     # Update lastLineEmpty for the next line processing
     lastLineEmpty = False

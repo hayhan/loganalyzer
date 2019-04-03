@@ -3848,7 +3848,7 @@ CM Upstream channel info:
             fUsTimeRefState = 2 (kUsTimeRefOk)
                 UsPhyType() = 5 (Type 5 (DOCSIS 3.1))
     OFDMA Data Profile IUCs = 5 13 
-Ranging state info:
+    Ranging state info:
                    fRngMode = 5 (kPeriodicRng)
            fRngMsgTxRxState = 4 (kStationMaintWaitingToRngReq)
          fUnicastRngOpState = 2 (kOperT4NoRngOpFail)
@@ -7446,7 +7446,8 @@ BcmCmDsChan::LockToRescueCmtsRetryTimerEvent:  (BcmCmDsChan 0) retry recovery fo
 BcmCmDsChan::RecoverChan:  (BcmCmDsChan 0) retry -> hwRxId=0  freq=300000000  dcid=1
 Scanning DS Channel at 300000000 Hz...
 BcmCmDsChan::DsLockFail:  (BcmCmDsChan 0) restart 'lock to rescue CMTS retry' timer
-BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 0) rx MDD on hwRxId=0 while RecoveryInProg().[16:25:42 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 0) hwRxId=0  dcid=1
+BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 0) rx MDD on hwRxId=0 while RecoveryInProg().
+BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 0) hwRxId=0  dcid=1
 BcmCmDsChan::LockToRescueCmtsRetryTimerEvent:  (BcmCmDsChan 0) retry recovery for active primary channel
 BcmCmDsChan::RecoverChan:  (BcmCmDsChan 0) retry -> hwRxId=0  freq=300000000  dcid=1
 Scanning DS Channel at 300000000 Hz...
@@ -7887,7 +7888,7 @@ CM Upstream channel info:
             fUsTimeRefState = 1 (kComputingUsTimeRef)
                 UsPhyType() = 5 (Type 5 (DOCSIS 3.1))
     OFDMA Data Profile IUCs = 5 13 
-Ranging state info:
+    Ranging state info:
                    fRngMode = 1 (kBcastInitRng)
            fRngMsgTxRxState = 0 (kRngMsgNotStarted)
          fUnicastRngOpState = 2 (kOperT4NoRngOpFail)
@@ -9406,9 +9407,12 @@ Logging event: MDD message timeout;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42
 Logging event: MDD message timeout;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 Logging event: MDD message timeout;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 Logging event: MDD message timeout;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
-BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 30) rx MDD on hwRxId=30 while RecoveryInProg().[16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 30) hwRxId=30  dcid=31
-BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 29) rx MDD on hwRxId=29 while RecoveryInProg().[16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 29) hwRxId=29  dcid=30
-BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 31) rx MDD on hwRxId=31 while RecoveryInProg().[16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 31) hwRxId=31  dcid=32
+BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 30) rx MDD on hwRxId=30 while RecoveryInProg().
+BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 30) hwRxId=30  dcid=31
+BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 29) rx MDD on hwRxId=29 while RecoveryInProg().
+BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 29) hwRxId=29  dcid=30
+BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 31) rx MDD on hwRxId=31 while RecoveryInProg().
+BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 31) hwRxId=31  dcid=32
 BcmCmDsChanOfdm::OcdInstallOk:  (BcmCmDsChanOfdm) hwRxId=32  dcid=66  OCD installed.
 BcmCmDsOfdmProfileState::InstallDpdSets:    HwRxId=32: installing DPD for profile NCP
 BcmCmDsChan::DsLockOk:  (BcmCmDsChan 29) hwRxId=29  freq=532000000  dcid=30
@@ -10346,7 +10350,7 @@ CM Upstream channel info:
             fUsTimeRefState = 2 (kUsTimeRefOk)
                 UsPhyType() = 5 (Type 5 (DOCSIS 3.1))
     OFDMA Data Profile IUCs = 5 13 
-Ranging state info:
+    Ranging state info:
                    fRngMode = 5 (kPeriodicRng)
            fRngMsgTxRxState = 4 (kStationMaintWaitingToRngReq)
          fUnicastRngOpState = 2 (kOperT4NoRngOpFail)
