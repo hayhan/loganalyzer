@@ -9418,8 +9418,7 @@
 [16:22:35:975][16:25:42 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::RecoverChan:  (BcmCmDsChan 0) retry -> hwRxId=0  freq=300000000  dcid=1
 [16:22:35:977]Scanning DS Channel at 300000000 Hz...
 [16:22:36:480]CM/DocsisCtl> [16:25:42 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::DsLockFail:  (BcmCmDsChan 0) restart 'lock to rescue CMTS retry' timer
-[16:22:36:702]CM/DocsisCtl> [16:25:42 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 0) rx MDD on hwRxId=0 while RecoveryInProg().
-[16:22:36:703][16:25:42 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 0) hwRxId=0  dcid=1
+[16:22:36:702]CM/DocsisCtl> [16:25:42 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 0) rx MDD on hwRxId=0 while RecoveryInProg().[16:25:42 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 0) hwRxId=0  dcid=1
 [16:22:36:987][16:25:43 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::LockToRescueCmtsRetryTimerEvent:  (BcmCmDsChan 0) retry recovery for active primary channel
 [16:22:36:994][16:25:43 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::RecoverChan:  (BcmCmDsChan 0) retry -> hwRxId=0  freq=300000000  dcid=1
 [16:22:37:008]Scanning DS Channel at 300000000 Hz...
@@ -12088,12 +12087,9 @@
 [16:24:30:077]Logging event: MDD message timeout;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 [16:24:30:080]Logging event: MDD message timeout;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 [16:24:30:093]Logging event: MDD message timeout;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
-[16:24:30:874]CM/DocsisCtl> [16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 30) rx MDD on hwRxId=30 while RecoveryInProg().
-[16:24:30:875][16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 30) hwRxId=30  dcid=31
-[16:24:30:901][16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 29) rx MDD on hwRxId=29 while RecoveryInProg().
-[16:24:30:902][16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 29) hwRxId=29  dcid=30
-[16:24:30:922][16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 31) rx MDD on hwRxId=31 while RecoveryInProg().
-[16:24:30:923][16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 31) hwRxId=31  dcid=32
+[16:24:30:874]CM/DocsisCtl> [16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 30) rx MDD on hwRxId=30 while RecoveryInProg().[16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 30) hwRxId=30  dcid=31
+[16:24:30:901][16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 29) rx MDD on hwRxId=29 while RecoveryInProg().[16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 29) hwRxId=29  dcid=30
+[16:24:30:922][16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 31) rx MDD on hwRxId=31 while RecoveryInProg().[16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 31) hwRxId=31  dcid=32
 [16:24:30:966][16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChanOfdm::OcdInstallOk:  (BcmCmDsChanOfdm) hwRxId=32  dcid=66  OCD installed.
 [16:24:30:988][16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsOfdmProfileState::InstallDpdSets:    HwRxId=32: installing DPD for profile NCP
 [16:24:31:102][16:27:37 04/01/2019] [CmDocsisCtlThread] BcmCmDsChan::DsLockOk:  (BcmCmDsChan 29) hwRxId=29  freq=532000000  dcid=30

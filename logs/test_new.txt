@@ -516,7 +516,6 @@ All IP initialization complete and CM operational.  Enabling IP services.
 CmSnmpAgent enabling management
 goto_ds 300
 Moving to Downstream Frequency 300000000 Hz.
-BcmCmDocsisCtlThread::Reset:  (CmDocsisCtlThread) [16:11:15 04/01/2019] [PowerMgmt] NumDsChans = 33, NumUsChans = 9
 Clearing D31 PowerSave.
 D31PowerSave 'Off'
   DS: 32 SC-QAM (0xFFFFFFFF),  2 OFDM  (0x00000003)
@@ -1075,7 +1074,6 @@ CM-STATUS-ACK  trans=4  event=3 (kCmEvDsDataReseqFail)
 BcmDocsisCmHalIf::HandleStatusIndication:  (DOCSIS CableModem HalIf) WARNING - ds data reseq rescue for dsid=0x33a
 goto_ds 698
 Moving to Downstream Frequency 698000000 Hz.
-BcmCmDocsisCtlThread::Reset:  (CmDocsisCtlThread) [16:14:24 04/01/2019] [PowerMgmt] NumDsChans = 33, NumUsChans = 9
 Clearing D31 PowerSave.
 D31PowerSave 'Off'
   DS: 32 SC-QAM (0xFFFFFFFF),  2 OFDM  (0x00000003)
@@ -1601,7 +1599,6 @@ PnmTestDriveACT -  event code 40 Clearing kPnmStatusTempReject
 All IP initialization complete and CM operational.  Enabling IP services.
 goto_ds 698
 Moving to Downstream Frequency 698000000 Hz.
-BcmCmDocsisCtlThread::Reset:  (CmDocsisCtlThread) [16:15:08 04/01/2019] [PowerMgmt] NumDsChans = 33, NumUsChans = 9
 Clearing D31 PowerSave.
 D31PowerSave 'Off'
   DS: 32 SC-QAM (0xFFFFFFFF),  2 OFDM  (0x00000003)
@@ -2212,7 +2209,6 @@ BcmCmMultiUsHelper::DynamicRangeWindowQtrDb:  (Cm Multi US Helper)
         Dynamic Range Window set to:111 (28 dB)
 goto_ds 698
 Moving to Downstream Frequency 698000000 Hz.
-BcmCmDocsisCtlThread::Reset:  (CmDocsisCtlThread) [16:16:30 04/01/2019] [PowerMgmt] NumDsChans = 33, NumUsChans = 9
 Clearing D31 PowerSave.
 D31PowerSave 'Off'
   DS: 32 SC-QAM (0xFFFFFFFF),  2 OFDM  (0x00000003)
@@ -2749,7 +2745,6 @@ All IP initialization complete and CM operational.  Enabling IP services.
 CmSnmpAgent enabling management
 goto_ds 300
 Moving to Downstream Frequency 300000000 Hz.
-BcmCmDocsisCtlThread::Reset:  (CmDocsisCtlThread) [16:17:19 04/01/2019] [PowerMgmt] NumDsChans = 33, NumUsChans = 9
 Clearing D31 PowerSave.
 D31PowerSave 'Off'
   DS: 32 SC-QAM (0xFFFFFFFF),  2 OFDM  (0x00000003)
@@ -7446,8 +7441,6 @@ BcmCmDsChan::LockToRescueCmtsRetryTimerEvent:  (BcmCmDsChan 0) retry recovery fo
 BcmCmDsChan::RecoverChan:  (BcmCmDsChan 0) retry -> hwRxId=0  freq=300000000  dcid=1
 Scanning DS Channel at 300000000 Hz...
 BcmCmDsChan::DsLockFail:  (BcmCmDsChan 0) restart 'lock to rescue CMTS retry' timer
-BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 0) rx MDD on hwRxId=0 while RecoveryInProg().
-BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 0) hwRxId=0  dcid=1
 BcmCmDsChan::LockToRescueCmtsRetryTimerEvent:  (BcmCmDsChan 0) retry recovery for active primary channel
 BcmCmDsChan::RecoverChan:  (BcmCmDsChan 0) retry -> hwRxId=0  freq=300000000  dcid=1
 Scanning DS Channel at 300000000 Hz...
@@ -8648,7 +8641,6 @@ CmSnmpAgent enabling management
 Add eRouter MAC 00:10:18:de:77:c0 to CM multicast table for IPv6 provision.
 goto_ds 698
 Moving to Downstream Frequency 698000000 Hz.
-BcmCmDocsisCtlThread::Reset:  (CmDocsisCtlThread) [16:26:41 04/01/2019] [PowerMgmt] NumDsChans = 33, NumUsChans = 9
 Clearing D31 PowerSave.
 D31PowerSave 'Off'
   DS: 32 SC-QAM (0xFFFFFFFF),  2 OFDM  (0x00000003)
@@ -9407,12 +9399,6 @@ Logging event: MDD message timeout;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42
 Logging event: MDD message timeout;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 Logging event: MDD message timeout;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 Logging event: MDD message timeout;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
-BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 30) rx MDD on hwRxId=30 while RecoveryInProg().
-BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 30) hwRxId=30  dcid=31
-BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 29) rx MDD on hwRxId=29 while RecoveryInProg().
-BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 29) hwRxId=29  dcid=30
-BcmCmDsChan::MddMsgEvent:  (BcmCmDsChan 31) rx MDD on hwRxId=31 while RecoveryInProg().
-BcmCmDsChan::MddKeepAliveRescueTrans:  (BcmCmDsChan 31) hwRxId=31  dcid=32
 BcmCmDsChanOfdm::OcdInstallOk:  (BcmCmDsChanOfdm) hwRxId=32  dcid=66  OCD installed.
 BcmCmDsOfdmProfileState::InstallDpdSets:    HwRxId=32: installing DPD for profile NCP
 BcmCmDsChan::DsLockOk:  (BcmCmDsChan 29) hwRxId=29  freq=532000000  dcid=30

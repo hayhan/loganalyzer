@@ -158,6 +158,12 @@ for line in file:
     for pattern in strPatterns:
         newline = pattern.sub('', newline, count=1)
 
+    # Remove the line if the timestamp appears in the middle because of code bug w/o endl.
+    if strPattern2.search(newline):
+        # Update for the next line
+        lastLineEmpty = False
+        continue
+
     # Remove line starting with specific patterns
     goNextLine = False
     for pattern in sLinePatterns:
