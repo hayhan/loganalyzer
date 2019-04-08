@@ -159,7 +159,8 @@ BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Waiting for more REG-RSP-MP fragments...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) We registered with a DOCSIS 1.1 config file!
-BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx., Receive Channel Config:, Primary DS channel assignment vector: 66 1, Non-primary DS channel assignment vector: 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2, OFDM profile assignments:, 66 -> 0 1 2 
+BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx.
+Receive Channel Config:, Primary DS channel assignment vector: 66 1, Non-primary DS channel assignment vector: 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2, OFDM profile assignments:, 66 -> 0 1 2 
 OCD/DPD Filtering being configured for hwRxId=32 -> filter enable = 0
 BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting optional DPD gathering on Profile A
 Logging event: DS profile assignment change. DS Chan ID: 32; Previous Profile: ; New Profile: 1 2.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
@@ -435,7 +436,6 @@ BcmDocsisCmHalIf::SetPrimaryDownstreamChannel:  (DOCSIS CableModem HalIf) Instal
 SetRatios called with primary downstream channel number = 0
 AnnexMode[0] = 1    QAM_Mode[0] = 256
 Num/Den = 869/1280
-3390 SCDMA/OFDM mode - ChannelNumber = 0  Numerator = 869   Denominator = 1280
 ... TCOFDM - DTR is now locked.... (T2=3420ms Sync=254)
 Given a 216 MHz TCOFDM clock, the nominal value for the DTR FCW is 0xC22E45067
 The DTR FCW is 0xc22de3be - that value is good (-7, within 100 ppm)
@@ -533,7 +533,8 @@ BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Waiting for more REG-RSP-MP fragments...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) We registered with a DOCSIS 1.1 config file!
-BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx., Receive Channel Config:, Primary DS channel assignment vector: 1 66, Non-primary DS channel assignment vector: 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32, OFDM profile assignments:, 66 -> 0 1 2 
+BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx.
+Receive Channel Config:, Primary DS channel assignment vector: 1 66, Non-primary DS channel assignment vector: 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32, OFDM profile assignments:, 66 -> 0 1 2 
 BcmCmDsChanOfdm::DsLockOk:  (BcmCmDsChanOfdm) hwRxId=32  freq=698000000  dcid=66 PLC found
 BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting OCD/DPD gathering on PLC
 OCD/DPD Filtering being configured for hwRxId=32 -> filter enable = 0
@@ -921,7 +922,8 @@ BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Waiting for more REG-RSP-MP fragments...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) We registered with a DOCSIS 1.1 config file!
-BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx., Receive Channel Config:, Primary DS channel assignment vector: 66 1, Non-primary DS channel assignment vector: 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2, OFDM profile assignments:, 66 -> 0 1 2 
+BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx.
+Receive Channel Config:, Primary DS channel assignment vector: 66 1, Non-primary DS channel assignment vector: 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2, OFDM profile assignments:, 66 -> 0 1 2 
 OCD/DPD Filtering being configured for hwRxId=32 -> filter enable = 0
 BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting optional DPD gathering on Profile A
 Logging event: DS profile assignment change. DS Chan ID: 32; Previous Profile: ; New Profile: 1 2.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
@@ -1285,7 +1287,8 @@ BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Waiting for more REG-RSP-MP fragments...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) We registered with a DOCSIS 1.1 config file!
-BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx., Receive Channel Config:, Primary DS channel assignment vector: 66 1, Non-primary DS channel assignment vector: 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2, OFDM profile assignments:, 66 -> 0 1 2 
+BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx.
+Receive Channel Config:, Primary DS channel assignment vector: 66 1, Non-primary DS channel assignment vector: 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2, OFDM profile assignments:, 66 -> 0 1 2 
 OCD/DPD Filtering being configured for hwRxId=32 -> filter enable = 0
 BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting optional DPD gathering on Profile A
 Logging event: DS profile assignment change. DS Chan ID: 32; Previous Profile: ; New Profile: 1 2.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
@@ -1683,7 +1686,8 @@ BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Waiting for more REG-RSP-MP fragments...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) We registered with a DOCSIS 1.1 config file!
-BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx., Receive Channel Config:, Primary DS channel assignment vector: 66 1, Non-primary DS channel assignment vector: 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2, OFDM profile assignments:, 66 -> 0 1 2 
+BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx.
+Receive Channel Config:, Primary DS channel assignment vector: 66 1, Non-primary DS channel assignment vector: 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2, OFDM profile assignments:, 66 -> 0 1 2 
 OCD/DPD Filtering being configured for hwRxId=32 -> filter enable = 0
 BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting optional DPD gathering on Profile A
 Logging event: DS profile assignment change. DS Chan ID: 32; Previous Profile: ; New Profile: 1 2.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
@@ -1960,7 +1964,6 @@ BcmDocsisCmHalIf::SetPrimaryDownstreamChannel:  (DOCSIS CableModem HalIf) Instal
 SetRatios called with primary downstream channel number = 0
 AnnexMode[0] = 1    QAM_Mode[0] = 256
 Num/Den = 869/1280
-3390 SCDMA/OFDM mode - ChannelNumber = 0  Numerator = 869   Denominator = 1280
 BcmDocsisCmHalIf::HandleStatusIndication:  (DOCSIS CableModem HalIf) WARNING - CM HAL failed to acquire sync or lost sync!
 ... TCOFDM - DTR is now locked.... (T2=3420ms Sync=254)
 Given a 216 MHz TCOFDM clock, the nominal value for the DTR FCW is 0xC22E45067
@@ -2059,7 +2062,8 @@ BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Waiting for more REG-RSP-MP fragments...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) We registered with a DOCSIS 1.1 config file!
-BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx., Receive Channel Config:, Primary DS channel assignment vector: 1 66, Non-primary DS channel assignment vector: 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32, OFDM profile assignments:, 66 -> 0 1 2 
+BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx.
+Receive Channel Config:, Primary DS channel assignment vector: 1 66, Non-primary DS channel assignment vector: 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32, OFDM profile assignments:, 66 -> 0 1 2 
 BcmCmDsChanOfdm::DsLockOk:  (BcmCmDsChanOfdm) hwRxId=32  freq=698000000  dcid=66 PLC found
 BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting OCD/DPD gathering on PLC
 OCD/DPD Filtering being configured for hwRxId=32 -> filter enable = 0
@@ -2249,22 +2253,14 @@ CmSnmpAgent enabling management
 Telling application we lost lock on QAM primary channel 0
 NumDsChans = 33, NumUsChans = 9
 Clearing D31 PowerSave.
-1st try PLC NOT locked! Retrying...
 D31PowerSave 'Off', DS: 32 SC-QAM (0xFFFFFFFF),  2 OFDM  (0x00000003), US:  8 SC-QAM (0x000000FF),  2 OFDMA (0x00000003)
 Restoring OFDM DS MAC settings
 Initializing Quarantine D31 DS MAC structures to 0
 BcmCmDsChan::DsLockFail:  (BcmCmDsChan 0) hwRxId=0  dcid=1  -> enter kDsOperLockToRescueCmts state
 BcmCmDsChan::RecoverChan:  (BcmCmDsChan 0) retry -> hwRxId=0  freq=300000000  dcid=1
 Scanning DS Channel at 300000000 Hz...
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
 PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
-1st try PLC NOT locked! Retrying...
 BcmCmDsChan::DsLockFail:  (BcmCmDsChan 0) restart 'lock to rescue CMTS retry' timer
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
 Telling application we lost lock on channel 32 (lostbits=0x00000001)
 BcmDocsisCmHalIf::HandleStatusIndication:  (DOCSIS CableModem HalIf) WARNING - CH32 lost PLC Lock
 BcmCmDsChanOfdm::DsLockFail:  (BcmCmDsChanOfdm) hwRxId=32  freq=698000000  dcid=66
@@ -5463,7 +5459,6 @@ BcmDocsisCmHalIf::SetPrimaryDownstreamChannel:  (DOCSIS CableModem HalIf) Instal
 SetRatios called with primary downstream channel number = 0
 AnnexMode[0] = 1    QAM_Mode[0] = 256
 Num/Den = 869/1280
-3390 SCDMA/OFDM mode - ChannelNumber = 0  Numerator = 869   Denominator = 1280
 ... TCOFDM - DTR is now locked.... (T2=3420ms Sync=254)
 Given a 216 MHz TCOFDM clock, the nominal value for the DTR FCW is 0xC22E45067
 The DTR FCW is 0xc22de45e - that value is good (-7, within 100 ppm)
@@ -5560,7 +5555,8 @@ BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Waiting for more REG-RSP-MP fragments...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) We registered with a DOCSIS 1.1 config file!
-BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx., Receive Channel Config:, Primary DS channel assignment vector: 1 66, Non-primary DS channel assignment vector: 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32, OFDM profile assignments:, 66 -> 0 1 2 
+BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx.
+Receive Channel Config:, Primary DS channel assignment vector: 1 66, Non-primary DS channel assignment vector: 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32, OFDM profile assignments:, 66 -> 0 1 2 
 BcmCmDsChanOfdm::DsLockOk:  (BcmCmDsChanOfdm) hwRxId=32  freq=698000000  dcid=66 PLC found
 BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting OCD/DPD gathering on PLC
 Logging event: DS profile assignment change. DS Chan ID: 32; Previous Profile: ; New Profile: 1 2.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
@@ -5748,22 +5744,15 @@ CmSnmpAgent enabling management
 Add eRouter MAC 00:10:18:de:77:c0 to CM multicast table for IPv6 provision.
 Telling application we lost lock on QAM primary channel 0
 NumDsChans = 33, NumUsChans = 9
-Clearing D31 PowerSave.
-1st try PLC NOT locked! RetryiD31PowerSave 'Off', DS: 32 SC-QAM (0xFFFFFFFF),  2 OFDM  (0x00000003), US:  8 SC-QAM (0x000000FF),  2 OFDMA (0x00000003)
+Clearing D31 PowerSave., DS: 32 SC-QAM (0xFFFFFFFF),  2 OFDM  (0x00000003), US:  8 SC-QAM (0x000000FF),  2 OFDMA (0x00000003)
 Restoring OFDM DS MAC settings
 ng...
 Initializing Quarantine D31 DS MAC structures to 0
 BcmCmDsChan::DsLockFail:  (BcmCmDsChan 0) hwRxId=0  dcid=1  -> enter kDsOperLockToRescueCmts state
 BcmCmDsChan::RecoverChan:  (BcmCmDsChan 0) retry -> hwRxId=0  freq=300000000  dcid=1
 Scanning DS Channel at 300000000 Hz...
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
 PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
-1st try PLC NOT locked! Retrying...
 BcmCmDsChan::DsLockFail:  (BcmCmDsChan 0) restart 'lock to rescue CMTS retry' timer
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
 Telling application we lost lock on channel 32 (lostbits=0x00000001)
 BcmDocsisCmHalIf::HandleStatusIndication:  (DOCSIS CableModem HalIf) WARNING - CH32 lost PLC Lock
 BcmCmDsChanOfdm::DsLockFail:  (BcmCmDsChanOfdm) hwRxId=32  freq=698000000  dcid=66
@@ -6004,10 +5993,6 @@ BcmCmDsChanOfdm::RecoverPlc:  (BcmCmDsChanOfdm) retry -> hwRxId=32  freq=6980000
 BcmCmDsChanOfdm::DsLockOk:  (BcmCmDsChanOfdm) hwRxId=32  freq=698000000  dcid=66 PLC found
 BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting OCD/DPD gathering on PLC
 NumDsChans = 33, NumUsChans = 9
-Received DBC-REQ (trans. id=0x7):
-RCC->
-1* 66* 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 
-TCC->
 Receive Channel Config:, Primary DS channel assignment vector: 1 66, Non-primary DS channel assignment vector: 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32, OFDM profile assignments:, 66 -> 0 1 2 
 Vendor CM Agent w/ BRCM Factory Support updating ifTableLastChange.
 BcmCmDsChanOfdm::DsLockOk:  (BcmCmDsChanOfdm) hwRxId=32  freq=698000000  dcid=66 PLC found
@@ -6280,7 +6265,6 @@ BcmDocsisCmHalIf::SetPrimaryDownstreamChannel:  (DOCSIS CableModem HalIf) Instal
 SetRatios called with primary downstream channel number = 0
 AnnexMode[0] = 1    QAM_Mode[0] = 256
 Num/Den = 869/1280
-3390 SCDMA/OFDM mode - ChannelNumber = 0  Numerator = 869   Denominator = 1280
 BcmDocsisCmHalIf::HandleStatusIndication:  (DOCSIS CableModem HalIf) WARNING - CM HAL failed to acquire sync or lost sync!
 ... TCOFDM - DTR is now locked.... (T2=3420ms Sync=254)
 Given a 216 MHz TCOFDM clock, the nominal value for the DTR FCW is 0xC22E45067
@@ -6380,7 +6364,8 @@ BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Waiting for more REG-RSP-MP fragments...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) We registered with a DOCSIS 1.1 config file!
-BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx., Receive Channel Config:, Primary DS channel assignment vector: 1 66, Non-primary DS channel assignment vector: 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32, OFDM profile assignments:, 66 -> 0 1 2 
+BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx.
+Receive Channel Config:, Primary DS channel assignment vector: 1 66, Non-primary DS channel assignment vector: 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32, OFDM profile assignments:, 66 -> 0 1 2 
 BcmCmDsChanOfdm::DsLockOk:  (BcmCmDsChanOfdm) hwRxId=32  freq=698000000  dcid=66 PLC found
 BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting OCD/DPD gathering on PLC
 Logging event: DS profile assignment change. DS Chan ID: 32; Previous Profile: ; New Profile: 1 2.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
@@ -6752,7 +6737,8 @@ BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Waiting for more REG-RSP-MP fragments...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) We registered with a DOCSIS 1.1 config file!
-BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx., Receive Channel Config:, Primary DS channel assignment vector: 66 1, Non-primary DS channel assignment vector: 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2, OFDM profile assignments:, 66 -> 0 1 2 
+BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx.
+Receive Channel Config:, Primary DS channel assignment vector: 66 1, Non-primary DS channel assignment vector: 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2, OFDM profile assignments:, 66 -> 0 1 2 
 OCD/DPD Filtering being configured for hwRxId=32 -> filter enable = 0
 BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting optional DPD gathering on Profile A
 Logging event: DS profile assignment change. DS Chan ID: 32; Previous Profile: ; New Profile: 1 2.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
@@ -6969,23 +6955,18 @@ Telling application we lost lock on QAM channel 29
 Telling application we lost lock on QAM channel 30
 Telling application we lost lock on QAM channel 31
 NumDsChans = 33, NumUsChans = 9
-Clearing D31 PowerSave.
-1st try PLC NOT locked! RetryiD31PowerSave 'Off', DS: 32 SC-QAM (0xFFFFFFFF),  2 OFDM  (0x00000003), US:  8 SC-QAM (0x000000FF),  2 OFDMA (0x00000003)
+Clearing D31 PowerSave., DS: 32 SC-QAM (0xFFFFFFFF),  2 OFDM  (0x00000003), US:  8 SC-QAM (0x000000FF),  2 OFDMA (0x00000003)
 Restoring OFDM DS MAC settings
 ng...
 Initializing Quarantine D31 DS MAC structures to 0
 BcmCmDsChan::DsLockFail:  (BcmCmDsChan 0) hwRxId=0  dcid=1  -> enter kDsOperLockToRescueCmts state
 BcmCmDsChan::RecoverChan:  (BcmCmDsChan 0) retry -> hwRxId=0  freq=300000000  dcid=1
-1st try PLC NOT locked! Retrying...
 BcmCmDsChan::DsLockFail:  (BcmCmDsChan 1) hwRxId=1  dcid=2  -> enter kDsOperLockToRescueCmts state
 BcmCmDsChan::RecoverChan:  (BcmCmDsChan 1) retry -> hwRxId=1  freq=308000000  dcid=2
-1st try PLC NOT locked! Retrying...
 BcmCmDsChan::DsLockFail:  (BcmCmDsChan 2) hwRxId=2  dcid=3  -> enter kDsOperLockToRescueCmts state
 BcmCmDsChan::RecoverChan:  (BcmCmDsChan 2) retry -> hwRxId=2  freq=316000000  dcid=3
-1st try PLC NOT locked! Retrying...
 BcmCmDsChan::DsLockFail:  (BcmCmDsChan 3) hwRxId=3  dcid=4  -> enter kDsOperLockToRescueCmts state
 BcmCmDsChan::RecoverChan:  (BcmCmDsChan 3) retry -> hwRxId=3  freq=324000000  dcid=4
-1st try PLC NOT locked! Retrying...
 Telling application we lost lock on channel 32 (lostbits=0x00000001)
 BcmDocsisCmHalIf::HandleStatusIndication:  (DOCSIS CableModem HalIf) WARNING - CH32 lost PLC Lock
 BcmCmDsChan::DsLockFail:  (BcmCmDsChan 4) hwRxId=4  dcid=5  -> enter kDsOperLockToRescueCmts state
@@ -7150,10 +7131,6 @@ BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=0 (A)
 BcmCmDsChanOfdm::DsLockOkProf:  (BcmCmDsChanOfdm) UsTimeWarpInProg: Sending contrived DBC
 BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=1 (B)
 BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=2 (C)
-Received DBC-REQ (trans. id=0x7):
-RCC->
-66* 1* 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 
-TCC->
 Receive Channel Config:, Primary DS channel assignment vector: 66 1, Non-primary DS channel assignment vector: 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2, OFDM profile assignments:, 66 -> 0 1 2 
 PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 Vendor CM Agent w/ BRCM Factory Support updating ifTableLastChange.
@@ -7268,15 +7245,6 @@ Informing HAL of current RF configuration.
 D31PowerSave 'On'
 Storing off OFDM DS MAC settings for channel 32
 Storing off OFDM DS MAC settings for channel 33, DS: 32 SC-QAM (0xFFFFFFFF),  1 OFDM  (0x00000001), US:  8 SC-QAM (0x000000FF),  1 OFDMA (0x00000001)
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
-1st try PLC NOT locked! Retrying...
 Telling application we lost lock on channel 32 (lostbits=0x00000001)
 BcmDocsisCmHalIf::HandleStatusIndication:  (DOCSIS CableModem HalIf) WARNING - CH32 lost PLC Lock
 NumDsChans = 33, NumUsChans = 9
@@ -7889,7 +7857,8 @@ BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Waiting for more REG-RSP-MP fragments...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...
 BcmCmDocsisCtlThread::RegRspMsgEvent:  (CmDocsisCtlThread) We registered with a DOCSIS 1.1 config file!
-BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx., Receive Channel Config:, Primary DS channel assignment vector: 66 1, Non-primary DS channel assignment vector: 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2, OFDM profile assignments:, 66 -> 0 1 2 
+BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig:  (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx.
+Receive Channel Config:, Primary DS channel assignment vector: 66 1, Non-primary DS channel assignment vector: 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2, OFDM profile assignments:, 66 -> 0 1 2 
 OCD/DPD Filtering being configured for hwRxId=32 -> filter enable = 0
 BcmCmDsChanOfdm::StartOcdDpdGathering:  (BcmCmDsChanOfdm) starting optional DPD gathering on Profile A
 Logging event: DS profile assignment change. DS Chan ID: 32; Previous Profile: ; New Profile: 1 2.;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;

@@ -50,10 +50,18 @@ Patterns for specific lines which I want to remove
 """
 sLinePattern0 = re.compile(r'\*')
 sLinePattern1 = re.compile(r'\+{10}')
+sLinePattern2 = re.compile(r'Received DBC-REQ \(trans. id\=')
+sLinePattern3 = re.compile(r'RCC->')
+sLinePattern4 = re.compile(r'TCC->')
+sLinePattern5 = re.compile(r'\d')
 
 sLinePatterns = [
     sLinePattern0,
-    sLinePattern1
+    sLinePattern1,
+    sLinePattern2,
+    sLinePattern3,
+    sLinePattern4,
+    sLinePattern5
 ]
 
 """
@@ -112,10 +120,12 @@ Patterns for specific lines which I want to make them as primary
 """
 sNestedLinePattern0 = re.compile(r' +DOWNSTREAM STATUS')
 sNestedLinePattern1 = re.compile(r' +CM Upstream channel info')
+sNestedLinePattern2 = re.compile(r' +Receive Channel Config\:')
 
 sNestedLinePatterns = [
     sNestedLinePattern0,
-    sNestedLinePattern1
+    sNestedLinePattern1,
+    sNestedLinePattern2
 ]
 
 """
