@@ -105,10 +105,17 @@ a.sort(key=lambda x: x[0])
 
 print(a)
 
-str1 = "ii am a     boy ii"
-str2 = str1.strip('i')
+str1 = "    8   149    66     0x2      20   63.700 - 78.450        0     5      y"
+str2 = str1.split(None, 8)
+#print(str1.strip())
 print(str2)
-print(str2.split())
+str3 = 'testme' + ', rxid ' + str2[0] + ', dcid ' \
+        + str2[1] + '\n'
+print(str3)
+a = '+'
+b = '-'
+if a == b:
+    print('OK')
 
 lastLine = 'abc\n'
 line = 'def'

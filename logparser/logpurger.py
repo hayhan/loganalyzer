@@ -138,8 +138,21 @@ eNestedLinePatterns = [
 ]
 
 """
+Patterns for others
+"""
+# DS/US channel status tables
+dsChStatTablePattern = re.compile(r'Active Downstream Channel Diagnostics\:')
+usChStatTablePattern = re.compile(r'Active Upstream Channels\:')
+# Common table
+commonTablePattern = re.compile(r' *----')
+# Initial ranging block for each UCID
+initRangePattern = re.compile(r'== Beginning initial ranging for Docsis UCID')
+
+"""
 Variables initialization
 """
+inDsChStatTable = False
+inUsChStatTable = False
 inTable = False
 inMultiLineCnt = 0
 lastLineEmpty = False
@@ -186,8 +199,51 @@ for line in file:
         lastLineEmpty = False
         continue
 
+    # Format DS channel status table
+    match = dsChStatTablePattern.match(newline)
+    if match:
+        inDsChStatTable = True
+    elif inDsChStatTable and inTable:
+        if newline in ['\n', '\r\n']:
+            # Suppose table ended with empty line
+            # Leave reset of inTable to the remove table block
+            inDsChStatTable = False
+        else:
+            # Convert current line to new ds format
+            lineList = newline.split(None, 7)
+            newline = 'DS channel status' + ', rxid ' + lineList[0] + ', dcid ' + lineList[1] + \
+                      ', freq ' + lineList[2] + ', qam ' + lineList[3] + ', fec ' + lineList[4] + \
+                      ', snr ' + lineList[5] + ', power ' + lineList[6] + ', mod ' + lineList[7]
+
+    # Format US channel status table
+    match = usChStatTablePattern.match(newline)
+    if match:
+        inUsChStatTable = True
+    elif inUsChStatTable and inTable:
+        if newline in ['\n', '\r\n']:
+            # Suppose table ended with empty line
+            # Leave reset of inTable to the remove table block
+            inUsChStatTable = False
+        else:
+            # Convert current line to new us format
+            lineList = newline.split(None, 8)
+            if lineList[6] == '-':
+                # This line is for OFDMA channel, so split it again
+                lineList = newline.split(None, 10)
+                newline = 'US channel status' + ', txid ' + lineList[0] + ', ucid ' + lineList[1] + \
+                          ', dcid ' + lineList[2] + ', rngsid ' + lineList[3] + ', power ' + lineList[4] + \
+                          ', freq ' + lineList[5] + ' ' +lineList[6] + ' ' + lineList[7] + \
+                          ', symrate ' + lineList[8] + ', phytype ' + lineList[9] + \
+                          ', txdata ' + lineList[10]
+            else:
+                # For SC-QAM channels
+                newline = 'US channel status' + ', txid ' + lineList[0] + ', ucid ' + lineList[1] + \
+                          ', dcid ' + lineList[2] + ', rngsid ' + lineList[3] + ', power ' + lineList[4] + \
+                          ', freq ' + lineList[5] + ', symrate ' + lineList[6] + ', phytype ' + lineList[7] + \
+                          ', txdata ' + lineList[8]
+
     # Remove table starting with "----", " ----" or "  ----"
-    match = re.match(r' *----', newline)
+    match = commonTablePattern.match(newline)
     if match:
         inTable = True
         # Update for the next line
@@ -197,7 +253,7 @@ for line in file:
         if newline in ['\n', '\r\n']:
             # Suppose table ended with empty line
             inTable = False
-        else:
+        elif not (inDsChStatTable or inUsChStatTable):
             # Still table line, remove it
             # Update for the next line
             lastLineEmpty = False
@@ -216,7 +272,7 @@ for line in file:
         continue
 
     # Indent lines as multi-line log for initial ranging
-    match = re.match(r'== Beginning initial ranging for Docsis UCID', newline)
+    match = initRangePattern.match(newline)
     if match:
         inMultiLineCnt = 1
     elif inMultiLineCnt >= 1:
