@@ -138,7 +138,7 @@ eNestedLinePatterns = [
 ]
 
 """
-Patterns for others
+Patterns for other specific lines
 """
 # DS/US channel status tables
 dsChStatTablePattern = re.compile(r'Active Downstream Channel Diagnostics\:')
@@ -153,6 +153,8 @@ Variables initialization
 """
 inDsChStatTable = False
 inUsChStatTable = False
+tableMessed = False
+dsTableEntryProcessed = False
 inTable = False
 inMultiLineCnt = 0
 lastLineEmpty = False
@@ -204,13 +206,24 @@ for line in file:
     if match:
         inDsChStatTable = True
     elif inDsChStatTable and inTable:
-        if newline in ['\n', '\r\n']:
+        if not nestedLinePattern.match(newline):
+            # The table is messed by printings from other thread
+            tableMessed = True
+            # Remove this line
+            # Update for the next line
+            lastLineEmpty = False
+            continue
+        elif newline in ['\n', '\r\n'] and dsTableEntryProcessed:
             # Suppose table ended with empty line
             # Leave reset of inTable to the remove table block
             inDsChStatTable = False
         else:
+            dsTableEntryProcessed = True
             # Convert current line to new ds format
             lineList = newline.split(None, 7)
+            if tableMessed:
+                # Need consider the last colomn, aka. lineList[7]
+                # TBD
             newline = 'DS channel status' + ', rxid ' + lineList[0] + ', dcid ' + lineList[1] + \
                       ', freq ' + lineList[2] + ', qam ' + lineList[3] + ', fec ' + lineList[4] + \
                       ', snr ' + lineList[5] + ', power ' + lineList[6] + ', mod ' + lineList[7]
@@ -252,7 +265,8 @@ for line in file:
     elif inTable == True:
         if newline in ['\n', '\r\n']:
             # Suppose table ended with empty line
-            inTable = False
+            if (not inDsChStatTable) or (inDsChStatTable and dsTableEntryProcessed)
+                inTable = False
         elif not (inDsChStatTable or inUsChStatTable):
             # Still table line, remove it
             # Update for the next line
