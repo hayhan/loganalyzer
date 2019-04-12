@@ -155,6 +155,7 @@ inDsChStatTable = False
 inUsChStatTable = False
 tableMessed = False
 dsTableEntryProcessed = False
+lastLineMessed = False
 inTable = False
 inMultiLineCnt = 0
 lastLineEmpty = False
@@ -202,33 +203,73 @@ for line in file:
         continue
 
     # Format DS channel status table
+    #
+    # Active Downstream Channel Diagnostics:
+    #
+    #   rx id  dcid    freq, hz  qam  fec   snr, dB   power, dBmV  modulation
+    #                            plc  prfA
+    #   -----  ----  ----------  ---  ---  ---------  -----------  ----------
+    #       0*    1   300000000   y    y          35            3      Qam256
+    #       1     2   308000000   y    y          34            4      Qam256
+    #
     match = dsChStatTablePattern.match(newline)
     if match:
         inDsChStatTable = True
     elif inDsChStatTable and inTable:
-        if not nestedLinePattern.match(newline):
-            # The table is messed by printings from other thread
+        if (not nestedLinePattern.match(newline)) and (newline not in ['\n', '\r\n']):
+            # The table is messed by printings from other thread if we run into here
+            # The normal DS channel status row should be nested by default. The messed
+            # table might have empty lines in the middle of table
             tableMessed = True
-            # Remove this line
+            # Remove this line here, do not leave it to the "Remove table block"
             # Update for the next line
             lastLineEmpty = False
             continue
-        elif newline in ['\n', '\r\n'] and dsTableEntryProcessed:
-            # Suppose table ended with empty line
-            # Leave reset of inTable to the remove table block
+        elif newline in ['\n', '\r\n'] and dsTableEntryProcessed and (not lastLineMessed):
+            # Suppose table ended with empty line but need also consider the case of
+            # messed table. The 'dsTableEntryProcessed', 'lastLineMessed' and 'tableMessed'
+            # are used here to process the messed table case.
+            # Leave reset of 'inTable' to the "Remove table block"
             inDsChStatTable = False
-        else:
+            tableMessed = False
+            dsTableEntryProcessed = False
+        elif newline not in ['\n', '\r\n']:
+            # The real table row, that is, nested line
             dsTableEntryProcessed = True
             # Convert current line to new ds format
+            # DS channel status, rxid 0, dcid 1, freq 300000000, qam y, fec y, snr 35, power 3, mod Qam256
             lineList = newline.split(None, 7)
             if tableMessed:
-                # Need consider the last colomn, aka. lineList[7]
-                # TBD
+                # Need consider the last colomn of DS channel status, aka. lineList[7]
+                if lineList[7] not in ['Qam64\n', 'Qam256\n', 'OFDM PLC\n', 'Qam64\r\n', 'Qam256\r\n', 'OFDM PLC\r\n']:
+                    # Current line is messed and the last colomn might be concatednated by
+                    # other thread printings inadvertently and the next line will be empty
+                    # See example of the DS messed table in test.003.txt
+                    # Update lastLineMessed for next line processing
+                    lastLineMessed = True
+                    if lineList[7][3] == '6':       # Qam64
+                        lineList[7] = 'Qam64\n'
+                    elif lineList[7][3] == '2':     # Q256
+                        lineList[7] = 'Qam256\n'
+                    else:
+                        lineList[7] = 'OFDM PLC\n'  # OFDM PLC
+                else:
+                    lastLineMessed = False
+
             newline = 'DS channel status' + ', rxid ' + lineList[0] + ', dcid ' + lineList[1] + \
                       ', freq ' + lineList[2] + ', qam ' + lineList[3] + ', fec ' + lineList[4] + \
                       ', snr ' + lineList[5] + ', power ' + lineList[6] + ', mod ' + lineList[7]
 
     # Format US channel status table
+    #
+    # Active Upstream Channels:
+    #
+    #                     rng     pwr        frequency     symbols   phy  ok tx
+    #  txid  ucid  dcid   sid     dBmv          MHz          sec    type  data?
+    #  ----  ----  ----  ------  -----    ---------------  -------  ----  -----
+    #     0   101     1     0x2      18             9.000  5120000     3      y
+    #     1   102     1     0x2      18            15.400  5120000     3      y
+    #
     match = usChStatTablePattern.match(newline)
     if match:
         inUsChStatTable = True
@@ -239,6 +280,7 @@ for line in file:
             inUsChStatTable = False
         else:
             # Convert current line to new us format
+            # US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freq 9.000, symrate 5120000, phytype 3, txdata y
             lineList = newline.split(None, 8)
             if lineList[6] == '-':
                 # This line is for OFDMA channel, so split it again
@@ -255,7 +297,8 @@ for line in file:
                           ', freq ' + lineList[5] + ', symrate ' + lineList[6] + ', phytype ' + lineList[7] + \
                           ', txdata ' + lineList[8]
 
-    # Remove table starting with "----", " ----" or "  ----"
+    # Remove table block
+    # The line starting with "----", " ----" or "  ----"
     match = commonTablePattern.match(newline)
     if match:
         inTable = True
@@ -265,7 +308,7 @@ for line in file:
     elif inTable == True:
         if newline in ['\n', '\r\n']:
             # Suppose table ended with empty line
-            if (not inDsChStatTable) or (inDsChStatTable and dsTableEntryProcessed)
+            if (not inDsChStatTable) or (inDsChStatTable and dsTableEntryProcessed and (not lastLineMessed)):
                 inTable = False
         elif not (inDsChStatTable or inUsChStatTable):
             # Still table line, remove it

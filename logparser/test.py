@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 import os
-import pandas as pd
+#import pandas as pd
 #import numpy as np
 
 curfiledir = os.path.dirname(__file__)
@@ -47,6 +47,7 @@ print(headers)
 m1 = re.search('(?P<Content>.*?)', '')
 print(m1.group(0))
 
+"""
 log_messages = []
 a1 = [1, 2, 3]
 a2 = [4, 5, 6]
@@ -66,10 +67,9 @@ print(type(df))
 print(type(df['LineId']))
 print(df['LineId'])
 
-"""
 df['LineId'] = ['a', 'b', 'c', 'd']
 print(df['LineId'])
-"""
+
 #No df.insert() for the new column. Work!
 df['test'] = ['a', 'a', 'c', 'd']
 print(df['test'])
@@ -79,6 +79,7 @@ for dummy, line in df.iterrows():
     print(type(line['Content']))
 
 print(len(df))
+"""
 
 """
 tmpDict = {'a':1, 'b':2, 'c':3}
@@ -108,14 +109,10 @@ print(a)
 str1 = "    8   149    66     0x2      20   63.700 - 78.450        0     5      y"
 str2 = str1.split(None, 8)
 #print(str1.strip())
-print(str2)
+print(str2[8][6])
 str3 = 'testme' + ', rxid ' + str2[0] + ', dcid ' \
         + str2[1] + '\n'
 print(str3)
-a = '+'
-b = '-'
-if a == b:
-    print('OK')
 
 lastLine = 'abc\n'
 line = 'def'
