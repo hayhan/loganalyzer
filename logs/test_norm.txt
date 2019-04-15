@@ -74,7 +74,8 @@ Diplexer US=85 MHz, best match pre-eq coeff is 85 MHz @ 0x80b3b8b0
 BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 17.75 dBmV, Using per transmitter stored initial upstream power = 17.75 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 17.75 dBmV, Using per transmitter stored initial upstream power = 17.75 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=149  Adj: tim=8908 power=16  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -281,8 +282,11 @@ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
 == Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 48.75 dBmV, Dynamic Range Window is from 11.5dBmV to 23.5 dBmV, Stored power level for UCID 107 is 17 dBmV, per transmitter stored power level of 17 dBmV is less than the min transmit power level.  Setting power level to min., Using clamped minimum transmit power initial upstream power = 17.25 dBmV hwTxId = 6 docsis UCID = 107
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
-== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 48.75 dBmV, Dynamic Range Window is from 11.5dBmV to 23.5 dBmV, Stored power level for UCID 108 is 17.25 dBmV, Using per transmitter stored initial upstream power = 17.25 dBmV hwTxId = 7 docsis UCID = 108, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 48.75 dBmV, Dynamic Range Window is from 11.5dBmV to 23.5 dBmV, Stored power level for UCID 149 is 17.75 dBmV, Using per transmitter stored initial upstream power = 17.75 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 48.75 dBmV, Dynamic Range Window is from 11.5dBmV to 23.5 dBmV, Stored power level for UCID 108 is 17.25 dBmV, Using per transmitter stored initial upstream power = 17.25 dBmV hwTxId = 7 docsis UCID = 108
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 48.75 dBmV, Dynamic Range Window is from 11.5dBmV to 23.5 dBmV, Stored power level for UCID 149 is 17.75 dBmV, Using per transmitter stored initial upstream power = 17.75 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=105  Adj: tim=632 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-0.00) (103-0.00) (104-0.00) (105-19.25) (106-0.00) (107-0.00) (108-0.00) (149-22.00) )
 BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=1 (B)
@@ -507,7 +511,8 @@ Performing full reset on TCOFDM core 0...
 BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=149  Adj: tim=8928  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -680,15 +685,32 @@ PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=0
-== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 101 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 0 docsis UCID = 101, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
-== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 102 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 1 docsis UCID = 102, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
-== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 103 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 2 docsis UCID = 103, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
-== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 104 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 3 docsis UCID = 104, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
-== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 105 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 4 docsis UCID = 105, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
-== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 106 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 5 docsis UCID = 106, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
-== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 107 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 6 docsis UCID = 107, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
-== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 108 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 7 docsis UCID = 108, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
+== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 101 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 0 docsis UCID = 101
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
+== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 102 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 1 docsis UCID = 102
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
+== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 103 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 2 docsis UCID = 103
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
+== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 104 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 3 docsis UCID = 104
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
+== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 105 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 4 docsis UCID = 105
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
+== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 106 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 5 docsis UCID = 106
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
+== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 107 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 6 docsis UCID = 107
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
+== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 108 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 7 docsis UCID = 108
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=102  Adj: tim=1491  Stat=Continue 
 RNG-RSP UsChanId=105  Adj: tim=1491  Stat=Continue 
@@ -938,7 +960,8 @@ Performing full reset on TCOFDM core 0...
 BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=149  Adj: tim=8904  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -1106,15 +1129,32 @@ PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=0
-== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 101 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 0 docsis UCID = 101, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
-== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 102 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 1 docsis UCID = 102, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
-== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 103 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 2 docsis UCID = 103, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
-== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 104 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 3 docsis UCID = 104, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
-== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 105 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 4 docsis UCID = 105, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
-== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 106 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 5 docsis UCID = 106, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
-== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 107 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 6 docsis UCID = 107, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
-== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 108 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 7 docsis UCID = 108, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 101 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 0 docsis UCID = 101
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
+== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 102 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 1 docsis UCID = 102
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
+== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 103 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 2 docsis UCID = 103
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
+== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 104 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 3 docsis UCID = 104
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
+== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 105 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 4 docsis UCID = 105
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
+== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 106 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 5 docsis UCID = 106
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
+== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 107 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 6 docsis UCID = 107
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
+== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 108 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 7 docsis UCID = 108
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=101  Adj: tim=632  Stat=Continue 
 RNG-RSP UsChanId=106  Adj: tim=632  Stat=Continue 
@@ -1346,7 +1386,8 @@ Performing full reset on TCOFDM core 0...
 BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=149  Adj: tim=8912  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -1513,15 +1554,32 @@ PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=0
-== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 101 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 0 docsis UCID = 101, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
-== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 102 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 1 docsis UCID = 102, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
-== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 103 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 2 docsis UCID = 103, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
-== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 104 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 3 docsis UCID = 104, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
-== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 105 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 4 docsis UCID = 105, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
-== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 106 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 5 docsis UCID = 106, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
-== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 107 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 6 docsis UCID = 107, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
-== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 108 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 7 docsis UCID = 108, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 101 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 0 docsis UCID = 101
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
+== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 102 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 1 docsis UCID = 102
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
+== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 103 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 2 docsis UCID = 103
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
+== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 104 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 3 docsis UCID = 104
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
+== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 105 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 4 docsis UCID = 105
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
+== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 106 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 5 docsis UCID = 106
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
+== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 107 is 21 dBmV, Using per transmitter stored initial upstream power = 21 dBmV hwTxId = 6 docsis UCID = 107
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
+== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 108 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 7 docsis UCID = 108
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=104  Adj: tim=632 power=1  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-0.00) (103-0.00) (104-21.00) (105-0.00) (106-0.00) (107-0.00) (108-0.00) (149-22.00) )
 RNG-RSP UsChanId=105  Adj: tim=632 power=1  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-0.00) (103-0.00) (104-21.00) (105-21.25) (106-0.00) (107-0.00) (108-0.00) (149-22.00) )
@@ -1786,7 +1844,8 @@ Performing full reset on TCOFDM core 0...
 BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 27 dBmV, Using per transmitter stored initial upstream power = 27 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 27 dBmV, Using per transmitter stored initial upstream power = 27 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 BcmCmMultiUsHelper::DynamicRangeWindowQtrDb:  (Cm Multi US Helper), Dynamic Range Window set to:111 (28 dB)
 RNG-RSP UsChanId=149  Adj: tim=8904 power=-29  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-18.25) (102-18.25) (103-18.25) (104-18.50) (105-18.75) (106-18.75) (107-18.75) (108-19.00) (149-19.25) )
@@ -2205,7 +2264,8 @@ Performing full reset on TCOFDM core 0...
 BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=149  Adj: tim=9096  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -2377,15 +2437,32 @@ PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=0
-== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 101 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 0 docsis UCID = 101, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
-== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 102 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 1 docsis UCID = 102, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
-== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 103 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 2 docsis UCID = 103, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
-== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 104 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 3 docsis UCID = 104, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
-== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 105 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 4 docsis UCID = 105, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
-== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 106 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 5 docsis UCID = 106, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
-== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 107 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 6 docsis UCID = 107, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
-== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 108 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 7 docsis UCID = 108, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
+== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 101 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 0 docsis UCID = 101
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
+== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 102 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 1 docsis UCID = 102
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
+== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 103 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 2 docsis UCID = 103
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
+== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 104 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 3 docsis UCID = 104
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
+== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 105 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 4 docsis UCID = 105
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
+== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 106 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 5 docsis UCID = 106
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
+== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 107 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 6 docsis UCID = 107
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
+== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 108 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 7 docsis UCID = 108
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=105  Adj: tim=1499  Stat=Continue 
 RNG-RSP UsChanId=106  Adj: tim=1500  Stat=Continue 
@@ -5750,7 +5827,8 @@ Performing full reset on TCOFDM core 0...
 BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=149  Adj: tim=12496  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -5920,15 +5998,32 @@ PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=0
-== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 101 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 0 docsis UCID = 101, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
-== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 102 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 1 docsis UCID = 102, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
-== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 103 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 2 docsis UCID = 103, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
-== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 104 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 3 docsis UCID = 104, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
-== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 105 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 4 docsis UCID = 105, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
-== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 106 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 5 docsis UCID = 106, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
-== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 107 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 6 docsis UCID = 107, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
-== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 108 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 7 docsis UCID = 108, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
+== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 101 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 0 docsis UCID = 101
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
+== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 102 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 1 docsis UCID = 102
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
+== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 103 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 2 docsis UCID = 103
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
+== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 104 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 3 docsis UCID = 104
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
+== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 105 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 4 docsis UCID = 105
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
+== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 106 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 5 docsis UCID = 106
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
+== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 107 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 6 docsis UCID = 107
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
+== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 108 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 7 docsis UCID = 108
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=149  Adj: tim=12496  Stat=Continue 
 RNG-RSP UsChanId=101  Adj: tim=1465  Stat=Continue 
@@ -6455,19 +6550,33 @@ Disabling SNMP link status checking.
 Logging event: Received Response to Broadcast Maintenance Request, But no Unicast Maintenance opportunities received - T4 time out;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 BcmCmMultiUsHelper::UsTimeRefFail:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsSetsState::UsTimeRefFail:  Failed to establish upstream time sync.
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=0
-== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 101 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 0 docsis UCID = 101, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
-== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 105 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 4 docsis UCID = 105, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
-== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 107 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 6 docsis UCID = 107, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
-== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 106 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 5 docsis UCID = 106, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
-== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 108 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 7 docsis UCID = 108, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
-== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 102 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 1 docsis UCID = 102, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
-== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 103 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 2 docsis UCID = 103, BcmCmDocsisCtlThread::SyncRestartErrorEvent:  (CmDocsisCtlThread) reinit MAC #8: T4NoStationMaintTimeout
+== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 101 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 0 docsis UCID = 101
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
+== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 105 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 4 docsis UCID = 105
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
+== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 107 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 6 docsis UCID = 107
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
+== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 106 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 5 docsis UCID = 106
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
+== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 108 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 7 docsis UCID = 108
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
+== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 102 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 1 docsis UCID = 102
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
+== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 103 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 2 docsis UCID = 103
+BcmCmDocsisCtlThread::SyncRestartErrorEvent:  (CmDocsisCtlThread) reinit MAC #8: T4NoStationMaintTimeout
 BcmCmDocsisCtlThread::Reset:  (CmDocsisCtlThread)   DefaultSnmpAgentClass::RestartPendingEvent for Vendor CM Agent w/ BRCM Factory Support
 Vendor CM Agent w/ BRCM Factory Support updating ifTableLastChange.
 Vendor CM Agent w/ BRCM Factory Support resetting to default state.
@@ -6609,7 +6718,8 @@ Performing full reset on TCOFDM core 0...
 BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=149  Adj: tim=12096  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -6780,15 +6890,32 @@ PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=0
-== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 101 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 0 docsis UCID = 101, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
-== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 102 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 1 docsis UCID = 102, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
-== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 103 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 2 docsis UCID = 103, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
-== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 104 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 3 docsis UCID = 104, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
-== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 105 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 4 docsis UCID = 105, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
-== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 106 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 5 docsis UCID = 106, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
-== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 107 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 6 docsis UCID = 107, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
-== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 108 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 7 docsis UCID = 108, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
+== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 101 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 0 docsis UCID = 101
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
+== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 102 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 1 docsis UCID = 102
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
+== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 103 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 2 docsis UCID = 103
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
+== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 104 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 3 docsis UCID = 104
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
+== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 105 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 4 docsis UCID = 105
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
+== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 106 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 5 docsis UCID = 106
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
+== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 107 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 6 docsis UCID = 107
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
+== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 108 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 7 docsis UCID = 108
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=101  Adj: tim=1445  Stat=Continue 
 RNG-RSP UsChanId=105  Adj: tim=1445  Stat=Continue 
@@ -7024,7 +7151,8 @@ Performing full reset on TCOFDM core 0...
 BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=149  Adj: tim=8904  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -7191,15 +7319,32 @@ PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=0
-== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 101 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 0 docsis UCID = 101, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
-== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 102 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 1 docsis UCID = 102, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
-== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 103 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 2 docsis UCID = 103, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
-== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 104 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 3 docsis UCID = 104, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
-== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 105 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 4 docsis UCID = 105, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
-== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 106 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 5 docsis UCID = 106, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
-== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 107 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 6 docsis UCID = 107, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
-== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 108 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 7 docsis UCID = 108, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 101 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 0 docsis UCID = 101
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
+== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 102 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 1 docsis UCID = 102
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
+== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 103 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 2 docsis UCID = 103
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
+== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 104 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 3 docsis UCID = 104
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
+== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 105 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 4 docsis UCID = 105
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
+== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 106 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 5 docsis UCID = 106
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
+== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 107 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 6 docsis UCID = 107
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
+== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 108 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 7 docsis UCID = 108
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=105  Adj: tim=632  Stat=Continue 
 RNG-RSP UsChanId=102  Adj: tim=632  Stat=Continue 
@@ -8196,7 +8341,8 @@ Performing full reset on TCOFDM core 0...
 BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisition...
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=149  Adj: tim=8912  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -8378,15 +8524,32 @@ PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 PNMTestDriver::ThreadEndTest:  (PNM Test Driver) No PNM test running
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=0
-== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 101 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 0 docsis UCID = 101, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
-== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 102 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 1 docsis UCID = 102, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
-== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 103 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 2 docsis UCID = 103, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
-== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 104 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 3 docsis UCID = 104, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
-== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 105 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 4 docsis UCID = 105, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
-== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 106 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 5 docsis UCID = 106, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
-== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 107 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 6 docsis UCID = 107, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
-== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 108 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 7 docsis UCID = 108, BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8, BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
-== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149, Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
+== Beginning initial ranging for Docsis UCID 101 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 101 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 0 docsis UCID = 101
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=1
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=1
+== Beginning initial ranging for Docsis UCID 102 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 102 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 1 docsis UCID = 102
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=2
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=2
+== Beginning initial ranging for Docsis UCID 103 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 103 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 2 docsis UCID = 103
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=3
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=3
+== Beginning initial ranging for Docsis UCID 104 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 104 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 3 docsis UCID = 104
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=4
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=4
+== Beginning initial ranging for Docsis UCID 105 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 105 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 4 docsis UCID = 105
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=5
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=5
+== Beginning initial ranging for Docsis UCID 106 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 106 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 5 docsis UCID = 106
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=6
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=6
+== Beginning initial ranging for Docsis UCID 107 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 107 is 18 dBmV, Using per transmitter stored initial upstream power = 18 dBmV hwTxId = 6 docsis UCID = 107
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=7
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
+== Beginning initial ranging for Docsis UCID 108 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 108 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 7 docsis UCID = 108
+BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
+BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
+== Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
+Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=105  Adj: tim=632  Stat=Continue 
 BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=1 (B)

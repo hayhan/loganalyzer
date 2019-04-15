@@ -147,6 +147,9 @@ usChStatTablePattern = re.compile(r'Active Upstream Channels\:')
 commonTablePattern = re.compile(r' *----')
 # Initial ranging block for each UCID
 initRangePattern = re.compile(r'== Beginning initial ranging for Docsis UCID')
+oInitRngReqPattern = re.compile(r'Configured O-INIT-RNG-REQ \:')
+cmMultiUsHelperPattern = re.compile(r'BcmCmMultiUsHelper\:\:')
+cmDocsisCtlThreadPattern = re.compile(r'BcmCmDocsisCtlThread\:\:')
 
 """
 Variables initialization
@@ -157,7 +160,7 @@ tableMessed = False
 dsTableEntryProcessed = False
 lastLineMessed = False
 inTable = False
-inMultiLineCnt = 0
+inMultiLine = False
 lastLineEmpty = False
 sccvEmptyLineCnt = 0
 
@@ -331,16 +334,14 @@ for line in file:
     # Indent lines as multi-line log for initial ranging
     match = initRangePattern.match(newline)
     if match:
-        inMultiLineCnt = 1
-    elif inMultiLineCnt >= 1:
-        if ((inMultiLineCnt > 8) or
-            ((newline in ['\n', '\r\n']) and (inMultiLineCnt in [7, 8, 9])) or
-            ((newline not in ['\n', '\r\n']) and (inMultiLineCnt == 7) and (not nestedLinePattern.match(newline)) and (not re.match(r'BcmCmUsChan', newline)))):
-            # Suppose multi-line log ended with empty line or with special cases
-            inMultiLineCnt = 0
+        inMultiLine = True
+    elif inMultiLine:
+        if oInitRngReqPattern.match(newline) or cmMultiUsHelperPattern.match(newline) \
+            or cmDocsisCtlThreadPattern.match(newline):
+            # Suppose multi-line log ended with special lines
+            inMultiLine = False
         else:
             # Still multi-line, indent it, say add a space at the start
-            inMultiLineCnt += 1
             newline = ' ' + newline
 
     # Indent some specific lines
