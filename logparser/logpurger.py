@@ -116,7 +116,7 @@ sPrimaryLinePatterns = [
 ]
 
 """
-Patterns for specific lines which I want to make them as primary
+Patterns for specific lines which I want to convert them as primary
 """
 sNestedLinePattern0 = re.compile(r' +DOWNSTREAM STATUS')
 sNestedLinePattern1 = re.compile(r' +CM Upstream channel info')
@@ -166,8 +166,13 @@ sccvEmptyLineCnt = 0
 
 """
 1). Remove timestamps, console prompts, tables, empty lines
-2). Make an nested line as primary if two more empty lines proceeded
-3). Make some specific lines as primary
+2). Format DS/US channel status tables
+3). Remove some tables which are useless
+4). Format initial ranging block to one line log
+5). Indent some specific lines in multi-line log
+6). Remove empty lines
+7). Convert an nested line as primary if two more empty lines proceeded
+8). Convert some specific lines as primary
 """
 for line in file:
     """
@@ -362,7 +367,7 @@ for line in file:
         lastLineEmpty = True
         continue
 
-    # Make a nested line as primary if two more empty lines proceeded
+    # Convert a nested line as primary if two more empty lines proceeded
     if nestedLinePattern.match(newline):
         if (lastLineEmpty == True) and (sccvEmptyLineCnt >= 2):
             # Try to see if there are any exceptions
@@ -374,7 +379,7 @@ for line in file:
             if noException:
                 newline = newline.lstrip()
 
-    # Make some specific nested lines as primary
+    # Convert some specific nested lines as primary
     for pattern in sNestedLinePatterns:
         match = pattern.match(newline)
         if match:
@@ -388,6 +393,11 @@ for line in file:
 
 file.close()
 newfile.close()
+
+
+"""
+Convert multi-line log to one-line format
+"""
 
 # Scan the new generated newfile
 newfile    = open(parentdir + '/logs/test_new.txt', 'r')
@@ -405,12 +415,12 @@ Concatenate nested line to its parent (primary) line
 for line in newfile:
 
     if nestedLinePattern.match(line):
-        # Concatenate current line to lastLine
+        # Concatenate current line to lastLine. rstrip() will strip LF or CRLF too
         lastLine = lastLine.rstrip()
         lastLine += ', '
         lastLine += line.lstrip()
     else:
-        # If current is primary line, it means concatenation ends
+        # If current is primary line, it means concatenating ends
         normfile.write(lastLine)
         lastLine = line
 
