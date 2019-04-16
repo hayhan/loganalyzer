@@ -1,6 +1,6 @@
 """
 Description : This file implements the Drain algorithm for log parsing
-Author      : LogPAI team
+Author      : LogPAI team, modified by Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
 
@@ -77,7 +77,7 @@ class LogParser:
                 return retLogClust
             currentDepth += 1
 
-        #If reach here it means we get into the leaf wherein the log cluster list resides
+        # If reach here it means we get into the leaf wherein the log cluster list resides
         logClustL = parentn.childD
 
         retLogClust = self.fastMatch(logClustL, seq)
@@ -97,7 +97,7 @@ class LogParser:
         currentDepth = 1
         for token in logClust.logTemplate:
 
-            #Add current log cluster to the leaf node (childD) which is a list of clusters, not a dict anymore
+            # Add current log cluster to the leaf node (childD) which is a list of clusters, not a dict anymore
             if currentDepth >= self.depth or currentDepth > seqLen:
                 if len(parentn.childD) == 0:
                     parentn.childD = [logClust]
@@ -105,7 +105,7 @@ class LogParser:
                     parentn.childD.append(logClust)
                 break
 
-            #If token not matched in this layer of existing tree.
+            # If token not matched in this layer of existing tree.
             if token not in parentn.childD:
                 if not self.hasNumbers(token):
                     if '<*>' in parentn.childD:
@@ -135,13 +135,13 @@ class LogParser:
                     else:
                         parentn = parentn.childD['<*>']
 
-            #If the token is matched
+            # If the token is matched
             else:
                 parentn = parentn.childD[token]
 
             currentDepth += 1
 
-    #seq1 is template
+    # seq1 is template
     def seqDist(self, seq1, seq2):
         assert len(seq1) == len(seq2)
         simTokens = 0
@@ -248,7 +248,7 @@ class LogParser:
         start_time = datetime.now()
         self.logName = logName
         rootNode = Node()
-        #The log cluster list here just stores all the cluster accross all the leaves
+        # The log cluster list here just stores all the cluster accross all the leaves
         logCluL = []
 
         self.load_data()
@@ -260,13 +260,13 @@ class LogParser:
             # logmessageL = filter(lambda x: x != '', re.split('[\s=:,]', self.preprocess(line['Content'])))
             matchCluster = self.treeSearch(rootNode, logmessageL)
 
-            #Match no existing log cluster
+            # Match no existing log cluster
             if matchCluster is None:
                 newCluster = Logcluster(logTemplate=logmessageL, logIDL=[logID])
                 logCluL.append(newCluster)
                 self.addSeqToPrefixTree(rootNode, newCluster)
 
-            #Add the new log message to the existing cluster
+            # Add the new log message to the existing cluster
             else:
                 newTemplate = self.getTemplate(logmessageL, matchCluster.logTemplate)
                 matchCluster.logIDL.append(logID)
@@ -317,6 +317,13 @@ class LogParser:
     def generate_logformat_regex(self, logformat):
         """ Function to generate regular expression to split log messages
         """
+        # Suppose the logformat is:
+        #     '<Date> <Time> <Pid> <Level> <Component>: <Content>'
+        # Then the output:
+        # headers
+        #     ['Date', 'Time', 'Pid', 'Level', 'Component', 'Content']
+        # regex
+        #     (?P<Date>.*?)\s+(?P<Time>.*?)\s+(?P<Pid>.*?)\s+(?P<Level>.*?)\s+(?P<Component>.*?):\s+(?P<Content>.*?)
         headers = []
         splitters = re.split(r'(<[^<>]+>)', logformat)
         regex = ''
