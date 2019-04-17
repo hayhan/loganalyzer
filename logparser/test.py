@@ -7,7 +7,7 @@ import os
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 #file       = open(parentdir + '/logs/test.txt', 'r')
-newfile    = open(parentdir + '/logs/test_tmp.txt', 'w')
+#newfile    = open(parentdir + '/logs/test_tmp.txt', 'w')
 
 
 teststrin = re.sub(' +', '\\\\s+', "123 abc  ABC", count=0)
@@ -26,9 +26,11 @@ parentddir = os.path.abspath(os.path.join(currentfiledir, os.path.pardir))
 print(type(parentddir))
 """
 
-log_format = '<Date> <Time> <Pid> <Level> <Component>: <Content>'
+#log_format = '<Date> <Time> <Pid> <Level> <Component>: <Content>'
+log_format = '<Content>'
 headers = []
 splitters = re.split(r'(<[^<>]+>)', log_format)
+print(splitters)
 regex = ''
 for k in range(len(splitters)):
     if k % 2 == 0:
@@ -113,11 +115,6 @@ print(str2[8][6])
 str3 = 'testme' + ', rxid ' + str2[0] + ', dcid ' \
         + str2[1] + '\n'
 print(str3)
-
-lastLine = 'abc\n'
-line = 'def'
-lastLine += line
-newfile.write(lastLine)
 
 aa = 0
 if aa not in [1, 2]:
