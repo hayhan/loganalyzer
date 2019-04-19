@@ -9,13 +9,16 @@ parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 #file       = open(parentdir + '/logs/test.txt', 'r')
 #newfile    = open(parentdir + '/logs/test_tmp.txt', 'w')
 
-
 teststrin = re.sub(' +', '\\\\s+', "123 abc  ABC", count=0)
+print(teststrin)
 
-m = re.search(r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$', '#$--++123@#456')
+m = re.search(r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$', '0x56')
 print(m.group(0))
 
-print(teststrin)
+currentRex = r'0x[A-Fa-f0-9]+|(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$'
+#currentRex = r'0x[A-Fa-f0-9]+'
+line = re.sub(currentRex, '<*>', "Readback Test pkt: 0x0d 00 0xcc ch99")
+print(line)
 
 """
 print(datetime.now())

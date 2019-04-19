@@ -11,9 +11,10 @@ log_format = '<Content>'  # DOCSIS log format
 
 # Regular expression list for optional preprocessing (default: [])
 regex      = [
-    r'blk_(|-)[0-9]+' ,  # block id
-    r'(/|)([0-9]+\.){3}[0-9]+(:[0-9]+|)(:|)',  # IP
-    r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$',  # Numbers
+    r'([A-Fa-f0-9]+\:){5}[A-Fa-f0-9]+',  # MAC Address
+    r'(/|)([0-9]+\.){3}[0-9]+(:[0-9]+|)(:|)',  # IP Address
+    r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$|0x[A-Fa-f0-9]+',  # Numbers
+    #r'([A-Fa-f0-9]{2} )+'
 ]
 st         = 0.5  # Similarity threshold
 depth      = 4  # Depth of all leaf nodes
