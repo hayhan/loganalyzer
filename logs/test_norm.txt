@@ -75,7 +75,6 @@ BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisit
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 17.75 dBmV, Using per transmitter stored initial upstream power = 17.75 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=149  Adj: tim=8908 power=16  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -95,7 +94,6 @@ Logging event: Honoring MDD; IP provisioning mode = IPv4
 Received RG Event 0x80000001 State 0x1
 eRouter Linux WAN Down
 eRouterMsgPipe::UpdateIpNetToMediaEntry:  (eRouterMsgPipe) eRouter IP address:0.0.0.0
-DHCPc:  Timed out waiting for offers for lease with client id htype=255, value=18 de b5 18 00 03 00 01 00 10 18 de b5 18
 Configuring IP stack 1:  IP Address = 172.16.8.1
 Logging event: DHCP WARNING - Non-critical field invalid in response ;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 CM successfully pushed IP 172.16.8.1 to eRouter
@@ -220,7 +218,6 @@ BcmCmUsChan::TccChangeCmd:  TCC changed upstream profile assignments
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=149 for CM hardware tx chan 8
 BcmCmUsChan::InstallOfdmaDataProfileTestingSID:  OFDMA testing SID: 0x201
 Updating US chan 8 data Profile test msg for Sid: 0x201.
-Readback Test pkt: 0x00 0x00 0x00 0x40 0xda 0xbe 0x00 0x80 0x42 0x42 0x20 0x9e 0x00 0x10 0x18 0xde 0xb5 0x18 0x00 0x2e 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0a 0x0b 0x0c 0x0d 0x0e 0x0f 0x10 0x11 0x12 0x13 0x14 0x15 0x16 0x17 0x18 0x19 0x1a 0x1b 0x1c 0x1d 0x1e 0x1f 0x20 0x21 0x22 0x23 0x24 0x25 0x26 0x27 0x28 0x29 0x2a 0x2b 0x2c 0x2d 0x2e 0x27 0x28 0x99 0xf4 
 BcmCmUsChan::ExecuteTccCmd:    hwTxId=0  docs ucid=0
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 0 to 0x2
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=101 for CM hardware tx chan 0
@@ -286,7 +283,6 @@ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 48.75 dBmV, Dynamic Range Window is from 11.5dBmV to 23.5 dBmV, Stored power level for UCID 149 is 17.75 dBmV, Using per transmitter stored initial upstream power = 17.75 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=105  Adj: tim=632 power=8  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-0.00) (103-0.00) (104-0.00) (105-19.25) (106-0.00) (107-0.00) (108-0.00) (149-22.00) )
 BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=1 (B)
@@ -512,7 +508,6 @@ BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisit
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=149  Adj: tim=8928  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -531,7 +526,6 @@ BcmCmDocsisCtlThread::ConfigureAndStartIpInit:  (CmDocsisCtlThread) Beginning IP
 BcmEcosIpHalIf::FlushDefaultIPv6Routers:  (IP Stack1 HalIf) Flushing default IPv6 routers
 L  CmSnmpAgent::ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support
 ogging event: Honoring MDD; IP provisioning mode = IPv4
-DHCPc:  Timed out waiting for offers for lease with client id htype=255, value=18 de b5 18 00 03 00 01 00 10 18 de b5 18
 Configuring IP stack 1:  IP Address = 172.16.8.1
 Logging event: DHCP WARNING - Non-critical field invalid in response ;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 CM successfully pushed IP 172.16.8.1 to eRouter
@@ -644,7 +638,6 @@ BcmCmUsChan::TccChangeCmd:  TCC changed upstream profile assignments
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=149 for CM hardware tx chan 8
 BcmCmUsChan::InstallOfdmaDataProfileTestingSID:  OFDMA testing SID: 0x203
 Updating US chan 8 data Profile test msg for Sid: 0x203.
-Readback Test pkt: 0x00 0x00 0x00 0x40 0xda 0xbe 0x00 0x80 0x42 0x42 0x20 0x9e 0x00 0x10 0x18 0xde 0xb5 0x18 0x00 0x2e 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0a 0x0b 0x0c 0x0d 0x0e 0x0f 0x10 0x11 0x12 0x13 0x14 0x15 0x16 0x17 0x18 0x19 0x1a 0x1b 0x1c 0x1d 0x1e 0x1f 0x20 0x21 0x22 0x23 0x24 0x25 0x26 0x27 0x28 0x29 0x2a 0x2b 0x2c 0x2d 0x2e 0x27 0x28 0x99 0xf4 
 BcmCmUsChan::ExecuteTccCmd:    hwTxId=0  docs ucid=0
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 0 to 0x2
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=101 for CM hardware tx chan 0
@@ -710,7 +703,6 @@ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=102  Adj: tim=1491  Stat=Continue 
 RNG-RSP UsChanId=105  Adj: tim=1491  Stat=Continue 
@@ -961,7 +953,6 @@ BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisit
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=149  Adj: tim=8904  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -980,7 +971,6 @@ BcmCmDocsisCtlThread::ConfigureAndStartIpInit:  (CmDocsisCtlThread) Beginning IP
 BcmEcosIpHalIf::FlushDefaultIPv6Routers:  (IP Stack1 HalIf) Flushing default IPv6 routers
 L  CmSnmpAgent::ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support
 ogging event: Honoring MDD; IP provisioning mode = IPv4
-DHCPc:  Timed out waiting for offers for lease with client id htype=255, value=18 de b5 18 00 03 00 01 00 10 18 de b5 18
 Configuring IP stack 1:  IP Address = 172.16.8.1
 Logging event: DHCP WARNING - Non-critical field invalid in response ;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 CM successfully pushed IP 172.16.8.1 to eRouter
@@ -1088,7 +1078,6 @@ BcmCmUsChan::TccChangeCmd:  TCC changed upstream profile assignments
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=149 for CM hardware tx chan 8
 BcmCmUsChan::InstallOfdmaDataProfileTestingSID:  OFDMA testing SID: 0x204
 Updating US chan 8 data Profile test msg for Sid: 0x204.
-Readback Test pkt: 0x00 0x00 0x00 0x40 0xda 0xbe 0x00 0x80 0x42 0x42 0x20 0x9e 0x00 0x10 0x18 0xde 0xb5 0x18 0x00 0x2e 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0a 0x0b 0x0c 0x0d 0x0e 0x0f 0x10 0x11 0x12 0x13 0x14 0x15 0x16 0x17 0x18 0x19 0x1a 0x1b 0x1c 0x1d 0x1e 0x1f 0x20 0x21 0x22 0x23 0x24 0x25 0x26 0x27 0x28 0x29 0x2a 0x2b 0x2c 0x2d 0x2e 0x27 0x28 0x99 0xf4 
 BcmCmUsChan::ExecuteTccCmd:    hwTxId=0  docs ucid=0
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 0 to 0x2
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=101 for CM hardware tx chan 0
@@ -1154,7 +1143,6 @@ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=101  Adj: tim=632  Stat=Continue 
 RNG-RSP UsChanId=106  Adj: tim=632  Stat=Continue 
@@ -1387,7 +1375,6 @@ BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisit
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=149  Adj: tim=8912  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -1405,7 +1392,6 @@ BcmCmDocsisCtlThread::ConfigureAndStartIpInit:  (CmDocsisCtlThread) Beginning IP
 == Starting IP Initialization in IPv4 Only provisioning mode ==
 BcmEcosIpHalIf::FlushDefaultIPv6Routers:  (IP Stack1 HalIf) Flushing default IPv6 routers, CmSnmpAgent::ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support
 Logging event: Honoring MDD; IP provisioning mode = IPv4
-DHCPc:  Timed out waiting for offers for lease with client id htype=255, value=18 de b5 18 00 03 00 01 00 10 18 de b5 18
 Configuring IP stack 1:  IP Address = 172.16.8.1
 Logging event: DHCP WARNING - Non-critical field invalid in response ;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 CM successfully pushed IP 172.16.8.1 to eRouter
@@ -1513,7 +1499,6 @@ BcmCmUsChan::TccChangeCmd:  TCC changed upstream profile assignments
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=149 for CM hardware tx chan 8
 BcmCmUsChan::InstallOfdmaDataProfileTestingSID:  OFDMA testing SID: 0x205
 Updating US chan 8 data Profile test msg for Sid: 0x205.
-Readback Test pkt: 0x00 0x00 0x00 0x40 0xda 0xbe 0x00 0x80 0x42 0x42 0x20 0x9e 0x00 0x10 0x18 0xde 0xb5 0x18 0x00 0x2e 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0a 0x0b 0x0c 0x0d 0x0e 0x0f 0x10 0x11 0x12 0x13 0x14 0x15 0x16 0x17 0x18 0x19 0x1a 0x1b 0x1c 0x1d 0x1e 0x1f 0x20 0x21 0x22 0x23 0x24 0x25 0x26 0x27 0x28 0x29 0x2a 0x2b 0x2c 0x2d 0x2e 0x27 0x28 0x99 0xf4 
 BcmCmUsChan::ExecuteTccCmd:    hwTxId=0  docs ucid=0
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 0 to 0x2
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=101 for CM hardware tx chan 0
@@ -1579,7 +1564,6 @@ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 12dBmV to 24 dBmV, Stored power level for UCID 149 is 22 dBmV, Using per transmitter stored initial upstream power = 22 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=104  Adj: tim=632 power=1  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-0.00) (103-0.00) (104-21.00) (105-0.00) (106-0.00) (107-0.00) (108-0.00) (149-22.00) )
 RNG-RSP UsChanId=105  Adj: tim=632 power=1  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-0.00) (102-0.00) (103-0.00) (104-21.00) (105-21.25) (106-0.00) (107-0.00) (108-0.00) (149-22.00) )
@@ -1845,7 +1829,6 @@ BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisit
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 27 dBmV, Using per transmitter stored initial upstream power = 27 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 BcmCmMultiUsHelper::DynamicRangeWindowQtrDb:  (Cm Multi US Helper), Dynamic Range Window set to:111 (28 dB)
 RNG-RSP UsChanId=149  Adj: tim=8904 power=-29  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-18.25) (102-18.25) (103-18.25) (104-18.50) (105-18.75) (106-18.75) (107-18.75) (108-19.00) (149-19.25) )
@@ -1864,7 +1847,6 @@ BcmCmDocsisCtlThread::ConfigureAndStartIpInit:  (CmDocsisCtlThread) Beginning IP
 == Starting IP Initialization in IPv4 Only provisioning mode ==
 BcmEcosIpHalIf::FlushDefaultIPv6Routers:  (IP Stack1 HalIf) Flushing default IPv6 routers, CmSnmpAgent::ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support
 Logging event: Honoring MDD; IP provisioning mode = IPv4
-DHCPc:  Timed out waiting for offers for lease with client id htype=255, value=18 de b5 18 00 03 00 01 00 10 18 de b5 18
 Configuring IP stack 1:  IP Address = 172.16.8.1
 Logging event: DHCP WARNING - Non-critical field invalid in response ;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 CM successfully pushed IP 172.16.8.1 to eRouter
@@ -1972,7 +1954,6 @@ BcmCmUsChan::TccChangeCmd:  TCC changed upstream profile assignments
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=149 for CM hardware tx chan 8
 BcmCmUsChan::InstallOfdmaDataProfileTestingSID:  OFDMA testing SID: 0x206
 Updating US chan 8 data Profile test msg for Sid: 0x206.
-Readback Test pkt: 0x00 0x00 0x00 0x40 0xda 0xbe 0x00 0x80 0x42 0x42 0x20 0x9e 0x00 0x10 0x18 0xde 0xb5 0x18 0x00 0x2e 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0a 0x0b 0x0c 0x0d 0x0e 0x0f 0x10 0x11 0x12 0x13 0x14 0x15 0x16 0x17 0x18 0x19 0x1a 0x1b 0x1c 0x1d 0x1e 0x1f 0x20 0x21 0x22 0x23 0x24 0x25 0x26 0x27 0x28 0x29 0x2a 0x2b 0x2c 0x2d 0x2e 0x27 0x28 0x99 0xf4 
 BcmCmUsChan::ExecuteTccCmd:    hwTxId=0  docs ucid=0
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 0 to 0x2
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=101 for CM hardware tx chan 0
@@ -2038,7 +2019,6 @@ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.3dBmV to 20 dBmV, Stored power level for UCID 149 is 27 dBmV, bottom of DRW power level of 8.5 dBmV is less than the min transmit power level.  Setting power level to min., Using clamped minimum transmit power initial upstream power = 17 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=101  Adj: tim=632 power=2  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-17.75) (102-0.00) (103-0.00) (104-0.00) (105-0.00) (106-0.00) (107-0.00) (108-0.00) (149-18.75) )
 RNG-RSP UsChanId=104  Adj: tim=632 power=3  Stat=Continue  (CmdPwr (UsChanId-dBmV): (101-17.75) (102-0.00) (103-0.00) (104-18.00) (105-0.00) (106-0.00) (107-0.00) (108-0.00) (149-18.75) )
@@ -2265,7 +2245,6 @@ BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisit
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=149  Adj: tim=9096  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -2283,7 +2262,6 @@ BcmCmDocsisCtlThread::ConfigureAndStartIpInit:  (CmDocsisCtlThread) Beginning IP
 == Starting IP Initialization in IPv4 Only provisioning mode ==
 BcmEcosIpHalIf::FlushDefaultIPv6Routers:  (IP Stack1 HalIf) Flushing default IPv6 routers, CmSnmpAgent::ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support
 Logging event: Honoring MDD; IP provisioning mode = IPv4
-DHCPc:  Timed out waiting for offers for lease with client id htype=255, value=18 de b5 18 00 03 00 01 00 10 18 de b5 18
 Configuring IP stack 1:  IP Address = 172.16.8.1
 Logging event: DHCP WARNING - Non-critical field invalid in response ;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 CM successfully pushed IP 172.16.8.1 to eRouter
@@ -2396,7 +2374,6 @@ BcmCmUsChan::TccChangeCmd:  TCC changed upstream profile assignments
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=149 for CM hardware tx chan 8
 BcmCmUsChan::InstallOfdmaDataProfileTestingSID:  OFDMA testing SID: 0x207
 Updating US chan 8 data Profile test msg for Sid: 0x207.
-Readback Test pkt: 0x00 0x00 0x00 0x40 0xda 0xbe 0x00 0x80 0x42 0x42 0x20 0x9e 0x00 0x10 0x18 0xde 0xb5 0x18 0x00 0x2e 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0a 0x0b 0x0c 0x0d 0x0e 0x0f 0x10 0x11 0x12 0x13 0x14 0x15 0x16 0x17 0x18 0x19 0x1a 0x1b 0x1c 0x1d 0x1e 0x1f 0x20 0x21 0x22 0x23 0x24 0x25 0x26 0x27 0x28 0x29 0x2a 0x2b 0x2c 0x2d 0x2e 0x27 0x28 0x99 0xf4 
 BcmCmUsChan::ExecuteTccCmd:    hwTxId=0  docs ucid=0
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 0 to 0x2
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=101 for CM hardware tx chan 0
@@ -2462,7 +2439,6 @@ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=105  Adj: tim=1499  Stat=Continue 
 RNG-RSP UsChanId=106  Adj: tim=1500  Stat=Continue 
@@ -5828,7 +5804,6 @@ BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisit
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=149  Adj: tim=12496  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -5845,7 +5820,6 @@ BcmCmDocsisCtlThread::ConfigureAndStartIpInit:  (CmDocsisCtlThread) Beginning IP
 == Starting IP Initialization in IPv4 Only provisioning mode ==
 BcmEcosIpHalIf::FlushDefaultIPv6Routers:  (IP Stack1 HalIf) Flushing default IPv6 routers, CmSnmpAgent::ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support
 Logging event: Honoring MDD; IP provisioning mode = IPv4
-DHCPc:  Timed out waiting for offers for lease with client id htype=255, value=18 de b5 18 00 03 00 01 00 10 18 de b5 18
 Configuring IP stack 1:  IP Address = 172.16.8.1
 Logging event: DHCP WARNING - Non-critical field invalid in response ;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 CM successfully pushed IP 172.16.8.1 to eRouter
@@ -5957,7 +5931,6 @@ BcmCmUsChan::TccChangeCmd:  TCC changed upstream profile assignments
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=149 for CM hardware tx chan 8
 BcmCmUsChan::InstallOfdmaDataProfileTestingSID:  OFDMA testing SID: 0x208
 Updating US chan 8 data Profile test msg for Sid: 0x208.
-Readback Test pkt: 0x00 0x00 0x00 0x40 0xda 0xbe 0x00 0x80 0x42 0x42 0x20 0x9e 0x00 0x10 0x18 0xde 0xb5 0x18 0x00 0x2e 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0a 0x0b 0x0c 0x0d 0x0e 0x0f 0x10 0x11 0x12 0x13 0x14 0x15 0x16 0x17 0x18 0x19 0x1a 0x1b 0x1c 0x1d 0x1e 0x1f 0x20 0x21 0x22 0x23 0x24 0x25 0x26 0x27 0x28 0x29 0x2a 0x2b 0x2c 0x2d 0x2e 0x27 0x28 0x99 0xf4 
 BcmCmUsChan::ExecuteTccCmd:    hwTxId=0  docs ucid=0
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 0 to 0x2
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=101 for CM hardware tx chan 0
@@ -6023,7 +5996,6 @@ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=149  Adj: tim=12496  Stat=Continue 
 RNG-RSP UsChanId=101  Adj: tim=1465  Stat=Continue 
@@ -6551,7 +6523,6 @@ Logging event: Received Response to Broadcast Maintenance Request, But no Unicas
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 BcmCmMultiUsHelper::UsTimeRefFail:  (Cm Multi US Helper) target hwTxId=0
 BcmCmUsSetsState::UsTimeRefFail:  Failed to establish upstream time sync.
@@ -6719,7 +6690,6 @@ BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisit
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=149  Adj: tim=12096  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -6737,7 +6707,6 @@ BcmCmDocsisCtlThread::ConfigureAndStartIpInit:  (CmDocsisCtlThread) Beginning IP
 == Starting IP Initialization in IPv4 Only provisioning mode ==
 BcmEcosIpHalIf::FlushDefaultIPv6Routers:  (IP Stack1 HalIf) Flushing default IPv6 routers, CmSnmpAgent::ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support
 Logging event: Honoring MDD; IP provisioning mode = IPv4
-DHCPc:  Timed out waiting for offers for lease with client id htype=255, value=18 de b5 18 00 03 00 01 00 10 18 de b5 18
 Configuring IP stack 1:  IP Address = 172.16.8.1
 Logging event: DHCP WARNING - Non-critical field invalid in response ;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 CM successfully pushed IP 172.16.8.1 to eRouter
@@ -6849,7 +6818,6 @@ BcmCmUsChan::TccChangeCmd:  TCC changed upstream profile assignments
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=149 for CM hardware tx chan 8
 BcmCmUsChan::InstallOfdmaDataProfileTestingSID:  OFDMA testing SID: 0x209
 Updating US chan 8 data Profile test msg for Sid: 0x209.
-Readback Test pkt: 0x00 0x00 0x00 0x40 0xda 0xbe 0x00 0x80 0x42 0x42 0x20 0x9e 0x00 0x10 0x18 0xde 0xb5 0x18 0x00 0x2e 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0a 0x0b 0x0c 0x0d 0x0e 0x0f 0x10 0x11 0x12 0x13 0x14 0x15 0x16 0x17 0x18 0x19 0x1a 0x1b 0x1c 0x1d 0x1e 0x1f 0x20 0x21 0x22 0x23 0x24 0x25 0x26 0x27 0x28 0x29 0x2a 0x2b 0x2c 0x2d 0x2e 0x27 0x28 0x99 0xf4 
 BcmCmUsChan::ExecuteTccCmd:    hwTxId=0  docs ucid=0
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 0 to 0x2
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=101 for CM hardware tx chan 0
@@ -6915,7 +6883,6 @@ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 01 30   cf f8  | .......0..
 Primary Channel: 0, Interleave depth: 12, QAM_Mode: 256, AnnexMode: 1
 RNG-RSP UsChanId=101  Adj: tim=1445  Stat=Continue 
 RNG-RSP UsChanId=105  Adj: tim=1445  Stat=Continue 
@@ -7152,7 +7119,6 @@ BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisit
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=149  Adj: tim=8904  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -7170,7 +7136,6 @@ BcmCmDocsisCtlThread::ConfigureAndStartIpInit:  (CmDocsisCtlThread) Beginning IP
 == Starting IP Initialization in IPv4 Only provisioning mode ==
 BcmEcosIpHalIf::FlushDefaultIPv6Routers:  (IP Stack1 HalIf) Flushing default IPv6 routers, CmSnmpAgent::ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support
 Logging event: Honoring MDD; IP provisioning mode = IPv4
-DHCPc:  Timed out waiting for offers for lease with client id htype=255, value=18 de b5 18 00 03 00 01 00 10 18 de b5 18
 Configuring IP stack 1:  IP Address = 172.16.8.1
 Logging event: DHCP WARNING - Non-critical field invalid in response ;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 CM successfully pushed IP 172.16.8.1 to eRouter
@@ -7278,7 +7243,6 @@ BcmCmUsChan::TccChangeCmd:  TCC changed upstream profile assignments
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=149 for CM hardware tx chan 8
 BcmCmUsChan::InstallOfdmaDataProfileTestingSID:  OFDMA testing SID: 0x20a
 Updating US chan 8 data Profile test msg for Sid: 0x20a.
-Readback Test pkt: 0x00 0x00 0x00 0x40 0xda 0xbe 0x00 0x80 0x42 0x42 0x20 0x9e 0x00 0x10 0x18 0xde 0xb5 0x18 0x00 0x2e 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0a 0x0b 0x0c 0x0d 0x0e 0x0f 0x10 0x11 0x12 0x13 0x14 0x15 0x16 0x17 0x18 0x19 0x1a 0x1b 0x1c 0x1d 0x1e 0x1f 0x20 0x21 0x22 0x23 0x24 0x25 0x26 0x27 0x28 0x29 0x2a 0x2b 0x2c 0x2d 0x2e 0x27 0x28 0x99 0xf4 
 BcmCmUsChan::ExecuteTccCmd:    hwTxId=0  docs ucid=0
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 0 to 0x2
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=101 for CM hardware tx chan 0
@@ -7344,7 +7308,6 @@ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=105  Adj: tim=632  Stat=Continue 
 RNG-RSP UsChanId=102  Adj: tim=632  Stat=Continue 
@@ -8342,7 +8305,6 @@ BcmCmUsSetsState::TestAndLaunchUsTimeSync:  starting upstream time sync acquisit
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 53 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=149  Adj: tim=8912  Stat=Continue 
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Startup SID to 0x2
@@ -8359,7 +8321,6 @@ BcmCmDocsisCtlThread::ConfigureAndStartIpInit:  (CmDocsisCtlThread) Beginning IP
 == Starting IP Initialization in IPv4 Only provisioning mode ==
 BcmEcosIpHalIf::FlushDefaultIPv6Routers:  (IP Stack1 HalIf) Flushing default IPv6 routers, CmSnmpAgent::ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support
 Logging event: Honoring MDD; IP provisioning mode = IPv4
-DHCPc:  Timed out waiting for offers for lease with client id htype=255, value=18 de b5 18 00 03 00 01 00 10 18 de b5 18
 Configuring IP stack 1:  IP Address = 172.16.8.1
 Logging event: DHCP WARNING - Non-critical field invalid in response ;CM-MAC=00:10:18:de:b5:18;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 CM successfully pushed IP 172.16.8.1 to eRouter
@@ -8483,7 +8444,6 @@ BcmCmUsChan::TccChangeCmd:  TCC changed upstream profile assignments
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=149 for CM hardware tx chan 8
 BcmCmUsChan::InstallOfdmaDataProfileTestingSID:  OFDMA testing SID: 0x20b
 Updating US chan 8 data Profile test msg for Sid: 0x20b.
-Readback Test pkt: 0x00 0x00 0x00 0x40 0xda 0xbe 0x00 0x80 0x42 0x42 0x20 0x9e 0x00 0x10 0x18 0xde 0xb5 0x18 0x00 0x2e 0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08 0x09 0x0a 0x0b 0x0c 0x0d 0x0e 0x0f 0x10 0x11 0x12 0x13 0x14 0x15 0x16 0x17 0x18 0x19 0x1a 0x1b 0x1c 0x1d 0x1e 0x1f 0x20 0x21 0x22 0x23 0x24 0x25 0x26 0x27 0x28 0x29 0x2a 0x2b 0x2c 0x2d 0x2e 0x27 0x28 0x99 0xf4 
 BcmCmUsChan::ExecuteTccCmd:    hwTxId=0  docs ucid=0
 BcmDocsisCmHalIf::SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 0 to 0x2
 BcmCmUsChan::InstallUsSets:  Installing UCD w/ucid for UCID=101 for CM hardware tx chan 0
@@ -8549,7 +8509,6 @@ BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=7
 BcmCmMultiUsHelper::UsTimeRefOk:  (Cm Multi US Helper) target hwTxId=8
 BcmCmUsChan::UsTimeRefOk:  upstream time sync acquired for fHwTxId=8
 == Beginning initial ranging for Docsis UCID 149 ==, Minimum transmit power is 17 dBmV, Maximum transmit power is 49 dBmV, Dynamic Range Window is from 8.8dBmV to 21 dBmV, Stored power level for UCID 149 is 19 dBmV, Using per transmitter stored initial upstream power = 19 dBmV hwTxId = 8 docsis UCID = 149
-Configured O-INIT-RNG-REQ :, 00 10 18 de   b5 18 42 e0   0c 43  | ......B..C
 Primary Channel: 32, Interleave depth: 12, QAM_Mode: 0, AnnexMode: 0
 RNG-RSP UsChanId=105  Adj: tim=632  Stat=Continue 
 BcmCmDsOfdmProfileState::FecLockOk:  hwRxId=32  dcid=66  profId=1 (B)

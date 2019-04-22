@@ -59,6 +59,8 @@ sLinePattern2 = re.compile(r'Received DBC-REQ \(trans. id\=')
 sLinePattern3 = re.compile(r'RCC->')
 sLinePattern4 = re.compile(r'TCC->')
 sLinePattern5 = re.compile(r'\d')
+sLinePattern6 = re.compile(r'Readback Test pkt\:')
+sLinePattern7 = re.compile(r'DHCPc\:  Timed out waiting for offers for lease')
 
 sLinePatterns = [
     sLinePattern0,
@@ -66,7 +68,9 @@ sLinePatterns = [
     sLinePattern2,
     sLinePattern3,
     sLinePattern4,
-    sLinePattern5
+    sLinePattern5,
+    sLinePattern6,
+    sLinePattern7
 ]
 
 """
@@ -143,6 +147,15 @@ eNestedLinePatterns = [
 ]
 
 """
+Patterns for specific whole multi-line log which I want to remove entirely
+"""
+wMultiLineRmPattern0 = re.compile(r'Configured O-INIT-RNG-REQ \:')
+
+wMultiLineRmPatterns = [
+    wMultiLineRmPattern0
+]
+
+"""
 Patterns for other specific lines
 """
 # DS/US channel status tables
@@ -165,7 +178,8 @@ tableMessed = False
 dsTableEntryProcessed = False
 lastLineMessed = False
 inTable = False
-inMultiLine = False
+inMultiLineInitRange = False
+inMultiLineRemove = False
 lastLineEmpty = False
 sccvEmptyLineCnt = 0
 
@@ -344,12 +358,12 @@ for line in file:
     # Indent lines as multi-line log for initial ranging
     match = initRangePattern.match(newline)
     if match:
-        inMultiLine = True
-    elif inMultiLine:
+        inMultiLineInitRange = True
+    elif inMultiLineInitRange:
         if oInitRngReqPattern.match(newline) or cmMultiUsHelperPattern.match(newline) \
             or cmDocsisCtlThreadPattern.match(newline):
             # Suppose multi-line log ended with special lines
-            inMultiLine = False
+            inMultiLineInitRange = False
         else:
             # Still multi-line, indent it, say add a space at the start
             newline = ' ' + newline
@@ -360,6 +374,7 @@ for line in file:
         if match:
             # Indent this line
             newline = ' ' + newline
+            break
 
     # It is time to remove empty line
     if newline in ['\n', '\r\n']:
@@ -390,6 +405,28 @@ for line in file:
         if match:
             newline = newline.lstrip()
             break
+
+    # Remove specific whole multi-line log
+    foundPattern = False
+    for pattern in wMultiLineRmPatterns:
+        match = pattern.match(newline)
+        if match:
+            foundPattern = True
+            break
+    if foundPattern:
+        inMultiLineRemove = True
+        # Delete current line
+        # Update for the next line
+        lastLineEmpty = False
+        continue
+    elif inMultiLineRemove:
+        if not nestedLinePattern.match(newline):
+            inMultiLineRemove = False
+        else:
+            # Delete current line
+            # Update for the next line
+            lastLineEmpty = False
+            continue
 
     # Update lastLineEmpty for the next line processing
     lastLineEmpty = False

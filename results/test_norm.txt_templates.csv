@@ -68,7 +68,6 @@ dcb28a70,BcmCmMultiUsHelper::TargetNextDocs3CandidateUcid: (Cm Multi US Helper) 
 ae4fd8ea,BcmCmMultiUsHelper::UsTimeRefOk: (Cm Multi US Helper) target hwTxId=<*>,128
 28073aaf,BcmCmUsChan::UsTimeRefOk: upstream time sync acquired for fHwTxId=<*>,117
 c3a8771a,"== Beginning initial ranging for Docsis UCID <*> ==, Minimum transmit power is <*> dBmV, Maximum transmit power is <*> dBmV, Stored power level for UCID <*> is <*> dBmV, Using per transmitter stored initial upstream power = <*> dBmV hwTxId = <*> docsis UCID = <*>",10
-6f357f17,"Configured O-INIT-RNG-REQ :, <*> <*> <*> de b5 <*> <*> e0 0c <*> | ......B..C",12
 26239a1f,"Primary Channel: <*>, Interleave depth: <*>, QAM_Mode: <*>, AnnexMode: <*>",21
 42d44d6c,RNG-RSP UsChanId=<*> Adj: tim=<*> power=<*> Stat=Continue,3
 25b918b3,RNG-RSP UsChanId=<*> <*>,260
@@ -78,7 +77,6 @@ ee575719,"BcmCmDocsisCtlThread::FirstRngSuccess: (CmDocsisCtlThread), first RNG-
 c3ca8db6,== Starting IP Initialization in IPv4 Only provisioning mode ==,10
 a6819d02,"BcmEcosIpHalIf::FlushDefaultIPv6Routers: (IP Stack1 HalIf) Flushing default IPv6 routers, CmSnmpAgent::ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support",8
 88e6b332,Logging event: Honoring MDD; IP provisioning mode = IPv<*>,8
-f9321ede,"DHCPc: Timed out waiting for offers for lease with client id htype=<*>, value=<*> de b5 <*> <*> <*> <*> <*> <*> <*> <*> de b5 <*>",10
 a7da5e21,Configuring IP stack <*>: IP Address = <*>,10
 98a379e2,Logging event: DHCP WARNING - Non-critical field invalid in response ;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>.<*>;CM-VER=<*>.<*>;,10
 b49568ad,CM successfully pushed IP <*> to eRouter,10
@@ -144,7 +142,6 @@ afa259c9,BcmCmDsChan::DsLockOk: (BcmCmDsChan <*>) hwRxId=<*> freq=<*> dcid=<*>,3
 cded8c4c,"BcmCmUsChan::TccChangeCmd(), CM tx chan <*> starting TCC change command., == TCC command ==, TCC ref id = <*>, action = <*> (kTccChange), us chan id = <*>, new us chan id = <*> (not specified), ranging sid = <*>, ranging strategy = <*> (kTccRngBcastInit), dyn ranging window = <*> (not specified), Assigned OFDMA Data Profile IUCs = <*> <*>, data profile testing SID = <*>, rng mode (CM spec) = <*> (not specified), UCD = (not specified), ranging params = (not specified), TCC error = (not specified)",10
 ec96a74c,BcmCmUsChan::TccChangeCmd: TCC changed upstream profile assignments,10
 3268e100,BcmCmUsChan::InstallOfdmaDataProfileTestingSID: OFDMA testing SID: <*>,10
-fa6fd2f5,Readback Test pkt: <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*>,10
 a758c461,"BcmCmUsChan::TccRangeCmd(), CM tx chan <*> starting TCC range command..., == TCC command ==, TCC ref id = <*>, action = <*> (kTccRange), us chan id = <*>, new us chan id = <*> (not specified), ranging sid = <*> (not specified), ranging strategy = <*> (kTccRngBcastInit), dyn ranging window = <*> (not specified), rng mode (CM spec) = <*>, UCD = (not specified), ranging params = (not specified), TCC error = (not specified)",10
 d20f4a0c,PNMTestDriver::ThreadEndTest: (PNM Test Driver) No PNM test running,35
 7678afb3,"== Beginning initial ranging for Docsis UCID <*> ==, Minimum transmit power is <*> dBmV, Maximum transmit power is <*> dBmV, Dynamic Range Window is from <*> to <*> dBmV, Stored power level for UCID <*> is <*> dBmV, <*> <*> <*> power level of <*> dBmV is less than the min transmit power level. Setting power level to min., Using clamped minimum transmit power initial upstream power = <*> dBmV hwTxId = <*> docsis UCID = <*>",16
@@ -207,7 +204,6 @@ cd22e98a,AnnexMode[<*>] = <*> QAM_Mode[<*>] = <*>,4
 45b64f6b,fUsSetsState =,10
 9f8dc628,"Upstream settings state info:, fUcdSetsState = <*> (kUcdSetsInitial), fUsTimeRefState = <*> (kUsTimeRefInitial)",10
 367a50c5,Performing full reset on TCOFDM core <*>...,10
-07cc989d,"Configured O-INIT-RNG-REQ :, <*> <*> <*> de b5 <*> <*> <*> cf f8 | .......<*>..",9
 818bf9b8,BcmEcosIpHalIf::FlushDefaultIPv6Routers: (IP Stack1 HalIf) Flushing default IPv6 routers,2
 0fb125a5,L CmSnmpAgent::ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support,2
 79628e41,ogging event: Honoring MDD; IP provisioning mode = IPv<*>,2
