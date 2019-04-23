@@ -13,7 +13,8 @@ log_format = '<Content>'  # DOCSIS log format
 regex      = [
     r'([A-Fa-f0-9]+\:){5}[A-Fa-f0-9]+',  # MAC Address
     r'(/|)([0-9]+\.){3}[0-9]+(:[0-9]+|)(:|)',  # IP Address
-    r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$|0x[A-Fa-f0-9]+',  # Numbers
+    #r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$|0x[A-Fa-f0-9]+',  # Numbers
+    r'0x[A-Fa-f0-9]+|(?<=[^A-Za-z0-9])(\-?\+?\d+\.?(\d+)?)'  # Numbers
     #r' [A-Fa-f0-9][A-Fa-f0-9] '
 ]
 st         = 0.5  # Similarity threshold

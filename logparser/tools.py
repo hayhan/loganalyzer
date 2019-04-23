@@ -21,10 +21,7 @@ https://docs.python.org/3/library/codecs.html
 file       = open(parentdir + '/logs/HDFS_2k.log', 'r', encoding='utf-8-sig')
 normfile   = open(parentdir + '/logs/test_norm.txt', 'w')
 
-"""
-Patterns for removing timestamp, console prompt and others
-"""
-# The pattern to remove non Content messages in the log
+# The pattern to remove non Content messages in the HDFS log
 strPattern0 = re.compile(r'.*?\: ')
 
 strPatterns = [

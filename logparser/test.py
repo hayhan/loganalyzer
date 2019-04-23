@@ -15,9 +15,11 @@ print(teststrin)
 m = re.search(r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$', '0x56')
 print(m.group(0))
 
-currentRex = r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$|0x[A-Fa-f0-9]+|[A-Fa-f0-9]{2}'  # Numbers
+#currentRex = r'\d+|\d+\.\d+'
+currentRex = r'0x[A-Fa-f0-9]+|(?<=[^A-Za-z0-9])(\-?\+?\d+\.?(\d+)?)'  # Numbers
 #currentRex = r'[A-Fa-f0-9]{2}'
-line = re.sub(currentRex, '<*>', "Readback Test pkt: 18 de b5 18 00 03 00 01 00 10 18 de b5 18")
+#line = re.sub(currentRex, '<*>', "Readback Test pkt: 0x2 =-18dB 300.123 10.156 -19dB -20.7890 30.111 dcid=1, ucid12 dcid11 ver=3.1; ucid22, 0x33")
+line = re.sub(currentRex, '<*>', "RNG-RSP UsChanId=149  Adj: tim=12496  Stat=Continue")
 print(line)
 
 """

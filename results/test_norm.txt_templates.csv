@@ -6,12 +6,12 @@ bb174cf7,Received RG Event <*> State <*>,42
 d1e3d1e2,eRouter Linux WAN Down,32
 054e41a9,eRouterMsgPipe::UpdateIpNetToMediaEntry: (eRouterMsgPipe) eRouter IP address:<*>,32
 6d29ad69,Stopping DHCP/ToD/TFTP (client requested)...,13
-080c37a3,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:18ff:fede:b518/<*> from the stack!,13
+ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!,13
 b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,13
 e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>,23
 b92e78a3,SCQAM DSID filter control = <*>,23
 a5d1e3f3,OFDM DSID filter control = <*>,23
-50fb6fb5,Deleting DOCSIS <*>.<*> CoS Settings for SID <*>,13
+11303e8a,Deleting DOCSIS <*> CoS Settings for SID <*>,13
 aed043c9,"BcmDocsisCmHalIf::DeleteAllServiceFlows: (DOCSIS CableModem HalIf) Deleting all Upstream and Downstream Service Flows, along with associated Classifiers and PHS rules...",13
 86cf53c4,BcmCmDocsisCtlThread::ResetRngState: (CmDocsisCtlThread),13
 2661531e,BcmDocsisCmHalIf::SetPrimarySid: (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel <*> to <*>,127
@@ -20,7 +20,7 @@ cb099f43,BcmSetDocsis31CmtsRegistration:Setting <*>,23
 03ff2541,"BcmCmMultiDsHelper::PreRegDsChanChange:, target freq hz = <*>, reason string = <*> CmInitReason = <*>",10
 81efa4f2,Starting DS scanning at <*> Hz...,10
 1cf3e4cc,BcmCmDownstreamScan::StartScan: Starting DS scan,10
-72230b90,Scanning <*>.<*> MHz PLC/SC-QAM <*> <*> <*>,103
+6447f4ce,Scanning <*> MHz PLC/SC-QAM <*> locked <*>,9
 82d2d8f0,BcmCmDsChanOfdm::DsLockOk: (BcmCmDsChanOfdm) hwRxId=<*> freq=<*> dcid=<*> PLC found,13
 b24f5f19,BcmCmDsChanOfdm::StartOcdDpdGathering: (BcmCmDsChanOfdm) starting OCD/DPD gathering on PLC,13
 817555c1,OCD/DPD Filtering being configured for hwRxId=<*> -> filter enable = <*>,24
@@ -44,7 +44,7 @@ c2ac68e4,"MD-DS-SG discovery info:, fCmMdDsSgDiscState = <*> (kMdDsSgDiscDone), 
 2c5a73b0,SetRatios called with primary downstream channel number = <*>,10
 4dd1fde6,That's an OFDM downstream channel,6
 34fc59f9,Num/Den = <*>/<*>,10
-6a9cb369,... TCOFDM - DTR is now locked.... <*> Sync=<*>),11
+f44be10a,... TCOFDM - DTR is now locked.... (T2=<*>ms Sync=<*>),11
 5950ea7c,"Given a <*> MHz TCOFDM clock, the nominal value for the DTR FCW is <*>",11
 8ddb7531,"The DTR FCW is <*> - that value is good (<*>, within <*> ppm)",11
 b2971bd7,OFDM DS clock source.,6
@@ -61,7 +61,7 @@ dcb28a70,BcmCmMultiUsHelper::TargetNextDocs3CandidateUcid: (Cm Multi US Helper) 
 2d097a36,BcmDocsisCmHalIf::SetPrimarySid: (DOCSIS CableModem HalIf) Setting the Startup SID to <*>,20
 0506cb5a,BcmCmUsChan::InstallUsSets: Installing UCD w/ucid for UCID=<*> for CM hardware tx chan <*>,124
 81bc37e8,BcmCmUsSetsState::InstallUsSets: Inserting minimum required kDataProfileIuc13 into empty OFDMA upstream profile assignments,10
-8138d3da,"SetTXFreqOfdmInt for OFDM channel <*> - ffreq:<*>.<*>, Fclk_us_pll is <*>",1
+d06ea4dc,"SetTXFreqOfdmInt for OFDM channel <*> - ffreq:<*>, Fclk_us_pll is <*>",1
 8752b505,Setting FCW_SRC for OFDM channel <*> to use DS_FCW,1
 9b736fc0,"Diplexer US=<*> MHz, best match pre-eq coeff is <*> MHz @ <*>",1
 27a67e8b,BcmCmUsSetsState::TestAndLaunchUsTimeSync: starting upstream time sync acquisition...,133
@@ -76,9 +76,9 @@ ee575719,"BcmCmDocsisCtlThread::FirstRngSuccess: (CmDocsisCtlThread), first RNG-
 3866459d,"BcmCmDocsisCtlThread::ConfigureAndStartIpInit: (CmDocsisCtlThread) Beginning IP initialization., Utilizing configured MDD IP initialization parameters",10
 c3ca8db6,== Starting IP Initialization in IPv4 Only provisioning mode ==,10
 a6819d02,"BcmEcosIpHalIf::FlushDefaultIPv6Routers: (IP Stack1 HalIf) Flushing default IPv6 routers, CmSnmpAgent::ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support",8
-88e6b332,Logging event: Honoring MDD; IP provisioning mode = IPv<*>,8
+7554a71f,Logging event: Honoring MDD; IP provisioning mode = IPv4,8
 a7da5e21,Configuring IP stack <*>: IP Address = <*>,10
-98a379e2,Logging event: DHCP WARNING - Non-critical field invalid in response ;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>.<*>;CM-VER=<*>.<*>;,10
+507d16cd,Logging event: DHCP WARNING - Non-critical field invalid in response ;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>;CM-VER=<*>;,10
 b49568ad,CM successfully pushed IP <*> to eRouter,10
 90387ea2,Initiating TFTP over IPv4 in IPv4 only provisioning mode,10
 61413b1c,Starting Time Of Day...,10
@@ -125,11 +125,11 @@ a7764955,BcmCmDocsisCtlThread::ResumePreRegSequence: (CmDocsisCtlThread) Enablin
 39b3c535,Applying legacy rules for copying cfg file TLVs to REG-REQ...,10
 efff201b,BcmCmDocsisCtlThread::RegRspMsgEvent: (CmDocsisCtlThread) Received a REG-RSP-MP message from the CMTS...,40
 96edb585,BcmCmDocsisCtlThread::RegRspMsgEvent: (CmDocsisCtlThread) Waiting for more REG-RSP-MP fragments...,30
-b1c11fc0,BcmCmDocsisCtlThread::RegRspMsgEvent: (CmDocsisCtlThread) We registered with a DOCSIS <*>.<*> config file!,10
+79788adb,BcmCmDocsisCtlThread::RegRspMsgEvent: (CmDocsisCtlThread) We registered with a DOCSIS <*> config file!,10
 5f47d0b0,"BcmCmDocsisCtlThread::InstallDocsis11RegRspConfig: (CmDocsisCtlThread), REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx.",10
 c32a2f48,"Receive Channel Config:, Primary DS channel assignment vector: <*> <*>, Non-primary DS channel assignment vector: <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*> <*>, OFDM profile assignments:, <*> -> <*> <*> <*>",12
 ce9784f1,BcmCmDsChanOfdm::StartOcdDpdGathering: (BcmCmDsChanOfdm) starting optional DPD gathering on Profile A,6
-824df36f,Logging event: <*> profile assignment change. <*> Chan ID: <*>; Previous Profile: <*> New Profile: <*> <*>.;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>.<*>;CM-VER=<*>.<*>;,20
+90566320,Logging event: <*> profile assignment change. <*> Chan ID: <*>; Previous Profile: <*> New Profile: <*> <*>;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>;CM-VER=<*>;,20
 d49fd1f0,BcmBfcForwardAssistManager::OperatingConfigBitsEnable: (Forward Assist Manager) New Config = <*>,37
 5918b672,BcmCmDsChanOfdm::DetectOcdDpdGatheringProfADone: (BcmCmDsChanOfdm) hwRxId=<*> dcid=<*> All assigned DPDs gathered via profA.,6
 afa259c9,BcmCmDsChan::DsLockOk: (BcmCmDsChan <*>) hwRxId=<*> freq=<*> dcid=<*>,384
@@ -137,26 +137,24 @@ afa259c9,BcmCmDsChan::DsLockOk: (BcmCmDsChan <*>) hwRxId=<*> freq=<*> dcid=<*>,3
 892d8740,"<*> (CmDocsisCtlThread), Resuming registration sequence after waiting for <*> installation outcome.",20
 767143a6,activeTransmitterIndexBitmask = <*>,11
 3beceb77,Number of active <*> US channels = <*>,22
-26d0608f,"BcmCmMultiUsHelper::PhiQtrDb: (Cm Multi US Helper), Phi qtr dB set to :<*> <*> dB)",10
-51e75205,"BcmCmMultiUsHelper::DynamicRangeWindowQtrDb: (Cm Multi US Helper), Dynamic Range Window set to:<*> <*> dB)",17
+9a530de4,"BcmCmMultiUsHelper::PhiQtrDb: (Cm Multi US Helper), Phi qtr dB set to :<*> (<*> dB)",10
+1059ab1a,"BcmCmMultiUsHelper::DynamicRangeWindowQtrDb: (Cm Multi US Helper), Dynamic Range Window set to:<*> (<*> dB)",17
 cded8c4c,"BcmCmUsChan::TccChangeCmd(), CM tx chan <*> starting TCC change command., == TCC command ==, TCC ref id = <*>, action = <*> (kTccChange), us chan id = <*>, new us chan id = <*> (not specified), ranging sid = <*>, ranging strategy = <*> (kTccRngBcastInit), dyn ranging window = <*> (not specified), Assigned OFDMA Data Profile IUCs = <*> <*>, data profile testing SID = <*>, rng mode (CM spec) = <*> (not specified), UCD = (not specified), ranging params = (not specified), TCC error = (not specified)",10
 ec96a74c,BcmCmUsChan::TccChangeCmd: TCC changed upstream profile assignments,10
 3268e100,BcmCmUsChan::InstallOfdmaDataProfileTestingSID: OFDMA testing SID: <*>,10
 a758c461,"BcmCmUsChan::TccRangeCmd(), CM tx chan <*> starting TCC range command..., == TCC command ==, TCC ref id = <*>, action = <*> (kTccRange), us chan id = <*>, new us chan id = <*> (not specified), ranging sid = <*> (not specified), ranging strategy = <*> (kTccRngBcastInit), dyn ranging window = <*> (not specified), rng mode (CM spec) = <*>, UCD = (not specified), ranging params = (not specified), TCC error = (not specified)",10
 d20f4a0c,PNMTestDriver::ThreadEndTest: (PNM Test Driver) No PNM test running,35
-7678afb3,"== Beginning initial ranging for Docsis UCID <*> ==, Minimum transmit power is <*> dBmV, Maximum transmit power is <*> dBmV, Dynamic Range Window is from <*> to <*> dBmV, Stored power level for UCID <*> is <*> dBmV, <*> <*> <*> power level of <*> dBmV is less than the min transmit power level. Setting power level to min., Using clamped minimum transmit power initial upstream power = <*> dBmV hwTxId = <*> docsis UCID = <*>",16
-229e3554,"== Beginning initial ranging for Docsis UCID <*> ==, Minimum transmit power is <*> dBmV, Maximum transmit power is <*> dBmV, Dynamic Range Window is from <*> to <*> dBmV, Stored power level for UCID <*> is <*> dBmV, Using per transmitter stored initial upstream power = <*> dBmV hwTxId = <*> docsis UCID = <*>",82
-a6047f6e,RNG-RSP UsChanId=<*> Adj: <*> <*> <*> (CmdPwr (UsChanId-dBmV): (<*>-<*>.<*>) (<*>-<*>.<*>) (<*>-<*>.<*>) (<*>-<*>.<*>) (<*>-<*>.<*>) (<*>-<*>.<*>) (<*>-<*>.<*>) (<*>-<*>.<*>) (<*>-<*>.<*>) ),37
-838c8dd9,RNG-RSP UsChanId=<*> Adj: power=<*> <*> (CmdPwr (UsChanId-dBmV): (<*>-<*>.<*>) (<*>-<*>.<*>) (<*>-<*>.<*>) (<*>-<*>.<*>) (<*>-<*>.<*>) (<*>-<*>.<*>) (<*>-<*>.<*>) (<*>-<*>.<*>) (<*>-<*>.<*>) ),22
+53a063b8,"== Beginning initial ranging for Docsis UCID <*> ==, Minimum transmit power is <*> dBmV, Maximum transmit power is <*> dBmV, Dynamic Range Window is from <*>dBmV to <*> dBmV, Stored power level for UCID <*> is <*> dBmV, <*> <*> <*> power level of <*> dBmV is less than the min transmit power level. Setting power level to min., Using clamped minimum transmit power initial upstream power = <*> dBmV hwTxId = <*> docsis UCID = <*>",16
+5d0d0d29,"== Beginning initial ranging for Docsis UCID <*> ==, Minimum transmit power is <*> dBmV, Maximum transmit power is <*> dBmV, Dynamic Range Window is from <*>dBmV to <*> dBmV, Stored power level for UCID <*> is <*> dBmV, Using per transmitter stored initial upstream power = <*> dBmV hwTxId = <*> docsis UCID = <*>",82
+4d58ed17,RNG-RSP UsChanId=<*> Adj: <*> <*> <*> (CmdPwr (UsChanId-dBmV): (<*>-<*>) (<*>-<*>) (<*>-<*>) (<*>-<*>) (<*>-<*>) (<*>-<*>) (<*>-<*>) (<*>-<*>) (<*>-<*>) ),37
+1a32b4d4,RNG-RSP UsChanId=<*> Adj: power=<*> <*> (CmdPwr (UsChanId-dBmV): (<*>-<*>) (<*>-<*>) (<*>-<*>) (<*>-<*>) (<*>-<*>) (<*>-<*>) (<*>-<*>) (<*>-<*>) (<*>-<*>) ),22
 5b66c10e,"BcmCmDocsisCtlThread::DetectTccInstallDone: (CmDocsisCtlThread), resume registration sequence.",10
 bb4437e4,Registration complete!,10
 7d24a8e5,Process CVC,10
 1a8004c5,BcmBfcProcessCvc::ProcessConfigFileManufAndCosignerCvcs: (Process CVC) WARNING - No CVC included in config file; software upgrade can't be performed!,10
 f14fdef0,BPKM disabled via provisioned config file setting.,10
-64b73451,"DS channel status, rxid <*> dcid <*>, freq <*>, qam y, fec y, snr <*>, power <*>, mod Qam<*>",320
-ba9cd33b,"DS channel status, rxid <*> dcid <*>, freq <*>, qam y, fec y, snr <*>, power <*>, mod OFDM PLC",10
-f16761a3,"US channel status, txid <*>, ucid <*>, dcid <*>, rngsid <*>, power <*>, freq <*>.<*>, symrate <*>, phytype <*>, txdata <*>",104
-952b8466,"US channel status, txid <*>, ucid <*>, dcid <*>, rngsid <*>, power <*>, freq <*>.<*> - <*>.<*>, symrate <*>, phytype <*>, txdata <*>",13
+c790da67,"DS channel status, rxid <*> dcid <*>, freq <*>, qam y, fec y, snr <*>, power <*>, mod <*>",329
+a463a1eb,"US channel status, txid <*>, ucid <*>, dcid <*>, rngsid <*>, power <*>, freqstart <*>, freqend <*>, symrate <*>, phytype <*>, txdata <*>",117
 56688f8c,"Dynamic range window top: <*> dBmV, bottom: <*> dBmV",13
 424aabc0,Calculated Phi value: <*> dBmV,13
 35f6d8f4,Enabling network access for all CPE ports.,10
@@ -168,7 +166,7 @@ b4a1c2e6,"NumDsChans = <*>, NumUsChans = <*>",20
 c5949648,D31PowerSave 'On',11
 0208115b,Storing off OFDM DS MAC settings for channel <*>,11
 cb239ae2,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-QAM (<*>), <*> OFDM (<*>), US: <*> SC-QAM (<*>), <*> OFDMA (<*>)",11
-acf40486,"CmSnmpAgent operating in <*>.<*> mode, including docsQos",10
+109da36b,"CmSnmpAgent operating in <*> mode, including docsQos",10
 b8005468,"No UDC's, IP filters OK.",10
 a377766c,"No DH kickstart profiles or snmpCommunityTable entries installed., We will operate in NMACCESS mode.",10
 a03fadfa,Enabling SNMP link status checking.,10
@@ -191,7 +189,7 @@ b978e878,BcmEcosIpHalIf::RemoveLeaseImpl: (IP Stack1 HalIf) This is the last add
 219cf9b8,BcmVendorCmApplication::StartDhcpServer: (VendorExtension CmApp) Starting DHCP Server!,9
 059a1396,BcmDocsisCmHalIf::DeleteAllUsDropClassifiers: (DOCSIS CableModem HalIf) Deleting all Upstream Drop Classifiers...,9
 5b08249e,Clearing DSID = <*> index = <*>,18
-52462526,ERROR removing multicast DSID = <*> index = -<*>,9
+4c97df44,ERROR removing multicast DSID = <*> index = <*>,9
 67dd2a06,BcmSetDocsis3TransmitMode multiTxMode=<*>,9
 547ac5c3,"BcmBfcForwardAssistManager::ThreadMain: (Forward Assist Manager) Removing flow(s) due to MAC address removal, MAC: <*>",18
 0a74856c,"DOWNSTREAM STATUS, HW Channel ID = <*>, Phy type: SC-QAM, DS active chan settings:, ds chan id = <*>, center freq, Hz = <*> Hz, primary capable = false, status event rpt bitmask = <*>",4
@@ -203,19 +201,20 @@ cd22e98a,AnnexMode[<*>] = <*> QAM_Mode[<*>] = <*>,4
 829ad5b7,BcmCmUsChan::UsTimeRefOk: rx unexpected kUsTimeRefOk indication fHwTxId=<*>,10
 45b64f6b,fUsSetsState =,10
 9f8dc628,"Upstream settings state info:, fUcdSetsState = <*> (kUcdSetsInitial), fUsTimeRefState = <*> (kUsTimeRefInitial)",10
-367a50c5,Performing full reset on TCOFDM core <*>...,10
+552d7db9,Performing full reset on TCOFDM core <*>..,10
 818bf9b8,BcmEcosIpHalIf::FlushDefaultIPv6Routers: (IP Stack1 HalIf) Flushing default IPv6 routers,2
 0fb125a5,L CmSnmpAgent::ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support,2
-79628e41,ogging event: Honoring MDD; IP provisioning mode = IPv<*>,2
+5d384241,ogging event: Honoring MDD; IP provisioning mode = IPv4,2
 60a4c752,BcmDocsisCmHalIf::HandleStatusIndication: (DOCSIS CableModem HalIf) WARNING - ds data reseq <*> for dsid=<*>,8
-0d7db483,CM-STATUS trans=<*> event=<*> (kCmEvDsDataReseqFail) param type=<*> (dsid) param values= [ <*> <*> 3a ],4
+c95d5c65,CM-STATUS trans=<*> event=<*> (kCmEvDsDataReseqFail) param type=<*> (dsid) param values= [ <*> <*> <*>a ],4
 37da61ba,CM-STATUS-ACK trans=<*> event=<*> (kCmEvDsDataReseqFail),4
-2d010f0d,Logging event: CM-STATUS message sent. Event Type Code: <*>; Chan ID: N/A; DSID: :; MAC Addr: N/A; OFDM/OFDMA Profile ID: N/A.;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>.<*>;CM-VER=<*>.<*>;,4
+4c89fb48,Logging event: CM-STATUS message sent. Event Type Code: <*>; Chan ID: N/A; DSID: :; MAC Addr: N/A; OFDM/OFDMA Profile ID: N/A.;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>;CM-VER=<*>;,4
 1f0ddc02,BcmDocsisCmHalIf::HandleStatusIndication: (DOCSIS CableModem HalIf) WARNING - CM HAL declared PULSE lost!,2
-6493dd1b,Logging event: RNG-RSP CCAP Commanded Power in Excess of <*> dB Below the Value Corresponding to the Top of the DRW;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>.<*>;CM-VER=<*>.<*>;,23
-e3e0b998,FirstRngRsp success - adjustment was -<*>,1
-0dc06e61,"BcmCmMultiUsHelper::TestAndApplyRngRspDynamicRangeWindow: (Cm Multi US Helper) ERROR - Dynamic Range Window violation!, Docsis upstream channel ID that received this RNG-RSP: <*>, Docsis upstream channel ID where violation occured: <*>, Hardware transmitter index: <*>, Max transmit power: <*>, Previous top of DRW: <*>, New Top of DRW: <*>, Current transmit power: <*>, Current reported transmit power: <*>, Actual transmit power after adjustment applied: <*>, Reported transmit power after adjustment applied: <*>, Docsis <*>.<*> error condition: <*> (kCommandedPowerAboveDrw)",1
-f8d45058,Logging event: RNG-RSP CCAP Commanded Power Exceeds Value Corresponding to the Top of the DRW;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>.<*>;CM-VER=<*>.<*>;,1
+32e4e9dc,Logging event: RNG-RSP CCAP Commanded Power in Excess of <*> dB Below the Value Corresponding to the Top of the DRW;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>;CM-VER=<*>;,23
+e3d06083,"DS channel status, rxid <*>*, dcid <*>, freq <*>, qam y, fec y, snr <*>, power <*>, mod OFDM PLC",1
+79df295c,FirstRngRsp success - adjustment was <*>,1
+d06dd927,"BcmCmMultiUsHelper::TestAndApplyRngRspDynamicRangeWindow: (Cm Multi US Helper) ERROR - Dynamic Range Window violation!, Docsis upstream channel ID that received this RNG-RSP: <*>, Docsis upstream channel ID where violation occured: <*>, Hardware transmitter index: <*>, Max transmit power: <*>, Previous top of DRW: <*>, New Top of DRW: <*>, Current transmit power: <*>, Current reported transmit power: <*>, Actual transmit power after adjustment applied: <*>, Reported transmit power after adjustment applied: <*>, Docsis <*> error condition: <*> (kCommandedPowerAboveDrw)",1
+309331f2,Logging event: RNG-RSP CCAP Commanded Power Exceeds Value Corresponding to the Top of the DRW;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>;CM-VER=<*>;,1
 8447fe40,Logging event: Dynamic Range Window violation,1
 7c21dbfb,BcmDocsisCmHalIf::HandleStatusIndication: (DOCSIS CableModem HalIf) WARNING - CM HAL failed to acquire sync or lost sync!,19
 61af299d,BcmCmMultiUsHelper::UsTimeRefFail: (Cm Multi US Helper) target hwTxId=<*>,19
@@ -231,36 +230,37 @@ eb5b9c4b,Telling application we lost lock on <*> <*> <*>,130
 32acbad5,BcmCmDsChanOfdm::RecoverPlc: (BcmCmDsChanOfdm) retry -> hwRxId=<*> freq=<*> dcid=<*>,49
 62d062a6,BcmCmDsChan::LockToRescueCmtsRetryTimerEvent: (BcmCmDsChan <*>) retry recovery for active primary channel,32
 ed6dece0,BcmCmDsChan::MddKeepAliveFailTrans: (BcmCmDsChan <*>) hwRxId=<*> dcid=<*>,128
-05e2ad6b,Logging event: MDD message timeout;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>.<*>;CM-VER=<*>.<*>;,132
+2b35ab41,Logging event: MDD message timeout;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>;CM-VER=<*>;,132
 061530d4,BcmCmDsChanOfdm::MddKeepAliveFailTrans: (BcmCmDsChanOfdm) hwRxId=<*> dcid=<*>,4
 732671a6,OFDM channel <*> Profile A marked BAD due to <*> out of the last <*> <*> ms intervals containing uncorrectable codewords,3
 d821d7d9,BcmCmUsChanTimerMuxACT::HandleEvent() @time=<*> fTimerType=<*> (kT4NoStationMaint) hwTxId=<*> docs ucid=<*>,27
 579dd28b,BcmCmUsRangingState::T4NoStationMaintEvent: ERROR - no Station Maint map op error. hwTxId=<*> docs ucid=<*>,27
 f7d08ddf,BcmCmUsRangingState::CommonRngErrorHandler: reason=<*> (T4NoStationMaintTimeout) hwTxId=<*> docs ucid=<*>,27
 5c220792,BcmCmUsRangingState::RcvrTccReplace: starting TCC replace recovery strategy for hwTxId=<*> docs ucid=<*>,24
-78b31863,"Logging event: Received Response to Broadcast Maintenance Request, But no Unicast Maintenance opportunities received - T4 time out;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>.<*>;CM-VER=<*>.<*>;",27
+40019f3d,"Logging event: Received Response to Broadcast Maintenance Request, But no Unicast Maintenance opportunities received - T4 time out;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>;CM-VER=<*>;",27
 bb0dcca2,No timestamps on channel.,2
 ef635c85,"BcmCmMultiUsHelper::DetectDeadInWaterPrimaryUsSvcFlow: (Cm Multi US Helper) ERROR -, zero ucid associated with primary upstream service flow are able to tx data.",3
 7b123862,"CM Multi US Helper info:, fUcdGatherState = <*> (kUcdGatherOk), TotalNumOfUsChans() = <*>, NumActiveUsChans() = <*>, fCmTccInstallState = <*> (kTccInstallDone), fUsTimeWarpInProg = <*>, fDynamicRangeWindowQtrDb = <*>",3
 a3d3e790,Partial Service Upstream Channels:,3
-65392f3d,"CM Upstream channel info:, fHwTxId = <*>, UsChannelFreqHz = <*>, UsChannelPwrdBmv = <*>, fIsOfdmaChannel = <*>, TargetUsChanId() = <*>, fRngSid = <*>, fCmTccCmdInstallState = <*> <*> Upstream settings state info:, fUcdSetsState = <*> (kUcdSetsOk), fUsTimeRefState = <*> <*> UsPhyType() = <*> (Type <*> (DOCSIS <*>.<*>)), IsScdmaModeEnabled() = <*>, Ranging state info:, fRngMode = <*> <*> fRngMsgTxRxState = <*> <*> fUnicastRngOpState = <*> (kOperT4NoRngOpFail), fRxRngRspState = <*> (kRxRngRspOk), fRngSuccess = <*>, fLastRngRspStatus = <*> (Continue ), RngReqDrwStatus = <*> (kNoErrorCondition), AccumTimingAdjTicksDiv64 = <*>, fTmRngReqSentMlsec = <*>, fTmT3NoRngRspStdMlsec = <*>, fTmT4NoUnicastRngOpStdMlsec = <*>, fT4NoStationMntPeriodMlsec = <*>, fTmRngRspMlsec = <*>, fTmT2NoBcastRngOpStdMlsec = <*>, now = <*>",24
-ee903499,"CM Upstream channel info:, fHwTxId = <*>, UsChannelFreqHz = <*>, UsChannelPwrdBmv = <*>, fIsOfdmaChannel = <*>, TargetUsChanId() = <*>, fRngSid = <*>, fCmTccCmdInstallState = <*> <*> Upstream settings state info:, fUcdSetsState = <*> (kUcdSetsOk), fUsTimeRefState = <*> <*> UsPhyType() = <*> (Type <*> (DOCSIS <*>.<*>)), OFDMA Data Profile IUCs = <*> <*>, Ranging state info:, fRngMode = <*> <*> fRngMsgTxRxState = <*> <*> fUnicastRngOpState = <*> (kOperT4NoRngOpFail), fRxRngRspState = <*> (kRxRngRspOk), fRngSuccess = <*>, fLastRngRspStatus = <*> (Continue ), RngReqDrwStatus = <*> (kNoErrorCondition), AccumTimingAdjTicksDiv64 = <*>, fTmRngReqSentMlsec = <*>, fTmT3NoRngRspStdMlsec = <*>, fTmT4NoUnicastRngOpStdMlsec = <*>, fT4NoStationMntPeriodMlsec = <*>, fTmRngRspMlsec = <*>, fTmT2NoBcastRngOpStdMlsec = <*>, now = <*>",3
+23b7e3b5,"CM Upstream channel info:, fHwTxId = <*>, UsChannelFreqHz = <*>, UsChannelPwrdBmv = <*>, fIsOfdmaChannel = <*>, TargetUsChanId() = <*>, fRngSid = <*>, fCmTccCmdInstallState = <*> <*> Upstream settings state info:, fUcdSetsState = <*> (kUcdSetsOk), fUsTimeRefState = <*> <*> UsPhyType() = <*> (Type <*> (DOCSIS <*>)), IsScdmaModeEnabled() = <*>, Ranging state info:, fRngMode = <*> <*> fRngMsgTxRxState = <*> <*> fUnicastRngOpState = <*> (kOperT4NoRngOpFail), fRxRngRspState = <*> (kRxRngRspOk), fRngSuccess = <*>, fLastRngRspStatus = <*> (Continue ), RngReqDrwStatus = <*> (kNoErrorCondition), AccumTimingAdjTicksDiv64 = <*>, fTmRngReqSentMlsec = <*>, fTmT3NoRngRspStdMlsec = <*>, fTmT4NoUnicastRngOpStdMlsec = <*>, fT4NoStationMntPeriodMlsec = <*>, fTmRngRspMlsec = <*>, fTmT2NoBcastRngOpStdMlsec = <*>, now = <*>",24
+cc23ff6b,"CM Upstream channel info:, fHwTxId = <*>, UsChannelFreqHz = <*>, UsChannelPwrdBmv = <*>, fIsOfdmaChannel = <*>, TargetUsChanId() = <*>, fRngSid = <*>, fCmTccCmdInstallState = <*> <*> Upstream settings state info:, fUcdSetsState = <*> (kUcdSetsOk), fUsTimeRefState = <*> <*> UsPhyType() = <*> (Type <*> (DOCSIS <*>)), OFDMA Data Profile IUCs = <*> <*>, Ranging state info:, fRngMode = <*> <*> fRngMsgTxRxState = <*> <*> fUnicastRngOpState = <*> (kOperT4NoRngOpFail), fRxRngRspState = <*> (kRxRngRspOk), fRngSuccess = <*>, fLastRngRspStatus = <*> (Continue ), RngReqDrwStatus = <*> (kNoErrorCondition), AccumTimingAdjTicksDiv64 = <*>, fTmRngReqSentMlsec = <*>, fTmT3NoRngRspStdMlsec = <*>, fTmT4NoUnicastRngOpStdMlsec = <*>, fT4NoStationMntPeriodMlsec = <*>, fTmRngRspMlsec = <*>, fTmT2NoBcastRngOpStdMlsec = <*>, now = <*>",3
 06d4d12a,"BcmCmSidClusterHelper info:, fSidClstrInstallMode = <*> (kNewSvcFlowAndSidClstrs), Current Sfid to Ucid Association Set: set size = <*>, sfid ucid set",3
 6771bb08,BcmCmUsRangingState::CommonRngErrorHandler: all pri us svc flow tx chan are down. -> restart error!,3
 985c33fc,Disabling SNMP link status checking.,3
 177f3916,BcmCmDocsisCtlThread::SyncRestartErrorEvent: (CmDocsisCtlThread) reinit MAC #<*>: T4NoStationMaintTimeout,3
 739e32b1,"BcmCmDownstreamScan::CheckForCableCut: Checking for cable cut..., Plant power is <*>, Cable disconnected., Publishing 'cable cut' event.",1
-c9751a1a,Scanning <*>.<*> MHz PLC/SC-QAM (ErrorRecovery),1
-4b88eb0f,Scanning <*>.<*> MHz PLC/SC-QAM (Non-vol happy-home),93
-ac866b85,Scanning <*>.<*> MHz PLC,895
-2aef37f4,Scanning <*>.<*> MHz SC-QAM (Annex A <*> 1MHz),1708
+174da7cb,Scanning <*> MHz PLC/SC-QAM (ErrorRecovery),1
+a5fd68e7,Scanning <*> MHz PLC/SC-QAM (Non-vol happy-home),93
+611ba878,Scanning <*> MHz PLC/SC-QAM (Non-vol entry <*>),94
+f3c9d450,Scanning <*> MHz PLC,895
+5b12b4b5,Scanning <*> MHz SC-QAM (Annex A <*> <*>MHz),1708
 30aa8cbf,"BcmCmDownstreamScan::ScanNext: Cable reconnected., Publishing 'energy detected' event",1
-d07ff17a,Scanning <*>.<*> MHz PLC/SC-QAM (Non-vol happy-home) locked SC-QAM,1
+99e5eba7,Scanning <*> MHz PLC/SC-QAM (Non-vol happy-home) locked SC-QAM,1
 707c9eb1,"BcmCmMultiUsHelper::StartPreRegUsInit: (Cm Multi US Helper), targeting context is error recovery or startup., Always use last good upstream target chan id=<*>",3
 899bcbce,"Clearing D31 PowerSave., DS: <*> SC-QAM (<*>), <*> OFDM (<*>), US: <*> SC-QAM (<*>), <*> OFDMA (<*>)",2
 2d2b6251,ng...,2
 01cbd42b,Found carrier at <*> Hz!,1
-c3c0cea3,Signal quality = <*>.<*> dB SNR,1
+1d653321,Signal quality = <*> dB SNR,1
 cb6d68de,BcmCmDsChan::DsLockOk: (BcmCmDsChan <*>) UsTimeWarpInProg: Sending contrived DBC,1
 adae72e9,BcmCmDsChanOfdm::CheckMddKeepAliveStatus: (BcmCmDsChanOfdm) Initiating channel recovery action due to no keepalive MDD received in <*> ms,1
 3b30c6e6,BcmCmDocsisCtlThread::RxMsgEvent: (CmDocsisCtlThread) WARNING - relinquishing CPU with <*> messages still queued.,4

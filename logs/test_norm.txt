@@ -366,16 +366,16 @@ DS channel status, rxid 28, dcid 29, freq 524000000, qam y, fec y, snr 37, power
 DS channel status, rxid 29, dcid 30, freq 532000000, qam y, fec y, snr 36, power 2, mod Qam256
 DS channel status, rxid 30, dcid 31, freq 540000000, qam y, fec y, snr 37, power 2, mod Qam256
 DS channel status, rxid 31, dcid 32, freq 548000000, qam y, fec y, snr 37, power 2, mod Qam256
-DS channel status, rxid 32*, dcid 66, freq 698000000, qam y, fec y, snr 36, power 0, mod OFDM PLC
-US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 21, freq 9.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 21, freq 15.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 21, freq 21.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 3, ucid 104, dcid 66, rngsid 0x2, power 21, freq 28.200, symrate 5120000, phytype 3, txdata y
-US channel status, txid 4, ucid 105, dcid 66, rngsid 0x2, power 21, freq 34.600, symrate 5120000, phytype 3, txdata y
-US channel status, txid 5, ucid 106, dcid 66, rngsid 0x2, power 21, freq 41.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 6, ucid 107, dcid 66, rngsid 0x2, power 21, freq 47.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 7, ucid 108, dcid 66, rngsid 0x2, power 22, freq 53.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 8, ucid 149, dcid 66, rngsid 0x2, power 22, freq 63.700 - 78.450, symrate 0, phytype 5, txdata y
+DS channel status, rxid 32*, dcid 66, freq 698000000, qam y, fec y, snr 36, power 0, mod OFDM_PLC
+US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 21, freqstart 9.000, freqend 9.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 21, freqstart 15.400, freqend 15.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 21, freqstart 21.800, freqend 21.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 3, ucid 104, dcid 66, rngsid 0x2, power 21, freqstart 28.200, freqend 28.200, symrate 5120000, phytype 3, txdata y
+US channel status, txid 4, ucid 105, dcid 66, rngsid 0x2, power 21, freqstart 34.600, freqend 34.600, symrate 5120000, phytype 3, txdata y
+US channel status, txid 5, ucid 106, dcid 66, rngsid 0x2, power 21, freqstart 41.000, freqend 41.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 6, ucid 107, dcid 66, rngsid 0x2, power 21, freqstart 47.400, freqend 47.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 7, ucid 108, dcid 66, rngsid 0x2, power 22, freqstart 53.800, freqend 53.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 8, ucid 149, dcid 66, rngsid 0x2, power 22, freqstart 63.700, freqend 78.450, symrate 0, phytype 5, txdata y
 Dynamic range window top: 24 dBmV, bottom: 12 dBmV
 Calculated Phi value: 49 dBmV
 Enabling network access for all CPE ports.
@@ -783,16 +783,16 @@ DS channel status, rxid 28, dcid 29, freq 524000000, qam y, fec y, snr 36, power
 DS channel status, rxid 29, dcid 30, freq 532000000, qam y, fec y, snr 36, power 2, mod Qam256
 DS channel status, rxid 30, dcid 31, freq 540000000, qam y, fec y, snr 36, power 2, mod Qam256
 DS channel status, rxid 31, dcid 32, freq 548000000, qam y, fec y, snr 36, power 2, mod Qam256
-DS channel status, rxid 32, dcid 66, freq 698000000, qam y, fec y, snr 36, power 0, mod OFDM PLC
-US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 21, freq 9.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 1, ucid 102, dcid 1, rngsid 0x2, power 21, freq 15.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 2, ucid 103, dcid 1, rngsid 0x2, power 21, freq 21.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 3, ucid 104, dcid 1, rngsid 0x2, power 21, freq 28.200, symrate 5120000, phytype 3, txdata y
-US channel status, txid 4, ucid 105, dcid 1, rngsid 0x2, power 21, freq 34.600, symrate 5120000, phytype 3, txdata y
-US channel status, txid 5, ucid 106, dcid 1, rngsid 0x2, power 21, freq 41.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 6, ucid 107, dcid 1, rngsid 0x2, power 21, freq 47.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 7, ucid 108, dcid 1, rngsid 0x2, power 22, freq 53.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 8, ucid 149, dcid 1, rngsid 0x2, power 22, freq 63.700 - 78.450, symrate 0, phytype 5, txdata y
+DS channel status, rxid 32, dcid 66, freq 698000000, qam y, fec y, snr 36, power 0, mod OFDM_PLC
+US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 21, freqstart 9.000, freqend 9.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 1, ucid 102, dcid 1, rngsid 0x2, power 21, freqstart 15.400, freqend 15.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 2, ucid 103, dcid 1, rngsid 0x2, power 21, freqstart 21.800, freqend 21.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 3, ucid 104, dcid 1, rngsid 0x2, power 21, freqstart 28.200, freqend 28.200, symrate 5120000, phytype 3, txdata y
+US channel status, txid 4, ucid 105, dcid 1, rngsid 0x2, power 21, freqstart 34.600, freqend 34.600, symrate 5120000, phytype 3, txdata y
+US channel status, txid 5, ucid 106, dcid 1, rngsid 0x2, power 21, freqstart 41.000, freqend 41.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 6, ucid 107, dcid 1, rngsid 0x2, power 21, freqstart 47.400, freqend 47.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 7, ucid 108, dcid 1, rngsid 0x2, power 22, freqstart 53.800, freqend 53.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 8, ucid 149, dcid 1, rngsid 0x2, power 22, freqstart 63.700, freqend 78.450, symrate 0, phytype 5, txdata y
 Dynamic range window top: 24 dBmV, bottom: 12 dBmV
 Calculated Phi value: 49 dBmV
 Enabling network access for all CPE ports.
@@ -1225,16 +1225,16 @@ DS channel status, rxid 28, dcid 29, freq 524000000, qam y, fec y, snr 36, power
 DS channel status, rxid 29, dcid 30, freq 532000000, qam y, fec y, snr 36, power 2, mod Qam256
 DS channel status, rxid 30, dcid 31, freq 540000000, qam y, fec y, snr 36, power 2, mod Qam256
 DS channel status, rxid 31, dcid 32, freq 548000000, qam y, fec y, snr 37, power 2, mod Qam256
-DS channel status, rxid 32*, dcid 66, freq 698000000, qam y, fec y, snr 36, power 0, mod OFDM PLC
-US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 21, freq 9.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 21, freq 15.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 21, freq 21.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 3, ucid 104, dcid 66, rngsid 0x2, power 21, freq 28.200, symrate 5120000, phytype 3, txdata y
-US channel status, txid 4, ucid 105, dcid 66, rngsid 0x2, power 21, freq 34.600, symrate 5120000, phytype 3, txdata y
-US channel status, txid 5, ucid 106, dcid 66, rngsid 0x2, power 21, freq 41.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 6, ucid 107, dcid 66, rngsid 0x2, power 21, freq 47.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 7, ucid 108, dcid 66, rngsid 0x2, power 22, freq 53.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 8, ucid 149, dcid 66, rngsid 0x2, power 22, freq 63.700 - 78.450, symrate 0, phytype 5, txdata y
+DS channel status, rxid 32*, dcid 66, freq 698000000, qam y, fec y, snr 36, power 0, mod OFDM_PLC
+US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 21, freqstart 9.000, freqend 9.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 21, freqstart 15.400, freqend 15.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 21, freqstart 21.800, freqend 21.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 3, ucid 104, dcid 66, rngsid 0x2, power 21, freqstart 28.200, freqend 28.200, symrate 5120000, phytype 3, txdata y
+US channel status, txid 4, ucid 105, dcid 66, rngsid 0x2, power 21, freqstart 34.600, freqend 34.600, symrate 5120000, phytype 3, txdata y
+US channel status, txid 5, ucid 106, dcid 66, rngsid 0x2, power 21, freqstart 41.000, freqend 41.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 6, ucid 107, dcid 66, rngsid 0x2, power 21, freqstart 47.400, freqend 47.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 7, ucid 108, dcid 66, rngsid 0x2, power 22, freqstart 53.800, freqend 53.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 8, ucid 149, dcid 66, rngsid 0x2, power 22, freqstart 63.700, freqend 78.450, symrate 0, phytype 5, txdata y
 Dynamic range window top: 24 dBmV, bottom: 12 dBmV
 Calculated Phi value: 49 dBmV
 Enabling network access for all CPE ports.
@@ -1672,15 +1672,15 @@ DS channel status, rxid 29, dcid 30, freq 532000000, qam y, fec y, snr 36, power
 DS channel status, rxid 30, dcid 31, freq 540000000, qam y, fec y, snr 36, power 0, mod Qam256
 DS channel status, rxid 31, dcid 32, freq 548000000, qam y, fec y, snr 36, power 0, mod Qam256
 DS channel status, rxid 32*, dcid 66, freq 698000000, qam y, fec y, snr 35, power -3, mod OFDM PLC
-US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 21, freq 9.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 21, freq 15.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 21, freq 21.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 3, ucid 104, dcid 66, rngsid 0x2, power 21, freq 28.200, symrate 5120000, phytype 3, txdata y
-US channel status, txid 4, ucid 105, dcid 66, rngsid 0x2, power 21, freq 34.600, symrate 5120000, phytype 3, txdata y
-US channel status, txid 5, ucid 106, dcid 66, rngsid 0x2, power 22, freq 41.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 6, ucid 107, dcid 66, rngsid 0x2, power 21, freq 47.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 7, ucid 108, dcid 66, rngsid 0x2, power 22, freq 53.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 8, ucid 149, dcid 66, rngsid 0x2, power 27, freq 63.700 - 78.450, symrate 0, phytype 5, txdata y
+US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 21, freqstart 9.000, freqend 9.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 21, freqstart 15.400, freqend 15.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 21, freqstart 21.800, freqend 21.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 3, ucid 104, dcid 66, rngsid 0x2, power 21, freqstart 28.200, freqend 28.200, symrate 5120000, phytype 3, txdata y
+US channel status, txid 4, ucid 105, dcid 66, rngsid 0x2, power 21, freqstart 34.600, freqend 34.600, symrate 5120000, phytype 3, txdata y
+US channel status, txid 5, ucid 106, dcid 66, rngsid 0x2, power 22, freqstart 41.000, freqend 41.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 6, ucid 107, dcid 66, rngsid 0x2, power 21, freqstart 47.400, freqend 47.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 7, ucid 108, dcid 66, rngsid 0x2, power 22, freqstart 53.800, freqend 53.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 8, ucid 149, dcid 66, rngsid 0x2, power 27, freqstart 63.700, freqend 78.450, symrate 0, phytype 5, txdata y
 Dynamic range window top: 28 dBmV, bottom: 16 dBmV
 Calculated Phi value: 49 dBmV
 Enabling network access for all CPE ports.
@@ -2101,16 +2101,16 @@ DS channel status, rxid 28, dcid 29, freq 524000000, qam y, fec y, snr 36, power
 DS channel status, rxid 29, dcid 30, freq 532000000, qam y, fec y, snr 36, power 4, mod Qam256
 DS channel status, rxid 30, dcid 31, freq 540000000, qam y, fec y, snr 36, power 5, mod Qam256
 DS channel status, rxid 31, dcid 32, freq 548000000, qam y, fec y, snr 37, power 5, mod Qam256
-DS channel status, rxid 32*, dcid 66, freq 698000000, qam y, fec y, snr 35, power 1, mod OFDM PLC
-US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 18, freq 9.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 18, freq 15.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 18, freq 21.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 3, ucid 104, dcid 66, rngsid 0x2, power 18, freq 28.200, symrate 5120000, phytype 3, txdata y
-US channel status, txid 4, ucid 105, dcid 66, rngsid 0x2, power 18, freq 34.600, symrate 5120000, phytype 3, txdata y
-US channel status, txid 5, ucid 106, dcid 66, rngsid 0x2, power 19, freq 41.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 6, ucid 107, dcid 66, rngsid 0x2, power 18, freq 47.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 7, ucid 108, dcid 66, rngsid 0x2, power 19, freq 53.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 8, ucid 149, dcid 66, rngsid 0x2, power 19, freq 63.700 - 78.450, symrate 0, phytype 5, txdata y
+DS channel status, rxid 32*, dcid 66, freq 698000000, qam y, fec y, snr 35, power 1, mod OFDM_PLC
+US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 18, freqstart 9.000, freqend 9.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 18, freqstart 15.400, freqend 15.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 18, freqstart 21.800, freqend 21.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 3, ucid 104, dcid 66, rngsid 0x2, power 18, freqstart 28.200, freqend 28.200, symrate 5120000, phytype 3, txdata y
+US channel status, txid 4, ucid 105, dcid 66, rngsid 0x2, power 18, freqstart 34.600, freqend 34.600, symrate 5120000, phytype 3, txdata y
+US channel status, txid 5, ucid 106, dcid 66, rngsid 0x2, power 19, freqstart 41.000, freqend 41.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 6, ucid 107, dcid 66, rngsid 0x2, power 18, freqstart 47.400, freqend 47.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 7, ucid 108, dcid 66, rngsid 0x2, power 19, freqstart 53.800, freqend 53.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 8, ucid 149, dcid 66, rngsid 0x2, power 19, freqstart 63.700, freqend 78.450, symrate 0, phytype 5, txdata y
 Dynamic range window top: 20 dBmV, bottom: 8.3 dBmV
 Calculated Phi value: 49 dBmV
 Enabling network access for all CPE ports.
@@ -2519,16 +2519,16 @@ DS channel status, rxid 28, dcid 29, freq 524000000, qam y, fec y, snr 36, power
 DS channel status, rxid 29, dcid 30, freq 532000000, qam y, fec y, snr 36, power 5, mod Qam256
 DS channel status, rxid 30, dcid 31, freq 540000000, qam y, fec y, snr 36, power 5, mod Qam256
 DS channel status, rxid 31, dcid 32, freq 548000000, qam y, fec y, snr 36, power 5, mod Qam256
-DS channel status, rxid 32, dcid 66, freq 698000000, qam y, fec y, snr 35, power 1, mod OFDM PLC
-US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freq 9.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 1, ucid 102, dcid 1, rngsid 0x2, power 18, freq 15.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 2, ucid 103, dcid 1, rngsid 0x2, power 18, freq 21.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 3, ucid 104, dcid 1, rngsid 0x2, power 18, freq 28.200, symrate 5120000, phytype 3, txdata y
-US channel status, txid 4, ucid 105, dcid 1, rngsid 0x2, power 18, freq 34.600, symrate 5120000, phytype 3, txdata y
-US channel status, txid 5, ucid 106, dcid 1, rngsid 0x2, power 19, freq 41.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 6, ucid 107, dcid 1, rngsid 0x2, power 18, freq 47.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 7, ucid 108, dcid 1, rngsid 0x2, power 19, freq 53.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 8, ucid 149, dcid 1, rngsid 0x2, power 19, freq 63.700 - 78.450, symrate 0, phytype 5, txdata y
+DS channel status, rxid 32, dcid 66, freq 698000000, qam y, fec y, snr 35, power 1, mod OFDM_PLC
+US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freqstart 9.000, freqend 9.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 1, ucid 102, dcid 1, rngsid 0x2, power 18, freqstart 15.400, freqend 15.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 2, ucid 103, dcid 1, rngsid 0x2, power 18, freqstart 21.800, freqend 21.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 3, ucid 104, dcid 1, rngsid 0x2, power 18, freqstart 28.200, freqend 28.200, symrate 5120000, phytype 3, txdata y
+US channel status, txid 4, ucid 105, dcid 1, rngsid 0x2, power 18, freqstart 34.600, freqend 34.600, symrate 5120000, phytype 3, txdata y
+US channel status, txid 5, ucid 106, dcid 1, rngsid 0x2, power 19, freqstart 41.000, freqend 41.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 6, ucid 107, dcid 1, rngsid 0x2, power 18, freqstart 47.400, freqend 47.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 7, ucid 108, dcid 1, rngsid 0x2, power 19, freqstart 53.800, freqend 53.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 8, ucid 149, dcid 1, rngsid 0x2, power 19, freqstart 63.700, freqend 78.450, symrate 0, phytype 5, txdata y
 Dynamic range window top: 21 dBmV, bottom: 8.8 dBmV
 Calculated Phi value: 49 dBmV
 Enabling network access for all CPE ports.
@@ -2850,15 +2850,15 @@ BcmCmUsRangingState::T4NoStationMaintEvent:  ERROR - no Station Maint map op err
 BcmCmUsRangingState::CommonRngErrorHandler:  reason=10 (T4NoStationMaintTimeout)  hwTxId=8  docs ucid=149
 BcmCmMultiUsHelper::DetectDeadInWaterPrimaryUsSvcFlow:  (Cm Multi US Helper) ERROR -, zero ucid associated with primary upstream service flow are able to tx data.
 CM Multi US Helper info:, fUcdGatherState = 2 (kUcdGatherOk), TotalNumOfUsChans() = 10, NumActiveUsChans() = 9, fCmTccInstallState = 2 (kTccInstallDone), fUsTimeWarpInProg = 1, fDynamicRangeWindowQtrDb = 112
-US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freq 9.000, symrate 5120000, phytype 3, txdata n
-US channel status, txid 1, ucid 102, dcid 1, rngsid 0x2, power 19, freq 15.400, symrate 5120000, phytype 3, txdata n
-US channel status, txid 2, ucid 103, dcid 1, rngsid 0x2, power 19, freq 21.800, symrate 5120000, phytype 3, txdata n
-US channel status, txid 3, ucid 104, dcid 1, rngsid 0x2, power 18, freq 28.200, symrate 5120000, phytype 3, txdata n
-US channel status, txid 4, ucid 105, dcid 1, rngsid 0x2, power 18, freq 34.600, symrate 5120000, phytype 3, txdata n
-US channel status, txid 5, ucid 106, dcid 1, rngsid 0x2, power 18, freq 41.000, symrate 5120000, phytype 3, txdata n
-US channel status, txid 6, ucid 107, dcid 1, rngsid 0x2, power 19, freq 47.400, symrate 5120000, phytype 3, txdata n
-US channel status, txid 7, ucid 108, dcid 1, rngsid 0x2, power 19, freq 53.800, symrate 5120000, phytype 3, txdata n
-US channel status, txid 8, ucid 149, dcid 1, rngsid 0x2, power 19, freq 63.700 - 78.450, symrate 0, phytype 5, txdata n
+US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freqstart 9.000, freqend 9.000, symrate 5120000, phytype 3, txdata n
+US channel status, txid 1, ucid 102, dcid 1, rngsid 0x2, power 19, freqstart 15.400, freqend 15.400, symrate 5120000, phytype 3, txdata n
+US channel status, txid 2, ucid 103, dcid 1, rngsid 0x2, power 19, freqstart 21.800, freqend 21.800, symrate 5120000, phytype 3, txdata n
+US channel status, txid 3, ucid 104, dcid 1, rngsid 0x2, power 18, freqstart 28.200, freqend 28.200, symrate 5120000, phytype 3, txdata n
+US channel status, txid 4, ucid 105, dcid 1, rngsid 0x2, power 18, freqstart 34.600, freqend 34.600, symrate 5120000, phytype 3, txdata n
+US channel status, txid 5, ucid 106, dcid 1, rngsid 0x2, power 18, freqstart 41.000, freqend 41.000, symrate 5120000, phytype 3, txdata n
+US channel status, txid 6, ucid 107, dcid 1, rngsid 0x2, power 19, freqstart 47.400, freqend 47.400, symrate 5120000, phytype 3, txdata n
+US channel status, txid 7, ucid 108, dcid 1, rngsid 0x2, power 19, freqstart 53.800, freqend 53.800, symrate 5120000, phytype 3, txdata n
+US channel status, txid 8, ucid 149, dcid 1, rngsid 0x2, power 19, freqstart 63.700, freqend 78.450, symrate 0, phytype 5, txdata n
 Dynamic range window top: 21 dBmV, bottom: 8.8 dBmV
 Calculated Phi value: 49 dBmV
 Partial Service Upstream Channels:
@@ -6077,16 +6077,16 @@ DS channel status, rxid 28, dcid 29, freq 524000000, qam y, fec y, snr 36, power
 DS channel status, rxid 29, dcid 30, freq 532000000, qam y, fec y, snr 36, power 4, mod Qam256
 DS channel status, rxid 30, dcid 31, freq 540000000, qam y, fec y, snr 36, power 5, mod Qam256
 DS channel status, rxid 31, dcid 32, freq 548000000, qam y, fec y, snr 36, power 5, mod Qam256
-DS channel status, rxid 32, dcid 66, freq 698000000, qam y, fec y, snr 35, power 1, mod OFDM PLC
-US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freq 9.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 1, ucid 102, dcid 1, rngsid 0x2, power 18, freq 15.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 2, ucid 103, dcid 1, rngsid 0x2, power 18, freq 21.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 3, ucid 104, dcid 1, rngsid 0x2, power 18, freq 28.200, symrate 5120000, phytype 3, txdata y
-US channel status, txid 4, ucid 105, dcid 1, rngsid 0x2, power 18, freq 34.600, symrate 5120000, phytype 3, txdata y
-US channel status, txid 5, ucid 106, dcid 1, rngsid 0x2, power 19, freq 41.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 6, ucid 107, dcid 1, rngsid 0x2, power 18, freq 47.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 7, ucid 108, dcid 1, rngsid 0x2, power 19, freq 53.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 8, ucid 149, dcid 1, rngsid 0x2, power 19, freq 63.700 - 78.450, symrate 0, phytype 5, txdata y
+DS channel status, rxid 32, dcid 66, freq 698000000, qam y, fec y, snr 35, power 1, mod OFDM_PLC
+US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freqstart 9.000, freqend 9.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 1, ucid 102, dcid 1, rngsid 0x2, power 18, freqstart 15.400, freqend 15.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 2, ucid 103, dcid 1, rngsid 0x2, power 18, freqstart 21.800, freqend 21.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 3, ucid 104, dcid 1, rngsid 0x2, power 18, freqstart 28.200, freqend 28.200, symrate 5120000, phytype 3, txdata y
+US channel status, txid 4, ucid 105, dcid 1, rngsid 0x2, power 18, freqstart 34.600, freqend 34.600, symrate 5120000, phytype 3, txdata y
+US channel status, txid 5, ucid 106, dcid 1, rngsid 0x2, power 19, freqstart 41.000, freqend 41.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 6, ucid 107, dcid 1, rngsid 0x2, power 18, freqstart 47.400, freqend 47.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 7, ucid 108, dcid 1, rngsid 0x2, power 19, freqstart 53.800, freqend 53.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 8, ucid 149, dcid 1, rngsid 0x2, power 19, freqstart 63.700, freqend 78.450, symrate 0, phytype 5, txdata y
 Dynamic range window top: 21 dBmV, bottom: 8.8 dBmV
 Calculated Phi value: 49 dBmV
 Enabling network access for all CPE ports.
@@ -6494,15 +6494,15 @@ BcmCmUsRangingState::T4NoStationMaintEvent:  ERROR - no Station Maint map op err
 BcmCmUsRangingState::CommonRngErrorHandler:  reason=10 (T4NoStationMaintTimeout)  hwTxId=3  docs ucid=104
 BcmCmMultiUsHelper::DetectDeadInWaterPrimaryUsSvcFlow:  (Cm Multi US Helper) ERROR -, zero ucid associated with primary upstream service flow are able to tx data.
 CM Multi US Helper info:, fUcdGatherState = 2 (kUcdGatherOk), TotalNumOfUsChans() = 10, NumActiveUsChans() = 9, fCmTccInstallState = 2 (kTccInstallDone), fUsTimeWarpInProg = 0, fDynamicRangeWindowQtrDb = 112
-US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freq 9.000, symrate 5120000, phytype 3, txdata n
-US channel status, txid 1, ucid 102, dcid 1, rngsid 0x2, power 18, freq 15.400, symrate 5120000, phytype 3, txdata n
-US channel status, txid 2, ucid 103, dcid 1, rngsid 0x2, power 18, freq 21.800, symrate 5120000, phytype 3, txdata n
-US channel status, txid 3, ucid 104, dcid 1, rngsid 0x2, power 18, freq 28.200, symrate 5120000, phytype 3, txdata n
-US channel status, txid 4, ucid 105, dcid 1, rngsid 0x2, power 18, freq 34.600, symrate 5120000, phytype 3, txdata n
-US channel status, txid 5, ucid 106, dcid 1, rngsid 0x2, power 18, freq 41.000, symrate 5120000, phytype 3, txdata n
-US channel status, txid 6, ucid 107, dcid 1, rngsid 0x2, power 18, freq 47.400, symrate 5120000, phytype 3, txdata n
-US channel status, txid 7, ucid 108, dcid 1, rngsid 0x2, power 18, freq 53.800, symrate 5120000, phytype 3, txdata n
-US channel status, txid 8, ucid 149, dcid 1, rngsid 0x2, power 18, freq 63.700 - 78.450, symrate 0, phytype 5, txdata n
+US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freqstart 9.000, freqend 9.000, symrate 5120000, phytype 3, txdata n
+US channel status, txid 1, ucid 102, dcid 1, rngsid 0x2, power 18, freqstart 15.400, freqend 15.400, symrate 5120000, phytype 3, txdata n
+US channel status, txid 2, ucid 103, dcid 1, rngsid 0x2, power 18, freqstart 21.800, freqend 21.800, symrate 5120000, phytype 3, txdata n
+US channel status, txid 3, ucid 104, dcid 1, rngsid 0x2, power 18, freqstart 28.200, freqend 28.200, symrate 5120000, phytype 3, txdata n
+US channel status, txid 4, ucid 105, dcid 1, rngsid 0x2, power 18, freqstart 34.600, freqend 34.600, symrate 5120000, phytype 3, txdata n
+US channel status, txid 5, ucid 106, dcid 1, rngsid 0x2, power 18, freqstart 41.000, freqend 41.000, symrate 5120000, phytype 3, txdata n
+US channel status, txid 6, ucid 107, dcid 1, rngsid 0x2, power 18, freqstart 47.400, freqend 47.400, symrate 5120000, phytype 3, txdata n
+US channel status, txid 7, ucid 108, dcid 1, rngsid 0x2, power 18, freqstart 53.800, freqend 53.800, symrate 5120000, phytype 3, txdata n
+US channel status, txid 8, ucid 149, dcid 1, rngsid 0x2, power 18, freqstart 63.700, freqend 78.450, symrate 0, phytype 5, txdata n
 Dynamic range window top: 21 dBmV, bottom: 8.8 dBmV
 Calculated Phi value: 49 dBmV
 Partial Service Upstream Channels:
@@ -6964,16 +6964,16 @@ DS channel status, rxid 28, dcid 29, freq 524000000, qam y, fec y, snr 36, power
 DS channel status, rxid 29, dcid 30, freq 532000000, qam y, fec y, snr 36, power 4, mod Qam256
 DS channel status, rxid 30, dcid 31, freq 540000000, qam y, fec y, snr 36, power 5, mod Qam256
 DS channel status, rxid 31, dcid 32, freq 548000000, qam y, fec y, snr 37, power 5, mod Qam256
-DS channel status, rxid 32, dcid 66, freq 698000000, qam y, fec y, snr 35, power 1, mod OFDM PLC
-US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freq 9.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 1, ucid 102, dcid 1, rngsid 0x2, power 18, freq 15.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 2, ucid 103, dcid 1, rngsid 0x2, power 18, freq 21.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 3, ucid 104, dcid 1, rngsid 0x2, power 18, freq 28.200, symrate 5120000, phytype 3, txdata y
-US channel status, txid 4, ucid 105, dcid 1, rngsid 0x2, power 18, freq 34.600, symrate 5120000, phytype 3, txdata y
-US channel status, txid 5, ucid 106, dcid 1, rngsid 0x2, power 19, freq 41.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 6, ucid 107, dcid 1, rngsid 0x2, power 18, freq 47.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 7, ucid 108, dcid 1, rngsid 0x2, power 19, freq 53.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 8, ucid 149, dcid 1, rngsid 0x2, power 19, freq 63.700 - 78.450, symrate 0, phytype 5, txdata y
+DS channel status, rxid 32, dcid 66, freq 698000000, qam y, fec y, snr 35, power 1, mod OFDM_PLC
+US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freqstart 9.000, freqend 9.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 1, ucid 102, dcid 1, rngsid 0x2, power 18, freqstart 15.400, freqend 15.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 2, ucid 103, dcid 1, rngsid 0x2, power 18, freqstart 21.800, freqend 21.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 3, ucid 104, dcid 1, rngsid 0x2, power 18, freqstart 28.200, freqend 28.200, symrate 5120000, phytype 3, txdata y
+US channel status, txid 4, ucid 105, dcid 1, rngsid 0x2, power 18, freqstart 34.600, freqend 34.600, symrate 5120000, phytype 3, txdata y
+US channel status, txid 5, ucid 106, dcid 1, rngsid 0x2, power 19, freqstart 41.000, freqend 41.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 6, ucid 107, dcid 1, rngsid 0x2, power 18, freqstart 47.400, freqend 47.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 7, ucid 108, dcid 1, rngsid 0x2, power 19, freqstart 53.800, freqend 53.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 8, ucid 149, dcid 1, rngsid 0x2, power 19, freqstart 63.700, freqend 78.450, symrate 0, phytype 5, txdata y
 Dynamic range window top: 21 dBmV, bottom: 8.8 dBmV
 Calculated Phi value: 49 dBmV
 Enabling network access for all CPE ports.
@@ -7390,16 +7390,16 @@ DS channel status, rxid 28, dcid 29, freq 524000000, qam y, fec y, snr 36, power
 DS channel status, rxid 29, dcid 30, freq 532000000, qam y, fec y, snr 36, power 4, mod Qam256
 DS channel status, rxid 30, dcid 31, freq 540000000, qam y, fec y, snr 36, power 5, mod Qam256
 DS channel status, rxid 31, dcid 32, freq 548000000, qam y, fec y, snr 36, power 5, mod Qam256
-DS channel status, rxid 32*, dcid 66, freq 698000000, qam y, fec y, snr 35, power 1, mod OFDM PLC
-US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 18, freq 9.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 18, freq 15.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 18, freq 21.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 3, ucid 104, dcid 66, rngsid 0x2, power 18, freq 28.200, symrate 5120000, phytype 3, txdata y
-US channel status, txid 4, ucid 105, dcid 66, rngsid 0x2, power 18, freq 34.600, symrate 5120000, phytype 3, txdata y
-US channel status, txid 5, ucid 106, dcid 66, rngsid 0x2, power 19, freq 41.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 6, ucid 107, dcid 66, rngsid 0x2, power 18, freq 47.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 7, ucid 108, dcid 66, rngsid 0x2, power 19, freq 53.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 8, ucid 149, dcid 66, rngsid 0x2, power 19, freq 63.700 - 78.450, symrate 0, phytype 5, txdata y
+DS channel status, rxid 32*, dcid 66, freq 698000000, qam y, fec y, snr 35, power 1, mod OFDM_PLC
+US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 18, freqstart 9.000, freqend 9.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 18, freqstart 15.400, freqend 15.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 18, freqstart 21.800, freqend 21.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 3, ucid 104, dcid 66, rngsid 0x2, power 18, freqstart 28.200, freqend 28.200, symrate 5120000, phytype 3, txdata y
+US channel status, txid 4, ucid 105, dcid 66, rngsid 0x2, power 18, freqstart 34.600, freqend 34.600, symrate 5120000, phytype 3, txdata y
+US channel status, txid 5, ucid 106, dcid 66, rngsid 0x2, power 19, freqstart 41.000, freqend 41.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 6, ucid 107, dcid 66, rngsid 0x2, power 18, freqstart 47.400, freqend 47.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 7, ucid 108, dcid 66, rngsid 0x2, power 19, freqstart 53.800, freqend 53.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 8, ucid 149, dcid 66, rngsid 0x2, power 19, freqstart 63.700, freqend 78.450, symrate 0, phytype 5, txdata y
 Dynamic range window top: 21 dBmV, bottom: 8.8 dBmV
 Calculated Phi value: 49 dBmV
 Enabling network access for all CPE ports.
@@ -8148,15 +8148,15 @@ BcmCmUsRangingState::T4NoStationMaintEvent:  ERROR - no Station Maint map op err
 BcmCmUsRangingState::CommonRngErrorHandler:  reason=10 (T4NoStationMaintTimeout)  hwTxId=8  docs ucid=149
 BcmCmMultiUsHelper::DetectDeadInWaterPrimaryUsSvcFlow:  (Cm Multi US Helper) ERROR -, zero ucid associated with primary upstream service flow are able to tx data.
 CM Multi US Helper info:, fUcdGatherState = 2 (kUcdGatherOk), TotalNumOfUsChans() = 10, NumActiveUsChans() = 9, fCmTccInstallState = 2 (kTccInstallDone), fUsTimeWarpInProg = 1, fDynamicRangeWindowQtrDb = 112
-US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 18, freq 9.000, symrate 5120000, phytype 3, txdata n
-US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 19, freq 15.400, symrate 5120000, phytype 3, txdata n
-US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 19, freq 21.800, symrate 5120000, phytype 3, txdata n
-US channel status, txid 3, ucid 104, dcid 66, rngsid 0x2, power 19, freq 28.200, symrate 5120000, phytype 3, txdata n
-US channel status, txid 4, ucid 105, dcid 66, rngsid 0x2, power 18, freq 34.600, symrate 5120000, phytype 3, txdata n
-US channel status, txid 5, ucid 106, dcid 66, rngsid 0x2, power 19, freq 41.000, symrate 5120000, phytype 3, txdata n
-US channel status, txid 6, ucid 107, dcid 66, rngsid 0x2, power 19, freq 47.400, symrate 5120000, phytype 3, txdata n
-US channel status, txid 7, ucid 108, dcid 66, rngsid 0x2, power 19, freq 53.800, symrate 5120000, phytype 3, txdata n
-US channel status, txid 8, ucid 149, dcid 66, rngsid 0x2, power 19, freq 63.700 - 78.450, symrate 0, phytype 5, txdata n
+US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 18, freqstart 9.000, freqend 9.000, symrate 5120000, phytype 3, txdata n
+US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 19, freqstart 15.400, freqend 15.400, symrate 5120000, phytype 3, txdata n
+US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 19, freqstart 21.800, freqend 21.800, symrate 5120000, phytype 3, txdata n
+US channel status, txid 3, ucid 104, dcid 66, rngsid 0x2, power 19, freqstart 28.200, freqend 28.200, symrate 5120000, phytype 3, txdata n
+US channel status, txid 4, ucid 105, dcid 66, rngsid 0x2, power 18, freqstart 34.600, freqend 34.600, symrate 5120000, phytype 3, txdata n
+US channel status, txid 5, ucid 106, dcid 66, rngsid 0x2, power 19, freqstart 41.000, freqend 41.000, symrate 5120000, phytype 3, txdata n
+US channel status, txid 6, ucid 107, dcid 66, rngsid 0x2, power 19, freqstart 47.400, freqend 47.400, symrate 5120000, phytype 3, txdata n
+US channel status, txid 7, ucid 108, dcid 66, rngsid 0x2, power 19, freqstart 53.800, freqend 53.800, symrate 5120000, phytype 3, txdata n
+US channel status, txid 8, ucid 149, dcid 66, rngsid 0x2, power 19, freqstart 63.700, freqend 78.450, symrate 0, phytype 5, txdata n
 Dynamic range window top: 21 dBmV, bottom: 8.8 dBmV
 Calculated Phi value: 49 dBmV
 Partial Service Upstream Channels:
@@ -8591,16 +8591,16 @@ DS channel status, rxid 28, dcid 29, freq 524000000, qam y, fec y, snr 36, power
 DS channel status, rxid 29, dcid 30, freq 532000000, qam y, fec y, snr 36, power 5, mod Qam256
 DS channel status, rxid 30, dcid 31, freq 540000000, qam y, fec y, snr 36, power 5, mod Qam256
 DS channel status, rxid 31, dcid 32, freq 548000000, qam y, fec y, snr 36, power 5, mod Qam256
-DS channel status, rxid 32*, dcid 66, freq 698000000, qam y, fec y, snr 35, power 1, mod OFDM PLC
-US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 18, freq 9.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 18, freq 15.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 18, freq 21.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 3, ucid 104, dcid 66, rngsid 0x2, power 18, freq 28.200, symrate 5120000, phytype 3, txdata y
-US channel status, txid 4, ucid 105, dcid 66, rngsid 0x2, power 18, freq 34.600, symrate 5120000, phytype 3, txdata y
-US channel status, txid 5, ucid 106, dcid 66, rngsid 0x2, power 19, freq 41.000, symrate 5120000, phytype 3, txdata y
-US channel status, txid 6, ucid 107, dcid 66, rngsid 0x2, power 18, freq 47.400, symrate 5120000, phytype 3, txdata y
-US channel status, txid 7, ucid 108, dcid 66, rngsid 0x2, power 19, freq 53.800, symrate 5120000, phytype 3, txdata y
-US channel status, txid 8, ucid 149, dcid 66, rngsid 0x2, power 19, freq 63.700 - 78.450, symrate 0, phytype 5, txdata y
+DS channel status, rxid 32*, dcid 66, freq 698000000, qam y, fec y, snr 35, power 1, mod OFDM_PLC
+US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 18, freqstart 9.000, freqend 9.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 18, freqstart 15.400, freqend 15.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 18, freqstart 21.800, freqend 21.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 3, ucid 104, dcid 66, rngsid 0x2, power 18, freqstart 28.200, freqend 28.200, symrate 5120000, phytype 3, txdata y
+US channel status, txid 4, ucid 105, dcid 66, rngsid 0x2, power 18, freqstart 34.600, freqend 34.600, symrate 5120000, phytype 3, txdata y
+US channel status, txid 5, ucid 106, dcid 66, rngsid 0x2, power 19, freqstart 41.000, freqend 41.000, symrate 5120000, phytype 3, txdata y
+US channel status, txid 6, ucid 107, dcid 66, rngsid 0x2, power 18, freqstart 47.400, freqend 47.400, symrate 5120000, phytype 3, txdata y
+US channel status, txid 7, ucid 108, dcid 66, rngsid 0x2, power 19, freqstart 53.800, freqend 53.800, symrate 5120000, phytype 3, txdata y
+US channel status, txid 8, ucid 149, dcid 66, rngsid 0x2, power 19, freqstart 63.700, freqend 78.450, symrate 0, phytype 5, txdata y
 Dynamic range window top: 21 dBmV, bottom: 8.8 dBmV
 Calculated Phi value: 49 dBmV
 Enabling network access for all CPE ports.

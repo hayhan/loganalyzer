@@ -236,8 +236,9 @@ for line in file:
     #   rx id  dcid    freq, hz  qam  fec   snr, dB   power, dBmV  modulation
     #                            plc  prfA
     #   -----  ----  ----------  ---  ---  ---------  -----------  ----------
-    #       0*    1   300000000   y    y          35            3      Qam256
+    #       0*    1   300000000   y    y          35            3       Qam64
     #       1     2   308000000   y    y          34            4      Qam256
+    #      32    66   698000000   y    y          35            1    OFDM PLC
     #
     match = dsChStatTablePattern.match(newline)
     if match:
@@ -279,9 +280,14 @@ for line in file:
                     elif lineList[7][3] == '2':     # Q256
                         lineList[7] = 'Qam256\n'
                     else:
-                        lineList[7] = 'OFDM PLC\n'  # OFDM PLC
+                        lineList[7] = 'OFDM_PLC\n'  # OFDM PLC
                 else:
                     lastLineMessed = False
+            else:
+                if lineList[7] in ['OFDM PLC\n', 'OFDM PLC\r\n']:
+                    # Keep the OFDM channel status log length as same as QAM channel
+                    # Then they will share the same log template after clustering
+                    lineList[7] = 'OFDM_PLC\n'  # OFDM PLC
 
             newline = 'DS channel status' + ', rxid ' + lineList[0] + ', dcid ' + lineList[1] + \
                       ', freq ' + lineList[2] + ', qam ' + lineList[3] + ', fec ' + lineList[4] + \
@@ -296,6 +302,7 @@ for line in file:
     #  ----  ----  ----  ------  -----    ---------------  -------  ----  -----
     #     0   101     1     0x2      18             9.000  5120000     3      y
     #     1   102     1     0x2      18            15.400  5120000     3      y
+    #     8   149     1     0x2      18   63.700 - 78.450        0     5      y
     #
     match = usChStatTablePattern.match(newline)
     if match:
@@ -307,21 +314,22 @@ for line in file:
             inUsChStatTable = False
         else:
             # Convert current line to new us format
-            # US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freq 9.000, symrate 5120000, phytype 3, txdata y
+            # US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freq_start 9.000, freq_end 9.000, symrate 5120000, phytype 3, txdata y
             lineList = newline.split(None, 8)
             if lineList[6] == '-':
                 # This line is for OFDMA channel, so split it again
                 lineList = newline.split(None, 10)
                 newline = 'US channel status' + ', txid ' + lineList[0] + ', ucid ' + lineList[1] + \
                           ', dcid ' + lineList[2] + ', rngsid ' + lineList[3] + ', power ' + lineList[4] + \
-                          ', freq ' + lineList[5] + ' ' +lineList[6] + ' ' + lineList[7] + \
+                          ', freqstart ' + lineList[5] + ', freqend ' +lineList[7] + \
                           ', symrate ' + lineList[8] + ', phytype ' + lineList[9] + \
                           ', txdata ' + lineList[10]
             else:
                 # For SC-QAM channels
                 newline = 'US channel status' + ', txid ' + lineList[0] + ', ucid ' + lineList[1] + \
                           ', dcid ' + lineList[2] + ', rngsid ' + lineList[3] + ', power ' + lineList[4] + \
-                          ', freq ' + lineList[5] + ', symrate ' + lineList[6] + ', phytype ' + lineList[7] + \
+                          ', freqstart ' + lineList[5] + ', freqend ' +lineList[5] + \
+                          ', symrate ' + lineList[6] + ', phytype ' + lineList[7] + \
                           ', txdata ' + lineList[8]
 
     # Remove table block
