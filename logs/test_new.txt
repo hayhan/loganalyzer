@@ -2255,7 +2255,7 @@ DS channel status, rxid 28, dcid 29, freq 524000000, qam y, fec y, snr 36, power
 DS channel status, rxid 29, dcid 30, freq 532000000, qam y, fec y, snr 36, power 0, mod Qam256
 DS channel status, rxid 30, dcid 31, freq 540000000, qam y, fec y, snr 36, power 0, mod Qam256
 DS channel status, rxid 31, dcid 32, freq 548000000, qam y, fec y, snr 36, power 0, mod Qam256
-DS channel status, rxid 32*, dcid 66, freq 698000000, qam y, fec y, snr 35, power -3, mod OFDM PLC
+DS channel status, rxid 32*, dcid 66, freq 698000000, qam y, fec y, snr 35, power -3, mod OFDM_PLC
 US channel status, txid 0, ucid 101, dcid 66, rngsid 0x2, power 21, freqstart 9.000, freqend 9.000, symrate 5120000, phytype 3, txdata y
 US channel status, txid 1, ucid 102, dcid 66, rngsid 0x2, power 21, freqstart 15.400, freqend 15.400, symrate 5120000, phytype 3, txdata y
 US channel status, txid 2, ucid 103, dcid 66, rngsid 0x2, power 21, freqstart 21.800, freqend 21.800, symrate 5120000, phytype 3, txdata y

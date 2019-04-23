@@ -153,7 +153,7 @@ bb4437e4,Registration complete!,10
 7d24a8e5,Process CVC,10
 1a8004c5,BcmBfcProcessCvc::ProcessConfigFileManufAndCosignerCvcs: (Process CVC) WARNING - No CVC included in config file; software upgrade can't be performed!,10
 f14fdef0,BPKM disabled via provisioned config file setting.,10
-c790da67,"DS channel status, rxid <*> dcid <*>, freq <*>, qam y, fec y, snr <*>, power <*>, mod <*>",329
+c790da67,"DS channel status, rxid <*> dcid <*>, freq <*>, qam y, fec y, snr <*>, power <*>, mod <*>",330
 a463a1eb,"US channel status, txid <*>, ucid <*>, dcid <*>, rngsid <*>, power <*>, freqstart <*>, freqend <*>, symrate <*>, phytype <*>, txdata <*>",117
 56688f8c,"Dynamic range window top: <*> dBmV, bottom: <*> dBmV",13
 424aabc0,Calculated Phi value: <*> dBmV,13
@@ -211,7 +211,6 @@ c95d5c65,CM-STATUS trans=<*> event=<*> (kCmEvDsDataReseqFail) param type=<*> (ds
 4c89fb48,Logging event: CM-STATUS message sent. Event Type Code: <*>; Chan ID: N/A; DSID: :; MAC Addr: N/A; OFDM/OFDMA Profile ID: N/A.;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>;CM-VER=<*>;,4
 1f0ddc02,BcmDocsisCmHalIf::HandleStatusIndication: (DOCSIS CableModem HalIf) WARNING - CM HAL declared PULSE lost!,2
 32e4e9dc,Logging event: RNG-RSP CCAP Commanded Power in Excess of <*> dB Below the Value Corresponding to the Top of the DRW;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>;CM-VER=<*>;,23
-e3d06083,"DS channel status, rxid <*>*, dcid <*>, freq <*>, qam y, fec y, snr <*>, power <*>, mod OFDM PLC",1
 79df295c,FirstRngRsp success - adjustment was <*>,1
 d06dd927,"BcmCmMultiUsHelper::TestAndApplyRngRspDynamicRangeWindow: (Cm Multi US Helper) ERROR - Dynamic Range Window violation!, Docsis upstream channel ID that received this RNG-RSP: <*>, Docsis upstream channel ID where violation occured: <*>, Hardware transmitter index: <*>, Max transmit power: <*>, Previous top of DRW: <*>, New Top of DRW: <*>, Current transmit power: <*>, Current reported transmit power: <*>, Actual transmit power after adjustment applied: <*>, Reported transmit power after adjustment applied: <*>, Docsis <*> error condition: <*> (kCommandedPowerAboveDrw)",1
 309331f2,Logging event: RNG-RSP CCAP Commanded Power Exceeds Value Corresponding to the Top of the DRW;CM-MAC=<*>;CMTS-MAC=<*>;CM-QOS=<*>;CM-VER=<*>;,1

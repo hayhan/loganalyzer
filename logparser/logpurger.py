@@ -280,14 +280,14 @@ for line in file:
                     elif lineList[7][3] == '2':     # Q256
                         lineList[7] = 'Qam256\n'
                     else:
-                        lineList[7] = 'OFDM_PLC\n'  # OFDM PLC
+                        lineList[7] = 'OFDM PLC\n'  # OFDM PLC
                 else:
                     lastLineMessed = False
-            else:
-                if lineList[7] in ['OFDM PLC\n', 'OFDM PLC\r\n']:
-                    # Keep the OFDM channel status log length as same as QAM channel
-                    # Then they will share the same log template after clustering
-                    lineList[7] = 'OFDM_PLC\n'  # OFDM PLC
+
+            if lineList[7][0] == 'O':
+                # Keep the OFDM channel status log length as same as QAM channel
+                # Then they will share the same log template after clustering
+                lineList[7] = 'OFDM_PLC\n'  # OFDM PLC
 
             newline = 'DS channel status' + ', rxid ' + lineList[0] + ', dcid ' + lineList[1] + \
                       ', freq ' + lineList[2] + ', qam ' + lineList[3] + ', fec ' + lineList[4] + \
