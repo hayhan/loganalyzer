@@ -291,7 +291,9 @@ class LogParser:
 
     def preprocess(self, line):
         for currentRex in self.rex:
-            line = re.sub(currentRex, '<*>', line)
+            # I put a space before <*>. It does not affect a sperated token number.
+            # It only affects something like abc=123 and the result will be abc= <*>
+            line = re.sub(currentRex, ' <*>', line)
         return line
 
     def log_to_dataframe(self, log_file, regex, headers, logformat):

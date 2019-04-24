@@ -6,7 +6,7 @@ LineId,Content,EventId,EventTemplate
 5,eRouter Linux WAN Down,d1e3d1e2,eRouter Linux WAN Down
 6,eRouterMsgPipe::UpdateIpNetToMediaEntry:  (eRouterMsgPipe) eRouter IP address:0.0.0.0,054e41a9,eRouterMsgPipe::UpdateIpNetToMediaEntry: (eRouterMsgPipe) eRouter IP address:<*>
 7,Stopping DHCP/ToD/TFTP (client requested)...,6d29ad69,Stopping DHCP/ToD/TFTP (client requested)...
-8,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!
+8,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,f43bd196,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address<*> from the stack!
 9,BcmDhcpV6ClientIf::ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
 10,BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 0,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
 11,SCQAM DSID filter control = 0x00,b92e78a3,SCQAM DSID filter control = <*>
@@ -425,7 +425,7 @@ LineId,Content,EventId,EventTemplate
 424,BcmEcosTimer::Stop:  (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer!  One thread can't stop another thread's timers!,bf680c85,BcmEcosTimer::Stop: (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer! One thread can't stop another thread's timers!
 425,The ToD thread was stopped.,8ccb7dcf,The ToD thread was stopped.
 426,BcmEcosIpHalIf::RemoveLeaseImpl:  (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=1,b978e878,BcmEcosIpHalIf::RemoveLeaseImpl: (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=<*>
-427,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!
+427,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,f43bd196,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address<*> from the stack!
 428,BcmDhcpV6ClientIf::ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
 429,BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 32,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
 430,SCQAM DSID filter control = 0x01,b92e78a3,SCQAM DSID filter control = <*>
@@ -863,7 +863,7 @@ LineId,Content,EventId,EventTemplate
 862,BcmEcosTimer::Stop:  (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer!  One thread can't stop another thread's timers!,bf680c85,BcmEcosTimer::Stop: (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer! One thread can't stop another thread's timers!
 863,The ToD thread was stopped.,8ccb7dcf,The ToD thread was stopped.
 864,BcmEcosIpHalIf::RemoveLeaseImpl:  (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=1,b978e878,BcmEcosIpHalIf::RemoveLeaseImpl: (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=<*>
-865,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!
+865,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,f43bd196,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address<*> from the stack!
 866,BcmDhcpV6ClientIf::ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
 867,BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 0,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
 868,SCQAM DSID filter control = 0x00,b92e78a3,SCQAM DSID filter control = <*>
@@ -1285,7 +1285,7 @@ LineId,Content,EventId,EventTemplate
 1284,BcmEcosTimer::Stop:  (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer!  One thread can't stop another thread's timers!,bf680c85,BcmEcosTimer::Stop: (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer! One thread can't stop another thread's timers!
 1285,The ToD thread was stopped.,8ccb7dcf,The ToD thread was stopped.
 1286,BcmEcosIpHalIf::RemoveLeaseImpl:  (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=1,b978e878,BcmEcosIpHalIf::RemoveLeaseImpl: (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=<*>
-1287,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!
+1287,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,f43bd196,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address<*> from the stack!
 1288,BcmDhcpV6ClientIf::ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
 1289,BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 32,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
 1290,SCQAM DSID filter control = 0x01,b92e78a3,SCQAM DSID filter control = <*>
@@ -1739,7 +1739,7 @@ LineId,Content,EventId,EventTemplate
 1738,BcmEcosTimer::Stop:  (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer!  One thread can't stop another thread's timers!,bf680c85,BcmEcosTimer::Stop: (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer! One thread can't stop another thread's timers!
 1739,The ToD thread was stopped.,8ccb7dcf,The ToD thread was stopped.
 1740,BcmEcosIpHalIf::RemoveLeaseImpl:  (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=1,b978e878,BcmEcosIpHalIf::RemoveLeaseImpl: (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=<*>
-1741,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!
+1741,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,f43bd196,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address<*> from the stack!
 1742,BcmDhcpV6ClientIf::ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
 1743,BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 32,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
 1744,SCQAM DSID filter control = 0x01,b92e78a3,SCQAM DSID filter control = <*>
@@ -2160,7 +2160,7 @@ LineId,Content,EventId,EventTemplate
 2159,BcmEcosTimer::Stop:  (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer!  One thread can't stop another thread's timers!,bf680c85,BcmEcosTimer::Stop: (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer! One thread can't stop another thread's timers!
 2160,The ToD thread was stopped.,8ccb7dcf,The ToD thread was stopped.
 2161,BcmEcosIpHalIf::RemoveLeaseImpl:  (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=1,b978e878,BcmEcosIpHalIf::RemoveLeaseImpl: (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=<*>
-2162,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!
+2162,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,f43bd196,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address<*> from the stack!
 2163,BcmDhcpV6ClientIf::ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
 2164,BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 32,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
 2165,SCQAM DSID filter control = 0x01,b92e78a3,SCQAM DSID filter control = <*>
@@ -2894,7 +2894,7 @@ LineId,Content,EventId,EventTemplate
 2893,BcmEcosTimer::Stop:  (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer!  One thread can't stop another thread's timers!,bf680c85,BcmEcosTimer::Stop: (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer! One thread can't stop another thread's timers!
 2894,The ToD thread was stopped.,8ccb7dcf,The ToD thread was stopped.
 2895,BcmEcosIpHalIf::RemoveLeaseImpl:  (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=1,b978e878,BcmEcosIpHalIf::RemoveLeaseImpl: (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=<*>
-2896,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!
+2896,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,f43bd196,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address<*> from the stack!
 2897,BcmDhcpV6ClientIf::ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
 2898,BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 0,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
 2899,SCQAM DSID filter control = 0x00,b92e78a3,SCQAM DSID filter control = <*>
@@ -2930,7 +2930,7 @@ LineId,Content,EventId,EventTemplate
 2929,eRouter Linux WAN Down,d1e3d1e2,eRouter Linux WAN Down
 2930,eRouterMsgPipe::UpdateIpNetToMediaEntry:  (eRouterMsgPipe) eRouter IP address:0.0.0.0,054e41a9,eRouterMsgPipe::UpdateIpNetToMediaEntry: (eRouterMsgPipe) eRouter IP address:<*>
 2931,Stopping DHCP/ToD/TFTP (client requested)...,6d29ad69,Stopping DHCP/ToD/TFTP (client requested)...
-2932,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!
+2932,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,f43bd196,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address<*> from the stack!
 2933,BcmDhcpV6ClientIf::ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
 2934,BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 0,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
 2935,SCQAM DSID filter control = 0x00,b92e78a3,SCQAM DSID filter control = <*>
@@ -6566,7 +6566,7 @@ LineId,Content,EventId,EventTemplate
 6565,BcmEcosTimer::Stop:  (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer!  One thread can't stop another thread's timers!,bf680c85,BcmEcosTimer::Stop: (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer! One thread can't stop another thread's timers!
 6566,The ToD thread was stopped.,8ccb7dcf,The ToD thread was stopped.
 6567,BcmEcosIpHalIf::RemoveLeaseImpl:  (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=1,b978e878,BcmEcosIpHalIf::RemoveLeaseImpl: (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=<*>
-6568,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!
+6568,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,f43bd196,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address<*> from the stack!
 6569,BcmDhcpV6ClientIf::ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
 6570,BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 0,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
 6571,SCQAM DSID filter control = 0x00,b92e78a3,SCQAM DSID filter control = <*>
@@ -6622,7 +6622,7 @@ LineId,Content,EventId,EventTemplate
 6621,eRouter Linux WAN Down,d1e3d1e2,eRouter Linux WAN Down
 6622,eRouterMsgPipe::UpdateIpNetToMediaEntry:  (eRouterMsgPipe) eRouter IP address:0.0.0.0,054e41a9,eRouterMsgPipe::UpdateIpNetToMediaEntry: (eRouterMsgPipe) eRouter IP address:<*>
 6623,Stopping DHCP/ToD/TFTP (client requested)...,6d29ad69,Stopping DHCP/ToD/TFTP (client requested)...
-6624,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!
+6624,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,f43bd196,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address<*> from the stack!
 6625,BcmDhcpV6ClientIf::ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
 6626,BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 0,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
 6627,SCQAM DSID filter control = 0x00,b92e78a3,SCQAM DSID filter control = <*>
@@ -7023,7 +7023,7 @@ LineId,Content,EventId,EventTemplate
 7022,BcmEcosTimer::Stop:  (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer!  One thread can't stop another thread's timers!,bf680c85,BcmEcosTimer::Stop: (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer! One thread can't stop another thread's timers!
 7023,The ToD thread was stopped.,8ccb7dcf,The ToD thread was stopped.
 7024,BcmEcosIpHalIf::RemoveLeaseImpl:  (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=1,b978e878,BcmEcosIpHalIf::RemoveLeaseImpl: (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=<*>
-7025,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!
+7025,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,f43bd196,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address<*> from the stack!
 7026,BcmDhcpV6ClientIf::ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
 7027,BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 0,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
 7028,SCQAM DSID filter control = 0x00,b92e78a3,SCQAM DSID filter control = <*>
@@ -8193,7 +8193,7 @@ LineId,Content,EventId,EventTemplate
 8192,BcmEcosTimer::Stop:  (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer!  One thread can't stop another thread's timers!,bf680c85,BcmEcosTimer::Stop: (Dlt/Std Transition Timer) ERROR - Calling thread does not own the timer! One thread can't stop another thread's timers!
 8193,The ToD thread was stopped.,8ccb7dcf,The ToD thread was stopped.
 8194,BcmEcosIpHalIf::RemoveLeaseImpl:  (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=1,b978e878,BcmEcosIpHalIf::RemoveLeaseImpl: (IP Stack1 HalIf) This is the last address on the stack; shutting the stack down:numberOfAddresses=<*>
-8195,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!
+8195,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,f43bd196,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address<*> from the stack!
 8196,BcmDhcpV6ClientIf::ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
 8197,BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 32,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
 8198,SCQAM DSID filter control = 0x01,b92e78a3,SCQAM DSID filter control = <*>
@@ -8229,7 +8229,7 @@ LineId,Content,EventId,EventTemplate
 8228,eRouter Linux WAN Down,d1e3d1e2,eRouter Linux WAN Down
 8229,eRouterMsgPipe::UpdateIpNetToMediaEntry:  (eRouterMsgPipe) eRouter IP address:0.0.0.0,054e41a9,eRouterMsgPipe::UpdateIpNetToMediaEntry: (eRouterMsgPipe) eRouter IP address:<*>
 8230,Stopping DHCP/ToD/TFTP (client requested)...,6d29ad69,Stopping DHCP/ToD/TFTP (client requested)...
-8231,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!
+8231,BcmEcosIpHalIf::RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:b518/64 from the stack!,f43bd196,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address<*> from the stack!
 8232,BcmDhcpV6ClientIf::ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
 8233,BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 32,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
 8234,SCQAM DSID filter control = 0x01,b92e78a3,SCQAM DSID filter control = <*>

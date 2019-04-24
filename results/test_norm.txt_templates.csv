@@ -6,7 +6,7 @@ bb174cf7,Received RG Event <*> State <*>,42
 d1e3d1e2,eRouter Linux WAN Down,32
 054e41a9,eRouterMsgPipe::UpdateIpNetToMediaEntry: (eRouterMsgPipe) eRouter IP address:<*>,32
 6d29ad69,Stopping DHCP/ToD/TFTP (client requested)...,13
-ef5de6e1,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::<*>:<*>ff:fede:b518/<*> from the stack!,13
+f43bd196,BcmEcosIpHalIf::RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address<*> from the stack!,13
 b910d64d,BcmDhcpV6ClientIf::ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,13
 e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>,23
 b92e78a3,SCQAM DSID filter control = <*>,23
