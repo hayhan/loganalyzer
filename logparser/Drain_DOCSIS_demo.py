@@ -11,6 +11,8 @@ log_format = '<Content>'  # DOCSIS log format
 
 # Regular expression list for optional preprocessing (default: [])
 regex      = [
+    # The libc ctime format
+    r'(Mon|Tue|Wed|Thu|Fri|Sat|Sun) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (([0-2]\d)|(3[0-1])) (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) \d{4}',
     # MAC Address
     r'([A-Fa-f0-9]+\:){5}[A-Fa-f0-9]+',
     # IPv4 Address

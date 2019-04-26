@@ -32,14 +32,14 @@ empty line   - LF or CRLF only in one line
 """
 Patterns for removing timestamp, console prompt and others
 """
-# The pattern for the timestamp added by console tool
+# The pattern for the timestamp added by console tool, e.g. [17:07:19:509]
 strPattern0 = re.compile(r'\[(([01]\d|2[0-3]):([0-5]\d):([0-5]\d):(\d{3})|24:00:00:000)\]')
 # The pattern for CM console prompts
 strPattern1 = re.compile('CM[/a-z-_ ]*> ', re.IGNORECASE)
-# The pattern for the timestamp added by BFC
+# The pattern for the timestamp added by BFC, e.g. [00:00:35 01/01/1970], [11/21/2018 14:49:32]
 strPattern2 = re.compile(r'\[(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) \d{2}/\d{2}/\d{4}\] ')
 strPattern3 = re.compile(r'\[\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00)\] ')
-# The pattern for the timestamp added by others
+# The pattern for the timestamp added by others, e.g. 01/01/1970 00:00:19
 strPattern4 = re.compile(r'\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) - ')
 # The pattern for the tag of thread
 strPattern5 = re.compile(r'\[[a-z ]*\] ', re.IGNORECASE)
