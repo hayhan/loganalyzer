@@ -292,7 +292,7 @@ class LogParser:
     def preprocess(self, line):
         for currentRex in self.rex:
             # I put a space before <*>. It does not affect a sperated token number.
-            # It only affects something like abc=123 and the result will be abc= <*>
+            # It only affects something like offset:123 and the result will be offset: <*>
             line = re.sub(currentRex, ' <*>', line)
         return line
 

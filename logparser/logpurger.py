@@ -168,6 +168,8 @@ initRangePattern = re.compile(r'== Beginning initial ranging for Docsis UCID')
 oInitRngReqPattern = re.compile(r'Configured O-INIT-RNG-REQ \:')
 cmMultiUsHelperPattern = re.compile(r'BcmCmMultiUsHelper\:\:')
 cmDocsisCtlThreadPattern = re.compile(r'BcmCmDocsisCtlThread\:\:')
+# Assign token something like ABC=xyz or ABC==xyz
+assignTokenPattern = re.compile(r'=(?=[^= \r\n])')
 
 """
 Variables initialization
@@ -435,6 +437,9 @@ for line in file:
             # Update for the next line
             lastLineEmpty = False
             continue
+
+    # Convert assignment token something like ABC=xyz to ABC= xyz
+    newline = assignTokenPattern.sub('= ', newline)
 
     # Update lastLineEmpty for the next line processing
     lastLineEmpty = False
