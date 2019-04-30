@@ -293,7 +293,7 @@ class LogParser:
         for currentRex in self.rex:
             # I put a space before <*>. It does not affect a sperated token number.
             # It only affects something like offset:123 and the result will be offset: <*>
-            line = re.sub(currentRex, ' <*>', line)
+            line = currentRex.sub(' <*>', line)
         return line
 
     def log_to_dataframe(self, log_file, regex, headers, logformat):

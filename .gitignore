@@ -108,3 +108,8 @@ venv.bak/
 
 # macOS info file
 .DS_Store
+
+# generated log files
+logs/test_new.txt
+logs/test_norm.txt
+results/

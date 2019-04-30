@@ -1,2 +1,2 @@
 # loganalyzer
-A log analyzer for embeded system.
+A log analyzer for DOCSIS system.

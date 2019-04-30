@@ -170,6 +170,8 @@ cmMultiUsHelperPattern = re.compile(r'BcmCmMultiUsHelper\:\:')
 cmDocsisCtlThreadPattern = re.compile(r'BcmCmDocsisCtlThread\:\:')
 # Assign token something like ABC=xyz or ABC==xyz
 assignTokenPattern = re.compile(r'=(?=[^= \r\n])')
+# Cpp class token like ABC::Xyz:
+cppClassPattern = re.compile(r'\:\:(?=[A-Z][a-z0-9]+)')
 
 """
 Variables initialization
@@ -438,8 +440,11 @@ for line in file:
             lastLineEmpty = False
             continue
 
-    # Convert assignment token something like ABC=xyz to ABC= xyz
+    # Split assignment token something like ABC=xyz to ABC= xyz
     newline = assignTokenPattern.sub('= ', newline)
+
+    # Split class token like ABC::Xyz: to ABC:: Xyz:
+    newline = cppClassPattern.sub(':: ', newline)
 
     # Update lastLineEmpty for the next line processing
     lastLineEmpty = False
