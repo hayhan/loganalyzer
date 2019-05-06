@@ -30,7 +30,7 @@ class Node:
 
 
 class LogParser:
-    def __init__(self, log_format, indir='./', outdir='./result/', depth=4, st=0.4, maxChild=100, rex=[]):
+    def __init__(self, log_format, indir='./', outdir='./result/', depth=4, st=0.4, maxChild=100, rex=[], depthPatterns={}):
         """
         Attributes
         ----------
@@ -41,6 +41,7 @@ class LogParser:
             maxChild : max number of children of an internal node
             logName : the name of the input file containing raw log messages
             savePath : the output path stores the file containing structured logs
+            depthPatterns: stores the specific line patterns and the according depth
         """
         self.path = indir
         self.depth = depth - 2
@@ -51,6 +52,7 @@ class LogParser:
         self.df_log = None
         self.log_format = log_format
         self.rex = rex
+        self.depthPatterns = depthPatterns
 
     def hasNumbers(self, s):
         return any(char.isdigit() for char in s)
@@ -74,6 +76,9 @@ class LogParser:
             elif '<*>' in parentn.childD:
                 parentn = parentn.childD['<*>']
             else:
+                # The smallest order (1 based) of variable token is counted from self.depth.
+                # It is possible to make the 1st token as variable, we need input depth as 3
+                # and then self.depth=3-2=1.
                 return retLogClust
             currentDepth += 1
 
@@ -214,7 +219,6 @@ class LogParser:
         # self.df_log.drop(['Content'], inplace=True, axis=1)
         self.df_log.to_csv(os.path.join(self.savePath, self.logName + '_structured.csv'), index=False)
 
-
         occ_dict = dict(self.df_log['EventTemplate'].value_counts())
         df_event = pd.DataFrame()
         df_event['EventTemplate'] = self.df_log['EventTemplate'].unique()
@@ -243,6 +247,14 @@ class LogParser:
             self.printTree(node.childD[child], dep+1)
 
 
+    def adjustDepthOnline(self, line):
+        for pattern in list(self.depthPatterns):
+            match = pattern.match(line)
+            if match:
+                self.depth = self.depthPatterns[pattern]
+                break
+
+
     def parse(self, logName):
         print('Parsing file: ' + os.path.join(self.path, logName))
         start_time = datetime.now()
@@ -253,11 +265,18 @@ class LogParser:
 
         self.load_data()
 
+        # Backup the original depth of all leaf nodes
+        depthOrig = self.depth
+
         count = 0
         for dummy, line in self.df_log.iterrows():
             logID = line['LineId']
             logmessageL = self.preprocess(line['Content']).strip().split()
             # logmessageL = filter(lambda x: x != '', re.split('[\s=:,]', self.preprocess(line['Content'])))
+
+            # Change the depth for some specific logs
+            self.adjustDepthOnline(line['Content'])
+
             matchCluster = self.treeSearch(rootNode, logmessageL)
 
             # Match no existing log cluster
@@ -277,6 +296,8 @@ class LogParser:
             if count % 1000 == 0 or count == len(self.df_log):
                 print('Processed {0:.1f}% of log lines.'.format(count * 100.0 / len(self.df_log)))
 
+            # Recover the original depth in case it is changed
+            self.depth = depthOrig
 
         if not os.path.exists(self.savePath):
             os.makedirs(self.savePath)
