@@ -1,9 +1,10 @@
+#!/usr/bin/env python3
 """
 Description : This file does regrex, paramter settings and then calls the parsing core
 Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
-#!/usr/bin/env python3
+
 import os
 import re
 from Drain_DOCSIS import LogParser

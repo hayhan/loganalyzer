@@ -1,9 +1,10 @@
+#!/usr/bin/env python3
 """
 Description : This file formats the original DOCSIS log
 Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
-#!/usr/bin/env python3
+
 import os
 import re
 
