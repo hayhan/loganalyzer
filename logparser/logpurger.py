@@ -3,7 +3,7 @@ Description : This file formats the original DOCSIS log
 Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
-
+#!/usr/bin/env python3
 import os
 import re
 
@@ -188,14 +188,16 @@ lastLineEmpty = False
 sccvEmptyLineCnt = 0
 
 """
-1). Remove timestamps, console prompts, tables, empty lines
-2). Format DS/US channel status tables
-3). Remove some tables which are useless
-4). Format initial ranging block to one line log
-5). Indent some specific lines in multi-line log
-6). Remove empty lines
-7). Convert an nested line as primary if two more empty lines proceeded
-8). Convert some specific lines as primary
+01) Remove timestamps, console prompts, tables, empty lines
+02) Format DS/US channel status tables
+03) Remove some tables which are useless
+04) Format initial ranging block to one line log
+05) Indent some specific lines in multi-line log
+06) Remove empty lines
+07) Convert an nested line as primary if two more empty lines proceeded
+08) Convert some specific lines as primary
+09) Remove specific whole multi-line log
+10) Split some tokens
 """
 for line in file:
     """

@@ -1,3 +1,8 @@
+"""
+Description : This file does regrex, paramter settings and then calls the parsing core
+Author      : Wei Han <wei.han@broadcom.com>
+License     : MIT
+"""
 #!/usr/bin/env python3
 import os
 import re
@@ -8,10 +13,10 @@ Input and output files
 """
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
-input_dir  = parentdir + '/logs/'  # The input directory of log file
-output_dir = parentdir + '/results/'  # The output directory of parsing results
-log_file   = 'test_norm.txt'  # The input log file name
-log_format = '<Content>'  # DOCSIS log format
+input_dir  = parentdir + '/logs/'       # The input directory of log file
+output_dir = parentdir + '/results/'    # The output directory of parsing results
+log_file   = 'test_norm.txt'            # The input log file name
+log_format = '<Content>'                # DOCSIS log format
 
 """
 Regular expression list for optional preprocessing (can be empty [])
@@ -38,12 +43,35 @@ regex = [
 ]
 
 """
-Regular expression list for adaptively changing of depth to avoid over-parsing
+Regular expression dict for adaptively changing of depth to avoid over-parsing.
+
+The smallest index (count from 1) for the varialbe token is depth-2. e.g. if we
+want to make the 1st token to be varialbe, we can set depth to 3.
+
+I want to resolve the over-parsing issue like below. If use depth=4, the 'tim='
+will be thought as a variable. To avoid this, I set the smallest index of variable
+to 6=8-2, aka. starting from 1491, then 'tim=' will not be replaced with '<*>'.
+
+Ex.
+      RNG-RSP UsChanId= 102  Adj: tim= 1491  Stat= Continue
+
+if depth is 4, the smallest index of var is 4-2=2, the parsing result will be
+  --> RNG-RSP UsChanId= <*> Adj: <*> <*> Stat= <*>
+
+if depth is 8, the smallest index of var is 8-2=6, the parsing result will be
+  --> RNG-RSP UsChanId= <*> Adj: tim= <*> Stat= <*>
+
+Note: Actually this method has protential problems that these specific logs will
+      have different depths for the leaf nodes. For the same length log that does
+      not match the regrex might have running errors. We need use domain knowledge
+      here to avoid the protential problems happening.
 """
 depthPattern0 = re.compile(r'RNG-RSP UsChanId= \d+  Adj\:')
+depthPattern1 = re.compile(r'Telling application we lost lock on')
 
 depthPatterns = {
-    depthPattern0: 6  # 8-2
+    depthPattern0: 6,  # 8-2
+    depthPattern1: 8   # 10-2
 }
 
 
@@ -51,7 +79,7 @@ depthPatterns = {
 Other parameters
 """
 st         = 0.5  # Similarity threshold
-depth      = 4  # Depth of all leaf nodes
+depth      = 4    # Depth of all leaf nodes
 
 """
 Let us generate templates now
