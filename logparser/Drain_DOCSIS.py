@@ -248,7 +248,7 @@ class LogParser:
 
 
     def adjustDepthOnline(self, line):
-        for pattern in list(self.depthPatterns):
+        for pattern in self.depthPatterns.keys():
             match = pattern.match(line)
             if match:
                 self.depth = self.depthPatterns[pattern]
