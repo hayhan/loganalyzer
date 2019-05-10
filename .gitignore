@@ -106,6 +106,9 @@ venv.bak/
 # vscode editor
 .vscode/
 
+# venv
+loganalyzer_venv/
+
 # macOS info file
 .DS_Store
 
