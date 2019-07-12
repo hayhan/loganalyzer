@@ -47,9 +47,14 @@ strPattern5 = re.compile(r'\[[a-z ]*\] ', re.IGNORECASE)
 strPattern6 = re.compile(r'\+{3} ')
 
 strPatterns = [
-    strPattern0, strPattern1, strPattern2, strPattern3,
+    # Comment out strPattern0 to reserve the timestamp added by console tool
+    #strPattern0,
+    strPattern1, strPattern2, strPattern3,
     strPattern4, strPattern5, strPattern6
 ]
+
+# The length of timestamp
+TSLENGTH = 14
 
 """
 Patterns for specific lines which I want to remove
@@ -111,6 +116,11 @@ titlePatterns = [
 Pattern for nested line
 """
 nestedLinePattern = re.compile(r' +')
+
+"""
+Pattern for empty line
+"""
+emptyLinePattern = re.compile(r'\\n|(\\r\\n)')
 
 """
 Patterns for specific primary lines which I want to indent them
@@ -227,7 +237,8 @@ for line in file:
     # Remove line starting with specific patterns
     goNextLine = False
     for pattern in sLinePatterns:
-        match = pattern.match(newline)
+        # match pattern starting from the end of timestamp
+        match = pattern.match(newline, TSLENGTH)
         if match:
             goNextLine = True
             break
@@ -247,11 +258,11 @@ for line in file:
     #       1     2   308000000   y    y          34            4      Qam256
     #      32    66   698000000   y    y          35            1    OFDM PLC
     #
-    match = dsChStatTablePattern.match(newline)
+    match = dsChStatTablePattern.match(newline, TSLENGTH)
     if match:
         inDsChStatTable = True
     elif inDsChStatTable and inTable:
-        if (not nestedLinePattern.match(newline)) and (newline not in ['\n', '\r\n']):
+        if (not nestedLinePattern.match(newline, TSLENGTH)) and (not emptyLinePattern.match(newline, TSLENGTH)):
             # The table is messed by printings from other thread if we run into here
             # The normal DS channel status row should be nested by default. The messed
             # table might have empty lines in the middle of table
@@ -260,7 +271,7 @@ for line in file:
             # Update for the next line
             lastLineEmpty = False
             continue
-        elif newline in ['\n', '\r\n'] and dsTableEntryProcessed and (not lastLineMessed):
+        elif emptyLinePattern.match(newline, TSLENGTH) and dsTableEntryProcessed and (not lastLineMessed):
             # Suppose table ended with empty line but need also consider the case of
             # messed table. The 'dsTableEntryProcessed', 'lastLineMessed' and 'tableMessed'
             # are used here to process the messed table case.
@@ -268,26 +279,27 @@ for line in file:
             inDsChStatTable = False
             tableMessed = False
             dsTableEntryProcessed = False
-        elif newline not in ['\n', '\r\n']:
+        elif (not emptyLinePattern.match(newline, TSLENGTH)):
             # The real table row, that is, nested line
             dsTableEntryProcessed = True
             # Convert current line to new ds format
             # DS channel status, rxid 0, dcid 1, freq 300000000, qam y, fec y, snr 35, power 3, mod Qam256
-            lineList = newline.split(None, 7)
+            # 8: count the timestamp, 7: not count
+            lineList = newline.split(None, 8)
             if tableMessed:
                 # Need consider the last colomn of DS channel status, aka. lineList[7]
-                if lineList[7] not in ['Qam64\n', 'Qam256\n', 'OFDM PLC\n', 'Qam64\r\n', 'Qam256\r\n', 'OFDM PLC\r\n']:
+                if lineList[8] not in ['Qam64\n', 'Qam256\n', 'OFDM PLC\n', 'Qam64\r\n', 'Qam256\r\n', 'OFDM PLC\r\n']:
                     # Current line is messed and the last colomn might be concatednated by
                     # other thread printings inadvertently and the next line will be empty
                     # See example of the DS messed table in test.003.txt
                     # Update lastLineMessed for next line processing
                     lastLineMessed = True
-                    if lineList[7][3] == '6':       # Qam64
-                        lineList[7] = 'Qam64\n'
-                    elif lineList[7][3] == '2':     # Q256
-                        lineList[7] = 'Qam256\n'
+                    if lineList[8][3] == '6':       # Qam64
+                        lineList[8] = 'Qam64\n'
+                    elif lineList[8][3] == '2':     # Q256
+                        lineList[8] = 'Qam256\n'
                     else:
-                        lineList[7] = 'OFDM PLC\n'  # OFDM PLC
+                        lineList[8] = 'OFDM PLC\n'  # OFDM PLC
                 else:
                     lastLineMessed = False
 
@@ -311,11 +323,11 @@ for line in file:
     #     1   102     1     0x2      18            15.400  5120000     3      y
     #     8   149     1     0x2      18   63.700 - 78.450        0     5      y
     #
-    match = usChStatTablePattern.match(newline)
+    match = usChStatTablePattern.match(newline, TSLENGTH)
     if match:
         inUsChStatTable = True
     elif inUsChStatTable and inTable:
-        if newline in ['\n', '\r\n']:
+        if emptyLinePattern.match(newline, TSLENGTH):
             # Suppose table ended with empty line
             # Leave reset of inTable to the remove table block
             inUsChStatTable = False
@@ -341,14 +353,14 @@ for line in file:
 
     # Remove table block
     # The line starting with "----", " ----" or "  ----"
-    match = commonTablePattern.match(newline)
+    match = commonTablePattern.match(newline, TSLENGTH)
     if match:
         inTable = True
         # Update for the next line
         lastLineEmpty = False
         continue
     elif inTable == True:
-        if newline in ['\n', '\r\n']:
+        if emptyLinePattern.match(newline, TSLENGTH):
             # Suppose table ended with empty line
             if (not inDsChStatTable) or (inDsChStatTable and dsTableEntryProcessed and (not lastLineMessed)):
                 inTable = False
@@ -361,7 +373,7 @@ for line in file:
     # Remove specific table title line
     goNextLine = False
     for pattern in titlePatterns:
-        match = pattern.match(newline)
+        match = pattern.match(newline, TSLENGTH)
         if match:
             goNextLine = True
             break
@@ -371,12 +383,12 @@ for line in file:
         continue
 
     # Indent lines as multi-line log for initial ranging
-    match = initRangePattern.match(newline)
+    match = initRangePattern.match(newline, TSLENGTH)
     if match:
         inMultiLineInitRange = True
     elif inMultiLineInitRange:
-        if oInitRngReqPattern.match(newline) or cmMultiUsHelperPattern.match(newline) \
-            or cmDocsisCtlThreadPattern.match(newline):
+        if oInitRngReqPattern.match(newline, TSLENGTH) or cmMultiUsHelperPattern.match(newline, TSLENGTH) \
+            or cmDocsisCtlThreadPattern.match(newline, TSLENGTH):
             # Suppose multi-line log ended with special lines
             inMultiLineInitRange = False
         else:
@@ -385,7 +397,7 @@ for line in file:
 
     # Indent some specific lines
     for pattern in sPrimaryLinePatterns:
-        match = pattern.match(newline)
+        match = pattern.match(newline, TSLENGTH)
         if match:
             # Indent this line
             newline = ' ' + newline

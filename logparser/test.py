@@ -9,6 +9,9 @@ parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 #file       = open(parentdir + '/logs/test.txt', 'r')
 #newfile    = open(parentdir + '/logs/test_tmp.txt', 'w')
 
+teststrin0 = re.sub(r'Assigned Data', '', '[16:06:51:140]Assigned Data OFDMA Data Profile IUCs 123456', count=1)
+print(teststrin0)
+
 teststrin = re.sub(' +', '\\\\s+', "123 abc  ABC", count=0)
 print(teststrin)
 
