@@ -53,7 +53,7 @@ strPatterns = [
     strPattern4, strPattern5, strPattern6
 ]
 
-# The length of timestamp
+# The length of timestamp from console tool. Set it to 0 if remove timestamp.
 TSLENGTH = 14
 
 """
@@ -284,22 +284,31 @@ for line in file:
             dsTableEntryProcessed = True
             # Convert current line to new ds format
             # DS channel status, rxid 0, dcid 1, freq 300000000, qam y, fec y, snr 35, power 3, mod Qam256
-            # 8: count the timestamp, 7: not count
-            lineList = newline.split(None, 8)
+            # Match the timestamp to see if it is reserved firstly
+            matchTS = strPattern0.match(newline, 0)
+            if matchTS:
+                # Store the timestamp
+                timestamp = matchTS.group(0)
+                # Store the line without timestamp
+                tmpline = strPattern0.sub('', newline)
+            else:
+                tmpline = newline
+
+            lineList = tmpline.split(None, 7)
             if tableMessed:
                 # Need consider the last colomn of DS channel status, aka. lineList[7]
-                if lineList[8] not in ['Qam64\n', 'Qam256\n', 'OFDM PLC\n', 'Qam64\r\n', 'Qam256\r\n', 'OFDM PLC\r\n']:
+                if lineList[7] not in ['Qam64\n', 'Qam256\n', 'OFDM PLC\n', 'Qam64\r\n', 'Qam256\r\n', 'OFDM PLC\r\n']:
                     # Current line is messed and the last colomn might be concatednated by
                     # other thread printings inadvertently and the next line will be empty
                     # See example of the DS messed table in test.003.txt
                     # Update lastLineMessed for next line processing
                     lastLineMessed = True
-                    if lineList[8][3] == '6':       # Qam64
-                        lineList[8] = 'Qam64\n'
-                    elif lineList[8][3] == '2':     # Q256
-                        lineList[8] = 'Qam256\n'
+                    if lineList[7][3] == '6':       # Qam64
+                        lineList[7] = 'Qam64\n'
+                    elif lineList[7][3] == '2':     # Q256
+                        lineList[7] = 'Qam256\n'
                     else:
-                        lineList[8] = 'OFDM PLC\n'  # OFDM PLC
+                        lineList[7] = 'OFDM PLC\n'  # OFDM PLC
                 else:
                     lastLineMessed = False
 
@@ -308,9 +317,14 @@ for line in file:
                 # Then they will share the same log template after clustering
                 lineList[7] = 'OFDM_PLC\n'  # OFDM PLC
 
-            newline = 'DS channel status' + ', rxid ' + lineList[0] + ', dcid ' + lineList[1] + \
+            tmpline = 'DS channel status' + ', rxid ' + lineList[0] + ', dcid ' + lineList[1] + \
                       ', freq ' + lineList[2] + ', qam ' + lineList[3] + ', fec ' + lineList[4] + \
                       ', snr ' + lineList[5] + ', power ' + lineList[6] + ', mod ' + lineList[7]
+
+            if TSLENGTH == 0:
+                newline = tmpline
+            else:
+                newline = timestamp + tmpline
 
     # Format US channel status table
     #
@@ -334,22 +348,37 @@ for line in file:
         else:
             # Convert current line to new us format
             # US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freq_start 9.000, freq_end 9.000, symrate 5120000, phytype 3, txdata y
-            lineList = newline.split(None, 8)
+            # Match the timestamp to see if it is reserved firstly
+            matchTS = strPattern0.match(newline, 0)
+            if matchTS:
+                # Store the timestamp
+                timestamp = matchTS.group(0)
+                # Store the line without timestamp
+                tmpline = strPattern0.sub('', newline)
+            else:
+                tmpline = newline
+
+            lineList = tmpline.split(None, 8)
             if lineList[6] == '-':
                 # This line is for OFDMA channel, so split it again
-                lineList = newline.split(None, 10)
-                newline = 'US channel status' + ', txid ' + lineList[0] + ', ucid ' + lineList[1] + \
+                lineList = tmpline.split(None, 10)
+                tmpline = 'US channel status' + ', txid ' + lineList[0] + ', ucid ' + lineList[1] + \
                           ', dcid ' + lineList[2] + ', rngsid ' + lineList[3] + ', power ' + lineList[4] + \
                           ', freqstart ' + lineList[5] + ', freqend ' +lineList[7] + \
                           ', symrate ' + lineList[8] + ', phytype ' + lineList[9] + \
                           ', txdata ' + lineList[10]
             else:
                 # For SC-QAM channels
-                newline = 'US channel status' + ', txid ' + lineList[0] + ', ucid ' + lineList[1] + \
+                tmpline = 'US channel status' + ', txid ' + lineList[0] + ', ucid ' + lineList[1] + \
                           ', dcid ' + lineList[2] + ', rngsid ' + lineList[3] + ', power ' + lineList[4] + \
                           ', freqstart ' + lineList[5] + ', freqend ' +lineList[5] + \
                           ', symrate ' + lineList[6] + ', phytype ' + lineList[7] + \
                           ', txdata ' + lineList[8]
+
+            if TSLENGTH == 0:
+                newline = tmpline
+            else:
+                newline = timestamp + tmpline
 
     # Remove table block
     # The line starting with "----", " ----" or "  ----"
