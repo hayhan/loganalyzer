@@ -47,9 +47,12 @@ strPattern5 = re.compile(r'\[[a-z ]*\] ', re.IGNORECASE)
 strPattern6 = re.compile(r'\+{3} ')
 
 strPatterns = [
-    strPattern0, strPattern1, strPattern2, strPattern3,
+    strPattern1, strPattern2, strPattern3,
     strPattern4, strPattern5, strPattern6
 ]
+
+# decide if we need reserve the main timestamp: strPattern0 in the norm file
+reserveTS = True
 
 """
 Patterns for specific lines which I want to remove
@@ -212,9 +215,17 @@ for line in file:
     newline3 = pattern3.sub('', newline2)
     newline4 = pattern4.sub('', newline3)
     """
-    newline = line
 
-    # Remove timestamp, console prompt and others
+    # Save the main timestamp if it exists. The newline does not
+    # contain the main timestamp before write it back to a new file
+    matchTS = strPattern0.match(line)
+    if matchTS:
+        currentLineTS = matchTS.group(0)
+        newline = strPattern0.sub('', line, count=1)
+    else:
+        newline = line
+
+    # Remove remaining timestamp, console prompt and others
     for pattern in strPatterns:
         newline = pattern.sub('', newline, count=1)
 
@@ -452,6 +463,9 @@ for line in file:
     # Update lastLineEmpty for the next line processing
     lastLineEmpty = False
 
+    # Write current line to a new file with the timestamp if it exists
+    if reserveTS and matchTS:
+        newline = currentLineTS + newline
     newfile.write(newline)
 
 file.close()
@@ -476,16 +490,29 @@ lastLine = ''
 Concatenate nested line to its parent (primary) line
 """
 for line in newfile:
+    # Save timestamp if it exists
+    matchTS = strPattern0.match(line)
+    if matchTS:
+        currentLineTS = matchTS.group(0)
+        newline = strPattern0.sub('', line, count=1)
+    else:
+        newline = line
 
-    if nestedLinePattern.match(line):
+    if nestedLinePattern.match(newline):
         # Concatenate current line to lastLine. rstrip() will strip LF or CRLF too
         lastLine = lastLine.rstrip()
         lastLine += ', '
-        lastLine += line.lstrip()
+        lastLine += newline.lstrip()
     else:
         # If current is primary line, it means concatenating ends
+        if reserveTS and matchTS and (lastLine != ''):
+            lastLine = lastLineTS + lastLine
         normfile.write(lastLine)
-        lastLine = line
+
+        # Update last line parameters
+        lastLine = newline
+        if reserveTS and matchTS:
+            lastLineTS = currentLineTS
 
 newfile.close()
 normfile.close()
