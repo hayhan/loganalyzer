@@ -47,14 +47,9 @@ strPattern5 = re.compile(r'\[[a-z ]*\] ', re.IGNORECASE)
 strPattern6 = re.compile(r'\+{3} ')
 
 strPatterns = [
-    # Comment out strPattern0 to reserve the timestamp added by console tool
-    #strPattern0,
-    strPattern1, strPattern2, strPattern3,
+    strPattern0, strPattern1, strPattern2, strPattern3,
     strPattern4, strPattern5, strPattern6
 ]
-
-# The length of timestamp from console tool. Set it to 0 if remove timestamp.
-TSLENGTH = 14
 
 """
 Patterns for specific lines which I want to remove
@@ -116,11 +111,6 @@ titlePatterns = [
 Pattern for nested line
 """
 nestedLinePattern = re.compile(r' +')
-
-"""
-Pattern for empty line
-"""
-emptyLinePattern = re.compile(r'\\n|(\\r\\n)')
 
 """
 Patterns for specific primary lines which I want to indent them
@@ -237,8 +227,7 @@ for line in file:
     # Remove line starting with specific patterns
     goNextLine = False
     for pattern in sLinePatterns:
-        # match pattern starting from the end of timestamp
-        match = pattern.match(newline, TSLENGTH)
+        match = pattern.match(newline)
         if match:
             goNextLine = True
             break
@@ -258,11 +247,11 @@ for line in file:
     #       1     2   308000000   y    y          34            4      Qam256
     #      32    66   698000000   y    y          35            1    OFDM PLC
     #
-    match = dsChStatTablePattern.match(newline, TSLENGTH)
+    match = dsChStatTablePattern.match(newline)
     if match:
         inDsChStatTable = True
     elif inDsChStatTable and inTable:
-        if (not nestedLinePattern.match(newline, TSLENGTH)) and (not emptyLinePattern.match(newline, TSLENGTH)):
+        if (not nestedLinePattern.match(newline)) and (newline not in ['\n', '\r\n']):
             # The table is messed by printings from other thread if we run into here
             # The normal DS channel status row should be nested by default. The messed
             # table might have empty lines in the middle of table
@@ -271,7 +260,7 @@ for line in file:
             # Update for the next line
             lastLineEmpty = False
             continue
-        elif emptyLinePattern.match(newline, TSLENGTH) and dsTableEntryProcessed and (not lastLineMessed):
+        elif newline in ['\n', '\r\n'] and dsTableEntryProcessed and (not lastLineMessed):
             # Suppose table ended with empty line but need also consider the case of
             # messed table. The 'dsTableEntryProcessed', 'lastLineMessed' and 'tableMessed'
             # are used here to process the messed table case.
@@ -279,22 +268,12 @@ for line in file:
             inDsChStatTable = False
             tableMessed = False
             dsTableEntryProcessed = False
-        elif (not emptyLinePattern.match(newline, TSLENGTH)):
+        elif newline not in ['\n', '\r\n']:
             # The real table row, that is, nested line
             dsTableEntryProcessed = True
             # Convert current line to new ds format
             # DS channel status, rxid 0, dcid 1, freq 300000000, qam y, fec y, snr 35, power 3, mod Qam256
-            # Match the timestamp to see if it is reserved firstly
-            matchTS = strPattern0.match(newline, 0)
-            if matchTS:
-                # Store the timestamp
-                timestamp = matchTS.group(0)
-                # Store the line without timestamp
-                tmpline = strPattern0.sub('', newline)
-            else:
-                tmpline = newline
-
-            lineList = tmpline.split(None, 7)
+            lineList = newline.split(None, 7)
             if tableMessed:
                 # Need consider the last colomn of DS channel status, aka. lineList[7]
                 if lineList[7] not in ['Qam64\n', 'Qam256\n', 'OFDM PLC\n', 'Qam64\r\n', 'Qam256\r\n', 'OFDM PLC\r\n']:
@@ -317,14 +296,9 @@ for line in file:
                 # Then they will share the same log template after clustering
                 lineList[7] = 'OFDM_PLC\n'  # OFDM PLC
 
-            tmpline = 'DS channel status' + ', rxid ' + lineList[0] + ', dcid ' + lineList[1] + \
+            newline = 'DS channel status' + ', rxid ' + lineList[0] + ', dcid ' + lineList[1] + \
                       ', freq ' + lineList[2] + ', qam ' + lineList[3] + ', fec ' + lineList[4] + \
                       ', snr ' + lineList[5] + ', power ' + lineList[6] + ', mod ' + lineList[7]
-
-            if TSLENGTH == 0:
-                newline = tmpline
-            else:
-                newline = timestamp + tmpline
 
     # Format US channel status table
     #
@@ -337,59 +311,44 @@ for line in file:
     #     1   102     1     0x2      18            15.400  5120000     3      y
     #     8   149     1     0x2      18   63.700 - 78.450        0     5      y
     #
-    match = usChStatTablePattern.match(newline, TSLENGTH)
+    match = usChStatTablePattern.match(newline)
     if match:
         inUsChStatTable = True
     elif inUsChStatTable and inTable:
-        if emptyLinePattern.match(newline, TSLENGTH):
+        if newline in ['\n', '\r\n']:
             # Suppose table ended with empty line
             # Leave reset of inTable to the remove table block
             inUsChStatTable = False
         else:
             # Convert current line to new us format
             # US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freq_start 9.000, freq_end 9.000, symrate 5120000, phytype 3, txdata y
-            # Match the timestamp to see if it is reserved firstly
-            matchTS = strPattern0.match(newline, 0)
-            if matchTS:
-                # Store the timestamp
-                timestamp = matchTS.group(0)
-                # Store the line without timestamp
-                tmpline = strPattern0.sub('', newline)
-            else:
-                tmpline = newline
-
-            lineList = tmpline.split(None, 8)
+            lineList = newline.split(None, 8)
             if lineList[6] == '-':
                 # This line is for OFDMA channel, so split it again
-                lineList = tmpline.split(None, 10)
-                tmpline = 'US channel status' + ', txid ' + lineList[0] + ', ucid ' + lineList[1] + \
+                lineList = newline.split(None, 10)
+                newline = 'US channel status' + ', txid ' + lineList[0] + ', ucid ' + lineList[1] + \
                           ', dcid ' + lineList[2] + ', rngsid ' + lineList[3] + ', power ' + lineList[4] + \
                           ', freqstart ' + lineList[5] + ', freqend ' +lineList[7] + \
                           ', symrate ' + lineList[8] + ', phytype ' + lineList[9] + \
                           ', txdata ' + lineList[10]
             else:
                 # For SC-QAM channels
-                tmpline = 'US channel status' + ', txid ' + lineList[0] + ', ucid ' + lineList[1] + \
+                newline = 'US channel status' + ', txid ' + lineList[0] + ', ucid ' + lineList[1] + \
                           ', dcid ' + lineList[2] + ', rngsid ' + lineList[3] + ', power ' + lineList[4] + \
                           ', freqstart ' + lineList[5] + ', freqend ' +lineList[5] + \
                           ', symrate ' + lineList[6] + ', phytype ' + lineList[7] + \
                           ', txdata ' + lineList[8]
 
-            if TSLENGTH == 0:
-                newline = tmpline
-            else:
-                newline = timestamp + tmpline
-
     # Remove table block
     # The line starting with "----", " ----" or "  ----"
-    match = commonTablePattern.match(newline, TSLENGTH)
+    match = commonTablePattern.match(newline)
     if match:
         inTable = True
         # Update for the next line
         lastLineEmpty = False
         continue
     elif inTable == True:
-        if emptyLinePattern.match(newline, TSLENGTH):
+        if newline in ['\n', '\r\n']:
             # Suppose table ended with empty line
             if (not inDsChStatTable) or (inDsChStatTable and dsTableEntryProcessed and (not lastLineMessed)):
                 inTable = False
@@ -402,7 +361,7 @@ for line in file:
     # Remove specific table title line
     goNextLine = False
     for pattern in titlePatterns:
-        match = pattern.match(newline, TSLENGTH)
+        match = pattern.match(newline)
         if match:
             goNextLine = True
             break
@@ -412,12 +371,12 @@ for line in file:
         continue
 
     # Indent lines as multi-line log for initial ranging
-    match = initRangePattern.match(newline, TSLENGTH)
+    match = initRangePattern.match(newline)
     if match:
         inMultiLineInitRange = True
     elif inMultiLineInitRange:
-        if oInitRngReqPattern.match(newline, TSLENGTH) or cmMultiUsHelperPattern.match(newline, TSLENGTH) \
-            or cmDocsisCtlThreadPattern.match(newline, TSLENGTH):
+        if oInitRngReqPattern.match(newline) or cmMultiUsHelperPattern.match(newline) \
+            or cmDocsisCtlThreadPattern.match(newline):
             # Suppose multi-line log ended with special lines
             inMultiLineInitRange = False
         else:
@@ -426,7 +385,7 @@ for line in file:
 
     # Indent some specific lines
     for pattern in sPrimaryLinePatterns:
-        match = pattern.match(newline, TSLENGTH)
+        match = pattern.match(newline)
         if match:
             # Indent this line
             newline = ' ' + newline
