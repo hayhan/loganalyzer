@@ -34,7 +34,7 @@ empty line   - LF or CRLF only in one line
 Patterns for removing timestamp, console prompt and others
 """
 # The pattern for the timestamp added by console tool, e.g. [17:07:19:509]
-strPattern0 = re.compile(r'\[(([01]\d|2[0-3]):([0-5]\d):([0-5]\d):(\d{3})|24:00:00:000)\]')
+strPattern0 = re.compile(r'\[(([01]\d|2[0-3]):([0-5]\d):([0-5]\d):(\d{3})|24:00:00:000)\] ')
 # The pattern for CM console prompts
 strPattern1 = re.compile('CM[/a-z-_ ]*> ', re.IGNORECASE)
 # The pattern for the timestamp added by BFC, e.g. [00:00:35 01/01/1970], [11/21/2018 14:49:32]
