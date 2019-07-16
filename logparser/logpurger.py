@@ -485,6 +485,7 @@ Variables initialization
 """
 # The lastLine is initialized as empty w/o LF or CRLF
 lastLine = ''
+lastLinTS = ''
 
 """
 Concatenate nested line to its parent (primary) line
@@ -513,6 +514,11 @@ for line in newfile:
         lastLine = newline
         if reserveTS and matchTS:
             lastLineTS = currentLineTS
+
+# write the last line of the file
+if reserveTS and matchTS and (lastLine != ''):
+    lastLine = lastLineTS + lastLine
+normfile.write(lastLine)
 
 newfile.close()
 normfile.close()

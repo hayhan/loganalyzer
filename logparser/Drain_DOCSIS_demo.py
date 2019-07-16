@@ -17,7 +17,7 @@ parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 input_dir  = parentdir + '/logs/'       # The input directory of log file
 output_dir = parentdir + '/results/'    # The output directory of parsing results
 log_file   = 'test_norm.txt'            # The input log file name
-log_format = '<Time> <Content>'                # DOCSIS log format
+log_format = '<Time> <Content>'         # DOCSIS log format
 
 """
 Regular expression list for optional preprocessing (can be empty [])

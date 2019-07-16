@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 import os
-#import pandas as pd
+import pandas as pd
 #import numpy as np
 
 curfiledir = os.path.dirname(__file__)
@@ -137,3 +137,6 @@ print(str3)
 aa = 0
 if aa not in [1, 2]:
     print('hello')
+
+tt = pd.to_datetime("16:06:51:229", format="%H:%M:%S:%f")
+print(tt)
