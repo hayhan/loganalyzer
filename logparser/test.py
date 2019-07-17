@@ -138,5 +138,19 @@ aa = 0
 if aa not in [1, 2]:
     print('hello')
 
-tt = pd.to_datetime("16:06:51:229", format="%H:%M:%S:%f")
-print(tt)
+t1 = pd.to_datetime("[20190717-16:06:51.229]", format="[%Y%m%d-%H:%M:%S.%f]")
+t2 = pd.to_datetime("[20190717-16:16:51.229]", format="[%Y%m%d-%H:%M:%S.%f]")
+print((t2-t1).total_seconds())
+
+data_df = pd.read_csv(parentdir+'/results/test.csv', usecols=['Label', 'Time', 'EventId'])
+data_df['Time'] = pd.to_datetime(data_df['Time'], format="[%Y%m%d-%H:%M:%S.%f]")
+data_df['Seconds_Elapsed'] = (data_df['Time']-data_df['Time'][0]).dt.total_seconds().astype(int)
+data_df['Label'] = (data_df['Label'] != '-').astype(int)
+raw_data = data_df[['Label','Seconds_Elapsed']].values
+
+event_mapping_data = data_df['EventId'].values
+
+print(data_df)
+print(raw_data)
+print(event_mapping_data)
+print('The number of anomaly logs is %d, but it requires further processing' % sum(raw_data[:, 0]))
