@@ -33,8 +33,8 @@ empty line   - LF or CRLF only in one line
 """
 Patterns for removing timestamp, console prompt and others
 """
-# The pattern for the timestamp added by console tool, e.g. [17:07:19:509]
-strPattern0 = re.compile(r'\[(([01]\d|2[0-3]):([0-5]\d):([0-5]\d):(\d{3})|24:00:00:000)\] ')
+# The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738]
+strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)\.(\d{3})|24:00:00\.000)\] ')
 # The pattern for CM console prompts
 strPattern1 = re.compile('CM[/a-z-_ ]*> ', re.IGNORECASE)
 # The pattern for the timestamp added by BFC, e.g. [00:00:35 01/01/1970], [11/21/2018 14:49:32]
@@ -169,9 +169,9 @@ usChStatTablePattern = re.compile(r'Active Upstream Channels\:')
 commonTablePattern = re.compile(r' *----')
 # Initial ranging block for each UCID
 initRangePattern = re.compile(r'== Beginning initial ranging for Docsis UCID')
-oInitRngReqPattern = re.compile(r'Configured O-INIT-RNG-REQ \:')
-cmMultiUsHelperPattern = re.compile(r'BcmCmMultiUsHelper\:\:')
-cmDocsisCtlThreadPattern = re.compile(r'BcmCmDocsisCtlThread\:\:')
+inMultiLineInitRangeEnd1 = re.compile(r'Using clamped minimum transmit power')
+inMultiLineInitRangeEnd2 = re.compile(r'Using bottom of DRW initial upstream power')
+inMultiLineInitRangeEnd3 = re.compile(r'Using per transmitter stored initial upstream power')
 # Assign token something like ABC=xyz or ABC==xyz
 assignTokenPattern = re.compile(r'=(?=[^= \r\n])')
 # Cpp class token like ABC::Xyz:
@@ -386,9 +386,10 @@ for line in file:
     if match:
         inMultiLineInitRange = True
     elif inMultiLineInitRange:
-        if oInitRngReqPattern.match(newline) or cmMultiUsHelperPattern.match(newline) \
-            or cmDocsisCtlThreadPattern.match(newline):
+        if inMultiLineInitRangeEnd1.match(newline) or inMultiLineInitRangeEnd2.match(newline) \
+            or inMultiLineInitRangeEnd3.match(newline):
             # Suppose multi-line log ended with special lines
+            newline = ' ' + newline
             inMultiLineInitRange = False
         else:
             # Still multi-line, indent it, say add a space at the start
