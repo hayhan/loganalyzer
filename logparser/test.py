@@ -139,18 +139,23 @@ if aa not in [1, 2]:
     print('hello')
 
 t1 = pd.to_datetime("[20190717-16:06:51.229]", format="[%Y%m%d-%H:%M:%S.%f]")
-t2 = pd.to_datetime("[20190717-16:16:51.229]", format="[%Y%m%d-%H:%M:%S.%f]")
+t2 = pd.to_datetime("[20190717-16:16:51.230]", format="[%Y%m%d-%H:%M:%S.%f]")
+print(t2-t1)
 print((t2-t1).total_seconds())
 
-data_df = pd.read_csv(parentdir+'/results/test.csv', usecols=['Label', 'Time', 'EventId'])
-data_df['Time'] = pd.to_datetime(data_df['Time'], format="[%Y%m%d-%H:%M:%S.%f]")
-data_df['Seconds_Elapsed'] = (data_df['Time']-data_df['Time'][0]).dt.total_seconds().astype(int)
-data_df['Label'] = (data_df['Label'] != '-').astype(int)
-raw_data = data_df[['Label','Seconds_Elapsed']].values
+data_df1 = pd.read_csv(parentdir+'/results/test_norm.txt_labeled.csv', usecols=['Label'])
+data_df1['Label'] = (data_df1['Label'] != '-').astype(int)
 
-event_mapping_data = data_df['EventId'].values
+data_df2 = pd.read_csv(parentdir+'/results/test_norm.txt_structured.csv', usecols=['Time', 'EventId'])
+data_df2['Time'] = pd.to_datetime(data_df2['Time'], format="[%Y%m%d-%H:%M:%S.%f]")
+data_df2['Ms_Elapsed'] = ((data_df2['Time']-data_df2['Time'][0]).dt.total_seconds()*1000).astype(int)
 
-print(data_df)
+data_df2['Label'] = data_df1['Label']
+raw_data = data_df2[['Label','Ms_Elapsed']].values
+
+event_mapping_data = data_df2['EventId'].values
+
+#print(type(data_df2))
 print(raw_data)
 print(event_mapping_data)
 print('The number of anomaly logs is %d, but it requires further processing' % sum(raw_data[:, 0]))
