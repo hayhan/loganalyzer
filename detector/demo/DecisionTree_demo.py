@@ -16,17 +16,17 @@ from extractor import dataloader, featurextor
 #label_file = '../data/HDFS/anomaly_label.csv' # The anomaly label file
 
 para = {
-    'labeled_file'   : grandpadir+'/results/test_norm.txt_labeled.csv',
-    'structured_file': grandpadir+'/results/test_norm.txt_structured.csv',
+    'labeled_file'   : grandpadir+'/results/tmp_labeled.csv',
+    'structured_file': grandpadir+'/results/tmp_structured.csv',
     'window_path'    : grandpadir+'/results/windows',
-    'window_size'    : 100000,    # milliseconds
-    'step_size'      : 100000     # milliseconds
+    'window_size'    : 10,    # milliseconds
+    'step_size'      : 5      # milliseconds
 }
 
 if __name__ == '__main__':
     raw_data, event_mapping_data = dataloader.load_DOCSIS(para)
-    print((raw_data[:, 1][0]))
-    #print(event_mapping_data)
+    print(raw_data)
+    print(event_mapping_data)
 
     dataloader.add_sliding_window(para, raw_data, event_mapping_data)
     """

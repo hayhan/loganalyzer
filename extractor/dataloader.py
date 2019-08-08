@@ -81,23 +81,49 @@ def add_sliding_window(para, raw_data, event_mapping_data):
     label_data, time_data = raw_data[:, 0], raw_data[:, 1]
     if not os.path.exists(sliding_window_file):
         # split into sliding windows
-        start_time = time_data[0]
+        start_time = end_time = time_data[0]
         start_index = 0
-        end_index = 0
+        end_index = -1
 
         # get the first start, end index, end time
         for cur_time in time_data:
-            if  cur_time < start_time + para['window_size']:
+            # Window end (end_time) selects the min if not equal
+            if  cur_time <= start_time + para['window_size']:
                 end_index += 1
                 end_time = cur_time
             else:
                 start_end_pair=tuple((start_index, end_index))
                 start_end_index_list.append(start_end_pair)
                 break
+
         # move the start and end index until next sliding window
-        while end_index < log_size:
-            start_time = start_time + para['step_size']
-            end_time = end_time + para['step_size']
+        while end_index < log_size - 1:
+
+            start_index = 0
+            end_index = -1
+
+            for cur_time in time_data:
+                # Window start (start_time) selects the max if not equal
+                if cur_time < start_time + para['step_size']:
+                    start_index += 1
+                else:
+                    start_time = cur_time
+                    break
+
+            for cur_time in time_data:
+                # Window end (end_time) selects the min if not equal
+                if cur_time <= start_time + para['window_size']:
+                    end_index += 1
+                    end_time = cur_time
+                else:
+                    break
+
+            start_end_pair=tuple((start_index, end_index))
+            start_end_index_list.append(start_end_pair)
+            #print(start_end_index_list)
+
+            """
+            end_time = start_time + para['window_size']
             for i in range(start_index, end_index):
                 if time_data[i] < start_time:
                     i+=1
@@ -112,15 +138,18 @@ def add_sliding_window(para, raw_data, event_mapping_data):
             end_index = j
             start_end_pair = tuple((start_index, end_index))
             start_end_index_list.append(start_end_pair)
+            """
         inst_number = len(start_end_index_list)
         print('there are %d instances (sliding windows) in this dataset\n'%inst_number)
-        np.savetxt(sliding_window_file, start_end_index_list, delimiter=',',fmt='%d')
+
+        #np.savetxt(sliding_window_file, start_end_index_list, delimiter=',',fmt='%d')
+    """
     else:
         print('Loading start_end_index_list from file')
         start_end_index_list = pd.read_csv(sliding_window_file, header=None).values
         inst_number = len(start_end_index_list)
         print('there are %d instances (sliding windows) in this dataset' % inst_number)
-
+    """
 """
     # get all the log indexes in each time window by ranging from start_index to end_index
     expanded_indexes_list=[]
