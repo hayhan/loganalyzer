@@ -18,6 +18,7 @@ from extractor import dataloader, featurextor
 para = {
     'labeled_file'   : grandpadir+'/results/tmp_labeled.csv',
     'structured_file': grandpadir+'/results/tmp_structured.csv',
+    'templates_file' : grandpadir+'/results/tmp_templates.csv',
     'window_path'    : grandpadir+'/results/windows',
     'window_size'    : 10,    # milliseconds
     'step_size'      : 5      # milliseconds

@@ -1,0 +1,26 @@
+LineId,Time,Content,EventId,EventTemplate
+1,[20190719-08:58:23.000],Moving to Downstream Frequency 698000000 Hz.,c24a246b,Moving to Downstream Frequency <*> Hz.
+2,[20190719-08:58:23.002],BcmCmDocsisCtlThread:: Reset:  (CmDocsisCtlThread)   DefaultSnmpAgentClass:: RestartPendingEvent for Vendor CM Agent w/ BRCM Factory Support,5c8d8fc7,BcmCmDocsisCtlThread:: Reset: (CmDocsisCtlThread) DefaultSnmpAgentClass:: RestartPendingEvent for Vendor CM Agent w/ BRCM Factory Support
+3,[20190719-08:58:23.006],Received RG Event 0x80000001 State 0x1,bb174cf7,Received RG Event <*> State <*>
+4,[20190719-08:58:23.008],eRouter Linux WAN Down,d1e3d1e2,eRouter Linux WAN Down
+5,[20190719-08:58:23.010],eRouterMsgPipe:: UpdateIpNetToMediaEntry:  (eRouterMsgPipe) eRouter IP address:0.0.0.0,82c29455,eRouterMsgPipe:: UpdateIpNetToMediaEntry: (eRouterMsgPipe) eRouter IP address: <*>
+6,[20190719-08:58:23.012],Stopping DHCP/ToD/TFTP (client requested)...,6d29ad69,Stopping DHCP/ToD/TFTP (client requested)...
+7,[20190719-08:58:23.017],BcmEcosIpHalIf:: RemoveIpv6Address:  (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address fe80::210:18ff:fede:3393/64 from the stack!,e581ab27,BcmEcosIpHalIf:: RemoveIpv6Address: (IP Stack1 HalIf) ERROR - Failed to remove IPv6 address <*> from the stack!
+8,[20190719-08:58:23.018],BcmDhcpV6ClientIf:: ReleaseAddresses:  (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.,3a5a201a,BcmDhcpV6ClientIf:: ReleaseAddresses: (DHCPv6 ClientIf for IP Stack1) ERROR - IA state is initial; there is no address to release.
+9,[20190719-08:58:23.021],BcmDocsis3DsMacEnableMulticastDsidForwarding 0; primary DS = 0,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
+10,[20190719-08:58:23.025],SCQAM DSID filter control = 0x00,b92e78a3,SCQAM DSID filter control = <*>
+11,[20190719-08:58:23.030],OFDM DSID filter control = 0x01,a5d1e3f3,OFDM DSID filter control = <*>
+12,[20190719-08:58:23.031],Deleting DOCSIS 1.0 CoS Settings for SID 0,11303e8a,Deleting DOCSIS <*> CoS Settings for SID <*>
+13,[20190719-08:58:23.033],"BcmDocsisCmHalIf:: DeleteAllServiceFlows:  (DOCSIS CableModem HalIf) Deleting all Upstream and Downstream Service Flows, along with associated Classifiers and PHS rules...",3d12a5b2,"BcmDocsisCmHalIf:: DeleteAllServiceFlows: (DOCSIS CableModem HalIf) Deleting all Upstream and Downstream Service Flows, along with associated Classifiers and PHS rules..."
+14,[20190719-08:58:23.033],BcmCmDocsisCtlThread:: ResetRngState:  (CmDocsisCtlThread),a5cbfcd7,BcmCmDocsisCtlThread:: <*> (CmDocsisCtlThread)
+15,[20190719-08:58:23.033],BcmDocsisCmHalIf:: SetPrimarySid:  (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel 0 to 0,4116320a,BcmDocsisCmHalIf:: SetPrimarySid: (DOCSIS CableModem HalIf) Setting the Primary SID for usHwChannel <*> to <*>
+16,[20190719-08:58:23.035],Updating US chan 8 data Profile test msg for Sid: 0x0.,6c29eb6c,Updating US chan <*> data Profile test msg for Sid: <*>.
+17,[20190719-08:58:23.036],Updating US chan 9 data Profile test msg for Sid: 0x0.,6c29eb6c,Updating US chan <*> data Profile test msg for Sid: <*>.
+18,[20190719-08:58:23.039],BcmSetDocsis31CmtsRegistration:Setting Docsis3TransmitMode= false,222ede70,BcmSetDocsis31CmtsRegistration:Setting Docsis3TransmitMode= <*>
+19,[20190719-08:58:23.041],"BcmCmMultiDsHelper:: PreRegDsChanChange:, target freq hz = 698000000, reason string = ConsoleCmdOverride, CmInitReason = 1",e6c3cf06,"BcmCmMultiDsHelper:: PreRegDsChanChange:, target freq hz = <*>, reason string = <*> CmInitReason = <*>"
+20,[20190719-08:58:23.041],Starting DS scanning at 698000000 Hz...,81efa4f2,Starting DS scanning at <*> Hz...
+21,[20190719-08:58:23.043],BcmCmDownstreamScan:: StartScan:  Starting DS scan,7198d92c,BcmCmDownstreamScan:: StartScan: Starting DS scan
+22,[20190719-08:58:23.048],Scanning 698.000 MHz PLC/SC-QAM (ConsoleCmdOverride),44022991,Scanning <*> MHz PLC/SC-QAM <*>
+23,[20190719-08:58:23.049],Scanning 300.000 MHz PLC/SC-QAM (Non-vol happy-home) locked SC-QAM,9bfd10f0,Scanning <*> MHz PLC/SC-QAM (Non-vol happy-home) locked <*>
+24,[20190719-08:58:23.051],BcmCmDsChan:: DsLockOk:  (BcmCmDsChan 0) hwRxId= 0  freq= 0  dcid= 0,40470d52,BcmCmDsChan:: DsLockOk: (BcmCmDsChan <*>) hwRxId= <*> freq= <*> dcid= <*>
+25,[20190719-08:58:23.052],"DOWNSTREAM STATUS, HW Channel ID = 0, Phy type: SC-QAM, DS active chan settings:, ds chan id = 0, center freq, Hz = 300000000 Hz, primary capable = false, status event rpt bitmask = 0",0a74856c,"DOWNSTREAM STATUS, HW Channel ID = <*>, Phy type: SC-QAM, DS active chan settings:, ds chan id = <*>, center freq, Hz = <*> Hz, primary capable = false, status event rpt bitmask = <*>"

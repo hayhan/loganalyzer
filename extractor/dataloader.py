@@ -1,10 +1,7 @@
 """
-The interface to load log datasets. The datasets currently supported include
-HDFS and BGL.
-
-Authors:
-    LogPAI Team
-
+Description : The interface to load log datasets.
+Author      : LogPAI Team, modified by Wei Han <wei.han@broadcom.com>
+License     : MIT
 """
 
 import pandas as pd
@@ -81,7 +78,7 @@ def add_sliding_window(para, raw_data, event_mapping_data):
     label_data, time_data = raw_data[:, 0], raw_data[:, 1]
     if not os.path.exists(sliding_window_file):
         # split into sliding windows
-        start_time = end_time = time_data[0]
+        start_time = time_data[0]
         start_index = 0
         end_index = -1
 
@@ -90,7 +87,7 @@ def add_sliding_window(para, raw_data, event_mapping_data):
             # Window end (end_time) selects the min if not equal
             if  cur_time <= start_time + para['window_size']:
                 end_index += 1
-                end_time = cur_time
+                #end_time = cur_time
             else:
                 start_end_pair=tuple((start_index, end_index))
                 start_end_index_list.append(start_end_pair)
@@ -114,7 +111,7 @@ def add_sliding_window(para, raw_data, event_mapping_data):
                 # Window end (end_time) selects the min if not equal
                 if cur_time <= start_time + para['window_size']:
                     end_index += 1
-                    end_time = cur_time
+                    #end_time = cur_time
                 else:
                     break
 
@@ -142,35 +139,39 @@ def add_sliding_window(para, raw_data, event_mapping_data):
         inst_number = len(start_end_index_list)
         print('there are %d instances (sliding windows) in this dataset\n'%inst_number)
 
-        #np.savetxt(sliding_window_file, start_end_index_list, delimiter=',',fmt='%d')
-    """
+        np.savetxt(sliding_window_file, start_end_index_list, delimiter=',',fmt='%d')
     else:
         print('Loading start_end_index_list from file')
         start_end_index_list = pd.read_csv(sliding_window_file, header=None).values
         inst_number = len(start_end_index_list)
         print('there are %d instances (sliding windows) in this dataset' % inst_number)
-    """
-"""
+
     # get all the log indexes in each time window by ranging from start_index to end_index
     expanded_indexes_list=[]
-    for t in range(inst_number):
+    for dummy in range(inst_number):
         index_list = []
         expanded_indexes_list.append(index_list)
     for i in range(inst_number):
         start_index = start_end_index_list[i][0]
         end_index = start_end_index_list[i][1]
-        for l in range(start_index, end_index):
+        for l in range(start_index, end_index+1):
             expanded_indexes_list[i].append(l)
+    print(expanded_indexes_list)
 
-    event_mapping_data = [row[0] for row in event_mapping_data]
+    #print(event_mapping_data)
+    #event_mapping_data = [row for row in event_mapping_data]
+    #event_mapping_data = list(event_mapping_data)
+    event_mapping_data = event_mapping_data.tolist()
+    print(event_mapping_data)
+    # Count the overall num of log events. We can also get it from the *_templates.csv
     event_num = len(list(set(event_mapping_data)))
-    print('There are %d log events'%event_num)
+    print('There are %d log events' %event_num)
 
     #=============get labels and event count of each sliding window =========#
     labels = []
     event_count_matrix = np.zeros((inst_number,event_num))
     for j in range(inst_number):
-        label = 0   #0 represent success, 1 represent failure
+        label = 0   # 0 represent success, 1 represent failure
         for k in expanded_indexes_list[j]:
             event_index = event_mapping_data[k]
             event_count_matrix[j, event_index] += 1
@@ -182,4 +183,3 @@ def add_sliding_window(para, raw_data, event_mapping_data):
     print("Among all instances, %d are anomalies"%sum(labels))
     assert event_count_matrix.shape[0] == len(labels)
     return event_count_matrix, labels
-"""
