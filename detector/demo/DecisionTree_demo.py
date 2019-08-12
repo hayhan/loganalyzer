@@ -25,11 +25,14 @@ para = {
 }
 
 if __name__ == '__main__':
-    raw_data, event_mapping_data = dataloader.load_DOCSIS(para)
+    raw_data, event_mapping_data, event_id_to_index = dataloader.load_DOCSIS(para)
     print(raw_data)
     print(event_mapping_data)
+    print(event_id_to_index)
 
-    dataloader.add_sliding_window(para, raw_data, event_mapping_data)
+    event_count_matrix, labels = dataloader.add_sliding_window(para, raw_data, event_mapping_data, event_id_to_index)
+    print(event_count_matrix)
+    print(labels)
     """
     feature_extractor = preprocessing.FeatureExtractor()
     x_train = feature_extractor.fit_transform(x_train, term_weighting='tf-idf')

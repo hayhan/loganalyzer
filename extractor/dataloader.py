@@ -26,7 +26,8 @@ def load_DOCSIS(para):
     Returns
     -------
     raw_data: list of (label, time)
-    event_mapping_data: a list of event index, where each row index indicates a corresponding log
+    event_mapping_data: a list of event id mapping to each line (log)
+    event_id_to_index: a list mapping event id to index, e.g. -> 0, 1, ... in templates file
     """
 
     # Read labeled info
@@ -44,21 +45,27 @@ def load_DOCSIS(para):
 
     event_mapping_data = data_df2['EventId'].values
 
-    #print(type(data_df2))
+    # Read EventId from templates file
+    data_df3 = pd.read_csv(para['templates_file'], usecols=['EventId'])
+    event_id_to_index = data_df3['EventId'].to_list()
+
     #print(raw_data)
     #print(event_mapping_data)
+    print(event_id_to_index)
+
     print('The number of anomaly logs is %d, but it requires further processing' % sum(raw_data[:, 0]))
-    return raw_data, event_mapping_data
+    return raw_data, event_mapping_data, event_id_to_index
 
 
-def add_sliding_window(para, raw_data, event_mapping_data):
+def add_sliding_window(para, raw_data, event_mapping_data, event_id_to_index):
     """ split logs into sliding windows, built an event count matrix and get the corresponding label
 
     Args:
     --------
     para: the parameters dictionary
     raw_data: list of (label, time)
-    event_mapping_data: a list of event index, where each row index indicates a corresponding log
+    event_mapping_data: a list of event id mapping to each line (log)
+    event_id_to_index: a list mapping event id to index, e.g. -> 0, 1, ... in templates file
 
     Returns:
     --------
@@ -173,7 +180,9 @@ def add_sliding_window(para, raw_data, event_mapping_data):
     for j in range(inst_number):
         label = 0   # 0 represent success, 1 represent failure
         for k in expanded_indexes_list[j]:
-            event_index = event_mapping_data[k]
+            event_id = event_mapping_data[k]
+            # Convert EventId to ZERO based index
+            event_index = event_id_to_index.index(event_id)
             event_count_matrix[j, event_index] += 1
             if label_data[k]:
                 label = 1
