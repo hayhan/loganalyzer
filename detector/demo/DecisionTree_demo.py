@@ -16,23 +16,23 @@ from extractor import dataloader, featurextor
 #label_file = '../data/HDFS/anomaly_label.csv' # The anomaly label file
 
 para = {
-    'labeled_file'   : grandpadir+'/results/tmp_labeled.csv',
-    'structured_file': grandpadir+'/results/tmp_structured.csv',
-    'templates_file' : grandpadir+'/results/tmp_templates.csv',
+    'labeled_file'   : grandpadir+'/results/test_norm.txt_labeled.csv',
+    'structured_file': grandpadir+'/results/test_norm.txt_structured.csv',
+    'templates_file' : grandpadir+'/results/test_norm.txt_templates.csv',
     'window_path'    : grandpadir+'/results/windows',
-    'window_size'    : 10,    # milliseconds
-    'step_size'      : 5      # milliseconds
+    'window_size'    : 10000,    # milliseconds
+    'step_size'      : 5000      # milliseconds
 }
 
 if __name__ == '__main__':
-    raw_data, event_mapping_data, event_id_to_index = dataloader.load_DOCSIS(para)
-    print(raw_data)
-    print(event_mapping_data)
-    print(event_id_to_index)
+    raw_data, event_mapping_data, event_id_templates = dataloader.load_DOCSIS(para)
+    #print(raw_data)
+    #print(event_mapping_data)
+    #print(event_id_templates)
 
-    event_count_matrix, labels = dataloader.add_sliding_window(para, raw_data, event_mapping_data, event_id_to_index)
-    print(event_count_matrix)
-    print(labels)
+    event_count_matrix, labels = dataloader.add_sliding_window(para, raw_data, event_mapping_data, event_id_templates)
+    #print(event_count_matrix)
+    #print(labels)
     """
     feature_extractor = preprocessing.FeatureExtractor()
     x_train = feature_extractor.fit_transform(x_train, term_weighting='tf-idf')

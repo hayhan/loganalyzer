@@ -2,7 +2,8 @@ import re
 from datetime import datetime
 import os
 import pandas as pd
-#import numpy as np
+import numpy as np
+from sklearn.utils import shuffle
 
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
@@ -161,3 +162,8 @@ print(raw_data)
 print(event_mapping_data)
 print('The number of anomaly logs is %d, but it requires further processing' % sum(raw_data[:, 0]))
 """
+listtmp = ['a', 'b', 'c', 'd', 'e']
+newlist = shuffle(listtmp)
+indexes = shuffle(np.arange(5))
+print(indexes)
+print(newlist)

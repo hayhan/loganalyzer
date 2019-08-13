@@ -10,8 +10,8 @@ import numpy as np
 import re
 import sys
 from sklearn.utils import shuffle
-from collections import OrderedDict
-from collections import Counter
+#from collections import OrderedDict
+#from collections import Counter
 
 #curfiledir = os.path.dirname(__file__)
 #parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
@@ -27,7 +27,7 @@ def load_DOCSIS(para):
     -------
     raw_data: list of (label, time)
     event_mapping_data: a list of event id mapping to each line (log)
-    event_id_to_index: a list mapping event id to index, e.g. -> 0, 1, ... in templates file
+    event_id_templates: a list mapping event id to index, e.g. -> 0, 1, ... in templates file
     """
 
     # Read labeled info
@@ -47,17 +47,17 @@ def load_DOCSIS(para):
 
     # Read EventId from templates file
     data_df3 = pd.read_csv(para['templates_file'], usecols=['EventId'])
-    event_id_to_index = data_df3['EventId'].to_list()
+    event_id_templates = data_df3['EventId'].to_list()
 
     #print(raw_data)
     #print(event_mapping_data)
-    print(event_id_to_index)
+    #print(event_id_templates)
 
     print('The number of anomaly logs is %d, but it requires further processing' % sum(raw_data[:, 0]))
-    return raw_data, event_mapping_data, event_id_to_index
+    return raw_data, event_mapping_data, event_id_templates
 
 
-def add_sliding_window(para, raw_data, event_mapping_data, event_id_to_index):
+def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
     """ split logs into sliding windows, built an event count matrix and get the corresponding label
 
     Args:
@@ -65,7 +65,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_to_index):
     para: the parameters dictionary
     raw_data: list of (label, time)
     event_mapping_data: a list of event id mapping to each line (log)
-    event_id_to_index: a list mapping event id to index, e.g. -> 0, 1, ... in templates file
+    event_id_templates: a list mapping event id to index, e.g. -> 0, 1, ... in templates file
 
     Returns:
     --------
@@ -79,6 +79,16 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_to_index):
 
     log_size = raw_data.shape[0]
     sliding_window_file = para['window_path']+'/sliding_'+str(para['window_size'])+'ms_'+str(para['step_size'])+'ms.csv'
+    event_id_shuffled_file = para['window_path']+'/event_id_shuffled.npy'
+
+    # Shuffle the event_id_templates
+    if not os.path.exists(event_id_shuffled_file):
+        event_id_shuffled = shuffle(event_id_templates)
+        np.save(event_id_shuffled_file, event_id_shuffled)
+    else:
+        print('Loading shuffled EventId list in templates')
+        event_id_shuffled = np.load(event_id_shuffled_file).tolist()
+    #print(event_id_shuffled)
 
     #=============divide into sliding windows=========#
     start_end_index_list = [] # list of tuples, tuple contains two numbers, which represents the start and end of sliding window
@@ -163,13 +173,13 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_to_index):
         end_index = start_end_index_list[i][1]
         for l in range(start_index, end_index+1):
             expanded_indexes_list[i].append(l)
-    print(expanded_indexes_list)
+    #print(expanded_indexes_list)
 
     #print(event_mapping_data)
     #event_mapping_data = [row for row in event_mapping_data]
     #event_mapping_data = list(event_mapping_data)
     event_mapping_data = event_mapping_data.tolist()
-    print(event_mapping_data)
+    #print(event_mapping_data)
     # Count the overall num of log events. We can also get it from the *_templates.csv
     event_num = len(list(set(event_mapping_data)))
     print('There are %d log events' %event_num)
@@ -182,7 +192,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_to_index):
         for k in expanded_indexes_list[j]:
             event_id = event_mapping_data[k]
             # Convert EventId to ZERO based index
-            event_index = event_id_to_index.index(event_id)
+            event_index = event_id_shuffled.index(event_id)
             event_count_matrix[j, event_index] += 1
             if label_data[k]:
                 label = 1
