@@ -1,9 +1,7 @@
 """
-The interface for data preprocessing.
-
-Authors:
-    LogPAI Team
-
+Description : The interface to weight the event log matrix.
+Author      : LogPAI Team, modified by Wei Han <wei.han@broadcom.com>
+License     : MIT
 """
 
 import pandas as pd
@@ -25,11 +23,12 @@ class FeatureExtractor(object):
         self.normalization = None
         self.oov = None
 
-    def fit_transform(self, X_seq, term_weighting=None, normalization=None, oov=False, min_count=1):
+    def fit_transform(self, para, X_seq, term_weighting=None, normalization=None, oov=False, min_count=1, is_train=0):
         """ Fit and transform the data matrix
 
         Arguments
         ---------
+            para: parameter dict
             X_seq: ndarray, log sequences matrix
             term_weighting: None or `tf-idf`
             normalization: None or `zero-mean`
@@ -40,11 +39,12 @@ class FeatureExtractor(object):
         -------
             X_new: The transformed data matrix
         """
-        print('====== Transformed train data summary ======')
+        print('====== Transformed data summary ======')
         self.term_weighting = term_weighting
         self.normalization = normalization
         self.oov = oov
 
+        """
         X_counts = []
         for i in range(X_seq.shape[0]):
             event_counts = Counter(X_seq[i])
@@ -56,6 +56,7 @@ class FeatureExtractor(object):
         #print(self.events)
         X = X_df.values
         #print(X)
+
         if self.oov:
             oov_vec = np.zeros(X.shape[0])
             if min_count > 1:
@@ -64,7 +65,10 @@ class FeatureExtractor(object):
                 X = X[:, idx]
                 self.events = np.array(X_df.columns)[idx].tolist()
             X = np.hstack([X, oov_vec.reshape(X.shape[0], 1)])
-        
+        """
+
+        X = X_seq
+
         num_instance, num_event = X.shape
         #print(X.shape)
         if self.term_weighting == 'tf-idf':
@@ -81,8 +85,14 @@ class FeatureExtractor(object):
             X[X != 0] = expit(X[X != 0])
         X_new = X
         #print(X_new)
-        
-        print('Train data shape: {}-by-{}\n'.format(X_new.shape[0], X_new.shape[1])) 
+
+        if is_train:
+            x_data_file = para['window_path'] + '/train_x_data.txt'
+        else:
+            x_data_file = para['window_path'] + '/test_x_data.txt'
+
+        np.savetxt(x_data_file, X_new, fmt="%s")
+        print('Final data shape: {}-by-{}\n'.format(X_new.shape[0], X_new.shape[1]))
         return X_new
 
     def transform(self, X_seq):
