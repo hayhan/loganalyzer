@@ -46,15 +46,9 @@ if __name__ == '__main__':
     print('there are %d instances in test dataset,'% len(test_y), '%d are anomalies'%sum(test_y))
 
     feature_extractor = featurextor.FeatureExtractor()
-    train_x = feature_extractor.fit_transform(para, train_x, term_weighting='tf-idf', is_train=1)
-    test_x  = feature_extractor.fit_transform(para, test_x, term_weighting='tf-idf', is_train=0)
+    train_x = feature_extractor.fit_transform(para, train_x, term_weighting='tf-idf')
+    test_x  = feature_extractor.transform(para, test_x)
 
-    """
-    feature_extractor = preprocessing.FeatureExtractor()
-    x_train = feature_extractor.fit_transform(x_train, term_weighting='tf-idf')
-
-    x_test = feature_extractor.transform(x_test)
-    """
     model = DecisionTree()
     model.fit(train_x, train_y)
 
@@ -63,4 +57,3 @@ if __name__ == '__main__':
 
     print('Test validation:')
     precision, recall, f1 = model.evaluate(test_x, test_y)
-    

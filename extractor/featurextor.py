@@ -23,7 +23,7 @@ class FeatureExtractor(object):
         self.normalization = None
         self.oov = None
 
-    def fit_transform(self, para, X_seq, term_weighting=None, normalization=None, oov=False, min_count=1, is_train=0):
+    def fit_transform(self, para, X_seq, term_weighting=None, normalization=None, oov=False, min_count=1):
         """ Fit and transform the data matrix
 
         Arguments
@@ -37,9 +37,9 @@ class FeatureExtractor(object):
 
         Returns
         -------
-            X_new: The transformed data matrix
+            X_new: The transformed train data matrix
         """
-        print('====== Transformed data summary ======')
+        print('====== Transformed train data summary ======')
         self.term_weighting = term_weighting
         self.normalization = normalization
         self.oov = oov
@@ -68,7 +68,6 @@ class FeatureExtractor(object):
         """
 
         X = X_seq
-
         num_instance, num_event = X.shape
         #print(X.shape)
         if self.term_weighting == 'tf-idf':
@@ -86,21 +85,18 @@ class FeatureExtractor(object):
         X_new = X
         #print(X_new)
 
-        if is_train:
-            x_data_file = para['window_path'] + '/train_x_data.txt'
-        else:
-            x_data_file = para['window_path'] + '/test_x_data.txt'
-
+        x_data_file = para['window_path'] + '/train_x_data.txt'
         np.savetxt(x_data_file, X_new, fmt="%s")
-        print('Final data shape: {}-by-{}\n'.format(X_new.shape[0], X_new.shape[1]))
+        print('Final train data shape: {}-by-{}\n'.format(X_new.shape[0], X_new.shape[1]))
         return X_new
 
-    def transform(self, X_seq):
+    def transform(self, para, X_seq):
         """ Transform the data matrix with trained parameters
 
         Arguments
         ---------
-            X: log sequences matrix
+            para: parameter dict
+            X_seq: log sequences matrix
             term_weighting: None or `tf-idf`
 
         Returns
@@ -108,6 +104,7 @@ class FeatureExtractor(object):
             X_new: The transformed data matrix
         """
         print('====== Transformed test data summary ======')
+        """
         X_counts = []
         for i in range(X_seq.shape[0]):
             event_counts = Counter(X_seq[i])
@@ -123,9 +120,16 @@ class FeatureExtractor(object):
         if self.oov:
             oov_vec = np.sum(X_df[X_df.columns.difference(self.events)].values > 0, axis=1)
             X = np.hstack([X, oov_vec.reshape(X.shape[0], 1)])
-        
-        num_instance, num_event = X.shape
+        """
+
+        X = X_seq
+        num_instance, _num_event = X.shape
         if self.term_weighting == 'tf-idf':
+            """
+            # Use the idf data of test instead of the one of train data
+            df_vec = np.sum(X > 0, axis=0)
+            self.idf_vec = np.log(num_instance / (df_vec + 1e-8))
+            """
             idf_matrix = X * np.tile(self.idf_vec, (num_instance, 1)) 
             X = idf_matrix
         if self.normalization == 'zero-mean':
@@ -134,6 +138,9 @@ class FeatureExtractor(object):
             X[X != 0] = expit(X[X != 0])
         X_new = X
         #print(X_new)
+
+        x_data_file = para['window_path'] + '/test_x_data.txt'
+        np.savetxt(x_data_file, X_new, fmt="%s")
         print('Test data shape: {}-by-{}\n'.format(X_new.shape[0], X_new.shape[1])) 
 
         return X_new
