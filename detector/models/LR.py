@@ -3,7 +3,7 @@
 The implementation of the logistic regression model for anomaly detection.
 
 Authors: 
-    LogPAI Team
+    LogPAI Team, modified by Wei Han <wei.han@broadcom.com>
 
 Reference: 
     [1] Peter Bodík, Moises Goldszmidt, Armando Fox, Hans Andersen. Fingerprinting 
@@ -19,7 +19,7 @@ from ..utils import metrics
 class LR(object):
 
     def __init__(self, penalty='l2', C=100, tol=0.01, class_weight=None, max_iter=100):
-        """ The Invariants Mining model for anomaly detection
+        """ The Logistic Regression model for anomaly detection
 
         Attributes
         ----------

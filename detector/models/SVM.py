@@ -2,7 +2,7 @@
 The implementation of the SVM model for anomaly detection.
 
 Authors: 
-    LogPAI Team
+    LogPAI Team, modified by Wei Han <wei.han@broadcom.com>
 
 Reference: 
     [1] Yinglung Liang, Yanyong Zhang, Hui Xiong, Ramendra Sahoo. Failure Prediction 
@@ -19,7 +19,7 @@ class SVM(object):
 
     def __init__(self, penalty='l1', tol=0.1, C=1, dual=False, class_weight=None, 
                  max_iter=100):
-        """ The Invariants Mining model for anomaly detection
+        """ The SVM model for anomaly detection
         Arguments
         ---------
         See SVM API: https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html

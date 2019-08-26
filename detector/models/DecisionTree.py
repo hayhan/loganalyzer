@@ -2,7 +2,7 @@
 The implementation of the decision tree model for anomaly detection.
 
 Authors: 
-    LogPAI Team
+    LogPAI Team, modified by Wei Han <wei.han@broadcom.com>
 
 Reference: 
     [1] Mike Chen, Alice X. Zheng, Jim Lloyd, Michael I. Jordan, Eric Brewer. 
@@ -18,7 +18,7 @@ from ..utils import metrics
 class DecisionTree(object):
 
     def __init__(self, criterion='gini', max_depth=None, max_features=None, class_weight=None):
-        """ The Invariants Mining model for anomaly detection
+        """ The Decision Tree model for anomaly detection
         Arguments
         ---------
         See DecisionTreeClassifier API: https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html

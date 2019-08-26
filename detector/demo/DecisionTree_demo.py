@@ -12,8 +12,6 @@ sys.path.append(grandpadir)
 from detector.models import DecisionTree
 from extractor import dataloader, featurextor
 
-#struct_log = '../data/HDFS/HDFS_100k.log_structured_short.csv' # The structured log file
-#label_file = '../data/HDFS/anomaly_label.csv' # The anomaly label file
 
 para = {
     'labeled_file'   : grandpadir+'/results/test_norm.txt_labeled.csv',
