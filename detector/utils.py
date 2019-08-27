@@ -1,5 +1,5 @@
 """
-The utility functions of loglizer
+The utility functions of anomaly detector
 
 Authors: 
     LogPAI Team

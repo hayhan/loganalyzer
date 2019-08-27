@@ -19,8 +19,8 @@ para = {
     'templates_file' : grandpadir+'/results/test_norm.txt_templates.csv',
     'window_path'    : grandpadir+'/results/windows',
     'window_size'    : 10000,    # milliseconds
-    'step_size'      : 5000,     # milliseconds
-    'train_ratio'    : 0.7
+    'step_size'      : 1000,     # milliseconds
+    'train_ratio'    : 0.8
 }
 
 if __name__ == '__main__':

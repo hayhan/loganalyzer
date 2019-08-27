@@ -3,6 +3,7 @@
 
 import os
 import sys
+import numpy as np
 
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
@@ -20,7 +21,7 @@ para = {
     'window_path'    : grandpadir+'/results/windows',
     'window_size'    : 10000,    # milliseconds
     'step_size'      : 5000,     # milliseconds
-    'train_ratio'    : 0.7
+    'train_ratio'    : 0.8
 }
 
 if __name__ == '__main__':
@@ -49,6 +50,10 @@ if __name__ == '__main__':
 
     model = DecisionTree()
     model.fit(train_x, train_y)
+
+    #test_y_pred = model.predict(test_x)
+    #np.savetxt(para['window_path']+'/test_y_data.txt', test_y, fmt="%s")
+    #np.savetxt(para['window_path']+'/test_y_data_pred.txt', test_y_pred, fmt="%s")
 
     print('Train validation:')
     precision, recall, f1 = model.evaluate(train_x, train_y)

@@ -18,10 +18,10 @@ from ..utils import metrics
 class DecisionTree(object):
 
     def __init__(self, criterion='gini', max_depth=None, max_features=None, class_weight=None):
-        """ The Decision Tree model for anomaly detection
+        """ The Decision Tree (CART) model for anomaly detection
         Arguments
         ---------
-        See DecisionTreeClassifier API: https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html
+        See DecisionTreeClassifier API: https://scikit-learn.org/stable/modules/tree.html
 
         Attributes
         ----------
