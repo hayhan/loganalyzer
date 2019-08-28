@@ -12,11 +12,19 @@ from Drain_DOCSIS import LogParser
 """
 Input and output files
 """
+TRAINING = False
+if TRAINING:
+    log_file_name = 'train_norm.txt'
+    results_loc = '/results/train/'
+else:
+    log_file_name = 'test_norm.txt'
+    results_loc = '/results/test/'
+
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 input_dir  = parentdir + '/logs/'       # The input directory of log file
-output_dir = parentdir + '/results/'    # The output directory of parsing results
-log_file   = 'test_norm.txt'            # The input log file name
+output_dir = parentdir + results_loc    # The output directory of parsing results
+log_file   = log_file_name              # The input log file name
 log_format = '<Time> <Content>'         # DOCSIS log format
 
 """

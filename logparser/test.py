@@ -6,11 +6,12 @@ import numpy as np
 from sklearn.utils import shuffle
 
 curfiledir = os.path.dirname(__file__)
-parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 #file       = open(parentdir + '/logs/test.txt', 'r')
 #newfile    = open(parentdir + '/logs/test_tmp.txt', 'w')
 
-teststrin0 = re.sub(r'Assigned Data', '', '[16:06:51:140]Assigned Data OFDMA Data Profile IUCs 123456', count=1)
+teststrin0 = re.sub(r'Assigned Data', '',
+                    '[16:06:51:140]Assigned Data OFDMA Data Profile IUCs 123456', count=1)
 print(teststrin0)
 
 teststrin = re.sub(' +', '\\\\s+', "123 abc  ABC", count=0)
@@ -20,11 +21,12 @@ m = re.search(r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$', '0x56')
 print(m.group(0))
 
 #currentRex = r'\d+|\d+\.\d+'
-#currentRex = r'0x[A-Fa-f0-9]+|(?<=[^A-Za-z0-9])(\-?\+?\d+\.?(\d+)?)'  # Numbers
+# currentRex = r'0x[A-Fa-f0-9]+|(?<=[^A-Za-z0-9])(\-?\+?\d+\.?(\d+)?)'  # Numbers
 #currentRex = r'[A-Fa-f0-9]{2}'
 currentRex = r'\bs'
 #line = re.sub(currentRex, '<*>', "Readback Test pkt: 0x2 =-18dB 300.123 10.156 -19dB -20.7890 30.111 dcid=1, ucid12 dcid11 ver=3.1; ucid22, 0x33")
-line = re.sub(currentRex, '<*>', "RNsG-RSP s UsChanId = 149  Adj: tim=12496  Stat=Continue")
+line = re.sub(currentRex, '<*>',
+              "RNsG-RSP s UsChanId = 149  Adj: tim=12496  Stat=Continue")
 print(line)
 
 # IPv6 Address
@@ -54,7 +56,7 @@ regex = ''
 for k in range(len(splitters)):
     if k % 2 == 0:
         splitter = re.sub(' +', '\\\\s+', splitters[k])
-        #print(splitter)
+        # print(splitter)
         regex += splitter
     else:
         header = splitters[k].strip('<').strip('>')
@@ -129,10 +131,10 @@ print(a)
 
 str1 = "    8   149    66     0x2      20   63.700 - 78.450        0     5      y"
 str2 = str1.split(None, 8)
-#print(str1.strip())
+# print(str1.strip())
 print(str2[8][6])
 str3 = 'testme' + ', rxid ' + str2[0] + ', dcid ' \
-        + str2[1] + '\n'
+    + str2[1] + '\n'
 print(str3)
 
 aa = 0
@@ -164,6 +166,13 @@ print('The number of anomaly logs is %d, but it requires further processing' % s
 """
 listtmp = ['a', 'b', 'c', 'd', 'e']
 newlist = shuffle(listtmp)
-indexes = shuffle(np.arange(5))
-print(indexes)
-print(newlist)
+#indexes = shuffle(np.arange(5))
+# print(indexes)
+# print(newlist)
+# print(listtmp.index('b'))
+tmpchar = 'f'
+try:
+    idx = listtmp.index(tmpchar)
+    print(idx)
+except:
+    print('Warning: %s is not in the list' % tmpchar)

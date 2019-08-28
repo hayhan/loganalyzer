@@ -12,6 +12,19 @@ curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
 """
+Process the train data or test data
+"""
+TRAINING = False
+if TRAINING:
+    raw_file_loc  = parentdir + '/logs/train.txt'
+    new_file_loc  = parentdir + '/logs/train_new.txt'
+    norm_file_loc = parentdir + '/logs/train_norm.txt'
+else:
+    raw_file_loc  = parentdir + '/logs/test.txt'
+    new_file_loc  = parentdir + '/logs/test_new.txt'
+    norm_file_loc = parentdir + '/logs/test_norm.txt'    
+
+"""
 The original log usually comes from serial console tools like SecureCRT
 in Windows and the text file encoding is probably utf-8 (with BOM).
 https://en.wikipedia.org/wiki/Byte_order_mark#UTF-8
@@ -19,9 +32,9 @@ https://en.wikipedia.org/wiki/Byte_order_mark#UTF-8
 To let python skip the BOM when decoding the file, use utf-8-sig codec.
 https://docs.python.org/3/library/codecs.html
 """
-file       = open(parentdir + '/logs/test.txt', 'r', encoding='utf-8-sig')
-newfile    = open(parentdir + '/logs/test_new.txt', 'w')
-normfile   = open(parentdir + '/logs/test_norm.txt', 'w')
+file       = open(raw_file_loc, 'r', encoding='utf-8-sig')
+newfile    = open(new_file_loc, 'w')
+normfile   = open(norm_file_loc, 'w')
 
 """
 Definitions:
@@ -478,8 +491,8 @@ Convert multi-line log to one-line format
 """
 
 # Scan the new generated newfile
-newfile    = open(parentdir + '/logs/test_new.txt', 'r')
-normfile   = open(parentdir + '/logs/test_norm.txt', 'w')
+newfile    = open(new_file_loc, 'r')
+normfile   = open(norm_file_loc, 'w')
 
 """
 Variables initialization

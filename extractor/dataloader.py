@@ -74,12 +74,12 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
     """
 
     # create the directory for saving the sliding windows (start_index, end_index), which can be directly loaded in future running
-    if not os.path.exists(para['window_path']):
-        os.mkdir(para['window_path'])
+    #if not os.path.exists(para['window_path']):
+        #os.mkdir(para['window_path'])
 
     log_size = raw_data.shape[0]
-    sliding_window_file = para['window_path']+'/sliding_'+str(para['window_size'])+'ms_'+str(para['step_size'])+'ms.csv'
-    event_id_shuffled_file = para['window_path']+'/event_id_shuffled.npy'
+    sliding_window_file = para['data_path']+'sliding_'+str(para['window_size'])+'ms_'+str(para['step_size'])+'ms.csv'
+    event_id_shuffled_file = para['eventid_shuf']+'event_id_shuffled.npy'
 
     # Shuffle the event_id_templates
     if not os.path.exists(event_id_shuffled_file):
@@ -186,13 +186,18 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
 
     #=============get labels and event count of each sliding window =========#
     labels = []
-    event_count_matrix = np.zeros((inst_number,event_num))
+    event_count_matrix = np.zeros((inst_number,len(event_id_shuffled)))
     for j in range(inst_number):
         label = 0   # 0 represent success, 1 represent failure
         for k in expanded_indexes_list[j]:
             event_id = event_mapping_data[k]
             # Convert EventId to ZERO based index
-            event_index = event_id_shuffled.index(event_id)
+            try:
+                event_index = event_id_shuffled.index(event_id)
+            except:
+                print('Warning: EventId %s is not in the templates of train data.' %event_id)
+                continue
+
             event_count_matrix[j, event_index] += 1
             if label_data[k]:
                 label = 1
@@ -202,5 +207,5 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
     print("Among all instances, %d are anomalies"%sum(labels))
     assert event_count_matrix.shape[0] == len(labels)
 
-    np.savetxt(para['window_path']+'/event_count_matrix.txt', event_count_matrix, fmt="%s")
+    np.savetxt(para['data_path']+'event_count_matrix.txt', event_count_matrix, fmt="%s")
     return event_count_matrix, labels

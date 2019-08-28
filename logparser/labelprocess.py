@@ -16,9 +16,24 @@ parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 Convert multi-line log to one-line format
 """
 
+"""
+Process the train data or test data
+"""
+TRAINING = False
+if TRAINING:
+    new_file_labeled_loc  = parentdir + '/logs/train_new_labeled.txt'
+    norm_file_labeled_loc = parentdir + '/logs/train_norm_labeled.txt'
+    label_vector_file_loc = parentdir + '/results/train/'
+    norm_flie_name        = 'train_norm.txt'
+else:
+    new_file_labeled_loc  = parentdir + '/logs/test_new_labeled.txt'
+    norm_file_labeled_loc = parentdir + '/logs/test_norm_labeled.txt'
+    label_vector_file_loc = parentdir + '/results/test/'
+    norm_flie_name        = 'test_norm.txt'
+
 # Scan the new generated newfile
-newfile    = open(parentdir + '/logs/test_new_labeled.txt', 'r')
-normfile   = open(parentdir + '/logs/test_norm_labeled.txt', 'w')
+newfile    = open(new_file_labeled_loc, 'r')
+normfile   = open(norm_file_labeled_loc, 'w')
 
 # The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738]
 strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)\.(\d{3})|24:00:00\.000)\] ')
@@ -77,7 +92,7 @@ labelPattern = re.compile(r'abn: ')
 
 label_messages = []
 linecount = 0
-with open(parentdir + '/logs/test_norm_labeled.txt', 'r') as fin:
+with open(norm_file_labeled_loc, 'r') as fin:
     for line in fin.readlines():
         try:
             match = labelPattern.search(line, 24, 29)
@@ -91,4 +106,4 @@ with open(parentdir + '/logs/test_norm_labeled.txt', 'r') as fin:
 logdf = pd.DataFrame(label_messages, columns=['Label'])
 logdf.insert(0, 'LineId', None)
 logdf['LineId'] = [i + 1 for i in range(linecount)]
-logdf.to_csv(os.path.join(parentdir + '/results/', 'test_norm.txt' + '_labeled.csv'), index=False)
+logdf.to_csv(os.path.join(label_vector_file_loc, norm_flie_name + '_labeled.csv'), index=False)

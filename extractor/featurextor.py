@@ -85,12 +85,12 @@ class FeatureExtractor(object):
         X_new = X
         #print(X_new)
 
-        x_data_file = para['window_path'] + '/train_x_data.txt'
+        x_data_file = para['data_path'] + 'train_x_data.txt'
         np.savetxt(x_data_file, X_new, fmt="%s")
         print('Final train data shape: {}-by-{}\n'.format(X_new.shape[0], X_new.shape[1]))
         return X_new
 
-    def transform(self, para, X_seq):
+    def transform(self, para, X_seq, use_train_factor=True):
         """ Transform the data matrix with trained parameters
 
         Arguments
@@ -125,11 +125,10 @@ class FeatureExtractor(object):
         X = X_seq
         num_instance, _num_event = X.shape
         if self.term_weighting == 'tf-idf':
-            """
-            # Use the idf data of test instead of the one of train data
-            df_vec = np.sum(X > 0, axis=0)
-            self.idf_vec = np.log(num_instance / (df_vec + 1e-8))
-            """
+            if not use_train_factor:
+                # Use the idf data of test instead of the one from train data
+                df_vec = np.sum(X > 0, axis=0)
+                self.idf_vec = np.log(num_instance / (df_vec + 1e-8))
             idf_matrix = X * np.tile(self.idf_vec, (num_instance, 1)) 
             X = idf_matrix
         if self.normalization == 'zero-mean':
@@ -139,7 +138,7 @@ class FeatureExtractor(object):
         X_new = X
         #print(X_new)
 
-        x_data_file = para['window_path'] + '/test_x_data.txt'
+        x_data_file = para['data_path'] + 'test_x_data.txt'
         np.savetxt(x_data_file, X_new, fmt="%s")
         print('Test data shape: {}-by-{}\n'.format(X_new.shape[0], X_new.shape[1])) 
 
