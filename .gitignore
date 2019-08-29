@@ -117,3 +117,4 @@ logs/test_new.txt
 logs/test_norm.txt
 logs/test_norm_labeled.txt
 results/
+tmp/debug.log

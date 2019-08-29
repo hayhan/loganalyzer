@@ -3,7 +3,7 @@ Description : The interface to load log datasets.
 Author      : LogPAI Team, modified by Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
-
+import logging
 import pandas as pd
 import os
 import numpy as np
@@ -15,6 +15,7 @@ from sklearn.utils import shuffle
 
 #curfiledir = os.path.dirname(__file__)
 #parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+
 
 def load_DOCSIS(para):
     """  Load DOCSIS normalized / structured logs into train and test data
@@ -49,9 +50,9 @@ def load_DOCSIS(para):
     data_df3 = pd.read_csv(para['templates_file'], usecols=['EventId'])
     event_id_templates = data_df3['EventId'].to_list()
 
-    #print(raw_data)
-    #print(event_mapping_data)
-    #print(event_id_templates)
+    #logging.debug(raw_data)
+    #logging.debug(event_mapping_data)
+    #logging.debug(event_id_templates)
 
     print('The number of anomaly logs is %d, but it requires further processing' % sum(raw_data[:, 0]))
     return raw_data, event_mapping_data, event_id_templates
@@ -173,13 +174,12 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
         end_index = start_end_index_list[i][1]
         for l in range(start_index, end_index+1):
             expanded_indexes_list[i].append(l)
-    #print(expanded_indexes_list)
+    logging.debug('All the log idx in each window: {}'.format(expanded_indexes_list))
 
-    #print(event_mapping_data)
     #event_mapping_data = [row for row in event_mapping_data]
     #event_mapping_data = list(event_mapping_data)
     event_mapping_data = event_mapping_data.tolist()
-    #print(event_mapping_data)
+    logging.debug('The eventId for each line (log): {}'.format(event_mapping_data))
     # Count the overall num of log events. We can also get it from the *_templates.csv
     event_num = len(list(set(event_mapping_data)))
     print('There are %d log events' %event_num)
@@ -195,7 +195,8 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
             try:
                 event_index = event_id_shuffled.index(event_id)
             except:
-                print('Warning: EventId %s is not in the templates of train data.' %event_id)
+                logging.warning('EventId %s is not in the templates of train data', event_id)
+                #print('Warning: EventId %s is not in the templates of train data' %event_id)
                 continue
 
             event_count_matrix[j, event_index] += 1

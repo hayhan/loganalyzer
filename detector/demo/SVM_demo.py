@@ -3,7 +3,9 @@
 
 import os
 import sys
+import logging
 import numpy as np
+import pandas as pd
 
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
@@ -12,6 +14,10 @@ sys.path.append(grandpadir)
 
 from detector.models import SVM
 from extractor import dataloader, featurextor
+
+logging.basicConfig(filename=grandpadir+'/tmp/debug.log', \
+                    format='%(asctime)s - %(message)s', \
+                    level=logging.ERROR)
 
 para_train = {
     'labeled_file'   : grandpadir+'/results/train/train_norm.txt_labeled.csv',
@@ -73,6 +79,9 @@ if __name__ == '__main__':
     model = SVM()
     model.fit(train_x, train_y)
 
+    # Predict the train data for validation later
+    train_y_pred = model.predict(train_x)
+
     """
     Feature extraction for the test data
     """
@@ -91,12 +100,43 @@ if __name__ == '__main__':
     # Add weighting factor as we did for training data
     test_x  = feature_extractor.transform(para_test, test_x, use_train_factor=True)
 
-    #test_y_pred = model.predict(test_x)
+    test_y_pred = model.predict(test_x)
     #np.savetxt(para_test['data_path']+'test_y_data.txt', test_y, fmt="%s")
     #np.savetxt(para_test['data_path']+'test_y_data_pred.txt', test_y_pred, fmt="%s")
 
     print('Train validation:')
-    precision, recall, f1 = model.evaluate(train_x, train_y)
+    precision, recall, f1 = model.evaluate(train_y_pred, train_y)
 
     print('Test validation:')
-    precision, recall, f1 = model.evaluate(test_x, test_y)
+    precision, recall, f1 = model.evaluate(test_y_pred, test_y)
+
+    """
+    Trace anomaly timestamp windows in the raw log file, aka. loganalyzer/logs/test.txt
+    """
+    # Read window tuple list for test data
+    sliding_window_file = para_test['data_path']+'sliding_'+str(para_test['window_size']) \
+                          +'ms_'+str(para_test['step_size'])+'ms.csv'
+    window_list = pd.read_csv(sliding_window_file, header=None).values
+
+    anomaly_window_list = []
+    for i in range(len(test_y_pred)):
+        if test_y_pred[i]:
+            start_index = window_list[i][0]
+            end_index = window_list[i][1]
+            anomaly_window_list.append(tuple((start_index, end_index)))
+    logging.debug('The anomaly index tuples: {}'.format(anomaly_window_list))
+
+    # Read test data from normalized / structured logs
+    data_df = pd.read_csv(para_test['structured_file'], usecols=['Time'])
+    #data_df['Time'] = pd.to_datetime(data_df['Time'], format="[%Y%m%d-%H:%M:%S.%f]")
+    norm_time_list = data_df['Time'].to_list()
+
+    anomaly_timestamp_list = []
+    for i in range(len(anomaly_window_list)):
+        x = anomaly_window_list[i][0]
+        y = anomaly_window_list[i][1]
+        anomaly_timestamp_list.append(tuple((norm_time_list[x], norm_time_list[y])))
+    logging.debug('The anomaly timestamps: {}'.format(anomaly_timestamp_list))
+
+    # Save the final timestamp tuples of anomaly
+    np.savetxt(para_test['data_path']+'anomaly_timestamp.csv', anomaly_timestamp_list, delimiter=',',fmt='%s')
