@@ -27,6 +27,12 @@ output_dir = parentdir + results_loc    # The output directory of parsing result
 log_file   = log_file_name              # The input log file name
 log_format = '<Time> <Content>'         # DOCSIS log format
 
+if not os.path.exists(parentdir+'/results'):
+    os.mkdir(parentdir+'/results')
+
+if not os.path.exists(output_dir):
+    os.mkdir(output_dir)
+
 """
 Regular expression list for optional preprocessing (can be empty [])
 """

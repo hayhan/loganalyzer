@@ -31,6 +31,12 @@ else:
     label_vector_file_loc = parentdir + '/results/test/'
     norm_flie_name        = 'test_norm.txt'
 
+if not os.path.exists(parentdir+'/results'):
+    os.mkdir(parentdir+'/results')
+
+if not os.path.exists(label_vector_file_loc):
+    os.mkdir(label_vector_file_loc)
+
 # Scan the new generated newfile
 newfile    = open(new_file_labeled_loc, 'r')
 normfile   = open(norm_file_labeled_loc, 'w')
