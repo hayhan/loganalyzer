@@ -35,4 +35,4 @@ run detector/demo/SVM_demo.py
 
 2. Test your data only:
 
-Suppose you already trained your data, you can simply run step 1.2 & 1.3 but no need label the logs/test_new_label.txt. But we still need this file is there.
+Suppose you already trained your data, you can simply run step 1.2 & 1.3 but no need label the logs/test_new_label.txt. But we still need this file be there.
