@@ -3,6 +3,7 @@
 
 import os
 import sys
+import pickle
 import logging
 import numpy as np
 import pandas as pd
@@ -73,11 +74,19 @@ if __name__ == '__main__':
     weighting_class = weighting.WeightingClass()
     train_x = weighting_class.fit_transform(para_train, train_x, term_weighting='tf-idf')
 
+    # Save the weighting object in training to disk for future predict
+    with open(parentdir+'/objects/weighting.object', 'wb') as f:
+        pickle.dump(weighting_class, f)
+
     """
     Train the data now
     """
     model = SVM()
     model.fit(train_x, train_y)
+
+    # Save the model object after training to disk for future predict
+    with open(parentdir+'/objects/SVM.object', 'wb') as f:
+        pickle.dump(model, f)
 
     # Predict the train data for validation later
     train_y_pred = model.predict(train_x)
