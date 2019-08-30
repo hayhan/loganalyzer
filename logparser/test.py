@@ -176,3 +176,9 @@ try:
     print(idx)
 except:
     print('Warning: %s is not in the list' % tmpchar)
+
+with open(parentdir+'/config/config.txt', 'r', encoding='utf-8-sig') as confile:
+    line = confile.readline().strip()
+    print(line)
+    if line == 'TRAINING=1':
+        print('it is 1')

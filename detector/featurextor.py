@@ -1,5 +1,5 @@
 """
-Description : The interface to load log datasets.
+Description : To do feature extractor and create event count matrix
 Author      : LogPAI Team, modified by Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
@@ -112,6 +112,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
                 break
 
         # move the start and end index until next sliding window
+        # ToDo: time consuming here and need optimize the algorithm
         while end_index < log_size - 1:
 
             start_index = 0

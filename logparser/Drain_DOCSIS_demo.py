@@ -9,10 +9,20 @@ import os
 import re
 from Drain_DOCSIS import LogParser
 
+curfiledir = os.path.dirname(__file__)
+parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+
 """
 Input and output files
 """
-TRAINING = False
+# Read the config file to decide if train or test data to be processed
+with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
+    conline = confile.readline().strip()
+    if conline == 'TRAINING=1':
+        TRAINING = True
+    else:
+        TRAINING = False
+
 if TRAINING:
     log_file_name = 'train_norm.txt'
     results_loc = '/results/train/'
@@ -20,13 +30,12 @@ else:
     log_file_name = 'test_norm.txt'
     results_loc = '/results/test/'
 
-curfiledir = os.path.dirname(__file__)
-parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 input_dir  = parentdir + '/logs/'       # The input directory of log file
 output_dir = parentdir + results_loc    # The output directory of parsing results
 log_file   = log_file_name              # The input log file name
 log_format = '<Time> <Content>'         # DOCSIS log format
 
+# Create results/ and sub-dir train/ and test/ if not exist
 if not os.path.exists(parentdir+'/results'):
     os.mkdir(parentdir+'/results')
 

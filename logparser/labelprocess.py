@@ -19,7 +19,14 @@ Convert multi-line log to one-line format
 """
 Process the train data or test data
 """
-TRAINING = False
+# Read the config file to decide
+with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
+    conline = confile.readline().strip()
+    if conline == 'TRAINING=1':
+        TRAINING = True
+    else:
+        TRAINING = False
+
 if TRAINING:
     new_file_labeled_loc  = parentdir + '/logs/train_new_labeled.txt'
     norm_file_labeled_loc = parentdir + '/logs/train_norm_labeled.txt'
@@ -31,6 +38,7 @@ else:
     label_vector_file_loc = parentdir + '/results/test/'
     norm_flie_name        = 'test_norm.txt'
 
+# Create results/ and sub-dir train/ and test/ if not exist
 if not os.path.exists(parentdir+'/results'):
     os.mkdir(parentdir+'/results')
 

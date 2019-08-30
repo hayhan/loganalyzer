@@ -14,7 +14,14 @@ parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 """
 Process the train data or test data
 """
-TRAINING = False
+# Read the config file to decide
+with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
+    conline = confile.readline().strip()
+    if conline == 'TRAINING=1':
+        TRAINING = True
+    else:
+        TRAINING = False
+
 if TRAINING:
     raw_file_loc  = parentdir + '/logs/train.txt'
     new_file_loc  = parentdir + '/logs/train_new.txt'
