@@ -13,7 +13,7 @@ grandpadir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 sys.path.append(grandpadir)
 
 from detector.models import LR
-from extractor import dataloader, featurextor
+from detector import featurextor, weighting
 
 logging.basicConfig(filename=grandpadir+'/tmp/debug.log', \
                     format='%(asctime)s - %(message)s', \
@@ -48,13 +48,13 @@ if __name__ == '__main__':
     # Load the train data from files and do some pre-processing
     raw_data_train, \
     event_mapping_data_train, \
-    event_id_templates_train = dataloader.load_DOCSIS(para_train)
+    event_id_templates_train = featurextor.load_DOCSIS(para_train)
 
     # Add sliding window and create the event count matrix for the train data set
     # All the EventId in templates are shuffed and saved under results folder
-    train_x, train_y = dataloader.add_sliding_window(para_train, raw_data_train, \
-                                                     event_mapping_data_train, \
-                                                     event_id_templates_train)
+    train_x, train_y = featurextor.add_sliding_window(para_train, raw_data_train, \
+                                                      event_mapping_data_train, \
+                                                      event_id_templates_train)
 
     """
     # This part code is not used any more after we de-coupled the train and test data set
@@ -70,8 +70,8 @@ if __name__ == '__main__':
     """
 
     # Add weighting factor before training
-    feature_extractor = featurextor.FeatureExtractor()
-    train_x = feature_extractor.fit_transform(para_train, train_x, term_weighting='tf-idf')
+    weighting_class = weighting.WeightingClass()
+    train_x = weighting_class.fit_transform(para_train, train_x, term_weighting='tf-idf')
 
     """
     Train the data now
@@ -88,17 +88,17 @@ if __name__ == '__main__':
     # Load the test data from files and do some pre-processing
     raw_data_test, \
     event_mapping_data_test, \
-    event_id_templates_test = dataloader.load_DOCSIS(para_test)
+    event_id_templates_test = featurextor.load_DOCSIS(para_test)
     
     # Add sliding window and create the event count matrix for the test data set.
     # The input parameter event_id_templates_test is not used actually, we reuse
     # the saved shuffled EventId list in the training step.
-    test_x, test_y = dataloader.add_sliding_window(para_test, raw_data_test, \
-                                                   event_mapping_data_test, \
-                                                   event_id_templates_test)
+    test_x, test_y = featurextor.add_sliding_window(para_test, raw_data_test, \
+                                                    event_mapping_data_test, \
+                                                    event_id_templates_test)
 
     # Add weighting factor as we did for training data
-    test_x  = feature_extractor.transform(para_test, test_x, use_train_factor=True)
+    test_x  = weighting_class.transform(para_test, test_x, use_train_factor=True)
 
     test_y_pred = model.predict(test_x)
     #np.savetxt(para_test['data_path']+'test_y_data.txt', test_y, fmt="%s")

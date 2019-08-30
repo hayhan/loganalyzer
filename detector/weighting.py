@@ -13,7 +13,7 @@ from collections import Counter
 from scipy.special import expit
 from itertools import compress
 
-class FeatureExtractor(object):
+class WeightingClass(object):
 
     def __init__(self):
         self.idf_vec = None
