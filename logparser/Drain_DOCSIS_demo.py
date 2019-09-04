@@ -57,13 +57,16 @@ regexPattern3 = re.compile(r' (?:(?:[0-9A-Fa-f]{1,4}:){6}(?:[0-9A-Fa-f]{1,4}:[0-
 # Numbers including hex, decimal and integer
 #r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$|0x[A-Fa-f0-9]+'
 regexPattern4 = re.compile(r'0x[A-Fa-f0-9]+|(?<=[^A-Za-z0-9])(\-?\+?\d+\.?(\d+)?\*?)')
+# OFDM channels CH32 and CH33, maybe different for 3391 and later
+regexPattern5 = re.compile(r'CH\d{2}')
 
 regex = [
     regexPattern0,
     regexPattern1,
     regexPattern2,
     regexPattern3,
-    regexPattern4
+    regexPattern4,
+    regexPattern5
 ]
 
 """
@@ -92,10 +95,20 @@ Note: Actually this method has protential problems that these specific logs will
 """
 depthPattern0 = re.compile(r'RNG-RSP UsChanId= \d+  Adj\:')
 depthPattern1 = re.compile(r'Telling application we lost lock on')
+depthPattern2 = re.compile(r'== Beginning initial ranging for Docsis UCID')
+depthPattern3 = re.compile(r'BcmCmMultiUsHelper\:\: UsTimeRefOk\:  \(Cm Multi US Helper\) target hwTxId=')
+depthPattern4 = re.compile(r'BcmCmMultiUsHelper\:\: UsTimeRefFail\:  \(Cm Multi US Helper\) target hwTxId=')
+depthPattern5 = re.compile(r'BcmCmMultiDsHelper\:\: DsLockOk\:  hwRxId= \d+  dcid= \d+')
+depthPattern6 = re.compile(r'BcmCmDsChan\:\: MddKeepAliveFailTrans\:  \(BcmCmDsChan \d+\) hwRxId= \d+  dcid= \d+  \w{3} lock failure')
 
 depthPatterns = {
     depthPattern0: 6,  # 8-2
-    depthPattern1: 8   # 10-2
+    depthPattern1: 8,  # 10-2
+    depthPattern2: 43, # 45-2
+    depthPattern3: 5,  # 7-2
+    depthPattern4: 5,  # 7-2
+    depthPattern5: 8,  # 10-2
+    depthPattern6: 10  # 12-2
 }
 
 
@@ -103,7 +116,7 @@ depthPatterns = {
 Other parameters
 """
 st         = 0.5  # Similarity threshold
-depth      = 4    # Depth of all leaf nodes
+depth      = 6    # Depth of all leaf nodes
 
 """
 Let us generate templates now

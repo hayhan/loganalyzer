@@ -94,7 +94,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
     #=============divide into sliding windows=========#
     start_end_index_list = [] # list of tuples, tuple contains two numbers, which represents the start and end of sliding window
     label_data, time_data = raw_data[:, 0], raw_data[:, 1]
-    if not os.path.exists(sliding_window_file):
+    if not os.path.exists(sliding_window_file) or para['window_rebuild']:
         # split into sliding windows
         start_time = time_data[0]
         start_index = 0

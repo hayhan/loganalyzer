@@ -18,7 +18,7 @@ from detector import featurextor, weighting
 
 logging.basicConfig(filename=grandpadir+'/tmp/debug.log', \
                     format='%(asctime)s - %(message)s', \
-                    level=logging.ERROR)
+                    level=logging.DEBUG)
 
 para_train = {
     'labeled_file'   : grandpadir+'/results/train/train_norm.txt_labeled.csv',
@@ -28,6 +28,7 @@ para_train = {
     'eventid_shuf'   : grandpadir+'/results/',
     'window_size'    : 10000,    # milliseconds
     'step_size'      : 5000,     # milliseconds
+    'window_rebuild' : False,
     'train_ratio'    : 0.8       # not used anymore after de-coupling train/test data
 }
 
@@ -39,6 +40,7 @@ para_test = {
     'eventid_shuf'   : grandpadir+'/results/',
     'window_size'    : 10000,    # milliseconds
     'step_size'      : 5000,     # milliseconds
+    'window_rebuild' : True,
     'train_ratio'    : 0.8       # not used anymore after de-coupling train/test data
 }
 
@@ -111,7 +113,7 @@ if __name__ == '__main__':
 
     test_y_pred = model.predict(test_x)
     #np.savetxt(para_test['data_path']+'test_y_data.txt', test_y, fmt="%s")
-    #np.savetxt(para_test['data_path']+'test_y_data_pred.txt', test_y_pred, fmt="%s")
+    np.savetxt(para_test['data_path']+'test_y_data_pred.txt', test_y_pred, fmt="%s")
 
     print('Train validation:')
     precision, recall, f1 = model.evaluate(train_y_pred, train_y)

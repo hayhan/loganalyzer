@@ -28,6 +28,7 @@ para_test = {
     'eventid_shuf'   : grandpadir+'/results/',
     'window_size'    : 10000,    # milliseconds
     'step_size'      : 5000,     # milliseconds
+    'window_rebuild' : True,
     'train_ratio'    : 0.8       # not used anymore after de-coupling train/test data
 }
 
