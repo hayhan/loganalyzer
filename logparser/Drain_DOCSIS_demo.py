@@ -54,20 +54,25 @@ regexPattern2 = re.compile(r'(/|)([0-9]+\.){3}[0-9]+(:[0-9]+|)(:|)')
 # IPv6 Address from https://gist.github.com/mnordhoff/2213179
 # A more elegant rex can be found at https://gist.github.com/dfee/6ed3a4b05cfe7a6faf40a2102408d5d8
 regexPattern3 = re.compile(r' (?:(?:[0-9A-Fa-f]{1,4}:){6}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|::(?:[0-9A-Fa-f]{1,4}:){5}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:(?:[0-9A-Fa-f]{1,4}:){,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:(?:[0-9A-Fa-f]{1,4}:){,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:(?:[0-9A-Fa-f]{1,4}:){,4}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:(?:[0-9A-Fa-f]{1,4}:){,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){,6}[0-9A-Fa-f]{1,4})?::)(/\d{1,3})?')
-# Numbers including hex, decimal and integer
-#r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$|0x[A-Fa-f0-9]+'
-regexPattern4 = re.compile(r'0x[A-Fa-f0-9]+|(?<=[^A-Za-z0-9])(\-?\+?\d+\.?(\d+)?\*?)')
+# List of intergers and tuples like xxx = 1 2 3 4, (12-11.1) (10-11) as well as Numbers including hex, decimal and integer
+regexPattern4 = re.compile(r'(\(\d+\.?(\d+)?-\d+\.?(\d+)?\) )+|\[?( [A-Fa-f0-9]+){2,} ?( |,|;|\Z)\]?|0x[A-Fa-f0-9]+|(?<=[^A-Za-z0-9])((\[ )?\-?\+?\d+\.?(\d+)?\*?( \])?)')
 # OFDM channels CH32 and CH33, maybe different for 3391 and later
 regexPattern5 = re.compile(r'CH\d{2}')
+regexPattern6 = re.compile(r'\(k[A-Z]\w+\)|\([du]cid\)|\(ErrorRecovery\)|\(ConsoleCmdOverride\)|\(T4NoStationMaintTimeout\)|\(T2NoInitMaintTimeout\)')
+regexPattern7 = re.compile(r'(QAM lock failure)|(FEC lock failure)')
+regexPattern8 = re.compile(r'Stat= (Continue|Success|Abort)')
 
-regex = [
-    regexPattern0,
-    regexPattern1,
-    regexPattern2,
-    regexPattern3,
-    regexPattern4,
-    regexPattern5
-]
+regex = {
+    regexPattern0: ' <*>',
+    regexPattern1: ' <*>',
+    regexPattern2: ' <*>',
+    regexPattern3: ' <*>',
+    regexPattern4: ' <*>',
+    regexPattern5: ' <*>',
+    regexPattern6: ' <*>',
+    regexPattern7: ' <*>',
+    regexPattern8: 'Stat= <*>',
+}
 
 """
 Regular expression dict for adaptively changing of depth to avoid over-parsing.
@@ -96,19 +101,15 @@ Note: Actually this method has protential problems that these specific logs will
 depthPattern0 = re.compile(r'RNG-RSP UsChanId= \d+  Adj\:')
 depthPattern1 = re.compile(r'Telling application we lost lock on')
 depthPattern2 = re.compile(r'== Beginning initial ranging for Docsis UCID')
-depthPattern3 = re.compile(r'BcmCmMultiUsHelper\:\: UsTimeRefOk\:  \(Cm Multi US Helper\) target hwTxId=')
-depthPattern4 = re.compile(r'BcmCmMultiUsHelper\:\: UsTimeRefFail\:  \(Cm Multi US Helper\) target hwTxId=')
-depthPattern5 = re.compile(r'BcmCmMultiDsHelper\:\: DsLockOk\:  hwRxId= \d+  dcid= \d+')
-depthPattern6 = re.compile(r'BcmCmDsChan\:\: MddKeepAliveFailTrans\:  \(BcmCmDsChan \d+\) hwRxId= \d+  dcid= \d+  \w{3} lock failure')
+depthPattern3 = re.compile(r'BcmCmMultiUsHelper\:\: (UsTimeRefOk|UsTimeRefFail)\:  \(Cm Multi US Helper\) target hwTxId=')
+depthPattern4 = re.compile(r'BcmCmMultiDsHelper\:\: DsLockOk\:  hwRxId= \d+  dcid= \d+')
 
 depthPatterns = {
-    depthPattern0: 6,  # 8-2
+    depthPattern0: 8,  # 8-2
     depthPattern1: 8,  # 10-2
     depthPattern2: 43, # 45-2
     depthPattern3: 5,  # 7-2
-    depthPattern4: 5,  # 7-2
-    depthPattern5: 8,  # 10-2
-    depthPattern6: 10  # 12-2
+    depthPattern4: 8,  # 10-2
 }
 
 

@@ -287,7 +287,8 @@
 [20190902-17:42:43.222] [17:48:05 09/02/2019] [PowerMgmt] NumDsChans = 33, NumUsChans = 9
 [20190902-17:42:43.235] CM-STATUS  trans=1  event=5 (kCmEvDsPhyLockRescue)  param type=4 (dcid)  param values= [ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 ] 
 [20190902-17:42:43.264] CM-STATUS  trans=1  event=4 (kCmEvNonPriDsMddRescue)  param type=4 (dcid)  param values= [ 1 2 3 4 5 6 7 8 9 17 18 19 20 30 31 32 ] 
-[20190902-17:42:43.271] Logging event: CM-STATUS message sent. Event Type Code: 5; Chan ID: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30CM-STATUS-ACK  trans=1  event=5 (kCmEvDsPhyLockRescue)D: N/A.;CM-MAC=00:10:18:de:33:93;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
+[20190902-17:42:43.271] Logging event: CM-STATUS message sent. Event Type Code: 5; Chan ID: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
+[20190902-17:42:43.272] CM-STATUS-ACK  trans=1  event=5 (kCmEvDsPhyLockRescue)D: N/A.;CM-MAC=00:10:18:de:33:93;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 [20190902-17:42:43.300] CM-STATUS-ACK  trans=1  event=4 (kCmEvNonPriDsMddRescue)
 [20190902-17:42:43.310] Logging event: CM-STATUS message sent. Event Type Code: 4; Chan ID: 1 2 3 4 5 6 7 8 9 17 18 19 20 30 31 32; DSID: N/A; MAC Addr: N/A; OFDM/OFDMA Profile ID: N/A.;CM-MAC=00:10:18:de:33:93;CMTS-MAC=00:80:42:42:20:9e;CM-QOS=1.1;CM-VER=3.1;
 [20190902-17:42:51.990] CM> 1st try PLC NOT locked! Retrying...

@@ -18,7 +18,7 @@ from detector import featurextor, weighting
 
 logging.basicConfig(filename=grandpadir+'/tmp/debug.log', \
                     format='%(asctime)s - %(message)s', \
-                    level=logging.DEBUG)
+                    level=logging.ERROR)
 
 para_train = {
     'labeled_file'   : grandpadir+'/results/train/train_norm.txt_labeled.csv',

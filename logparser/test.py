@@ -21,12 +21,13 @@ m = re.search(r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$', '0x56')
 print(m.group(0))
 
 #currentRex = r'\d+|\d+\.\d+'
-# currentRex = r'0x[A-Fa-f0-9]+|(?<=[^A-Za-z0-9])(\-?\+?\d+\.?(\d+)?)'  # Numbers
+#currentRex = r'(\(\d+\.?(\d+)?-\d+\.?(\d+)?\) )+'  # Numbers
 #currentRex = r'[A-Fa-f0-9]{2}'
-currentRex = r'\bs'
+currentRex = r'(\(\d+\.?(\d+)?-\d+\.?(\d+)?\) )+|\[?( [A-Fa-f0-9]+){2,} ?( |,|;|\Z)\]?|0x[A-Fa-f0-9]+|(?<=[^A-Za-z0-9])((\[ )?\-?\+?\d+\.?(\d+)?\*?( \])?)'
 #line = re.sub(currentRex, '<*>', "Readback Test pkt: 0x2 =-18dB 300.123 10.156 -19dB -20.7890 30.111 dcid=1, ucid12 dcid11 ver=3.1; ucid22, 0x33")
-line = re.sub(currentRex, '<*>',
-              "RNsG-RSP s UsChanId = 149  Adj: tim=12496  Stat=Continue")
+#line = re.sub(currentRex, '<*>', "RNsG-RSP s UsChanId = 149  Adj: tim=12496  Stat=Continue")
+line = re.sub(currentRex, ' <*>', "CM-STATUS [ 12 ] trans= 1 4 ffevent= 5 (kCmEvDsPhyLockRescue)  param type= 4 (dcid)  param values= [ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 ] ttt: 18 de 33 93 00 03 00 01 00 10 18 de 33 93 ")
+#line = re.sub(currentRex, ' <*>', "( (106-21.75) (107-22.00) (108-23.25) (149-22.75) )")
 print(line)
 
 # IPv6 Address
@@ -177,8 +178,13 @@ try:
 except:
     print('Warning: %s is not in the list' % tmpchar)
 
-with open(parentdir+'/config/config.txt', 'r', encoding='utf-8-sig') as confile:
+with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
     line = confile.readline().strip()
     print(line)
     if line == 'TRAINING=1':
         print('it is 1')
+
+line = 'CM-STATUS Stat= Abort'
+testrex = re.compile(r'Stat= (Continue|Success|Abort)')
+newline = testrex.sub('matched', line)
+print(newline)

@@ -30,11 +30,11 @@ class Node:
 
 
 class LogParser:
-    def __init__(self, log_format, indir='./', outdir='./result/', depth=4, st=0.4, maxChild=100, rex=[], depthPatterns={}):
+    def __init__(self, log_format, indir='./', outdir='./result/', depth=4, st=0.4, maxChild=100, rex={}, depthPatterns={}):
         """
         Attributes
         ----------
-            rex : regular expressions used in preprocessing (step1)
+            rex : regular expressions used in preprocessing
             path : the input path stores the input log file name
             depth : depth of all leaf nodes
             st : similarity threshold
@@ -311,10 +311,10 @@ class LogParser:
         self.df_log = self.log_to_dataframe(os.path.join(self.path, self.logName), regex, headers, self.log_format)
 
     def preprocess(self, line):
-        for currentRex in self.rex:
+        for currentRex in self.rex.keys():
             # I put a space before <*>. It does not affect a sperated token number.
             # It only affects something like offset:123 and the result will be offset: <*>
-            line = currentRex.sub(' <*>', line)
+            line = currentRex.sub(self.rex[currentRex], line)
         return line
 
     def log_to_dataframe(self, log_file, regex, headers, logformat):

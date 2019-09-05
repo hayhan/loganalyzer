@@ -42,9 +42,9 @@ if __name__ == '__main__':
         weighting_class = pickle.load(f)
     
     # The model object from training
-    with open(parentdir+'/objects/DecisionTree.object', 'rb') as f:
+    #with open(parentdir+'/objects/DecisionTree.object', 'rb') as f:
     #with open(parentdir+'/objects/LR.object', 'rb') as f:
-    #with open(parentdir+'/objects/SVM.object', 'rb') as f:
+    with open(parentdir+'/objects/SVM.object', 'rb') as f:
         model = pickle.load(f)
 
     # Load the test data from files and do some pre-processing
