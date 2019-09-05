@@ -105,7 +105,7 @@ depthPattern3 = re.compile(r'BcmCmMultiUsHelper\:\: (UsTimeRefOk|UsTimeRefFail)\
 depthPattern4 = re.compile(r'BcmCmMultiDsHelper\:\: DsLockOk\:  hwRxId= \d+  dcid= \d+')
 
 depthPatterns = {
-    depthPattern0: 8,  # 8-2
+    depthPattern0: 8,  # 10-2
     depthPattern1: 8,  # 10-2
     depthPattern2: 43, # 45-2
     depthPattern3: 5,  # 7-2
@@ -117,7 +117,7 @@ depthPatterns = {
 Other parameters
 """
 st         = 0.5  # Similarity threshold
-depth      = 6    # Depth of all leaf nodes
+depth      = 7    # Depth of all leaf nodes
 
 """
 Let us generate templates now
