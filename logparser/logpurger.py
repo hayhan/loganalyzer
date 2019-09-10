@@ -196,13 +196,15 @@ inMultiLineInitRangeEnd3 = re.compile(r'Using per transmitter stored initial ups
 assignTokenPattern = re.compile(r'=(?=[^= \r\n])')
 # Cpp class token like ABC::Xyz:
 cppClassPattern = re.compile(r'\:\:(?=[A-Z][a-z0-9]+)')
+# Split 'ABC;DEF' to 'ABC; DEF'
+semicolonPattern = re.compile(r';(?! )')
 # Change something like (xx), [xx], ..., to ( xx ), [ xx ], ...
 bracketPattern1 = re.compile(r'\((?=(\w|[-+]))')
 bracketPattern2 = re.compile(r'(?<=\w)\)')
-bracketPattern3 = re.compile(r'\d+(?=(ms))')
-bracketPattern4 = re.compile(r'(?<=\.\.)\d')
-bracketPattern5 = re.compile(r'(?<=\[)\d')
-bracketPattern6 = re.compile(r'(?<=\:)\d')
+bracketPattern3 = re.compile(r'\[(?=(\w|[-+]))')
+bracketPattern4 = re.compile(r'(?<=\w)\]')
+bracketPattern5 = re.compile(r'\d+(?=(ms))')
+bracketPattern6 = re.compile(r'(?<=\.\.)\d')
 
 """
 Variables initialization
@@ -488,23 +490,24 @@ for line in file:
     # Split class token like ABC::Xyz: to ABC:: Xyz:
     newline = cppClassPattern.sub(':: ', newline)
 
+    # Split 'ABC;DEF' to 'ABC; DEF'
+    newline = semicolonPattern.sub('; ', newline)
+
     # Change something like (xx), [xx], ..., to ( xx ), [ xx ], ...
     newline = bracketPattern1.sub('( ', newline)
     newline = bracketPattern2.sub(' )', newline)
-    m = bracketPattern3.search(newline)
-    if m:
-        substring = m.group(0)
-        newline = bracketPattern3.sub(substring+' ', newline)
-
-    m = bracketPattern4.search(newline)
-    if m:
-        substring = m.group(0)
-        newline = bracketPattern4.sub(' '+substring, newline)
+    newline = bracketPattern3.sub('[ ', newline)
+    newline = bracketPattern4.sub(' ]', newline)
 
     m = bracketPattern5.search(newline)
     if m:
         substring = m.group(0)
-        newline = bracketPattern5.sub(' '+substring, newline)
+        newline = bracketPattern5.sub(substring+' ', newline)
+
+    m = bracketPattern6.search(newline)
+    if m:
+        substring = m.group(0)
+        newline = bracketPattern6.sub(' '+substring, newline)
 
     # Update lastLineEmpty for the next line processing
     lastLineEmpty = False
