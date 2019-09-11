@@ -336,9 +336,9 @@ for line in file:
                 # Then they will share the same log template after clustering
                 lineList[7] = 'OFDM_PLC\n'  # OFDM PLC
 
-            newline = 'DS channel status' + ', rxid ' + lineList[0] + ', dcid ' + lineList[1] + \
-                      ', freq ' + lineList[2] + ', qam ' + lineList[3] + ', fec ' + lineList[4] + \
-                      ', snr ' + lineList[5] + ', power ' + lineList[6] + ', mod ' + lineList[7]
+            newline = 'DS channel status' + ' rxid ' + lineList[0] + ' dcid ' + lineList[1] + \
+                      ' freq ' + lineList[2] + ' qam ' + lineList[3] + ' fec ' + lineList[4] + \
+                      ' snr ' + lineList[5] + ' power ' + lineList[6] + ' mod ' + lineList[7]
 
     # Format US channel status table
     #
@@ -366,18 +366,18 @@ for line in file:
             if lineList[6] == '-':
                 # This line is for OFDMA channel, so split it again
                 lineList = newline.split(None, 10)
-                newline = 'US channel status' + ', txid ' + lineList[0] + ', ucid ' + lineList[1] + \
-                          ', dcid ' + lineList[2] + ', rngsid ' + lineList[3] + ', power ' + lineList[4] + \
-                          ', freqstart ' + lineList[5] + ', freqend ' +lineList[7] + \
-                          ', symrate ' + lineList[8] + ', phytype ' + lineList[9] + \
-                          ', txdata ' + lineList[10]
+                newline = 'US channel status' + ' txid ' + lineList[0] + ' ucid ' + lineList[1] + \
+                          ' dcid ' + lineList[2] + ' rngsid ' + lineList[3] + ' power ' + lineList[4] + \
+                          ' freqstart ' + lineList[5] + ' freqend ' +lineList[7] + \
+                          ' symrate ' + lineList[8] + ' phytype ' + lineList[9] + \
+                          ' txdata ' + lineList[10]
             else:
                 # For SC-QAM channels
-                newline = 'US channel status' + ', txid ' + lineList[0] + ', ucid ' + lineList[1] + \
-                          ', dcid ' + lineList[2] + ', rngsid ' + lineList[3] + ', power ' + lineList[4] + \
-                          ', freqstart ' + lineList[5] + ', freqend ' +lineList[5] + \
-                          ', symrate ' + lineList[6] + ', phytype ' + lineList[7] + \
-                          ', txdata ' + lineList[8]
+                newline = 'US channel status' + ' txid ' + lineList[0] + ' ucid ' + lineList[1] + \
+                          ' dcid ' + lineList[2] + ' rngsid ' + lineList[3] + ' power ' + lineList[4] + \
+                          ' freqstart ' + lineList[5] + ' freqend ' +lineList[5] + \
+                          ' symrate ' + lineList[6] + ' phytype ' + lineList[7] + \
+                          ' txdata ' + lineList[8]
 
     # Remove table block
     # The line starting with "----", " ----" or "  ----"
