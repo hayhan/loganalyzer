@@ -35,4 +35,17 @@ run detector/demo/SVM_demo.py
 
 2. Test your data only:
 
-Suppose you already trained your data, you can simply run step 1.2 & 1.3 but no need label the logs/test_new_label.txt. But we still need this file be there.
+Suppose you already trained your data before, you can simply run command below without training because it will use the training object I saved to the disk.
+No need label the logs/test_new_label.txt. But we still need this file be there.
+
+detector/demo/SupervisedLearning_pred.py
+
+For both option 1 and option 2, you can view the result in file anomaly_timestamp.csv under results/test/
+
+--------------------------------------------
+
+The old school way to analyze log based on step 1.1/1.2 above. Step 1.3 and option 2 use machine learning method. Let us use the old way.
+
+oldschool/analyzer.py
+
+Find the result in file analysis_summary.csv under results/test/. Open it with Excel for better view.

@@ -36,8 +36,8 @@ for rowIndex, line in data_df.iterrows():
         continue
 
     # Traverse all <*> tokens in logEventTemplateL and save the index
-    # ToDo: consider other cases like '<*>;', '<*>,', etc
-    idx_list = [idx for idx, value in enumerate(logEventTemplateL) if value == '<*>']
+    # Consider cases like '<*>;', '<*>,', etc. Remove the unwanted ';,' in knowledgebase
+    idx_list = [idx for idx, value in enumerate(logEventTemplateL) if '<*>' in value]
     #print(idx_list)
     param_list = [logContentL[idx] for idx in idx_list]
     #print(param_list)

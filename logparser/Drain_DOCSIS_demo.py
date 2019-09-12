@@ -61,6 +61,8 @@ regexPattern5 = re.compile(r'CH\d{2}')
 regexPattern6 = re.compile(r'\( k[A-Z]\w+ \)|\( [du]cid \)|\( ErrorRecovery \)|\( ConsoleCmdOverride \)|\( T4NoStationMaintTimeout \)|\( T2NoInitMaintTimeout \)')
 regexPattern7 = re.compile(r'(QAM lock failure)|(FEC lock failure)')
 regexPattern8 = re.compile(r'Stat= (Continue|Success|Abort)')
+regexPattern9 = re.compile(r'qam [yn] fec [yn] snr')
+regexPattern10 = re.compile(r'txdata [yn]')
 
 regex = {
     regexPattern0: '<*>',
@@ -72,6 +74,8 @@ regex = {
     regexPattern6: '( <*> )',
     regexPattern7: '<*>',
     regexPattern8: 'Stat= <*>',
+    regexPattern9: 'qam <*> fec <*> snr',
+    regexPattern10: 'txdata <*>',
 }
 
 """
