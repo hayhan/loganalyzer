@@ -102,6 +102,20 @@ def domain_knowledge(templateId, paramList):
                 logSuggestion = "Attanuation of upstream is too low or high usually."
             break
 
+        if case('82f4d6f4'):
+            # TEMPLATE: "Logging event: Unicast Ranging Received Abort Response - Re-initializing MAC; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;"
+            logFault = True
+            logDescription = "Ranging is Aborted by CMTS and MAC will be reset"
+            logSuggestion = "Attanuation of upstream is too low or high usually."
+            break
+
+        if case('85511099'):
+            # TEMPLATE: "BcmCmUsRangingState:: T2NoInitMaintEvent: ERROR - no Init Maint map op -> restart error"
+            logFault = True
+            logDescription = "CM cannot receive broadcast init ranging opportunities"
+            logSuggestion = "Usually downstream is broken. Check downstream ..."
+            break
+
         if case('2fc6ea2f'):
             # TEMPLATE: "BcmCmUsRangingState:: T4NoStationMaintEvent: ERROR - no Station Maint map op error. hwTxId= <*> docs ucid= <*>"
             logFault = True
@@ -117,6 +131,34 @@ def domain_knowledge(templateId, paramList):
             logSuggestion = "Change the diplexer settings by CM/CmHal> diplexer_settings 0/1 and " \
                             "CM/NonVol/CM DOCSIS NonVol> diplexer_mask_hw_provision or you might " \
                             "need check the diplexer h/w to see if it supports"
+            break
+
+        if case('22d6782b'):
+            # TEMPLATE: "BcmCmDsChan:: DsLockFail: ( BcmCmDsChan <*> ) hwRxId= <*> dcid= <*> -> enter kDsOperLockToRescueCmts state"
+            logFault = True
+            logDescription = "DS unlock happens on h/w channel {0}, dcid {1}".format(paramList[1], paramList[2])
+            logSuggestion = "Downstream is broken ..."
+            break
+
+        if case('3e1ca573'):
+            # TEMPLATE: "BcmCmDsChan:: MddKeepAliveFailTrans: ( BcmCmDsChan <*> ) hwRxId= <*> dcid= <*>"
+            logFault = True
+            logDescription = "MDD cannot be received on h/w channel {0}, dcic {1}".format(paramList[1], paramList[2])
+            logSuggestion = "Usually downstream is broken ..."
+            break
+
+        if case('02d3a173'):
+            # TEMPLATE: "Logging event: MDD message timeout; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;"
+            logFault = True
+            logDescription = "MDD timeout on CM {0} / CMTS {1}".format(paramList[0], paramList[1])
+            logSuggestion = "Usually downstream has some problems ..."
+            break
+
+        if case('401640b9'):
+            # TEMPLATE: "BcmCmDocsisCtlThread:: IpInitErrorEvent: ( CmDocsisCtlThread ) ERROR - IP helper returned DhcpInitFailed error! Restarting!"
+            logFault = True
+            logDescription = "CM cannot be provisioned to get the IP address from DHCP server on CMTS side"
+            logSuggestion = "Usually DHCP server down on CMTS side or upstream signal qulity is not good enough"
             break
 
         if case(): 
