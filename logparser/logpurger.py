@@ -204,7 +204,7 @@ bracketPattern2 = re.compile(r'(?<=\w)\)')
 bracketPattern3 = re.compile(r'\[(?=(\w|[-+]))')
 bracketPattern4 = re.compile(r'(?<=\w)\]')
 bracketPattern5 = re.compile(r'\d+(?=(ms))')
-bracketPattern6 = re.compile(r'(?<=\.\.)\d')
+#bracketPattern6 = re.compile(r'(?<=\.\.)\d')
 
 """
 Variables initialization
@@ -504,10 +504,12 @@ for line in file:
         substring = m.group(0)
         newline = bracketPattern5.sub(substring+' ', newline)
 
+    """
     m = bracketPattern6.search(newline)
     if m:
         substring = m.group(0)
         newline = bracketPattern6.sub(' '+substring, newline)
+    """
 
     # Update lastLineEmpty for the next line processing
     lastLineEmpty = False
