@@ -80,7 +80,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
 
     log_size = raw_data.shape[0]
     sliding_window_file = para['data_path']+'sliding_'+str(para['window_size'])+'ms_'+str(para['step_size'])+'ms.csv'
-    event_id_shuffled_file = para['eventid_shuf']+'event_id_shuffled.npy'
+    event_id_shuffled_file = para['persist_path']+'event_id_shuffled.npy'
 
     # Shuffle the event_id_templates
     if not os.path.exists(event_id_shuffled_file):

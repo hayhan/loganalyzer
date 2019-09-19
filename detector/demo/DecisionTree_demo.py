@@ -25,7 +25,7 @@ para_train = {
     'structured_file': grandpadir+'/results/train/train_norm.txt_structured.csv',
     'templates_file' : grandpadir+'/results/train/train_norm.txt_templates.csv',
     'data_path'      : grandpadir+'/results/train/',
-    'eventid_shuf'   : grandpadir+'/results/',
+    'persist_path'   : grandpadir+'/results/persist/',
     'window_size'    : 10000,    # milliseconds
     'step_size'      : 5000,     # milliseconds
     'window_rebuild' : False,
@@ -37,7 +37,7 @@ para_test = {
     'structured_file': grandpadir+'/results/test/test_norm.txt_structured.csv',
     'templates_file' : grandpadir+'/results/test/test_norm.txt_templates.csv',
     'data_path'      : grandpadir+'/results/test/',
-    'eventid_shuf'   : grandpadir+'/results/',
+    'persist_path'   : grandpadir+'/results/persist/',
     'window_size'    : 10000,    # milliseconds
     'step_size'      : 5000,     # milliseconds
     'window_rebuild' : True,
@@ -73,12 +73,13 @@ if __name__ == '__main__':
     """
 
     # Add weighting factor before training
-    weighting_class = weighting.WeightingClass()
-    train_x = weighting_class.fit_transform(para_train, train_x, term_weighting='tf-idf')
+    train_x = weighting.fit_transform(para_train, train_x, term_weighting='tf-idf')
 
+    """
     # Save the weighting object in training to disk for future predict
     with open(parentdir+'/objects/weighting.object', 'wb') as f:
         pickle.dump(weighting_class, f)
+    """
 
     """
     Train the data now
@@ -109,7 +110,7 @@ if __name__ == '__main__':
                                                     event_id_templates_test)
 
     # Add weighting factor as we did for training data
-    test_x  = weighting_class.transform(para_test, test_x, use_train_factor=True)
+    test_x  = weighting.transform(para_test, test_x, term_weighting='tf-idf', use_train_factor=True)
 
     test_y_pred = model.predict(test_x)
     #np.savetxt(para_test['data_path']+'test_y_data.txt', test_y, fmt="%s")
