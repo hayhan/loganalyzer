@@ -20,6 +20,17 @@ logging.basicConfig(filename=grandpadir+'/tmp/debug.log', \
                     format='%(asctime)s - %(message)s', \
                     level=logging.ERROR)
 
+# Read some parameters from the config file
+with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
+    conlines = confile.readlines()
+    if conlines[1].strip() == 'MODEL=DT':
+        model_file = 'DecesionTree.onnx'
+    elif conlines[1].strip() == 'MODEL=LR':
+        model_file = 'LR.onnx'
+    else:
+        model_file = 'SVM.onnx'
+
+
 
 para_test = {
     'labeled_file'   : grandpadir+'/results/test/test_norm.txt_labeled.csv',
@@ -69,9 +80,7 @@ if __name__ == '__main__':
 
     # Load the ONNX model which is equivalent to the scikit-learn model
     # https://microsoft.github.io/onnxruntime/api_summary.html
-    sess = rt.InferenceSession(para_test['persist_path']+"DecesionTree.onnx")
-    #sess = rt.InferenceSession(para_test['persist_path']+"LR.onnx")
-    #sess = rt.InferenceSession(para_test['persist_path']+"SVM.onnx")
+    sess = rt.InferenceSession(para_test['persist_path']+model_file)
     input_name = sess.get_inputs()[0].name
     label_name = sess.get_outputs()[0].name
     test_y_pred = sess.run([label_name], {input_name: test_x.astype(np.float32)})[0]

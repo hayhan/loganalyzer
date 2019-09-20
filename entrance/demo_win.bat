@@ -1,6 +1,6 @@
 @echo off
 
-echo TRAINING=0 > config.txt
+rem echo TRAINING=0 > config.txt
 rem Preprocess and label raw log if needed
 python ..\logparser\logpurger.py
 python ..\logparser\labelprocess.py
