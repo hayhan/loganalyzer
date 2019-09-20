@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 The implementation of the logistic regression model for anomaly detection.
+Drop this wrapper because it is not convinient to use sklearn-onnx converter.
 
 Authors: 
     LogPAI Team, modified by Wei Han <wei.han@broadcom.com>

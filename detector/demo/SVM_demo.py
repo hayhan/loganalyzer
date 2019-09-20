@@ -13,8 +13,10 @@ parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 grandpadir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 sys.path.append(grandpadir)
 
-from detector.models import SVM
-from detector import featurextor, weighting
+from sklearn import svm
+from detector import featurextor, weighting, utils
+from skl2onnx import convert_sklearn
+from skl2onnx.common.data_types import FloatTensorType
 
 logging.basicConfig(filename=grandpadir+'/tmp/debug.log', \
                     format='%(asctime)s - %(message)s', \
@@ -25,7 +27,7 @@ para_train = {
     'structured_file': grandpadir+'/results/train/train_norm.txt_structured.csv',
     'templates_file' : grandpadir+'/results/train/train_norm.txt_templates.csv',
     'data_path'      : grandpadir+'/results/train/',
-    'eventid_shuf'   : grandpadir+'/results/',
+    'persist_path'   : grandpadir+'/results/persist/',
     'window_size'    : 10000,    # milliseconds
     'step_size'      : 5000,     # milliseconds
     'window_rebuild' : False,
@@ -37,7 +39,7 @@ para_test = {
     'structured_file': grandpadir+'/results/test/test_norm.txt_structured.csv',
     'templates_file' : grandpadir+'/results/test/test_norm.txt_templates.csv',
     'data_path'      : grandpadir+'/results/test/',
-    'eventid_shuf'   : grandpadir+'/results/',
+    'persist_path'   : grandpadir+'/results/persist/',
     'window_size'    : 10000,    # milliseconds
     'step_size'      : 5000,     # milliseconds
     'window_rebuild' : True,
@@ -73,22 +75,33 @@ if __name__ == '__main__':
     """
 
     # Add weighting factor before training
-    weighting_class = weighting.WeightingClass()
-    train_x = weighting_class.fit_transform(para_train, train_x, term_weighting='tf-idf')
+    train_x = weighting.fit_transform(para_train, train_x, term_weighting='tf-idf')
 
+    """
+    # Do not need this because I removed the weighting class
     # Save the weighting object in training to disk for future predict
-    with open(parentdir+'/objects/weighting.object', 'wb') as f:
+    with open(para_train['persist_path']+'weighting.object', 'wb') as f:
         pickle.dump(weighting_class, f)
+    """
 
     """
-    Train the data now
+    Train the model with train dataset now
     """
-    model = SVM()
+    model = svm.LinearSVC(penalty='l1', tol=0.1, C=1, dual=False, \
+                          class_weight=None, max_iter=100)
     model.fit(train_x, train_y)
 
     # Save the model object after training to disk for future predict
-    with open(parentdir+'/objects/SVM.object', 'wb') as f:
+    """
+    with open(para_train['persist_path']+'SVM.object', 'wb') as f:
         pickle.dump(model, f)
+    """
+    # Persist the model for deployment by using sklearn-onnx converts instead
+    # http://onnx.ai/sklearn-onnx/
+    initial_type = [('float_input', FloatTensorType([None, train_x.shape[1]]))]
+    onx = convert_sklearn(model, initial_types=initial_type)
+    with open(para_train['persist_path']+"SVM.onnx", "wb") as f:
+        f.write(onx.SerializeToString())
 
     # Predict the train data for validation later
     train_y_pred = model.predict(train_x)
@@ -109,17 +122,22 @@ if __name__ == '__main__':
                                                     event_id_templates_test)
 
     # Add weighting factor as we did for training data
-    test_x  = weighting_class.transform(para_test, test_x, use_train_factor=True)
+    test_x  = weighting.transform(para_test, test_x, term_weighting='tf-idf', use_train_factor=True)
 
     test_y_pred = model.predict(test_x)
     #np.savetxt(para_test['data_path']+'test_y_data.txt', test_y, fmt="%s")
     np.savetxt(para_test['data_path']+'test_y_data_pred.txt', test_y_pred, fmt="%s")
 
+    """
+    The validation for train and test dataset
+    """
     print('Train validation:')
-    precision, recall, f1 = model.evaluate(train_y_pred, train_y)
+    precision, recall, f1 = utils.metrics(train_y_pred, train_y)
+    print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'.format(precision, recall, f1))
 
     print('Test validation:')
-    precision, recall, f1 = model.evaluate(test_y_pred, test_y)
+    precision, recall, f1 = utils.metrics(test_y_pred, test_y)
+    print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'.format(precision, recall, f1))
 
     """
     Trace anomaly timestamp windows in the raw log file, aka. loganalyzer/logs/test.txt

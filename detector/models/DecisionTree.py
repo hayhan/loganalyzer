@@ -1,5 +1,6 @@
 """
 The implementation of the decision tree model for anomaly detection.
+Drop this wrapper because it is not convinient to use sklearn-onnx converter.
 
 Authors: 
     LogPAI Team, modified by Wei Han <wei.han@broadcom.com>

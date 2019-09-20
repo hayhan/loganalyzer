@@ -74,7 +74,7 @@ def transform(para, X_seq, term_weighting=None, normalization=None, use_train_fa
         if use_train_factor:
             # Load the idf vector of training stage from file
             idf_vec = np.load(para['persist_path']+'idf_vector_train.npy')
-            print(idf_vec)
+            #print(idf_vec)
         else:
             # Use the idf data of test instead of the one from train data
             df_vec = np.sum(X > 0, axis=0)
