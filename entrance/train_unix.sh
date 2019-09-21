@@ -1,7 +1,12 @@
 #! /bin/bash
 
 # Process train dataset
-echo TRAINING=1 > config.txt
+(
+echo TRAINING=1
+echo MODEL=DT
+echo WINDOW_SIZE=10000
+echo WINDOW_STEP=5000
+) > config.txt
 # Preprocess and label raw log
 python3 ../logparser/logpurger.py
 python3 ../logparser/labelprocess.py
@@ -9,7 +14,12 @@ python3 ../logparser/labelprocess.py
 python3 ../logparser/Drain_DOCSIS_demo.py
 
 # Process test dataset
-echo TRAINING=0 > config.txt
+(
+echo TRAINING=0
+echo MODEL=DT
+echo WINDOW_SIZE=10000
+echo WINDOW_STEP=5000
+) > config.txt
 python3 ../logparser/logpurger.py
 python3 ../logparser/labelprocess.py
 # Parse the log and generate templates ...

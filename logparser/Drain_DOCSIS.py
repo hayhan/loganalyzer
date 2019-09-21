@@ -6,11 +6,17 @@ License     : MIT
 
 import re
 import os
+import sys
 import numpy as np
 import pandas as pd
 import hashlib
 from datetime import datetime
 
+curfiledir = os.path.dirname(__file__)
+parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+sys.path.append(parentdir)
+
+from tools import helper
 
 class Logcluster:
     def __init__(self, logTemplate='', logIDL=None):
@@ -268,8 +274,11 @@ class LogParser:
         # Backup the original depth of all leaf nodes
         depthOrig = self.depth
 
-        count = 0
-        for dummy, line in self.df_log.iterrows():
+        # Init progress bar to 0%
+        logsize = self.df_log.shape[0]
+        helper.printProgressBar(0, logsize, prefix ='Progress:', suffix='Complete', length=50)
+        #count = 0
+        for rowIndex, line in self.df_log.iterrows():
             logID = line['LineId']
             logmessageL = self.preprocess(line['Content']).strip().split()
             # logmessageL = filter(lambda x: x != '', re.split('[\s=:,]', self.preprocess(line['Content'])))
@@ -292,19 +301,22 @@ class LogParser:
                 if ' '.join(newTemplate) != ' '.join(matchCluster.logTemplate):
                     matchCluster.logTemplate = newTemplate
 
-            count += 1
-            if count % 1000 == 0 or count == len(self.df_log):
-                print('Processed {0:.1f}% of log lines.'.format(count * 100.0 / len(self.df_log)))
+            #count += 1
+            #if count % 1000 == 0 or count == len(self.df_log):
+            #    print('Processed {0:.1f}% of log lines.'.format(count * 100.0 / len(self.df_log)))
 
             # Recover the original depth in case it is changed
             self.depth = depthOrig
+
+            # Update the progress bar
+            helper.printProgressBar(rowIndex+1, logsize, prefix='Progress:', suffix ='Complete', length=50)
 
         if not os.path.exists(self.savePath):
             os.makedirs(self.savePath)
 
         self.outputResult(logCluL)
 
-        print('Parsing done. [Time taken: {!s}]'.format(datetime.now() - start_time))
+        print('Parsing done. [Time taken: {!s}]\n'.format(datetime.now() - start_time))
 
     def load_data(self):
         headers, regex = self.generate_logformat_regex(self.log_format)

@@ -22,14 +22,22 @@ logging.basicConfig(filename=grandpadir+'/tmp/debug.log', \
                     format='%(asctime)s - %(message)s', \
                     level=logging.ERROR)
 
+# Read some parameters from the config file
+with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
+    conlines = confile.readlines()
+    # Read the sliding window size
+    window_size = int(conlines[2].strip().replace('WINDOW_SIZE=', ''))
+    # Read the sliding window step size
+    window_step = int(conlines[3].strip().replace('WINDOW_STEP=', ''))
+
 para_train = {
     'labeled_file'   : grandpadir+'/results/train/train_norm.txt_labeled.csv',
     'structured_file': grandpadir+'/results/train/train_norm.txt_structured.csv',
     'templates_file' : grandpadir+'/results/train/train_norm.txt_templates.csv',
     'data_path'      : grandpadir+'/results/train/',
     'persist_path'   : grandpadir+'/results/persist/',
-    'window_size'    : 10000,    # milliseconds
-    'step_size'      : 5000,     # milliseconds
+    'window_size'    : window_size,    # milliseconds
+    'step_size'      : window_step,    # milliseconds
     'window_rebuild' : False,
     'train_ratio'    : 0.8       # not used anymore after de-coupling train/test data
 }
@@ -40,11 +48,12 @@ para_test = {
     'templates_file' : grandpadir+'/results/test/test_norm.txt_templates.csv',
     'data_path'      : grandpadir+'/results/test/',
     'persist_path'   : grandpadir+'/results/persist/',
-    'window_size'    : 10000,    # milliseconds
-    'step_size'      : 5000,     # milliseconds
+    'window_size'    : window_size,    # milliseconds
+    'step_size'      : window_step,    # milliseconds
     'window_rebuild' : True,
     'train_ratio'    : 0.8       # not used anymore after de-coupling train/test data
 }
+
 
 if __name__ == '__main__':
     """

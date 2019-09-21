@@ -1,6 +1,11 @@
 #! /bin/bash
 
-echo TRAINING=0 > config.txt
+(
+echo TRAINING=0
+echo MODEL=DT
+echo WINDOW_SIZE=10000
+echo WINDOW_STEP=5000
+) > config.txt
 
 # Preprocess and label raw log if needed
 python3 ../logparser/logpurger.py

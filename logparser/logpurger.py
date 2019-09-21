@@ -19,8 +19,10 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
     conline = confile.readline().strip()
     if conline == 'TRAINING=1':
         TRAINING = True
+        datatype = 'train'
     else:
         TRAINING = False
+        datatype = 'test'
 
 if TRAINING:
     raw_file_loc  = parentdir + '/logs/train.txt'
@@ -232,6 +234,7 @@ sccvEmptyLineCnt = 0
 09) Remove specific whole multi-line log
 10) Split some tokens
 """
+print("Pre-processing the raw {0} dataset ...\n".format(datatype))
 for line in file:
     """
     Remove the unwanted strings which include some kind of timestamps, console prompts and etc.
