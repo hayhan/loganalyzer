@@ -207,7 +207,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
         labels.append(label)
     assert inst_number == len(labels)
     print("Among all instances, %d are anomalies"%sum(labels))
-    assert event_count_matrix.shape[0] == len(labels)
+    #assert event_count_matrix.shape[0] == len(labels)
 
     np.savetxt(para['data_path']+'event_count_matrix.txt', event_count_matrix, fmt="%s")
     return event_count_matrix, labels
