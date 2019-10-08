@@ -2,6 +2,8 @@
 Description : This file implements the Drain algorithm for log parsing
 Author      : LogPAI team, modified by Wei Han <wei.han@broadcom.com>
 License     : MIT
+Paper       : [ICWS'17] Drain: An Online Log Parsing Approach with Fixed Depth Tree,
+              by Pinjia He, Jieming Zhu, Zibin Zheng, and Michael R. Lyu.
 """
 
 import re
