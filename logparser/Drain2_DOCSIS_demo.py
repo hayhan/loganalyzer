@@ -1,6 +1,5 @@
-from Drainjournal import *
+from Drain2_DOCSIS import Para, Drain
 from pprint import pprint
-from RI_precision import *
 
 delimiters = '\s+'
 
@@ -16,12 +15,3 @@ myPara = Para(logName=logName, removeCol=removeCol, rex=rex, delimiters=delimite
 
 myParser = Drain(myPara)
 runningTime = myParser.mainProcess()
-
-
-#Evaluate code
-result = zeros((1,9))
-evaPara = prePara(groundTruthDataPath=dataPath, geneDataPath='./results/')
-TP,FP,TN,FN,p,r,f,RI=process(evaPara)
-result[0,:]=TP,FP,TN,FN,p,r,f,RI,runningTime
-	
-pprint(result)
