@@ -1,4 +1,4 @@
-from Drain2_DOCSIS import Para, Drain
+from Drain2 import Para, Drain
 from pprint import pprint
 
 delimiters = '\s+'

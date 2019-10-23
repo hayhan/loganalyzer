@@ -14,8 +14,7 @@ import numpy as np
 import gc
 import math
 
-
-#Similarity layer
+# Similarity layer
 class Logcluster:
     def __init__(self, logTemplate='', st=0.1, outcell=None):
         self.logTemplate = logTemplate
@@ -25,7 +24,7 @@ class Logcluster:
         self.initst = -1
         self.outcell = outcell
 
-#Length layer and Token layer
+# Length layer and Token layer
 class Node:
     def __init__(self, childD=None, digitOrtoken=None):
         if childD is None:
@@ -33,7 +32,7 @@ class Node:
         self.childD = childD
         self.digitOrtoken = digitOrtoken
 
-#Output layer
+# Output layer
 class Ouputcell:
     def __init__(self, logIDL=None, parentL=None):
         if logIDL is None:
@@ -44,20 +43,23 @@ class Ouputcell:
         parentL = []
         self.parentL = parentL
 
-"""
-rex: regular expressions used in preprocessing (step1) [(rex, substitude), ...]
-path: the input path stores the input log file name
-maxChild: max number of children of an internal node
-logName:the name of the input file containing raw log messages
-removeCol: the index of column needed to remove
-savePath: the output path stores the file containing structured logs
-saveTempFileName: the output template file name
-mt: similarity threshold for the merge step
-"""
-
 
 class Para:
-    def __init__(self, rex=None, path='', maxChild=120, logName='rawlog.log',removeCol=None,savePath='./results/',saveFileName='template', saveTempFileName='logTemplates.txt', delimiters=' ', mt=1):
+    def __init__(self, rex=None, path='', maxChild=120, logName='rawlog.log', \
+                 removeCol=None, savePath='./results/', saveFileName='template', \
+                 saveTempFileName='logTemplates.txt', delimiters=' ', mt=1):
+        """
+        Attributes
+        ----------
+            rex: regular expressions used in preprocessing (step1) [(rex, substitude), ...]
+            path: the input path stores the input log file name
+            maxChild: max number of children of an internal node
+            logName: the name of the input file containing raw log messages
+            removeCol: the index of column needed to remove
+            savePath: the output path stores the file containing structured logs
+            saveTempFileName: the output template file name
+            mt: similarity threshold for the merge step
+        """
         self.path = path
         self.maxChild = maxChild
         self.logName = logName
@@ -79,20 +81,20 @@ class Para:
 class Drain:
     def __init__(self, para):
         self.para = para
-        #create the list of the pointer
+        # create the list of the pointer
         self.pointer = dict()
 
-    #Check if there is number
+    # Check if there is number
     def hasNumbers(self, s):
         return any(char.isdigit() for char in s)
 
-    #Check if there is special character
+    # Check if there is special character
     def hasPun(self, s):
         punStr = "#$&'*+,/<=>@^_`|~)"
         punChars = set(punStr)
         return any(char in punChars for char in s)
 
-    #Check if there is special character,
+    # Check if there is special character
     def lastTokenPun(self, s):
         punStr = ".#$&'*+,/<=>@^_`|~)"
         punChars = set(punStr)
@@ -106,10 +108,13 @@ class Drain:
 
     def treeSearch(self, rn, seq):
         """
-            Browses the tree in order to find a matching cluster to a log sequence
-        :param rn: Root node
-        :param seq: Log sequence to test
-        :return: The matching log cluster
+        Browses the tree in order to find a matching cluster to a log sequence
+
+        Attributes
+        ----------
+            rn: Root node
+            seq: Log sequence to test
+            return: The matching log cluster
         """
 
         retLogCluster = None
@@ -118,6 +123,7 @@ class Drain:
         seqLen = len(seq)
         if seqLen in rn.childD:
             retLogCluster = self.keyTreeSearch(seq)
+
             if retLogCluster is None:
                 tokenLayerNode = self.tokenTreeSearch(rn, seq)
                 if tokenLayerNode is not None:
@@ -132,9 +138,12 @@ class Drain:
 
     def keyTreeSearch(self, seq):
         """
-            Browses the tree in order to find a matching cluster to a log sequence
-        :param seq: Log sequence to test
-        :return: The matching log cluster
+        Browses the tree in order to find a matching cluster to a log sequence
+
+        Attributes
+        ----------
+            seq: Log sequence to test
+            return: The matching log cluster
         """
         seqLen = len(seq)
 
@@ -146,7 +155,7 @@ class Drain:
                 or (logCluster.logTemplate[-1] == seq[-1] and not self.hasNumbers(seq[-1]) and not self.hasPun(seq[-1])) \
                 or (logCluster.logTemplate[0] == '<*>' and logCluster.logTemplate[-1] == '<*>'):
 
-            curSim, curNumOfPara = self.SeqDist(logCluster.logTemplate, seq)
+            curSim, _curNumOfPara = self.SeqDist(logCluster.logTemplate, seq)
 
             if curSim >= logCluster.st:
                 retLogCluster = logCluster
@@ -154,10 +163,13 @@ class Drain:
 
     def tokenTreeSearch(self, rn, seq):
         """
-            Browses the tree in order to find a matching cluster to a log sequence
-        :param rn: Root node
-        :param seq: Log sequence to test
-        :return: The matching log cluster
+        Browses the tree in order to find a matching cluster to a log sequence
+
+        Attributes
+        ----------
+            rn: Root node
+            seq: Log sequence to test
+            return: The matching log cluster
         """
         seqLen = len(seq)
         lenLayerNode = rn.childD[seqLen]
@@ -256,7 +268,7 @@ class Drain:
         else:
             tokenLayerNode.childD.append(logClust)
 
-    #seq1 is template
+    # seq1 is template
     def SeqDist(self, seq1, seq2):
         assert len(seq1) == len(seq2)
 
@@ -282,7 +294,7 @@ class Drain:
         return retVal, numOfPar
 
 
-    #Find the most suitable log cluster in the leaf node, token-wise comparison, used to find the most similar cluster
+    # Find the most suitable log cluster in the leaf node, token-wise comparison, used to find the most similar cluster
     def FastMatch(self, logClustL, seq):
         retLogClust = None
 
@@ -445,10 +457,11 @@ class Drain:
         t1 = time.time()
         rootNode = Node()
 
-        # list of nodes in the similarity layer containing similar logs clustered by heuristic rules
+        # List of nodes in the similarity layer containing similar logs
+        # clustered by heuristic rules
         logCluL = []
 
-        # list of nodes in the final layer that outputs containing logs
+        # List of nodes in the final layer that outputs containing logs
         outputCeL = []
 
         with open(self.para.path+self.para.logName) as lines:
@@ -462,7 +475,7 @@ class Drain:
                 cookedLine = ' '.join(logmessageL)
 
 
-                #LAYER--Preprocessing
+                # LAYER--Preprocessing
                 for currentRex in self.para.rex:
                     cookedLine = re.sub(currentRex[0], currentRex[1], cookedLine)
 
@@ -503,7 +516,7 @@ class Drain:
                     # update the cache
                     self.pointer[len(logmessageL)] = newCluster
 
-                #successfully match an existing cluster, add the new log message to the existing cluster
+                # successfully match an existing cluster, add the new log message to the existing cluster
                 else:
                     newTemplate, numUpdatedToken = self.getTemplate(logmessageL, matchCluster.logTemplate)
                     matchCluster.outcell.logIDL.append(logID)

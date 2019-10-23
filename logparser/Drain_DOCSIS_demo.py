@@ -7,7 +7,7 @@ License     : MIT
 
 import os
 import re
-from Drain_DOCSIS import LogParser
+from Drain import LogParser
 
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
