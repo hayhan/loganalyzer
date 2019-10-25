@@ -14,7 +14,11 @@ import numpy as np
 import gc
 import math
 
-# Similarity layer
+"""
+Note: log group/cluster maps to one single template/event.
+"""
+
+# Similarity layer, each cluster/group has its own st
 class Logcluster:
     def __init__(self, logTemplate='', st=0.1, outcell=None):
         self.logTemplate = logTemplate
@@ -109,6 +113,7 @@ class Drain:
     def treeSearch(self, rn, seq):
         """
         Browses the tree in order to find a matching cluster to a log sequence
+        It does not generate new node
 
         Attributes
         ----------
@@ -119,14 +124,17 @@ class Drain:
 
         retLogCluster = None
 
-        # Check if there is a key with the same length
         seqLen = len(seq)
         if seqLen in rn.childD:
+            # Check if there is a key with the same length, namely the cache mechanism
             retLogCluster = self.keyTreeSearch(seq)
 
             if retLogCluster is None:
+                # Search the token layer
                 tokenLayerNode = self.tokenTreeSearch(rn, seq)
+
                 if tokenLayerNode is not None:
+                    # Note, token layer child note is a list, not dict anymore
                     logClusterList = tokenLayerNode.childD
 
                     retLogCluster = self.FastMatch(logClusterList, seq)
@@ -139,6 +147,7 @@ class Drain:
     def keyTreeSearch(self, seq):
         """
         Browses the tree in order to find a matching cluster to a log sequence
+        It does not generate new node
 
         Attributes
         ----------
@@ -164,12 +173,13 @@ class Drain:
     def tokenTreeSearch(self, rn, seq):
         """
         Browses the tree in order to find a matching cluster to a log sequence
+        It does not generate new node
 
         Attributes
         ----------
             rn: Root node
             seq: Log sequence to test
-            return: The matching log cluster
+            return: The token layer node
         """
         seqLen = len(seq)
         lenLayerNode = rn.childD[seqLen]
@@ -268,33 +278,34 @@ class Drain:
         else:
             tokenLayerNode.childD.append(logClust)
 
-    # seq1 is template
+    # Calculate the similarity. The seq1 is template
     def SeqDist(self, seq1, seq2):
         assert len(seq1) == len(seq2)
 
         simTokens = 0
-        numOfPar = 0
+        numOfPara = 0
 
         for token1, token2 in zip(seq1, seq2):
-            if token1 == '*':
-                numOfPar += 1
+            if token1 == '<*>':
+                numOfPara += 1
                 continue
             if token1 == token2:
                 simTokens += 1
 
-        numOfCon = len(seq1)-numOfPar
-        if numOfCon == 0:
+        numOfConst = len(seq1)-numOfPara
+        if numOfConst == 0:
             if len(seq1)==1 and self.hasNumbers(seq2[0]):
                 retVal = 1.0
             else:
                 retVal = 0.0
         else:
-            retVal = float(simTokens) / numOfCon
+            retVal = float(simTokens) / numOfConst
 
-        return retVal, numOfPar
+        return retVal, numOfPara
 
 
-    # Find the most suitable log cluster in the leaf node, token-wise comparison, used to find the most similar cluster
+    # Find the most suitable log cluster in the leaf node,
+    # token-wise comparison, used to find the most similar cluster
     def FastMatch(self, logClustL, seq):
         retLogClust = None
 
@@ -316,21 +327,23 @@ class Drain:
 
         return retLogClust
 
-
+    # The seq1 is raw log and the seq2 is template
     def getTemplate(self, seq1, seq2):
         assert len(seq1) == len(seq2)
         retVal = []
 
-        updatedToken = 0
+        updatedTokenNum = 0
         for token1, token2 in zip(seq1, seq2):
             if token1 == token2:
                 retVal.append(token1)
             else:
-                if token2 != '*':
-                    updatedToken += 1
-                retVal.append('*')
+                if token2 != '<*>':
+                    # The accumulated num of tokens that have been replaced by <*>
+                    # used to update the similarity threshold of each cluster 
+                    updatedTokenNum += 1
+                retVal.append('<*>')
 
-        return retVal, updatedToken
+        return retVal, updatedTokenNum
 
 
     # delete a folder
@@ -481,13 +494,14 @@ class Drain:
 
                 logmessageL = cookedLine.split()
 
-                # length 0 logs, which are anomaly cases
+                # Length zero logs, which are anomaly cases
                 if len(logmessageL) == 0:
                     continue
+
+                # Tree search but not generate node here
                 matchCluster = self.treeSearch(rootNode, logmessageL)
 
-
-                # match no existing log cluster
+                # Match no existing log cluster
                 if matchCluster is None:
                     newOCell = Ouputcell(logIDL=[logID])
                     # newOCell = Ouputcell(logIDL=[line.strip()]) #for debug
@@ -495,18 +509,18 @@ class Drain:
                     newCluster = Logcluster(logTemplate=logmessageL, outcell=newOCell)
                     newOCell.parentL.append(newCluster)
 
-                    # the initial value of st is 0.5 times the percentage of non-digit tokens in the log message
-                    numOfPar = 0
+                    # The initial value of st is 0.5 times the percentage of non-digit tokens in the log message
+                    numOfPara = 0
                     for token in logmessageL:
                         if self.hasNumbers(token):
-                            numOfPar += 1
+                            numOfPara += 1
 
                     # "st" is the similarity threshold used by the similarity layer
-                    newCluster.st = 0.5 * (len(logmessageL)-numOfPar) / float(len(logmessageL))
+                    newCluster.st = 0.5 * (len(logmessageL)-numOfPara) / float(len(logmessageL))
                     newCluster.initst = newCluster.st
 
-                    # when the number of numOfPar is larger, the group tend to accept more log messages to generate the template
-                    newCluster.base = max(2, numOfPar + 1)
+                    # when the number of numOfPara is larger, the group tend to accept more log messages to generate the template
+                    newCluster.base = max(2, numOfPara + 1)
 
                     logCluL.append(newCluster)
                     outputCeL.append(newOCell)
@@ -516,7 +530,7 @@ class Drain:
                     # update the cache
                     self.pointer[len(logmessageL)] = newCluster
 
-                # successfully match an existing cluster, add the new log message to the existing cluster
+                # Successfully match an existing cluster, add the new log message to the existing cluster
                 else:
                     newTemplate, numUpdatedToken = self.getTemplate(logmessageL, matchCluster.logTemplate)
                     matchCluster.outcell.logIDL.append(logID)
@@ -525,11 +539,12 @@ class Drain:
                     if ' '.join(newTemplate) != ' '.join(matchCluster.logTemplate):
                         matchCluster.logTemplate = newTemplate
 
-                        # the update of updateCount
+                        # Update the similarity threshold of current existing cluster
                         matchCluster.updateCount = matchCluster.updateCount + numUpdatedToken
                         matchCluster.st = min( 1, matchCluster.initst + 0.5*math.log(matchCluster.updateCount+1, matchCluster.base) )
 
-                        # if the merge mechanism is used, them merge the nodes
+                        # If the merge mechanism is used, then merge the nodes
+                        # weihan: TBD if I need this feature in ML and Oldshchool
                         if self.para.mt < 1:
                             self.adjustOutputCell(matchCluster, logCluL)
 
