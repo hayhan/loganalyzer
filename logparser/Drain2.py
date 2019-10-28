@@ -31,6 +31,16 @@ class Logcluster:
 # Length layer and Token layer
 class Node:
     def __init__(self, childD=None, digitOrtoken=None):
+        """
+        Attributes
+        ----------
+            childD: The child node
+            digitOrtoken:
+                seqLen - length layer node
+                tokenFirstKey - The first token split
+                tokenLastKey - The last token split
+                <*> - The others-node within each length layer node
+        """
         if childD is None:
             childD = dict()
         self.childD = childD
@@ -44,7 +54,8 @@ class Ouputcell:
         self.logIDL = logIDL
         self.outTemplates = ''
         self.active = True
-        parentL = []
+        if parentL is None:
+            parentL = []
         self.parentL = parentL
 
 
@@ -57,7 +68,7 @@ class Para:
         ----------
             rex: regular expressions used in preprocessing (step1) [(rex, substitude), ...]
             path: the input path stores the input log file name
-            maxChild: max number of children of an internal node
+            maxChild: max number of children of length layer node
             logName: the name of the input file containing raw log messages
             removeCol: the index of column needed to remove
             savePath: the output path stores the file containing structured logs
@@ -106,7 +117,7 @@ class Drain:
 
         if not haspuns:
             return False
-        if re.match('^[\w]+[#$&\'*+,\/<=>@^_`|~.]+$', s):
+        if re.match(r'^[\w]+[#$&\'*+,/<=>@^_`|~.]+$', s):
             return False
         return True
 
@@ -172,7 +183,7 @@ class Drain:
 
     def tokenTreeSearch(self, rn, seq):
         """
-        Browses the tree in order to find a matching cluster to a log sequence
+        Browse the tree in order to find a matching cluster to a log sequence
         It does not generate new node
 
         Attributes
@@ -206,16 +217,29 @@ class Drain:
 
 
     def addSeqToTree(self, rn, logClust):
+        """
+        A log sequence cannot be matched by an existing cluster, so add the
+        new corresponding log cluster to the tree
+
+        Attributes
+        ----------
+            rn: Root node
+            logClust: the new Log cluster
+            return: None
+        """
         seqLen = len(logClust.logTemplate)
         if seqLen not in rn.childD:
+            # Create a new length layer node and add it to the tree
             lenLayerNode = Node(digitOrtoken=seqLen)
             rn.childD[seqLen] = lenLayerNode
 
-            # add an others-node for the token layer
-            newNode = Node(digitOrtoken='*')
-            lenLayerNode.childD['*'] = newNode
+            # Add an others-node for the token layer per paper section 3.4 and Fig. 2
+            # Each length layer node has one such node
+            newNode = Node(digitOrtoken='<*>')
+            lenLayerNode.childD['<*>'] = newNode
 
         else:
+            # If the length layer node already exists, just retrive it
             lenLayerNode = rn.childD[seqLen]
 
 
@@ -225,54 +249,65 @@ class Drain:
         tokenFirstKey = '00_Drain_' + tokenFirst
         tokenLastKey = '-1_Drain_' + tokenLast
 
-        # if the index token already exists
         if (tokenFirstKey) in lenLayerNode.childD:
+            # The first index token already exists, just retrive it
             tokenLayerNode = lenLayerNode.childD[tokenFirstKey]
         elif (tokenLastKey) in lenLayerNode.childD:
+            # weihan: TBD if this algorithm reasonable
+            # The last index token already exists, just retrive it
             tokenLayerNode = lenLayerNode.childD[tokenLastKey]
         else:
-            # need to add index token to the tree
+            # Add the new index node to the token layer
             if len(lenLayerNode.childD) == self.para.maxChild:
-                tokenLayerNode = lenLayerNode.childD['*']
+                # Length layer node reaches the max, retrive the <*> node instead
+                tokenLayerNode = lenLayerNode.childD['<*>']
             else:
-                # first token has numbers
+                # Let us add the new index node starting from here
+                #
                 if self.hasNumbers(tokenFirst):
-                    # last token has numbers
+                    # The first token is a var, then check the last one
+                    #
                     if self.hasNumbers(tokenLast):
-                        tokenLayerNode = lenLayerNode.childD['*']
-                    # last token does not have numbers
+                        # The last token is a var too, then retrive the <*> token layer node
+                        tokenLayerNode = lenLayerNode.childD['<*>']
                     else:
+                        # The last token is not a var, so use it as split token
                         newNode = Node(digitOrtoken=tokenLastKey)
                         lenLayerNode.childD[tokenLastKey] = newNode
                         tokenLayerNode = newNode
 
-                # first token does not have numbers
                 else:
-                    # last token has numbers
+                    # The first token is not a var
+                    #
                     if self.hasNumbers(tokenLast):
+                        # The last token is a var
                         newNode = Node(digitOrtoken=tokenFirstKey)
                         lenLayerNode.childD[tokenFirstKey] = newNode
                         tokenLayerNode = newNode
-                    # last token does not have numbers
+
                     else:
-                        # last token has punctuations
+                        # The last token is not a var
+                        #
                         if self.hasPun(tokenLast):
+                            # The last token has punctuations
                             newNode = Node(digitOrtoken=tokenFirstKey)
                             lenLayerNode.childD[tokenFirstKey] = newNode
                             tokenLayerNode = newNode
-                        # first token has punctuations, last token does not have punctuations
+
                         elif self.hasPun(tokenFirst):
+                            # The first token has punctuations, the last has not
                             newNode = Node(digitOrtoken=tokenLastKey)
                             lenLayerNode.childD[tokenLastKey] = newNode
                             tokenLayerNode = newNode
-                        # first/last token has punctuations
                         else:
+                            # The first and last token have punctuations
                             newNode = Node(digitOrtoken=tokenFirstKey)
                             lenLayerNode.childD[tokenFirstKey] = newNode
                             tokenLayerNode = newNode
 
 
-        # add the cluster to the leave node
+        # Add the new cluster to the leaf node.
+        # The childD here is a list instead of a dictionary anymore
         if len(tokenLayerNode.childD) == 0:
             tokenLayerNode.childD = [logClust]
         else:
@@ -315,13 +350,13 @@ class Drain:
 
         for logClust in logClustL:
             curSim, curNumOfPara = self.SeqDist(logClust.logTemplate, seq)
-            # when similarity is the same, pick the one with more parameters
+            # When similarity is the same, pick the one with more parameters
             if curSim>maxSim or (curSim==maxSim and curNumOfPara>maxNumOfPara):
                 maxSim = curSim
                 maxNumOfPara = curNumOfPara
                 maxClust = logClust
 
-        # if similarity is larger than st
+        # If similarity is larger than st
         if maxClust is not None and maxSim >= maxClust.st:
             retLogClust = maxClust
 
@@ -346,17 +381,17 @@ class Drain:
         return retVal, updatedTokenNum
 
 
-    # delete a folder
+    # Delete a folder
     def deleteAllFiles(self, dirPath):
         fileList = os.listdir(dirPath)
         for fileName in fileList:
             os.remove(dirPath+fileName)
 
 
-    # print a tree with depth 'dep', root node is in depth 0
+    # Print a tree with depth 'dep', root node is in depth 0
     def printTree(self, node, dep):
         pStr = ''
-        for i in range(dep):
+        for _i in range(dep):
             pStr += '\t'
 
         if dep == 0:
@@ -376,10 +411,10 @@ class Drain:
             self.printTree(node.childD[child], dep+1)
 
 
-    # return the lcs in a list
+    # Return the lcs in a list
     def LCS(self, seq1, seq2):
         lengths = [[0 for j in range(len(seq2)+1)] for i in range(len(seq1)+1)]
-        # row 0 and column 0 are initialized to 0 already
+        # The row 0 and column 0 are initialized to 0 already
         for i in range(len(seq1)):
             for j in range(len(seq2)):
                 if seq1[i] == seq2[j]:
@@ -387,7 +422,7 @@ class Drain:
                 else:
                     lengths[i+1][j+1] = max(lengths[i+1][j], lengths[i][j+1])
 
-        # read the substring out from the matrix
+        # Read the substring out from the matrix
         result = []
         lenOfSeq1, lenOfSeq2 = len(seq1), len(seq2)
         while lenOfSeq1!=0 and lenOfSeq2!=0:
@@ -436,8 +471,6 @@ class Drain:
             removeOutputCell.active = False
 
 
-
-
     def outputResult(self, logClustL, rawoutputCellL):
         writeTemplate = open(self.para.savePath + self.para.saveTempFileName, 'w')
 
@@ -447,7 +480,8 @@ class Drain:
                 outputCellL.append(currenOutputCell)
 
         for logClust in logClustL:
-            # it is possible that several logClusts point to the same outcell, so we present all possible templates separated by '\t---\t'
+            # It is possible that several logClusts point to the same outcell, so
+            # we present all possible templates separated by '\t---\t'
             currentTemplate = ' '.join(logClust.logTemplate) + '\t---\t'
             logClust.outcell.outTemplates = logClust.outcell.outTemplates + currentTemplate
 
@@ -470,11 +504,12 @@ class Drain:
         t1 = time.time()
         rootNode = Node()
 
-        # List of nodes in the similarity layer containing similar logs
-        # clustered by heuristic rules
+        # List of nodes in the similarity layer containing similar logs clustered by heuristic rules
+        # This list contains all the clusters under root node
         logCluL = []
 
         # List of nodes in the final layer that outputs containing logs
+        # Same as logCluL, it contains all the outputCells under root node too
         outputCeL = []
 
         with open(self.para.path+self.para.logName) as lines:
@@ -512,14 +547,17 @@ class Drain:
                     # The initial value of st is 0.5 times the percentage of non-digit tokens in the log message
                     numOfPara = 0
                     for token in logmessageL:
-                        if self.hasNumbers(token):
+                        # In the pre-process of Drain domain, I replaced all possible digital var with <*> already
+                        # Do not follow the original method in the paper section 4.1.2
+                        # Paper: if self.hasNumbers(token):
+                        if token == '<*>':
                             numOfPara += 1
 
-                    # "st" is the similarity threshold used by the similarity layer
+                    # The "st" is similarity threshold used by the similarity layer
                     newCluster.st = 0.5 * (len(logmessageL)-numOfPara) / float(len(logmessageL))
                     newCluster.initst = newCluster.st
 
-                    # when the number of numOfPara is larger, the group tend to accept more log messages to generate the template
+                    # When the number of numOfPara is large, the group tends to accept more log messages to generate the template
                     newCluster.base = max(2, numOfPara + 1)
 
                     logCluL.append(newCluster)
@@ -527,7 +565,7 @@ class Drain:
 
                     self.addSeqToTree(rootNode, newCluster)
 
-                    # update the cache
+                    # Update the cache
                     self.pointer[len(logmessageL)] = newCluster
 
                 # Successfully match an existing cluster, add the new log message to the existing cluster
