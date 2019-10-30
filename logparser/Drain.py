@@ -209,18 +209,19 @@ class LogParser:
     def outputResult(self, logClustL):
         log_templates = [0] * self.df_log.shape[0]
         log_templateids = [0] * self.df_log.shape[0]
-        df_events = []
+        #df_events = []
         for logClust in logClustL:
             template_str = ' '.join(logClust.logTemplate)
-            occurrence = len(logClust.logIDL)
+            #occurrence = len(logClust.logIDL)
             template_id = hashlib.md5(template_str.encode('utf-8')).hexdigest()[0:8]
             for logID in logClust.logIDL:
                 logID -= 1
                 log_templates[logID] = template_str
                 log_templateids[logID] = template_id
-            df_events.append([template_id, template_str, occurrence])
+            #df_events.append([template_id, template_str, occurrence])
 
-        df_event = pd.DataFrame(df_events, columns=['EventId', 'EventTemplate', 'Occurrences'])
+        # A same template might exist in logClustL in several places. Not sure if it is a defect.
+        #df_event = pd.DataFrame(df_events, columns=['EventId', 'EventTemplate', 'Occurrences'])
         self.df_log['EventId'] = log_templateids
         self.df_log['EventTemplate'] = log_templates
 
@@ -232,6 +233,7 @@ class LogParser:
         df_event['EventTemplate'] = self.df_log['EventTemplate'].unique()
         df_event['EventId'] = df_event['EventTemplate'].map(lambda x: hashlib.md5(x.encode('utf-8')).hexdigest()[0:8])
         df_event['Occurrences'] = df_event['EventTemplate'].map(occ_dict)
+
         df_event.to_csv(os.path.join(self.savePath, self.logName + '_templates.csv'), index=False, columns=["EventId", "EventTemplate", "Occurrences"])
 
 

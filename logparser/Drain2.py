@@ -9,10 +9,19 @@ Paper       : [Arxiv'18] Pinjia He, Jieming Zhu, Hongyu Zhang, Pengcheng Xu,
 
 import re
 import os
-import time
+import sys
 import numpy as np
+import pandas as pd
 import gc
 import math
+import hashlib
+from datetime import datetime
+
+curfiledir = os.path.dirname(__file__)
+parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+sys.path.append(parentdir)
+
+from tools import helper
 
 """
 Note: log group/cluster maps to one single template/event.
@@ -27,6 +36,7 @@ class Logcluster:
         self.base = -1
         self.initst = -1
         self.outcell = outcell
+
 
 # Length layer and Token layer
 class Node:
@@ -46,6 +56,7 @@ class Node:
         self.childD = childD
         self.digitOrtoken = digitOrtoken
 
+
 # Output layer
 class Ouputcell:
     def __init__(self, logIDL=None, parentL=None):
@@ -60,54 +71,53 @@ class Ouputcell:
 
 
 class Para:
-    def __init__(self, rex=None, path='', maxChild=120, logName='rawlog.log', \
-                 removeCol=None, savePath='./results/', saveFileName='template', \
-                 saveTempFileName='logTemplates.txt', delimiters=' ', mt=1):
+    def __init__(self, log_format, logName, indir='./', \
+                 outdir='./', rex={}, maxChild=120, mt=1):
         """
         Attributes
         ----------
-            rex: regular expressions used in preprocessing (step1) [(rex, substitude), ...]
-            path: the input path stores the input log file name
-            maxChild: max number of children of length layer node
+            log_format: used to load the needed colomns of raw logs
             logName: the name of the input file containing raw log messages
-            removeCol: the index of column needed to remove
+            path: the input path stores the input log file name
             savePath: the output path stores the file containing structured logs
-            saveTempFileName: the output template file name
+            rex: regular expressions used in preprocessing (step1) [(rex, substitude), ...]
+            maxChild: max number of children of length layer node
             mt: similarity threshold for the merge step
         """
-        self.path = path
-        self.maxChild = maxChild
+        self.log_format = log_format
         self.logName = logName
-        self.savePath = savePath
-        self.saveFileName = saveFileName
-        self.saveTempFileName = saveTempFileName
-        self.delimiters = delimiters
-        self.mt = mt
-
-        if removeCol is None:
-            removeCol = []
-        self.removeCol = removeCol
-
-        if rex is None:
-            rex = []
+        self.path = indir
+        self.savePath = outdir
         self.rex = rex
+        self.maxChild = maxChild
+        self.mt = mt
 
 
 class Drain:
     def __init__(self, para):
+        """
+        Attributes
+        ----------
+            para: the parameter object from class Para
+            pointer: dict of pointers for cache mechanism
+            df_log: data frame of raw logs
+        """
         self.para = para
-        # create the list of the pointer
         self.pointer = dict()
+        self.df_log = None
+
 
     # Check if there is number
     def hasNumbers(self, s):
         return any(char.isdigit() for char in s)
+
 
     # Check if there is special character
     def hasPun(self, s):
         punStr = "#$&'*+,/<=>@^_`|~)"
         punChars = set(punStr)
         return any(char in punChars for char in s)
+
 
     # Check if there is special character
     def lastTokenPun(self, s):
@@ -120,6 +130,7 @@ class Drain:
         if re.match(r'^[\w]+[#$&\'*+,/<=>@^_`|~.]+$', s):
             return False
         return True
+
 
     def treeSearch(self, rn, seq):
         """
@@ -155,6 +166,7 @@ class Drain:
                         self.pointer[len(seq)] = retLogCluster
         return retLogCluster
 
+
     def keyTreeSearch(self, seq):
         """
         Browses the tree in order to find a matching cluster to a log sequence
@@ -180,6 +192,7 @@ class Drain:
             if curSim >= logCluster.st:
                 retLogCluster = logCluster
         return retLogCluster
+
 
     def tokenTreeSearch(self, rn, seq):
         """
@@ -241,7 +254,6 @@ class Drain:
         else:
             # If the length layer node already exists, just retrive it
             lenLayerNode = rn.childD[seqLen]
-
 
         tokenFirst = logClust.logTemplate[0]
         tokenLast = logClust.logTemplate[-1]
@@ -305,13 +317,13 @@ class Drain:
                             lenLayerNode.childD[tokenFirstKey] = newNode
                             tokenLayerNode = newNode
 
-
         # Add the new cluster to the leaf node.
         # The childD here is a list instead of a dictionary anymore
         if len(tokenLayerNode.childD) == 0:
             tokenLayerNode.childD = [logClust]
         else:
             tokenLayerNode.childD.append(logClust)
+
 
     # Calculate the similarity. The seq1 is template
     def SeqDist(self, seq1, seq2):
@@ -361,6 +373,7 @@ class Drain:
             retLogClust = maxClust
 
         return retLogClust
+
 
     # The seq1 is raw log and the seq2 is template
     def getTemplate(self, seq1, seq2):
@@ -445,7 +458,6 @@ class Drain:
         similarity = -1
         logClustLen = len(logClust.logTemplate)
 
-
         for currentLogClust in logClustL:
             currentClustLen = len(currentLogClust.logTemplate)
             if currentClustLen==logClustLen or currentLogClust.outcell==logClust.outcell:
@@ -472,6 +484,10 @@ class Drain:
 
 
     def outputResult(self, logClustL, rawoutputCellL):
+
+        # Refer to the commented code below in the future if needed
+        #
+        """
         writeTemplate = open(self.para.savePath + self.para.saveTempFileName, 'w')
 
         outputCellL = []
@@ -497,11 +513,105 @@ class Drain:
             # print (outputCell.outTemplates)
 
         writeTemplate.close()
+        """
+
+        # I currently do not need the feature of merging outputcell in Fig. 2 in paper.
+        # For simplicity I suppose it is 1-to-1 mapping between template and output
+        #
+        log_templates = [0] * self.df_log.shape[0]
+        log_templateids = [0] * self.df_log.shape[0]
+        #df_events = []
+        for logClust in logClustL:
+            template_str = ' '.join(logClust.logTemplate)
+            #occurrence = len(logClust.logIDL)
+            template_id = hashlib.md5(template_str.encode('utf-8')).hexdigest()[0:8]
+            for logID in logClust.outcell.logIDL:
+                logID -= 1
+                log_templates[logID] = template_str
+                log_templateids[logID] = template_id
+            #df_events.append([template_id, template_str, occurrence])
+
+        # A same template might exist in logClustL in several places. Not sure if it is a defect.
+        #df_event = pd.DataFrame(df_events, columns=['EventId', 'EventTemplate', 'Occurrences'])
+        self.df_log['EventId'] = log_templateids
+        self.df_log['EventTemplate'] = log_templates
+
+        # self.df_log.drop(['Content'], inplace=True, axis=1)
+        # Save the structured file
+        self.df_log.to_csv(os.path.join(self.para.savePath, self.para.logName + '_structured.csv'), index=False)
+
+        occ_dict = dict(self.df_log['EventTemplate'].value_counts())
+        df_event = pd.DataFrame()
+        df_event['EventTemplate'] = self.df_log['EventTemplate'].unique()
+        df_event['EventId'] = df_event['EventTemplate'].map(lambda x: hashlib.md5(x.encode('utf-8')).hexdigest()[0:8])
+        df_event['Occurrences'] = df_event['EventTemplate'].map(occ_dict)
+
+        # Save the template file
+        df_event.to_csv(os.path.join(self.para.savePath, self.para.logName + '_templates.csv'), index=False, columns=["EventId", "EventTemplate", "Occurrences"])
+
+
+    def generate_logformat_regex(self, logformat):
+        """ Function to generate regular expression to split log messages
+        """
+        # Suppose the logformat is:
+        #     '<Date> <Time> <Pid> <Level> <Component>: <Content>'
+        # Then the output:
+        # headers
+        #     ['Date', 'Time', 'Pid', 'Level', 'Component', 'Content']
+        # regex
+        #     (?P<Date>.*?)\s+(?P<Time>.*?)\s+(?P<Pid>.*?)\s+(?P<Level>.*?)\s+(?P<Component>.*?):\s+(?P<Content>.*?)
+        headers = []
+        splitters = re.split(r'(<[^<>]+>)', logformat)
+        regex = ''
+        for k in range(len(splitters)):
+            if k % 2 == 0:
+                splitter = re.sub(' +', '\\\\s+', splitters[k])
+                regex += splitter
+            else:
+                header = splitters[k].strip('<').strip('>')
+                regex += '(?P<%s>.*?)' % header
+                headers.append(header)
+        regex = re.compile('^' + regex + '$')
+        return headers, regex
+
+
+    def log_to_dataframe(self, log_file, regex, headers, logformat):
+        """ Function to transform log file to dataframe
+        """
+        log_messages = []
+        linecount = 0
+        with open(log_file, 'r') as fin:
+            for line in fin.readlines():
+                try:
+                    match = regex.search(line.strip())
+                    message = [match.group(header) for header in headers]
+                    log_messages.append(message)
+                    linecount += 1
+                except Exception:
+                    pass
+        logdf = pd.DataFrame(log_messages, columns=headers)
+        logdf.insert(0, 'LineId', None)
+        logdf['LineId'] = [i + 1 for i in range(linecount)]
+        return logdf
+
+
+    def load_data(self):
+        headers, regex = self.generate_logformat_regex(self.para.log_format)
+        self.df_log = self.log_to_dataframe(os.path.join(self.para.path, self.para.logName), regex, headers, self.para.log_format)
+
+
+    def preprocess(self, line):
+        for currentRex in self.para.rex.keys():
+            # I put a space before <*>. It does not affect a sperated token number.
+            # It only affects something like offset:123 and the result will be offset: <*>
+            line = currentRex.sub(self.para.rex[currentRex], line)
+        return line
 
 
     def mainProcess(self):
+        print('Parsing file: ' + os.path.join(self.para.path, self.para.logName))
+        start_time = datetime.now()
 
-        t1 = time.time()
         rootNode = Node()
 
         # List of nodes in the similarity layer containing similar logs clustered by heuristic rules
@@ -512,90 +622,82 @@ class Drain:
         # Same as logCluL, it contains all the outputCells under root node too
         outputCeL = []
 
-        with open(self.para.path+self.para.logName) as lines:
-            for line in lines:
-                logID = int(line.split('\t')[0])
-                # logmessageL = re.split(self.para.delimiters, line.strip().split('\t')[1])
-                logmessageL = line.strip().split('\t')[1].split()
+        self.load_data()
 
-                if self.para.removeCol is not None:
-                    logmessageL = [word for i, word in enumerate(logmessageL) if i not in self.para.removeCol]
-                cookedLine = ' '.join(logmessageL)
+        # Init progress bar to 0%
+        logsize = self.df_log.shape[0]
+        helper.printProgressBar(0, logsize, prefix ='Progress:', suffix='Complete', length=50)
 
+        for rowIndex, line in self.df_log.iterrows():
 
-                # LAYER--Preprocessing
-                for currentRex in self.para.rex:
-                    cookedLine = re.sub(currentRex[0], currentRex[1], cookedLine)
+            logID = line['LineId']
 
-                logmessageL = cookedLine.split()
+            # LAYER--Preprocessing
+            logmessageL = self.preprocess(line['Content']).strip().split()
 
-                # Length zero logs, which are anomaly cases
-                if len(logmessageL) == 0:
-                    continue
+            # Tree search but not generate node here
+            matchCluster = self.treeSearch(rootNode, logmessageL)
 
-                # Tree search but not generate node here
-                matchCluster = self.treeSearch(rootNode, logmessageL)
+            # Match no existing log cluster, so add a new one
+            if matchCluster is None:
+                newOCell = Ouputcell(logIDL=[logID])
+                # newOCell = Ouputcell(logIDL=[line.strip()]) #for debug
 
-                # Match no existing log cluster
-                if matchCluster is None:
-                    newOCell = Ouputcell(logIDL=[logID])
-                    # newOCell = Ouputcell(logIDL=[line.strip()]) #for debug
+                newCluster = Logcluster(logTemplate=logmessageL, outcell=newOCell)
+                newOCell.parentL.append(newCluster)
 
-                    newCluster = Logcluster(logTemplate=logmessageL, outcell=newOCell)
-                    newOCell.parentL.append(newCluster)
+                # The initial value of st is 0.5 times the percentage of non-digit tokens in the log message
+                numOfPara = 0
+                for token in logmessageL:
+                    # In the pre-process of Drain domain, I replaced all possible digital var with <*> already
+                    # Do not follow the original method in the paper section 4.1.2
+                    # Paper: if self.hasNumbers(token):
+                    if token == '<*>':
+                        numOfPara += 1
 
-                    # The initial value of st is 0.5 times the percentage of non-digit tokens in the log message
-                    numOfPara = 0
-                    for token in logmessageL:
-                        # In the pre-process of Drain domain, I replaced all possible digital var with <*> already
-                        # Do not follow the original method in the paper section 4.1.2
-                        # Paper: if self.hasNumbers(token):
-                        if token == '<*>':
-                            numOfPara += 1
+                # The "st" is similarity threshold used by the similarity layer
+                # The initial st is the lower bound. Make it bigger to avoid over-parsing, e.g. 0.5 -> 0.7
+                newCluster.st = 0.7 * (len(logmessageL)-numOfPara) / float(len(logmessageL))
+                newCluster.initst = newCluster.st
 
-                    # The "st" is similarity threshold used by the similarity layer
-                    newCluster.st = 0.5 * (len(logmessageL)-numOfPara) / float(len(logmessageL))
-                    newCluster.initst = newCluster.st
+                # When the number of numOfPara is large, the group tends to accept more log messages to generate the template
+                newCluster.base = max(2, numOfPara + 1)
 
-                    # When the number of numOfPara is large, the group tends to accept more log messages to generate the template
-                    newCluster.base = max(2, numOfPara + 1)
+                logCluL.append(newCluster)
+                outputCeL.append(newOCell)
 
-                    logCluL.append(newCluster)
-                    outputCeL.append(newOCell)
+                self.addSeqToTree(rootNode, newCluster)
 
-                    self.addSeqToTree(rootNode, newCluster)
+                # Update the cache
+                self.pointer[len(logmessageL)] = newCluster
 
-                    # Update the cache
-                    self.pointer[len(logmessageL)] = newCluster
+            # Successfully match an existing cluster, add the new log message to the existing cluster
+            else:
+                newTemplate, numUpdatedToken = self.getTemplate(logmessageL, matchCluster.logTemplate)
+                matchCluster.outcell.logIDL.append(logID)
+                # matchCluster.outcell.logIDL.append(line.strip()) #for debug
 
-                # Successfully match an existing cluster, add the new log message to the existing cluster
-                else:
-                    newTemplate, numUpdatedToken = self.getTemplate(logmessageL, matchCluster.logTemplate)
-                    matchCluster.outcell.logIDL.append(logID)
-                    # matchCluster.outcell.logIDL.append(line.strip()) #for debug
+                # Update the cluster
+                if ' '.join(newTemplate) != ' '.join(matchCluster.logTemplate):
+                    matchCluster.logTemplate = newTemplate
 
-                    if ' '.join(newTemplate) != ' '.join(matchCluster.logTemplate):
-                        matchCluster.logTemplate = newTemplate
+                    # Update the similarity threshold of current existing cluster
+                    # The st is increasing with the updates
+                    matchCluster.updateCount = matchCluster.updateCount + numUpdatedToken
+                    matchCluster.st = min( 1, matchCluster.initst + 0.5*math.log(matchCluster.updateCount+1, matchCluster.base) )
 
-                        # Update the similarity threshold of current existing cluster
-                        matchCluster.updateCount = matchCluster.updateCount + numUpdatedToken
-                        matchCluster.st = min( 1, matchCluster.initst + 0.5*math.log(matchCluster.updateCount+1, matchCluster.base) )
+                    # If the merge mechanism is used, then merge the nodes
+                    # weihan: TBD if I need this feature in ML and Oldshchool
+                    if self.para.mt < 1:
+                        self.adjustOutputCell(matchCluster, logCluL)
 
-                        # If the merge mechanism is used, then merge the nodes
-                        # weihan: TBD if I need this feature in ML and Oldshchool
-                        if self.para.mt < 1:
-                            self.adjustOutputCell(matchCluster, logCluL)
-
+            # Update the progress bar
+            helper.printProgressBar(rowIndex+1, logsize, prefix='Progress:', suffix ='Complete', length=50)
 
         if not os.path.exists(self.para.savePath):
             os.makedirs(self.para.savePath)
-        else:
-            self.deleteAllFiles(self.para.savePath)
 
         self.outputResult(logCluL, outputCeL)
-        t2 = time.time()
+        print('Parsing done. [Time taken: {!s}]\n'.format(datetime.now() - start_time))
 
-        print('this process takes',t2-t1)
-        print('*********************************************')
         gc.collect()
-        return t2-t1
