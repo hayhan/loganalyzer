@@ -86,7 +86,19 @@ regex = {
 }
 
 
-myPara = Para(log_format, log_file, indir=input_dir, outdir=output_dir, rex=regex)
+"""
+Regular expression list for special tokens
+"""
+sTokenPattern0 = re.compile(r'[a-zA-Z]+\:')
+sTokenPattern1 = re.compile(r'[a-zA-Z]+\=')
+
+sTokenPatterns = [
+    sTokenPattern0,
+    sTokenPattern1
+]
+
+myPara = Para(log_format, log_file, indir=input_dir, outdir=output_dir, \
+              rex=regex, rex_s_token=sTokenPatterns)
 
 myParser = Drain(myPara)
 myParser.mainProcess()

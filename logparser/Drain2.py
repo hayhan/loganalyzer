@@ -44,12 +44,12 @@ class Node:
         """
         Attributes
         ----------
-            childD: The child node
-            digitOrtoken:
-                seqLen - length layer node
-                tokenFirstKey - The first token split
-                tokenLastKey - The last token split
-                <*> - The others-node within each length layer node
+        childD       : the child node
+        digitOrtoken :
+                       seqLen - length layer node
+                       tokenFirstKey - The first token split
+                       tokenLastKey - The last token split
+                       <*> - The others-node within each length layer node
         """
         if childD is None:
             childD = dict()
@@ -71,24 +71,27 @@ class Ouputcell:
 
 
 class Para:
-    def __init__(self, log_format, logName, indir='./', \
-                 outdir='./', rex={}, maxChild=120, mt=1):
+    def __init__(self, log_format, logName, indir='./', outdir='./', \
+                 rex={}, rex_s_token=[], maxChild=120, mt=1):
         """
         Attributes
         ----------
-            log_format: used to load the needed colomns of raw logs
-            logName: the name of the input file containing raw log messages
-            path: the input path stores the input log file name
-            savePath: the output path stores the file containing structured logs
-            rex: regular expressions used in preprocessing (step1) [(rex, substitude), ...]
-            maxChild: max number of children of length layer node
-            mt: similarity threshold for the merge step
+        log_format  : used to load the needed colomns of raw logs
+        logName     : the name of the input file containing raw log messages
+        path        : the input path stores the input log file name
+        savePath    : the output path stores the file containing structured logs
+        rex         : regular expressions used in preprocessing (step1) [(rex, substitude), ...]
+        rex_s_token : the re pattern list for special tokens that must be same between
+                      a template and the accepted log
+        maxChild    : max number of children of length layer node
+        mt          : similarity threshold for the merge step
         """
         self.log_format = log_format
         self.logName = logName
         self.path = indir
         self.savePath = outdir
         self.rex = rex
+        self.rex_s_token = rex_s_token
         self.maxChild = maxChild
         self.mt = mt
 
@@ -98,13 +101,15 @@ class Drain:
         """
         Attributes
         ----------
-            para: the parameter object from class Para
-            pointer: dict of pointers for cache mechanism
-            df_log: data frame of raw logs
+        para    : the parameter object from class Para
+        pointer : dict of pointers for cache mechanism
+        df_log  : data frame of raw logs
         """
         self.para = para
         self.pointer = dict()
         self.df_log = None
+        # This logID is used for debugging only
+        self.logID = 0
 
 
     # Check if there is number
@@ -139,9 +144,9 @@ class Drain:
 
         Attributes
         ----------
-            rn: Root node
-            seq: Log sequence to test
-            return: The matching log cluster
+        rn     : Root node
+        seq    : Log sequence to test
+        return : The matching log cluster
         """
 
         retLogCluster = None
@@ -174,8 +179,8 @@ class Drain:
 
         Attributes
         ----------
-            seq: Log sequence to test
-            return: The matching log cluster
+        seq    : Log sequence to test
+        return : The matching log cluster
         """
         seqLen = len(seq)
 
@@ -188,6 +193,12 @@ class Drain:
                 or (logCluster.logTemplate[0] == '<*>' and logCluster.logTemplate[-1] == '<*>'):
 
             curSim, _curNumOfPara = self.SeqDist(logCluster.logTemplate, seq)
+            """
+            if self.logID == 871:
+                print(logCluster.logTemplate)
+                print(seq)
+                print("cursim %f" % curSim)
+            """
 
             if curSim >= logCluster.st:
                 retLogCluster = logCluster
@@ -201,9 +212,9 @@ class Drain:
 
         Attributes
         ----------
-            rn: Root node
-            seq: Log sequence to test
-            return: The token layer node
+        rn     : Root node
+        seq    : Log sequence to test
+        return : The token layer node
         """
         seqLen = len(seq)
         lenLayerNode = rn.childD[seqLen]
@@ -236,9 +247,9 @@ class Drain:
 
         Attributes
         ----------
-            rn: Root node
-            logClust: the new Log cluster
-            return: None
+        rn       : Root node
+        logClust : the new Log cluster
+        return   : None
         """
         seqLen = len(logClust.logTemplate)
         if seqLen not in rn.childD:
@@ -331,13 +342,28 @@ class Drain:
 
         simTokens = 0
         numOfPara = 0
+        sTokenNoMatch = 0
 
         for token1, token2 in zip(seq1, seq2):
             if token1 == '<*>':
                 numOfPara += 1
-                continue
+                # Comment out line below to count <*> in simTokens
+                # Paper: continue
             if token1 == token2:
                 simTokens += 1
+
+            # Do not accept seq2 if some special tokens are different
+            # between the template seq1 and current log seq2
+            # This can prevent Drain from over-pasering some tokens
+            for sTokenPattern in self.para.rex_s_token:
+                if sTokenPattern.fullmatch(token1) and sTokenPattern.fullmatch(token2) \
+                   and (token1 != token2):
+
+                    sTokenNoMatch = 1
+                    break
+
+            if sTokenNoMatch:
+                break
 
         numOfConst = len(seq1)-numOfPara
         if numOfConst == 0:
@@ -347,6 +373,11 @@ class Drain:
                 retVal = 0.0
         else:
             retVal = float(simTokens) / numOfConst
+
+        # If special tokens are different, no match anyway
+        if sTokenNoMatch:
+            retVal = 0.0
+            numOfPara = 0
 
         return retVal, numOfPara
 
@@ -631,12 +662,19 @@ class Drain:
         for rowIndex, line in self.df_log.iterrows():
 
             logID = line['LineId']
+            # Save the current processing logID to class object for debugging
+            self.logID = logID
 
             # LAYER--Preprocessing
             logmessageL = self.preprocess(line['Content']).strip().split()
 
             # Tree search but not generate node here
             matchCluster = self.treeSearch(rootNode, logmessageL)
+
+            """
+            if logID >= 864 and logID <= 871:
+                print('line num {}, matchLcuster {}'.format(logID, matchCluster))
+            """
 
             # Match no existing log cluster, so add a new one
             if matchCluster is None:
@@ -656,8 +694,9 @@ class Drain:
                         numOfPara += 1
 
                 # The "st" is similarity threshold used by the similarity layer
-                # The initial st is the lower bound. Make it bigger to avoid over-parsing, e.g. 0.5 -> 0.7
-                newCluster.st = 0.7 * (len(logmessageL)-numOfPara) / float(len(logmessageL))
+                # Paper: newCluster.st = 0.5 * (len(logmessageL)-numOfPara) / float(len(logmessageL))
+                # The initial st is the lower bound. Make it bigger to avoid over-parsing
+                newCluster.st = 0.8
                 newCluster.initst = newCluster.st
 
                 # When the number of numOfPara is large, the group tends to accept more log messages to generate the template
