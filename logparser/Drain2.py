@@ -383,6 +383,7 @@ class Drain:
             else:
                 retVal = 0.0
         else:
+            # See paper formula (1)
             retVal = float(simTokens) / numOfConst
 
         # If special tokens are different, no match anyway
@@ -538,6 +539,7 @@ class Drain:
             if currentClustLen==logClustLen or currentLogClust.outcell==logClust.outcell:
                 continue
             currentlcs = self.LCS(logClust.logTemplate, currentLogClust.logTemplate)
+            # See paper formula (6)
             currentSim = float(len(currentlcs)) / min(logClustLen, currentClustLen)
 
             if currentSim>similarity or (currentSim==similarity and len(currentlcs)>len(lcs)):
@@ -743,7 +745,7 @@ class Drain:
                     if token == '<*>':
                         numOfPara += 1
 
-                # The "st" is similarity threshold used by the similarity layer
+                # The "st" is similarity threshold used by the similarity layer, see paper formula (3)
                 # Paper: newCluster.st = 0.5 * (len(logmessageL)-numOfPara) / float(len(logmessageL))
                 # The initial st is the lower bound. Make it bigger to avoid over-parsing
                 newCluster.st = 0.8
@@ -772,7 +774,7 @@ class Drain:
                     matchCluster.logTemplate = newTemplate
 
                     # Update the similarity threshold of current existing cluster
-                    # The st is increasing with the updates
+                    # The st is increasing with the updates, see paper Formula (4) & (5)
                     matchCluster.updateCount = matchCluster.updateCount + numUpdatedToken
                     matchCluster.st = min(1, matchCluster.initst + \
                                           0.5*math.log(matchCluster.updateCount+1, matchCluster.base))

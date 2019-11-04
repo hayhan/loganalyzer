@@ -3,7 +3,7 @@
 # Process train dataset
 (
 echo TRAINING=1
-echo MODEL=DT
+echo MODEL=LR
 echo WINDOW_SIZE=10000
 echo WINDOW_STEP=5000
 ) > config.txt
@@ -11,7 +11,7 @@ echo WINDOW_STEP=5000
 python3 ../logparser/logpurger.py
 python3 ../logparser/labelprocess.py
 # Parse the log and generate templates ...
-python3 ../logparser/Drain_DOCSIS_demo.py
+python3 ../logparser/Drain2_DOCSIS_demo.py
 
 # Process test dataset
 (
@@ -23,7 +23,7 @@ echo WINDOW_STEP=5000
 python3 ../logparser/logpurger.py
 python3 ../logparser/labelprocess.py
 # Parse the log and generate templates ...
-python3 ../logparser/Drain_DOCSIS_demo.py
+python3 ../logparser/Drain2_DOCSIS_demo.py
 
 # Train and test on different models
 python3 ../detector/demo/DecisionTree_demo.py

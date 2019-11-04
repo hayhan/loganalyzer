@@ -89,7 +89,7 @@ regex = {
 """
 Regular expression list for special tokens
 """
-sTokenPattern0 = re.compile(r'[a-zA-Z]+\:')
+sTokenPattern0 = re.compile(r'[a-zA-Z]+[0-9]*[a-zA-Z]*\:')
 sTokenPattern1 = re.compile(r'[a-zA-Z]+\=')
 
 sTokenPatterns = [

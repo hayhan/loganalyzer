@@ -2,7 +2,7 @@
 
 (
 echo TRAINING=0
-echo MODEL=DT
+echo MODEL=LR
 echo WINDOW_SIZE=10000
 echo WINDOW_STEP=5000
 ) > config.txt
@@ -12,7 +12,7 @@ python3 ../logparser/logpurger.py
 python3 ../logparser/labelprocess.py
 
 # Parse the log and generate templates ...
-python3 ../logparser/Drain_DOCSIS_demo.py
+python3 ../logparser/Drain2_DOCSIS_demo.py
 
 # The machine learning way to analyze log data
 python3 ../detector/demo/SupervisedLearning_pred.py

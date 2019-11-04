@@ -11,7 +11,7 @@ rem ---Preprocess and label raw log
 python ..\logparser\logpurger.py
 python ..\logparser\labelprocess.py
 rem ---Parse the log and generate templates ...
-python ..\logparser\Drain_DOCSIS_demo.py
+python ..\logparser\Drain2_DOCSIS_demo.py
 
 rem ---Process test dataset
 (
@@ -23,7 +23,7 @@ echo WINDOW_STEP=5000
 python ..\logparser\logpurger.py
 python ..\logparser\labelprocess.py
 rem ---Parse the log and generate templates ...
-python ..\logparser\Drain_DOCSIS_demo.py
+python ..\logparser\Drain2_DOCSIS_demo.py
 
 rem ---Train and test on different models
 python ..\detector\demo\DecisionTree_demo.py
