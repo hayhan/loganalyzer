@@ -164,6 +164,7 @@ class Drain:
                     # Note, token layer child note is a list, not dict anymore
                     logClusterList = tokenLayerNode.childD
 
+                    # Do the fast match under the token layer node
                     retLogCluster = self.FastMatch(logClusterList, seq)
 
                     # Update the pointer
@@ -276,7 +277,6 @@ class Drain:
             # The first index token already exists, just retrive it
             tokenLayerNode = lenLayerNode.childD[tokenFirstKey]
         elif (tokenLastKey) in lenLayerNode.childD:
-            # weihan: TBD if this algorithm reasonable
             # The last index token already exists, just retrive it
             tokenLayerNode = lenLayerNode.childD[tokenLastKey]
         else:
@@ -338,6 +338,17 @@ class Drain:
 
     # Calculate the similarity. The seq1 is template
     def SeqDist(self, seq1, seq2):
+        """
+        Calculate the simlilarity between the template and raw log
+
+        Attributes
+        ----------
+        seq1   : the template
+        seq2   : the raw log
+        return : retVal that represents the similarity
+                 updateTokenNum, the num of numOfPara (<*>) in current template
+        """
+
         assert len(seq1) == len(seq2)
 
         simTokens = 0
@@ -385,6 +396,17 @@ class Drain:
     # Find the most suitable log cluster in the leaf node,
     # token-wise comparison, used to find the most similar cluster
     def FastMatch(self, logClustL, seq):
+        """
+        Find the best matched log cluster in the cluster list
+        under certain token layer node
+
+        Attributes
+        ----------
+        logClustL   : the cluster list
+        seq         : the raw log
+        return      : the matched log cluster
+        """
+
         retLogClust = None
 
         maxSim = -1
@@ -408,8 +430,30 @@ class Drain:
 
     # The seq1 is raw log and the seq2 is template
     def getTemplate(self, seq1, seq2):
+        """
+        Get the new template after comparing the raw log and template
+
+        Attributes
+        ----------
+        seq1   : the raw log
+        seq2   : the template
+        return : retVal that represents the new template
+                 updateTokenNum, the num of tokens that are replaced by <*>
+        """
+        # This function can convert the 1st/last token to <*> too. It does not
+        # conflict with the <*> token node in paper Fig. 2. The former one
+        # is still under the "First/Last: xxxx" node per addSeqToTree().
+        # E.g. If the 1st token is replaced with <*>, it means the cluster is
+        # under a Last split token layer node. We cannot get here in this case
+        # under a First split token layer node.
         assert len(seq1) == len(seq2)
         retVal = []
+
+        """
+        if self.logID == 788:
+            print(seq2)
+            print(seq1)
+        """
 
         updatedTokenNum = 0
         for token1, token2 in zip(seq1, seq2):
@@ -578,7 +622,8 @@ class Drain:
         df_event['Occurrences'] = df_event['EventTemplate'].map(occ_dict)
 
         # Save the template file
-        df_event.to_csv(os.path.join(self.para.savePath, self.para.logName + '_templates.csv'), index=False, columns=["EventId", "EventTemplate", "Occurrences"])
+        df_event.to_csv(os.path.join(self.para.savePath, self.para.logName + '_templates.csv'), \
+                        index=False, columns=["EventId", "EventTemplate", "Occurrences"])
 
 
     def generate_logformat_regex(self, logformat):
@@ -607,7 +652,8 @@ class Drain:
 
 
     def log_to_dataframe(self, log_file, regex, headers, logformat):
-        """ Function to transform log file to dataframe
+        """
+        Function to transform log file to dataframe
         """
         log_messages = []
         linecount = 0
@@ -628,7 +674,8 @@ class Drain:
 
     def load_data(self):
         headers, regex = self.generate_logformat_regex(self.para.log_format)
-        self.df_log = self.log_to_dataframe(os.path.join(self.para.path, self.para.logName), regex, headers, self.para.log_format)
+        self.df_log = self.log_to_dataframe(os.path.join(self.para.path, self.para.logName), \
+                                            regex, headers, self.para.log_format)
 
 
     def preprocess(self, line):
@@ -640,6 +687,9 @@ class Drain:
 
 
     def mainProcess(self):
+        """
+        The main entry
+        """
         print('Parsing file: ' + os.path.join(self.para.path, self.para.logName))
         start_time = datetime.now()
 
@@ -672,7 +722,7 @@ class Drain:
             matchCluster = self.treeSearch(rootNode, logmessageL)
 
             """
-            if logID >= 864 and logID <= 871:
+            if (logID >= 753 and logID <= 754) or (logID >= 788 and logID <= 789):
                 print('line num {}, matchLcuster {}'.format(logID, matchCluster))
             """
 
@@ -699,7 +749,8 @@ class Drain:
                 newCluster.st = 0.8
                 newCluster.initst = newCluster.st
 
-                # When the number of numOfPara is large, the group tends to accept more log messages to generate the template
+                # When the number of numOfPara is large, the group tends
+                # to accept more log messages to generate the template
                 newCluster.base = max(2, numOfPara + 1)
 
                 logCluL.append(newCluster)
@@ -723,7 +774,8 @@ class Drain:
                     # Update the similarity threshold of current existing cluster
                     # The st is increasing with the updates
                     matchCluster.updateCount = matchCluster.updateCount + numUpdatedToken
-                    matchCluster.st = min( 1, matchCluster.initst + 0.5*math.log(matchCluster.updateCount+1, matchCluster.base) )
+                    matchCluster.st = min(1, matchCluster.initst + \
+                                          0.5*math.log(matchCluster.updateCount+1, matchCluster.base))
 
                     # If the merge mechanism is used, then merge the nodes
                     # weihan: TBD if I need this feature in ML and Oldshchool
