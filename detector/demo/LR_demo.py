@@ -1,5 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""
+Description : This file trains/predicts LR model, also converts sklearn model to onnx
+Author      : Wei Han <wei.han@broadcom.com>
+License     : MIT
+"""
 
 import os
 import sys
@@ -105,7 +110,7 @@ if __name__ == '__main__':
     with open(para_train['persist_path']+'LR.object', 'wb') as f:
         pickle.dump(model, f)
     """
-    # Persist the model for deployment by using sklearn-onnx converts instead
+    # Persist the model for deployment by using sklearn-onnx converter
     # http://onnx.ai/sklearn-onnx/
     initial_type = [('float_input', FloatTensorType([None, train_x.shape[1]]))]
     onx = convert_sklearn(model, initial_types=initial_type)

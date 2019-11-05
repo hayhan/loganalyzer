@@ -9,13 +9,6 @@ import os
 import re
 from Drain2 import Para, Drain
 
-#delimiters = '\s+'
-#dataPath = './data/HDFS/'
-#removeCol = [0,1,2,3,4]
-#rex = [('blk_(|-)[0-9]+', 'blkID'), ('(/|)([0-9]+\.){3}[0-9]+(:[0-9]+|)(:|)', 'IPAddandPortID')]
-#mt = 1
-#delimiters = '\s+'
-
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
@@ -37,10 +30,12 @@ else:
     log_file_name = 'test_norm.txt'
     results_loc = '/results/test/'
 
-input_dir  = parentdir + '/logs/'       # The input directory of log file
-output_dir = parentdir + results_loc    # The output directory of parsing results
-log_file   = log_file_name              # The input log file name
-log_format = '<Time> <Content>'         # DOCSIS log format
+input_dir   = parentdir + '/logs/'              # The input directory of log file
+output_dir  = parentdir + results_loc           # The output directory of parsing results
+persist_dir = parentdir + '/results/persist/'   # The directory of saving persist files
+log_file    = log_file_name                     # The input log file name
+log_format  = '<Time> <Content>'                # DOCSIS log format
+templatelib = 'template_lib.csv'                # The template lib file name
 
 # Create results/ and sub-dir train/ and test/ if not exist
 if not os.path.exists(parentdir+'/results'):
@@ -97,8 +92,8 @@ sTokenPatterns = [
     sTokenPattern1
 ]
 
-myPara = Para(log_format, log_file, indir=input_dir, outdir=output_dir, \
-              rex=regex, rex_s_token=sTokenPatterns)
+myPara = Para(log_format, log_file, templatelib, indir=input_dir, outdir=output_dir, \
+              pstdir=persist_dir, rex=regex, rex_s_token=sTokenPatterns)
 
 myParser = Drain(myPara)
 myParser.mainProcess()

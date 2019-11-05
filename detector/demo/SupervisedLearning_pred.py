@@ -1,5 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""
+Description : This file runs the predict models
+Author      : Wei Han <wei.han@broadcom.com>
+License     : MIT
+"""
 
 import os
 import sys

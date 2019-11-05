@@ -71,25 +71,28 @@ class Ouputcell:
 
 
 class Para:
-    def __init__(self, log_format, logName, indir='./', outdir='./', \
-                 rex={}, rex_s_token=[], maxChild=120, mt=1):
+    def __init__(self, log_format, logName, tmpLib, indir='./', outdir='./', \
+                 pstdir='./', rex={}, rex_s_token=[], maxChild=120, mt=1):
         """
         Attributes
         ----------
         log_format  : used to load the needed colomns of raw logs
         logName     : the name of the input file containing raw log messages
-        path        : the input path stores the input log file name
+        tmpLib      : the template library
+        path        : the input path stores the input log file
         savePath    : the output path stores the file containing structured logs
+        pstdir      : the persist path to store template library
         rex         : regular expressions used in preprocessing (step1) [(rex, substitude), ...]
-        rex_s_token : the re pattern list for special tokens that must be same between
-                      a template and the accepted log
+        rex_s_token : pattern list of special tokens that must be same between template and accepted log
         maxChild    : max number of children of length layer node
         mt          : similarity threshold for the merge step
         """
         self.log_format = log_format
         self.logName = logName
+        self.tmpLib = tmpLib
         self.path = indir
         self.savePath = outdir
+        self.pstdir = pstdir
         self.rex = rex
         self.rex_s_token = rex_s_token
         self.maxChild = maxChild
@@ -104,10 +107,12 @@ class Drain:
         para    : the parameter object from class Para
         pointer : dict of pointers for cache mechanism
         df_log  : data frame of raw logs
+        df_tmp  : data frame of templates loaded from template lib
         """
         self.para = para
         self.pointer = dict()
         self.df_log = None
+        self.df_tmp = None
         # This logID is used for debugging only
         self.logID = 0
 
@@ -600,7 +605,7 @@ class Drain:
         #df_events = []
         for logClust in logClustL:
             template_str = ' '.join(logClust.logTemplate)
-            #occurrence = len(logClust.logIDL)
+            #occurrence = len(logClust.outcell.logIDL)
             template_id = hashlib.md5(template_str.encode('utf-8')).hexdigest()[0:8]
             for logID in logClust.outcell.logIDL:
                 logID -= 1
@@ -688,6 +693,14 @@ class Drain:
         return line
 
 
+    def load_template_lib(self):
+        """
+        Read the templates from the library to build the tree
+        """
+        self.df_tmp = pd.read_csv(os.path.join(self.para.pstdir, self.para.tmpLib), \
+                                  usecols=['EventTemplate'])
+
+
     def mainProcess(self):
         """
         The main entry
@@ -705,6 +718,13 @@ class Drain:
         # Same as logCluL, it contains all the outputCells under root node too
         outputCeL = []
 
+        # Load the templates from the template library
+        self.load_template_lib()
+
+        # Build the tree by using templates from library
+        # ToDo at here
+
+        # Load the raw log data
         self.load_data()
 
         # Init progress bar to 0%
