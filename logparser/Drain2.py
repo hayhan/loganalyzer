@@ -72,7 +72,7 @@ class Ouputcell:
 
 class Para:
     def __init__(self, log_format, logName, tmpLib, indir='./', outdir='./', \
-                 pstdir='./', rex={}, rex_s_token=[], maxChild=120, mt=1):
+                 pstdir='./', rex={}, rex_s_token=[], maxChild=120, mt=1, incUpdate=1):
         """
         Attributes
         ----------
@@ -86,6 +86,7 @@ class Para:
         rex_s_token : pattern list of special tokens that must be same between template and accepted log
         maxChild    : max number of children of length layer node
         mt          : similarity threshold for the merge step
+        incUpdate   : incrementally update the template library
         """
         self.log_format = log_format
         self.logName = logName
@@ -97,6 +98,7 @@ class Para:
         self.rex_s_token = rex_s_token
         self.maxChild = maxChild
         self.mt = mt
+        self.incUpdate = incUpdate
 
 
 class Drain:
@@ -159,7 +161,11 @@ class Drain:
         seqLen = len(seq)
         if seqLen in rn.childD:
             # Check if there is a key with the same length, namely the cache mechanism
-            retLogCluster = self.keyTreeSearch(seq)
+            # Comment it out because cache mechanism may lead to wrong classification
+            # of logs if two or more templates are similar, in other words, the log may
+            # be accepted by a template w/ matching similarity which is not the highest.
+
+            # Paper: retLogCluster = self.keyTreeSearch(seq)
 
             if retLogCluster is None:
                 # Search the token layer
@@ -456,7 +462,7 @@ class Drain:
         retVal = []
 
         """
-        if self.logID == 788:
+        if self.logID == 735:
             print(seq2)
             print(seq1)
         """
@@ -473,6 +479,81 @@ class Drain:
                 retVal.append('<*>')
 
         return retVal, updatedTokenNum
+
+
+    def addCluster(self, messageL, logIDList, clusterL, outputCellL, rn):
+        """
+        Add new cluster to the tree
+
+        Attributes
+        ----------
+        messageL    : the log/template token list
+        logIDList   : the log line id list
+        clusterL    : the cluster list
+        outputCellL : the output cell list
+        rn          : the root node
+        """
+        newOCell = Ouputcell(logIDL=logIDList)
+
+        newCluster = Logcluster(logTemplate=messageL, outcell=newOCell)
+        newOCell.parentL.append(newCluster)
+
+        # The initial value of st is 0.5 times the percentage of non-digit tokens in the log message
+        numOfPara = 0
+        for token in messageL:
+            # In the pre-process of Drain domain, I replaced all possible digital var with <*> already
+            # Do not follow the original method in the paper section 4.1.2
+            # Paper: if self.hasNumbers(token):
+            if token == '<*>':
+                numOfPara += 1
+
+        # The "st" is similarity threshold used by the similarity layer, see paper formula (3)
+        # Paper: newCluster.st = 0.5 * (len(logmessageL)-numOfPara) / float(len(logmessageL))
+        # The initial st is the lower bound. Make it bigger to avoid over-parsing
+        newCluster.st = 0.8
+        newCluster.initst = newCluster.st
+
+        # When the number of numOfPara is large, the group tends
+        # to accept more log messages to generate the template
+        newCluster.base = max(2, numOfPara + 1)
+
+        clusterL.append(newCluster)
+        outputCellL.append(newOCell)
+
+        self.addSeqToTree(rn, newCluster)
+
+        # Update the cache
+        self.pointer[len(messageL)] = newCluster
+
+
+    def updateCluster(self, messageL, logIdn, clusterL, matchClust):
+        """
+        Update the cluster in the tree
+
+        Attributes
+        ----------
+        messageL    : the log/template token list
+        logIdn      : the log line id, 1 based
+        clusterL    : the cluster list
+        matchClust  : the matched cluster after search the tree
+        """
+        newTemplate, numUpdatedToken = self.getTemplate(messageL, matchClust.logTemplate)
+        matchClust.outcell.logIDL.append(logIdn)
+
+        # Update the cluster
+        if ' '.join(newTemplate) != ' '.join(matchClust.logTemplate):
+            matchClust.logTemplate = newTemplate
+
+            # Update the similarity threshold of current existing cluster
+            # The st is increasing with the updates, see paper Formula (4) & (5)
+            matchClust.updateCount = matchClust.updateCount + numUpdatedToken
+            matchClust.st = min(1, matchClust.initst + \
+                                    0.5*math.log(matchClust.updateCount+1, matchClust.base))
+
+            # If the merge mechanism is used, then merge the nodes
+            # weihan: TBD if I need this feature in ML and Oldshchool
+            if self.para.mt < 1:
+                self.adjustOutputCell(matchClust, clusterL)
 
 
     # Delete a folder
@@ -566,7 +647,9 @@ class Drain:
 
 
     def outputResult(self, logClustL, rawoutputCellL):
-
+        """
+        Output the template library and structured logs
+        """
         # Refer to the commented code below in the future if needed
         #
         """
@@ -634,7 +717,8 @@ class Drain:
 
 
     def generate_logformat_regex(self, logformat):
-        """ Function to generate regular expression to split log messages
+        """
+        Function to generate regular expression to split log messages
         """
         # Suppose the logformat is:
         #     '<Date> <Time> <Pid> <Level> <Component>: <Content>'
@@ -680,12 +764,18 @@ class Drain:
 
 
     def load_data(self):
+        """
+        Read the raw log data to dataframe
+        """
         headers, regex = self.generate_logformat_regex(self.para.log_format)
         self.df_log = self.log_to_dataframe(os.path.join(self.para.path, self.para.logName), \
                                             regex, headers, self.para.log_format)
 
 
     def preprocess(self, line):
+        """
+        Pre-process the log in Drain domain, mainly replace tokens with <*>
+        """
         for currentRex in self.para.rex.keys():
             # I put a space before <*>. It does not affect a sperated token number.
             # It only affects something like offset:123 and the result will be offset: <*>
@@ -695,10 +785,15 @@ class Drain:
 
     def load_template_lib(self):
         """
-        Read the templates from the library to build the tree
+        Read the templates from the library to dataframe
         """
-        self.df_tmp = pd.read_csv(os.path.join(self.para.pstdir, self.para.tmpLib), \
-                                  usecols=['EventTemplate'])
+        if self.para.incUpdate:
+            # If incremental update is enabled, read the template library
+            self.df_tmp = pd.read_csv(os.path.join(self.para.pstdir, self.para.tmpLib), \
+                                    usecols=['EventTemplate'])
+        else:
+            # Only initialize an empty dataframe
+            self.df_tmp = pd.DataFrame()
 
 
     def mainProcess(self):
@@ -722,7 +817,11 @@ class Drain:
         self.load_template_lib()
 
         # Build the tree by using templates from library
-        # ToDo at here
+        for rowIndex, line in self.df_tmp.iterrows():
+            # Split the template into token list
+            tmpmessageL = line['EventTemplate'].strip().split()
+            # Add new cluster to the tree, and no log id for template
+            self.addCluster(tmpmessageL, [], logCluL, outputCeL, rootNode)
 
         # Load the raw log data
         self.load_data()
@@ -731,6 +830,7 @@ class Drain:
         logsize = self.df_log.shape[0]
         helper.printProgressBar(0, logsize, prefix ='Progress:', suffix='Complete', length=50)
 
+        # Process the raw log data
         for rowIndex, line in self.df_log.iterrows():
 
             logID = line['LineId']
@@ -748,61 +848,12 @@ class Drain:
                 print('line num {}, matchLcuster {}'.format(logID, matchCluster))
             """
 
-            # Match no existing log cluster, so add a new one
             if matchCluster is None:
-                newOCell = Ouputcell(logIDL=[logID])
-                # newOCell = Ouputcell(logIDL=[line.strip()]) #for debug
-
-                newCluster = Logcluster(logTemplate=logmessageL, outcell=newOCell)
-                newOCell.parentL.append(newCluster)
-
-                # The initial value of st is 0.5 times the percentage of non-digit tokens in the log message
-                numOfPara = 0
-                for token in logmessageL:
-                    # In the pre-process of Drain domain, I replaced all possible digital var with <*> already
-                    # Do not follow the original method in the paper section 4.1.2
-                    # Paper: if self.hasNumbers(token):
-                    if token == '<*>':
-                        numOfPara += 1
-
-                # The "st" is similarity threshold used by the similarity layer, see paper formula (3)
-                # Paper: newCluster.st = 0.5 * (len(logmessageL)-numOfPara) / float(len(logmessageL))
-                # The initial st is the lower bound. Make it bigger to avoid over-parsing
-                newCluster.st = 0.8
-                newCluster.initst = newCluster.st
-
-                # When the number of numOfPara is large, the group tends
-                # to accept more log messages to generate the template
-                newCluster.base = max(2, numOfPara + 1)
-
-                logCluL.append(newCluster)
-                outputCeL.append(newOCell)
-
-                self.addSeqToTree(rootNode, newCluster)
-
-                # Update the cache
-                self.pointer[len(logmessageL)] = newCluster
-
-            # Successfully match an existing cluster, add the new log message to the existing cluster
+                # Match no existing log cluster, so add a new one
+                self.addCluster(logmessageL, [logID], logCluL, outputCeL, rootNode)
             else:
-                newTemplate, numUpdatedToken = self.getTemplate(logmessageL, matchCluster.logTemplate)
-                matchCluster.outcell.logIDL.append(logID)
-                # matchCluster.outcell.logIDL.append(line.strip()) #for debug
-
-                # Update the cluster
-                if ' '.join(newTemplate) != ' '.join(matchCluster.logTemplate):
-                    matchCluster.logTemplate = newTemplate
-
-                    # Update the similarity threshold of current existing cluster
-                    # The st is increasing with the updates, see paper Formula (4) & (5)
-                    matchCluster.updateCount = matchCluster.updateCount + numUpdatedToken
-                    matchCluster.st = min(1, matchCluster.initst + \
-                                          0.5*math.log(matchCluster.updateCount+1, matchCluster.base))
-
-                    # If the merge mechanism is used, then merge the nodes
-                    # weihan: TBD if I need this feature in ML and Oldshchool
-                    if self.para.mt < 1:
-                        self.adjustOutputCell(matchCluster, logCluL)
+                # Match an existing cluster, add the new log message to the existing cluster
+                self.updateCluster(logmessageL, logID, logCluL, matchCluster)
 
             # Update the progress bar
             helper.printProgressBar(rowIndex+1, logsize, prefix='Progress:', suffix ='Complete', length=50)

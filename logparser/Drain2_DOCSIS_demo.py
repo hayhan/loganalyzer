@@ -93,7 +93,7 @@ sTokenPatterns = [
 ]
 
 myPara = Para(log_format, log_file, templatelib, indir=input_dir, outdir=output_dir, \
-              pstdir=persist_dir, rex=regex, rex_s_token=sTokenPatterns)
+              pstdir=persist_dir, rex=regex, rex_s_token=sTokenPatterns, incUpdate=1)
 
 myParser = Drain(myPara)
 myParser.mainProcess()
