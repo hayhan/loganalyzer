@@ -82,14 +82,19 @@ regex = {
 
 
 """
-Regular expression list for special tokens
+Regular expression list for special tokens, I want the special tokens are
+same between the template and the accepted log at the corresponding offset
 """
 sTokenPattern0 = re.compile(r'[a-zA-Z]+[0-9]*[a-zA-Z]*\:')
 sTokenPattern1 = re.compile(r'[a-zA-Z]+\=')
+sTokenPattern2 = re.compile(r'\(')
+sTokenPattern3 = re.compile(r'\)')
 
 sTokenPatterns = [
     sTokenPattern0,
-    sTokenPattern1
+    sTokenPattern1,
+    sTokenPattern2,
+    sTokenPattern3,
 ]
 
 myPara = Para(log_format, log_file, templatelib, indir=input_dir, outdir=output_dir, \
