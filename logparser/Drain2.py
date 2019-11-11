@@ -71,8 +71,8 @@ class Ouputcell:
 
 
 class Para:
-    def __init__(self, log_format, logName, tmpLib, indir='./', outdir='./', \
-                 pstdir='./', rex={}, rex_s_token=[], maxChild=120, mt=1, incUpdate=1):
+    def __init__(self, log_format, logName, tmpLib, indir='./', outdir='./', pstdir='./', \
+                 rex={}, rex_s_token=[], maxChild=120, mt=1, incUpdate=1, prnTree=0):
         """
         Attributes
         ----------
@@ -87,6 +87,7 @@ class Para:
         maxChild    : max number of children of length layer node
         mt          : similarity threshold for the merge step
         incUpdate   : incrementally update the template library
+        prnTree     : write the tree to a file for debugging
         """
         self.log_format = log_format
         self.logName = logName
@@ -99,6 +100,7 @@ class Para:
         self.maxChild = maxChild
         self.mt = mt
         self.incUpdate = incUpdate
+        self.prnTree = prnTree
 
 
 class Drain:
@@ -110,13 +112,15 @@ class Drain:
         pointer : dict of pointers for cache mechanism
         df_log  : data frame of raw logs
         df_tmp  : data frame of templates loaded from template lib
+        logID   : log line number in the raw file, debug only
+        tree    : the tree, debug only
         """
         self.para = para
         self.pointer = dict()
         self.df_log = None
         self.df_tmp = None
-        # This logID is used for debugging only
         self.logID = 0
+        self.tree = ''
 
 
     # Check if there is number
@@ -142,6 +146,12 @@ class Drain:
         if re.match(r'^[\w]+[#$&\'*+,/<=>@^_`|~.]+$', s):
             return False
         return True
+
+    # Delete a folder
+    def deleteAllFiles(self, dirPath):
+        fileList = os.listdir(dirPath)
+        for fileName in fileList:
+            os.remove(dirPath+fileName)
 
 
     def treeSearch(self, rn, seq):
@@ -463,7 +473,7 @@ class Drain:
         retVal = []
 
         """
-        if self.logID == 735:
+        if self.logID == 3914:
             print(seq2)
             print(seq1)
         """
@@ -557,15 +567,11 @@ class Drain:
                 self.adjustOutputCell(matchClust, clusterL)
 
 
-    # Delete a folder
-    def deleteAllFiles(self, dirPath):
-        fileList = os.listdir(dirPath)
-        for fileName in fileList:
-            os.remove(dirPath+fileName)
-
-
-    # Print a tree with depth 'dep', root node is in depth 0
     def printTree(self, node, dep):
+        """
+        Print a tree with depth 'dep', root node is in depth 0
+        Print the whole tree with param (rootNode, dep=0)
+        """
         pStr = ''
         for _i in range(dep):
             pStr += '\t'
@@ -577,11 +583,14 @@ class Drain:
         else:
             pStr += node.digitOrtoken
 
-        print (pStr)
+        #print (pStr)
+        self.tree += (pStr + '\n')
 
         if dep == 2:
             for child in node.childD:
-                print ('\t\t\t' + ' '.join(child.logTemplate))
+                #print ('\t\t\t' + ' '.join(child.logTemplate))
+                tmp = '\t\t\t' + ' '.join(child.logTemplate) + '\n'
+                self.tree += tmp
             return 1
         for child in node.childD:
             self.printTree(node.childD[child], dep+1)
@@ -686,34 +695,37 @@ class Drain:
         #
         log_templates = [0] * self.df_log.shape[0]
         log_templateids = [0] * self.df_log.shape[0]
-        #df_events = []
+        df_events = []
         for logClust in logClustL:
             template_str = ' '.join(logClust.logTemplate)
-            #occurrence = len(logClust.outcell.logIDL)
+            occurrence = len(logClust.outcell.logIDL)
             template_id = hashlib.md5(template_str.encode('utf-8')).hexdigest()[0:8]
             for logID in logClust.outcell.logIDL:
                 logID -= 1
                 log_templates[logID] = template_str
                 log_templateids[logID] = template_id
-            #df_events.append([template_id, template_str, occurrence])
+            df_events.append([template_id, template_str, occurrence])
 
         # A same template might exist in logClustL in several places. Not sure if it is a defect.
-        #df_event = pd.DataFrame(df_events, columns=['EventId', 'EventTemplate', 'Occurrences'])
+        # Save the template file
+        df_event1 = pd.DataFrame(df_events, columns=['EventId', 'EventTemplate', 'Occurrences'])
+        df_event1.to_csv(os.path.join(self.para.savePath, self.para.logName + '_templates1.csv'), \
+                        index=False, columns=["EventId", "EventTemplate", "Occurrences"])
+
+        # Save the structured file
         self.df_log['EventId'] = log_templateids
         self.df_log['EventTemplate'] = log_templates
-
         # self.df_log.drop(['Content'], inplace=True, axis=1)
-        # Save the structured file
         self.df_log.to_csv(os.path.join(self.para.savePath, self.para.logName + '_structured.csv'), index=False)
 
+        # Save the template file by another way
         occ_dict = dict(self.df_log['EventTemplate'].value_counts())
-        df_event = pd.DataFrame()
-        df_event['EventTemplate'] = self.df_log['EventTemplate'].unique()
-        df_event['EventId'] = df_event['EventTemplate'].map(lambda x: hashlib.md5(x.encode('utf-8')).hexdigest()[0:8])
-        df_event['Occurrences'] = df_event['EventTemplate'].map(occ_dict)
+        df_event2 = pd.DataFrame()
+        df_event2['EventTemplate'] = self.df_log['EventTemplate'].unique()
+        df_event2['EventId'] = df_event2['EventTemplate'].map(lambda x: hashlib.md5(x.encode('utf-8')).hexdigest()[0:8])
+        df_event2['Occurrences'] = df_event2['EventTemplate'].map(occ_dict)
 
-        # Save the template file
-        df_event.to_csv(os.path.join(self.para.savePath, self.para.logName + '_templates.csv'), \
+        df_event2.to_csv(os.path.join(self.para.savePath, self.para.logName + '_templates2.csv'), \
                         index=False, columns=["EventId", "EventTemplate", "Occurrences"])
 
 
@@ -864,5 +876,11 @@ class Drain:
 
         self.outputResult(logCluL, outputCeL)
         print('Parsing done. [Time taken: {!s}]\n'.format(datetime.now() - start_time))
+
+        # Print the tree to a file for debugging...
+        if self.para.prnTree:
+            self.printTree(rootNode, 0)
+            with open(self.para.savePath + 'tree.txt', 'w') as drainTree:
+                drainTree.write(self.tree)
 
         gc.collect()
