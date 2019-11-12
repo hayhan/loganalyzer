@@ -14,6 +14,7 @@ import numpy as np
 import pandas as pd
 import gc
 import math
+import shutil
 import hashlib
 from datetime import datetime
 
@@ -72,7 +73,7 @@ class Ouputcell:
 
 class Para:
     def __init__(self, log_format, logName, tmpLib, indir='./', outdir='./', pstdir='./', \
-                 rex={}, rex_s_token=[], maxChild=120, mt=1, incUpdate=1, prnTree=0):
+                 rex={}, rex_s_token=[], maxChild=120, mt=1, incUpdate=1, prnTree=0, nopgbar=0):
         """
         Attributes
         ----------
@@ -88,6 +89,7 @@ class Para:
         mt          : similarity threshold for the merge step
         incUpdate   : incrementally update the template library
         prnTree     : write the tree to a file for debugging
+        nopgbar     : disable the progress bar
         """
         self.log_format = log_format
         self.logName = logName
@@ -101,6 +103,7 @@ class Para:
         self.mt = mt
         self.incUpdate = incUpdate
         self.prnTree = prnTree
+        self.nopgbar = nopgbar
 
 
 class Drain:
@@ -477,7 +480,7 @@ class Drain:
         retVal = []
 
         """
-        if self.logID == 3914:
+        if self.logID in [33521, 33944, 34113]:
             print(seq2)
             print(seq1)
         """
@@ -715,6 +718,12 @@ class Drain:
         df_event.to_csv(os.path.join(self.para.savePath, self.para.logName + '_templates.csv'), \
                         index=False, columns=["EventId", "EventTemplate", "Occurrences"])
 
+        # Backup the template library and then update it
+        shutil.copy(os.path.join(self.para.pstdir, 'template_lib.csv'), \
+                    os.path.join(self.para.pstdir, 'template_lib_bak.csv'))
+        df_event.to_csv(os.path.join(self.para.pstdir, 'template_lib.csv'), \
+                        index=False, columns=["EventId", "EventTemplate"])
+
         # Check if there are any duplicates in template id list
         if len(df_event['EventId'].values) != len(df_event['EventId'].unique()):
             print("Error: template is duplicated in the temp library!")
@@ -850,7 +859,8 @@ class Drain:
 
         # Init progress bar to 0%
         logsize = self.df_log.shape[0]
-        helper.printProgressBar(0, logsize, prefix ='Progress:', suffix='Complete', length=50)
+        helper.printProgressBar(0, logsize, prefix ='Progress:', suffix='Complete', \
+                                length=50, disable=self.para.nopgbar)
 
         # Process the raw log data
         for rowIndex, line in self.df_log.iterrows():
@@ -878,7 +888,8 @@ class Drain:
                 self.updateCluster(logmessageL, logID, logCluL, matchCluster)
 
             # Update the progress bar
-            helper.printProgressBar(rowIndex+1, logsize, prefix='Progress:', suffix ='Complete', length=50)
+            helper.printProgressBar(rowIndex+1, logsize, prefix='Progress:', suffix ='Complete', \
+                                    length=50, disable=self.para.nopgbar)
 
         if not os.path.exists(self.para.savePath):
             os.makedirs(self.para.savePath)
