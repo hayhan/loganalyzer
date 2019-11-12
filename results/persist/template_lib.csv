@@ -8,7 +8,8 @@ a96d7974,Stopping DHCP/ToD/TFTP ( client requested )...,83
 375d1054,BcmEcosIpHalIf:: RemoveIpv6Address: ( IP Stack1 HalIf ) ERROR - Failed to remove IPv6 address<*> from the stack!,83
 81c79112,BcmDhcpV6ClientIf:: ReleaseAddresses: ( DHCPv6 ClientIf for IP Stack1 ) ERROR - IA state is initial; there is no address to release.,83
 e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>,123
-ec8523ea,<*> DSID filter control = <*>,247
+b92e78a3,SCQAM DSID filter control = <*>,124
+a5d1e3f3,OFDM DSID filter control = <*>,123
 11303e8a,Deleting DOCSIS <*> CoS Settings for SID <*>,83
 0552414d,"BcmDocsisCmHalIf:: DeleteAllServiceFlows: ( DOCSIS CableModem HalIf ) Deleting all Upstream and Downstream Service Flows, along with associated Classifiers and PHS rules...",83
 0e9b2f8a,BcmCmDocsisCtlThread:: ResetRngState: ( CmDocsisCtlThread ),83

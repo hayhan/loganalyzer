@@ -130,9 +130,13 @@ class Drain:
 
     # Check if there is special character
     def hasPun(self, s):
+        """
         punStr = "#$&'*+,/<=>@^_`|~)"
         punChars = set(punStr)
         return any(char in punChars for char in s)
+        """
+        # I do not check the special char
+        return None
 
 
     # Check if there is special character
@@ -253,7 +257,7 @@ class Drain:
         if tokenFirstKey in lenLayerNode.childD:
             tokenLayerNode = lenLayerNode.childD[tokenFirstKey]
 
-        elif tokenLastKey in lenLayerNode.childD:
+        elif tokenLastKey in lenLayerNode.childD and self.hasNumbers(tokenFirst):
             tokenLayerNode = lenLayerNode.childD[tokenLastKey]
 
         elif self.hasNumbers(tokenFirst) and self.hasNumbers(tokenLast) and '<*>' in lenLayerNode.childD:
@@ -297,7 +301,7 @@ class Drain:
         if (tokenFirstKey) in lenLayerNode.childD:
             # The first index token already exists, just retrive it
             tokenLayerNode = lenLayerNode.childD[tokenFirstKey]
-        elif (tokenLastKey) in lenLayerNode.childD:
+        elif (tokenLastKey) in lenLayerNode.childD and self.hasNumbers(tokenFirst):
             # The last index token already exists, just retrive it
             tokenLayerNode = lenLayerNode.childD[tokenLastKey]
         else:
@@ -706,11 +710,14 @@ class Drain:
                 log_templateids[logID] = template_id
             df_events.append([template_id, template_str, occurrence])
 
-        # A same template might exist in logClustL in several places. Not sure if it is a defect.
         # Save the template file
-        df_event1 = pd.DataFrame(df_events, columns=['EventId', 'EventTemplate', 'Occurrences'])
-        df_event1.to_csv(os.path.join(self.para.savePath, self.para.logName + '_templates1.csv'), \
+        df_event = pd.DataFrame(df_events, columns=['EventId', 'EventTemplate', 'Occurrences'])
+        df_event.to_csv(os.path.join(self.para.savePath, self.para.logName + '_templates.csv'), \
                         index=False, columns=["EventId", "EventTemplate", "Occurrences"])
+
+        # Check if there are any duplicates in template id list
+        if len(df_event['EventId'].values) != len(df_event['EventId'].unique()):
+            print("Error: template is duplicated in the temp library!")
 
         # Save the structured file
         self.df_log['EventId'] = log_templateids
@@ -719,6 +726,7 @@ class Drain:
         self.df_log.to_csv(os.path.join(self.para.savePath, self.para.logName + '_structured.csv'), index=False)
 
         # Save the template file by another way
+        """
         occ_dict = dict(self.df_log['EventTemplate'].value_counts())
         df_event2 = pd.DataFrame()
         df_event2['EventTemplate'] = self.df_log['EventTemplate'].unique()
@@ -727,6 +735,7 @@ class Drain:
 
         df_event2.to_csv(os.path.join(self.para.savePath, self.para.logName + '_templates2.csv'), \
                         index=False, columns=["EventId", "EventTemplate", "Occurrences"])
+        """
 
 
     def generate_logformat_regex(self, logformat):

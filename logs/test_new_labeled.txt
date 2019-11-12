@@ -977,7 +977,7 @@
 [20190902-17:43:23.016] abn: BcmCmUsRangingState:: CommonRngErrorHandler:  all pri us svc flow tx chan are down. -> restart error!
 [20190902-17:43:23.018] Disabling SNMP link status checking.
 [20190902-17:43:23.027] BcmCmDsChanOfdm:: DpdSetsRx:  (BcmCmDsChanOfdm) Received DPD on hwRxId= 32 dcid= 66 for assigned Profile A
-[20190902-17:43:23.038] LBcmCmDsChanOfdm:: DpdSetsRx:  (BcmCmDsChanOfdm) Received DPD on hwRxId= 32 dcid= 66 for assigned Profile NCP
+[20190902-17:43:23.038] BcmCmDsChanOfdm:: DpdSetsRx:  (BcmCmDsChanOfdm) Received DPD on hwRxId= 32 dcid= 66 for assigned Profile NCP
 [20190902-17:43:23.047] BcmCmDsChanOfdm:: OcdSetsRx:  (BcmCmDsChanOfdm) hwRxId= 32  dcid= 0
 [20190902-17:43:23.054] BcmCmDsChanOfdm:: DetectOcdDpdGatheringPlcDone:  (BcmCmDsChanOfdm) hwRxId= 32  dcid= 66  OCD/DPD gathered via PLC.  install OCD settings.
 [20190902-17:43:23.070] abn: logging event: Received Response to Broadcast Maintenance Request, But no Unicast Maintenance opportunities received - T4 time out;CM-MAC= 00:10:18:de:33:93;CMTS-MAC= 00:80:42:42:20:9e;CM-QOS= 1.1;CM-VER= 3.1;
