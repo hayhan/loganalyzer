@@ -73,7 +73,8 @@ class Ouputcell:
 
 class Para:
     def __init__(self, log_format, logName, tmpLib, indir='./', outdir='./', pstdir='./', \
-                 rex={}, rex_s_token=[], maxChild=120, mt=1, incUpdate=1, prnTree=0, nopgbar=0):
+                 rex={}, rex_s_token=[], maxChild=120, mt=1, incUpdate=1, overWrLib=False, \
+                 prnTree=0, nopgbar=0):
         """
         Attributes
         ----------
@@ -87,7 +88,8 @@ class Para:
         rex_s_token : pattern list of special tokens that must be same between template and accepted log
         maxChild    : max number of children of length layer node
         mt          : similarity threshold for the merge step
-        incUpdate   : incrementally update the template library
+        incUpdate   : incrementally generate the template file
+        overWrLib   : overwrite the template lib in persist directory
         prnTree     : write the tree to a file for debugging
         nopgbar     : disable the progress bar
         """
@@ -102,6 +104,7 @@ class Para:
         self.maxChild = maxChild
         self.mt = mt
         self.incUpdate = incUpdate
+        self.overWrLib = overWrLib
         self.prnTree = prnTree
         self.nopgbar = nopgbar
 
@@ -719,10 +722,11 @@ class Drain:
                         index=False, columns=["EventId", "EventTemplate", "Occurrences"])
 
         # Backup the template library and then update it
-        shutil.copy(os.path.join(self.para.pstdir, 'template_lib.csv'), \
-                    os.path.join(self.para.pstdir, 'template_lib_bak.csv'))
-        df_event.to_csv(os.path.join(self.para.pstdir, 'template_lib.csv'), \
-                        index=False, columns=["EventId", "EventTemplate"])
+        if self.para.overWrLib:
+            shutil.copy(os.path.join(self.para.pstdir, 'template_lib.csv'), \
+                        os.path.join(self.para.pstdir, 'template_lib_bak.csv'))
+            df_event.to_csv(os.path.join(self.para.pstdir, 'template_lib.csv'), \
+                            index=False, columns=["EventId", "EventTemplate"])
 
         # Check if there are any duplicates in template id list
         if len(df_event['EventId'].values) != len(df_event['EventId'].unique()):
