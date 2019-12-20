@@ -33,7 +33,7 @@ def domain_knowledge(templateId, paramList):
 
     Arguments
     ---------
-    templatedId: the Id for each template/event
+    templateId: the Id for each template/event
     paramList: the list of parameters for each log/line
 
     Returns

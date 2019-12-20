@@ -1,6 +1,6 @@
 """
 Description : To do feature extractor and create event count matrix
-Author      : LogPAI Team, modified by Wei Han <wei.han@broadcom.com>
+Author      : LogPAI Team, Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
 import logging

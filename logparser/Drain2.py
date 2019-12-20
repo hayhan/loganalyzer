@@ -1,6 +1,6 @@
 """
 Description : This file implements the Drain algorithm for log parsing
-Author      : LogPAI team, modified by Wei Han <wei.han@broadcom.com>
+Author      : LogPAI team, Wei Han <wei.han@broadcom.com>
 License     : MIT
 Paper       : [Arxiv'18] Pinjia He, Jieming Zhu, Hongyu Zhang, Pengcheng Xu,
               Zibin Zheng, and Michael R. Lyu.
@@ -30,13 +30,24 @@ Note: log group/cluster maps to one single template/event.
 
 # Similarity layer, each cluster/group has its own st
 class Logcluster:
-    def __init__(self, logTemplate='', st=0.1, outcell=None):
+    def __init__(self, logTemplate='', st=0.1, outcell=None, isTmpNew=True, template_id_old=0):
+        """
+        Attributes
+        ----------
+        updateCount     : the token update count
+        isTmpNew        : 0/1. new template that does not exist in temp lib
+        tmpUpdateCnt    : the tmplate update count
+        template_id_old : load EventId from template lib or zero for a new leaf
+        """
         self.logTemplate = logTemplate
         self.updateCount = 0
         self.st = st
         self.base = -1
         self.initst = -1
         self.outcell = outcell
+        self.isTmpNew = isTmpNew
+        self.tmpUpdateCnt = 0
+        self.template_id_old = template_id_old
 
 
 # Length layer and Token layer
@@ -88,8 +99,8 @@ class Para:
         rex_s_token : pattern list of special tokens that must be same between template and accepted log
         maxChild    : max number of children of length layer node
         mt          : similarity threshold for the merge step
-        incUpdate   : incrementally generate the template file
-        overWrLib   : overwrite the template lib in persist directory
+        incUpdate   : incrementally generate the template file. Can apply to both train and test dataset
+        overWrLib   : overwrite the template lib in persist directory. Only apply to train dataset
         prnTree     : write the tree to a file for debugging
         nopgbar     : disable the progress bar
         """
@@ -502,7 +513,7 @@ class Drain:
         return retVal, updatedTokenNum
 
 
-    def addCluster(self, messageL, logIDList, clusterL, outputCellL, rn):
+    def addCluster(self, messageL, logIDList, clusterL, outputCellL, rn, newTmp, oldTmpId):
         """
         Add new cluster to the tree
 
@@ -513,10 +524,13 @@ class Drain:
         clusterL    : the cluster list
         outputCellL : the output cell list
         rn          : the root node
+        newTmp      : The template is new or not.
+        oldTmpId    : The old EventId in tmp lib
         """
         newOCell = Ouputcell(logIDL=logIDList)
 
-        newCluster = Logcluster(logTemplate=messageL, outcell=newOCell)
+        newCluster = Logcluster(logTemplate=messageL, outcell=newOCell, isTmpNew=newTmp, \
+                                template_id_old=oldTmpId)
         newOCell.parentL.append(newCluster)
 
         # The initial value of st is 0.5 times the percentage of non-digit tokens in the log message
@@ -564,6 +578,7 @@ class Drain:
         # Update the cluster
         if ' '.join(newTemplate) != ' '.join(matchClust.logTemplate):
             matchClust.logTemplate = newTemplate
+            matchClust.tmpUpdateCnt += 1
 
             # Update the similarity threshold of current existing cluster
             # The st is increasing with the updates, see paper Formula (4) & (5)
@@ -710,23 +725,24 @@ class Drain:
             template_str = ' '.join(logClust.logTemplate)
             occurrence = len(logClust.outcell.logIDL)
             template_id = hashlib.md5(template_str.encode('utf-8')).hexdigest()[0:8]
+            template_id_old = logClust.template_id_old
             for logID in logClust.outcell.logIDL:
                 logID -= 1
                 log_templates[logID] = template_str
                 log_templateids[logID] = template_id
-            df_events.append([template_id, template_str, occurrence])
+            df_events.append([template_id_old, template_id, template_str, occurrence])
 
         # Save the template file
-        df_event = pd.DataFrame(df_events, columns=['EventId', 'EventTemplate', 'Occurrences'])
+        df_event = pd.DataFrame(df_events, columns=['EventIdOld', 'EventId', 'EventTemplate', 'Occurrences'])
         df_event.to_csv(os.path.join(self.para.savePath, self.para.logName + '_templates.csv'), \
-                        index=False, columns=["EventId", "EventTemplate", "Occurrences"])
+                        index=False, columns=['EventId', 'EventTemplate', 'Occurrences'])
 
         # Backup the template library and then update it
         if self.para.overWrLib:
             shutil.copy(os.path.join(self.para.pstdir, 'template_lib.csv'), \
                         os.path.join(self.para.pstdir, 'template_lib_bak.csv'))
             df_event.to_csv(os.path.join(self.para.pstdir, 'template_lib.csv'), \
-                            index=False, columns=["EventId", "EventTemplate"])
+                            index=False, columns=['EventIdOld', 'EventId', 'EventTemplate'])
 
         # Check if there are any duplicates in template id list
         if len(df_event['EventId'].values) != len(df_event['EventId'].unique()):
@@ -747,7 +763,7 @@ class Drain:
         df_event2['Occurrences'] = df_event2['EventTemplate'].map(occ_dict)
 
         df_event2.to_csv(os.path.join(self.para.savePath, self.para.logName + '_templates2.csv'), \
-                        index=False, columns=["EventId", "EventTemplate", "Occurrences"])
+                        index=False, columns=['EventId', 'EventTemplate', 'Occurrences'])
         """
 
 
@@ -825,7 +841,7 @@ class Drain:
         if self.para.incUpdate:
             # If incremental update is enabled, read the template library
             self.df_tmp = pd.read_csv(os.path.join(self.para.pstdir, self.para.tmpLib), \
-                                    usecols=['EventTemplate'])
+                                    usecols=['EventId', 'EventTemplate'])
         else:
             # Only initialize an empty dataframe
             self.df_tmp = pd.DataFrame()
@@ -855,8 +871,11 @@ class Drain:
         for rowIndex, line in self.df_tmp.iterrows():
             # Split the template into token list
             tmpmessageL = line['EventTemplate'].strip().split()
+            # Read the old template id for current template
+            tmpEventIdOld = line['EventId']
             # Add new cluster to the tree, and no log id for template
-            self.addCluster(tmpmessageL, [], logCluL, outputCeL, rootNode)
+            # The template in each cluster is NOT new
+            self.addCluster(tmpmessageL, [], logCluL, outputCeL, rootNode, False, tmpEventIdOld)
 
         # Load the raw log data
         self.load_data()
@@ -886,7 +905,8 @@ class Drain:
 
             if matchCluster is None:
                 # Match no existing log cluster, so add a new one
-                self.addCluster(logmessageL, [logID], logCluL, outputCeL, rootNode)
+                # The template in each cluster is new
+                self.addCluster(logmessageL, [logID], logCluL, outputCeL, rootNode, True, 0)
             else:
                 # Match an existing cluster, add the new log message to the existing cluster
                 self.updateCluster(logmessageL, logID, logCluL, matchCluster)
