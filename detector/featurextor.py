@@ -84,6 +84,9 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
 
     # Shuffle the event_id_templates
     if not os.path.exists(event_id_shuffled_file):
+        # Pad ZEROs at the end of event_id_templates to expand the size to TEMPLATE_LIB_SIZE.
+        event_id_templates += ['0'] * (para['tmplib_size'] - len(event_id_templates))
+        # Shuffle the expanded list now
         event_id_shuffled = shuffle(event_id_templates)
         np.save(event_id_shuffled_file, event_id_shuffled)
     else:
@@ -95,12 +98,12 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
     start_end_index_list = [] # list of tuples, tuple contains two numbers, which represents the start and end of sliding window
     label_data, time_data = raw_data[:, 0], raw_data[:, 1]
     if not os.path.exists(sliding_window_file) or para['window_rebuild']:
-        # split into sliding windows
+        # Split into sliding windows
         start_time = time_data[0]
         start_index = 0
         end_index = -1
 
-        # get the first start, end index, end time
+        # Get the first start, end index, end time
         for cur_time in time_data:
             # Window end (end_time) selects the min if not equal
             if  cur_time <= start_time + para['window_size']:
@@ -111,7 +114,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
                 start_end_index_list.append(start_end_pair)
                 break
 
-        # move the start and end index until next sliding window
+        # Move the start and end index until next sliding window
         # ToDo: time consuming here and need optimize the algorithm
         while end_index < log_size - 1:
 
@@ -165,7 +168,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
         inst_number = len(start_end_index_list)
         print('there are %d instances (sliding windows) in this dataset' % inst_number)
 
-    # get all the log indexes in each time window by ranging from start_index to end_index
+    # Get all the log indexes in each time window by ranging from start_index to end_index
     expanded_indexes_list=[]
     for dummy in range(inst_number):
         index_list = []
@@ -185,11 +188,11 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
     event_num = len(list(set(event_mapping_data)))
     print('There are %d log events' %event_num)
 
-    #=============get labels and event count of each sliding window =========#
+    #=============Get labels and event count of each sliding window =========#
     labels = []
     event_count_matrix = np.zeros((inst_number,len(event_id_shuffled)))
     for j in range(inst_number):
-        label = 0   # 0 represent success, 1 represent failure
+        label = 0   # 0 represents success, 1 represents failure
         for k in expanded_indexes_list[j]:
             event_id = event_mapping_data[k]
             # Convert EventId to ZERO based index

@@ -34,6 +34,8 @@ with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confi
     window_size = int(conlines[2].strip().replace('WINDOW_SIZE=', ''))
     # Read the sliding window step size
     window_step = int(conlines[3].strip().replace('WINDOW_STEP=', ''))
+    # Read the template library size
+    tmplib_size = int(conlines[4].strip().replace('TEMPLATE_LIB_SIZE=', ''))
 
 para_train = {
     'labeled_file'   : grandpadir+'/results/train/train_norm.txt_labeled.csv',
@@ -43,6 +45,7 @@ para_train = {
     'persist_path'   : grandpadir+'/results/persist/',
     'window_size'    : window_size,    # milliseconds
     'step_size'      : window_step,    # milliseconds
+    'tmplib_size'    : tmplib_size,    # only for train dataset
     'window_rebuild' : False,
     'train_ratio'    : 0.8       # not used anymore after de-coupling train/test data
 }

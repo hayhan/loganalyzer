@@ -5,6 +5,7 @@ echo TRAINING=0
 echo MODEL=LR
 echo WINDOW_SIZE=10000
 echo WINDOW_STEP=5000
+echo TEMPLATE_LIB_SIZE=2000
 ) > config.txt
 
 # Preprocess and label raw log if needed

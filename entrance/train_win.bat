@@ -6,6 +6,7 @@ echo TRAINING=1
 echo MODEL=DT
 echo WINDOW_SIZE=10000
 echo WINDOW_STEP=5000
+echo TEMPLATE_LIB_SIZE=2000
 ) > config.txt
 rem ---Preprocess and label raw log
 python ..\logparser\logpurger.py
@@ -19,6 +20,7 @@ echo TRAINING=0
 echo MODEL=DT
 echo WINDOW_SIZE=10000
 echo WINDOW_STEP=5000
+echo TEMPLATE_LIB_SIZE=2000
 ) > config.txt
 python ..\logparser\logpurger.py
 python ..\logparser\labelprocess.py
