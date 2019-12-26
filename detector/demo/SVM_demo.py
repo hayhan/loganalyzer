@@ -61,6 +61,8 @@ para_test = {
 
 
 if __name__ == '__main__':
+    print("===> Train Module: SVM\n")
+
     """
     Feature extraction for the train data
     """

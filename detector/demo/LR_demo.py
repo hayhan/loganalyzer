@@ -46,7 +46,7 @@ para_train = {
     'window_size'    : window_size,    # milliseconds
     'step_size'      : window_step,    # milliseconds
     'tmplib_size'    : tmplib_size,    # only for train dataset
-    'window_rebuild' : False,
+    'window_rebuild' : True,
     'train_ratio'    : 0.8       # not used anymore after de-coupling train/test data
 }
 
@@ -64,6 +64,8 @@ para_test = {
 
 
 if __name__ == '__main__':
+    print("===> Train Module: LR\n")
+
     """
     Feature extraction for the train data
     """
@@ -76,7 +78,8 @@ if __name__ == '__main__':
     # All the EventId in templates are shuffed and saved under results folder
     train_x, train_y = featurextor.add_sliding_window(para_train, raw_data_train, \
                                                       event_mapping_data_train, \
-                                                      event_id_templates_train)
+                                                      event_id_templates_train, \
+                                                      feat_ext_inc=True)
 
     """
     # This part code is not used any more after we de-coupled the train and test data set
@@ -92,7 +95,7 @@ if __name__ == '__main__':
     """
 
     # Add weighting factor before training
-    train_x = weighting.fit_transform(para_train, train_x, term_weighting='tf-idf')
+    train_x = weighting.fit_transform(para_train, train_x, term_weighting='tf-idf', df_vec_inc=True)
 
     """
     # Do not need this because I removed the weighting class
@@ -136,10 +139,12 @@ if __name__ == '__main__':
     # the saved shuffled EventId list in the training step.
     test_x, test_y = featurextor.add_sliding_window(para_test, raw_data_test, \
                                                     event_mapping_data_test, \
-                                                    event_id_templates_test)
+                                                    event_id_templates_test, \
+                                                    feat_ext_inc=True)
 
     # Add weighting factor as we did for training data
-    test_x  = weighting.transform(para_test, test_x, term_weighting='tf-idf', use_train_factor=True)
+    test_x  = weighting.transform(para_test, test_x, term_weighting='tf-idf', \
+                                  use_train_factor=True, df_vec_inc=True)
 
     test_y_pred = model.predict(test_x)
     #np.savetxt(para_test['data_path']+'test_y_data.txt', test_y, fmt="%s")

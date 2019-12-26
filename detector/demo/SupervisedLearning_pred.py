@@ -31,10 +31,13 @@ with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confi
     # Read the model name
     if conlines[1].strip() == 'MODEL=DT':
         model_file = 'DecesionTree.onnx'
+        incUpdate = False
     elif conlines[1].strip() == 'MODEL=LR':
         model_file = 'LR.onnx'
+        incUpdate = True
     else:
         model_file = 'SVM.onnx'
+        incUpdate = False
     # Read the sliding window size
     window_size = int(conlines[2].strip().replace('WINDOW_SIZE=', ''))
     # Read the sliding window step size
@@ -54,6 +57,8 @@ para_test = {
 
 
 if __name__ == '__main__':
+    print("===> Pridict Model: {}\n".format(model_file))
+
     """
     Feature extraction for the test data
     """
@@ -82,10 +87,12 @@ if __name__ == '__main__':
     # the saved shuffled EventId list in the training step.
     test_x, test_y = featurextor.add_sliding_window(para_test, raw_data_test, \
                                                     event_mapping_data_test, \
-                                                    event_id_templates_test)
+                                                    event_id_templates_test, \
+                                                    feat_ext_inc=incUpdate)
 
     # Add weighting factor as we did for training data
-    test_x  = weighting.transform(para_test, test_x, term_weighting='tf-idf', use_train_factor=True)
+    test_x  = weighting.transform(para_test, test_x, term_weighting='tf-idf', \
+                                  use_train_factor=True, df_vec_inc=incUpdate)
 
     # Load the ONNX model which is equivalent to the scikit-learn model
     # https://microsoft.github.io/onnxruntime/api_summary.html

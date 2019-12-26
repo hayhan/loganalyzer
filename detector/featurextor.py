@@ -58,7 +58,7 @@ def load_DOCSIS(para):
     return raw_data, event_mapping_data, event_id_templates
 
 
-def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
+def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, feat_ext_inc=False):
     """ split logs into sliding windows, built an event count matrix and get the corresponding label
 
     Args:
@@ -67,6 +67,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
     raw_data: list of (label, time)
     event_mapping_data: a list of event id mapping to each line (log)
     event_id_templates: a list mapping event id to index, e.g. -> 0, 1, ... in templates file
+    featExt_inc: incrementally update event count matrix
 
     Returns:
     --------
@@ -81,18 +82,31 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates):
     log_size = raw_data.shape[0]
     sliding_window_file = para['data_path']+'sliding_'+str(para['window_size'])+'ms_'+str(para['step_size'])+'ms.csv'
     event_id_shuffled_file = para['persist_path']+'event_id_shuffled.npy'
+    #event_id_shuffled_file_txt = para['persist_path']+'event_id_shuffled.txt'
+    event_id_shuffled_file_static = para['persist_path']+'event_id_shuffled_static.npy'
 
-    # Shuffle the event_id_templates
-    if not os.path.exists(event_id_shuffled_file):
-        # Pad ZEROs at the end of event_id_templates to expand the size to TEMPLATE_LIB_SIZE.
-        event_id_templates += ['0'] * (para['tmplib_size'] - len(event_id_templates))
-        # Shuffle the expanded list now
-        event_id_shuffled = shuffle(event_id_templates)
-        np.save(event_id_shuffled_file, event_id_shuffled)
+    if feat_ext_inc:
+        # Shuffle the event_id_templates
+        if not os.path.exists(event_id_shuffled_file):
+            # Update STIDLE: Shuffled Template Id List Expanded
+            # Pad ZEROs at the end of event_id_templates to expand the size to TEMPLATE_LIB_SIZE.
+            event_id_templates += ['0'] * (para['tmplib_size'] - len(event_id_templates))
+            # Shuffle the expanded list now
+            event_id_shuffled = shuffle(event_id_templates)
+            np.save(event_id_shuffled_file, event_id_shuffled)
+            #np.savetxt(event_id_shuffled_file_txt, event_id_shuffled, fmt="%s")
+        else:
+            print('Loading shuffled EventId list in templates: incremental update version.')
+            event_id_shuffled = np.load(event_id_shuffled_file).tolist()
+            # Update STIDLE
     else:
-        print('Loading shuffled EventId list in templates')
-        event_id_shuffled = np.load(event_id_shuffled_file).tolist()
-    #print(event_id_shuffled)
+        # Shuffle the event_id_templates
+        if not os.path.exists(event_id_shuffled_file_static):
+            event_id_shuffled = shuffle(event_id_templates)
+            np.save(event_id_shuffled_file_static, event_id_shuffled)
+        else:
+            print('Loading shuffled EventId list in templates: static version.')
+            event_id_shuffled = np.load(event_id_shuffled_file_static).tolist()
 
     #=============divide into sliding windows=========#
     start_end_index_list = [] # list of tuples, tuple contains two numbers, which represents the start and end of sliding window
