@@ -52,12 +52,13 @@ para_test = {
     'window_size'    : window_size,    # milliseconds
     'step_size'      : window_step,    # milliseconds
     'window_rebuild' : True,
+    'train'          : False,
     'train_ratio'    : 0.8       # not used anymore after de-coupling train/test data
 }
 
 
 if __name__ == '__main__':
-    print("===> Pridict Model: {}\n".format(model_file))
+    print("===> Predict Model: {}\n".format(model_file))
 
     """
     Feature extraction for the test data

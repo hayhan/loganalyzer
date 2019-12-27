@@ -84,21 +84,45 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
     event_id_shuffled_file = para['persist_path']+'event_id_shuffled.npy'
     #event_id_shuffled_file_txt = para['persist_path']+'event_id_shuffled.txt'
     event_id_shuffled_file_static = para['persist_path']+'event_id_shuffled_static.npy'
+    template_lib_loc = para['persist_path']+'template_lib.csv'
 
     if feat_ext_inc:
         # Shuffle the event_id_templates
         if not os.path.exists(event_id_shuffled_file):
-            # Update STIDLE: Shuffled Template Id List Expanded
+            # Init STIDLE: Shuffled Template Id List Expanded
             # Pad ZEROs at the end of event_id_templates to expand the size to TEMPLATE_LIB_SIZE.
-            event_id_templates += ['0'] * (para['tmplib_size'] - len(event_id_templates))
+            event_id_templates_ext = event_id_templates + ['0'] * (para['tmplib_size'] - len(event_id_templates))
+
             # Shuffle the expanded list now
-            event_id_shuffled = shuffle(event_id_templates)
+            event_id_shuffled = shuffle(event_id_templates_ext)
             np.save(event_id_shuffled_file, event_id_shuffled)
             #np.savetxt(event_id_shuffled_file_txt, event_id_shuffled, fmt="%s")
         else:
             print('Loading shuffled EventId list in templates: incremental update version.')
             event_id_shuffled = np.load(event_id_shuffled_file).tolist()
-            # Update STIDLE
+
+            # Update STIDLE, aka. event_id_shuffled, ONLY do the update for train dataset
+            if para['train'] == True:
+                # Read the EventIdOld column from template library
+                data_df = pd.read_csv(template_lib_loc, usecols=['EventIdOld'])
+                event_id_templates_old = data_df['EventIdOld'].to_list()
+
+                # Case 1):
+                # Find the ZERO values in EventIdOld and the corresponding non ZERO EventId
+                event_id_old_zero = [event_id_templates[idx] \
+                                     for idx, tid in enumerate(event_id_templates_old) if tid == '0']
+                # There are ZEROs in EventIdOld. It means the corresponding EventId is new
+                # No need check the correspinding EventId is non-ZERO
+                if not len(event_id_old_zero):
+                    # Aggregate all idx of ZERO in STIDLE to a new list, then shuffle it
+                    idx_zero_STIDLE = [idx for idx, tid in enumerate(event_id_shuffled) if tid == '0']
+                    idx_zero_STIDLE_shuffled = shuffle(idx_zero_STIDLE)
+                    # Insert the new EventId to the STIDLE
+                    for idx, tid in enumerate(event_id_old_zero):
+                        event_id_shuffled[idx_zero_STIDLE_shuffled[idx]] = tid
+
+                # Case 2):
+                # ToDo
     else:
         # Shuffle the event_id_templates
         if not os.path.exists(event_id_shuffled_file_static):

@@ -190,3 +190,9 @@ line = 'CM-STATUS Stat= Abort'
 testrex = re.compile(r'Stat= (Continue|Success|Abort)')
 newline = testrex.sub('matched', line)
 print(newline)
+
+event_id_templates_old = ['a', '0', 'c', 'd', '0']
+event_id_templates     = ['a', 'b', 'c', 'd', 'e']
+event_id_zero = [event_id_templates[idx] for idx, tid in enumerate(event_id_templates_old) if tid == '0']
+if len(event_id_zero):
+    print(event_id_zero)
