@@ -9,6 +9,7 @@ import os
 import numpy as np
 import re
 import sys
+import shutil
 from sklearn.utils import shuffle
 #from collections import OrderedDict
 #from collections import Counter
@@ -82,7 +83,8 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
     log_size = raw_data.shape[0]
     sliding_window_file = para['data_path']+'sliding_'+str(para['window_size'])+'ms_'+str(para['step_size'])+'ms.csv'
     event_id_shuffled_file = para['persist_path']+'event_id_shuffled.npy'
-    #event_id_shuffled_file_txt = para['persist_path']+'event_id_shuffled.txt'
+    event_id_shuffled_file_txt = para['persist_path']+'event_id_shuffled.txt'
+    event_id_shuffled_file_txt_old = para['persist_path']+'event_id_shuffled_old.txt'
     event_id_shuffled_file_static = para['persist_path']+'event_id_shuffled_static.npy'
     template_lib_loc = para['persist_path']+'template_lib.csv'
 
@@ -96,7 +98,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
             # Shuffle the expanded list now
             event_id_shuffled = shuffle(event_id_templates_ext)
             np.save(event_id_shuffled_file, event_id_shuffled)
-            #np.savetxt(event_id_shuffled_file_txt, event_id_shuffled, fmt="%s")
+            np.savetxt(event_id_shuffled_file_txt, event_id_shuffled, fmt="%s")
         else:
             print('Loading shuffled EventId list in templates: incremental update version.')
             event_id_shuffled = np.load(event_id_shuffled_file).tolist()
@@ -106,6 +108,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
                 # Read the EventIdOld column from template library
                 data_df = pd.read_csv(template_lib_loc, usecols=['EventIdOld'])
                 event_id_templates_old = data_df['EventIdOld'].to_list()
+                STIDLE_update_flag = False
 
                 # Case 1):
                 # Find the ZERO values in EventIdOld and the corresponding non ZERO EventId
@@ -113,16 +116,24 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
                                      for idx, tid in enumerate(event_id_templates_old) if tid == '0']
                 # There are ZEROs in EventIdOld. It means the corresponding EventId is new
                 # No need check the correspinding EventId is non-ZERO
-                if not len(event_id_old_zero):
+                if len(event_id_old_zero):
                     # Aggregate all idx of ZERO in STIDLE to a new list, then shuffle it
                     idx_zero_STIDLE = [idx for idx, tid in enumerate(event_id_shuffled) if tid == '0']
                     idx_zero_STIDLE_shuffled = shuffle(idx_zero_STIDLE)
                     # Insert the new EventId to the STIDLE
                     for idx, tid in enumerate(event_id_old_zero):
                         event_id_shuffled[idx_zero_STIDLE_shuffled[idx]] = tid
+                    # Set the update flag
+                    STIDLE_update_flag = True
 
                 # Case 2):
                 # ToDo
+
+                # Update the STIDLE file
+                if STIDLE_update_flag:
+                    shutil.copy(event_id_shuffled_file_txt, event_id_shuffled_file_txt_old)
+                    np.save(event_id_shuffled_file, event_id_shuffled)
+                    np.savetxt(event_id_shuffled_file_txt, event_id_shuffled, fmt="%s")
     else:
         # Shuffle the event_id_templates
         if not os.path.exists(event_id_shuffled_file_static):

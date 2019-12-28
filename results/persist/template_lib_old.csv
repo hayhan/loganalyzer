@@ -1,7 +1,5 @@
 EventIdOld,EventId,EventTemplate
-c24a246b,c24a246b,Moving to Downstream Frequency <*> Hz.
 1647cffb,1647cffb,BcmCmDocsisCtlThread:: Reset: ( CmDocsisCtlThread ) DefaultSnmpAgentClass:: RestartPendingEvent for Vendor CM Agent w/ BRCM Factory Support
-bb174cf7,bb174cf7,Received RG Event <*> State <*>
 d1e3d1e2,d1e3d1e2,eRouter Linux WAN Down
 2134d0eb,2134d0eb,eRouterMsgPipe:: UpdateIpNetToMediaEntry: ( eRouterMsgPipe ) eRouter IP address:<*>
 a96d7974,a96d7974,Stopping DHCP/ToD/TFTP ( client requested )...

@@ -740,7 +740,7 @@ class Drain:
         # Backup the template library and then update it
         if self.para.overWrLib:
             shutil.copy(os.path.join(self.para.pstdir, 'template_lib.csv'), \
-                        os.path.join(self.para.pstdir, 'template_lib_bak.csv'))
+                        os.path.join(self.para.pstdir, 'template_lib_old.csv'))
             df_event.to_csv(os.path.join(self.para.pstdir, 'template_lib.csv'), \
                             index=False, columns=['EventIdOld', 'EventId', 'EventTemplate'])
 
