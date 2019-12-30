@@ -88,6 +88,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
     event_id_shuffled_file_static = para['persist_path']+'event_id_shuffled_static.npy'
     template_lib_loc = para['persist_path']+'template_lib.csv'
 
+    # Feature extraction incremental update. For LR but not for DT & SVM.
     if feat_ext_inc:
         # Shuffle the event_id_templates
         if not os.path.exists(event_id_shuffled_file):
@@ -114,6 +115,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
                 # Find the ZERO values in EventIdOld and the corresponding non ZERO EventId
                 event_id_old_zero = [event_id_templates[idx] \
                                      for idx, tid in enumerate(event_id_templates_old) if tid == '0']
+
                 # There are ZEROs in EventIdOld. It means the corresponding EventId is new
                 # No need check the correspinding EventId is non-ZERO
                 if len(event_id_old_zero):
@@ -125,9 +127,28 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
                         event_id_shuffled[idx_zero_STIDLE_shuffled[idx]] = tid
                     # Set the update flag
                     STIDLE_update_flag = True
+                    print("%d new template IDs are inserted to STIDLE." % len(event_id_old_zero))
 
                 # Case 2):
-                # ToDo
+                # Find the non ZERO values in EventIdOld that are not equal to the ones in EventId
+                # Replace the old tid with the new one in STIDLE
+                updt_cnt = 0
+                for tidOld, tidNew in zip(event_id_templates_old, event_id_templates):
+                    if tidOld != '0' and tidOld != tidNew:
+                        idxOld = event_id_shuffled.index(tidOld)
+                        event_id_shuffled[idxOld] = tidNew
+                        updt_cnt += 1
+
+                if updt_cnt > 0:
+                    # Set the update flag
+                    STIDLE_update_flag = True
+                    print("%d existing template IDs are updated in STIDLE." % updt_cnt)
+
+                # Case 3):
+                # TBD
+
+                # Case 4):
+                # TBD
 
                 # Update the STIDLE file
                 if STIDLE_update_flag:

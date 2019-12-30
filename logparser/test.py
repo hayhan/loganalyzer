@@ -191,8 +191,14 @@ testrex = re.compile(r'Stat= (Continue|Success|Abort)')
 newline = testrex.sub('matched', line)
 print(newline)
 
-event_id_templates_old = ['a', '0', 'c', 'd', '0']
-event_id_templates     = ['a', 'b', 'c', 'd', 'e']
+event_id_templates_old = ['a', '0', 'x', 'd', '0', 'f']
+event_id_templates     = ['a', 'b', 'c', 'd', 'e', 'fg']
 event_id_zero = [event_id_templates[idx] for idx, tid in enumerate(event_id_templates_old) if tid == '0']
 if len(event_id_zero):
     print(event_id_zero)
+
+event_id_old_nonzero = [event_id_templates[idx] \
+                        for idx, (tidOld, tidNew) \
+                        in enumerate(zip(event_id_templates_old, event_id_templates)) \
+                        if tidOld != '0' and tidOld != tidNew]
+print(event_id_old_nonzero)
