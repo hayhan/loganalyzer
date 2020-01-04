@@ -47,8 +47,10 @@ def load_DOCSIS(para):
 
     event_mapping_data = data_df2['EventId'].values
 
-    # Read EventId from templates file
-    data_df3 = pd.read_csv(para['templates_file'], usecols=['EventId'])
+    # Read EventId from templates lib
+    template_lib_loc = para['persist_path']+'template_lib.csv'
+    data_df3 = pd.read_csv(template_lib_loc, usecols=['EventId'])
+    #data_df3 = pd.read_csv(para['templates_file'], usecols=['EventId'])
     event_id_templates = data_df3['EventId'].to_list()
 
     #logging.debug(raw_data)

@@ -8,7 +8,6 @@ License     : MIT
 
 import os
 import sys
-import pickle
 import logging
 import numpy as np
 import pandas as pd
@@ -30,14 +29,29 @@ with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confi
     conlines = confile.readlines()
     # Read the model name
     if conlines[1].strip() == 'MODEL=DT':
-        model_file = 'DecesionTree.onnx'
+        pred_model_file = 'DecesionTree.onnx'
         incUpdate = False
     elif conlines[1].strip() == 'MODEL=LR':
-        model_file = 'LR.onnx'
+        pred_model_file = 'LR.onnx'
+        incUpdate = False
+    elif conlines[1].strip() == 'MODEL=SVM':
+        pred_model_file = 'SVM.onnx'
+        incUpdate = False
+    elif conlines[1].strip() == 'MODEL=MultinomialNB':
+        pred_model_file = 'MultinomialNB.onnx'
+        incUpdate = True
+    elif conlines[1].strip() == 'MODEL=Perceptron':
+        pred_model_file = 'Perceptron.onnx'
+        incUpdate = True
+    elif conlines[1].strip() == 'MODEL=SGDC_SVM':
+        pred_model_file = 'SGDC_SVM.onnx'
+        incUpdate = True
+    elif conlines[1].strip() == 'MODEL=SGDC_LR':
+        pred_model_file = 'SGDC_LR.onnx'
         incUpdate = True
     else:
-        model_file = 'SVM.onnx'
-        incUpdate = False
+        print("The model name is wrong. Exit.")
+        sys.exit(1)
     # Read the sliding window size
     window_size = int(conlines[2].strip().replace('WINDOW_SIZE=', ''))
     # Read the sliding window step size
@@ -58,26 +72,11 @@ para_test = {
 
 
 if __name__ == '__main__':
-    print("===> Predict Model: {}\n".format(model_file))
+    print("===> Predict Model: {}\n".format(pred_model_file))
 
     """
     Feature extraction for the test data
     """
-    """
-    # Load the objects we saved in training
-    # The weighting object from training
-    with open(para_test['persist_path']+'weighting.object', 'rb') as f:
-        weighting_class = pickle.load(f)
-    """
-    
-    """
-    # The model object from training
-    with open(para_test['persist_path']+'DecisionTree.object', 'rb') as f:
-    #with open(para_test['persist_path']+'LR.object', 'rb') as f:
-    #with open(para_test['persist_path']+'SVM.object', 'rb') as f:
-        model = pickle.load(f)
-    """
-
     # Load the test data from files and do some pre-processing
     raw_data_test, \
     event_mapping_data_test, \
@@ -96,8 +95,8 @@ if __name__ == '__main__':
                                   use_train_factor=True, df_vec_inc=incUpdate)
 
     # Load the ONNX model which is equivalent to the scikit-learn model
-    # https://microsoft.github.io/onnxruntime/api_summary.html
-    sess = rt.InferenceSession(para_test['persist_path']+model_file)
+    # https://microsoft.github.io/onnxruntime/python/api_summary.html
+    sess = rt.InferenceSession(para_test['persist_path']+pred_model_file)
     input_name = sess.get_inputs()[0].name
     label_name = sess.get_outputs()[0].name
     test_y_pred = sess.run([label_name], {input_name: test_x.astype(np.float32)})[0]

@@ -8,7 +8,7 @@ License     : MIT
 
 import os
 import sys
-import pickle
+import joblib
 import logging
 import numpy as np
 import pandas as pd
@@ -19,6 +19,9 @@ grandpadir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 sys.path.append(grandpadir)
 
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import Perceptron
+from sklearn.linear_model import SGDClassifier
+
 from detector import featurextor, weighting, utils
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
@@ -30,6 +33,19 @@ logging.basicConfig(filename=grandpadir+'/tmp/debug.log', \
 # Read some parameters from the config file
 with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
     conlines = confile.readlines()
+    # Read the model name
+    if conlines[1].strip() == 'MODEL=MultinomialNB':
+        model_name = 'MultinomialNB'
+    elif conlines[1].strip() == 'MODEL=Perceptron':
+        model_name = 'Perceptron'
+    elif conlines[1].strip() == 'MODEL=SGDC_SVM':
+        model_name = 'SGDC_SVM'
+    elif conlines[1].strip() == 'MODEL=SGDC_LR':
+        model_name = 'SGDC_LR'
+    else:
+        print("The incremental learning model name is wrong. Exit.")
+        sys.exit(1)
+
     # Read the sliding window size
     window_size = int(conlines[2].strip().replace('WINDOW_SIZE=', ''))
     # Read the sliding window step size
@@ -66,7 +82,7 @@ para_test = {
 
 
 if __name__ == '__main__':
-    print("===> Train Module: Multinomial Naive Bayes Classifier\n")
+    print("===> Train Module: {}\n".format(model_name))
 
     """
     Feature extraction for the train data
@@ -83,47 +99,40 @@ if __name__ == '__main__':
                                                       event_id_templates_train, \
                                                       feat_ext_inc=True)
 
-    """
-    # This part code is not used any more after we de-coupled the train and test data set
-    # Split event_count_matrix into train and test data sets
-    num_train = int(para['train_ratio'] * len(labels))
-    train_x = event_count_matrix[0:num_train]
-    train_y = labels[0:num_train]
-    print('there are %d instances in train dataset,'% len(train_y), '%d are anomalies'%sum(train_y))
-
-    test_x = event_count_matrix[num_train:]
-    test_y = labels[num_train:]
-    print('there are %d instances in test dataset,'% len(test_y), '%d are anomalies'%sum(test_y))
-    """
-
     # Add weighting factor before training
     train_x = weighting.fit_transform(para_train, train_x, term_weighting='tf-idf', df_vec_inc=True)
 
     """
-    # Do not need this because I removed the weighting class
-    # Save the weighting object in training to disk for future predict
-    with open(para_train['persist_path']+'weighting.object', 'wb') as f:
-        pickle.dump(weighting_class, f)
-    """
-
-    """
     Train the model with train dataset now
     """
-    #model.fit(train_x, train_y)
+    # Load the saved complete scikit-learn model if it exists
+    inc_fit_model_file = para_train['persist_path']+model_name+'.object'
     all_classes = np.array([0, 1])
-    model = MultinomialNB(alpha=1.0, fit_prior=True, class_prior=None)
+    if not os.path.exists(inc_fit_model_file):
+        if model_name == 'MultinomialNB':
+            model = MultinomialNB(alpha=1.0, fit_prior=True, class_prior=None)
+        elif model_name == 'Perceptron':
+            model = Perceptron()
+        elif model_name == 'SGDC_SVM':
+            model = SGDClassifier(loss='hinge', max_iter=1000)
+        else:
+            model = SGDClassifier(loss='log', max_iter=1000)
+        print("First time training...: {}\n".format(model_name))
+    else:
+        model = joblib.load(inc_fit_model_file)
+        print("Incremental training...: {}\n".format(model_name))
+
+    #model.fit(train_x, train_y)
     model.partial_fit(train_x, train_y, classes=all_classes)
 
-    # Save the model object after training to disk for future predict
-    """
-    with open(para_train['persist_path']+'MNB.object', 'wb') as f:
-        pickle.dump(model, f)
-    """
+    # Save the model object for incremental learning
+    joblib.dump(model, inc_fit_model_file)
+
     # Persist the model for deployment by using sklearn-onnx converter
     # http://onnx.ai/sklearn-onnx/
     initial_type = [('float_input', FloatTensorType([None, train_x.shape[1]]))]
     onx = convert_sklearn(model, initial_types=initial_type)
-    with open(para_train['persist_path']+"MNB.onnx", "wb") as f:
+    with open(para_train['persist_path']+model_name+'.onnx', "wb") as f:
         f.write(onx.SerializeToString())
 
     # Predict the train data for validation later
