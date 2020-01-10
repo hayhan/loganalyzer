@@ -90,7 +90,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
     event_id_shuffled_file_static = para['persist_path']+'event_id_shuffled_static.npy'
     template_lib_loc = para['persist_path']+'template_lib.csv'
 
-    # Feature extraction incremental update. For LR but not for DT & SVM.
+    # Feature extraction incremental update for models that support incremental learning.
     if feat_ext_inc:
         # Shuffle the event_id_templates
         if not os.path.exists(event_id_shuffled_file):
