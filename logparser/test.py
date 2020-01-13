@@ -202,3 +202,12 @@ event_id_old_nonzero = [event_id_templates[idx] \
                         in enumerate(zip(event_id_templates_old, event_id_templates)) \
                         if tidOld != '0' and tidOld != tidNew]
 print(event_id_old_nonzero)
+
+# verify main "timestamp + abn: "
+strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)\.(\d{3})|24:00:00\.000)\] (abn: )?')
+line = "[20190719-09:12:01.910] abn: [09:16:21 07/19/2019] [CmDocsisCtlThread] BcmCmDocsisCtlThread"
+matchTS = strPattern0.match(line)
+if matchTS:
+    currentLineTS = matchTS.group(0)
+    newline = strPattern0.sub('', line, count=1)
+print(newline)

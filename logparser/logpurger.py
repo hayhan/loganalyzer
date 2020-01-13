@@ -25,11 +25,11 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
         datatype = 'test'
 
 if TRAINING:
-    raw_file_loc  = parentdir + '/logs/train.txt'
+    raw_file_loc  = parentdir + '/logs/train_labeled.txt'
     new_file_loc  = parentdir + '/logs/train_new.txt'
     norm_file_loc = parentdir + '/logs/train_norm.txt'
 else:
-    raw_file_loc  = parentdir + '/logs/test.txt'
+    raw_file_loc  = parentdir + '/logs/test_labeled.txt'
     new_file_loc  = parentdir + '/logs/test_new.txt'
     norm_file_loc = parentdir + '/logs/test_norm.txt'    
 
@@ -55,8 +55,8 @@ empty line   - LF or CRLF only in one line
 """
 Patterns for removing timestamp, console prompt and others
 """
-# The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738]
-strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)\.(\d{3})|24:00:00\.000)\] ')
+# The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738]. Label is also considered.
+strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)\.(\d{3})|24:00:00\.000)\] (abn: )?')
 # The pattern for CM console prompts
 strPattern1 = re.compile('CM[/a-z-_ ]*> ', re.IGNORECASE)
 # The pattern for the timestamp added by BFC, e.g. [00:00:35 01/01/1970], [11/21/2018 14:49:32]
@@ -239,17 +239,9 @@ for line in file:
     """
     Remove the unwanted strings which include some kind of timestamps, console prompts and etc.
     """
-    """
-    newline0 = pattern0.sub('', line)
-    #print(newline0, '')
-    newline1 = pattern1.sub('', newline0)
-    newline2 = pattern2.sub('', newline1)
-    newline3 = pattern3.sub('', newline2)
-    newline4 = pattern4.sub('', newline3)
-    """
-
-    # Save the main timestamp if it exists. The newline does not
-    # contain the main timestamp before write it back to a new file
+    # Save the main timestamp if it exists. The newline does not contain the main
+    # timestamp before write it back to a new file. Train label is also considered
+    # in this pattern. Add it back along with main timestamp at the end.
     matchTS = strPattern0.match(line)
     if matchTS:
         currentLineTS = matchTS.group(0)
@@ -257,6 +249,9 @@ for line in file:
     else:
         newline = line
 
+    """
+    No main timestamp and train label at the begining of each line in the remaining of the loop
+    """
     # Remove remaining timestamp, console prompt and others
     for pattern in strPatterns:
         newline = pattern.sub('', newline, count=1)

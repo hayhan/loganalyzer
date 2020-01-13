@@ -12,17 +12,17 @@ import collections
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
+"""
 # For train files
 raw_file_loc  = parentdir + '/logs/train.txt'
 new_file_labeled_loc  = parentdir + '/logs/train_new_labeled.txt'
 raw_file_labeled_loc  = parentdir + '/logs/train_labeled.txt'
-
 """
+
 # For test files
 raw_file_loc  = parentdir + '/logs/test.txt'
 new_file_labeled_loc  = parentdir + '/logs/test_new_labeled.txt'
 raw_file_labeled_loc  = parentdir + '/logs/test_labeled.txt'
-"""
 
 # Generate train/test_labeled.txt
 rawfile = open(raw_file_loc, 'r')
@@ -79,13 +79,13 @@ rawfile_labeled.close()
 raw_dup = [item for item, count in collections.Counter(raw_timestampList).items() if count > 1]
 new_dup = [item for item, count in collections.Counter(timestampList).items() if count > 1]
 
+"""
 raw_dup_loc  = parentdir + '/tmp/raw_dup_train.txt'
 new_dup_loc  = parentdir + '/tmp/new_dup_train.txt'
-
 """
+
 raw_dup_loc  = parentdir + '/tmp/raw_dup_test.txt'
 new_dup_loc  = parentdir + '/tmp/new_dup_test.txt'
-"""
 
 raw_dup_file = open(raw_dup_loc, 'w')
 new_dup_file = open(new_dup_loc, 'w')
