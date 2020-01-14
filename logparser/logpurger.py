@@ -28,10 +28,12 @@ if TRAINING:
     raw_file_loc  = parentdir + '/logs/train_labeled.txt'
     new_file_loc  = parentdir + '/logs/train_new.txt'
     norm_file_loc = parentdir + '/logs/train_norm.txt'
+    label_vector_file = parentdir + '/results/train/train_norm.txt_labeled.csv'
 else:
     raw_file_loc  = parentdir + '/logs/test_labeled.txt'
     new_file_loc  = parentdir + '/logs/test_new.txt'
-    norm_file_loc = parentdir + '/logs/test_norm.txt'    
+    norm_file_loc = parentdir + '/logs/test_norm.txt'
+    label_vector_file = parentdir + '/results/test/test_norm.txt_labeled.csv'
 
 """
 The original log usually comes from serial console tools like SecureCRT
@@ -571,3 +573,44 @@ normfile.write(lastLine)
 
 newfile.close()
 normfile.close()
+
+
+"""
+Generate the label vector from norm file and remove the labels in norm file
+ToDo: optimize for test dataset if no validation is needed
+"""
+import pandas as pd
+
+# Label pattern
+labelPattern = re.compile(r'abn: ')
+
+label_messages = []
+linecount = 0
+norm_logs = []
+
+with open(norm_file_loc, 'r') as fin:
+    for line in fin.readlines():
+        try:
+            match = labelPattern.search(line, 24, 29)
+            if match:
+                label_messages.append('a')
+                newline = labelPattern.sub('', line, count=1)
+            else:
+                label_messages.append('-')
+                newline = line
+
+            linecount += 1
+            # Label is removed
+            norm_logs.append(newline)
+        except Exception:
+            pass
+
+logdf = pd.DataFrame(label_messages, columns=['Label'])
+logdf.insert(0, 'LineId', None)
+logdf['LineId'] = [i + 1 for i in range(linecount)]
+# Save the label vector to results/train or results/test
+logdf.to_csv(label_vector_file, index=False)
+
+# Overwrite the old norm file with contents that labels are removed
+with open(norm_file_loc, 'w+') as fin:
+    fin.writelines(norm_logs)
