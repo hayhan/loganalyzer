@@ -205,7 +205,6 @@ f7dbfbe4,f7dbfbe4,Sent DBC-RSP ( trans. id= <*> ): conf code= okay / success
 32c1ae88,32c1ae88,Received DBC-ACK ( trans. id= <*> ): time between dbc-req/ack= <*> ms
 b90344c4,b90344c4,Telling application we lost lock on QAM primary channel <*>
 69ab7cde,69ab7cde,"Clearing D31 PowerSave., DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> )"
-2d2b6251,2d2b6251,ng...
 22d6782b,22d6782b,BcmCmDsChan:: DsLockFail: ( BcmCmDsChan <*> ) hwRxId= <*> dcid= <*> -> enter kDsOperLockToRescueCmts state
 82f74f80,82f74f80,BcmCmDsChan:: RecoverChan: ( BcmCmDsChan <*> ) retry -> hwRxId= <*> freq= <*> dcid= <*>
 82b1a49e,82b1a49e,Scanning DS Channel at <*> Hz...
@@ -296,7 +295,6 @@ eab1c29f,eab1c29f,Scanning <*> MHz PLC/SC-QAM ( <*> ) locked <*>
 4dd1fde6,4dd1fde6,That's an OFDM downstream channel
 b2971bd7,b2971bd7,OFDM DS clock source.
 9b0a9bd6,9b0a9bd6,BcmCmUsChan:: UsTimeRefOk: rx unexpected kUsTimeRefOk indication fHwTxId= <*>
-45b64f6b,45b64f6b,fUsSetsState =
 7573cac6,7573cac6,"Upstream settings state info:, fUcdSetsState = <*> ( <*> ), fUsTimeRefState = <*> ( <*> )"
 dbbe2377,dbbe2377,BcmCmDsChanOfdm:: StartOcdDpdGathering: ( BcmCmDsChanOfdm ) starting optional DPD gathering on Profile A
 30bbb90a,30bbb90a,BcmCmDsChanOfdm:: DetectOcdDpdGatheringProfADone: ( BcmCmDsChanOfdm ) hwRxId= <*> dcid= <*> All assigned DPDs gathered via profA.
@@ -381,8 +379,6 @@ db66eb86,db66eb86,BcmCmDocsisCtlThread:: TxRegAckMsg: ( CmDocsisCtlThread ) ERRO
 bfbbac45,bfbbac45,BcmCmUsRangingState:: RngRspMsgEvent: detected bogus RNG-RSP sid= <*> which is different than current sid= <*> hwTxId= <*> docs ucid= <*>
 7031e2a1,7031e2a1,"MSG PDU:, primary sid: <*>, RNG-REQ us chan id: <*>, ranging status: <*> ( Success ), power adj, dB/ <*>: <*> ( <*> )"
 6447199e,6447199e,"BcmCmMultiUsHelper:: TestAndApplyRngRspDynamicRangeWindow: ( Cm Multi US Helper ) ERROR - Dynamic Range Window violation!, Docsis <*> error condition: <*> ( <*> )"
-94987f88,94987f88,BcmCmDownstreamScan:: CheckForCableCut: Checking for cable cut...
-df067546,df067546,"BcmDocsisCmHalIf:: HandleStatusIndication: ( DOCSIS CableModem HalIf ) WARNING - CM HAL declared PULSE lost!, Plant power is <*>, Cable connected."
 50fa8f60,50fa8f60,RNG-RSP UsChanId= <*> Adj: power= <*> freq= <*> Stat= <*>
 46d6c4ec,46d6c4ec,"BcmDhcpClientIf:: ElapsedTimeSec: ( DHCP ClientIf for IP Stack1 ) WARNING - Sent Request, didn't receive Ack. Resending Request..."
 b5febf83,b5febf83,"Logging event: DHCP FAILED - Request sent, No response; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;"
@@ -400,14 +396,3 @@ d8f8d5ef,d8f8d5ef,BcmCmUsChan:: NewUcdInEffectTimerEvent: NewUcdInEffect event t
 843733d6,843733d6,ERROR: BcmRetrieverPerSubCarrierRxMer - bhab_OfdmGetDiagnosticData returned error
 6d3e097e,6d3e097e,"BcmCmDsChan:: DsLockFail: ( BcmCmDsChan <*> ) hwRxId= <*> freq= <*> dcid= <*>, failed to lock primary ds chan during RCC installation. restart error!"
 0e453a7b,0e453a7b,"OFDM DSID filter control = <*>, PLC NOT locked! Retrying..."
-6b0ae484,6b0ae484,Ofdm0: profile0 LOCK in <*> ms!
-18971168,18971168,Logging event: CM-STATUS message sent. Event Type Code: <*>; Chan ID: <*>
-d9187770,d9187770,CM-STATUS-ACK trans= <*> event= <*> ( <*> )D: N/A.; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
-22851a47,22851a47,PnmTestDriveACT - event code <*> Setting PnmCmCtlStatus to TempReject
-615deec7,615deec7,"CM Multi US Helper info:, fUcdGatherState = <*> ( <*> ), TotalNumOfUsChans() = <*>, NumActiveUsChans() = <*>, fCmTccInstallState = <*> ( <*> ), fUsTimeWarpInProg = <*>, fPreferScQamStartup = <*>, fDynamicRangeWindowQtrDb = <*>"
-70a58f6d,70a58f6d,"CM Upstream channel info:, fHwTxId = <*>, UsChannelFreqHz = <*>, UsChannelPwrdBmv = <*>, fIsOfdmaChannel = <*>, TargetUsChanId() = <*>, fRngSid = <*>, fCmTccCmdInstallState = <*> ( <*> ), Upstream settings state info:, fUcdSetsState = <*> ( <*> ), fUsTimeRefState = <*> ( <*> ), UsPhyType() = <*> ( Type <*> ( DOCSIS <*> )), IsScdmaModeEnabled() = <*>, Ranging state info:, fRngMode = <*> ( <*> ), fRngMsgTxRxState = <*> ( <*> ), fUnicastRngOpState = <*> ( <*> ), fRxRngRspState = <*> ( <*> ), fRngSuccess = <*>, fLastRngRspStatus = <*> ( Continue ), RngReqDrwStatus = <*> ( <*> ), AccumTimingAdjTicksDiv64 = <*>, fTmRngReqSentMlsec = <*>, fTmT3NoRngRspStdMlsec = <*>, fTmT4NoUnicastRngOpStdMlsec = <*>, fT4NoStationMntPeriodMlsec = <*>, fTmRngRspMlsec = <*>, fEpochTmUsEqUpdateSec = <*>, fTmT2NoBcastRngOpStdMlsec = <*>, now = <*>"
-4fcb0063,4fcb0063,"CM Upstream channel info:, fHwTxId = <*>, UsChannelFreqHz = <*>, UsChannelPwrdBmv = <*>, fIsOfdmaChannel = <*>, TargetUsChanId() = <*>, fRngSid = <*>, fCmTccCmdInstallState = <*> ( <*> ), Upstream settings state info:, fUcdSetsState = <*> ( <*> ), fUsTimeRefState = <*> ( <*> ), UsPhyType() = <*> ( Type <*> ( DOCSIS <*> )), OFDMA Data Profile IUCs = <*>, Ranging state info:, fRngMode = <*> ( <*> ), fRngMsgTxRxState = <*> ( <*> ), fUnicastRngOpState = <*> ( <*> ), fRxRngRspState = <*> ( <*> ), fRngSuccess = <*>, fLastRngRspStatus = <*> ( Continue ), RngReqDrwStatus = <*> ( <*> ), AccumTimingAdjTicksDiv64 = <*>, fTmRngReqSentMlsec = <*>, fTmT3NoRngRspStdMlsec = <*>, fTmT4NoUnicastRngOpStdMlsec = <*>, fT4NoStationMntPeriodMlsec = <*>, fTmRngRspMlsec = <*>, fEpochTmUsEqUpdateSec = <*>, fTmT2NoBcastRngOpStdMlsec = <*>, now = <*>"
-a664c9ab,a664c9ab,"logging event: Received Response to Broadcast Maintenance Request, But no Unicast Maintenance opportunities received - T4 time out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;"
-8636fedb,8636fedb,PnmTestDriveACT - event code <*> PnmCmCtlStatus set to Ready
-8ba3535d,8ba3535d,BcmEcosIpHalIf:: AddDeleteRoute: ( IP Stack1 HalIf ) ERROR - SIOCDELRT: errno= <*> No such process!
-665d1525,665d1525,BcmEcosIpHalIf:: RemoveLeaseImpl: ( IP Stack1 HalIf ) ERROR - DeleteRoute failed for interface:bcm0'! errno= <*> Already deleted?

@@ -90,7 +90,7 @@ if __name__ == '__main__':
     # Load the train data from files and do some pre-processing
     raw_data_train, \
     event_mapping_data_train, \
-    event_id_templates_train = featurextor.load_DOCSIS(para_train)
+    event_id_templates_train = featurextor.load_DOCSIS(para_train, feat_ext_inc=True)
 
     # Add sliding window and create the event count matrix for the train data set
     # All the EventId in templates are shuffed and saved under results folder

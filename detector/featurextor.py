@@ -18,12 +18,13 @@ from sklearn.utils import shuffle
 #parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
 
-def load_DOCSIS(para):
+def load_DOCSIS(para, feat_ext_inc=False):
     """  Load DOCSIS normalized / structured logs into train and test data
 
     Arguments
     ---------
     para: the parameters dictionary
+    featExt_inc: incrementally update event count matrix
 
     Returns
     -------
@@ -47,10 +48,15 @@ def load_DOCSIS(para):
 
     event_mapping_data = data_df2['EventId'].values
 
-    # Read EventId from templates lib
-    template_lib_loc = para['persist_path']+'template_lib.csv'
-    data_df3 = pd.read_csv(template_lib_loc, usecols=['EventId'])
-    #data_df3 = pd.read_csv(para['templates_file'], usecols=['EventId'])
+    # Read EventId from templates
+    # Read the template lib for incremental featrureExt / learning
+    # Read the template file from results/train or results/test
+    # Actually it is not used for test dataset in any cases
+    if feat_ext_inc:
+        template_lib_loc = para['persist_path']+'template_lib.csv'
+        data_df3 = pd.read_csv(template_lib_loc, usecols=['EventId'])
+    else:
+        data_df3 = pd.read_csv(para['templates_file'], usecols=['EventId'])
     event_id_templates = data_df3['EventId'].to_list()
 
     #logging.debug(raw_data)

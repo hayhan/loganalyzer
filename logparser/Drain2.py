@@ -738,10 +738,12 @@ class Drain:
                         index=False, columns=['EventId', 'EventTemplate', 'Occurrences'])
 
         # Backup the template library and then update it
-        if self.para.overWrLib:
-            shutil.copy(os.path.join(self.para.pstdir, 'template_lib.csv'), \
-                        os.path.join(self.para.pstdir, 'template_lib_old.csv'))
-            df_event.to_csv(os.path.join(self.para.pstdir, 'template_lib.csv'), \
+        # Only do for train dataset and when template lib incremental update enabled
+        if self.para.overWrLib and self.para.incUpdate:
+            if os.path.exists(os.path.join(self.para.pstdir, self.para.tmpLib)):
+                shutil.copy(os.path.join(self.para.pstdir, self.para.tmpLib), \
+                            os.path.join(self.para.pstdir, self.para.tmpLib+'.old'))
+            df_event.to_csv(os.path.join(self.para.pstdir, self.para.tmpLib), \
                             index=False, columns=['EventIdOld', 'EventId', 'EventTemplate'])
 
         # Check if there are any duplicates in template id list
@@ -838,8 +840,8 @@ class Drain:
         """
         Read the templates from the library to dataframe
         """
-        if self.para.incUpdate:
-            # If incremental update is enabled, read the template library
+        if self.para.incUpdate and os.path.exists(os.path.join(self.para.pstdir, self.para.tmpLib)):
+            # If incremental update is enabled and file exists, read the template library
             self.df_tmp = pd.read_csv(os.path.join(self.para.pstdir, self.para.tmpLib), \
                                     usecols=['EventId', 'EventTemplate'])
         else:

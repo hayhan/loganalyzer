@@ -89,6 +89,8 @@ sLinePattern4 = re.compile(r'TCC->')
 sLinePattern5 = re.compile(r'\d')
 sLinePattern6 = re.compile(r'Readback Test pkt\:')
 sLinePattern7 = re.compile(r'DHCPc\:  Timed out waiting for offers for lease')
+sLinePattern8 = re.compile(r'ng...')
+sLinePattern9 = re.compile(r'fUsSetsState = ')
 
 sLinePatterns = [
     sLinePattern0,
@@ -98,7 +100,9 @@ sLinePatterns = [
     sLinePattern4,
     sLinePattern5,
     sLinePattern6,
-    sLinePattern7
+    sLinePattern7,
+    sLinePattern8,
+    sLinePattern9
 ]
 
 """
