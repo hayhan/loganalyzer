@@ -58,7 +58,7 @@ with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confi
     window_step = int(conlines[3].strip().replace('WINDOW_STEP=', ''))
 
 para_test = {
-    'labeled_file'   : grandpadir+'/results/test/test_norm.txt_labeled.csv',
+    'labeled_file'   : grandpadir+'/results/test/test_norm.txt_labels.csv',
     'structured_file': grandpadir+'/results/test/test_norm.txt_structured.csv',
     'templates_file' : grandpadir+'/results/test/test_norm.txt_templates.csv',
     'data_path'      : grandpadir+'/results/test/',

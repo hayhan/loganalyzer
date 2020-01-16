@@ -28,12 +28,12 @@ if TRAINING:
     raw_file_loc  = parentdir + '/logs/train_labeled.txt'
     new_file_loc  = parentdir + '/logs/train_new.txt'
     norm_file_loc = parentdir + '/logs/train_norm.txt'
-    label_vector_file = parentdir + '/results/train/train_norm.txt_labeled.csv'
+    label_vector_file = parentdir + '/results/train/train_norm.txt_labels.csv'
 else:
     raw_file_loc  = parentdir + '/logs/test_labeled.txt'
     new_file_loc  = parentdir + '/logs/test_new.txt'
     norm_file_loc = parentdir + '/logs/test_norm.txt'
-    label_vector_file = parentdir + '/results/test/test_norm.txt_labeled.csv'
+    label_vector_file = parentdir + '/results/test/test_norm.txt_labels.csv'
 
 """
 The original log usually comes from serial console tools like SecureCRT
