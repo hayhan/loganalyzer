@@ -39,6 +39,7 @@ def fit_transform(para, X_seq, term_weighting=None, normalization=None, \
         idf_vec = np.log(num_instance / (df_vec + 1e-8))
         idf_matrix = X * np.tile(idf_vec, (num_instance, 1)) 
         X = idf_matrix
+        # ToDo: incrementally update idf? Need evaluate.
         # Save the idf_vec for predict
         if df_vec_inc:
             np.save(para['persist_path']+'idf_vector_train.npy', idf_vec)

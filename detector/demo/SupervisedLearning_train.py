@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Description : This file trains/predicts SVM model, also converts sklearn model to onnx
+Description : Train/validate different models
 Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
 
 import os
 import sys
-import pickle
+import joblib
 import logging
 import numpy as np
 import pandas as pd
@@ -18,7 +18,13 @@ parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 grandpadir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 sys.path.append(grandpadir)
 
+from sklearn import tree
 from sklearn import svm
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import Perceptron
+from sklearn.linear_model import SGDClassifier
+from sklearn.linear_model import LogisticRegression
+
 from detector import featurextor, weighting, utils
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
@@ -30,10 +36,38 @@ logging.basicConfig(filename=grandpadir+'/tmp/debug.log', \
 # Read some parameters from the config file
 with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
     conlines = confile.readlines()
+    # Read the model name
+    if conlines[1].strip() == 'MODEL=DT':
+        model_name = 'DecesionTree'
+        incUpdate = False
+    elif conlines[1].strip() == 'MODEL=LR':
+        model_name = 'LR'
+        incUpdate = False
+    elif conlines[1].strip() == 'MODEL=SVM':
+        model_name = 'SVM'
+        incUpdate = False
+    elif conlines[1].strip() == 'MODEL=MultinomialNB':
+        model_name = 'MultinomialNB'
+        incUpdate = True
+    elif conlines[1].strip() == 'MODEL=Perceptron':
+        model_name = 'Perceptron'
+        incUpdate = True
+    elif conlines[1].strip() == 'MODEL=SGDC_SVM':
+        model_name = 'SGDC_SVM'
+        incUpdate = True
+    elif conlines[1].strip() == 'MODEL=SGDC_LR':
+        model_name = 'SGDC_LR'
+        incUpdate = True
+    else:
+        print("The incremental learning model name is wrong. Exit.")
+        sys.exit(1)
+
     # Read the sliding window size
     window_size = int(conlines[2].strip().replace('WINDOW_SIZE=', ''))
     # Read the sliding window step size
     window_step = int(conlines[3].strip().replace('WINDOW_STEP=', ''))
+    # Read the template library size
+    tmplib_size = int(conlines[4].strip().replace('TEMPLATE_LIB_SIZE=', ''))
 
 para_train = {
     'labeled_file'   : grandpadir+'/results/train/train_norm.txt_labeled.csv',
@@ -43,7 +77,9 @@ para_train = {
     'persist_path'   : grandpadir+'/results/persist/',
     'window_size'    : window_size,    # milliseconds
     'step_size'      : window_step,    # milliseconds
-    'window_rebuild' : False,
+    'tmplib_size'    : tmplib_size,    # only for train dataset
+    'window_rebuild' : True,
+    'train'          : True,
     'train_ratio'    : 0.8       # not used anymore after de-coupling train/test data
 }
 
@@ -56,12 +92,13 @@ para_test = {
     'window_size'    : window_size,    # milliseconds
     'step_size'      : window_step,    # milliseconds
     'window_rebuild' : True,
+    'train'          : False,
     'train_ratio'    : 0.8       # not used anymore after de-coupling train/test data
 }
 
 
 if __name__ == '__main__':
-    print("===> Train Module: SVM\n")
+    print("===> Train Module: {}\n".format(model_name))
 
     """
     Feature extraction for the train data
@@ -69,54 +106,68 @@ if __name__ == '__main__':
     # Load the train data from files and do some pre-processing
     raw_data_train, \
     event_mapping_data_train, \
-    event_id_templates_train = featurextor.load_DOCSIS(para_train)
+    event_id_templates_train = featurextor.load_DOCSIS(para_train, feat_ext_inc=incUpdate)
 
     # Add sliding window and create the event count matrix for the train data set
     # All the EventId in templates are shuffed and saved under results folder
     train_x, train_y = featurextor.add_sliding_window(para_train, raw_data_train, \
                                                       event_mapping_data_train, \
-                                                      event_id_templates_train)
-
-    """
-    # This part code is not used any more after we de-coupled the train and test data set
-    # Split event_count_matrix into train and test data sets
-    num_train = int(para['train_ratio'] * len(labels))
-    train_x = event_count_matrix[0:num_train]
-    train_y = labels[0:num_train]
-    print('there are %d instances in train dataset,'% len(train_y), '%d are anomalies'%sum(train_y))
-
-    test_x = event_count_matrix[num_train:]
-    test_y = labels[num_train:]
-    print('there are %d instances in test dataset,'% len(test_y), '%d are anomalies'%sum(test_y))
-    """
+                                                      event_id_templates_train, \
+                                                      feat_ext_inc=incUpdate)
 
     # Add weighting factor before training
-    train_x = weighting.fit_transform(para_train, train_x, term_weighting='tf-idf')
-
-    """
-    # Do not need this because I removed the weighting class
-    # Save the weighting object in training to disk for future predict
-    with open(para_train['persist_path']+'weighting.object', 'wb') as f:
-        pickle.dump(weighting_class, f)
-    """
+    train_x = weighting.fit_transform(para_train, train_x, term_weighting='tf-idf', df_vec_inc=incUpdate)
 
     """
     Train the model with train dataset now
     """
-    model = svm.LinearSVC(penalty='l1', tol=0.1, C=1, dual=False, \
-                          class_weight=None, max_iter=100)
-    model.fit(train_x, train_y)
+    # Load the saved complete scikit-learn model if it exists
+    inc_fit_model_file = para_train['persist_path']+model_name+'.object'
+    all_classes = np.array([0, 1])
 
-    # Save the model object after training to disk for future predict
-    """
-    with open(para_train['persist_path']+'SVM.object', 'wb') as f:
-        pickle.dump(model, f)
-    """
+    # Incremental training at the 1st time
+    if incUpdate and not os.path.exists(inc_fit_model_file):
+        if model_name == 'MultinomialNB':
+            model = MultinomialNB(alpha=1.0, fit_prior=True, class_prior=None)
+        elif model_name == 'Perceptron':
+            model = Perceptron()
+        elif model_name == 'SGDC_SVM':
+            model = SGDClassifier(loss='hinge', max_iter=1000)
+        else:
+            # SGDC_LR
+            model = SGDClassifier(loss='log', max_iter=1000)
+        print("First time training...: {}\n".format(model_name))
+    # Incremental training ...
+    elif incUpdate:
+        model = joblib.load(inc_fit_model_file)
+        print("Incremental training...: {}\n".format(model_name))
+    # Normal training ...
+    else:
+        if model_name == 'DecesionTree':
+            model = tree.DecisionTreeClassifier(criterion='gini', max_depth=None, \
+                            max_features=None, class_weight=None)
+        elif model_name == 'LR':
+            model = LogisticRegression(penalty='l2', C=100, tol=0.01, \
+                            class_weight=None, solver='liblinear', max_iter=100)
+        else:
+            # SVM
+            model = svm.LinearSVC(penalty='l1', tol=0.1, C=1, dual=False, \
+                            class_weight=None, max_iter=100)
+        print("Normal training...: {}\n".format(model_name))
+
+    if incUpdate:
+        #model.fit(train_x, train_y)
+        model.partial_fit(train_x, train_y, classes=all_classes)
+        # Save the model object for incremental learning
+        joblib.dump(model, inc_fit_model_file)
+    else:
+        model.fit(train_x, train_y)
+
     # Persist the model for deployment by using sklearn-onnx converter
     # http://onnx.ai/sklearn-onnx/
     initial_type = [('float_input', FloatTensorType([None, train_x.shape[1]]))]
     onx = convert_sklearn(model, initial_types=initial_type)
-    with open(para_train['persist_path']+"SVM.onnx", "wb") as f:
+    with open(para_train['persist_path']+model_name+'.onnx', "wb") as f:
         f.write(onx.SerializeToString())
 
     # Predict the train data for validation later
@@ -135,10 +186,12 @@ if __name__ == '__main__':
     # the saved shuffled EventId list in the training step.
     test_x, test_y = featurextor.add_sliding_window(para_test, raw_data_test, \
                                                     event_mapping_data_test, \
-                                                    event_id_templates_test)
+                                                    event_id_templates_test, \
+                                                    feat_ext_inc=incUpdate)
 
     # Add weighting factor as we did for training data
-    test_x  = weighting.transform(para_test, test_x, term_weighting='tf-idf', use_train_factor=True)
+    test_x  = weighting.transform(para_test, test_x, term_weighting='tf-idf', \
+                                  use_train_factor=True, df_vec_inc=incUpdate)
 
     test_y_pred = model.predict(test_x)
     #np.savetxt(para_test['data_path']+'test_y_data.txt', test_y, fmt="%s")

@@ -92,7 +92,6 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
     sliding_window_file = para['data_path']+'sliding_'+str(para['window_size'])+'ms_'+str(para['step_size'])+'ms.csv'
     event_id_shuffled_file = para['persist_path']+'event_id_shuffled.npy'
     event_id_shuffled_file_txt = para['persist_path']+'event_id_shuffled.txt'
-    event_id_shuffled_file_txt_old = para['persist_path']+'event_id_shuffled_old.txt'
     event_id_shuffled_file_static = para['persist_path']+'event_id_shuffled_static.npy'
     template_lib_loc = para['persist_path']+'template_lib.csv'
 
@@ -160,7 +159,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
 
                 # Update the STIDLE file
                 if STIDLE_update_flag:
-                    shutil.copy(event_id_shuffled_file_txt, event_id_shuffled_file_txt_old)
+                    shutil.copy(event_id_shuffled_file_txt, event_id_shuffled_file_txt+'.old')
                     np.save(event_id_shuffled_file, event_id_shuffled)
                     np.savetxt(event_id_shuffled_file_txt, event_id_shuffled, fmt="%s")
     else:
