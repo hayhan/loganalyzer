@@ -3,7 +3,7 @@
 rem ---Process train dataset
 (
 echo TRAINING=1
-echo MODEL=DT
+echo MODEL=MultinomialNB
 echo WINDOW_SIZE=10000
 echo WINDOW_STEP=5000
 echo TEMPLATE_LIB_SIZE=2000
@@ -16,7 +16,7 @@ python ..\logparser\Drain2_DOCSIS_demo.py
 rem ---Process test dataset
 (
 echo TRAINING=0
-echo MODEL=DT
+echo MODEL=MultinomialNB
 echo WINDOW_SIZE=10000
 echo WINDOW_STEP=5000
 echo TEMPLATE_LIB_SIZE=2000
