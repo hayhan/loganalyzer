@@ -70,7 +70,7 @@ with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confi
     tmplib_size = int(conlines[4].strip().replace('TEMPLATE_LIB_SIZE=', ''))
 
 para_train = {
-    'labeled_file'   : grandpadir+'/results/train/train_norm.txt_labels.csv',
+    'labels_file'   : grandpadir+'/results/train/train_norm.txt_labels.csv',
     'structured_file': grandpadir+'/results/train/train_norm.txt_structured.csv',
     'templates_file' : grandpadir+'/results/train/train_norm.txt_templates.csv',
     'data_path'      : grandpadir+'/results/train/',
@@ -84,7 +84,7 @@ para_train = {
 }
 
 para_test = {
-    'labeled_file'   : grandpadir+'/results/test/test_norm.txt_labels.csv',
+    'labels_file'   : grandpadir+'/results/test/test_norm.txt_labels.csv',
     'structured_file': grandpadir+'/results/test/test_norm.txt_structured.csv',
     'templates_file' : grandpadir+'/results/test/test_norm.txt_templates.csv',
     'data_path'      : grandpadir+'/results/test/',

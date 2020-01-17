@@ -34,7 +34,7 @@ def load_DOCSIS(para, feat_ext_inc=False):
     """
 
     # Read labeled info
-    data_df1 = pd.read_csv(para['labeled_file'], usecols=['Label'])
+    data_df1 = pd.read_csv(para['labels_file'], usecols=['Label'])
     data_df1['Label'] = (data_df1['Label'] != '-').astype(int)
 
     # Read data from normalized / structured logs
