@@ -130,7 +130,7 @@ if __name__ == '__main__':
         if model_name == 'MultinomialNB':
             model = MultinomialNB(alpha=1.0, fit_prior=True, class_prior=None)
         elif model_name == 'Perceptron':
-            model = Perceptron()
+            model = SGDClassifier(loss='perceptron', max_iter=1000)
         elif model_name == 'SGDC_SVM':
             model = SGDClassifier(loss='hinge', max_iter=1000)
         else:
