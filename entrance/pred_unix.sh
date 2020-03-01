@@ -2,7 +2,7 @@
 
 (
 echo TRAINING=0
-echo MODEL=MultinomialNB
+echo MODEL=DT
 echo WINDOW_SIZE=10000
 echo WINDOW_STEP=5000
 echo TEMPLATE_LIB_SIZE=2000

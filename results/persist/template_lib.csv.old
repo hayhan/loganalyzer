@@ -322,7 +322,6 @@ bd66bf4c,bd66bf4c,BcmCmUsRangingState:: T3NoRngRspEvent: ERROR - no more RNG-REQ
 86ebd5db,86ebd5db,Logging event: Unicast Maintenance Ranging attempted - No response - Retries exhausted; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
 84703448,84703448,Logging event: <*> consecutive T3 timeouts while trying to range on upstream channel <*>; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
 3aad57b2,3aad57b2,Bandwidth request failure! Status = <*>
-ed3550c7,ed3550c7,CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
 85511099,85511099,BcmCmUsRangingState:: T2NoInitMaintEvent: ERROR - no Init Maint map op -> restart error
 4190d344,4190d344,BcmCmDocsisCtlThread:: TargetNextDocs3CandidateUcid: ( CmDocsisCtlThread )
 4da1715c,4da1715c,Logging event: No Maintenance Broadcasts for Ranging opportunities received - T2 time-out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
@@ -389,21 +388,20 @@ b1cd6b03,b1cd6b03,Starting TOD backoff timer for <*> seconds ...
 95f43373,95f43373,Tftp Client:: GetReply: ( Tftp Client ) Timed out on socket select!
 9645e199,9645e199,Tftp Client:: Send: ( Tftp Client ) Attempt #( <*> ) Backoff ( <*> ) Exp Block #( <*> ) Last Block #( <*> ) Recv'd Block #( <*> )
 0f4052b3,0f4052b3,Logging event: No Maintenance Broadcasts for Ranging opportunities received - T2 time-out; CM-MAC= <*>; CMTS-MAC= <*>; BcmCmMultiUsHelper:: UsTimeRefOk: ( Cm Multi US Helper ) target hwTxId= <*>
-86fccbc9,86fccbc9,CM-QOS= <*>; CM-VER= <*>;
 d8f8d5ef,d8f8d5ef,BcmCmUsChan:: NewUcdInEffectTimerEvent: NewUcdInEffect event timer expired
 255278bd,255278bd,"BcmCmMultiDsHelper:: DsLockFailStartup: hwRxId= <*> freq= <*>, lock failure for active primary ds chan during startup. restart error!"
 1f49f9c1,1f49f9c1,Warning! Ofdm Channel ( <*> ) is not locked! bhab_OfdmGetDiagnosticData() return
 843733d6,843733d6,ERROR: BcmRetrieverPerSubCarrierRxMer - bhab_OfdmGetDiagnosticData returned error
 6d3e097e,6d3e097e,"BcmCmDsChan:: DsLockFail: ( BcmCmDsChan <*> ) hwRxId= <*> freq= <*> dcid= <*>, failed to lock primary ds chan during RCC installation. restart error!"
 0e453a7b,0e453a7b,"OFDM DSID filter control = <*>, PLC NOT locked! Retrying..."
-0,6b0ae484,Ofdm0: profile0 LOCK in <*> ms!
-0,18971168,Logging event: CM-STATUS message sent. Event Type Code: <*>; Chan ID: <*>
-0,d9187770,CM-STATUS-ACK trans= <*> event= <*> ( <*> )D: N/A.; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
-0,22851a47,PnmTestDriveACT - event code <*> Setting PnmCmCtlStatus to TempReject
-0,615deec7,"CM Multi US Helper info:, fUcdGatherState = <*> ( <*> ), TotalNumOfUsChans() = <*>, NumActiveUsChans() = <*>, fCmTccInstallState = <*> ( <*> ), fUsTimeWarpInProg = <*>, fPreferScQamStartup = <*>, fDynamicRangeWindowQtrDb = <*>"
-0,70a58f6d,"CM Upstream channel info:, fHwTxId = <*>, UsChannelFreqHz = <*>, UsChannelPwrdBmv = <*>, fIsOfdmaChannel = <*>, TargetUsChanId() = <*>, fRngSid = <*>, fCmTccCmdInstallState = <*> ( <*> ), Upstream settings state info:, fUcdSetsState = <*> ( <*> ), fUsTimeRefState = <*> ( <*> ), UsPhyType() = <*> ( Type <*> ( DOCSIS <*> )), IsScdmaModeEnabled() = <*>, Ranging state info:, fRngMode = <*> ( <*> ), fRngMsgTxRxState = <*> ( <*> ), fUnicastRngOpState = <*> ( <*> ), fRxRngRspState = <*> ( <*> ), fRngSuccess = <*>, fLastRngRspStatus = <*> ( Continue ), RngReqDrwStatus = <*> ( <*> ), AccumTimingAdjTicksDiv64 = <*>, fTmRngReqSentMlsec = <*>, fTmT3NoRngRspStdMlsec = <*>, fTmT4NoUnicastRngOpStdMlsec = <*>, fT4NoStationMntPeriodMlsec = <*>, fTmRngRspMlsec = <*>, fEpochTmUsEqUpdateSec = <*>, fTmT2NoBcastRngOpStdMlsec = <*>, now = <*>"
-0,4fcb0063,"CM Upstream channel info:, fHwTxId = <*>, UsChannelFreqHz = <*>, UsChannelPwrdBmv = <*>, fIsOfdmaChannel = <*>, TargetUsChanId() = <*>, fRngSid = <*>, fCmTccCmdInstallState = <*> ( <*> ), Upstream settings state info:, fUcdSetsState = <*> ( <*> ), fUsTimeRefState = <*> ( <*> ), UsPhyType() = <*> ( Type <*> ( DOCSIS <*> )), OFDMA Data Profile IUCs = <*>, Ranging state info:, fRngMode = <*> ( <*> ), fRngMsgTxRxState = <*> ( <*> ), fUnicastRngOpState = <*> ( <*> ), fRxRngRspState = <*> ( <*> ), fRngSuccess = <*>, fLastRngRspStatus = <*> ( Continue ), RngReqDrwStatus = <*> ( <*> ), AccumTimingAdjTicksDiv64 = <*>, fTmRngReqSentMlsec = <*>, fTmT3NoRngRspStdMlsec = <*>, fTmT4NoUnicastRngOpStdMlsec = <*>, fT4NoStationMntPeriodMlsec = <*>, fTmRngRspMlsec = <*>, fEpochTmUsEqUpdateSec = <*>, fTmT2NoBcastRngOpStdMlsec = <*>, now = <*>"
-0,a664c9ab,"logging event: Received Response to Broadcast Maintenance Request, But no Unicast Maintenance opportunities received - T4 time out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;"
-0,8636fedb,PnmTestDriveACT - event code <*> PnmCmCtlStatus set to Ready
-0,8ba3535d,BcmEcosIpHalIf:: AddDeleteRoute: ( IP Stack1 HalIf ) ERROR - SIOCDELRT: errno= <*> No such process!
-0,665d1525,BcmEcosIpHalIf:: RemoveLeaseImpl: ( IP Stack1 HalIf ) ERROR - DeleteRoute failed for interface:bcm0'! errno= <*> Already deleted?
+6b0ae484,6b0ae484,Ofdm0: profile0 LOCK in <*> ms!
+18971168,18971168,Logging event: CM-STATUS message sent. Event Type Code: <*>; Chan ID: <*>
+d9187770,d9187770,CM-STATUS-ACK trans= <*> event= <*> ( <*> )D: N/A.; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
+22851a47,22851a47,PnmTestDriveACT - event code <*> Setting PnmCmCtlStatus to TempReject
+615deec7,615deec7,"CM Multi US Helper info:, fUcdGatherState = <*> ( <*> ), TotalNumOfUsChans() = <*>, NumActiveUsChans() = <*>, fCmTccInstallState = <*> ( <*> ), fUsTimeWarpInProg = <*>, fPreferScQamStartup = <*>, fDynamicRangeWindowQtrDb = <*>"
+70a58f6d,70a58f6d,"CM Upstream channel info:, fHwTxId = <*>, UsChannelFreqHz = <*>, UsChannelPwrdBmv = <*>, fIsOfdmaChannel = <*>, TargetUsChanId() = <*>, fRngSid = <*>, fCmTccCmdInstallState = <*> ( <*> ), Upstream settings state info:, fUcdSetsState = <*> ( <*> ), fUsTimeRefState = <*> ( <*> ), UsPhyType() = <*> ( Type <*> ( DOCSIS <*> )), IsScdmaModeEnabled() = <*>, Ranging state info:, fRngMode = <*> ( <*> ), fRngMsgTxRxState = <*> ( <*> ), fUnicastRngOpState = <*> ( <*> ), fRxRngRspState = <*> ( <*> ), fRngSuccess = <*>, fLastRngRspStatus = <*> ( Continue ), RngReqDrwStatus = <*> ( <*> ), AccumTimingAdjTicksDiv64 = <*>, fTmRngReqSentMlsec = <*>, fTmT3NoRngRspStdMlsec = <*>, fTmT4NoUnicastRngOpStdMlsec = <*>, fT4NoStationMntPeriodMlsec = <*>, fTmRngRspMlsec = <*>, fEpochTmUsEqUpdateSec = <*>, fTmT2NoBcastRngOpStdMlsec = <*>, now = <*>"
+4fcb0063,4fcb0063,"CM Upstream channel info:, fHwTxId = <*>, UsChannelFreqHz = <*>, UsChannelPwrdBmv = <*>, fIsOfdmaChannel = <*>, TargetUsChanId() = <*>, fRngSid = <*>, fCmTccCmdInstallState = <*> ( <*> ), Upstream settings state info:, fUcdSetsState = <*> ( <*> ), fUsTimeRefState = <*> ( <*> ), UsPhyType() = <*> ( Type <*> ( DOCSIS <*> )), OFDMA Data Profile IUCs = <*>, Ranging state info:, fRngMode = <*> ( <*> ), fRngMsgTxRxState = <*> ( <*> ), fUnicastRngOpState = <*> ( <*> ), fRxRngRspState = <*> ( <*> ), fRngSuccess = <*>, fLastRngRspStatus = <*> ( Continue ), RngReqDrwStatus = <*> ( <*> ), AccumTimingAdjTicksDiv64 = <*>, fTmRngReqSentMlsec = <*>, fTmT3NoRngRspStdMlsec = <*>, fTmT4NoUnicastRngOpStdMlsec = <*>, fT4NoStationMntPeriodMlsec = <*>, fTmRngRspMlsec = <*>, fEpochTmUsEqUpdateSec = <*>, fTmT2NoBcastRngOpStdMlsec = <*>, now = <*>"
+a664c9ab,a664c9ab,"logging event: Received Response to Broadcast Maintenance Request, But no Unicast Maintenance opportunities received - T4 time out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;"
+8636fedb,8636fedb,PnmTestDriveACT - event code <*> PnmCmCtlStatus set to Ready
+8ba3535d,8ba3535d,BcmEcosIpHalIf:: AddDeleteRoute: ( IP Stack1 HalIf ) ERROR - SIOCDELRT: errno= <*> No such process!
+665d1525,665d1525,BcmEcosIpHalIf:: RemoveLeaseImpl: ( IP Stack1 HalIf ) ERROR - DeleteRoute failed for interface:bcm0'! errno= <*> Already deleted?

@@ -12,7 +12,7 @@ import re
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
-raw_file_loc  = parentdir + '/logs/raw/test_2_3390_labeled.txt'
+raw_file_loc  = parentdir + '/logs/raw/log_3_3390.txt'
 raw_file_labeled_loc  = parentdir + '/logs/raw/tmp.txt'
 
 # Generate train/test_labeled.txt
@@ -31,11 +31,15 @@ labelPattern = re.compile(r'abn: ')
 
 # The patterns for labeling
 anomalyPattern0 = re.compile(r'WARNING - CM HAL declared PULSE lost')
-anomalyPattern1 = re.compile(r'Auth Reject - Unauthorized SAID')
+anomalyPattern1 = re.compile(r'WARNING - CM HAL failed to acquire sync or lost sync')
+anomalyPattern2 = re.compile(r'BcmCmMultiUsHelper::RngRspMsgEvent:  \(Cm Multi US Helper\) ERROR -')
+anomalyPattern3 = re.compile(r'Auth Reject - Unauthorized SAID')
 
 anomalyPatterns = [
     anomalyPattern0,
-    anomalyPattern1
+    anomalyPattern1,
+    anomalyPattern2,
+    anomalyPattern3
 ]
 
 for line in rawfile:

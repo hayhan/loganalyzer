@@ -322,7 +322,6 @@ bd66bf4c,bd66bf4c,BcmCmUsRangingState:: T3NoRngRspEvent: ERROR - no more RNG-REQ
 86ebd5db,86ebd5db,Logging event: Unicast Maintenance Ranging attempted - No response - Retries exhausted; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
 84703448,84703448,Logging event: <*> consecutive T3 timeouts while trying to range on upstream channel <*>; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
 3aad57b2,3aad57b2,Bandwidth request failure! Status = <*>
-ed3550c7,ed3550c7,CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
 85511099,85511099,BcmCmUsRangingState:: T2NoInitMaintEvent: ERROR - no Init Maint map op -> restart error
 4190d344,4190d344,BcmCmDocsisCtlThread:: TargetNextDocs3CandidateUcid: ( CmDocsisCtlThread )
 4da1715c,4da1715c,Logging event: No Maintenance Broadcasts for Ranging opportunities received - T2 time-out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
@@ -389,7 +388,6 @@ b1cd6b03,b1cd6b03,Starting TOD backoff timer for <*> seconds ...
 95f43373,95f43373,Tftp Client:: GetReply: ( Tftp Client ) Timed out on socket select!
 9645e199,9645e199,Tftp Client:: Send: ( Tftp Client ) Attempt #( <*> ) Backoff ( <*> ) Exp Block #( <*> ) Last Block #( <*> ) Recv'd Block #( <*> )
 0f4052b3,0f4052b3,Logging event: No Maintenance Broadcasts for Ranging opportunities received - T2 time-out; CM-MAC= <*>; CMTS-MAC= <*>; BcmCmMultiUsHelper:: UsTimeRefOk: ( Cm Multi US Helper ) target hwTxId= <*>
-86fccbc9,86fccbc9,CM-QOS= <*>; CM-VER= <*>;
 d8f8d5ef,d8f8d5ef,BcmCmUsChan:: NewUcdInEffectTimerEvent: NewUcdInEffect event timer expired
 255278bd,255278bd,"BcmCmMultiDsHelper:: DsLockFailStartup: hwRxId= <*> freq= <*>, lock failure for active primary ds chan during startup. restart error!"
 1f49f9c1,1f49f9c1,Warning! Ofdm Channel ( <*> ) is not locked! bhab_OfdmGetDiagnosticData() return
