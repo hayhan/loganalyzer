@@ -271,19 +271,21 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
     for j in range(inst_number):
         label = 0   # 0 represents success, 1 represents failure
         for k in expanded_indexes_list[j]:
+            # Label the instance even if current log might not be in train template lib
+            if label_data[k]:
+                label = 1
+            # Current log EventId, aka. template id
             event_id = event_mapping_data[k]
-            # Convert EventId to ZERO based index
+            # Convert EventId to ZERO based index in shuffed EventId list
             try:
                 event_index = event_id_shuffled.index(event_id)
             except:
                 logging.warning('EventId %s is not in the templates of train data', event_id)
                 #print('Warning: EventId %s is not in the templates of train data' %event_id)
                 continue
-
+            # Increase the feature/event/template count in event count matrix
             event_count_matrix[j, event_index] += 1
-            if label_data[k]:
-                label = 1
-                continue
+        # One label per instance. Labeling the instance if one log within is labeled at least
         labels.append(label)
     assert inst_number == len(labels)
     print("Among all instances, %d are anomalies"%sum(labels))
