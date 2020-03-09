@@ -192,13 +192,10 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
                 break
 
         # Move the start and end index until next sliding window
-        # ToDo: time consuming here and need optimize the algorithm
         while end_index < log_size - 1:
 
-            start_index = 0
-            end_index = -1
-
-            for cur_time in time_data:
+            prev_win_start = start_index
+            for cur_time in time_data[prev_win_start:]:
                 # Window start (start_time) selects the max if not equal
                 if cur_time < start_time + para['step_size']:
                     start_index += 1
@@ -206,7 +203,9 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
                     start_time = cur_time
                     break
 
-            for cur_time in time_data:
+            end_index = start_index - 1
+            curr_win_start = start_index
+            for cur_time in time_data[curr_win_start:]:
                 # Window end (end_time) selects the min if not equal
                 if cur_time <= start_time + para['window_size']:
                     end_index += 1
@@ -218,6 +217,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
             start_end_index_list.append(start_end_pair)
             #print(start_end_index_list)
 
+            # Snippet below looks have better performance but I dont remember why I didnt use it
             """
             end_time = start_time + para['window_size']
             for i in range(start_index, end_index):
