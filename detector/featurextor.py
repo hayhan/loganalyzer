@@ -11,6 +11,7 @@ import re
 import sys
 import shutil
 from sklearn.utils import shuffle
+from datetime import datetime
 #from collections import OrderedDict
 #from collections import Counter
 
@@ -175,6 +176,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
     start_end_index_list = [] # list of tuples, tuple contains two numbers, which represents the start and end of sliding window
     label_data, time_data = raw_data[:, 0], raw_data[:, 1]
     if not os.path.exists(sliding_window_file) or para['window_rebuild']:
+        parse_st = datetime.now()
         # Split into sliding windows
         start_time = time_data[0]
         start_index = 0
@@ -217,7 +219,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
             start_end_index_list.append(start_end_pair)
             #print(start_end_index_list)
 
-            # Snippet below looks have better performance but I dont remember why I didnt use it
+            # Snippet below iterates the idx but I dont remember why I didnt use it
             """
             end_time = start_time + para['window_size']
             for i in range(start_index, end_index):
@@ -236,14 +238,14 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
             start_end_index_list.append(start_end_pair)
             """
         inst_number = len(start_end_index_list)
-        print('there are %d instances (sliding windows) in this dataset\n'%inst_number)
+        print('There are {} instances (sliding windows) in this dataset, cost {!s}\n'.format(inst_number, datetime.now()-parse_st))
 
         np.savetxt(sliding_window_file, start_end_index_list, delimiter=',',fmt='%d')
     else:
         print('Loading start_end_index_list from file')
         start_end_index_list = pd.read_csv(sliding_window_file, header=None).values
         inst_number = len(start_end_index_list)
-        print('there are %d instances (sliding windows) in this dataset' % inst_number)
+        print('There are %d instances (sliding windows) in this dataset' % inst_number)
 
     # Get all the log indexes in each time window by ranging from start_index to end_index
     expanded_indexes_list=[]
