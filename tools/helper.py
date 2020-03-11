@@ -5,7 +5,7 @@ License     : MIT
 """
 
 # Print progress bar at https://gist.github.com/greenstick/b23e475d2bfdc3a82e34eaa1f6781ee4
-def printProgressBar (iteration, total, prefix='', suffix='', decimals=1, length=100, fill='|', disable=0):
+def printProgressBar (iteration, total, prefix='', suffix='', decimals=1, length=50, fill='|', disable=0):
     """
     Call in a loop to create terminal progress bar
     @params:

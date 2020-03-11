@@ -7,9 +7,14 @@ License     : MIT
 
 import os
 import re
+#import sys
+from datetime import datetime
 
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+#sys.path.append(parentdir)
+
+#from tools import helper
 
 """
 Process the train data or test data
@@ -240,8 +245,16 @@ sccvEmptyLineCnt = 0
 09) Remove specific whole multi-line log
 10) Split some tokens
 """
-print("Pre-processing the raw {0} dataset ...\n".format(datatype))
+print("Pre-processing the raw {0} dataset ...".format(datatype))
+parse_st = datetime.now()
+#linesLst = file.readlines()
+#rawsize = len(linesLst)
+
+#for idx, line in enumerate(linesLst):
 for line in file:
+
+    # Update the progress bar
+    #helper.printProgressBar(idx+1, rawsize, prefix='Progress:')
     """
     Remove the unwanted strings which include some kind of timestamps, console prompts and etc.
     """
@@ -525,6 +538,7 @@ for line in file:
 
 file.close()
 newfile.close()
+print('Purge costs {!s}\n'.format(datetime.now()-parse_st))
 
 
 """

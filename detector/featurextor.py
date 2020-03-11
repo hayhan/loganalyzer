@@ -239,7 +239,6 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
             """
         inst_number = len(start_end_index_list)
         print('There are {} instances (sliding windows) in this dataset, cost {!s}\n'.format(inst_number, datetime.now()-parse_st))
-
         np.savetxt(sliding_window_file, start_end_index_list, delimiter=',',fmt='%d')
     else:
         print('Loading start_end_index_list from file')
