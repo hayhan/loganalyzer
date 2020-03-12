@@ -75,7 +75,7 @@ Precision: 0.909, recall: 0.922, F1-measure: 0.915
 Test validation:
 Precision: 0.844, recall: 0.924, F1-measure: 0.882
 
-Step 3:
+Step 3: partial_fit
 #log_2 train/validation
 #log_1 validation
 
@@ -107,21 +107,794 @@ Step 4:
 #log_3 validation
 
 ============DT=============
-
+Test validation:
+Precision: 1.000, recall: 0.325, F1-measure: 0.491
 
 ============LR=============
-
+Test validation:
+Precision: 1.000, recall: 0.297, F1-measure: 0.458
 
 ============SVM=============
-
+Test validation:
+Precision: 1.000, recall: 0.278, F1-measure: 0.435
 
 ============MultinomialNB/partial_fit=============
-
+Test validation:
+Precision: 1.000, recall: 0.040, F1-measure: 0.076
 
 ============Perceptron/partial_fit=============
-
+Test validation:
+Precision: 0.861, recall: 0.012, F1-measure: 0.023
 
 ============SGDC_SVM/partial_fit=============
-
+Test validation:
+Precision: 0.999, recall: 0.293, F1-measure: 0.454
 
 ============SGDC_LR/partial_fit=============
+Test validation:
+Precision: 1.000, recall: 0.377, F1-measure: 0.547
+
+Step 5: partial_fit
+#log_3 train/validation
+#log_1 validation
+
+============DT=============
+N/A
+
+============LR=============
+N/A
+
+============SVM=============
+N/A
+
+============MultinomialNB/partial_fit=============
+Train validation:
+Precision: 0.980, recall: 1.000, F1-measure: 0.990
+Test validation:
+Precision: 0.850, recall: 0.964, F1-measure: 0.903
+
+============Perceptron/partial_fit=============
+Train validation:
+Precision: 0.998, recall: 0.999, F1-measure: 0.999
+Test validation:
+Precision: 0.938, recall: 0.874, F1-measure: 0.905
+
+============SGDC_SVM/partial_fit=============
+Train validation:
+Precision: 0.993, recall: 1.000, F1-measure: 0.996
+Test validation:
+Precision: 0.898, recall: 0.892, F1-measure: 0.895
+
+============SGDC_LR/partial_fit=============
+Train validation:
+Precision: 0.999, recall: 0.990, F1-measure: 0.995
+Test validation:
+Precision: 0.897, recall: 0.933, F1-measure: 0.914
+
+-------------------------top level scripts--------------------------------------
+
+# han @ coffee in ~/Workspace/loganalyzer/entrance on git:develop x [22:29:15]
+$ ./top_static_unix.sh
+Pre-processing the raw train dataset ...
+Purge costs 0:00:02.648125
+
+Parsing file: /Users/han/Workspace/loganalyzer/logs/train_norm.txt
+Progress: |||||||||||||||||||||||||||||||||||||||||||||||||||| 100.0% Complete
+Parsing done. [Time taken: 0:00:14.780718]
+
+Pre-processing the raw test dataset ...
+Purge costs 0:00:00.096589
+
+Parsing file: /Users/han/Workspace/loganalyzer/logs/test_norm.txt
+Progress: |||||||||||||||||||||||||||||||||||||||||||||||||||| 100.0% Complete
+Parsing done. [Time taken: 0:00:00.606931]
+
+===> Train Module: DecesionTree
+
+The number of anomaly logs is 6663, but it requires further processing
+There are 1217 instances (sliding windows) in this dataset, cost 0:00:00.062251
+
+There are 395 log events
+Among all instances, 683 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 1217-by-395
+
+Normal training...: DecesionTree
+
+The number of anomaly logs is 516, but it requires further processing
+Loading shuffled EventId list in templates: static version.
+There are 27 instances (sliding windows) in this dataset, cost 0:00:00.001917
+
+There are 250 log events
+Among all instances, 12 are anomalies
+====== Transformed test data summary ======
+Test data shape: 27-by-395
+
+Train validation:
+Precision: 0.990, recall: 0.999, F1-measure: 0.994
+
+Test validation:
+Precision: 0.917, recall: 0.917, F1-measure: 0.917
+
+===> Train Module: LR
+
+The number of anomaly logs is 6663, but it requires further processing
+Loading shuffled EventId list in templates: static version.
+There are 1217 instances (sliding windows) in this dataset, cost 0:00:00.063191
+
+There are 395 log events
+Among all instances, 683 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 1217-by-395
+
+Normal training...: LR
+
+The number of anomaly logs is 516, but it requires further processing
+Loading shuffled EventId list in templates: static version.
+There are 27 instances (sliding windows) in this dataset, cost 0:00:00.001990
+
+There are 250 log events
+Among all instances, 12 are anomalies
+====== Transformed test data summary ======
+Test data shape: 27-by-395
+
+Train validation:
+Precision: 0.983, recall: 0.999, F1-measure: 0.991
+
+Test validation:
+Precision: 0.917, recall: 0.917, F1-measure: 0.917
+
+===> Train Module: SVM
+
+The number of anomaly logs is 6663, but it requires further processing
+Loading shuffled EventId list in templates: static version.
+There are 1217 instances (sliding windows) in this dataset, cost 0:00:00.063339
+
+There are 395 log events
+Among all instances, 683 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 1217-by-395
+
+Normal training...: SVM
+
+The number of anomaly logs is 516, but it requires further processing
+Loading shuffled EventId list in templates: static version.
+There are 27 instances (sliding windows) in this dataset, cost 0:00:00.002045
+
+There are 250 log events
+Among all instances, 12 are anomalies
+====== Transformed test data summary ======
+Test data shape: 27-by-395
+
+Train validation:
+Precision: 0.981, recall: 0.999, F1-measure: 0.990
+
+Test validation:
+Precision: 0.917, recall: 0.917, F1-measure: 0.917
+
+Pre-processing the raw test dataset ...
+Purge costs 0:00:01.539346
+
+Parsing file: /Users/han/Workspace/loganalyzer/logs/test_norm.txt
+Progress: |||||||||||||||||||||||||||||||||||||||||||||||||||| 100.0% Complete
+Parsing done. [Time taken: 0:00:08.384348]
+
+===> Predict Model: DecesionTree.onnx
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: static version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.035229
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-395
+
+Test validation:
+Precision: 0.985, recall: 0.998, F1-measure: 0.991
+
+===> Predict Model: LR.onnx
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: static version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.036687
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-395
+
+Test validation:
+Precision: 0.974, recall: 0.998, F1-measure: 0.986
+
+===> Predict Model: SVM.onnx
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: static version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.035133
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-395
+
+Test validation:
+Precision: 0.972, recall: 0.998, F1-measure: 0.985
+
+
+# han @ coffee in ~/Workspace/loganalyzer/entrance on git:develop x [22:30:06]
+$ ./top_pfit_unix.sh
+Pre-processing the raw train dataset ...
+Purge costs 0:00:02.647358
+
+Parsing file: /Users/han/Workspace/loganalyzer/logs/train_norm.txt
+Progress: |||||||||||||||||||||||||||||||||||||||||||||||||||| 100.0% Complete
+Parsing done. [Time taken: 0:00:14.821904]
+
+Pre-processing the raw test dataset ...
+Purge costs 0:00:00.096591
+
+Parsing file: /Users/han/Workspace/loganalyzer/logs/test_norm.txt
+Progress: |||||||||||||||||||||||||||||||||||||||||||||||||||| 100.0% Complete
+Parsing done. [Time taken: 0:00:00.587581]
+
+===> Train Module: MultinomialNB
+
+The number of anomaly logs is 6663, but it requires further processing
+There are 1217 instances (sliding windows) in this dataset, cost 0:00:00.062033
+
+There are 395 log events
+Among all instances, 683 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 1217-by-2000
+
+First time training...: MultinomialNB
+
+The number of anomaly logs is 516, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 27 instances (sliding windows) in this dataset, cost 0:00:00.001995
+
+There are 250 log events
+Among all instances, 12 are anomalies
+====== Transformed test data summary ======
+Test data shape: 27-by-2000
+
+Train validation:
+Precision: 0.935, recall: 0.921, F1-measure: 0.928
+
+Test validation:
+Precision: 0.909, recall: 0.833, F1-measure: 0.870
+
+===> Train Module: Perceptron
+
+The number of anomaly logs is 6663, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 1217 instances (sliding windows) in this dataset, cost 0:00:00.059532
+
+There are 395 log events
+Among all instances, 683 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 1217-by-2000
+
+First time training...: Perceptron
+
+The number of anomaly logs is 516, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 27 instances (sliding windows) in this dataset, cost 0:00:00.003329
+
+There are 250 log events
+Among all instances, 12 are anomalies
+====== Transformed test data summary ======
+Test data shape: 27-by-2000
+
+Train validation:
+Precision: 0.868, recall: 0.892, F1-measure: 0.879
+
+Test validation:
+Precision: 0.733, recall: 0.917, F1-measure: 0.815
+
+===> Train Module: SGDC_SVM
+
+The number of anomaly logs is 6663, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 1217 instances (sliding windows) in this dataset, cost 0:00:00.059663
+
+There are 395 log events
+Among all instances, 683 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 1217-by-2000
+
+First time training...: SGDC_SVM
+
+The number of anomaly logs is 516, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 27 instances (sliding windows) in this dataset, cost 0:00:00.003378
+
+There are 250 log events
+Among all instances, 12 are anomalies
+====== Transformed test data summary ======
+Test data shape: 27-by-2000
+
+Train validation:
+Precision: 0.919, recall: 0.893, F1-measure: 0.906
+
+Test validation:
+Precision: 0.846, recall: 0.917, F1-measure: 0.880
+
+===> Train Module: SGDC_LR
+
+The number of anomaly logs is 6663, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 1217 instances (sliding windows) in this dataset, cost 0:00:00.061628
+
+There are 395 log events
+Among all instances, 683 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 1217-by-2000
+
+First time training...: SGDC_LR
+
+The number of anomaly logs is 516, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 27 instances (sliding windows) in this dataset, cost 0:00:00.001995
+
+There are 250 log events
+Among all instances, 12 are anomalies
+====== Transformed test data summary ======
+Test data shape: 27-by-2000
+
+Train validation:
+Precision: 0.891, recall: 0.934, F1-measure: 0.912
+
+Test validation:
+Precision: 0.846, recall: 0.917, F1-measure: 0.880
+
+Pre-processing the raw test dataset ...
+Purge costs 0:00:01.571230
+
+Parsing file: /Users/han/Workspace/loganalyzer/logs/test_norm.txt
+Progress: |||||||||||||||||||||||||||||||||||||||||||||||||||| 100.0% Complete
+Parsing done. [Time taken: 0:00:08.296831]
+
+===> Predict Model: MultinomialNB.onnx
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.034510
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-2000
+
+Test validation:
+Precision: 0.928, recall: 0.919, F1-measure: 0.923
+
+===> Predict Model: Perceptron.onnx
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.036100
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-2000
+
+Test validation:
+Precision: 0.885, recall: 0.877, F1-measure: 0.881
+
+===> Predict Model: SGDC_SVM.onnx
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.034706
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-2000
+
+Test validation:
+Precision: 0.926, recall: 0.892, F1-measure: 0.909
+
+===> Predict Model: SGDC_LR.onnx
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.034960
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-2000
+
+Test validation:
+Precision: 0.896, recall: 0.946, F1-measure: 0.920
+
+Pre-processing the raw train dataset ...
+Purge costs 0:00:00.098784
+
+Parsing file: /Users/han/Workspace/loganalyzer/logs/train_norm.txt
+Progress: |||||||||||||||||||||||||||||||||||||||||||||||||||| 100.0% Complete
+Parsing done. [Time taken: 0:00:00.590300]
+
+Pre-processing the raw test dataset ...
+Purge costs 0:00:01.526631
+
+Parsing file: /Users/han/Workspace/loganalyzer/logs/test_norm.txt
+Progress: |||||||||||||||||||||||||||||||||||||||||||||||||||| 100.0% Complete
+Parsing done. [Time taken: 0:00:08.241576]
+
+===> Train Module: MultinomialNB
+
+The number of anomaly logs is 516, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+11 new template IDs are inserted to STIDLE.
+There are 27 instances (sliding windows) in this dataset, cost 0:00:00.002303
+
+There are 250 log events
+Among all instances, 12 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 27-by-2000
+
+Incremental training...: MultinomialNB
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.033679
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-2000
+
+Train validation:
+Precision: 0.917, recall: 0.917, F1-measure: 0.917
+
+Test validation:
+Precision: 0.931, recall: 0.944, F1-measure: 0.938
+
+===> Train Module: Perceptron
+
+The number of anomaly logs is 516, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+0 new template IDs are inserted to STIDLE.
+There are 27 instances (sliding windows) in this dataset, cost 0:00:00.002096
+
+There are 250 log events
+Among all instances, 12 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 27-by-2000
+
+Incremental training...: Perceptron
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.034450
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-2000
+
+Train validation:
+Precision: 0.750, recall: 1.000, F1-measure: 0.857
+
+Test validation:
+Precision: 0.853, recall: 0.857, F1-measure: 0.855
+
+===> Train Module: SGDC_SVM
+
+The number of anomaly logs is 516, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+0 new template IDs are inserted to STIDLE.
+There are 27 instances (sliding windows) in this dataset, cost 0:00:00.002029
+
+There are 250 log events
+Among all instances, 12 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 27-by-2000
+
+Incremental training...: SGDC_SVM
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.034057
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-2000
+
+Train validation:
+Precision: 1.000, recall: 0.917, F1-measure: 0.957
+
+Test validation:
+Precision: 0.954, recall: 0.892, F1-measure: 0.922
+
+===> Train Module: SGDC_LR
+
+The number of anomaly logs is 516, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+0 new template IDs are inserted to STIDLE.
+There are 27 instances (sliding windows) in this dataset, cost 0:00:00.002275
+
+There are 250 log events
+Among all instances, 12 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 27-by-2000
+
+Incremental training...: SGDC_LR
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.033586
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-2000
+
+Train validation:
+Precision: 0.857, recall: 1.000, F1-measure: 0.923
+
+Test validation:
+Precision: 0.900, recall: 0.930, F1-measure: 0.915
+
+Pre-processing the raw test dataset ...
+Purge costs 0:00:18.436058
+
+Parsing file: /Users/han/Workspace/loganalyzer/logs/test_norm.txt
+Progress: |||||||||||||||||||||||||||||||||||||||||||||||||||| 100.0% Complete
+Parsing done. [Time taken: 0:01:34.881696]
+
+===> Predict Model: MultinomialNB.onnx
+
+The number of anomaly logs is 2633, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 5664 instances (sliding windows) in this dataset, cost 0:00:00.364661
+
+There are 176 log events
+Among all instances, 2658 are anomalies
+====== Transformed test data summary ======
+Test data shape: 5664-by-2000
+
+Test validation:
+Precision: 1.000, recall: 0.040, F1-measure: 0.076
+
+===> Predict Model: Perceptron.onnx
+
+The number of anomaly logs is 2633, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 5664 instances (sliding windows) in this dataset, cost 0:00:00.361765
+
+There are 176 log events
+Among all instances, 2658 are anomalies
+====== Transformed test data summary ======
+Test data shape: 5664-by-2000
+
+Test validation:
+Precision: 0.973, recall: 0.428, F1-measure: 0.594
+
+===> Predict Model: SGDC_SVM.onnx
+
+The number of anomaly logs is 2633, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 5664 instances (sliding windows) in this dataset, cost 0:00:00.359137
+
+There are 176 log events
+Among all instances, 2658 are anomalies
+====== Transformed test data summary ======
+Test data shape: 5664-by-2000
+
+Test validation:
+Precision: 0.999, recall: 0.395, F1-measure: 0.566
+
+===> Predict Model: SGDC_LR.onnx
+
+The number of anomaly logs is 2633, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 5664 instances (sliding windows) in this dataset, cost 0:00:00.366033
+
+There are 176 log events
+Among all instances, 2658 are anomalies
+====== Transformed test data summary ======
+Test data shape: 5664-by-2000
+
+Test validation:
+Precision: 0.986, recall: 0.325, F1-measure: 0.489
+
+Pre-processing the raw train dataset ...
+Purge costs 0:00:18.389085
+
+Parsing file: /Users/han/Workspace/loganalyzer/logs/train_norm.txt
+Progress: |||||||||||||||||||||||||||||||||||||||||||||||||||| 100.0% Complete
+Parsing done. [Time taken: 0:01:35.209288]
+
+Pre-processing the raw test dataset ...
+Purge costs 0:00:01.536624
+
+Parsing file: /Users/han/Workspace/loganalyzer/logs/test_norm.txt
+Progress: |||||||||||||||||||||||||||||||||||||||||||||||||||| 100.0% Complete
+Parsing done. [Time taken: 0:00:08.342947]
+
+===> Train Module: MultinomialNB
+
+The number of anomaly logs is 2633, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+12 new template IDs are inserted to STIDLE.
+There are 5664 instances (sliding windows) in this dataset, cost 0:00:00.368600
+
+There are 176 log events
+Among all instances, 2658 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 5664-by-2000
+
+Incremental training...: MultinomialNB
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.033739
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-2000
+
+Train validation:
+Precision: 0.980, recall: 1.000, F1-measure: 0.990
+
+Test validation:
+Precision: 0.850, recall: 0.964, F1-measure: 0.903
+
+===> Train Module: Perceptron
+
+The number of anomaly logs is 2633, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+0 new template IDs are inserted to STIDLE.
+There are 5664 instances (sliding windows) in this dataset, cost 0:00:00.371825
+
+There are 176 log events
+Among all instances, 2658 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 5664-by-2000
+
+Incremental training...: Perceptron
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.033068
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-2000
+
+Train validation:
+Precision: 0.998, recall: 1.000, F1-measure: 0.999
+
+Test validation:
+Precision: 0.825, recall: 0.953, F1-measure: 0.884
+
+===> Train Module: SGDC_SVM
+
+The number of anomaly logs is 2633, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+0 new template IDs are inserted to STIDLE.
+There are 5664 instances (sliding windows) in this dataset, cost 0:00:00.374990
+
+There are 176 log events
+Among all instances, 2658 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 5664-by-2000
+
+Incremental training...: SGDC_SVM
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.034084
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-2000
+
+Train validation:
+Precision: 1.000, recall: 0.980, F1-measure: 0.990
+
+Test validation:
+Precision: 0.928, recall: 0.899, F1-measure: 0.913
+
+===> Train Module: SGDC_LR
+
+The number of anomaly logs is 2633, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+0 new template IDs are inserted to STIDLE.
+There are 5664 instances (sliding windows) in this dataset, cost 0:00:00.381368
+
+There are 176 log events
+Among all instances, 2658 are anomalies
+====== Transformed train data summary ======
+Final train data shape: 5664-by-2000
+
+Incremental training...: SGDC_LR
+
+The number of anomaly logs is 2735, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 759 instances (sliding windows) in this dataset, cost 0:00:00.033587
+
+There are 353 log events
+Among all instances, 446 are anomalies
+====== Transformed test data summary ======
+Test data shape: 759-by-2000
+
+Train validation:
+Precision: 0.999, recall: 0.998, F1-measure: 0.999
+
+Test validation:
+Precision: 0.851, recall: 0.957, F1-measure: 0.901
+
+Pre-processing the raw test dataset ...
+Purge costs 0:00:18.866407
+
+Parsing file: /Users/han/Workspace/loganalyzer/logs/test_norm.txt
+Progress: |||||||||||||||||||||||||||||||||||||||||||||||||||| 100.0% Complete
+Warning: template is duplicated, merging.
+Parsing done. [Time taken: 0:01:35.898440]
+
+===> Predict Model: MultinomialNB.onnx
+
+The number of anomaly logs is 2633, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 5664 instances (sliding windows) in this dataset, cost 0:00:00.403029
+
+There are 176 log events
+Among all instances, 2658 are anomalies
+====== Transformed test data summary ======
+Test data shape: 5664-by-2000
+
+Test validation:
+Precision: 0.980, recall: 1.000, F1-measure: 0.990
+
+===> Predict Model: Perceptron.onnx
+
+The number of anomaly logs is 2633, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 5664 instances (sliding windows) in this dataset, cost 0:00:00.393172
+
+There are 176 log events
+Among all instances, 2658 are anomalies
+====== Transformed test data summary ======
+Test data shape: 5664-by-2000
+
+Test validation:
+Precision: 0.998, recall: 1.000, F1-measure: 0.999
+
+===> Predict Model: SGDC_SVM.onnx
+
+The number of anomaly logs is 2633, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 5664 instances (sliding windows) in this dataset, cost 0:00:00.366510
+
+There are 176 log events
+Among all instances, 2658 are anomalies
+====== Transformed test data summary ======
+Test data shape: 5664-by-2000
+
+Test validation:
+Precision: 1.000, recall: 0.980, F1-measure: 0.990
+
+===> Predict Model: SGDC_LR.onnx
+
+The number of anomaly logs is 2633, but it requires further processing
+Loading shuffled EventId list in templates: incremental update version.
+There are 5664 instances (sliding windows) in this dataset, cost 0:00:00.363635
+
+There are 176 log events
+Among all instances, 2658 are anomalies
+====== Transformed test data summary ======
+Test data shape: 5664-by-2000
+
+Test validation:
+Precision: 0.999, recall: 0.998, F1-measure: 0.999

@@ -30,12 +30,12 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
         datatype = 'test'
 
 if TRAINING:
-    raw_file_loc  = parentdir + '/logs/train_labeled.txt'
+    raw_file_loc  = parentdir + '/logs/train.txt'
     new_file_loc  = parentdir + '/logs/train_new.txt'
     norm_file_loc = parentdir + '/logs/train_norm.txt'
     label_vector_file = parentdir + '/results/train/train_norm.txt_labels.csv'
 else:
-    raw_file_loc  = parentdir + '/logs/test_labeled.txt'
+    raw_file_loc  = parentdir + '/logs/test.txt'
     new_file_loc  = parentdir + '/logs/test_new.txt'
     norm_file_loc = parentdir + '/logs/test_norm.txt'
     label_vector_file = parentdir + '/results/test/test_norm.txt_labels.csv'

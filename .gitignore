@@ -113,10 +113,10 @@ loganalyzer_venv/
 .DS_Store
 
 # generated log files
-logs/train_labeled.txt
+logs/train.txt
 logs/train_new.txt
 logs/train_norm.txt
-logs/test_labeled.txt
+logs/test.txt
 logs/test_new.txt
 logs/test_norm.txt
 raw/

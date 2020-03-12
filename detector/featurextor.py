@@ -131,11 +131,17 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
                     idx_zero_STIDLE = [idx for idx, tid in enumerate(event_id_shuffled) if tid == '0']
                     idx_zero_STIDLE_shuffled = shuffle(idx_zero_STIDLE)
                     # Insert the new EventId to the STIDLE
+                    new_insert_cnt = 0
                     for idx, tid in enumerate(event_id_old_zero):
-                        event_id_shuffled[idx_zero_STIDLE_shuffled[idx]] = tid
+                        # Make sure no duplicates in the STIDLE
+                        try:
+                            event_id_shuffled.index(tid)
+                        except:
+                            event_id_shuffled[idx_zero_STIDLE_shuffled[idx]] = tid
+                            new_insert_cnt += 1
                     # Set the update flag
                     STIDLE_update_flag = True
-                    print("%d new template IDs are inserted to STIDLE." % len(event_id_old_zero))
+                    print("%d new template IDs are inserted to STIDLE." % new_insert_cnt)
 
                 # Case 2):
                 # Find the non ZERO values in EventIdOld that are not equal to the ones in EventId

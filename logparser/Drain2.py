@@ -720,24 +720,48 @@ class Drain:
         #
         log_templates = [0] * self.df_log.shape[0]
         log_templateids = [0] * self.df_log.shape[0]
-        df_events = []
+        tmp_eventL = []
         for logClust in logClustL:
             template_str = ' '.join(logClust.logTemplate)
             occurrence = len(logClust.outcell.logIDL)
             template_id = hashlib.md5(template_str.encode('utf-8')).hexdigest()[0:8]
             template_id_old = logClust.template_id_old
+
+            # Assign template and its id to each log. The log id in logIDL is 1 based
             for logID in logClust.outcell.logIDL:
                 logID -= 1
                 log_templates[logID] = template_str
                 log_templateids[logID] = template_id
-            df_events.append([template_id_old, template_id, template_str, occurrence])
 
-        # Save the template file
-        df_event = pd.DataFrame(df_events, columns=['EventIdOld', 'EventId', 'EventTemplate', 'Occurrences'])
+            # Merge the duplicate templates
+            # The row[0/1/2/3]: [template_id_old, template_id, template_str, occurrence]
+            tmp_unique = True
+            for row in tmp_eventL:
+                if template_id == row[1]:
+                    print("Warning: template is duplicated, merging.")
+                    tmp_unique = False
+                    if row[0] != row[1]:
+                        if template_id == template_id_old:
+                            row[0] = row[1]
+                    row[3] += occurrence
+                    break
+
+            # Drop current template if it is duplicate
+            if tmp_unique:
+                tmp_eventL.append([template_id_old, template_id, template_str, occurrence])
+
+        # Convert to data frame for saving
+        df_event = pd.DataFrame(tmp_eventL, columns=['EventIdOld', 'EventId', 'EventTemplate', 'Occurrences'])
+
+        # Double check if there are any duplicates in templates
+        if len(df_event['EventId'].values) != len(df_event['EventId'].unique()):
+            print("Error: template is still duplicated!")
+
+        # Save the template file to result/train or result/test directory
         df_event.to_csv(os.path.join(self.para.savePath, self.para.logName + '_templates.csv'), \
                         index=False, columns=['EventId', 'EventTemplate', 'Occurrences'])
 
-        # Backup the template library and then update it
+        # Backup the template library and then update it in result/persist
         # Only do for train dataset and when template lib incremental update enabled
         if self.para.overWrLib and self.para.incUpdate:
             if os.path.exists(os.path.join(self.para.pstdir, self.para.tmpLib)):
@@ -746,17 +770,13 @@ class Drain:
             df_event.to_csv(os.path.join(self.para.pstdir, self.para.tmpLib), \
                             index=False, columns=['EventIdOld', 'EventId', 'EventTemplate'])
 
-        # Check if there are any duplicates in template id list
-        if len(df_event['EventId'].values) != len(df_event['EventId'].unique()):
-            print("Error: template is duplicated in the temp library!")
-
-        # Save the structured file
+        # Save the structured file to result/train or result/test directory
         self.df_log['EventId'] = log_templateids
         self.df_log['EventTemplate'] = log_templates
         # self.df_log.drop(['Content'], inplace=True, axis=1)
         self.df_log.to_csv(os.path.join(self.para.savePath, self.para.logName + '_structured.csv'), index=False)
 
-        # Save the template file by another way
+        # Another way to eliminate the duplicate templicates but it is less flexible
         """
         occ_dict = dict(self.df_log['EventTemplate'].value_counts())
         df_event2 = pd.DataFrame()
