@@ -405,15 +405,15 @@ a664c9ab,a664c9ab,"logging event: Received Response to Broadcast Maintenance Req
 8636fedb,8636fedb,PnmTestDriveACT - event code <*> PnmCmCtlStatus set to Ready
 8ba3535d,8ba3535d,BcmEcosIpHalIf:: AddDeleteRoute: ( IP Stack1 HalIf ) ERROR - SIOCDELRT: errno= <*> No such process!
 665d1525,665d1525,BcmEcosIpHalIf:: RemoveLeaseImpl: ( IP Stack1 HalIf ) ERROR - DeleteRoute failed for interface:bcm0'! errno= <*> Already deleted?
-0,d9a0ab1c,<*> for ofdmCh <*>
-0,0b477a22,BcmEcosIpHalIf:: FlushDefaultIPv6Routers: ( IP Stack1 HalIf ) Flushing default IPv6 routers
-0,740fb1c4,BcmEcosIpHalIf:: FlushNdInfo: ( IP Stack1 HalIf ) Flushing default IPv6 ND info
-0,ebe52e88,"BcmEcosIpHalIf:: FlushFragPackets: ( IP Stack1 HalIf ) Flushing fragmentation packet queues, CmSnmpAgent:: ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support"
-0,b4ad9083,Logging event: Missing BP Configuration Setting TLV Type: <*>; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
-0,c1782971,OCD/DPD Filtering being configured for hwRxId= <*> on <*> -> filter enable = <*> TimeMs= <*>
-0,4d91a669,"BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ) BcmCmDocsisCtlThread:: DetectTccInstallDone: ( CmDocsisCtlThread ), resume registration sequence."
-0,38991858,BcmCmDocsisCtlThread:: TestAndLaunchBpkm: ( CmDocsisCtlThread ) BPKM enabled. starting BPKM key requests.
-0,48a5e817,Logging event: Auth Reject - Unauthorized SAID; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
-0,8fc3f73e,Tftp Client:: Send: ( Tftp Client ) ERROR - Request Retries > kTftpMaxRequestRetryCount ( <*> ) !
-0,e0ba564c,eRouterMsgPipe::eRouterConfigSettings: ( eRouterMsgPipe ) ERROR - Failed to open TFTP connection while sending eRouter configuration settings
-0,fe5de199,BcmCmDsOfdmProfileState:: TmDpdInstallEvent calling FecLockOk()
+d9a0ab1c,d9a0ab1c,<*> for ofdmCh <*>
+0b477a22,0b477a22,BcmEcosIpHalIf:: FlushDefaultIPv6Routers: ( IP Stack1 HalIf ) Flushing default IPv6 routers
+740fb1c4,740fb1c4,BcmEcosIpHalIf:: FlushNdInfo: ( IP Stack1 HalIf ) Flushing default IPv6 ND info
+ebe52e88,ebe52e88,"BcmEcosIpHalIf:: FlushFragPackets: ( IP Stack1 HalIf ) Flushing fragmentation packet queues, CmSnmpAgent:: ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support"
+b4ad9083,b4ad9083,Logging event: Missing BP Configuration Setting TLV Type: <*>; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
+c1782971,c1782971,OCD/DPD Filtering being configured for hwRxId= <*> on <*> -> filter enable = <*> TimeMs= <*>
+4d91a669,4d91a669,"BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ) BcmCmDocsisCtlThread:: DetectTccInstallDone: ( CmDocsisCtlThread ), resume registration sequence."
+38991858,38991858,BcmCmDocsisCtlThread:: TestAndLaunchBpkm: ( CmDocsisCtlThread ) BPKM enabled. starting BPKM key requests.
+48a5e817,48a5e817,Logging event: Auth Reject - Unauthorized SAID; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
+8fc3f73e,8fc3f73e,Tftp Client:: Send: ( Tftp Client ) ERROR - Request Retries > kTftpMaxRequestRetryCount ( <*> ) !
+e0ba564c,e0ba564c,eRouterMsgPipe::eRouterConfigSettings: ( eRouterMsgPipe ) ERROR - Failed to open TFTP connection while sending eRouter configuration settings
+fe5de199,fe5de199,BcmCmDsOfdmProfileState:: TmDpdInstallEvent calling FecLockOk()
