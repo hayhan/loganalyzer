@@ -1,5 +1,5 @@
 """
-Description : Some helper functions 
+Description : Some helper functions
 Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """

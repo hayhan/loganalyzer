@@ -1,5 +1,5 @@
 """
-Description : Compare the labels between train/test_labeled.txt and train/test_new_labeled.txt 
+Description : Compare the labels between train/test_labeled.txt and train/test_new_labeled.txt
 Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """

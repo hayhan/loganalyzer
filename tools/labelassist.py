@@ -1,5 +1,5 @@
 """
-Description : label assistant 
+Description : label assistant
 Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
