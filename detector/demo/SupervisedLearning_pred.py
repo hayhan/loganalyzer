@@ -37,6 +37,9 @@ with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confi
     elif conlines[1].strip() == 'MODEL=SVM':
         pred_model_file = 'SVM.onnx'
         incUpdate = False
+    elif conlines[1].strip() == 'MODEL=RFC':
+        pred_model_file = 'RandomForest.onnx'
+        incUpdate = False
     elif conlines[1].strip() == 'MODEL=MultinomialNB':
         pred_model_file = 'MultinomialNB.onnx'
         incUpdate = True
