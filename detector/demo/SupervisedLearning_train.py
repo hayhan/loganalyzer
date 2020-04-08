@@ -24,6 +24,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import Perceptron
 from sklearn.linear_model import SGDClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 
 from detector import featurextor, weighting, utils
 from skl2onnx import convert_sklearn
@@ -46,6 +47,9 @@ with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confi
     elif conlines[1].strip() == 'MODEL=SVM':
         model_name = 'SVM'
         incUpdate = False
+    elif conlines[1].strip() == 'MODEL=RFC':
+        model_name = 'RandomForest'
+        incUpdate = False
     elif conlines[1].strip() == 'MODEL=MultinomialNB':
         model_name = 'MultinomialNB'
         incUpdate = True
@@ -59,7 +63,7 @@ with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confi
         model_name = 'SGDC_LR'
         incUpdate = True
     else:
-        print("The incremental learning model name is wrong. Exit.")
+        print("The model name is wrong. Exit.")
         sys.exit(1)
 
     # Read the sliding window size
@@ -149,10 +153,12 @@ if __name__ == '__main__':
         elif model_name == 'LR':
             model = LogisticRegression(penalty='l2', C=100, tol=0.01, \
                             class_weight=None, solver='liblinear', max_iter=100)
-        else:
-            # SVM
+        elif model_name == 'SVM':
             model = svm.LinearSVC(penalty='l1', tol=0.1, C=1, dual=False, \
                             class_weight=None, max_iter=100)
+        else:
+            # Random Forest Classifier
+            model = RandomForestClassifier(n_estimators=100)
         print("Normal training...: {}\n".format(model_name))
 
     if incUpdate:
