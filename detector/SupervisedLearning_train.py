@@ -15,8 +15,8 @@ import pandas as pd
 
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
-grandpadir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
-sys.path.append(grandpadir)
+#grandpadir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
+sys.path.append(parentdir)
 
 from sklearn import tree
 from sklearn import svm
@@ -30,36 +30,43 @@ from detector import featurextor, weighting, utils
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
 
-logging.basicConfig(filename=grandpadir+'/tmp/debug.log', \
+logging.basicConfig(filename=parentdir+'/tmp/debug.log', \
                     format='%(asctime)s - %(message)s', \
                     level=logging.ERROR)
 
 # Read some parameters from the config file
-with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
+with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
     conlines = confile.readlines()
+
+    # Metrics enable
+    if conlines[1].strip() == 'METRICS=1':
+        metricsEn = True
+    else:
+        metricsEn = False
+
     # Read the model name
-    if conlines[1].strip() == 'MODEL=DT':
+    if conlines[2].strip() == 'MODEL=DT':
         model_name = 'DecesionTree'
         incUpdate = False
-    elif conlines[1].strip() == 'MODEL=LR':
+    elif conlines[2].strip() == 'MODEL=LR':
         model_name = 'LR'
         incUpdate = False
-    elif conlines[1].strip() == 'MODEL=SVM':
+    elif conlines[2].strip() == 'MODEL=SVM':
         model_name = 'SVM'
         incUpdate = False
-    elif conlines[1].strip() == 'MODEL=RFC':
+    elif conlines[2].strip() == 'MODEL=RFC':
         model_name = 'RandomForest'
         incUpdate = False
-    elif conlines[1].strip() == 'MODEL=MultinomialNB':
+    elif conlines[2].strip() == 'MODEL=MultinomialNB':
         model_name = 'MultinomialNB'
         incUpdate = True
-    elif conlines[1].strip() == 'MODEL=Perceptron':
+    elif conlines[2].strip() == 'MODEL=Perceptron':
         model_name = 'Perceptron'
         incUpdate = True
-    elif conlines[1].strip() == 'MODEL=SGDC_SVM':
+    elif conlines[2].strip() == 'MODEL=SGDC_SVM':
         model_name = 'SGDC_SVM'
         incUpdate = True
-    elif conlines[1].strip() == 'MODEL=SGDC_LR':
+    elif conlines[2].strip() == 'MODEL=SGDC_LR':
         model_name = 'SGDC_LR'
         incUpdate = True
     else:
@@ -67,18 +74,18 @@ with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confi
         sys.exit(1)
 
     # Read the sliding window size
-    window_size = int(conlines[2].strip().replace('WINDOW_SIZE=', ''))
+    window_size = int(conlines[3].strip().replace('WINDOW_SIZE=', ''))
     # Read the sliding window step size
-    window_step = int(conlines[3].strip().replace('WINDOW_STEP=', ''))
+    window_step = int(conlines[4].strip().replace('WINDOW_STEP=', ''))
     # Read the template library size
-    tmplib_size = int(conlines[4].strip().replace('TEMPLATE_LIB_SIZE=', ''))
+    tmplib_size = int(conlines[5].strip().replace('TEMPLATE_LIB_SIZE=', ''))
 
 para_train = {
-    'labels_file'   : grandpadir+'/results/train/train_norm.txt_labels.csv',
-    'structured_file': grandpadir+'/results/train/train_norm.txt_structured.csv',
-    'templates_file' : grandpadir+'/results/train/train_norm.txt_templates.csv',
-    'data_path'      : grandpadir+'/results/train/',
-    'persist_path'   : grandpadir+'/results/persist/',
+    'labels_file'    : parentdir+'/results/train/train_norm.txt_labels.csv',
+    'structured_file': parentdir+'/results/train/train_norm.txt_structured.csv',
+    'templates_file' : parentdir+'/results/train/train_norm.txt_templates.csv',
+    'data_path'      : parentdir+'/results/train/',
+    'persist_path'   : parentdir+'/results/persist/',
     'window_size'    : window_size,    # milliseconds
     'step_size'      : window_step,    # milliseconds
     'tmplib_size'    : tmplib_size,    # only for train dataset
@@ -88,11 +95,11 @@ para_train = {
 }
 
 para_test = {
-    'labels_file'   : grandpadir+'/results/test/test_norm.txt_labels.csv',
-    'structured_file': grandpadir+'/results/test/test_norm.txt_structured.csv',
-    'templates_file' : grandpadir+'/results/test/test_norm.txt_templates.csv',
-    'data_path'      : grandpadir+'/results/test/',
-    'persist_path'   : grandpadir+'/results/persist/',
+    'labels_file'    : parentdir+'/results/test/test_norm.txt_labels.csv',
+    'structured_file': parentdir+'/results/test/test_norm.txt_structured.csv',
+    'templates_file' : parentdir+'/results/test/test_norm.txt_templates.csv',
+    'data_path'      : parentdir+'/results/test/',
+    'persist_path'   : parentdir+'/results/persist/',
     'window_size'    : window_size,    # milliseconds
     'step_size'      : window_step,    # milliseconds
     'window_rebuild' : True,
@@ -210,9 +217,10 @@ if __name__ == '__main__':
     precision, recall, f1 = utils.metrics(train_y_pred, train_y)
     print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'.format(precision, recall, f1))
 
-    print('Test validation:')
-    precision, recall, f1 = utils.metrics(test_y_pred, test_y)
-    print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'.format(precision, recall, f1))
+    if metricsEn == True:
+        print('Test validation:')
+        precision, recall, f1 = utils.metrics(test_y_pred, test_y)
+        print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'.format(precision, recall, f1))
 
     """
     Trace anomaly timestamp windows in the raw log file, aka. loganalyzer/logs/test.txt

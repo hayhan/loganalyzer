@@ -8,7 +8,7 @@ import os
 import sys
 import re
 import pandas as pd
-import knowledgebase as kb
+import knowledgebase_CM as kb
 
 # Absolute path of current file
 curfiledir = os.path.dirname(__file__)

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Description : This file formats the original DOCSIS log
+Description : This file formats the original CM/DOCSIS log
 Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
