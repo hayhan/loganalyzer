@@ -171,7 +171,8 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
                     np.savetxt(event_id_shuffled_file_txt, event_id_shuffled, fmt="%s")
     else:
         # Shuffle the event_id_templates
-        if para['train'] == True:
+        #if para['train'] == True:
+        if not os.path.exists(event_id_shuffled_file_static):
             event_id_shuffled = shuffle(event_id_templates)
             np.save(event_id_shuffled_file_static, event_id_shuffled)
         else:
