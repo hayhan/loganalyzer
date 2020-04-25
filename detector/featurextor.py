@@ -42,7 +42,7 @@ def load_DOCSIS(para, feat_ext_inc=False):
     data_df2 = pd.read_csv(para['structured_file'], usecols=['Time', 'EventId'])
     data_df2['Time'] = pd.to_datetime(data_df2['Time'], format="[%Y%m%d-%H:%M:%S.%f]")
     # Convert timestamp to millisecond unit
-    data_df2['Ms_Elapsed'] = ((data_df2['Time']-data_df2['Time'][0]).dt.total_seconds()*1000).astype(int)
+    data_df2['Ms_Elapsed'] = ((data_df2['Time']-data_df2['Time'][0]).dt.total_seconds()*1000).astype('int64')
 
     data_df2['Label'] = data_df1['Label']
     raw_data = data_df2[['Label','Ms_Elapsed']].values
