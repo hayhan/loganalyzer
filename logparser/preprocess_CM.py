@@ -33,12 +33,21 @@ if TRAINING:
     raw_file_loc  = parentdir + '/logs/train.txt'
     new_file_loc  = parentdir + '/logs/train_new.txt'
     norm_file_loc = parentdir + '/logs/train_norm.txt'
-    label_vector_file = parentdir + '/results/train/train_norm.txt_labels.csv'
+    results_loc   = parentdir + '/results/train'
+    label_vector_file = results_loc + '/train_norm.txt_labels.csv'
 else:
     raw_file_loc  = parentdir + '/logs/test.txt'
     new_file_loc  = parentdir + '/logs/test_new.txt'
     norm_file_loc = parentdir + '/logs/test_norm.txt'
-    label_vector_file = parentdir + '/results/test/test_norm.txt_labels.csv'
+    results_loc   = parentdir + '/results/test'
+    label_vector_file = results_loc + '/test_norm.txt_labels.csv'
+
+# Create results/ and sub-dir train/ and test/ if not exist
+if not os.path.exists(parentdir+'/results'):
+    os.mkdir(parentdir+'/results')
+
+if not os.path.exists(results_loc):
+    os.mkdir(results_loc)
 
 """
 The original log usually comes from serial console tools like SecureCRT

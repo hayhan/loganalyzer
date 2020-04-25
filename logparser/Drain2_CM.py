@@ -44,6 +44,9 @@ if not os.path.exists(parentdir+'/results'):
 if not os.path.exists(output_dir):
     os.mkdir(output_dir)
 
+if not os.path.exists(persist_dir):
+    os.mkdir(persist_dir)
+
 """
 Regular expression dict for optional preprocessing (can be empty {})
 """
