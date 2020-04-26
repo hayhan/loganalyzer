@@ -9,8 +9,11 @@ echo WINDOW_STEP=5000
 echo TEMPLATE_LIB_SIZE=2000
 ) > config.txt
 
-rem Preprocess and label raw log if validation needed
+rem Preprocess
 python ..\logparser\preprocess_CM.py
+
+rem Extract the label vector from norm file
+python ..\logparser\extractlabels.py
 
 rem Parse the log and generate templates ...
 python ..\logparser\Drain2_CM.py

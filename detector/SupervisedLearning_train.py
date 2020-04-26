@@ -91,6 +91,7 @@ para_train = {
     'tmplib_size'    : tmplib_size,    # only for train dataset
     'window_rebuild' : True,
     'train'          : True,
+    'extractLabel'   : metricsEn,
     'train_ratio'    : 0.8       # not used anymore after de-coupling train/test data
 }
 
@@ -104,6 +105,7 @@ para_test = {
     'step_size'      : window_step,    # milliseconds
     'window_rebuild' : True,
     'train'          : False,
+    'extractLabel'   : metricsEn,
     'train_ratio'    : 0.8       # not used anymore after de-coupling train/test data
 }
 

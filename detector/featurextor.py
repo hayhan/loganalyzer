@@ -34,20 +34,24 @@ def load_DOCSIS(para, feat_ext_inc=False):
     event_id_templates: a list mapping event id to index, e.g. -> 0, 1, ... in templates file
     """
 
-    # Read labeled info
-    data_df1 = pd.read_csv(para['labels_file'], usecols=['Label'])
-    data_df1['Label'] = (data_df1['Label'] != '-').astype(int)
-
     # Read data from normalized / structured logs
-    data_df2 = pd.read_csv(para['structured_file'], usecols=['Time', 'EventId'])
-    data_df2['Time'] = pd.to_datetime(data_df2['Time'], format="[%Y%m%d-%H:%M:%S.%f]")
+    data_df1 = pd.read_csv(para['structured_file'], usecols=['Time', 'EventId'])
+    data_df1['Time'] = pd.to_datetime(data_df1['Time'], format="[%Y%m%d-%H:%M:%S.%f]")
     # Convert timestamp to millisecond unit
-    data_df2['Ms_Elapsed'] = ((data_df2['Time']-data_df2['Time'][0]).dt.total_seconds()*1000).astype('int64')
+    data_df1['Ms_Elapsed'] = ((data_df1['Time']-data_df1['Time'][0]).dt.total_seconds()*1000).astype('int64')
 
-    data_df2['Label'] = data_df1['Label']
-    raw_data = data_df2[['Label','Ms_Elapsed']].values
+    # If it is normal prediction, init the label vector with ZEROs
+    # If train or predict with validating, read the real label vector
+    if (para['train'] == False) and (para['extractLabel'] == False):
+        data_df1['Label'] = pd.DataFrame(0, index=range(len(data_df1)), columns=['Label'])
+    else:
+        data_df2 = pd.read_csv(para['labels_file'], usecols=['Label'])
+        data_df2['Label'] = (data_df2['Label'] != '-').astype(int)
+        data_df1['Label'] = data_df2['Label']
 
-    event_mapping_data = data_df2['EventId'].values
+    raw_data = data_df1[['Label','Ms_Elapsed']].values
+
+    event_mapping_data = data_df1['EventId'].values
 
     # Read EventId from templates
     # Read the template lib for incremental featrureExt / learning
@@ -64,7 +68,9 @@ def load_DOCSIS(para, feat_ext_inc=False):
     #logging.debug(event_mapping_data)
     #logging.debug(event_id_templates)
 
-    print('The number of anomaly logs is %d, but it requires further processing' % sum(raw_data[:, 0]))
+    # Do not calc the num of logs that are anomalies on test dataset w/o validating
+    if not ((para['train'] == False) and (para['extractLabel'] == False)):
+        print('The number of anomaly logs is %d, but it requires further processing' % sum(raw_data[:, 0]))
     return raw_data, event_mapping_data, event_id_templates
 
 
@@ -296,7 +302,9 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
         # One label per instance. Labeling the instance if one log within is labeled at least
         labels.append(label)
     assert inst_number == len(labels)
-    print("Among all instances, %d are anomalies"%sum(labels))
+    # Do not calc the num of instances that have anomalies on test dataset w/o validating
+    if not ((para['train'] == False) and (para['extractLabel'] == False)):
+        print("Among all instances, %d are anomalies"%sum(labels))
     #assert event_count_matrix.shape[0] == len(labels)
 
     np.savetxt(para['data_path']+'event_count_matrix.txt', event_count_matrix, fmt="%s")

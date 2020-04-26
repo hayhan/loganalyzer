@@ -33,21 +33,10 @@ if TRAINING:
     raw_file_loc  = parentdir + '/logs/train.txt'
     new_file_loc  = parentdir + '/logs/train_new.txt'
     norm_file_loc = parentdir + '/logs/train_norm.txt'
-    results_loc   = parentdir + '/results/train'
-    label_vector_file = results_loc + '/train_norm.txt_labels.csv'
 else:
     raw_file_loc  = parentdir + '/logs/test.txt'
     new_file_loc  = parentdir + '/logs/test_new.txt'
     norm_file_loc = parentdir + '/logs/test_norm.txt'
-    results_loc   = parentdir + '/results/test'
-    label_vector_file = results_loc + '/test_norm.txt_labels.csv'
-
-# Create results/ and sub-dir train/ and test/ if not exist
-if not os.path.exists(parentdir+'/results'):
-    os.mkdir(parentdir+'/results')
-
-if not os.path.exists(results_loc):
-    os.mkdir(results_loc)
 
 """
 The original log usually comes from serial console tools like SecureCRT
@@ -59,7 +48,6 @@ https://docs.python.org/3/library/codecs.html
 """
 file       = open(raw_file_loc, 'r', encoding='utf-8-sig')
 newfile    = open(new_file_loc, 'w')
-normfile   = open(norm_file_loc, 'w')
 
 """
 Definitions:
@@ -600,44 +588,3 @@ normfile.write(lastLine)
 
 newfile.close()
 normfile.close()
-
-
-"""
-Generate the label vector from norm file and remove the labels in norm file
-ToDo: optimize for test dataset if no validation is needed
-"""
-import pandas as pd
-
-# Label pattern
-labelPattern = re.compile(r'abn: ')
-
-label_messages = []
-linecount = 0
-norm_logs = []
-
-with open(norm_file_loc, 'r') as fin:
-    for line in fin.readlines():
-        try:
-            match = labelPattern.search(line, 24, 29)
-            if match:
-                label_messages.append('a')
-                newline = labelPattern.sub('', line, count=1)
-            else:
-                label_messages.append('-')
-                newline = line
-
-            linecount += 1
-            # Label is removed
-            norm_logs.append(newline)
-        except Exception:
-            pass
-
-logdf = pd.DataFrame(label_messages, columns=['Label'])
-logdf.insert(0, 'LineId', None)
-logdf['LineId'] = [i + 1 for i in range(linecount)]
-# Save the label vector to results/train or results/test
-logdf.to_csv(label_vector_file, index=False)
-
-# Overwrite the old norm file with contents that labels are removed
-with open(norm_file_loc, 'w+') as fin:
-    fin.writelines(norm_logs)
