@@ -262,6 +262,10 @@ for line in file:
     if matchTS:
         currentLineTS = matchTS.group(0)
         newline = strPattern0.sub('', line, count=1)
+    elif reserveTS:
+        # If we intend to reserve timestamp but not match, delete this line
+        # This usually happens when the timestamp is messed up
+        continue
     else:
         newline = line
 

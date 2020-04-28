@@ -301,3 +301,50 @@ extract parameters
  2: FOR idx IN idx_list
  3:     param_list <- append(logContentL[idx])
  4: END
+
+
+[20200421-12:10:43.143] 
+CM> 
+RNG-RSP UsChanId=49  Adj: tim=8912 power=-50  Stat=Continue 
+[20200421-12:10:43.414] [00:00:27 01/01/1970] [CmDocsisCtlThread] ...
+[ 1235]
+RNG-RSP UsChanId=49  Adj: tim= power=-8  Stat=Continue
+
+adapt boardfarm cm logs
+ 1: lastline <- empty line w/o LF or CRLF
+ 2: lastlineTS <- '[19700101-00:00:00.000]'
+ 3: currlineTS <- '[19700101-00:00:00.000]'
+ 4: recovContxt <- False
+ 5: FOR line IN rawfile
+ 6:     matchTS <- normalTimestamp.match(line)
+ 7:     matchAbnTS <- abnormalTimestamp.match(line)
+ 8:     IF matchTS
+ 9:         currlineTS <- normalTimestamp
+10:     ESIF matchAbnTS
+11:         line <- Replace current line abnormal timestamp with last line normal one
+12:     # Other kind of line headings except both normal and abnormal timestamp
+13:     ELSE
+14:         # Not match the normal timestamp, and it is a primary line
+15:         IF line NOT empty AND NOT nestedLine.match(line)
+16:             IF recovContxt
+17:                 lastline <- Remove the LF or CRLF of last line
+18:             END
+19:         ELSE
+20:             recovContxt <- False
+21:         END
+22:     END
+23:     # Start the recover context
+24:     IF matchTS OR matchAbnTS
+25:         lineNoTS <- remove timestamp from current line
+26:         # Match the timestamp and it is an empty line
+27:         IF lineNoTS NOT empty
+28:             recovContxt <- True
+29:         ELSE
+30:             recovContxt <- False
+31:         END
+32:     END
+33:     newfile <- write(lastline)
+34:     lastline <- line
+35:     lastlineTS <- currlineTS
+36: END
+37: newfile <- write(lastline)
