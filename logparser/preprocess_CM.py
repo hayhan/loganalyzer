@@ -143,7 +143,7 @@ titlePatterns = [
 """
 Pattern for nested line
 """
-nestedLinePattern = re.compile(r' +')
+nestedLinePattern = re.compile(r' +|\t+')
 
 """
 Patterns for specific primary lines which I want to indent them

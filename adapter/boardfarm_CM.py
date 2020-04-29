@@ -35,14 +35,14 @@ empty line   - LF or CRLF only in one line
 """
 Patterns for removing normal timestamp and abnormal timestamp
 """
-# The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738]. Label is also considered.
+# The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738].
 strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)\.(\d{3})|24:00:00\.000)\] ')
 strPattern1 = re.compile(r' \[ *\d+\]')
 
 """
 Pattern for nested line
 """
-nestedLinePattern = re.compile(r' +')
+nestedLinePattern = re.compile(r' +|\t+')
 
 
 """

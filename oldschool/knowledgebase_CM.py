@@ -81,7 +81,7 @@ def domain_knowledge(templateId, paramList):
         if case('6e45cf29'):
             # TEMPLATE: "US channel status txid <*> ucid <*> dcid <*> rngsid <*> power <*> freqstart <*> freqend <*> symrate <*> phytype <*> txdata <*>"
             # Check the tx power. Warning if out of 7dBmv ~ 51dBmV. Based on bonding channels and QAMs, 51~61dBmV can be reached but ignore it here.
-            if int(paramList[4]) <= 17 or int(paramList[4]) >= 51:
+            if float(paramList[4]) <= 17 or float(paramList[4]) >= 51:
                 logFault = True
                 logDescription = "US Tx Power is out of range of 17dBmV ~ 51dBmV on US channel {0} ucid {1} freq {2}" \
                                  .format(paramList[0], paramList[1], paramList[5])

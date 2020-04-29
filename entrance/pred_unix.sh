@@ -9,6 +9,9 @@ echo WINDOW_STEP=5000
 echo TEMPLATE_LIB_SIZE=2000
 ) > config.txt
 
+# Adapt boardfarm CM logs
+#python3 ../adapter/boardfarm_CM.py
+
 # Preprocess
 python3 ../logparser/preprocess_CM.py
 
