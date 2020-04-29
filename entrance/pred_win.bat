@@ -10,7 +10,7 @@ echo TEMPLATE_LIB_SIZE=2000
 ) > config.txt
 
 rem Adapt boardfarm CM logs
-python ..\adapter\boardfarm_CM.py
+rem python ..\adapter\boardfarm_CM.py
 
 rem Preprocess
 python ..\logparser\preprocess_CM.py
