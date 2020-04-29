@@ -92,7 +92,7 @@ if __name__ == '__main__':
     # Load the test data from files and do some pre-processing
     raw_data_test, \
     event_mapping_data_test, \
-    event_id_templates_test = featurextor.load_DOCSIS(para_test)
+    event_id_templates_test = featurextor.load_data(para_test)
     
     # Add sliding window and create the event count matrix for the test data set.
     # The input parameter event_id_templates_test is not used actually, we reuse

@@ -1,41 +1,47 @@
- Format the table:
- 1: if match table title && in the table
- 2:     if not nested line && not empty line
+ ### Format the table:
+ 1: IF match table title && in the table
+ 2:     IF NOT nested line && NOT empty line
  3:         This line is messed, delete
- 4:     elif empty line && dsTableEntryProcessed && (not lastLineMessed)
+ 4:     ELIF empty line && dsTableEntryProcessed && (NOT lastLineMessed)
  5:         reset some variables of processing status
- 6:     elif not empty line
- 7:         dsTableEntryProcessed = True
- 8:         if tableMessed
+ 6:     ELIF NOT empty line
+ 7:         dsTableEntryProcessed <- True
+ 8:         IF tableMessed
  9:             re-construct the last element
-10:         format the whole new log
+10:         END 
+11:         format the whole new log
+12:     END
+13: END
 
-Convert multi-line to one-line format
- 1: for line in newfile:
+### Convert multi-line to one-line format
+ 1: FOR line IN newfile
  2:     save the timestamp for current line
  3:     remove the timestamp from current line
- 4:     if nested line
+ 4:     IF nested line
  5:         Concatenate current line to lastLine
- 6:     else it is primary line
+ 6:     ELSE it is primary line
  7:         it means concatenating ends
  8:         combine the timestamp and last content
  9:         write last line to norm file
 10:         update last line parameters
 11:             aka.
-12:             lastLine = current line
-13:             lastLineTS = currentLineTS
-14: update the final line of the file and write to norm file
+12:             lastLine <- current line
+13:             lastLineTS <- currentLineTS
+14:     END
+15: END
+16: update the final line of the file and write to norm file
 
-Extract label vector
-
- 1: for log in norm file
- 2:    if match the label pattern 'abn: '
- 3:        write 'a' to the vector
- 4:        remove the  'abn: ' from current log
- 5:    else
- 6:        write '-' to the vector
- 7: write label vector and lineId to file
- 8: overwrite the old norm file with contents that labels are removed
+### Extract label vector
+ 1: FOR log IN norm file
+ 2:     IF match the label pattern 'abn: '
+ 3:         write 'a' to the vector
+ 4:         remove the 'abn: ' from current log
+ 5:     ELSE
+ 6:         write '-' to the vector
+ 7:     END
+ 8: END
+ 9: write label vector and lineId to file
+10: overwrite the old norm file with contents that labels are removed
 
  [Arxiv'18] Pinjia He, Jieming Zhu, Hongyu Zhang, Pengcheng Xu,
             Zibin Zheng, and Michael R. Lyu.
@@ -43,7 +49,7 @@ Extract label vector
 
 https://github.com/logpai/logparser.git
 
-Tree search
+### Tree search
  1: def treeSearch(self, rn, seq):
  2:     """
  3:     Browses the tree in order to find a matching cluster to a log
@@ -69,7 +75,7 @@ Tree search
 23:         # Paper: retLogCluster = self.keyTreeSearch(seq)
 24:         ...
 
-Calculate the similarity
+### Calculate the similarity
  1: # Calculate the similarity. The seq1 is template
  2: def SeqDist(self, seq1, seq2):
  3:     """
@@ -101,7 +107,7 @@ Calculate the similarity
 29:        if sTokenNoMatch:
 30:             break
 
-Add cluster
+### Add cluster
  1: def addCluster(self, messageL, logIDList, clusterL, ...):
  2:     # The initial value of st is 0.5 times the percentage
  3:     # of non-digit tokens in the log message
@@ -124,41 +130,47 @@ Add cluster
 20:     newCluster.st = 0.8
 21:     newCluster.initst = newCluster.st
 
-Sliding window
-01: start_time <- time_data_vector[0]
-02: start_index <- 0
-03: end_index <- -1
-04: # Get the first start, end index, end time
-05: for cur_time in time_data_vector
-06:     # Window end (end_time) selects the min if not equal
-07:     if  cur_time <= start_time + ['window_size']
-08:         end_index <- end_index+1
-09:     else
-10:         start_end_pair <- (start_index, end_index)
-11:         start_end_index_list <- append(start_end_pair)
-12:         break
-13: # Move the start and end index until next sliding window
-14: while end_index < log_size - 1
-15:     prev_win_start <- start_index
-16:     for cur_time in time_data_vector[prev_win_start:end]
-17:         # Window start (start_time) selects the max if not equal
-18:         if cur_time < start_time + ['window_step_size']
-19:             start_index <- start_index+1
-20:         else
-21:             start_time <- cur_time
-22:             break
-23:     end_index <- start_index - 1
-24:     curr_win_start <- start_index
-25:     for cur_time in time_data[curr_win_start:end]
-26:         # Window end (end_time) selects the min if not equal
-27:         if cur_time <= start_time + ['window_size']
-28:             end_index <- end_index+1
-29:         else
-30:             break
-31:     start_end_pair <- (start_index, end_index)
-32:     start_end_index_list <- append(start_end_pair)
+### Sliding window
+ 1: start_time <- time_data_vector[0]
+ 2: start_index <- 0
+ 3: end_index <- -1
+ 4: # Get the first start, end index, end time
+ 5: FOR cur_time IN time_data_vector
+ 6:     # Window end (end_time) selects the min if not equal
+ 7:     IF cur_time <= start_time + ['window_size']
+ 8:         end_index <- end_index+1
+ 9:     ELSE
+10:         BREAK
+11:     END
+12: END
+13: start_end_pair <- (start_index, end_index)
+14: start_end_index_list <- append(start_end_pair)
+15: # Move the start and end index until next sliding window
+16: WHILE end_index < log_size - 1
+17:     prev_win_start <- start_index
+18:     FOR cur_time IN time_data_vector[prev_win_start:end]
+19:         # Window start (start_time) selects the max if not equal
+20:         IF cur_time < start_time + ['window_step_size']
+21:             start_index <- start_index+1
+22:         ELSE
+23:             start_time <- cur_time
+24:             BREAK
+25:         END
+26:     END
+27:     end_index <- start_index - 1
+28:     curr_win_start <- start_index
+29:     FOR cur_time IN time_data[curr_win_start:end]
+30:         # Window end (end_time) selects the min if not equal
+31:         IF cur_time <= start_time + ['window_size']
+32:             end_index <- end_index+1
+33:         ELSE
+34:             BREAK
+35:         END
+36:     END
+37:     start_end_pair <- (start_index, end_index)
+38:     start_end_index_list <- append(start_end_pair)
 
-Construct ECM
+### Construct ECM
  1: labels <- []
  2: event_count_matrix[inst_number x feature_number] <- ZEROs
  3: FOR j IN [0: inst_number-1]
@@ -182,7 +194,7 @@ Construct ECM
 21:     labels <- append(label)
 22: END
 
-tf-idf
+### tf-idf
  1: tf_matrix <- ECM
  2: num_instance <- ECM rows num
  3: df_vector <- numpy.sum(X > 0, axis=0)
@@ -190,7 +202,7 @@ tf-idf
  5: tf_idf_matrix <- tf_matrix * numpy.tile(idf_vector, (num_instance, 1)) 
  6: new_ECM <- tf_idf_matrix
 
-post-Process
+### post-Process
  1: anomaly_window_list <- []
  2: FOR i IN [0: instance_num-1]
  3:     IF test_y_pred[i]
@@ -207,24 +219,27 @@ post-Process
 14:     anomaly_timestamp_list <- append(tuple((norm_time_list[x], norm_time_list[y])))
 15: END
 
-Incremental Drain
+### Incremental Drain
  1: Load the templates from the template library
  2: # Recover the tree from templates in library
- 3: for each template in library
+ 3: FOR each template IN library
  4:     logCluL <- addCluster()
- 5: Load the raw log data
- 6: # Update the template library
- 7: for each log in raw
- 8:     search the tree
- 9:     IF NOT match one node in tree
-10:         newCluster <- new 
-11:         newCluster <- log
-12:         logCluL <- addCluster()
-13:     else
-14:         currentCluster <- log
-15:         update template in cluster conditionaly
+ 5: END
+ 6: Load the raw log data
+ 7: # Update the template library
+ 8: FOR each log IN raw
+ 9:     search the tree
+10:     IF NOT match one node in tree
+11:         newCluster <- new 
+12:         newCluster <- log
+13:         logCluL <- addCluster()
+14:     ELSE
+15:         currentCluster <- log
+16:         update template in cluster conditionaly
+17:     END
+18: END
 
-merge the duplicated templates    
+### merge the duplicated templates    
  1: tmp_eventL <- []
  2: FOR logClust IN logClustL
  3:     # The row[0/1/2/3]: [template_id_old, template_id, template_str, occurrence]
@@ -248,7 +263,7 @@ merge the duplicated templates
 21:     END
 22: END
 
-old temp id
+### old temp id
  1: FOR logClust IN logClustL
  2:     template_str <- logClust.logTemplate
  3:     occurrence <- len(logClust.outcell.logIDL)
@@ -257,13 +272,13 @@ old temp id
  6:     ...
  7: END
 
-Init STIDLE
+### Init STIDLE
  1: event_id_templates_ext <- extract the eventId list from Template library
  2: event_id_templates_ext <- Pad ZEROs
  3: event_id_shuffled <- shuffle (event_id_templates_ext)
  4: Save event_id_shuffled to disk
 
-update STIDLE case 1
+### update STIDLE case 1
  1: # Case 1):
  2: event_id_old_zero <- Find the ZERO values in EventIdOld
  3: idx_zero_STIDLE <- Aggregate all idx of ZERO in STIDLE to a new list
@@ -278,7 +293,7 @@ update STIDLE case 1
 12:     END
 13: END
 
-update STIDLE case 2
+### update STIDLE case 2
  1: # Case 2):
  2: FOR tidOld, tidNew in template library
  3:     IF tidOld != '0' AND tidOld != tidNew
@@ -287,7 +302,7 @@ update STIDLE case 2
  6:     END
  7: END
 
- incremental idf
+ ### incremental idf
  1: df_vec <- from ECM
  2: df_vec_accm, num_instance_accm <- from saved file
  3: df_vec_accm <- df_vec_accm + df_vec
@@ -296,7 +311,7 @@ update STIDLE case 2
  6: file <- idf_vec
  7: file <- df_vec_accm, num_instance_accm
 
-extract parameters
+### extract parameters
  1: idx_list <- Traverse all <*> in logEventTemplateL
  2: FOR idx IN idx_list
  3:     param_list <- append(logContentL[idx])
@@ -310,7 +325,7 @@ RNG-RSP UsChanId=49  Adj: tim=8912 power=-50  Stat=Continue
 [ 1235]
 RNG-RSP UsChanId=49  Adj: tim= power=-8  Stat=Continue
 
-adapt boardfarm cm logs
+### adapt boardfarm cm logs
  1: lastline <- empty line w/o LF or CRLF
  2: lastlineTS <- '[19700101-00:00:00.000]'
  3: currlineTS <- '[19700101-00:00:00.000]'

@@ -19,8 +19,8 @@ from datetime import datetime
 #parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
 
-def load_DOCSIS(para, feat_ext_inc=False):
-    """  Load DOCSIS normalized / structured logs into train and test data
+def load_data(para, feat_ext_inc=False):
+    """ Load normalized / structured logs into train or test dataset
 
     Arguments
     ---------
@@ -67,6 +67,7 @@ def load_DOCSIS(para, feat_ext_inc=False):
     #logging.debug(raw_data)
     #logging.debug(event_mapping_data)
     #logging.debug(event_id_templates)
+    np.savetxt(para['data_path']+'elapsed_time_vector.csv', data_df1['Ms_Elapsed'].tolist(), fmt="%s")
 
     # Do not calc the num of logs that are anomalies on test dataset w/o validating
     if not ((para['train'] == False) and (para['extractLabel'] == False)):
@@ -75,7 +76,7 @@ def load_DOCSIS(para, feat_ext_inc=False):
 
 
 def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, feat_ext_inc=False):
-    """ split logs into sliding windows, built an event count matrix and get the corresponding label
+    """ Split logs into sliding windows, built an event count matrix and get the corresponding label
 
     Args:
     --------
@@ -202,9 +203,9 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
                 end_index += 1
                 #end_time = cur_time
             else:
-                start_end_pair=tuple((start_index, end_index))
-                start_end_index_list.append(start_end_pair)
                 break
+        start_end_pair=tuple((start_index, end_index))
+        start_end_index_list.append(start_end_pair)
 
         # Move the start and end index until next sliding window
         while end_index < log_size - 1:
