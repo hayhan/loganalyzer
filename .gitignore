@@ -119,6 +119,7 @@ logs/train_norm.txt
 logs/test.txt
 logs/test_new.txt
 logs/test_norm.txt
+logs/test_boardfarm.txt
 raw/
 train/
 test/
