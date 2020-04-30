@@ -8,6 +8,7 @@ License     : MIT
 import os
 import re
 #import sys
+from tqdm import tqdm
 from datetime import datetime
 
 curfiledir = os.path.dirname(__file__)
@@ -244,14 +245,21 @@ sccvEmptyLineCnt = 0
 """
 print("Pre-processing the raw {0} dataset ...".format(datatype))
 parse_st = datetime.now()
-#linesLst = file.readlines()
-#rawsize = len(linesLst)
+linesLst = file.readlines()
+rawsize = len(linesLst)
 
-#for idx, line in enumerate(linesLst):
-for line in file:
+# A lower overhead progress bar
+# https://github.com/tqdm/tqdm#documentation
+# To only display statics w/o bar, set ncols=0
+pbar = tqdm(total=rawsize, unit='Lines', ncols=100, disable=False)
+
+for _idx, line in enumerate(linesLst):
+#for line in file:
 
     # Update the progress bar
-    #helper.printProgressBar(idx+1, rawsize, prefix='Progress:')
+    #helper.printProgressBar(_idx+1, rawsize, prefix='Progress:')
+    pbar.update(1)
+
     """
     Remove the unwanted strings which include some kind of timestamps, console prompts and etc.
     """
@@ -537,6 +545,7 @@ for line in file:
         newline = currentLineTS + newline
     newfile.write(newline)
 
+pbar.close()
 file.close()
 newfile.close()
 print('Purge costs {!s}\n'.format(datetime.now()-parse_st))

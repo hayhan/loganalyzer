@@ -16,13 +16,14 @@ import gc
 import math
 import shutil
 import hashlib
+from tqdm import tqdm
 from datetime import datetime
 
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
-sys.path.append(parentdir)
+#sys.path.append(parentdir)
 
-from tools import helper
+#from tools import helper
 
 """
 Note: log group/cluster maps to one single template/event.
@@ -890,7 +891,7 @@ class Drain:
         self.load_template_lib()
 
         # Build the tree by using templates from library
-        for rowIndex, line in self.df_tmp.iterrows():
+        for _rowIndex, line in self.df_tmp.iterrows():
             # Split the template into token list
             tmpmessageL = line['EventTemplate'].strip().split()
             # Read the old template id for current template
@@ -902,13 +903,17 @@ class Drain:
         # Load the raw log data
         self.load_data()
 
+        """
         # Init progress bar to 0%
         logsize = self.df_log.shape[0]
         helper.printProgressBar(0, logsize, prefix ='Progress:', suffix='Complete', \
                                 length=50, disable=self.para.nopgbar)
+        """
+        # A lower overhead progress bar
+        pbar = tqdm(total=self.df_log.shape[0], unit='Logs', ncols=100, disable=self.para.nopgbar)
 
         # Process the raw log data
-        for rowIndex, line in self.df_log.iterrows():
+        for _rowIndex, line in self.df_log.iterrows():
 
             logID = line['LineId']
             # Save the current processing logID to class object for debugging
@@ -934,9 +939,13 @@ class Drain:
                 self.updateCluster(logmessageL, logID, logCluL, matchCluster)
 
             # Update the progress bar
-            helper.printProgressBar(rowIndex+1, logsize, prefix='Progress:', suffix ='Complete', \
+            """
+            helper.printProgressBar(_rowIndex+1, logsize, prefix='Progress:', suffix ='Complete', \
                                     length=50, disable=self.para.nopgbar)
+            """
+            pbar.update(1)
 
+        pbar.close()
         if not os.path.exists(self.para.savePath):
             os.makedirs(self.para.savePath)
 
