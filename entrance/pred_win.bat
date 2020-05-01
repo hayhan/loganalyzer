@@ -10,18 +10,18 @@ echo TEMPLATE_LIB_SIZE=2000
 ) > config.txt
 
 rem Adapt boardfarm CM logs
-rem python ..\adapter\boardfarm_CM.py
+rem python ..\adapter\boardfarm_cm.py
 
 rem Preprocess
-python ..\logparser\preprocess_CM.py
+python ..\logparser\preprocess_cm.py
 
 rem Extract the label vector from norm file
 python ..\logparser\extractlabels.py
 
 rem Parse the log and generate templates ...
-python ..\logparser\Drain2_CM.py
+python ..\logparser\drain2_cm.py
 
 rem The machine learning way to analyze log data
-python ..\detector\SupervisedLearning_pred.py
+python ..\detector\supervised_learning_pred.py
 rem The oldshool way to analyze log data
 python ..\oldschool\analyzer.py

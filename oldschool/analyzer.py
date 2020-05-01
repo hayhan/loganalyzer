@@ -8,7 +8,7 @@ import os
 import sys
 import re
 import pandas as pd
-import knowledgebase_CM as kb
+import knowledgebase_cm as kb
 from tqdm import tqdm
 
 # Absolute path of current file

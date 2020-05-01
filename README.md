@@ -23,8 +23,7 @@ The step 3) of Predict also runs the OSS to get another analyzing result, which 
 
 ## **Porting to Other Systems**
 
-By default, the logs come from Cable Modem system. To analyze other system's logs, need port several application dependent
-files as followings:
-logparser/preporcess_CM.py
-logparser/Drain2_CM.py
-oldschool/knowledgebase_CM.py
+By default, the logs come from Cable Modem system. To analyze other system's logs, need port several application dependent files as following:
+logparser/preporcess_cm.py
+logparser/Drain2_cm.py
+oldschool/knowledgebase_cm.py

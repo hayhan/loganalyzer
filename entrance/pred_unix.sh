@@ -10,18 +10,18 @@ echo TEMPLATE_LIB_SIZE=2000
 ) > config.txt
 
 # Adapt boardfarm CM logs
-#python3 ../adapter/boardfarm_CM.py
+#python3 ../adapter/boardfarm_cm.py
 
 # Preprocess
-python3 ../logparser/preprocess_CM.py
+python3 ../logparser/preprocess_cm.py
 
 # Extract the label vector from norm file
 python3 ../logparser/extractlabels.py
 
 # Parse the log and generate templates ...
-python3 ../logparser/Drain2_CM.py
+python3 ../logparser/drain2_cm.py
 
 # The machine learning way to analyze log data
-python3 ../detector/SupervisedLearning_pred.py
+python3 ../detector/supervised_learning_pred.py
 # The oldshool way to analyze log data
 python3 ../oldschool/analyzer.py
