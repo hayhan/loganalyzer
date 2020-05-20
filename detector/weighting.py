@@ -1,6 +1,6 @@
 """
 Description : The interface to weight the event log matrix.
-Author      : LogPAI Team, modified by Wei Han <wei.han@broadcom.com>
+Author      : LogPAI Team, Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
 
