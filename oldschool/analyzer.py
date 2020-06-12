@@ -1,19 +1,19 @@
 """
-Description : Use the old way to analyze each log (line) by searching in a local database 
+Description : Use the old way to analyze each log (line) by searching in a local database
 Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
 
 import os
-import sys
-import re
+#import sys
+#import re
 import pandas as pd
-import knowledgebase_cm as kb
 from tqdm import tqdm
+import knowledgebase_cm as kb
 
 # Absolute path of current file
 curfiledir = os.path.dirname(__file__)
-parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 #sys.path.append(parentdir)
 
 #from tools import helper
@@ -64,7 +64,7 @@ if __name__ == '__main__':
         logFault, logDesc, logSugg = kb.domain_knowledge(eventId, param_list)
 
         # If current log is fault, store the timestamp, log descrition and suggestion to lists
-        if logFault == True:
+        if logFault:
             logTimeL.append(timeStamp)
             logDescL.append(logDesc)
             logSuggL.append(logSugg)

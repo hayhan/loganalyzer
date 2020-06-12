@@ -13,12 +13,14 @@ import numpy as np
 import pandas as pd
 import onnxruntime as rt
 
+import featurextor
+import weighting
+import utils
+
 curfiledir = os.path.dirname(__file__)
-parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 #grandpadir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 sys.path.append(parentdir)
-
-from detector import featurextor, weighting, utils
 
 logging.basicConfig(filename=parentdir+'/tmp/debug.log', \
                     format='%(asctime)s - %(message)s', \
@@ -29,10 +31,7 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
     conlines = confile.readlines()
 
     # Metrics enable
-    if conlines[1].strip() == 'METRICS=1':
-        metricsEn = True
-    else:
-        metricsEn = False
+    metricsEn = bool(conlines[1].strip() == 'METRICS=1')
 
     # Read the model name
     if conlines[2].strip() == 'MODEL=DT':
@@ -86,14 +85,15 @@ para_test = {
 if __name__ == '__main__':
     print("===> Predict Model: {}\n".format(pred_model_file))
 
-    """
-    Feature extraction for the test data
-    """
+    #####################################################################################
+    # Feature extraction for the train data
+    #####################################################################################
+
     # Load the test data from files and do some pre-processing
     raw_data_test, \
     event_mapping_data_test, \
     event_id_templates_test = featurextor.load_data(para_test)
-    
+
     # Add sliding window and create the event count matrix for the test data set.
     # The input parameter event_id_templates_test is not used actually, we reuse
     # the saved shuffled EventId list in the training step.
@@ -103,7 +103,7 @@ if __name__ == '__main__':
                                                     feat_ext_inc=incUpdate)
 
     # Add weighting factor as we did for training data
-    test_x  = weighting.transform(para_test, test_x, term_weighting='tf-idf', \
+    test_x = weighting.transform(para_test, test_x, term_weighting='tf-idf', \
                                   use_train_factor=True, df_vec_inc=incUpdate)
 
     # Load the ONNX model which is equivalent to the scikit-learn model
@@ -117,14 +117,15 @@ if __name__ == '__main__':
     #np.savetxt(para_test['data_path']+'test_y_data.txt', test_y, fmt="%s")
     #np.savetxt(para_test['data_path']+'test_y_data_pred.txt', test_y_pred, fmt="%s")
 
-    if metricsEn == True:
+    if metricsEn:
         print('Test validation:')
         precision, recall, f1 = utils.metrics(test_y_pred, test_y)
         print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'.format(precision, recall, f1))
 
-    """
-    Trace anomaly timestamp windows in the raw log file, aka. loganalyzer/logs/test.txt
-    """
+    #####################################################################################
+    # Trace anomaly timestamp windows in the raw log file, aka. loganalyzer/logs/test.txt
+    #####################################################################################
+
     # Read window tuple list for test data
     sliding_window_file = para_test['data_path']+'sliding_'+str(para_test['window_size']) \
                           +'ms_'+str(para_test['step_size'])+'ms.csv'
@@ -151,4 +152,4 @@ if __name__ == '__main__':
     logging.debug('The anomaly timestamps: {}'.format(anomaly_timestamp_list))
 
     # Save the final timestamp tuples of anomaly
-    np.savetxt(para_test['data_path']+'anomaly_timestamp.csv', anomaly_timestamp_list, delimiter=',',fmt='%s')
+    np.savetxt(para_test['data_path']+'anomaly_timestamp.csv', anomaly_timestamp_list, delimiter=',', fmt='%s')

@@ -8,27 +8,30 @@ License     : MIT
 
 import os
 import sys
-import joblib
 import logging
+import joblib
 import numpy as np
 import pandas as pd
-
-curfiledir = os.path.dirname(__file__)
-parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
-#grandpadir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
-sys.path.append(parentdir)
 
 from sklearn import tree
 from sklearn import svm
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.linear_model import Perceptron
+#from sklearn.linear_model import Perceptron
 from sklearn.linear_model import SGDClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 
-from detector import featurextor, weighting, utils
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
+
+import featurextor
+import weighting
+import utils
+
+curfiledir = os.path.dirname(__file__)
+parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+#grandpadir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
+sys.path.append(parentdir)
 
 logging.basicConfig(filename=parentdir+'/tmp/debug.log', \
                     format='%(asctime)s - %(message)s', \
@@ -39,10 +42,7 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
     conlines = confile.readlines()
 
     # Metrics enable
-    if conlines[1].strip() == 'METRICS=1':
-        metricsEn = True
-    else:
-        metricsEn = False
+    metricsEn = bool(conlines[1].strip() == 'METRICS=1')
 
     # Read the model name
     if conlines[2].strip() == 'MODEL=DT':
@@ -111,11 +111,12 @@ para_test = {
 
 
 if __name__ == '__main__':
-    print("===> Train Module: {}\n".format(model_name))
+    print("===> Train Model: {}\n".format(model_name))
 
-    """
-    Feature extraction for the train data
-    """
+    #####################################################################################
+    # Feature extraction for the train data
+    #####################################################################################
+
     # Load the train data from files and do some pre-processing
     raw_data_train, \
     event_mapping_data_train, \
@@ -131,9 +132,10 @@ if __name__ == '__main__':
     # Add weighting factor before training
     train_x = weighting.fit_transform(para_train, train_x, term_weighting='tf-idf', df_vec_inc=incUpdate)
 
-    """
-    Train the model with train dataset now
-    """
+    #####################################################################################
+    # Train the model with train dataset now
+    #####################################################################################
+
     # Load the saved complete scikit-learn model if it exists
     inc_fit_model_file = para_train['persist_path']+model_name+'.object'
     all_classes = np.array([0, 1])
@@ -188,9 +190,10 @@ if __name__ == '__main__':
     # Predict the train data for validation later
     train_y_pred = model.predict(train_x)
 
-    """
-    Feature extraction for the test data
-    """
+    #####################################################################################
+    # Feature extraction for the test data
+    #####################################################################################
+
     # Load the test data from files and do some pre-processing
     raw_data_test, \
     event_mapping_data_test, \
@@ -212,21 +215,23 @@ if __name__ == '__main__':
     #np.savetxt(para_test['data_path']+'test_y_data.txt', test_y, fmt="%s")
     np.savetxt(para_test['data_path']+'test_y_data_pred.txt', test_y_pred, fmt="%s")
 
-    """
-    The validation for train and test dataset
-    """
+    #####################################################################################
+    # The validation for train and test dataset
+    #####################################################################################
+
     print('Train validation:')
     precision, recall, f1 = utils.metrics(train_y_pred, train_y)
     print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'.format(precision, recall, f1))
 
-    if metricsEn == True:
+    if metricsEn:
         print('Test validation:')
         precision, recall, f1 = utils.metrics(test_y_pred, test_y)
         print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'.format(precision, recall, f1))
 
-    """
-    Trace anomaly timestamp windows in the raw log file, aka. loganalyzer/logs/test.txt
-    """
+    #####################################################################################
+    # Trace anomaly timestamp windows in the raw log file, aka. loganalyzer/logs/test.txt
+    #####################################################################################
+
     # Read window tuple list for test data
     sliding_window_file = para_test['data_path']+'sliding_'+str(para_test['window_size']) \
                           +'ms_'+str(para_test['step_size'])+'ms.csv'
@@ -253,4 +258,4 @@ if __name__ == '__main__':
     logging.debug('The anomaly timestamps: {}'.format(anomaly_timestamp_list))
 
     # Save the final timestamp tuples of anomaly
-    np.savetxt(para_test['data_path']+'anomaly_timestamp.csv', anomaly_timestamp_list, delimiter=',',fmt='%s')
+    np.savetxt(para_test['data_path']+'anomaly_timestamp.csv', anomaly_timestamp_list, delimiter=',', fmt='%s')

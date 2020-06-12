@@ -9,8 +9,8 @@ Paper       : [Arxiv'18] Pinjia He, Jieming Zhu, Hongyu Zhang, Pengcheng Xu,
 
 import re
 import os
-import sys
-import numpy as np
+#import sys
+#import numpy as np
 import pandas as pd
 import gc
 import math
@@ -19,8 +19,8 @@ import hashlib
 from tqdm import tqdm
 from datetime import datetime
 
-curfiledir = os.path.dirname(__file__)
-parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+#curfiledir = os.path.dirname(__file__)
+#parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 #sys.path.append(parentdir)
 
 #from tools import helper
