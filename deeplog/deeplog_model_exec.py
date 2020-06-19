@@ -7,13 +7,13 @@ Paper       : [CCS'17] Min Du, Feifei Li, Guineng Zheng, Vivek Srikumar
               through Deep Learning, 2017.
 """
 
-import torch
-#import math
-import torch.optim as optim
-import pandas as pd
-from torch import nn
-from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score
 from collections import defaultdict
+import torch
+import torch.optim as optim
+from torch import nn
+#import math
+import pandas as pd
+from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score
 
 class DeepLogExec(nn.Module):
     def __init__(self, num_labels, hidden_size=100, num_directions=2, topk=9, device="cpu"):
@@ -22,7 +22,8 @@ class DeepLogExec(nn.Module):
         self.num_directions = num_directions
         self.topk = topk
         self.device = self.set_device(device)
-        self.rnn = nn.LSTM(input_size=1, hidden_size=self.hidden_size, batch_first=True, bidirectional=(self.num_directions==2))
+        self.rnn = nn.LSTM(input_size=1, hidden_size=self.hidden_size, batch_first=True,
+                           bidirectional=(self.num_directions == 2))
         self.criterion = nn.CrossEntropyLoss()
         self.prediction_layer = nn.Linear(self.hidden_size * self.num_directions, num_labels + 1)
 
@@ -65,7 +66,7 @@ class DeepLogExec(nn.Module):
                 batch_cnt += 1
             epoch_loss = epoch_loss / batch_cnt
             print("Epoch {}/{}, training loss: {:.5f}".format(epoch+1, epoches, epoch_loss))
-    
+
     def evaluate(self, test_loader):
         self.eval()  # set to evaluation mode
         with torch.no_grad():
@@ -86,7 +87,7 @@ class DeepLogExec(nn.Module):
 
             window_pred = store_dict["window_pred"]
             window_y = store_dict["window_y"]
-            
+
             store_df = pd.DataFrame(store_dict)
             store_df["anomaly"] = store_df.apply(lambda x: x["window_y"] not in x["topk_indice"], axis=1).astype(int)
 
@@ -98,9 +99,9 @@ class DeepLogExec(nn.Module):
             y_true = store_df["y"]
 
             metrics = {"window_acc" : accuracy_score(window_y, window_pred),
-            "session_acc" : accuracy_score(y_true, y_pred),
-            "f1" : f1_score(y_true, y_pred),
-            "recall" : recall_score(y_true, y_pred),
-            "precision" : precision_score(y_true, y_pred)}
-            print([(k, round(v, 5))for k,v in metrics.items()])
+                       "session_acc" : accuracy_score(y_true, y_pred),
+                       "f1" : f1_score(y_true, y_pred),
+                       "recall" : recall_score(y_true, y_pred),
+                       "precision" : precision_score(y_true, y_pred)}
+            print([(k, round(v, 5))for k, v in metrics.items()])
             return metrics
