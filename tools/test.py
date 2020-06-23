@@ -211,3 +211,24 @@ if matchTS:
     currentLineTS = matchTS.group(0)
     newline = strPattern0.sub('', line, count=1)
 print(newline)
+
+################
+eidx_logs = [99, 98, 97, 96, 95, 94, 93, 92, 91, 90, \
+            89, 88, 87, 86, 85, 84, 83, 82, 81, 80]
+labels = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+results_lst = []
+logsnum = len(eidx_logs)
+i = 0
+while (i + 5) < logsnum:
+    sequence = eidx_logs[i: i + 5]
+    results_lst.append([i, sequence, eidx_logs[i + 5], labels[i + 5]])
+    i += 1
+print(results_lst)
+
+results_df = pd.DataFrame(results_lst, columns=["SeqId", "EventSeq", "Target", "Label"])
+results_dict = {"SeqId": results_df["SeqId"].to_numpy(),
+                "EventSeq": np.array(results_df["EventSeq"].tolist()),
+                "Target": results_df["Target"].to_numpy(),
+                "Label": results_df["Label"].to_numpy()}
+print(results_dict)
