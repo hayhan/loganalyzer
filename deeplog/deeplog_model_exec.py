@@ -16,33 +16,36 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score
 
 class DeepLogExec(nn.Module):
-    def __init__(self, num_labels, hidden_size=100, num_directions=2, topk=9, device="cpu"):
+    def __init__(self, num_classes, hidden_size=100, num_layers=1, num_directions=2, topk=9,
+                 device='cpu'):
         super(DeepLogExec, self).__init__()
         self.hidden_size = hidden_size
+        self.num_layers = num_layers
         self.num_directions = num_directions
         self.topk = topk
         self.device = self.set_device(device)
-        self.rnn = nn.LSTM(input_size=1, hidden_size=self.hidden_size, batch_first=True,
+        self.rnn = nn.LSTM(input_size=1, hidden_size=self.hidden_size,
+                           num_layers=self.num_layers, batch_first=True,
                            bidirectional=(self.num_directions == 2))
         self.criterion = nn.CrossEntropyLoss()
-        self.prediction_layer = nn.Linear(self.hidden_size * self.num_directions, num_labels + 1)
+        self.prediction_layer = nn.Linear(self.hidden_size * self.num_directions, num_classes)
 
     def forward(self, input_dict):
-        y = input_dict["window_y"].long().view(-1).to(self.device)
+        y = input_dict['Target'].long().view(-1).to(self.device) # Tensor D1: size 32
         self.batch_size = y.size()[0]
-        x = input_dict["x"].view(self.batch_size, -1, 1).to(self.device)
-        outputs, hidden = self.rnn(x.float(), self.init_hidden())
-        logits = self.prediction_layer(outputs[:,-1,:])
+        x = input_dict['EventSeq'].view(self.batch_size, -1, 1).to(self.device) # Tensor D3: size 32x10x1
+        outputs, _hidden = self.rnn(x.float(), self.init_hidden())
+        logits = self.prediction_layer(outputs[:, -1, :])
         y_pred = logits.softmax(dim=-1)
         loss = self.criterion(logits, y)
         return_dict = {'loss': loss, 'y_pred': y_pred}
         return return_dict
 
-    def set_device(self, gpu=-1):
-        if gpu != -1 and torch.cuda.is_available():
-            device = torch.device('cuda: ' + str(gpu))
+    def set_device(self, dev='cpu'):
+        if dev != 'cpu' and torch.cuda.is_available():
+            device = torch.device('cuda')
         else:
-            device = torch.device('cpu')   
+            device = torch.device('cpu')
         return device
 
     def init_hidden(self):

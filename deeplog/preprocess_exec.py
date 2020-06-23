@@ -17,7 +17,6 @@ def load_data(para):
     1. Load normalized / structured logs / template library
     2. Load / update (for training only) the revised event id list file
     3. Slice the logs with sliding windows
-    4. Construct the pytorch dataloader iterator
 
     Arguments
     ---------
@@ -25,7 +24,12 @@ def load_data(para):
 
     Returns
     -------
-    data_loader: the pytorch DataLoader object that can be iterated by DeepLog model
+    data_dict:
+    <SeqId> the sequence / window id, aka log line number [0 ~ (logsnum-window_size-1)].
+    <EventSeq> array of [seq_num x window_size] event sequence
+    <Target> the target event index for each event sequence
+    <Label> the label of target event
+    voc_size: the number of non zero event id in the vocabulary
     """
 
     #####################################################################################
@@ -57,9 +61,24 @@ def load_data(para):
     # 2. Load the vocabulary, aka STIDLE: Shuffled Template Id List Expanded
     #####################################################################################
 
+    # Load and update vocabulary. Currently only update with train dataset
     event_id_voc = load_vocabulary(para, event_id_templates)
+
+    # Count the non-zero event id number in the vocabulary. Suppose at least one zero
+    # element exists in the voc.
+    voc_size = len(set(event_id_voc)) - 1
+
     # Convert event id (hash value) log vector to event index (0 based integer) log vector
-    event_idx_logs = [event_id_voc.index(event_id_logs[i]) for i in range(len(event_id_logs))]
+    # For train dataset the template library / vocabulary normally contain all the possible
+    # event ids. For validation / test datasets, they might not retrive some ones. Currently
+    # map the unknow event ids to 65535.
+    #event_idx_logs = [event_id_voc.index(tid) for tid in event_id_logs]
+    event_idx_logs = []
+    for tid in event_id_logs:
+        try:
+            event_idx_logs.append(event_id_voc.index(tid))
+        except ValueError:
+            event_idx_logs.append(65535)
 
     #####################################################################################
     # 3. Slice the logs into sliding windows
@@ -72,14 +91,7 @@ def load_data(para):
     # <Label> the label of target event
     data_dict = slice_logs(event_idx_logs, labels, para['window_size'])
 
-    #####################################################################################
-    # 4. Feed the pytorch Dataset / DataLoader to get the iterator
-    #####################################################################################
-
-    data_loader = DeepLogExecDataset(data_dict, batch_size=para['batch_size'], shuffle=True,
-                                     num_workers=para['number_workers']).loader
-
-    return data_loader
+    return data_dict, voc_size
 
 
 def load_vocabulary(para, event_id_templates):
@@ -112,64 +124,63 @@ def load_vocabulary(para, event_id_templates):
     print('Loading shuffled EventId list of templates.')
     event_id_shuffled = np.load(para['eid_file']).tolist()
 
-    # We update STIDLE for all dataset including train/validation/test
-    # This is different from what we did for the supervised learning
+    # We only update STIDLE for train dataset currently
+    if para['train']:
+        # Read the EventIdOld column from template library
+        data_df = pd.read_csv(para['template_lib'], usecols=['EventIdOld'])
+        event_id_templates_old = data_df['EventIdOld'].to_list()
+        update_flag = False
 
-    # Read the EventIdOld column from template library
-    data_df = pd.read_csv(para['template_lib'], usecols=['EventIdOld'])
-    event_id_templates_old = data_df['EventIdOld'].to_list()
-    update_flag = False
+        # Case 1):
+        # Find the ZERO values in EventIdOld and the corresponding non ZERO EventId
+        event_id_old_zero = [event_id_templates[idx] \
+                                for idx, tid in enumerate(event_id_templates_old) if tid == '0']
 
-    # Case 1):
-    # Find the ZERO values in EventIdOld and the corresponding non ZERO EventId
-    event_id_old_zero = [event_id_templates[idx] \
-                            for idx, tid in enumerate(event_id_templates_old) if tid == '0']
+        # There are ZEROs in EventIdOld. It means the corresponding EventId is new
+        # No need check the correspinding EventId is non-ZERO
+        if len(event_id_old_zero) > 0:
+            # Aggregate all idx of ZERO in STIDLE to a new list, then shuffle it
+            idx_zero = [idx for idx, tid in enumerate(event_id_shuffled) if tid == '0']
+            idx_zero_shuffled = scikit_shuffle(idx_zero)
+            # Insert the new EventId to the STIDLE
+            updt_cnt = 0
+            for idx, tid in enumerate(event_id_old_zero):
+                # Make sure no duplicates in the STIDLE
+                try:
+                    event_id_shuffled.index(tid)
+                except ValueError:
+                    event_id_shuffled[idx_zero_shuffled[idx]] = tid
+                    updt_cnt += 1
+            # Set the update flag
+            update_flag = True
+            print("%d new template IDs are inserted to STIDLE." % updt_cnt)
 
-    # There are ZEROs in EventIdOld. It means the corresponding EventId is new
-    # No need check the correspinding EventId is non-ZERO
-    if len(event_id_old_zero) > 0:
-        # Aggregate all idx of ZERO in STIDLE to a new list, then shuffle it
-        idx_zero = [idx for idx, tid in enumerate(event_id_shuffled) if tid == '0']
-        idx_zero_shuffled = scikit_shuffle(idx_zero)
-        # Insert the new EventId to the STIDLE
+        # Case 2):
+        # Find the non ZERO values in EventIdOld that are not equal to the ones in EventId
+        # Replace the old tid with the new one in STIDLE
         updt_cnt = 0
-        for idx, tid in enumerate(event_id_old_zero):
-            # Make sure no duplicates in the STIDLE
-            try:
-                event_id_shuffled.index(tid)
-            except ValueError:
-                event_id_shuffled[idx_zero_shuffled[idx]] = tid
+        for tid_old, tid in zip(event_id_templates_old, event_id_templates):
+            if tid_old not in('0', tid):
+                idx_old = event_id_shuffled.index(tid_old)
+                event_id_shuffled[idx_old] = tid
                 updt_cnt += 1
-        # Set the update flag
-        update_flag = True
-        print("%d new template IDs are inserted to STIDLE." % updt_cnt)
 
-    # Case 2):
-    # Find the non ZERO values in EventIdOld that are not equal to the ones in EventId
-    # Replace the old tid with the new one in STIDLE
-    updt_cnt = 0
-    for tid_old, tid in zip(event_id_templates_old, event_id_templates):
-        if tid_old not in('0', tid):
-            idx_old = event_id_shuffled.index(tid_old)
-            event_id_shuffled[idx_old] = tid
-            updt_cnt += 1
+        if updt_cnt > 0:
+            # Set the update flag
+            update_flag = True
+            print("%d existing template IDs are updated in STIDLE." % updt_cnt)
 
-    if updt_cnt > 0:
-        # Set the update flag
-        update_flag = True
-        print("%d existing template IDs are updated in STIDLE." % updt_cnt)
+        # Case 3):
+        # TBD
 
-    # Case 3):
-    # TBD
+        # Case 4):
+        # TBD
 
-    # Case 4):
-    # TBD
-
-    # Update the STIDLE file
-    if update_flag:
-        shutil.copy(para['eid_file_txt'], para['eid_file_txt']+'.old')
-        np.save(para['eid_file'], event_id_shuffled)
-        np.savetxt(para['eid_file_txt'], event_id_shuffled, fmt="%s")
+        # Update the STIDLE file
+        if update_flag:
+            shutil.copy(para['eid_file_txt'], para['eid_file_txt']+'.old')
+            np.save(para['eid_file'], event_id_shuffled)
+            np.savetxt(para['eid_file_txt'], event_id_shuffled, fmt="%s")
 
     return event_id_shuffled
 
@@ -213,11 +224,11 @@ def slice_logs(eidx_logs, labels, window_size):
     # --end--
 
     results_df = pd.DataFrame(results_lst, columns=["SeqId", "EventSeq", "Target", "Label"])
-    results_dict = {"SeqId": results_df["SeqId"].values,
+    results_dict = {"SeqId": results_df["SeqId"].to_numpy(),
                     "EventSeq": np.array(results_df["EventSeq"].tolist()),
-                    "Target": results_df["Target"].values,
-                    "Label": results_df["Label"].values}
-
+                    "Target": results_df["Target"].to_numpy(),
+                    "Label": results_df["Label"].to_numpy()}
+ 
     return results_dict
 
 
@@ -235,7 +246,8 @@ class DeepLogExecDataset(Dataset):
 
     def __getitem__(self, index):
         """ Return a complete data sample at index
-        Here it returns a dict thats represents a complete sample at index
+        Here it returns a dict that represents a complete sample at index
+        The parameter is sample index, aka sequence id SeqId
         """
         return {k: self.data_dict[k][index] for k in self.keys}
 

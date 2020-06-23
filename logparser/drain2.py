@@ -764,9 +764,7 @@ class Drain:
 
         # Backup the template library and then update it in result/persist
         # Only do for train dataset and when template lib incremental update enabled
-        #if self.para.overWrLib and self.para.incUpdate:
-        # Update the lib for any dataset althoug there are a lot of garbages in test dataset
-        if self.para.incUpdate:
+        if self.para.overWrLib and self.para.incUpdate:
             if os.path.exists(os.path.join(self.para.pstdir, self.para.tmpLib)):
                 shutil.copy(os.path.join(self.para.pstdir, self.para.tmpLib), \
                             os.path.join(self.para.pstdir, self.para.tmpLib+'.old'))

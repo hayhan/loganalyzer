@@ -30,6 +30,12 @@ with open(parentdir+'/entrance/deeplog_config.txt', 'r', encoding='utf-8-sig') a
     BATCH_SIZE = int(conlines[6].strip().replace('BATCH_SIZE=', ''))
     # Read the number of workers for multi-process data
     NUM_WORKERS = int(conlines[7].strip().replace('NUM_WORKERS=', ''))
+    # Read the number of hidden size
+    HIDDEN_SIZE = int(conlines[8].strip().replace('HIDDEN_SIZE=', ''))
+    # Read the number of topk
+    TOPK = int(conlines[9].strip().replace('TOPK=', ''))
+    # Read the device, cpu or gpu
+    DEVICE = conlines[10].strip().replace('DEVICE=', '')
 
 para_train = {
     'structured_file': parentdir+'/results/train/train_norm.txt_structured.csv',
@@ -42,10 +48,9 @@ para_train = {
     'step_size'      : WINDOW_STEP,         # always 1
     'tmplib_size'    : TEMPLATE_LIB_SIZE,
     'train'          : True,
-    'metrics_enable' : METRICS_EN,
-    'batch_size'     : BATCH_SIZE,
-    'num_workers'    : NUM_WORKERS
+    'metrics_enable' : METRICS_EN
 }
+
 
 if __name__ == '__main__':
     print("===> Start training the execution path model ...")
@@ -53,9 +58,38 @@ if __name__ == '__main__':
     #####################################################################################
     # Load / preprocess data from train norm structured file
     #####################################################################################
-    train_data = preprocess.load_data(para_train)
+    train_data_dict, voc_size = preprocess.load_data(para_train)
+    print(train_data_dict)
+    #####################################################################################
+    # Feed the pytorch Dataset / DataLoader to get the iterator
+    #####################################################################################
+    train_data_loader = preprocess.DeepLogExecDataset(train_data_dict,
+                                                      batch_size=BATCH_SIZE,
+                                                      shuffle=True,
+                                                      num_workers=NUM_WORKERS).loader
 
     #####################################################################################
     # Train with DeepLog Model for Execution Path Anomaly
     #####################################################################################
-    model = dme.DeepLogExec()
+    #model = dme.DeepLogExec(num_classes=voc_size, hidden_size=HIDDEN_SIZE, num_directions=2,
+    #                        topk=TOPK, device=DEVICE)
+
+    i = 0
+    for batch_input in train_data_loader:
+        #y = batch_input['EventSeq'].view(-1, 10, 1)
+        print(batch_input)
+        #batch_size = y.size()[0]
+        #print(batch_input['EventSeq'].view(batch_size, -1, 1))
+
+"""
+    import torch
+    from torch.utils.data import TensorDataset, DataLoader
+    inputs = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15]]
+    outputs = [91, 92, 93]
+    dataset = TensorDataset(torch.tensor(inputs, dtype=torch.float), torch.tensor(outputs))
+    dataloader = DataLoader(dataset, batch_size=2, shuffle=True, pin_memory=True)
+
+    for step, (seq, label) in enumerate(dataloader):
+        print(seq.view(-1, 5, 1))
+        #seq = seq.clone().detach().view(-1, window_size, input_size).to(device)
+"""
