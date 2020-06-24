@@ -213,6 +213,7 @@ if matchTS:
 print(newline)
 
 ################
+"""
 eidx_logs = [99, 98, 97, 96, 95, 94, 93, 92, 91, 90, \
             89, 88, 87, 86, 85, 84, 83, 82, 81, 80]
 labels = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
@@ -227,8 +228,48 @@ while (i + 5) < logsnum:
 print(results_lst)
 
 results_df = pd.DataFrame(results_lst, columns=["SeqId", "EventSeq", "Target", "Label"])
-results_dict = {"SeqId": results_df["SeqId"].to_numpy(),
-                "EventSeq": np.array(results_df["EventSeq"].tolist()),
-                "Target": results_df["Target"].to_numpy(),
-                "Label": results_df["Label"].to_numpy()}
+results_dict = {"SeqId": results_df["SeqId"].to_numpy(dtype='int32'),
+                "EventSeq": np.array(results_df["EventSeq"].tolist(), dtype='int32'),
+                "Target": results_df["Target"].to_numpy(dtype='int32'),
+                "Label": results_df["Label"].to_numpy(dtype='int32')}
 print(results_dict)
+"""
+##############defferent between tensor.clone() and tensor.detach()#################
+# https://discuss.pytorch.org/t/clone-and-detach-in-v0-4-0/16861/17
+# https://discuss.pytorch.org/t/difference-between-detach-clone-and-clone-detach/34173/5
+import torch
+
+x = torch.tensor(([1.0]), requires_grad=True)
+y = x**2
+z = 2*y
+w = z**3
+
+# This is the subpath
+# Do not use detach()
+"""
+#p = z # no copy, so p and z share the same tensor
+p = z.clone() # clone() makes a copy
+print(id(z), id(p))
+q = torch.tensor(([2.0]), requires_grad=True)
+pq = p*q
+pq.backward(retain_graph=True)
+"""
+
+# detach it, so the gradient w.r.t `p` does not effect `z`!
+"""
+p = z.detach() # detach(), pytorch doc says they share same storage
+print(z.addr, p.addr) # but why the addresses are different?
+q = torch.tensor(([2.]), requires_grad=True)
+pq = p*q
+pq.backward(retain_graph=True)
+"""
+
+w.backward()
+print(x.grad)
+
+##########################
+def forward(aaa, *bbb):
+    print(aaa)
+    print(bbb[0])
+
+forward('AAA', 'BBB', 'CCC')

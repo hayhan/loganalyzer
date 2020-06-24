@@ -59,9 +59,9 @@ if __name__ == '__main__':
     # Load / preprocess data from train norm structured file
     #####################################################################################
     train_data_dict, voc_size = preprocess.load_data(para_train)
-    print(train_data_dict)
+
     #####################################################################################
-    # Feed the pytorch Dataset / DataLoader to get the iterator
+    # Feed the pytorch Dataset / DataLoader to get the iterator / tensors
     #####################################################################################
     train_data_loader = preprocess.DeepLogExecDataset(train_data_dict,
                                                       batch_size=BATCH_SIZE,
@@ -71,25 +71,25 @@ if __name__ == '__main__':
     #####################################################################################
     # Train with DeepLog Model for Execution Path Anomaly
     #####################################################################################
-    #model = dme.DeepLogExec(num_classes=voc_size, hidden_size=HIDDEN_SIZE, num_directions=2,
-    #                        topk=TOPK, device=DEVICE)
+    #model = dme.DeepLogExec(num_classes=voc_size, hidden_size=HIDDEN_SIZE, num_classes=2,
+    #                        num_dir=1, topk=TOPK, device=DEVICE)
 
     i = 0
     for batch_input in train_data_loader:
         #y = batch_input['EventSeq'].view(-1, 10, 1)
-        print(batch_input)
+        print(batch_input['EventSeq'])
         #batch_size = y.size()[0]
         #print(batch_input['EventSeq'].view(batch_size, -1, 1))
 
-"""
+
     import torch
     from torch.utils.data import TensorDataset, DataLoader
     inputs = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15]]
     outputs = [91, 92, 93]
-    dataset = TensorDataset(torch.tensor(inputs, dtype=torch.float), torch.tensor(outputs))
+    dataset = TensorDataset(torch.tensor(inputs, dtype=torch.float), torch.tensor(outputs, dtype=torch.int64))
     dataloader = DataLoader(dataset, batch_size=2, shuffle=True, pin_memory=True)
 
     for step, (seq, label) in enumerate(dataloader):
-        print(seq.view(-1, 5, 1))
+        #print(seq.view(-1, 5, 1))
         #seq = seq.clone().detach().view(-1, window_size, input_size).to(device)
-"""
+        print(step)

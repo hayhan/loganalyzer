@@ -224,11 +224,11 @@ def slice_logs(eidx_logs, labels, window_size):
     # --end--
 
     results_df = pd.DataFrame(results_lst, columns=["SeqId", "EventSeq", "Target", "Label"])
-    results_dict = {"SeqId": results_df["SeqId"].to_numpy(),
-                    "EventSeq": np.array(results_df["EventSeq"].tolist()),
-                    "Target": results_df["Target"].to_numpy(),
-                    "Label": results_df["Label"].to_numpy()}
- 
+    results_dict = {"SeqId": results_df["SeqId"].to_numpy(dtype='int32'),
+                    "EventSeq": np.array(results_df["EventSeq"].tolist(), dtype='int32'),
+                    "Target": results_df["Target"].to_numpy(dtype='int32'),
+                    "Label": results_df["Label"].to_numpy(dtype='int32')}
+
     return results_dict
 
 
@@ -248,6 +248,7 @@ class DeepLogExecDataset(Dataset):
         """ Return a complete data sample at index
         Here it returns a dict that represents a complete sample at index
         The parameter is sample index, aka sequence id SeqId
+        After DataLoader processing, the value parts of the dict will be tensors
         """
         return {k: self.data_dict[k][index] for k in self.keys}
 
