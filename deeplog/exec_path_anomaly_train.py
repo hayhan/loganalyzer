@@ -7,8 +7,11 @@ License     : MIT
 
 import os
 import sys
+import torch
+import torch.nn as nn
+import torch.optim as optim
 import preprocess_exec as preprocess
-import deeplog_model_exec as dme
+from deeplog_models import DeepLogExec
 
 curfiledir = os.path.dirname(__file__)
 parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
@@ -28,14 +31,16 @@ with open(parentdir+'/entrance/deeplog_config.txt', 'r', encoding='utf-8-sig') a
     TEMPLATE_LIB_SIZE = int(conlines[5].strip().replace('TEMPLATE_LIB_SIZE=', ''))
     # Read the batch size for training
     BATCH_SIZE = int(conlines[6].strip().replace('BATCH_SIZE=', ''))
+    # Read the number of epochs for training
+    NUM_EPOCHS = int(conlines[7].strip().replace('NUM_EPOCHS=', '')) 
     # Read the number of workers for multi-process data
-    NUM_WORKERS = int(conlines[7].strip().replace('NUM_WORKERS=', ''))
+    NUM_WORKERS = int(conlines[8].strip().replace('NUM_WORKERS=', ''))
     # Read the number of hidden size
-    HIDDEN_SIZE = int(conlines[8].strip().replace('HIDDEN_SIZE=', ''))
+    HIDDEN_SIZE = int(conlines[9].strip().replace('HIDDEN_SIZE=', ''))
     # Read the number of topk
-    TOPK = int(conlines[9].strip().replace('TOPK=', ''))
+    TOPK = int(conlines[10].strip().replace('TOPK=', ''))
     # Read the device, cpu or gpu
-    DEVICE = conlines[10].strip().replace('DEVICE=', '')
+    DEVICE = conlines[11].strip().replace('DEVICE=', '')
 
 para_train = {
     'structured_file': parentdir+'/results/train/train_norm.txt_structured.csv',
@@ -52,44 +57,66 @@ para_train = {
 }
 
 
-if __name__ == '__main__':
-    print("===> Start training the execution path model ...")
+print("===> Start training the execution path model ...")
 
-    #####################################################################################
-    # Load / preprocess data from train norm structured file
-    #####################################################################################
-    train_data_dict, voc_size = preprocess.load_data(para_train)
+#########################################################################################
+# Load / preprocess data from train norm structured file
+#########################################################################################
+train_data_dict, voc_size = preprocess.load_data(para_train)
 
-    #####################################################################################
-    # Feed the pytorch Dataset / DataLoader to get the iterator / tensors
-    #####################################################################################
-    train_data_loader = preprocess.DeepLogExecDataset(train_data_dict,
-                                                      batch_size=BATCH_SIZE,
-                                                      shuffle=True,
-                                                      num_workers=NUM_WORKERS).loader
+#########################################################################################
+# Feed the pytorch Dataset / DataLoader to get the iterator / tensors
+#########################################################################################
+train_data_loader = preprocess.DeepLogExecDataset(train_data_dict,
+                                                  batch_size=BATCH_SIZE,
+                                                  shuffle=True,
+                                                  num_workers=NUM_WORKERS).loader
 
-    #####################################################################################
-    # Train with DeepLog Model for Execution Path Anomaly
-    #####################################################################################
-    #model = dme.DeepLogExec(num_classes=voc_size, hidden_size=HIDDEN_SIZE, num_classes=2,
-    #                        num_dir=1, topk=TOPK, device=DEVICE)
+#########################################################################################
+# Build DeepLog Model for Execution Path Anomaly Detection
+#########################################################################################
+device = torch.device('cuda' if DEVICE != 'cpu' and torch.cuda.is_available() else 'cpu')
+model = DeepLogExec(device, num_classes=voc_size, hidden_size=HIDDEN_SIZE, num_layers=2,
+                    num_dir=1, topk=TOPK)
 
-    i = 0
-    for batch_input in train_data_loader:
-        #y = batch_input['EventSeq'].view(-1, 10, 1)
-        print(batch_input['EventSeq'])
-        #batch_size = y.size()[0]
-        #print(batch_input['EventSeq'].view(batch_size, -1, 1))
+# Select the loss and optimizer
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters())
 
+# Enclose the process of training into the train function
+def train():
+    """ Block that trains the model
+    """
+    #model.train()
+    batch_cnt = len(train_data_loader)
+    for epoch in range(NUM_EPOCHS):
+        epoch_loss = 0
+        for batch_in in train_data_loader:
+            # Forward pass
+            # Each sample is a dict in the dataloader, in which the value parts are tensors
+            # The input batch sequence is a 3-Dimension tensor as below
+            # [batch_size x window_size x input_size]
+            seq = batch_in['EventSeq'].clone().detach().view(-1, WINDOW_SIZE, 1).to(device)
+            output = model(seq)
+            loss = criterion(output, batch_in['Target'].long.view(-1).to(device))
 
-    import torch
-    from torch.utils.data import TensorDataset, DataLoader
-    inputs = [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15]]
-    outputs = [91, 92, 93]
-    dataset = TensorDataset(torch.tensor(inputs, dtype=torch.float), torch.tensor(outputs, dtype=torch.int64))
-    dataloader = DataLoader(dataset, batch_size=2, shuffle=True, pin_memory=True)
+            # Backward pass and optimize
+            optimizer.zero_grad()
+            loss.backward()
+            epoch_loss += loss.item()
+            optimizer.step()
+        epoch_loss = epoch_loss / batch_cnt
+        print("Epoch {}/{}, train loss: {:.5f}".format(epoch+1, NUM_EPOCHS, epoch_loss))
 
-    for step, (seq, label) in enumerate(dataloader):
-        #print(seq.view(-1, 5, 1))
-        #seq = seq.clone().detach().view(-1, window_size, input_size).to(device)
-        print(step)
+# Enclose the process of evalating intot the evaluate function
+def evaluate(data_loader):
+    """ Block that evaluate the model
+    """
+    model.eval()
+
+# Train the model now
+train()
+
+# Evaluate the train dataset
+
+# Evaluate the test dataset

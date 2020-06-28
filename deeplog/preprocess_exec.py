@@ -214,7 +214,7 @@ def slice_logs(eidx_logs, labels, window_size):
         i += 1
 
     # For training, the last window has no target and its label. Simply disgard it.
-    # So the total num of sequences are logsnum - window_size
+    # So the total num of sequences is logsnum - window_size
 
     # Special disposing for the last window
     # --Block comment out start--
