@@ -58,66 +58,71 @@ para_train = {
 }
 
 
-print("===> Start training the execution path model ...")
+if __name__ == '__main__':
+    # On Windows, the top level env '__main__' is needed for multi-process dataloading
+    # under pytorch framework. On Unix like system, it is not cecessary. See link below
+    # https://pytorch.org/docs/stable/data.html#platform-specific-behaviors
 
-#########################################################################################
-# Load / preprocess data from train norm structured file
-#########################################################################################
-train_data_dict, voc_size = preprocess.load_data(para_train)
+    print("===> Start training the execution path model ...")
 
-#########################################################################################
-# Feed the pytorch Dataset / DataLoader to get the iterator / tensors
-#########################################################################################
-train_data_loader = preprocess.DeepLogExecDataset(train_data_dict,
-                                                  batch_size=BATCH_SIZE,
-                                                  shuffle=True,
-                                                  num_workers=NUM_WORKERS).loader
+    #####################################################################################
+    # Load / preprocess data from train norm structured file
+    #####################################################################################
+    train_data_dict, voc_size = preprocess.load_data(para_train)
 
-#########################################################################################
-# Build DeepLog Model for Execution Path Anomaly Detection
-#########################################################################################
-device = torch.device('cuda' if DEVICE != 'cpu' and torch.cuda.is_available() else 'cpu')
-model = DeepLogExec(device, num_classes=voc_size, hidden_size=HIDDEN_SIZE, num_layers=2,
-                    num_dir=1, topk=TOPK)
+    #####################################################################################
+    # Feed the pytorch Dataset / DataLoader to get the iterator / tensors
+    #####################################################################################
+    train_data_loader = preprocess.DeepLogExecDataset(train_data_dict,
+                                                      batch_size=BATCH_SIZE,
+                                                      shuffle=True,
+                                                      num_workers=NUM_WORKERS).loader
 
-# Select the loss and optimizer
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters())
+    #####################################################################################
+    # Build DeepLog Model for Execution Path Anomaly Detection
+    #####################################################################################
+    device = torch.device('cuda' if DEVICE != 'cpu' and torch.cuda.is_available() else 'cpu')
+    model = DeepLogExec(device, num_classes=voc_size, hidden_size=HIDDEN_SIZE, num_layers=2,
+                        num_dir=1, topk=TOPK)
 
-# Enclose the process of training
-def train():
-    """ Block that trains the model
-    """
-    #model.train()
-    batch_cnt = len(train_data_loader)
-    for epoch in range(NUM_EPOCHS):
-        epoch_loss = 0
-        for batch_in in train_data_loader:
-            # Forward pass
-            # Each sample is a dict in the dataloader, in which the value parts are tensors
-            # The input batch sequence is a 3-Dimension tensor as below
-            # [batch_size x window_size x input_size]
-            seq = batch_in['EventSeq'].clone().detach().view(-1, WINDOW_SIZE, 1).to(device)
-            output = model(seq)
-            loss = criterion(output, batch_in['Target'].long().view(-1).to(device))
+    # Select the loss and optimizer
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters())
 
-            # Backward pass and optimize
-            optimizer.zero_grad()
-            loss.backward()
-            epoch_loss += loss.item()
-            optimizer.step()
-        epoch_loss = epoch_loss / batch_cnt
-        print("Epoch {}/{}, train loss: {:.5f}".format(epoch+1, NUM_EPOCHS, epoch_loss))
+    # Enclose the process of training
+    def train():
+        """ Block that trains the model
+        """
+        #model.train()
+        batch_cnt = len(train_data_loader)
+        for epoch in range(NUM_EPOCHS):
+            epoch_loss = 0
+            for batch_in in train_data_loader:
+                # Forward pass
+                # Each sample is a dict in the dataloader, in which the value is tensor
+                # The input batch sequence is a 3-Dimension tensor as below
+                # [batch_size x window_size x input_size]
+                seq = batch_in['EventSeq'].clone().detach().view(-1, WINDOW_SIZE, 1).to(device)
+                output = model(seq)
+                loss = criterion(output, batch_in['Target'].long().view(-1).to(device))
 
-# Enclose the process of evalating
-def evaluate(data_loader):
-    """ Block that evaluate the model
-    """
-    model.eval()
+                # Backward pass and optimize
+                optimizer.zero_grad()
+                loss.backward()
+                epoch_loss += loss.item()
+                optimizer.step()
+            epoch_loss = epoch_loss / batch_cnt
+            print("Epoch {}/{}, train loss: {:.5f}".format(epoch+1, NUM_EPOCHS, epoch_loss))
 
-# Train the model now
-train()
+    # Enclose the process of evalating
+    def evaluate(data_loader):
+        """ Block that evaluate the model
+        """
+        model.eval()
 
-# Evaluate the train dataset
+    # Train the model now
+    train()
 
-# Evaluate the test dataset
+    # Evaluate the train dataset
+
+    # Evaluate the test dataset
