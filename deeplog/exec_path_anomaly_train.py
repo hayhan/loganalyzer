@@ -10,6 +10,7 @@ import sys
 import torch
 import torch.nn as nn
 import torch.optim as optim
+
 import preprocess_exec as preprocess
 from deeplog_models import DeepLogExec
 
@@ -32,7 +33,7 @@ with open(parentdir+'/entrance/deeplog_config.txt', 'r', encoding='utf-8-sig') a
     # Read the batch size for training
     BATCH_SIZE = int(conlines[6].strip().replace('BATCH_SIZE=', ''))
     # Read the number of epochs for training
-    NUM_EPOCHS = int(conlines[7].strip().replace('NUM_EPOCHS=', '')) 
+    NUM_EPOCHS = int(conlines[7].strip().replace('NUM_EPOCHS=', ''))
     # Read the number of workers for multi-process data
     NUM_WORKERS = int(conlines[8].strip().replace('NUM_WORKERS=', ''))
     # Read the number of hidden size
@@ -83,7 +84,7 @@ model = DeepLogExec(device, num_classes=voc_size, hidden_size=HIDDEN_SIZE, num_l
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters())
 
-# Enclose the process of training into the train function
+# Enclose the process of training
 def train():
     """ Block that trains the model
     """
@@ -98,7 +99,7 @@ def train():
             # [batch_size x window_size x input_size]
             seq = batch_in['EventSeq'].clone().detach().view(-1, WINDOW_SIZE, 1).to(device)
             output = model(seq)
-            loss = criterion(output, batch_in['Target'].long.view(-1).to(device))
+            loss = criterion(output, batch_in['Target'].long().view(-1).to(device))
 
             # Backward pass and optimize
             optimizer.zero_grad()
@@ -108,7 +109,7 @@ def train():
         epoch_loss = epoch_loss / batch_cnt
         print("Epoch {}/{}, train loss: {:.5f}".format(epoch+1, NUM_EPOCHS, epoch_loss))
 
-# Enclose the process of evalating intot the evaluate function
+# Enclose the process of evalating
 def evaluate(data_loader):
     """ Block that evaluate the model
     """

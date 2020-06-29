@@ -8,7 +8,6 @@ import os
 import shutil
 import numpy as np
 import pandas as pd
-from sklearn.utils import shuffle as scikit_shuffle
 from torch.utils.data import DataLoader, Dataset
 
 
@@ -110,11 +109,12 @@ def load_vocabulary(para, event_id_templates):
     if not os.path.exists(para['eid_file']):
         # Init STIDLE: Shuffled Template Id List Expanded
         # Pad ZEROs at the end of event_id_templates to expand the size to TEMPLATE_LIB_SIZE.
-        event_id_templates_ext = event_id_templates \
-                                 + ['0'] * (para['tmplib_size'] - len(event_id_templates))
+        # The event_id_shuffled is a new list copy
+        event_id_shuffled = event_id_templates \
+                            + ['0'] * (para['tmplib_size'] - len(event_id_templates))
 
-        # Shuffle the expanded list now
-        event_id_shuffled = scikit_shuffle(event_id_templates_ext)
+        # Shuffle the expanded list event_id_shuffled in-place
+        np.random.default_rng().shuffle(event_id_shuffled)
         np.save(para['eid_file'], event_id_shuffled)
         np.savetxt(para['eid_file_txt'], event_id_shuffled, fmt="%s")
 
@@ -139,9 +139,10 @@ def load_vocabulary(para, event_id_templates):
         # There are ZEROs in EventIdOld. It means the corresponding EventId is new
         # No need check the correspinding EventId is non-ZERO
         if len(event_id_old_zero) > 0:
-            # Aggregate all idx of ZERO in STIDLE to a new list, then shuffle it
-            idx_zero = [idx for idx, tid in enumerate(event_id_shuffled) if tid == '0']
-            idx_zero_shuffled = scikit_shuffle(idx_zero)
+            # Aggregate all idx of ZERO in STIDLE to a new list copy, then shuffle it
+            idx_zero_shuffled = [idx for idx, tid in enumerate(event_id_shuffled) if tid == '0']
+            # Shuffle the idx_zero_shuffled in-place
+            np.random.default_rng().shuffle(idx_zero_shuffled)
             # Insert the new EventId to the STIDLE
             updt_cnt = 0
             for idx, tid in enumerate(event_id_old_zero):

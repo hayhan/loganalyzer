@@ -8,11 +8,12 @@ import os
 import collections
 
 curfiledir = os.path.dirname(__file__)
-parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
-file_loc   = parentdir + '/results/persist/event_id_deeplog.txt'
-file       = open(file_loc, 'r')
+file_loc = parentdir + '/results/persist/event_id_deeplog.txt'
+
+file = open(file_loc, 'r')
 
 a = file.readlines()
 
-print([item for item, count in collections.Counter(a).items() if count > 1])
+print({item: count for item, count in collections.Counter(a).items() if count > 1})
