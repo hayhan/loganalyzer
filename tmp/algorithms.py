@@ -363,3 +363,53 @@ RNG-RSP UsChanId=49  Adj: tim= power=-8  Stat=Continue
 35:     lastlineTS <- currlineTS
 36: END
 37: newfile <- write(lastline)
+
+### deeplog exec dataloader
+ 1: step1_dict = {"SeqIdx": 1-D array, zero-based, sequence index in the logs
+ 2:               "EventSeq": 2-D array, 1st dim is sequences, 2nd is a window of events
+ 3:               "Target": 1-D array, [0, num_classes-1], class index
+ 4:               "Label": 1-D array, 0/1, target label for each sequence
+ 5:              }
+
+ 1: ...
+ 2: keys = list(step1_dict.keys())
+ 3: return {k: step1_dict[k][index] for k in keys}
+ 4: ...
+ 5: dataloader = framework.DataLoader(step1_dict, batch_size=...)
+
+    SeqIdx  EventSeq           Target    Label
+    ------------------------------------------
+    0       [12 32 12 25 23]   18        0      mini-batch 0
+    1       [32 12 25 23 18]   38        0
+    ------------------------------------------
+    2       [12 25 23 18 38]   20        0      mini-batch 1
+    3       [25 23 18 38 20]   53        0
+    ------------------------------------------
+    ...
+    ------------------------------------------
+    96      [21 23 13 22 37]   22        0      mini-batch 48
+    97      [23 13 22 37 22]   18        0
+    ------------------------------------------
+    98      [13 22 37 22 18]   25        0      mini-batch 49
+
+### deeplog exec train
+ 1: model <- DeepLogExec()
+ 2: criterion <- CrossEntropyLoss() Loss func combining LogSofmax and NLLLoss
+ 3: optimizer <- Adam()
+ 4: batch_cnt <- len(train_data_loader)
+ 5: FOR epoch IN range(NUM_EPOCHS)
+ 6:     epoch_loss <- 0
+ 7:     FOR batch_in IN train_data_loader
+ 8:         # Forward pass
+ 9:         seq <- (batch_in['EventSeq'] convert to 3-D tensor)
+10:         output <- model(seq)
+11:         loss <- criterion(output, batch_in['Target'])
+12:
+13:         # Backward pass and optimize
+14:         optimizer.zero_grad()
+15:         loss.backward()
+16:         epoch_loss <- epoch_loss + loss.item()
+17:         optimizer.step()
+18:     END
+19:     epoch_loss <- epoch_loss / batch_cnt
+20: END

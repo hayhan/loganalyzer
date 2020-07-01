@@ -69,6 +69,7 @@ if __name__ == '__main__':
     # Load / preprocess data from train norm structured file
     #####################################################################################
     train_data_dict, voc_size = preprocess.load_data(para_train)
+    voc_size = TEMPLATE_LIB_SIZE
 
     #####################################################################################
     # Feed the pytorch Dataset / DataLoader to get the iterator / tensors
@@ -99,9 +100,10 @@ if __name__ == '__main__':
             epoch_loss = 0
             for batch_in in train_data_loader:
                 # Forward pass
-                # Each sample is a dict in the dataloader, in which the value is tensor
-                # The input batch sequence is a 3-Dimension tensor as below
-                # [batch_size x window_size x input_size]
+                # Each batch is a dict in the dataloader, in which the value is tensor
+                # The batch_in['EventSeq'] is a 2-Dimension tensor (batch_size x window_size)
+                # The tensor of input sequences to model shold be 3-Dimension as below
+                # (batch_size x window_size x input_size)
                 seq = batch_in['EventSeq'].clone().detach().view(-1, WINDOW_SIZE, 1).to(device)
                 output = model(seq)
                 loss = criterion(output, batch_in['Target'].long().view(-1).to(device))
@@ -122,6 +124,7 @@ if __name__ == '__main__':
 
     # Train the model now
     train()
+    print(sys.version)
 
     # Evaluate the train dataset
 

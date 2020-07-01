@@ -24,7 +24,7 @@ def load_data(para):
     Returns
     -------
     data_dict:
-    <SeqId> the sequence / window id, aka log line number [0 ~ (logsnum-window_size-1)].
+    <SeqIdx> the sequence / window idx, aka log line number [0 ~ (logsnum-window_size-1)].
     <EventSeq> array of [seq_num x window_size] event sequence
     <Target> the target event index for each event sequence
     <Label> the label of target event
@@ -84,7 +84,7 @@ def load_data(para):
     #####################################################################################
 
     # data_dict:
-    # <SeqId> the sequence / window id, aka log line number [0 ~ (logsnum-window_size-1)].
+    # <SeqIdx> the sequence / window idx, aka log line number [0 ~ (logsnum-window_size-1)].
     # <EventSeq> array of [seq_num x window_size] event sequence
     # <Target> the target event index for each window sequence
     # <Label> the label of target event
@@ -198,7 +198,7 @@ def slice_logs(eidx_logs, labels, window_size):
     Returns
     -------
     results_dict:
-    <SeqId> the sequence / window id, aka log line number [0 ~ (logsnum-window_size-1)].
+    <SeqIdx> the sequence / window idx, aka log line number [0 ~ (logsnum-window_size-1)].
     <EventSeq> array of [seq_num x window_size] event sequence
     <Target> the target event index for each event sequence
     <Label> the label of target event
@@ -224,8 +224,8 @@ def slice_logs(eidx_logs, labels, window_size):
     #results_lst.append([i, sequence, "#Na", "#Na"])
     # --end--
 
-    results_df = pd.DataFrame(results_lst, columns=["SeqId", "EventSeq", "Target", "Label"])
-    results_dict = {"SeqId": results_df["SeqId"].to_numpy(dtype='int32'),
+    results_df = pd.DataFrame(results_lst, columns=["SeqIdx", "EventSeq", "Target", "Label"])
+    results_dict = {"SeqIdx": results_df["SeqIdx"].to_numpy(dtype='int32'),
                     "EventSeq": np.array(results_df["EventSeq"].tolist(), dtype='int32'),
                     "Target": results_df["Target"].to_numpy(dtype='int32'),
                     "Label": results_df["Label"].to_numpy(dtype='int32')}
@@ -248,7 +248,7 @@ class DeepLogExecDataset(Dataset):
     def __getitem__(self, index):
         """ Return a complete data sample at index
         Here it returns a dict that represents a complete sample at index
-        The parameter is sample index, aka sequence id SeqId
+        The parameter is sample index, aka sequence index SeqIdx
         After DataLoader processing, the value parts of the dict will be tensors
         """
         return {k: self.data_dict[k][index] for k in self.keys}
@@ -257,4 +257,4 @@ class DeepLogExecDataset(Dataset):
         """ Return the size of the dataset
         Here it represents the total num of sequences
         """
-        return self.data_dict["SeqId"].shape[0]
+        return self.data_dict["SeqIdx"].shape[0]
