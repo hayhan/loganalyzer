@@ -26,7 +26,9 @@ class DeepLogExec(nn.Module):
         self.num_layers = num_layers
         self.num_directions = num_dir
         self.topk = topk
-        # The cell input dimension is 1 because we use an integer to repsent an event
+        # The cell input dimension is 1 because we use an integer to repsent an event.
+        # The batch_first is True, then the LSTM input & output first Dimension is batch.
+        # The input & output part of (h_n, c_n) are not affected by batch_first.
         self.rnn = nn.LSTM(input_size=1, hidden_size=self.hidden_size,
                            num_layers=self.num_layers, batch_first=True,
                            bidirectional=(self.num_directions == 2))
@@ -34,8 +36,12 @@ class DeepLogExec(nn.Module):
 
     def forward(self, *_input):
         """ Override the forward function
-        _input[0] is a 3-Dimension (batch_size x window_size x input_size) tensor: EventSeq
-        _output is a 2-Dimension tensor (batch_size x num_classes)
+        The _input[0] is a 3-D tensor (batch_size x seq_len x input_size): EventSeq.
+        The _output of LSTM is a 3-D tensor (batch_size x seq_len x hidden_size).
+        The Linear predict layer connects to the last hidden state of LSTM, so we only
+        take the last data in dimension 1 ([:, -1, :]) from LSTM output to predict layer.
+        The Linear predict layer input dimension is 2-D tensor (batch_size x hidden_size)
+        The _output of predict layer is a 2-D tensor (batch_size x num_classes).
         """
         h_0 = torch.zeros(self.num_layers, _input[0].size(0), self.hidden_size).to(self.device)
         c_0 = torch.zeros(self.num_layers, _input[0].size(0), self.hidden_size).to(self.device)
