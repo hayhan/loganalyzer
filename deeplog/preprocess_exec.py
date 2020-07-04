@@ -61,11 +61,13 @@ def load_data(para):
     #####################################################################################
 
     # Load and update vocabulary. Currently only update with train dataset
-    event_id_voc = load_vocabulary(para, event_id_templates)
+    #event_id_voc = load_vocabulary(para, event_id_templates)
+    event_id_voc = event_id_templates
 
     # Count the non-zero event id number in the vocabulary. Suppose at least one zero
     # element exists in the voc.
-    voc_size = len(set(event_id_voc)) - 1
+    #voc_size = len(set(event_id_voc)) - 1
+    voc_size = len(set(event_id_voc))
 
     # Convert event id (hash value) log vector to event index (0 based integer) log vector
     # For train dataset the template library / vocabulary normally contain all the possible

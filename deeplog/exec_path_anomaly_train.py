@@ -81,8 +81,7 @@ if __name__ == '__main__':
     # Load / preprocess data from train norm structured file
     #####################################################################################
     train_data_dict, voc_size = preprocess.load_data(para_train)
-    voc_size = TEMPLATE_LIB_SIZE
-    #print(train_data_dict['EventSeq'])
+    #voc_size = TEMPLATE_LIB_SIZE
 
     #####################################################################################
     # Feed the pytorch Dataset / DataLoader to get the iterator / tensors
@@ -138,15 +137,22 @@ if __name__ == '__main__':
         """
         model.eval()
         with torch.no_grad():
-            #print(len(data_loader))
-            y_pred = []
-            store_dict = defaultdict(list)
             for batch_in in data_loader:
                 seq = batch_in['EventSeq'].clone().detach().view(-1, WINDOW_SIZE, 1).to(device)
                 output = model(seq)
-                y_pred = output.softmax(dim=-1)
-                window_prob, window_pred = torch.max(y_pred, 1)
-                print(window_prob, window_pred)
+                #pred_prob = output.softmax(dim=-1)
+                #pred_sort = torch.argsort(pred_prob, 1, True)
+                pred_sort = torch.argsort(output, 1, True)
+                bt_size = pred_sort.size(0)
+                #topk_val = torch.narrow(pred_sort, 1, 0, 10)
+                #print('debug topk1:', topk_val)
+                seq_pred_sort = pred_sort.tolist()
+                seq_target = batch_in['Target'].tolist()
+                topk_lst = []
+                for i in range(bt_size):
+                    topk_lst.append(seq_pred_sort[i].index(seq_target[i]))
+                print('debug topk2:', topk_lst)
+
 
     # Train the model now
     train()
@@ -156,15 +162,15 @@ if __name__ == '__main__':
     # Load / preprocess validation data
     #####################################################################################
     test_data_dict, voc_size = preprocess.load_data(para_test)
-    print(test_data_dict['EventSeq'])
-    print(test_data_dict['Target'])
+    #print(test_data_dict['EventSeq'])
+    #print(test_data_dict['Target'])
 
     #####################################################################################
     # Feed the pytorch Dataset / DataLoader with validation data
     #####################################################################################
     test_data_loader = preprocess.DeepLogExecDataset(test_data_dict,
                                                      batch_size=BATCH_SIZE,
-                                                     shuffle=True,
+                                                     shuffle=False,
                                                      num_workers=NUM_WORKERS).loader
     # Evaluate the test dataset
     evaluate(test_data_loader)
