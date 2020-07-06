@@ -58,6 +58,7 @@ para_train = {
 
 para_test = {
     'structured_file': parentdir+'/results/test/test_norm.txt_structured.csv',
+    'labels_file'    : parentdir+'/results/test/test_norm.txt_labels.csv',
     'template_lib'   : parentdir+'/results/persist/template_lib.csv',
     'eid_file'       : parentdir+'/results/persist/event_id_deeplog.npy',
     'eid_file_txt'   : parentdir+'/results/persist/event_id_deeplog.txt',
@@ -75,28 +76,35 @@ if __name__ == '__main__':
     # under pytorch framework. On Unix like system, it is not cecessary. See link below
     # https://pytorch.org/docs/stable/data.html#platform-specific-behaviors
 
+    #####################################################################################
+    # Train the model
+    #####################################################################################
     print("===> Start training the execution path model ...")
 
-    #####################################################################################
-    # Load / preprocess data from train norm structured file
-    #####################################################################################
+    #
+    # 1. Load / preprocess data from train norm structured file
+    #
     train_data_dict, voc_size = preprocess.load_data(para_train)
     #voc_size = TEMPLATE_LIB_SIZE
 
-    #####################################################################################
-    # Feed the pytorch Dataset / DataLoader to get the iterator / tensors
-    #####################################################################################
+    #
+    # 2. Feed the pytorch Dataset / DataLoader to get the iterator / tensors
+    #
     train_data_loader = preprocess.DeepLogExecDataset(train_data_dict,
                                                       batch_size=BATCH_SIZE,
                                                       shuffle=True,
                                                       num_workers=NUM_WORKERS).loader
 
-    #####################################################################################
-    # Build DeepLog Model for Execution Path Anomaly Detection
-    #####################################################################################
+    #
+    # 3. Build DeepLog Model for Execution Path Anomaly Detection
+    #
     device = torch.device('cuda' if DEVICE != 'cpu' and torch.cuda.is_available() else 'cpu')
     model = DeepLogExec(device, num_classes=voc_size, hidden_size=HIDDEN_SIZE, num_layers=2,
                         num_dir=1, topk=TOPK)
+
+    #
+    # 4. Start training the model
+    #
 
     # Select the loss and optimizer
     criterion = nn.CrossEntropyLoss()
@@ -136,6 +144,8 @@ if __name__ == '__main__':
         """ Block that evaluate the model
         """
         model.eval()
+        _t_p = _t_n = _f_p = _f_n = 0
+        _anomaly_pred = []
         with torch.no_grad():
             for batch_in in data_loader:
                 seq = batch_in['EventSeq'].clone().detach().view(-1, WINDOW_SIZE, 1).to(device)
@@ -148,29 +158,68 @@ if __name__ == '__main__':
                 #print('debug topk1:', topk_val)
                 seq_pred_sort = pred_sort.tolist()
                 seq_target = batch_in['Target'].tolist()
-                topk_lst = []
+                seq_label = batch_in['Label'].tolist()
+                #topk_lst = []
                 for i in range(bt_size):
-                    topk_lst.append(seq_pred_sort[i].index(seq_target[i]))
-                print('debug topk2:', topk_lst)
+                    #topk_lst.append(seq_pred_sort[i].index(seq_target[i]))
+                    top_idx = seq_pred_sort[i].index(seq_target[i])
+                    if seq_label[i]:
+                        if top_idx >= 10:
+                            _t_p += 1
+                            _anomaly_pred.append(1)
+                        else:
+                            _f_n += 1
+                            _anomaly_pred.append(0)
+                    else:
+                        if top_idx >= 10:
+                            _anomaly_pred.append(1)
+                            _f_p += 1
+                        else:
+                            _anomaly_pred.append(0)
+                            _t_n += 1
+                #print('debug topk2:', topk_lst)
 
+        return _t_p, _t_n, _f_p, _f_n, _anomaly_pred
 
     # Train the model now
     train()
-    #evaluate(train_data_loader)
+
+    # Evaluate itself
+    t_p, t_n, f_p, f_n, _ = evaluate(train_data_loader)
+    print('Train Dataset Validation ==> FP: {}, FN: {}, TP: {}, TN: {}' \
+          .format(f_p, f_n, t_p, t_n))
 
     #####################################################################################
-    # Load / preprocess validation data
+    # Evaluate the model
     #####################################################################################
+    print("===> Start evaluating the execution path model ...")
+
+    #
+    # 1. Load / preprocess test dataset for validation
+    #
     test_data_dict, voc_size = preprocess.load_data(para_test)
     #print(test_data_dict['EventSeq'])
     #print(test_data_dict['Target'])
 
-    #####################################################################################
-    # Feed the pytorch Dataset / DataLoader with validation data
-    #####################################################################################
+    #
+    # 2. Feed the pytorch Dataset / DataLoader with test dataset
+    #
     test_data_loader = preprocess.DeepLogExecDataset(test_data_dict,
                                                      batch_size=BATCH_SIZE,
                                                      shuffle=False,
                                                      num_workers=NUM_WORKERS).loader
-    # Evaluate the test dataset
-    evaluate(test_data_loader)
+
+    #
+    # 3. Start evaluating the model with test dataset
+    #
+    t_p, t_n, f_p, f_n, anomaly_pred = evaluate(test_data_loader)
+    print('Test Dataset Validation ==> FP: {}, FN: {}, TP: {}, TN: {}' \
+          .format(f_p, f_n, t_p, t_n))
+
+    if t_p + f_p != 0 and t_p + f_n != 0:
+        precision = 100 * t_p / (t_p + f_p)
+        recall = 100 * t_p / (t_p + f_n)
+        f_1 = 2 * precision * recall / (precision + recall)
+        print('Test Dataset Validation ==> \
+              Precision: {:.3f}%, Recall: {:.3f}%, F1-measure: {:.3f}%' \
+              .format(precision, recall, f_1))

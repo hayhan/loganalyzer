@@ -24,7 +24,7 @@ def load_data(para):
     Returns
     -------
     data_dict:
-    <SeqIdx> the sequence / window idx, aka log line number [0 ~ (logsnum-window_size-1)].
+    <SeqIdx> the sequence / window idx, aka log line number [0 ~ (logsnum-window_size-1)]
     <EventSeq> array of [seq_num x window_size] event sequence
     <Target> the target event index for each event sequence
     <Label> the label of target event
@@ -45,7 +45,7 @@ def load_data(para):
                            engine='c', na_filter=False, memory_map=True)
     event_id_templates = data_df2['EventId'].values.tolist()
 
-    # For validation dataset, METRICS_EN is enabled in config file, then read the label vector
+    # For validation, METRICS_EN is enabled in config file, then read the label vector
     # For other dataset, labels are always ZEROs
     labels = None
     if not para['train'] and para['metrics_enable']:
@@ -69,10 +69,10 @@ def load_data(para):
     #voc_size = len(set(event_id_voc)) - 1
     voc_size = len(set(event_id_voc))
 
-    # Convert event id (hash value) log vector to event index (0 based integer) log vector
-    # For train dataset the template library / vocabulary normally contain all the possible
-    # event ids. For validation / test datasets, they might not retrive some ones. Currently
-    # map the unknow event ids to 65535.
+    # Convert event id (hash value) log vector to event index (0 based int) log vector
+    # For train dataset the template library / vocabulary normally contain all the
+    # possible event ids. For validation / test datasets, they might not retrive some
+    # ones. Currently map the unknow event ids to 65535.
     #event_idx_logs = [event_id_voc.index(tid) for tid in event_id_logs]
     event_idx_logs = []
     for tid in event_id_logs:
@@ -86,7 +86,7 @@ def load_data(para):
     #####################################################################################
 
     # data_dict:
-    # <SeqIdx> the sequence / window idx, aka log line number [0 ~ (logsnum-window_size-1)].
+    # <SeqIdx> the sequence index, aka log line number [0 ~ (logsnum-window_size-1)]
     # <EventSeq> array of [seq_num x window_size] event sequence
     # <Target> the target event index for each window sequence
     # <Label> the label of target event
@@ -109,8 +109,8 @@ def load_vocabulary(para, event_id_templates):
     """
 
     if not os.path.exists(para['eid_file']):
-        # Init STIDLE: Shuffled Template Id List Expanded
-        # Pad ZEROs at the end of event_id_templates to expand the size to TEMPLATE_LIB_SIZE.
+        # Init STIDLE: Shuffled Template Id List Expanded. Pad ZEROs at the
+        # end of event_id_templates to expand the size to TEMPLATE_LIB_SIZE.
         # The event_id_shuffled is a new list copy
         event_id_shuffled = event_id_templates \
                             + ['0'] * (para['tmplib_size'] - len(event_id_templates))
@@ -159,7 +159,7 @@ def load_vocabulary(para, event_id_templates):
             print("%d new template IDs are inserted to STIDLE." % updt_cnt)
 
         # Case 2):
-        # Find the non ZERO values in EventIdOld that are not equal to the ones in EventId
+        # Find the non ZEROs in EventIdOld that are not equal to the ones in EventId
         # Replace the old tid with the new one in STIDLE
         updt_cnt = 0
         for tid_old, tid in zip(event_id_templates_old, event_id_templates):
@@ -193,14 +193,14 @@ def slice_logs(eidx_logs, labels, window_size):
 
     Arguments
     ---------
-    eidx_logs: the event index (0 based integer) vector mapping to each log in structured file
+    eidx_logs: event index (0 based int) vector mapping to each log in structured file
     labels: the label for each log in validation dataset
-    window_size: the sliding window size, and the unit is log.
+    window_size: the sliding window size, and the unit is log
 
     Returns
     -------
     results_dict:
-    <SeqIdx> the sequence / window idx, aka log line number [0 ~ (logsnum-window_size-1)].
+    <SeqIdx> the sequence / window idx, aka log line number [0 ~ (logsnum-window_size-1)]
     <EventSeq> array of [seq_num x window_size] event sequence
     <Target> the target event index for each event sequence
     <Label> the label of target event
