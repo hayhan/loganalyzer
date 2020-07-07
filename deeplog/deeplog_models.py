@@ -17,7 +17,7 @@ import torch.nn as nn
 class DeepLogExec(nn.Module):
     """ DeepLog model for exec path anomaly detection
     """
-    def __init__(self, device, num_classes, hidden_size=100, num_layers=2, num_dir=1, topk=9):
+    def __init__(self, device, num_classes, hidden_size=100, num_layers=2, num_dir=1):
         """ Initilization
         """
         super(DeepLogExec, self).__init__()
@@ -25,7 +25,6 @@ class DeepLogExec(nn.Module):
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         self.num_directions = num_dir
-        self.topk = topk
         # The cell input dimension is 1 because we use an integer to repsent an event.
         # The batch_first is True, then the LSTM input & output first Dimension is batch.
         # The input & output part of (h_n, c_n) are not affected by batch_first.
