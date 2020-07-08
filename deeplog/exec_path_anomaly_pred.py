@@ -7,6 +7,7 @@ License     : MIT
 
 import os
 import sys
+import pickle
 import torch
 
 import preprocess_exec as preprocess
@@ -42,6 +43,8 @@ with open(parentdir+'/entrance/deeplog_config.txt', 'r', encoding='utf-8-sig') a
 para_test = {
     'structured_file': parentdir+'/results/test/test_norm.txt_structured.csv',
     'labels_file'    : parentdir+'/results/test/test_norm.txt_labels.csv',
+    'rawln_idx_file' : parentdir+'/results/test/rawline_idx_norm.pkl',
+    'pred_result'    : parentdir+'/results/test/anomaly_result.txt',
     'template_lib'   : parentdir+'/results/persist/template_lib.csv',
     'eid_file'       : parentdir+'/results/persist/event_id_deeplog.npy',
     'eid_file_txt'   : parentdir+'/results/persist/event_id_deeplog.txt',
@@ -120,8 +123,16 @@ if __name__ == '__main__':
             j += 1
 
     #print(anomaly_pred)
-    #print(anomaly_line)
+    print(len(anomaly_line))
 
     #
     # 5. Map anomaly_line[] in norm file to the raw test data file
     #
+    # Load the line mapping list between raw and norm test file
+    with open(para_test['rawln_idx_file'], 'rb') as f:
+        raw_idx_vector_norm = pickle.load(f)
+
+    # Write the final results to a file
+    with open(para_test['pred_result'], 'w') as f:
+        for item in anomaly_line:
+            f.write('%s\n' % (raw_idx_vector_norm[item]))

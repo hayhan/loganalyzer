@@ -220,11 +220,11 @@ def slice_logs(eidx_logs, labels, window_size):
     # So the total num of sequences is logsnum - window_size
 
     # Special disposing for the last window
-    # --Block comment out start--
+    #--block comment out start--
     #sequence = eidx_logs[i: i + window_size]
     #sequence += ["#Na"] * (window_size - len(sequence))
     #results_lst.append([i, sequence, "#Na", "#Na"])
-    # --end--
+    #--end--
 
     results_df = pd.DataFrame(results_lst, columns=["SeqIdx", "EventSeq", "Target", "Label"])
     results_dict = {"SeqIdx": results_df["SeqIdx"].to_numpy(dtype='int32'),

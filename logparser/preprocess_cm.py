@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Description : This file formats the original CM/DOCSIS log
+Description : This file cleans / formats the raw CM/DOCSIS logs
 Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
@@ -8,8 +8,9 @@ License     : MIT
 import os
 import re
 #import sys
-from tqdm import tqdm
+import pickle
 from datetime import datetime
+from tqdm import tqdm
 
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
@@ -17,9 +18,9 @@ parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
 #from tools import helper
 
-"""
-Process the train data or test data
-"""
+#----------------------------------------------------------------------------------------
+# Process the train data or test data
+#----------------------------------------------------------------------------------------
 # Read the config file to decide
 with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
     conline = confile.readline().strip()
@@ -31,36 +32,40 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
         datatype = 'test'
 
 if TRAINING:
-    raw_file_loc  = parentdir + '/logs/train.txt'
-    new_file_loc  = parentdir + '/logs/train_new.txt'
+    raw_file_loc = parentdir + '/logs/train.txt'
+    new_file_loc = parentdir + '/logs/train_new.txt'
     norm_file_loc = parentdir + '/logs/train_norm.txt'
 else:
-    raw_file_loc  = parentdir + '/logs/test.txt'
-    new_file_loc  = parentdir + '/logs/test_new.txt'
+    raw_file_loc = parentdir + '/logs/test.txt'
+    new_file_loc = parentdir + '/logs/test_new.txt'
     norm_file_loc = parentdir + '/logs/test_norm.txt'
+    rawln_idx_loc = parentdir + '/results/test/rawline_idx_norm.pkl'
+    rawLnIdxVectorNew = []
+    rawLnIdxVectorNorm = []
 
-"""
-The original log usually comes from serial console tools like SecureCRT
-in Windows and the text file encoding is probably utf-8 (with BOM).
-https://en.wikipedia.org/wiki/Byte_order_mark#UTF-8
-
-To let python skip the BOM when decoding the file, use utf-8-sig codec.
-https://docs.python.org/3/library/codecs.html
-"""
+#
+# The original log usually comes from serial console tools like SecureCRT
+# in Windows and the text file encoding is probably utf-8 (with BOM).
+# https://en.wikipedia.org/wiki/Byte_order_mark#UTF-8
+#
+# To let python skip the BOM when decoding the file, use utf-8-sig codec.
+# https://docs.python.org/3/library/codecs.html
+#
 file       = open(raw_file_loc, 'r', encoding='utf-8-sig')
 newfile    = open(new_file_loc, 'w')
 
-"""
-Definitions:
-primary line - no space proceeded
-nested line  - one or more spaces proceeded
-empty line   - LF or CRLF only in one line
-"""
+#---------------------------------------------
+# Definitions:
+# primary line - no space proceeded
+# nested line  - one or more spaces proceeded
+# empty line   - LF or CRLF only in one line
+#---------------------------------------------
 
-"""
-Patterns for removing timestamp, console prompt and others
-"""
-# The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738]. Label is also considered.
+#----------------------------------------------------------------------------------------
+# Patterns for removing timestamp, console prompt and others
+#----------------------------------------------------------------------------------------
+# The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738].
+# Label is also considered.
 strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)\.(\d{3})|24:00:00\.000)\] (abn: )?')
 # The pattern for CM console prompts
 strPattern1 = re.compile('CM[/a-z-_ ]*> ', re.IGNORECASE)
@@ -78,12 +83,12 @@ strPatterns = [
     strPattern4, strPattern5, strPattern6
 ]
 
-# decide if we need reserve the main timestamp: strPattern0 in the norm file
+# Control if we need reserve the main timestamp: strPattern0 in the norm file
 reserveTS = True
 
-"""
-Patterns for specific lines which I want to remove
-"""
+#----------------------------------------------------------------------------------------
+# Patterns for specific lines which I want to remove
+#----------------------------------------------------------------------------------------
 sLinePattern0 = re.compile(r'\*')
 sLinePattern1 = re.compile(r'\+{10}')
 sLinePattern2 = re.compile(r'Received DBC-REQ \(trans. id\=')
@@ -108,9 +113,9 @@ sLinePatterns = [
     sLinePattern9
 ]
 
-"""
-Patterns for removing Table headers
-"""
+#----------------------------------------------------------------------------------------
+# Patterns for removing Table headers
+#----------------------------------------------------------------------------------------
 title0  = re.compile(r' *Trimmed Candidate Downstream Service Group')
 title1  = re.compile(r' *sgid +size +member')
 title2  = re.compile(r' *Downstream Active Channel Settings')
@@ -141,14 +146,14 @@ titlePatterns = [
     title16, title17, title18, title19, title20, title21, title22
 ]
 
-"""
-Pattern for nested line
-"""
+#----------------------------------------------------------------------------------------
+# Pattern for nested line
+#----------------------------------------------------------------------------------------
 nestedLinePattern = re.compile(r' +|\t+')
 
-"""
-Patterns for specific primary lines which I want to indent them
-"""
+#----------------------------------------------------------------------------------------
+# Patterns for specific primary lines which I want to indent them
+#----------------------------------------------------------------------------------------
 sPrimaryLinePattern0 = re.compile(r'Assigned OFDMA Data Profile IUCs')
 sPrimaryLinePattern1 = re.compile(r'fDestSingleTxTargetUsChanId')
 sPrimaryLinePattern2 = re.compile(r'fTmT4NoUnicastRngOpStdMlsec')
@@ -159,9 +164,9 @@ sPrimaryLinePatterns = [
     sPrimaryLinePattern2
 ]
 
-"""
-Patterns for specific lines which I want to convert them as primary
-"""
+#----------------------------------------------------------------------------------------
+# Patterns for specific lines which I want to convert them as primary
+#----------------------------------------------------------------------------------------
 sNestedLinePattern0 = re.compile(r' +DOWNSTREAM STATUS')
 sNestedLinePattern1 = re.compile(r' +CM Upstream channel info')
 sNestedLinePattern2 = re.compile(r' +Receive Channel Config\:')
@@ -172,27 +177,27 @@ sNestedLinePatterns = [
     sNestedLinePattern2
 ]
 
-"""
-Patterns for nested lines (exceptions) which I do not want to make them as primary
-"""
+#----------------------------------------------------------------------------------------
+# Patterns for nested lines (exceptions) which I do not want to make them as primary
+#----------------------------------------------------------------------------------------
 eNestedLinePattern0 = re.compile(r' +Ranging state info:')
 
 eNestedLinePatterns = [
     eNestedLinePattern0
 ]
 
-"""
-Patterns for specific whole multi-line log which I want to remove entirely
-"""
+#----------------------------------------------------------------------------------------
+# Patterns for specific whole multi-line log which I want to remove entirely
+#----------------------------------------------------------------------------------------
 wMultiLineRmPattern0 = re.compile(r'Configured O-INIT-RNG-REQ \:')
 
 wMultiLineRmPatterns = [
     wMultiLineRmPattern0
 ]
 
-"""
-Patterns for other specific lines
-"""
+#----------------------------------------------------------------------------------------
+# Patterns for other specific lines
+#----------------------------------------------------------------------------------------
 # DS/US channel status tables
 dsChStatTablePattern = re.compile(r'Active Downstream Channel Diagnostics\:')
 usChStatTablePattern = re.compile(r'Active Upstream Channels\:')
@@ -217,9 +222,13 @@ bracketPattern4 = re.compile(r'(?<=\w)\]')
 bracketPattern5 = re.compile(r'\d+(?=(ms))')
 #bracketPattern6 = re.compile(r'(?<=\.\.)\d')
 
-"""
-Variables initialization
-"""
+#########################################################################################
+# 1. Start data cleaning and formating
+#########################################################################################
+
+#-------------------------
+# Variables initialization
+#-------------------------
 inDsChStatTable = False
 inUsChStatTable = False
 tableMessed = False
@@ -231,26 +240,28 @@ inMultiLineRemove = False
 lastLineEmpty = False
 sccvEmptyLineCnt = 0
 
-"""
-01) Remove timestamps, console prompts, tables, empty lines
-02) Format DS/US channel status tables
-03) Remove some tables which are useless
-04) Format initial ranging block to one line log
-05) Indent some specific lines in multi-line log
-06) Remove empty lines
-07) Convert an nested line as primary if two more empty lines proceeded
-08) Convert some specific lines as primary
-09) Remove specific whole multi-line log
-10) Split some tokens
-"""
+#---------------------------------------------------------------------
+# 01) Remove timestamps, console prompts, tables, empty lines
+# 02) Format DS/US channel status tables
+# 03) Remove some tables which are useless
+# 04) Format initial ranging block to one line log
+# 05) Indent some specific lines in multi-line log
+# 06) Remove empty lines
+# 07) Convert nested line as primary if two more empty lines proceeded
+# 08) Convert some specific lines as primary
+# 09) Remove specific whole multi-line log
+# 10) Split some tokens
+#---------------------------------------------------------------------
 print("Pre-processing the raw {0} dataset ...".format(datatype))
 parse_st = datetime.now()
 linesLst = file.readlines()
 rawsize = len(linesLst)
 
+#
 # A lower overhead progress bar
 # https://github.com/tqdm/tqdm#documentation
 # To only display statics w/o bar, set ncols=0
+#
 pbar = tqdm(total=rawsize, unit='Lines', ncols=100, disable=False)
 
 for _idx, line in enumerate(linesLst):
@@ -260,9 +271,9 @@ for _idx, line in enumerate(linesLst):
     #helper.printProgressBar(_idx+1, rawsize, prefix='Progress:')
     pbar.update(1)
 
-    """
-    Remove the unwanted strings which include some kind of timestamps, console prompts and etc.
-    """
+    #------------------------------------------------------------------------------------
+    # Remove unwanted strings including some kind of timestamps, console prompts and etc.
+    #------------------------------------------------------------------------------------
     # Save the main timestamp if it exists. The newline does not contain the main
     # timestamp before write it back to a new file. Train label is also considered
     # in this pattern. Add it back along with main timestamp at the end.
@@ -277,9 +288,9 @@ for _idx, line in enumerate(linesLst):
     else:
         newline = line
 
-    """
-    No main timestamp and train label at the begining of each line in the remaining of the loop
-    """
+    #------------------------------------------------------------------------------------
+    # No main timestamp and train label at start of each line in the remaining of the loop
+    #------------------------------------------------------------------------------------
     # Remove remaining timestamp, console prompt and others
     for pattern in strPatterns:
         newline = pattern.sub('', newline, count=1)
@@ -530,12 +541,12 @@ for _idx, line in enumerate(linesLst):
         substring = m.group(0)
         newline = bracketPattern5.sub(substring+' ', newline)
 
-    """
-    m = bracketPattern6.search(newline)
-    if m:
-        substring = m.group(0)
-        newline = bracketPattern6.sub(' '+substring, newline)
-    """
+    #--block comment out start--
+    #m = bracketPattern6.search(newline)
+    #if m:
+    #    substring = m.group(0)
+    #    newline = bracketPattern6.sub(' '+substring, newline)
+    #--end--
 
     # Update lastLineEmpty for the next line processing
     lastLineEmpty = False
@@ -545,31 +556,37 @@ for _idx, line in enumerate(linesLst):
         newline = currentLineTS + newline
     newfile.write(newline)
 
+    # The raw line index list in the new file
+    # Do it only for test dataset
+    if not TRAINING:
+        rawLnIdxVectorNew.append(_idx+1)
+
 pbar.close()
 file.close()
 newfile.close()
 print('Purge costs {!s}\n'.format(datetime.now()-parse_st))
 
 
-"""
-Convert multi-line log to one-line format
-"""
+#########################################################################################
+# 2. Convert multi-line log to one-line format
+#    Calculate the raw line idx for test dataset
+#########################################################################################
 
 # Scan the new generated newfile
 newfile    = open(new_file_loc, 'r')
 normfile   = open(norm_file_loc, 'w')
 
-"""
-Variables initialization
-"""
+#
+# Variables initialization
+#
 # The lastLine is initialized as empty w/o LF or CRLF
 lastLine = ''
 lastLinTS = ''
 
-"""
-Concatenate nested line to its parent (primary) line
-"""
-for line in newfile:
+#
+# Concatenate nested line to its parent (primary) line
+#
+for _idx, line in enumerate(newfile):
     # Save timestamp if it exists
     matchTS = strPattern0.match(line)
     if matchTS:
@@ -589,15 +606,24 @@ for line in newfile:
             lastLine = lastLineTS + lastLine
         normfile.write(lastLine)
 
+        # The raw line index list based on the norm file
+        if not TRAINING:
+            rawLnIdxVectorNorm.append(rawLnIdxVectorNew[_idx])
+
         # Update last line parameters
         lastLine = newline
         if reserveTS and matchTS:
             lastLineTS = currentLineTS
 
-# write the last line of the file
+# Write the last line of the file
 if reserveTS and matchTS and (lastLine != ''):
     lastLine = lastLineTS + lastLine
 normfile.write(lastLine)
 
 newfile.close()
 normfile.close()
+
+# Write the raw line index list based on norm file to disk
+if not TRAINING:
+    with open(rawln_idx_loc, 'wb') as f:
+        pickle.dump(rawLnIdxVectorNorm, f)
