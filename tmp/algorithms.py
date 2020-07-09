@@ -413,3 +413,60 @@ RNG-RSP UsChanId=49  Adj: tim= power=-8  Stat=Continue
 18:     END
 19:     epoch_loss <- epoch_loss / batch_cnt
 20: END
+
+### deeplog exec evaluate
+ 1: anomaly_pred <- []
+ 2: TP = TN = FP = FN <- 0
+ 3: model <- enable evaluation
+ 4: tensor <- disable gradient calculation
+ 5: FOR batch_in IN data_loader
+ 6:     seq <- (batch_in['EventSeq'] convert to 3-D tensor)
+ 7:     output <- model(seq)
+ 8:     pred_sort <- sort the output per probability high to low
+ 9:     seq_target <- batch_in['Target']
+10:     seq_label <- batch_in['Label']
+11:     FOR i IN range(realtime batch size)
+12:         top_idx <- pred_sort[i].index(seq_target[i])
+13:         IF seq_label[i] == 1
+14:             IF top_idx >= TOPK
+15:                 TP++
+16:                 anomaly_pred <- append(1)
+17:             ELSE
+18:                 FN++
+19:                 anomaly_pred <- append(0)
+20:             END
+21:         ELSE
+22:             IF top_idx >= TOPK
+23:                 anomaly_pred <- append(1)
+24:                 FP++
+25:             ELSE
+26:                 anomaly_pred <- append(0)
+27:                 TN++
+28:             END
+29:         END
+30:     END
+31: END
+
+### deeplog exec predict
+ 1: j <- 0
+ 2: anomaly_pred <- []
+ 3: anomaly_line <- []
+ 4: model <- enable evaluation
+ 5: tensor <- disable gradient calculation
+ 6: FOR batch_in IN data_loader
+ 7:     seq <- (batch_in['EventSeq'] convert to 3-D tensor)
+ 8:     output <- model(seq)
+ 9:     pred_sort <- sort the output per probability high to low
+10:     seq_target <- batch_in['Target']
+11:     seq_label <- batch_in['Label']
+12:     FOR i IN range(realtime batch size)
+13:         top_idx <- pred_sort[i].index(seq_target[i])
+14:         IF top_idx >= TOPK
+15:             anomaly_pred <- append(1)
+16:             anomaly_line <- append(i+1+WINDOW_SIZE+j*BATCH_SIZE)
+17:         ELSE
+18:             anomaly_pred <- append(0)
+19:         END
+20:     END
+21:     j++
+22: END
