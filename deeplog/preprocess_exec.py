@@ -61,13 +61,13 @@ def load_data(para):
     #####################################################################################
 
     # Load and update vocabulary. Currently only update with train dataset
-    #event_id_voc = load_vocabulary(para, event_id_templates)
-    event_id_voc = event_id_templates
+    event_id_voc = load_vocabulary(para, event_id_templates)
+    #event_id_voc = event_id_templates
 
     # Count the non-zero event id number in the vocabulary. Suppose at least one zero
     # element exists in the voc.
-    #voc_size = len(set(event_id_voc)) - 1
-    voc_size = len(set(event_id_voc))
+    voc_size = len(set(event_id_voc)) - 1
+    #voc_size = len(set(event_id_voc))
 
     # Convert event id (hash value) log vector to event index (0 based int) log vector
     # For train dataset the template library / vocabulary normally contain all the
@@ -79,7 +79,8 @@ def load_data(para):
         try:
             event_idx_logs.append(event_id_voc.index(tid))
         except ValueError:
-            event_idx_logs.append(65535)
+            print("Warning: Event ID {} is not in vocabulary!!!".format(tid))
+            event_idx_logs.append(para['tmplib_size']-1)
 
     #####################################################################################
     # 3. Slice the logs into sliding windows
@@ -113,10 +114,13 @@ def load_vocabulary(para, event_id_templates):
         # end of event_id_templates to expand the size to TEMPLATE_LIB_SIZE.
         # The event_id_shuffled is a new list copy
         event_id_shuffled = event_id_templates \
-                            + ['0'] * (para['tmplib_size'] - len(event_id_templates))
+                            + ['0'] * (para['tmplib_size'] - len(event_id_templates) -1)
 
         # Shuffle the expanded list event_id_shuffled in-place
         np.random.default_rng().shuffle(event_id_shuffled)
+        # Reserve the last element (no shuffle) with value 'ffffffff'
+        event_id_shuffled.append('ffffffff')
+
         np.save(para['eid_file'], event_id_shuffled)
         np.savetxt(para['eid_file_txt'], event_id_shuffled, fmt="%s")
 

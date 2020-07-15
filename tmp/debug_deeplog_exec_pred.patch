@@ -1,0 +1,156 @@
+diff --git a/deeplog/exec_path_anomaly_pred.py b/deeplog/exec_path_anomaly_pred.py
+index 396dd4e..640a611 100644
+--- a/deeplog/exec_path_anomaly_pred.py
++++ b/deeplog/exec_path_anomaly_pred.py
+@@ -8,6 +8,7 @@ License     : MIT
+ import os
+ import sys
+ import pickle
++import numpy as np
+ import torch
+ 
+ import preprocess_exec as preprocess
+@@ -68,7 +69,7 @@ if __name__ == '__main__':
+     # 1. Load / preprocess test dataset
+     #
+     test_data_dict, voc_size = preprocess.load_data(para_test)
+-    #voc_size = TEMPLATE_LIB_SIZE
++    voc_size = TEMPLATE_LIB_SIZE
+     #print(test_data_dict['EventSeq'])
+     #print(test_data_dict['Target'])
+ 
+@@ -99,18 +100,20 @@ if __name__ == '__main__':
+         for batch_in in test_data_loader:
+             seq = batch_in['EventSeq'].clone().detach().view(-1, WINDOW_SIZE, 1).to(device)
+             output = model(seq)
+-            #pred_prob = output.softmax(dim=-1)
+-            #pred_sort = torch.argsort(pred_prob, 1, True)
+-            pred_sort = torch.argsort(output, 1, True)
++            pred_prob = output.softmax(dim=-1)
++            pred_sort = torch.argsort(pred_prob, 1, True)
++            #pred_sort = torch.argsort(output, 1, True)
+             bt_size = pred_sort.size(0)
+-            #topk_val = torch.narrow(pred_sort, 1, 0, 10)
+-            #print('debug topk1:', topk_val)
++            topk_val = torch.narrow(pred_sort, 1, 0, 10)
++            print('debug topk1:', topk_val)
+             seq_pred_sort = pred_sort.tolist()
+             seq_target = batch_in['Target'].tolist()
++            print(seq_target)
+             seq_label = batch_in['Label'].tolist()
+-            #topk_lst = []
++            pred_prob_lst = pred_prob.tolist()
++            topk_lst = []
+             for i in range(bt_size):
+-                #topk_lst.append(seq_pred_sort[i].index(seq_target[i]))
++                topk_lst.append(seq_pred_sort[i].index(seq_target[i]))
+                 top_idx = seq_pred_sort[i].index(seq_target[i])
+                 if top_idx >= TOPK:
+                     # Saves each log state from line (WINDOW_SIZE+1) in norm log file
+@@ -119,12 +122,22 @@ if __name__ == '__main__':
+                     anomaly_line.append(i+1+WINDOW_SIZE+j*BATCH_SIZE)
+                 else:
+                     anomaly_pred.append(0)
+-            #print('debug topk2:', topk_lst)
++                    if pred_prob_lst[i][seq_target[i]] < 0.01:
++                        print("Warning: sequence {} prob < 0.1".format(i+j*BATCH_SIZE))
++            print('debug topk2:', topk_lst)
+             j += 1
+ 
++            if j == 1:
++                tmp = pred_prob
++            else:
++                tmp = torch.cat((tmp, pred_prob), 0) 
++
+     #print(anomaly_pred)
+     print(len(anomaly_line))
+-
++    #print(tmp)
++    tmp = tmp.float()
++    np.savetxt(para_test['data_path']+'pred_prob.txt', tmp.numpy(), fmt='%.3e')
++"""
+     #
+     # 5. Map anomaly_line[] in norm file to the raw test data file
+     #
+@@ -136,3 +149,4 @@ if __name__ == '__main__':
+     with open(para_test['pred_result'], 'w') as f:
+         for item in anomaly_line:
+             f.write('%s\n' % (raw_idx_vector_norm[item]))
++"""
+\ No newline at end of file
+diff --git a/deeplog/exec_path_anomaly_train.py b/deeplog/exec_path_anomaly_train.py
+index fd07318..b6d9469 100644
+--- a/deeplog/exec_path_anomaly_train.py
++++ b/deeplog/exec_path_anomaly_train.py
+@@ -83,7 +83,7 @@ if __name__ == '__main__':
+     # 1. Load / preprocess data from train norm structured file
+     #
+     train_data_dict, voc_size = preprocess.load_data(para_train)
+-    #voc_size = TEMPLATE_LIB_SIZE
++    voc_size = TEMPLATE_LIB_SIZE
+ 
+     #
+     # 2. Feed the pytorch Dataset / DataLoader to get the iterator / tensors
+@@ -191,7 +191,7 @@ if __name__ == '__main__':
+     # 5. Serialize the model
+     #
+     torch.save(model.state_dict(), para_train['persist_path']+'model_deeplog_exec'+'.pt')
+-
++"""
+     #####################################################################################
+     # Evaluate the model with test dataset
+     #####################################################################################
+@@ -229,3 +229,4 @@ if __name__ == '__main__':
+               .format(precision, recall, f_1))
+ 
+     #print(anomaly_pred)
++"""
+\ No newline at end of file
+diff --git a/deeplog/preprocess_exec.py b/deeplog/preprocess_exec.py
+index 6cae1d6..3849135 100644
+--- a/deeplog/preprocess_exec.py
++++ b/deeplog/preprocess_exec.py
+@@ -61,13 +61,13 @@ def load_data(para):
+     #####################################################################################
+ 
+     # Load and update vocabulary. Currently only update with train dataset
+-    #event_id_voc = load_vocabulary(para, event_id_templates)
+-    event_id_voc = event_id_templates
++    event_id_voc = load_vocabulary(para, event_id_templates)
++    #event_id_voc = event_id_templates
+ 
+     # Count the non-zero event id number in the vocabulary. Suppose at least one zero
+     # element exists in the voc.
+-    #voc_size = len(set(event_id_voc)) - 1
+-    voc_size = len(set(event_id_voc))
++    voc_size = len(set(event_id_voc)) - 1
++    #voc_size = len(set(event_id_voc))
+ 
+     # Convert event id (hash value) log vector to event index (0 based int) log vector
+     # For train dataset the template library / vocabulary normally contain all the
+@@ -79,6 +79,7 @@ def load_data(para):
+         try:
+             event_idx_logs.append(event_id_voc.index(tid))
+         except ValueError:
++            print("Error: Event ID is not in the Vocabulary!!!")
+             event_idx_logs.append(65535)
+ 
+     #####################################################################################
+diff --git a/entrance/deeplog_config.txt b/entrance/deeplog_config.txt
+index 480a511..d82541a 100644
+--- a/entrance/deeplog_config.txt
++++ b/entrance/deeplog_config.txt
+@@ -4,8 +4,8 @@ MODEL=EXEC
+ WINDOW_SIZE=10
+ TEMPLATE_LIB_SIZE=2000
+ BATCH_SIZE=32
+-NUM_EPOCHS=1
++NUM_EPOCHS=100
+ NUM_WORKERS=0
+-HIDDEN_SIZE=64
++HIDDEN_SIZE=256
+ TOPK=10
+ DEVICE=cpu
+diff --git a/results/persist/model_deeplog_exec.pt b/results/persist/model_deeplog_exec.pt
+index a1cc082..236adfb 100644
+Binary files a/results/persist/model_deeplog_exec.pt and b/results/persist/model_deeplog_exec.pt differ

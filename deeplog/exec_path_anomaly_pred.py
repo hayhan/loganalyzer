@@ -68,7 +68,7 @@ if __name__ == '__main__':
     # 1. Load / preprocess test dataset
     #
     test_data_dict, voc_size = preprocess.load_data(para_test)
-    #voc_size = TEMPLATE_LIB_SIZE
+    voc_size = TEMPLATE_LIB_SIZE
     #print(test_data_dict['EventSeq'])
     #print(test_data_dict['Target'])
 

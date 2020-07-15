@@ -83,7 +83,7 @@ if __name__ == '__main__':
     # 1. Load / preprocess data from train norm structured file
     #
     train_data_dict, voc_size = preprocess.load_data(para_train)
-    #voc_size = TEMPLATE_LIB_SIZE
+    voc_size = TEMPLATE_LIB_SIZE
 
     #
     # 2. Feed the pytorch Dataset / DataLoader to get the iterator / tensors
