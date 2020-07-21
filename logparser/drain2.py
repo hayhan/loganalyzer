@@ -489,8 +489,8 @@ class Drain:
         # conflict with the <*> token node in paper Fig. 2. The former one
         # is still under the "First/Last: xxxx" node per addSeqToTree().
         # E.g. If the 1st token is replaced with <*>, it means the cluster is
-        # under a Last split token layer node. We cannot get here in this case
-        # under a First split token layer node.
+        # under a Last split token layer node. We cannot get here in the case
+        # that is under a First split token layer node.
         assert len(seq1) == len(seq2)
         retVal = []
 
@@ -507,7 +507,7 @@ class Drain:
             else:
                 if token2 != '<*>':
                     # The accumulated num of tokens that have been replaced by <*>
-                    # used to update the similarity threshold of each cluster 
+                    # used to update the similarity threshold of each cluster
                     updatedTokenNum += 1
                 retVal.append('<*>')
 
