@@ -25,9 +25,9 @@ from datetime import datetime
 
 #from tools import helper
 
-"""
-Note: log group/cluster maps to one single template/event.
-"""
+#
+# Note: log group/cluster maps to one single template/event.
+#
 
 # Similarity layer, each cluster/group has its own st
 class Logcluster:
@@ -230,7 +230,7 @@ class Drain:
 
         # If the pointer exist, compare the pointer and the new log first
         logCluster = self.pointer[seqLen]
-        retLogCluster  = None
+        retLogCluster = None
         # If first token or last token matches with the key in the tree, then calculate similarity; otherwise, skip
         if (logCluster.logTemplate[0] == seq[0] and not self.hasNumbers(seq[0]) and not self.hasPun(seq[0])) \
                 or (logCluster.logTemplate[-1] == seq[-1] and not self.hasNumbers(seq[-1]) and not self.hasPun(seq[-1])) \
@@ -366,7 +366,7 @@ class Drain:
                             lenLayerNode.childD[tokenLastKey] = newNode
                             tokenLayerNode = newNode
                         else:
-                            # The first and last token have punctuations
+                            # The first and last token have no punctuations
                             newNode = Node(digitOrtoken=tokenFirstKey)
                             lenLayerNode.childD[tokenFirstKey] = newNode
                             tokenLayerNode = newNode
@@ -396,33 +396,70 @@ class Drain:
 
         simTokens = 0
         numOfPara = 0
-        sTokenNoMatch = 0
+        stopCalc = False
+        lastTokenSame = True
+        lastTokenParam = False
+        lastTokenLog = None
+        firstToken = True
 
         for token1, token2 in zip(seq1, seq2):
+            # 1).
+            # If the first tokens are different between seq1 and seq2, it means the token
+            # in the tempalte will be a variable. Drop this case here.
+            if firstToken:
+                firstToken = False
+                if token1 != token2:
+                    stopCalc = True
+                    break
+
+            # 2).
+            # If tokens are different between seq1 and seq2 in successive positions, we
+            # need give up. It is usually not expected to generate the template like
+            # ... <*> <*> ...
             if token1 == '<*>':
-                numOfPara += 1
-                # Comment out line below to count <*> in simTokens
-                # Paper: continue
+                if lastTokenSame or lastTokenParam:
+                    numOfPara += 1
+                    # Update last status as current ones
+                    lastTokenSame = False
+                    lastTokenParam = True
+                    # Comment out line below to count <*> in simTokens
+                    # Paper: continue
+                    continue
+                else:
+                    stopCalc = True
+                    break
             if token1 == token2:
                 simTokens += 1
+                # Update last status as current ones
+                lastTokenSame = True
+                lastTokenParam = False
+            elif lastTokenSame:
+                # Update last status as current ones
+                lastTokenSame = False
+                lastTokenParam = False
+            else:
+                # The last tokens and current tokens are all different. Not expected
+                stopCalc = True
+                break
 
+            # 3).
             # Do not accept seq2 if some special tokens are different
             # between the template seq1 and current log seq2
             # This can prevent Drain from over-pasering some tokens
             for pn in self.para.rex_s_token:
                 if (pn.fullmatch(token1) and pn.fullmatch(token2) and (token1 != token2)) or \
-                   (pn.fullmatch(token1) and pn.fullmatch(token2)==None) or \
-                   (pn.fullmatch(token2) and pn.fullmatch(token1)==None):
+                   (pn.fullmatch(token1) and pn.fullmatch(token2) == None) or \
+                   (pn.fullmatch(token2) and pn.fullmatch(token1) == None):
 
-                    sTokenNoMatch = 1
+                    stopCalc = True
                     break
 
-            if sTokenNoMatch:
+            if stopCalc:
                 break
 
-        numOfConst = len(seq1)-numOfPara
+        numOfConst = len(seq1) - numOfPara
         if numOfConst == 0:
-            if len(seq1)==1 and self.hasNumbers(seq2[0]):
+            if len(seq1) == 1 and self.hasNumbers(seq2[0]):
                 retVal = 1.0
             else:
                 retVal = 0.0
@@ -430,8 +467,10 @@ class Drain:
             # See paper formula (1)
             retVal = float(simTokens) / numOfConst
 
-        # If special tokens are different, no match anyway
-        if sTokenNoMatch:
+        # If 1) the two first tokens between seq1 and seq2, or 2) any two successive
+        # tokens between seq1 and seq2, or 3) any special tokens are different,
+        # do no match anyway
+        if stopCalc:
             retVal = 0.0
             numOfPara = 0
 
@@ -534,19 +573,20 @@ class Drain:
                                 template_id_old=oldTmpId)
         newOCell.parentL.append(newCluster)
 
-        # The initial value of st is 0.5 times the percentage of non-digit tokens in the log message
+        # Calculate the original num of parameters in the log message
         numOfPara = 0
         for token in messageL:
-            # In the pre-process of Drain domain, I replaced all possible digital var with <*> already
+            # In the pre-process of Drain domain, I replaced all possible digitals with <*> already
             # Do not follow the original method in the paper section 4.1.2
             # Paper: if self.hasNumbers(token):
             if token == '<*>':
                 numOfPara += 1
 
         # The "st" is similarity threshold used by the similarity layer, see paper formula (3)
-        # Paper: newCluster.st = 0.5 * (len(logmessageL)-numOfPara) / float(len(logmessageL))
+        # Paper: newCluster.st = 0.5 * (len(messageL)-numOfPara) / float(len(messageL))
         # The initial st is the lower bound. Make it bigger to avoid over-parsing
-        newCluster.st = 0.8
+        #newCluster.st = 0.6
+        newCluster.st = 0.6 * (len(messageL)-numOfPara) / float(len(messageL))
         newCluster.initst = newCluster.st
 
         # When the number of numOfPara is large, the group tends
@@ -890,7 +930,9 @@ class Drain:
         # Load the templates from the template library
         self.load_template_lib()
 
+        #
         # Build the tree by using templates from library
+        #
         for _rowIndex, line in self.df_tmp.iterrows():
             # Split the template into token list
             tmpmessageL = line['EventTemplate'].strip().split()
@@ -912,7 +954,9 @@ class Drain:
         # A lower overhead progress bar
         pbar = tqdm(total=self.df_log.shape[0], unit='Logs', ncols=100, disable=self.para.nopgbar)
 
+        #
         # Process the raw log data
+        #
         for _rowIndex, line in self.df_log.iterrows():
 
             logID = line['LineId']
