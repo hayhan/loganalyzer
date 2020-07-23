@@ -147,6 +147,18 @@ titlePatterns = [
 ]
 
 #----------------------------------------------------------------------------------------
+# Patterns for hex blocks in MMM pdu, which I want to remove
+#----------------------------------------------------------------------------------------
+pduHexBlkHeaderPattern0 = re.compile(r' {13}description: T=')
+pduHexBlkHeaderPattern1 = re.compile(r' {11}description =')
+pduHexBlkBodyPattern = re.compile(r' {2}[a-f0-9]{2} ')
+
+pduHexBlkHeaderPatterns = [
+    pduHexBlkHeaderPattern0,
+    pduHexBlkHeaderPattern1
+]
+
+#----------------------------------------------------------------------------------------
 # Pattern for nested line
 #----------------------------------------------------------------------------------------
 nestedLinePattern = re.compile(r' +|\t+')
@@ -235,6 +247,7 @@ tableMessed = False
 dsTableEntryProcessed = False
 lastLineMessed = False
 inTable = False
+inBlock = False
 inMultiLineInitRange = False
 inMultiLineRemove = False
 lastLineEmpty = False
@@ -308,7 +321,7 @@ for _idx, line in enumerate(linesLst):
         if match:
             goNextLine = True
             break
-    if goNextLine == True:
+    if goNextLine:
         # Update for the next line
         lastLineEmpty = False
         continue
@@ -424,9 +437,10 @@ for _idx, line in enumerate(linesLst):
         # Update for the next line
         lastLineEmpty = False
         continue
-    elif inTable == True:
+    if inTable:
         if newline in ['\n', '\r\n']:
             # Suppose table ended with empty line
+            # Note: we also reset the inTable for the DS/US channel status table above
             if (not inDsChStatTable) or (inDsChStatTable and dsTableEntryProcessed and (not lastLineMessed)):
                 inTable = False
         elif not (inDsChStatTable or inUsChStatTable):
@@ -442,10 +456,30 @@ for _idx, line in enumerate(linesLst):
         if match:
             goNextLine = True
             break
-    if goNextLine == True:
+    if goNextLine:
         # Update for the next line
         lastLineEmpty = False
         continue
+
+    # Remove hex blocks in the MMM pdu
+    goNextLine = False
+    for pattern in pduHexBlkHeaderPatterns:
+        match = pattern.match(newline)
+        if match:
+            goNextLine = True
+            break
+    if goNextLine:
+        inBlock = True
+        # Update for the next line
+        lastLineEmpty = False
+        continue
+    if inBlock:
+        match = pduHexBlkBodyPattern.match(newline)
+        if match:
+            # Update for the next line
+            lastLineEmpty = False
+            continue
+        inBlock = False
 
     # Indent lines as multi-line log for initial ranging
     match = initRangePattern.match(newline)
