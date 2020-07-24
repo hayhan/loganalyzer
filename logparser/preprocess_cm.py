@@ -66,7 +66,8 @@ newfile    = open(new_file_loc, 'w')
 #----------------------------------------------------------------------------------------
 # The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738].
 # Label is also considered.
-strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)\.(\d{3})|24:00:00\.000)\] (abn: )?')
+strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
+                         r'\.(\d{3})|24:00:00\.000)\] (abn: )?')
 # The pattern for CM console prompts
 strPattern1 = re.compile('CM[/a-z-_ ]*> ', re.IGNORECASE)
 # The pattern for the timestamp added by BFC, e.g. [00:00:35 01/01/1970], [11/21/2018 14:49:32]
@@ -80,7 +81,7 @@ strPattern6 = re.compile(r'\+{3} ')
 
 strPatterns = [
     strPattern1, strPattern2, strPattern3,
-    strPattern4, strPattern5, strPattern6
+    strPattern4, strPattern5, strPattern6,
 ]
 
 # Control if we need reserve the main timestamp: strPattern0 in the norm file
@@ -99,6 +100,7 @@ sLinePattern6 = re.compile(r'Readback Test pkt\:')
 sLinePattern7 = re.compile(r'DHCPc\:  Timed out waiting for offers for lease')
 sLinePattern8 = re.compile(r'ng...')
 sLinePattern9 = re.compile(r'fUsSetsState = ')
+sLinePattern10 = re.compile(r'( {7}munged error type: T=)|( {5}munged error type =)')
 
 sLinePatterns = [
     sLinePattern0,
@@ -110,22 +112,23 @@ sLinePatterns = [
     sLinePattern6,
     sLinePattern7,
     sLinePattern8,
-    sLinePattern9
+    sLinePattern9,
+    sLinePattern10,
 ]
 
 #----------------------------------------------------------------------------------------
 # Patterns for removing Table headers
 #----------------------------------------------------------------------------------------
-title0  = re.compile(r' *Trimmed Candidate Downstream Service Group')
-title1  = re.compile(r' *sgid +size +member')
-title2  = re.compile(r' *Downstream Active Channel Settings')
-title3  = re.compile(r' *dcid +type +frequency')
-title4  = re.compile(r' *Upstream Active Channel Settings')
-title5  = re.compile(r' *ucid +rpt enable')
-title6  = re.compile(r' *BcmCmUsTargetMset \(a.k.a. usable UCDs')
-title7  = re.compile(r' *us +config')
-title8  = re.compile(r' *phy +change')
-title9  = re.compile(r' *type +ucid +dcid +count')
+title00 = re.compile(r' *Trimmed Candidate Downstream Service Group')
+title01 = re.compile(r' *sgid +size +member')
+title02 = re.compile(r' *Downstream Active Channel Settings')
+title03 = re.compile(r' *dcid +type +frequency')
+title04 = re.compile(r' *Upstream Active Channel Settings')
+title05 = re.compile(r' *ucid +rpt enable')
+title06 = re.compile(r' *BcmCmUsTargetMset \(a.k.a. usable UCDs')
+title07 = re.compile(r' *us +config')
+title08 = re.compile(r' *phy +change')
+title09 = re.compile(r' *type +ucid +dcid +count')
 title10 = re.compile(r' *REG-RSP-MP Summary:')
 title11 = re.compile(r' *TCC commands->')
 title12 = re.compile(r' *ucid +action +ranging strategy')
@@ -139,11 +142,12 @@ title19 = re.compile(r' *plc +prfA')
 title20 = re.compile(r' *Active Upstream Channels:')
 title21 = re.compile(r' *rng +pwr')
 title22 = re.compile(r' *txid +ucid +dcid +sid')
+title23 = re.compile(r' {5}US chan ID {5}Tx Power \(dBmV\)')
 
 titlePatterns = [
-    title0,  title1,  title2,  title3,  title4,  title5,  title6,  title7,
-    title8,  title9,  title10, title11, title12, title13, title14, title15,
-    title16, title17, title18, title19, title20, title21, title22
+    title00, title01, title02, title03, title04, title05, title06, title07,
+    title08, title09, title10, title11, title12, title13, title14, title15,
+    title16, title17, title18, title19, title20, title21, title22, title23,
 ]
 
 #----------------------------------------------------------------------------------------
@@ -155,7 +159,7 @@ pduHexBlkBodyPattern = re.compile(r' {2}[a-f0-9]{2} ')
 
 pduHexBlkHeaderPatterns = [
     pduHexBlkHeaderPattern0,
-    pduHexBlkHeaderPattern1
+    pduHexBlkHeaderPattern1,
 ]
 
 #----------------------------------------------------------------------------------------
@@ -169,11 +173,13 @@ nestedLinePattern = re.compile(r' +|\t+')
 sPrimaryLinePattern0 = re.compile(r'Assigned OFDMA Data Profile IUCs')
 sPrimaryLinePattern1 = re.compile(r'fDestSingleTxTargetUsChanId')
 sPrimaryLinePattern2 = re.compile(r'fTmT4NoUnicastRngOpStdMlsec')
+sPrimaryLinePattern3 = re.compile(r'MSG PDU:')
 
 sPrimaryLinePatterns = [
     sPrimaryLinePattern0,
     sPrimaryLinePattern1,
-    sPrimaryLinePattern2
+    sPrimaryLinePattern2,
+    sPrimaryLinePattern3,
 ]
 
 #----------------------------------------------------------------------------------------
@@ -186,7 +192,7 @@ sNestedLinePattern2 = re.compile(r' +Receive Channel Config\:')
 sNestedLinePatterns = [
     sNestedLinePattern0,
     sNestedLinePattern1,
-    sNestedLinePattern2
+    sNestedLinePattern2,
 ]
 
 #----------------------------------------------------------------------------------------
@@ -257,13 +263,14 @@ sccvEmptyLineCnt = 0
 # 01) Remove timestamps, console prompts, tables, empty lines
 # 02) Format DS/US channel status tables
 # 03) Remove some tables which are useless
-# 04) Format initial ranging block to one line log
-# 05) Indent some specific lines in multi-line log
-# 06) Remove empty lines
-# 07) Convert nested line as primary if two more empty lines proceeded
-# 08) Convert some specific lines as primary
-# 09) Remove specific whole multi-line log
-# 10) Split some tokens
+# 04) Remove hex blocks in mmm pdu
+# 05) Format initial ranging block to one line log
+# 06) Indent some specific lines in multi-line log
+# 07) Remove empty lines
+# 08) Convert nested line as primary if two more empty lines proceeded
+# 09) Convert some specific lines as primary
+# 10) Remove specific whole multi-line log
+# 11) Split some tokens
 #---------------------------------------------------------------------
 print("Pre-processing the raw {0} dataset ...".format(datatype))
 parse_st = datetime.now()
