@@ -415,12 +415,15 @@ class Drain:
             # 2).
             # If tokens are different between seq1 and seq2 in successive positions, we
             # need give up. It is usually not expected to generate the template like
-            # ... <*> <*> ...
+            # ...<*> <*>...
             if token1 == '<*>':
                 if lastTokenSame or lastTokenParam:
                     numOfPara += 1
-                    # Update last status as current ones
-                    lastTokenSame = False
+                    # Update last status to current ones
+                    # Here we need consider an exception that if the current token in
+                    # raw log (aka token2 in seq2) is <*>, we accept the ...<*><*>...
+                    # case in the final template.
+                    lastTokenSame = bool(token2 == '<*>')
                     lastTokenParam = True
                     # Comment out line below to count <*> in simTokens
                     # Paper: continue
@@ -430,11 +433,11 @@ class Drain:
                     break
             if token1 == token2:
                 simTokens += 1
-                # Update last status as current ones
+                # Update last status to current ones
                 lastTokenSame = True
                 lastTokenParam = False
             elif lastTokenSame:
-                # Update last status as current ones
+                # Update last status to current ones
                 lastTokenSame = False
                 lastTokenParam = False
             else:

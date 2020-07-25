@@ -58,16 +58,19 @@ regexPattern0 = re.compile(r'(Mon|Tue|Wed|Thu|Fri|Sat|Sun) '
                            r'(([0-2]\d)|(3[0-1])) '
                            r'(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) \d{4}')
 
+# SNMP MIB OID
+regexPattern1 = re.compile(r'(?<=TLV\-11\[\ \d \]: )((\d+\.)+\d+)')
+
 # MAC Address
-regexPattern1 = re.compile(r'([A-Fa-f0-9]+\:){5}[A-Fa-f0-9]+')
+regexPattern2 = re.compile(r'([A-Fa-f0-9]+\:){5}[A-Fa-f0-9]+')
 
 # IPv4 Address
-regexPattern2 = re.compile(r'(/|)([0-9]+\.){3}[0-9]+(:[0-9]+|)(:|)')
+regexPattern3 = re.compile(r'(/|)([0-9]+\.){3}[0-9]+(:[0-9]+|)(:|)')
 
 # IPv6 Address from https://gist.github.com/mnordhoff/2213179
 # A more elegant rex can be found at
 # https://gist.github.com/dfee/6ed3a4b05cfe7a6faf40a2102408d5d8
-regexPattern3 = re.compile(r' (?:(?:[0-9A-Fa-f]{1,4}:){6}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}'
+regexPattern4 = re.compile(r' (?:(?:[0-9A-Fa-f]{1,4}:){6}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}'
                            r'|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]'
                            r'|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))'
                            r'|::(?:[0-9A-Fa-f]{1,4}:){5}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}'
@@ -94,33 +97,36 @@ regexPattern3 = re.compile(r' (?:(?:[0-9A-Fa-f]{1,4}:){6}(?:[0-9A-Fa-f]{1,4}:[0-
 
 # List of intergers and tuples like xxx = 1 2 3 4, (12-11.1) (10-11) as well as Numbers
 # including hex, decimal and integer
-regexPattern4 = re.compile(r'( \( \d+\.?(\d+)?-\d+\.?(\d+)? \))+|( \d+){2,}|0x[A-Fa-f0-9]+'
+regexPattern5 = re.compile(r'(?<=value=)(( [a-f0-9]{2}){14})'
+                           r'|(?<=HEX:)([A-F0-9]{2} )+'
+                           r'|( \( \d+\.?(\d+)?-\d+\.?(\d+)? \))+|( \d+){2,}|0x[A-Fa-f0-9]+'
                            r'|(?<=[^A-Za-z0-9\.])(\-?\+?\d+\.?(\d+)?\*?)|(?<=\.\.)(\d+)')
 
 # OFDM channels CH32 and CH33, maybe different for 3391 and later
-regexPattern5 = re.compile(r'CH\d{2}')
+regexPattern6 = re.compile(r'CH\d{2}')
 
-regexPattern6 = re.compile(r'\( k[A-Z]\w+ \)|\( [du]cid \)|\( ErrorRecovery \)'
+regexPattern7 = re.compile(r'\( k[A-Z]\w+ \)|\( [du]cid \)|\( ErrorRecovery \)'
                            r'|\( ConsoleCmdOverride \)|\( T4NoStationMaintTimeout \)'
-                           r'|\( T2NoInitMaintTimeout \)')
+                           r'|\( T2NoInitMaintTimeout \)|\( not specified \)')
 
-regexPattern7 = re.compile(r'(QAM lock failure)|(FEC lock failure)')
-regexPattern8 = re.compile(r'Stat= (Continue|Success|Abort)')
-regexPattern9 = re.compile(r'qam [yn] fec [yn] snr')
-regexPattern10 = re.compile(r'txdata [yn]')
+regexPattern8 = re.compile(r'(QAM lock failure)|(FEC lock failure)')
+regexPattern9 = re.compile(r'Stat= (Continue|Success|Abort)')
+regexPattern10 = re.compile(r'qam [yn] fec [yn] snr')
+regexPattern11 = re.compile(r'txdata [yn]')
 
 regex = {
     regexPattern0: '<*>',
     regexPattern1: '<*>',
     regexPattern2: '<*>',
     regexPattern3: '<*>',
-    regexPattern4: ' <*>',
-    regexPattern5: '<*>',
-    regexPattern6: '( <*> )',
-    regexPattern7: '<*>',
-    regexPattern8: 'Stat= <*>',
-    regexPattern9: 'qam <*> fec <*> snr',
-    regexPattern10: 'txdata <*>',
+    regexPattern4: '<*>',
+    regexPattern5: ' <*>',
+    regexPattern6: '<*>',
+    regexPattern7: '( <*> )',
+    regexPattern8: '<*>',
+    regexPattern9: 'Stat= <*>',
+    regexPattern10: 'qam <*> fec <*> snr',
+    regexPattern11: 'txdata <*>',
 }
 
 
