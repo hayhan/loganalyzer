@@ -15,7 +15,7 @@ a5d1e3f3,a5d1e3f3,OFDM DSID filter control = <*>
 0e9b2f8a,0e9b2f8a,BcmCmDocsisCtlThread:: ResetRngState: ( CmDocsisCtlThread )
 d1343ddf,d1343ddf,BcmDocsisCmHalIf:: SetPrimarySid: ( DOCSIS CableModem HalIf ) Setting the Primary SID for usHwChannel <*> to <*>
 6c29eb6c,6c29eb6c,Updating US chan <*> data Profile test msg for Sid: <*>.
-c72b4032,c72b4032,BcmSetDocsis31CmtsRegistration:Setting Docsis3TransmitMode= false
+222ede70,222ede70,BcmSetDocsis31CmtsRegistration:Setting Docsis3TransmitMode= <*>
 e6c3cf06,e6c3cf06,"BcmCmMultiDsHelper:: PreRegDsChanChange:, target freq hz = <*>, reason string = <*> CmInitReason = <*>"
 81efa4f2,81efa4f2,Starting DS scanning at <*> Hz...
 7198d92c,7198d92c,BcmCmDownstreamScan:: StartScan: Starting DS scan
@@ -35,7 +35,6 @@ c61ea93f,c61ea93f,Switchable diplexer ECN support disabled. NOT switching diplex
 522d2997,522d2997,"BcmCmMdDsSgDiscState:: StartMdDsSgDisc:, special case: one and only one MD-DS-SG contains mdd_dcid., fMdDsSgId= <*> ( <*> )"
 a877c3a3,a877c3a3,"MD-DS-SG discovery info:, fCmMdDsSgDiscState = <*> ( <*> ), fMdDsSgId = <*> ( <*> ), fMdDsSgDiscovered = <*>"
 c45210bc,c45210bc,"Trimmed Downstream Ambiguity Resolution Frequency List: list size = <*>, <*>-sc_qam, visible dcid set = <*>, freq with visible dcid set = <*>"
-7c3b016e,7c3b016e,BcmSetDocsis31CmtsRegistration:Setting Docsis3TransmitMode= true
 b5e4fae1,b5e4fae1,BcmDocsisCmHalIf:: SetPrimaryDownstreamChannel: ( DOCSIS CableModem HalIf ) Installing primary downstream channel index: <*>
 2c5a73b0,2c5a73b0,SetRatios called with primary downstream channel number = <*>
 2f643572,2f643572,AnnexMode[ <*> ] = <*> QAM_Mode[ <*> ] = <*>

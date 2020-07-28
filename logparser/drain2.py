@@ -143,7 +143,11 @@ class Drain:
 
     # Check if there is number
     def hasNumbers(self, s):
-        return any(char.isdigit() for char in s)
+        """ Check the digits in string
+        """
+        # return any(char.isdigit() for char in s)
+        # Let me only check the 1st char in s
+        return s[0].isdigit()
 
 
     # Check if there is special character
