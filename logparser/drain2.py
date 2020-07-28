@@ -415,17 +415,18 @@ class Drain:
             # 2).
             # If tokens are different between seq1 and seq2 in successive positions, we
             # need give up. It is usually not expected to generate the template like
-            # ...<*> <*>...
+            # ...<*> <*>... because they both might not be variables.
             if token1 == '<*>':
                 if lastTokenSame or lastTokenParam:
                     numOfPara += 1
                     # Update last status to current ones
                     # Here we need consider an exception that if the current token in
                     # raw log (aka token2 in seq2) is <*>, we accept the ...<*><*>...
-                    # case in the final template.
+                    # case in the final template. This is because the predefined <*> in
+                    # the raw log always means correct variables.
                     lastTokenSame = bool(token2 == '<*>')
                     lastTokenParam = True
-                    # Comment out line below to count <*> in simTokens
+                    # Comment out line below to count <*> in simTokens but sim is wrong
                     # Paper: continue
                     continue
                 else:
@@ -579,16 +580,21 @@ class Drain:
         # Calculate the original num of parameters in the log message
         numOfPara = 0
         for token in messageL:
-            # In the pre-process of Drain domain, I replaced all possible digitals with <*> already
-            # Do not follow the original method in the paper section 4.1.2
+            # In the pre-process of Drain domain, I replaced all possible digitals with
+            # <*> already. Do not follow the original method in the paper section 4.1.2.
             # Paper: if self.hasNumbers(token):
             if token == '<*>':
                 numOfPara += 1
 
-        # The "st" is similarity threshold used by the similarity layer, see paper formula (3)
+        # _ToDo_
+        # In the case of template loading from library, I should use the saved similarity
+        # threshold from library instead of the paper formula (3) from scratch if the
+        # adaptive similarity threshold is applied.
+
+        # The similarity threshold used by the similarity layer, see paper formula (3).
         # Paper: newCluster.st = 0.5 * (len(messageL)-numOfPara) / float(len(messageL))
-        # The initial st is the lower bound. Make it bigger to avoid over-parsing
-        #newCluster.st = 0.6
+        # The initial st is the lower bound. Make it bigger to avoid over-parsing.
+        # newCluster.st = 0.6
         newCluster.st = 0.6 * (len(messageL)-numOfPara) / float(len(messageL))
         newCluster.initst = newCluster.st
 
@@ -630,8 +636,12 @@ class Drain:
             matchClust.st = min(1, matchClust.initst + \
                                     0.5*math.log(matchClust.updateCount+1, matchClust.base))
 
+            # _Note_
+            # For the online update of template, I should save the threshold along with
+            # each template in the outputResult() if the adaptive theshold is applied.
+
             # If the merge mechanism is used, then merge the nodes
-            # weihan: TBD if I need this feature in ML and Oldshchool
+            # TBD if I need this feature in ML and Oldshchool
             if self.para.mt < 1:
                 self.adjustOutputCell(matchClust, clusterL)
 
@@ -770,6 +780,9 @@ class Drain:
             occurrence = len(logClust.outcell.logIDL)
             template_id = hashlib.md5(template_str.encode('utf-8')).hexdigest()[0:8]
             template_id_old = logClust.template_id_old
+            # _ToDo_
+            # I should save the similarity threshold of tempalte too. It is used
+            # to be as the init sim threshold of online template update.
 
             # Assign template and its id to each log. The log id in logIDL is 1 based
             for logID in logClust.outcell.logIDL:

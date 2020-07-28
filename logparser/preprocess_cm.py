@@ -98,9 +98,8 @@ sLinePattern4 = re.compile(r'TCC->')
 sLinePattern5 = re.compile(r'\d')
 sLinePattern6 = re.compile(r'Readback Test pkt\:')
 sLinePattern7 = re.compile(r'DHCPc\:  Timed out waiting for offers for lease')
-sLinePattern8 = re.compile(r'ng...')
-sLinePattern9 = re.compile(r'fUsSetsState = ')
-sLinePattern10 = re.compile(r'( {7}munged error type: T=)|( {5}munged error type =)')
+sLinePattern8 = re.compile(r'fUsSetsState = ')
+sLinePattern9 = re.compile(r'( {7}munged error type: T=)|( {5}munged error type =)')
 
 sLinePatterns = [
     sLinePattern0,
@@ -113,7 +112,6 @@ sLinePatterns = [
     sLinePattern7,
     sLinePattern8,
     sLinePattern9,
-    sLinePattern10,
 ]
 
 #----------------------------------------------------------------------------------------
@@ -174,12 +172,14 @@ sPrimaryLinePattern0 = re.compile(r'Assigned OFDMA Data Profile IUCs')
 sPrimaryLinePattern1 = re.compile(r'fDestSingleTxTargetUsChanId')
 sPrimaryLinePattern2 = re.compile(r'fTmT4NoUnicastRngOpStdMlsec')
 sPrimaryLinePattern3 = re.compile(r'MSG PDU:')
+sPrimaryLinePattern4 = re.compile(r'to a CM prior to sending')
 
 sPrimaryLinePatterns = [
     sPrimaryLinePattern0,
     sPrimaryLinePattern1,
     sPrimaryLinePattern2,
     sPrimaryLinePattern3,
+    sPrimaryLinePattern4,
 ]
 
 #----------------------------------------------------------------------------------------
@@ -188,11 +188,13 @@ sPrimaryLinePatterns = [
 sNestedLinePattern0 = re.compile(r' +DOWNSTREAM STATUS')
 sNestedLinePattern1 = re.compile(r' +CM Upstream channel info')
 sNestedLinePattern2 = re.compile(r' +Receive Channel Config\:')
+sNestedLinePattern3 = re.compile(r' Reason = ')
 
 sNestedLinePatterns = [
     sNestedLinePattern0,
     sNestedLinePattern1,
     sNestedLinePattern2,
+    sNestedLinePattern3,
 ]
 
 #----------------------------------------------------------------------------------------
