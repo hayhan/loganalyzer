@@ -65,9 +65,9 @@ newfile    = open(new_file_loc, 'w')
 # Patterns for removing timestamp, console prompt and others
 #----------------------------------------------------------------------------------------
 # The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738].
-# Label is also considered.
+# Label and segment sign are also considered.
 strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
-                         r'\.(\d{3})|24:00:00\.000)\] (abn: )?')
+                         r'\.(\d{3})|24:00:00\.000)\] (abn: )?(segsign: )?')
 # The pattern for CM console prompts
 strPattern1 = re.compile('CM[/a-z-_ ]*> ', re.IGNORECASE)
 # The pattern for the timestamp added by BFC, e.g. [00:00:35 01/01/1970], [11/21/2018 14:49:32]

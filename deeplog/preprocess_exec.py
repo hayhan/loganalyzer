@@ -5,6 +5,7 @@ License     : MIT
 """
 
 import os
+import pickle
 import shutil
 import numpy as np
 import pandas as pd
@@ -24,7 +25,7 @@ def load_data(para):
     Returns
     -------
     data_dict:
-    <SeqIdx> the sequence / window idx, aka log line number [0 ~ (logsnum-window_size-1)]
+    <SeqIdx> the sequence / sample idx
     <EventSeq> array of [seq_num x window_size] event sequence
     <Target> the target event index for each event sequence
     <Label> the label of target event
@@ -86,13 +87,22 @@ def load_data(para):
     # 3. Slice the logs into sliding windows
     #####################################################################################
 
+    # For train, we need handle the concatenated norm dataset
+    # For validation / prediction, always suppose the dataset is not a concatenated one
+    if para['train']:
+        # Load the segment vector we get from logparser module
+        with open(para['seg_file'], 'rb') as fin:
+            seg_vector = pickle.load(fin)
+
+        data_dict = slice_logs_multi(event_idx_logs, labels, para['window_size'], seg_vector)
+    else:
+        data_dict = slice_logs(event_idx_logs, labels, para['window_size'])
+
     # data_dict:
-    # <SeqIdx> the sequence index, aka log line number [0 ~ (logsnum-window_size-1)]
+    # <SeqIdx> the sequence index
     # <EventSeq> array of [seq_num x window_size] event sequence
     # <Target> the target event index for each window sequence
     # <Label> the label of target event
-    data_dict = slice_logs(event_idx_logs, labels, para['window_size'])
-
     return data_dict, voc_size
 
 
@@ -195,6 +205,10 @@ def load_vocabulary(para, event_id_templates):
 def slice_logs(eidx_logs, labels, window_size):
     """ Slice the event index vector in structured file into sequences
 
+    Note
+    ----
+    This is single-file logs version
+
     Arguments
     ---------
     eidx_logs: event index (0 based int) vector mapping to each log in structured file
@@ -204,14 +218,14 @@ def slice_logs(eidx_logs, labels, window_size):
     Returns
     -------
     results_dict:
-    <SeqIdx> the sequence / window idx, aka log line number [0 ~ (logsnum-window_size-1)]
+    <SeqIdx> the sequence / sample idx, aka log line number [0 ~ (logsnum-window_size-1)]
     <EventSeq> array of [seq_num x window_size] event sequence
     <Target> the target event index for each event sequence
     <Label> the label of target event
     """
 
     results_lst = []
-    print("Slicing the whole logs with window {} ...".format(window_size))
+    print("Slicing the single-file logs with window {} ...".format(window_size))
 
     logsnum = len(eidx_logs)
     i = 0
@@ -229,6 +243,59 @@ def slice_logs(eidx_logs, labels, window_size):
     #sequence += ["#Na"] * (window_size - len(sequence))
     #results_lst.append([i, sequence, "#Na", "#Na"])
     #--end--
+
+    results_df = pd.DataFrame(results_lst, columns=["SeqIdx", "EventSeq", "Target", "Label"])
+    results_dict = {"SeqIdx": results_df["SeqIdx"].to_numpy(dtype='int32'),
+                    "EventSeq": np.array(results_df["EventSeq"].tolist(), dtype='int32'),
+                    "Target": results_df["Target"].to_numpy(dtype='int32'),
+                    "Label": results_df["Label"].to_numpy(dtype='int32')}
+
+    return results_dict
+
+
+def slice_logs_multi(eidx_logs, labels, window_size, seg_vec):
+    """ Slice the event index vector in structured file into sequences
+
+    Note
+    ----
+    This is multi-file logs version
+
+    Arguments
+    ---------
+    eidx_logs: event index (0 based int) vector mapping to each log in structured file
+    labels: the label for each log in validation dataset
+    window_size: the sliding window size, and the unit is log
+    seg_vec: the segment vector in which each element is the segment size
+
+    Returns
+    -------
+    results_dict:
+    <SeqIdx> the sequence / sample idx. This is different from single-file logs version
+    <EventSeq> array of [seq_num x window_size] event sequence
+    <Target> the target event index for each event sequence
+    <Label> the label of target event
+    """
+
+    results_lst = []
+    print("Slicing the multi-file logs with window {} ...".format(window_size))
+
+    seg_offset = 0
+
+    for _idx, seg_size in enumerate(seg_vec):
+        # The window only applies in each log file (aka segment) and do not cross the
+        # log file boundary. The SeqIdx is not necessary to be continuous with step one
+        # across files. We actually did not use the SeqIdx field in the later train /
+        # validate / predict. For simplicity, the SeqIdx will be reset to 0 to count
+        # again when across file boundary. Change this behavior if we want to utilize
+        # the sequence or sample index across multiple log files.
+        i = 0
+        while (i + window_size) < seg_size:
+            sequence = eidx_logs[i + seg_offset: i + seg_offset + window_size]
+            results_lst.append([i, sequence, eidx_logs[i + seg_offset + window_size],
+                                labels[i + seg_offset + window_size]])
+            i += 1
+        # The segment first log offset in the concatenated monolith
+        seg_offset += seg_size
 
     results_df = pd.DataFrame(results_lst, columns=["SeqIdx", "EventSeq", "Target", "Label"])
     results_dict = {"SeqIdx": results_df["SeqIdx"].to_numpy(dtype='int32'),

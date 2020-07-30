@@ -43,6 +43,7 @@ with open(parentdir+'/entrance/deeplog_config.txt', 'r', encoding='utf-8-sig') a
 
 para_train = {
     'structured_file': parentdir+'/results/train/train_norm.txt_structured.csv',
+    'seg_file'     : parentdir+'/results/train/train_norm.txt_seg.pkl',
     'template_lib'   : parentdir+'/results/persist/template_lib.csv',
     'eid_file'       : parentdir+'/results/persist/event_id_deeplog.npy',
     'eid_file_txt'   : parentdir+'/results/persist/event_id_deeplog.txt',
