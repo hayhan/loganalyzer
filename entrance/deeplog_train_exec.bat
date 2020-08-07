@@ -1,13 +1,11 @@
 @echo off
-setlocal EnableDelayedExpansion
 
 rem This script train the DeepLog exec model
 
 rem ---Concatenate multiple raw files into one
-rem ---parameters: script inputLoc filenames outputLoc
-rem ---format: !="!^ is used for spliting a long string
-set fileList="log_4_3390.txt/!="!^
-normal_0_register_202.txt/normal_1_register_202.txt/normal_2_dbc_202.txt"
+rem ---Parameters: script inputLoc filenames outputLoc
+set fileList=log_4_3390.txt/^
+normal_0_register_202.txt/normal_1_register_202.txt/normal_2_dbc_202.txt
 
 rem Concatenate above files into one and add segment sign 'segsign: '
 python ..\tools\cat_files_sign.py logs/raw %fileList% logs/train.txt
@@ -31,4 +29,18 @@ rem Parse the log and update the template library
 python ..\logparser\drain2_cm.py
 
 rem Train the model
-python ..\deeplog\extc_path_anomaly_train.py
+(
+echo TRAINING=1
+echo METRICS=1
+echo MODEL=EXEC
+echo WINDOW_SIZE=10
+echo TEMPLATE_LIB_SIZE=2000
+echo BATCH_SIZE=32
+echo NUM_EPOCHS=100
+echo NUM_WORKERS=0
+echo HIDDEN_SIZE=256
+echo TOPK=10
+echo DEVICE=cpu
+) > deeplog_config.txt
+
+python ..\deeplog\exec_path_anomaly_train.py

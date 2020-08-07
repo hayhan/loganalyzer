@@ -1,12 +1,9 @@
 @echo off
-setlocal EnableDelayedExpansion
-
 
 rem ---Concatenate multiple raw files into one
-rem ---parameters: script inputLoc filenames outputLoc
-rem ---format: !="!^ is used for spliting a long string
-set fileList="log_0_3390_labeled.txt/log_2_3390_labeled.txt/!="!^
-log_3_3390_labeled.txt/log_4_3390_labeled.txt"
+rem ---Parameters: script inputLoc filenames outputLoc
+set fileList=log_0_3390_labeled.txt/log_2_3390_labeled.txt/^
+log_3_3390_labeled.txt/log_4_3390_labeled.txt
 
 python ..\tools\cat_files.py logs/raw %fileList% logs/train.txt
 

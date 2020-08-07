@@ -1,13 +1,12 @@
 @echo off
-setlocal EnableDelayedExpansion
 
 rem This script updates the template library
 
 rem ---Concatenate multiple raw files into one
-rem ---parameters: script inputLoc filenames outputLoc
-rem ---format: !="!^ is used for spliting a long string
-rem set fileList="log_0_3390.txt/log_2_3390.txt/log_3_3390.txt/log_4_3390.txt/!="!^
-rem normal_0_register_202.txt/normal_1_register_202.txt/normal_2_dbc_202.txt/abnormal_0.txt"
+rem ---Parameters: script inputLoc filenames outputLoc
+rem set fileList=log_0_3390.txt/log_2_3390.txt/log_3_3390.txt/log_4_3390.txt/^
+rem normal_0_register_202.txt/normal_1_register_202.txt/normal_2_dbc_202.txt/^
+rem temp_updt_0.txt
 
 rem python ..\tools\cat_files.py logs/raw %fileList% logs/train.txt
 
@@ -20,7 +19,8 @@ echo WINDOW_STEP=5000
 echo TEMPLATE_LIB_SIZE=2000
 ) > config.txt
 
-rem copy ..\logs\raw\abnormal_1.txt ..\logs\train.txt > nul
+rem Separately process temp_updt_1.txt to workaround the Drain initial sim issue
+rem copy ..\logs\raw\temp_updt_1.txt ..\logs\train.txt > nul
 copy ..\logs\raw\temp_updt_manu.txt ..\logs\train.txt > nul
 
 rem Preprocess
