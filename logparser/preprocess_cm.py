@@ -13,7 +13,7 @@ from datetime import datetime
 from tqdm import tqdm
 
 curfiledir = os.path.dirname(__file__)
-parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 #sys.path.append(parentdir)
 
 #from tools import helper
@@ -26,10 +26,10 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
     conline = confile.readline().strip()
     if conline == 'TRAINING=1':
         TRAINING = True
-        datatype = 'train'
+        DATATYPE = 'train'
     else:
         TRAINING = False
-        datatype = 'test'
+        DATATYPE = 'test'
 
 if TRAINING:
     raw_file_loc = parentdir + '/logs/train.txt'
@@ -51,8 +51,8 @@ else:
 # To let python skip the BOM when decoding the file, use utf-8-sig codec.
 # https://docs.python.org/3/library/codecs.html
 #
-file       = open(raw_file_loc, 'r', encoding='utf-8-sig')
-newfile    = open(new_file_loc, 'w')
+rawfile = open(raw_file_loc, 'r', encoding='utf-8-sig')
+newfile = open(new_file_loc, 'w')
 
 #---------------------------------------------
 # Definitions:
@@ -100,6 +100,7 @@ sLinePattern6 = re.compile(r'Readback Test pkt\:')
 sLinePattern7 = re.compile(r'DHCPc\:  Timed out waiting for offers for lease')
 sLinePattern8 = re.compile(r'fUsSetsState = ')
 sLinePattern9 = re.compile(r'( {7}munged error type: T=)|( {5}munged error type =)')
+sLinePattern10 = re.compile(r'Type \'help\' or')
 
 sLinePatterns = [
     sLinePattern0,
@@ -112,6 +113,7 @@ sLinePatterns = [
     sLinePattern7,
     sLinePattern8,
     sLinePattern9,
+    sLinePattern10,
 ]
 
 #----------------------------------------------------------------------------------------
@@ -183,6 +185,17 @@ sPrimaryLinePatterns = [
 ]
 
 #----------------------------------------------------------------------------------------
+# Patterns for a block/table of lines which I want to indent them
+# Empty line indicates the end of the block
+# Run this before removing empty lines
+#----------------------------------------------------------------------------------------
+blockTitlePattern0 = re.compile(r'===== Read Leap AIF Status =====')
+
+blockTitlePatterns = [
+    blockTitlePattern0
+]
+
+#----------------------------------------------------------------------------------------
 # Patterns for specific lines which I want to convert them as primary
 #----------------------------------------------------------------------------------------
 sNestedLinePattern0 = re.compile(r' +DOWNSTREAM STATUS')
@@ -213,6 +226,20 @@ wMultiLineRmPattern0 = re.compile(r'Configured O-INIT-RNG-REQ \:')
 
 wMultiLineRmPatterns = [
     wMultiLineRmPattern0
+]
+
+#----------------------------------------------------------------------------------------
+# Patterns for block of logs which I want to remove entirely
+# [logBlockStart: inclusive, logBlockEnd: exclusive)
+#----------------------------------------------------------------------------------------
+logBlockSrt0 = re.compile(r'BCM339\d{3}')
+logBlockEnd0 = re.compile(r'>>>>ChipID=0x339\d+')
+logBlockSrt1 = re.compile(r'Initializing DS Docsis 3.0 MAC')
+logBlockEnd1 = re.compile(r'(Running the system...)|(Automatically stopping at console)')
+
+logBlockPatterns = [
+    [logBlockSrt0, logBlockEnd0],
+    [logBlockSrt1, logBlockEnd1],
 ]
 
 #----------------------------------------------------------------------------------------
@@ -255,28 +282,32 @@ tableMessed = False
 dsTableEntryProcessed = False
 lastLineMessed = False
 inTable = False
-inBlock = False
+inHexBlock = False
+inLogBlock = False
 inMultiLineInitRange = False
 inMultiLineRemove = False
+inLogBlockPrim = False
 lastLineEmpty = False
 sccvEmptyLineCnt = 0
 
-#---------------------------------------------------------------------
+#----------------------------------------------------------------------
 # 01) Remove timestamps, console prompts, tables, empty lines
-# 02) Format DS/US channel status tables
-# 03) Remove some tables which are useless
-# 04) Remove hex blocks in mmm pdu
-# 05) Format initial ranging block to one line log
-# 06) Indent some specific lines in multi-line log
-# 07) Remove empty lines
-# 08) Convert nested line as primary if two more empty lines proceeded
-# 09) Convert some specific lines as primary
-# 10) Remove specific whole multi-line log
-# 11) Split some tokens
-#---------------------------------------------------------------------
-print("Pre-processing the raw {0} dataset ...".format(datatype))
+# 02) Remove log blocks
+# 03) Format DS/US channel status tables
+# 04) Remove some tables which are useless
+# 05) Remove hex blocks in mmm pdu
+# 06) Format initial ranging block to one line log
+# 07) Indent some specific lines in multi-line log
+# 08) Indent a block of lines, note: run it before removing empty lines
+# 09) Remove empty lines
+# 10) Convert nested line as primary if two more empty lines proceeded
+# 11) Convert some specific lines as primary
+# 12) Remove specific whole multi-line log
+# 13) Split some tokens
+#----------------------------------------------------------------------
+print("Pre-processing the raw {0} dataset ...".format(DATATYPE))
 parse_st = datetime.now()
-linesLst = file.readlines()
+linesLst = rawfile.readlines()
 rawsize = len(linesLst)
 
 #
@@ -287,7 +318,7 @@ rawsize = len(linesLst)
 pbar = tqdm(total=rawsize, unit='Lines', ncols=100, disable=False)
 
 for _idx, line in enumerate(linesLst):
-#for line in file:
+#for line in rawfile:
 
     # Update the progress bar
     #helper.printProgressBar(_idx+1, rawsize, prefix='Progress:')
@@ -322,6 +353,31 @@ for _idx, line in enumerate(linesLst):
         # Update for the next line
         lastLineEmpty = False
         continue
+
+    # Remove some log blocks
+    foundStart = False
+    foundEnd = False
+    for patternStart, patternEnd in logBlockPatterns:
+        if patternStart.match(newline):
+            foundStart = True
+            break
+        if patternEnd.match(newline):
+            foundEnd = True
+            break
+    if foundStart:
+        inLogBlock = True
+        # Delete current line
+        # Update for the next line
+        lastLineEmpty = False
+        continue
+    if inLogBlock:
+        if foundEnd:
+            inLogBlock = False
+        else:
+            # Delete current line
+            # Update for the next line
+            lastLineEmpty = False
+            continue
 
     # Remove line starting with specific patterns
     goNextLine = False
@@ -478,19 +534,20 @@ for _idx, line in enumerate(linesLst):
             goNextLine = True
             break
     if goNextLine:
-        inBlock = True
+        inHexBlock = True
         # Update for the next line
         lastLineEmpty = False
         continue
-    if inBlock:
+    if inHexBlock:
         match = pduHexBlkBodyPattern.match(newline)
         if match:
             # Update for the next line
             lastLineEmpty = False
             continue
-        inBlock = False
+        inHexBlock = False
 
     # Indent lines as multi-line log for initial ranging
+    # Note: the block ending is special
     match = initRangePattern.match(newline)
     if match:
         inMultiLineInitRange = True
@@ -511,6 +568,23 @@ for _idx, line in enumerate(linesLst):
             # Indent this line
             newline = ' ' + newline
             break
+
+    # Indent a block of lines from primary to embedded
+    # Note: the block ending is an empty line
+    foundPattern = False
+    for pattern in blockTitlePatterns:
+        if pattern.match(newline):
+            foundPattern = True
+            break
+    if foundPattern:
+        inLogBlockPrim = True
+        # Keep the title line and goto next line now
+    elif inLogBlockPrim:
+        # Indent the line if it is not empty
+        if newline in ['\n', '\r\n']:
+            inLogBlockPrim = False
+        else:
+            newline = ' ' + newline
 
     # It is time to remove empty line
     if newline in ['\n', '\r\n']:
@@ -555,7 +629,7 @@ for _idx, line in enumerate(linesLst):
         # Update for the next line
         lastLineEmpty = False
         continue
-    elif inMultiLineRemove:
+    if inMultiLineRemove:
         if not nestedLinePattern.match(newline):
             inMultiLineRemove = False
         else:
@@ -605,7 +679,7 @@ for _idx, line in enumerate(linesLst):
         rawLnIdxVectorNew.append(_idx+1)
 
 pbar.close()
-file.close()
+rawfile.close()
 newfile.close()
 print('Purge costs {!s}\n'.format(datetime.now()-parse_st))
 
@@ -616,8 +690,8 @@ print('Purge costs {!s}\n'.format(datetime.now()-parse_st))
 #########################################################################################
 
 # Scan the new generated newfile
-newfile    = open(new_file_loc, 'r')
-normfile   = open(norm_file_loc, 'w')
+newfile = open(new_file_loc, 'r')
+normfile = open(norm_file_loc, 'w')
 
 #
 # Variables initialization
