@@ -431,7 +431,7 @@ c706be6f,c706be6f,Logging event: TLV- <*> - unrecognized OID; CM-MAC= <*>; CMTS-
 160d2df9,160d2df9,Reason = 'CM registered'
 56e6dcf8,56e6dcf8,BcmDhcpServerThread:: ThreadMain: ( DHCP Server Thread ) WARNING - Processing an ARP packet - Unable to find associated ServerIf for <*>
 31660cd9,31660cd9,BcmCmMultiUsHelper:: ExecuteTccCmdList: ( Cm Multi US Helper ) CM calculated value for P_hi ( <*> )( <*> )( <*> ) differs from CMTS provided P_hi value ( <*> )( <*> )
-47b75c90,47b75c90,Logging event: DBC-REQ Mismatch Between Calculated Value for P1.6hi Compared to CCAP Provided Value; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
+b6fa8a50,b6fa8a50,Logging event: <*> Mismatch Between Calculated Value for P1.6hi Compared to CCAP Provided Value; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
 0e8e4ea6,0e8e4ea6,"BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ) BcmCmDocsisCtlThread:: DetectTccInstallDone: ( CmDocsisCtlThread ), -> resume DBC transaction."
 62d923c2,62d923c2,BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> )
 7c961c2b,7c961c2b,BcmCmDocsisCtlThread:: DsPulsePollEvent: ( CmDocsisCtlThread ) ds pulse is ok.
@@ -450,7 +450,7 @@ cf2c9b23,cf2c9b23,Reason = 'MAC Reset'
 fb91cf2a,fb91cf2a,BFE goodbye failed!
 c9f9425e,c9f9425e,"BcmCmDocsisCtlThread:: RegRspMsgEvent: ( CmDocsisCtlThread ) ERROR -, REG-RSP/MP response code NOT ok! rsp code = <*> ( <*> )"
 1694c6d2,1694c6d2,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: REG_ACK ( <*> ), fka reserved: <*>, MSG PDU:, primary sid: <*>, confirmation code: <*>"
-2034d135,2034d135,Scanning <*> MHz purged ( Non-vol entry # <*> )
+1a20c335,1a20c335,Scanning <*> MHz <*> ( Non-vol entry # <*> )
 eecaeba5,eecaeba5,Scanning <*> MHz PLC/SC-QAM ( Non-vol entry # <*> ) locked <*>
 8e80c77e,8e80c77e,LoggingBcmCmMacDomainSetsState:: MddMsgEvent: refreshing primary downstream MDD.
 d9534e85,d9534e85,"OCD/DPD Filtering being configured for hwRxId= <*> on PLC_FC_REG -> filter enable = <*> TimeMs= <*>, event: DS profile assignment change. DS Chan ID: <*>; Previous Profile: ; New Profile: <*>.; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;"
@@ -465,3 +465,43 @@ b82be07b,b82be07b,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-
 cbe47e3b,cbe47e3b,BcmCmDocsisCtlThread:: DsPulseFail: ( CmDocsisCtlThread ) WARNING - RFI-N- <*> - attempting to re-acquire Ds pulse without resetting the MAC.
 1410efa6,1410efa6,BcmCmDocsisCtlThread:: DsPulsePollEvent: ( CmDocsisCtlThread ) ds pulse is not ok. starting poll timer.
 c8b16311,c8b16311,BcmDocsisCmHalIf:: HandleStatusIndication: ( DOCSIS CableModem HalIf ) WARNING - ds data reseq <*> for dsid= <*>
+2f000f05,2f000f05,">>>>ChipID= <*>, ChipRev= <*>. Allocated memory for Viper = <*>"
+3cddbb4c,3cddbb4c,"PllDcoCtrl B4= <*>, AF= <*>"
+9a6c023d,9a6c023d,>>>Loading Uni leap image...
+e5768c56,e5768c56,>>>Reset AP
+016d2772,016d2772,LeapCtrl.ByteSwapEn( <*> ) = <*>
+76be5398,76be5398,LeapCtrl.AddrTrans( <*> ) = <*>
+ab0b6946,ab0b6946,LEAP RevID reg( <*> ) = <*>
+2c073ecb,2c073ecb,>>>>EndianSwap( b7 )= <*>
+88385b1d,88385b1d,>>>>LEAP Chip Load Address= <*> len= <*>
+231842bb,231842bb,>>>>Mips Noncache Chip Load Address= <*>
+83be4101,83be4101,Downloading LEAP image <*> bytes starting address <*>.Done!
+d4cf3a31,d4cf3a31,>>>AP dload time = <*> ms
+ad1ff175,ad1ff175,>>>Run AP
+fa48cdad,fa48cdad,Warning: service <*> rx unregistered function <*>
+03b55bb7,03b55bb7,HAB_InitDoneEvent set after <*> ms.
+815ee121,815ee121,>>>>HabStartAddress= <*>
+dcce2a58,dcce2a58,>>>>MultiMaster Leap access is working!
+2b2620a4,2b2620a4,>>LEAP CPPM= <*> ms. Disable optional Scan mode. CppmMode= <*><<
+3c67892a,3c67892a,LeapInit: powerup LNA pga1= <*> pga2= <*>
+b0c3794e,b0c3794e,"BcmHalMapInterrupt to INTERRUPT_ID_US_IRQ! Maskbit= <*>, Statusbit= <*>"
+5c406c41,5c406c41,WOD0 Shared Mem Address: <*>
+0ce4a382,0ce4a382,WOD1 Shared Mem Address: <*>
+49fc5c77,49fc5c77,AIF Status Shared Mem Address: <*>
+4c97539f,4c97539f,>>>>LEAP Serial Buffer Start Address= <*> size= <*> Curr_write_ptr= <*> NumPrintMsg= <*>
+ed64c1e2,ed64c1e2,>>>>Mips Noncache LeapUartCircularBufferStartAddr= <*>
+63bc5f08,63bc5f08,<-LeapInit Done! LeapVerNum= <*>
+85a38833,85a38833,"Curr Leap version= <*>, checkVersion= <*>"
+e5703369,e5703369,UDA <*> Shared Mem Address: <*> len= <*>
+d775feae,d775feae,UDA Shared Mem Address: <*>
+81ab2470,81ab2470,UDA PgaRloadgainCntl = <*>
+2300bdd7,2300bdd7,"===== Read Leap AIF Status =====, CfgMode: <*> CPPM= <*>( Completed ); CABLE= <*>( Connected ), LnaInfo: <*> = > LnaMode= <*>, LnaInfo_pga: <*> == > PGA_Tilt= <*>, PGA_Gain= <*>, PGA2_Tilt= <*>, PGA2_GAIN= <*>, FreqStep code: <*>, FreqStartHz: <*> hz, FreqStopHz: <*> hz, Composite Power: <*> <*>/ <*> dB == > <*> dB, Disconnect ThresHold: <*>, CPPM ThresHold: <*>, CPPM ThresHold Hysteresis: <*>, CPPM Max Power: <*> <*>/ <*> dB == > <*> dB, CPPM Min Power: <*> <*>/ <*> dB == > <*> dB"
+2545e5aa,2545e5aa,Skip External channels detection! Total channel= <*>
+3fa7d5cd,3fa7d5cd,"BcmMacInit: advMapRunAheadTimeMin = <*> ( <*> ) <*> MHz ticks, <*> usec"
+588f472d,588f472d,Control table same as default - offset is <*>
+0b1193d5,0b1193d5,Running the system...
+77a6e778,77a6e778,Beginning Cable Modem operation...
+3aaa43ff,3aaa43ff,Scanning for a downstream channel...
+043d2093,043d2093,"RG reset cause:software_master, Crash detected:No, Crash type:No crash"
+9fb97db1,9fb97db1,Initializing ifTableLastChange
+e9d14eee,e9d14eee,Abnormal_UART_RX_Bytes_ <*>

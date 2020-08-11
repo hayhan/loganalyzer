@@ -6,7 +6,7 @@ rem ---Concatenate multiple raw files into one
 rem ---Parameters: script inputLoc filenames outputLoc
 rem set fileList=log_0_3390.txt/log_2_3390.txt/log_3_3390.txt/log_4_3390.txt/^
 rem normal_0_register_202.txt/normal_1_register_202.txt/normal_2_dbc_202.txt/^
-rem temp_updt_0.txt
+rem normal_3.txt/temp_updt_0.txt
 
 rem python ..\tools\cat_files.py logs/raw %fileList% logs/train.txt
 
