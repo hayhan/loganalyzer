@@ -9,87 +9,60 @@ import os
 import re
 
 curfiledir = os.path.dirname(__file__)
-parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
-raw_file_loc  = parentdir + '/logs/test_boardfarm.txt'
-new_file_loc  = parentdir + '/logs/test.txt'
+#
+# The raw boardfarm log should be processed by following command to remove ^M charactors
+# sed -e "s/\r//g" cm_console.log > test_boardfarm.txt
+#
+raw_file_loc = parentdir + '/logs/test_boardfarm.txt'
+new_file_loc = parentdir + '/logs/test.txt'
 
-"""
-The original log usually comes from serial console tools like SecureCRT
-in Windows and the text file encoding is probably utf-8 (with BOM).
-https://en.wikipedia.org/wiki/Byte_order_mark#UTF-8
+rawfile = open(raw_file_loc, 'r', encoding='utf-8-sig')
+newfile = open(new_file_loc, 'w')
 
-To let python skip the BOM when decoding the file, use utf-8-sig codec.
-https://docs.python.org/3/library/codecs.html
-"""
-rawfile    = open(raw_file_loc, 'r', encoding='utf-8-sig')
-newfile    = open(new_file_loc, 'w')
-
-"""
-Definitions:
-primary line - no space proceeded
-nested line  - one or more spaces proceeded
-empty line   - LF or CRLF only in one line
-"""
-
-"""
-Patterns for removing normal timestamp and abnormal timestamp
-"""
 # The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738].
-strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)\.(\d{3})|24:00:00\.000)\] ')
-strPattern1 = re.compile(r' \[ *\d+\]')
+pattern_ts = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
+                        r'\.(\d{3})|24:00:00\.000)\] ')
+# The pattern for the abnormal timestamp from boardfarm system, e.g. [ 1650]
+pattern_abn_ts = re.compile(r' \[ *\d+\]')
+# The pattern for CM console prompts
+pattern_pt = re.compile('CM> ')
 
-"""
-Pattern for nested line
-"""
-nestedLinePattern = re.compile(r' +|\t+')
+#
+# We do followings to adapt the boardfarm log to existing pre-processor of log parser
+# 1. Remove the abnormal timestamp with the main timestamp
+# 2. Add the main timestamp if both main and abnormal timestamps do not exist
+# 3. Remove the prompt 'CM> ', which might be anywhere in the line
+#
 
-
-"""
-Recover the timestamps of some lines
-"""
-
-# The lastLine is initialized as empty w/o LF or CRLF
-lastline = ''
-lastlineTS = '[19700101-00:00:00.000]'
-currlineTS = '[19700101-00:00:00.000]'
-recovContxt = False
+curline_ts = '[19700101-00:00:00.000] '
 
 for line in rawfile:
-    matchTS = strPattern0.match(line)
-    matchAbnTS = strPattern1.match(line)
-    # Match the normal timestamp
-    if matchTS:
-        currlineTS = matchTS.group(0)
-    # Match the abnormal timestamp
-    elif matchAbnTS:
-        # Replace current line abnormal timestamp with last line normal one
-        line = strPattern1.sub(lastlineTS, line, count=1)
-    # Other kind of line headings except both normal and abnormal timestamp
+
+    # Save the main timestamp if it exists. The newline does not contain the main
+    # timestamp before write it back to a new file. Add it back at the end.
+    match_ts = pattern_ts.match(line)
+    if match_ts:
+        # Match the main timestamp
+        curline_ts = match_ts.group(0)
+        newline = pattern_ts.sub('', line, count=1)
     else:
-        # Not match the normal timestamp, and it is a primary line
-        if not line in ['\n', '\r\n'] and not nestedLinePattern.match(line):
-            if recovContxt:
-                # Remove the LF or CRLF of last line
-                lastline = lastline.rstrip() + ' '
+        match_abn_ts = pattern_abn_ts.match(line)
+        if match_abn_ts:
+            # Match the abnormal timestamp from boardfarm system
+            newline = pattern_abn_ts.sub('', line, count=1)
         else:
-            recovContxt = False
+            # It means both main timestamp and abnormal timestamp do not exist
+            newline = line
 
-    # Start the recover context
-    if matchTS or matchAbnTS:
-        lineNoTS = strPattern0.sub('', line, count=1)
-        # Match the timestamp and it is an empty line
-        if lineNoTS in ['\n', '\r\n']:
-            recovContxt = True
-        else:
-            recovContxt = False
+    # Remove console prompt
+    if pattern_pt.search(newline):
+        newline = pattern_pt.sub('', newline)
 
-    newfile.write(lastline)
-    lastline = line
-    lastlineTS = currlineTS
-
-# write the last line of the newfile
-newfile.write(lastline)
+    # Write current line to a new file with the timestamp
+    newline = curline_ts + newline
+    newfile.write(newline)
 
 rawfile.close()
 newfile.close()

@@ -179,6 +179,7 @@ f9a64d8e,f9a64d8e,All IP initialization complete and CM operational. Enabling IP
 f0bc0de1,f0bc0de1,"D31PowerSave 'Off', DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> )"
 594a8f8e,594a8f8e,Restoring OFDM DS MAC settings
 a82bff10,a82bff10,Initializing Quarantine D31 DS MAC structures to <*>
+77e7c34d,77e7c34d,Received DBC-REQ ( trans. id= <*> ):
 ed645a0e,ed645a0e,"BcmCmDocsisCtlThread:: DbcReqMsgEvent: ( CmDocsisCtlThread ), DBC-REQ specifies ranging for all active us chan via tcc cmds. -> Stop tx."
 43cbcc1f,43cbcc1f,"Receive Channel Config:, Primary DS channel assignment vector: <*>, Non-primary DS channel assignment vector: <*>, OFDM profile assignments:, <*> -> <*>"
 b7439fd0,b7439fd0,BcmCmDsChanOfdm:: DsLockOk: ( BcmCmDsChanOfdm ) hwRxId= <*> freq= <*> dcid= <*> PLC found
@@ -439,32 +440,6 @@ ba2fe88e,ba2fe88e,DHCP lease renewed successfully!
 bf5e3d65,bf5e3d65,BcmCmDocsisCtlThread:: CmDhcpRenewSuccessNote: ( CmDocsisCtlThread ) Renew succeeded. Enabling forwarding to CPE.
 dd1fa2c7,dd1fa2c7,Failed to get UTC Time Offset option from DHCP lease
 2abb918f,2abb918f,Logging event: DHCP RENEW WARNING - Field invalid in response v4 option; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
-a4e07c69,a4e07c69,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> ), Special case: don't disable USMAC:D30 Channel_ <*>, Special case: don't disable <*>"
-650cd3b8,650cd3b8,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> ), Special case: don't disable USMAC:D30 Channel_ <*>"
-39ef5d35,39ef5d35,Checking for cable cut...
-6a9afdb3,6a9afdb3,"BcmDocsisCmHalIf:: HandleStatusIndication: ( DOCSIS CableModem HalIf ) WARNING - CM HAL declared PULSE lost!, Plant power is <*>"
-a1b37851,a1b37851,Cable connected
-2f06ae53,2f06ae53,Informing RG CM energy detected = <*>
-cf2c9b23,cf2c9b23,Reason = 'MAC Reset'
-4ac99c50,4ac99c50,EMC reply not okay ( <*> )
-fb91cf2a,fb91cf2a,BFE goodbye failed!
-c9f9425e,c9f9425e,"BcmCmDocsisCtlThread:: RegRspMsgEvent: ( CmDocsisCtlThread ) ERROR -, REG-RSP/MP response code NOT ok! rsp code = <*> ( <*> )"
-1694c6d2,1694c6d2,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: REG_ACK ( <*> ), fka reserved: <*>, MSG PDU:, primary sid: <*>, confirmation code: <*>"
-1a20c335,1a20c335,Scanning <*> MHz <*> ( Non-vol entry # <*> )
-eecaeba5,eecaeba5,Scanning <*> MHz PLC/SC-QAM ( Non-vol entry # <*> ) locked <*>
-8e80c77e,8e80c77e,LoggingBcmCmMacDomainSetsState:: MddMsgEvent: refreshing primary downstream MDD.
-d9534e85,d9534e85,"OCD/DPD Filtering being configured for hwRxId= <*> on PLC_FC_REG -> filter enable = <*> TimeMs= <*>, event: DS profile assignment change. DS Chan ID: <*>; Previous Profile: ; New Profile: <*>.; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;"
-86ee70e9,86ee70e9,Logging event: B-INIT-RNG Failure - Retries exceeded; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
-0afc206a,0afc206a,"BcmCmUsChan:: InitChanTimerEvent: ERROR -, TCC cmd failed to complete before initializing channel timer expiration., == TCC command ==, TCC ref id = <*>, action = <*> ( <*> ), us chan id = <*>, new us chan id = <*> ( <*> ), ranging sid = <*>, ranging strategy = <*> ( <*> ), dyn ranging window = <*> ( <*> ), rng mode ( CM spec ) = <*> ( <*> ), UCD = <suppressed for brevity>, ranging params = ( <*> ), TCC Error:, error code = <*>"
-93a1ee79,93a1ee79,Partial service - not invoking D31PowerSave.
-69ad3532,69ad3532,BcmCmDocsisCtlThread:: DbcAckPendingTimerEvent: ( CmDocsisCtlThread ) Retransmitting DBC-RSP
-c24c4568,c24c4568,BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ) BcmCmDocsisCtlThread:: DbcAckPendingTimerEvent: ( CmDocsisCtlThread ) Retransmitting DBC-RSP
-69a89894,69a89894,BcmCmMultiUsHelper:: DynamicRangeWindowQtrDb: ( Cm Multi US Helper ) ERROR! Received a DRW set before TCC installation...Ignoring as this violates spec:
-eab4069f,eab4069f,"The CMTS is required to not include the Dynamic Range Window Upper Edge TLV in RNG-RSP messages sent, to a CM prior to sending the CM a REG-RSP-MP message."
-b82be07b,b82be07b,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> ), Special case: don't disable <*>"
-cbe47e3b,cbe47e3b,BcmCmDocsisCtlThread:: DsPulseFail: ( CmDocsisCtlThread ) WARNING - RFI-N- <*> - attempting to re-acquire Ds pulse without resetting the MAC.
-1410efa6,1410efa6,BcmCmDocsisCtlThread:: DsPulsePollEvent: ( CmDocsisCtlThread ) ds pulse is not ok. starting poll timer.
-c8b16311,c8b16311,BcmDocsisCmHalIf:: HandleStatusIndication: ( DOCSIS CableModem HalIf ) WARNING - ds data reseq <*> for dsid= <*>
 2f000f05,2f000f05,">>>>ChipID= <*>, ChipRev= <*>. Allocated memory for Viper = <*>"
 3cddbb4c,3cddbb4c,"PllDcoCtrl B4= <*>, AF= <*>"
 9a6c023d,9a6c023d,>>>Loading Uni leap image...
@@ -475,7 +450,6 @@ ab0b6946,ab0b6946,LEAP RevID reg( <*> ) = <*>
 2c073ecb,2c073ecb,>>>>EndianSwap( b7 )= <*>
 88385b1d,88385b1d,>>>>LEAP Chip Load Address= <*> len= <*>
 231842bb,231842bb,>>>>Mips Noncache Chip Load Address= <*>
-83be4101,83be4101,Downloading LEAP image <*> bytes starting address <*>.Done!
 d4cf3a31,d4cf3a31,>>>AP dload time = <*> ms
 ad1ff175,ad1ff175,>>>Run AP
 fa48cdad,fa48cdad,Warning: service <*> rx unregistered function <*>
@@ -505,3 +479,29 @@ d775feae,d775feae,UDA Shared Mem Address: <*>
 043d2093,043d2093,"RG reset cause:software_master, Crash detected:No, Crash type:No crash"
 9fb97db1,9fb97db1,Initializing ifTableLastChange
 e9d14eee,e9d14eee,Abnormal_UART_RX_Bytes_ <*>
+1a20c335,1a20c335,Scanning <*> MHz <*> ( Non-vol entry # <*> )
+eecaeba5,eecaeba5,Scanning <*> MHz PLC/SC-QAM ( Non-vol entry # <*> ) locked <*>
+650cd3b8,650cd3b8,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> ), Special case: don't disable USMAC:D30 Channel_ <*>"
+a4e07c69,a4e07c69,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> ), Special case: don't disable USMAC:D30 Channel_ <*>, Special case: don't disable <*>"
+39ef5d35,39ef5d35,Checking for cable cut...
+6a9afdb3,6a9afdb3,"BcmDocsisCmHalIf:: HandleStatusIndication: ( DOCSIS CableModem HalIf ) WARNING - CM HAL declared PULSE lost!, Plant power is <*>"
+a1b37851,a1b37851,Cable connected
+2f06ae53,2f06ae53,Informing RG CM energy detected = <*>
+cf2c9b23,cf2c9b23,Reason = 'MAC Reset'
+4ac99c50,4ac99c50,EMC reply not okay ( <*> )
+fb91cf2a,fb91cf2a,BFE goodbye failed!
+c9f9425e,c9f9425e,"BcmCmDocsisCtlThread:: RegRspMsgEvent: ( CmDocsisCtlThread ) ERROR -, REG-RSP/MP response code NOT ok! rsp code = <*> ( <*> )"
+1694c6d2,1694c6d2,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: REG_ACK ( <*> ), fka reserved: <*>, MSG PDU:, primary sid: <*>, confirmation code: <*>"
+8e80c77e,8e80c77e,LoggingBcmCmMacDomainSetsState:: MddMsgEvent: refreshing primary downstream MDD.
+d9534e85,d9534e85,"OCD/DPD Filtering being configured for hwRxId= <*> on PLC_FC_REG -> filter enable = <*> TimeMs= <*>, event: DS profile assignment change. DS Chan ID: <*>; Previous Profile: ; New Profile: <*>.; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;"
+86ee70e9,86ee70e9,Logging event: B-INIT-RNG Failure - Retries exceeded; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
+0afc206a,0afc206a,"BcmCmUsChan:: InitChanTimerEvent: ERROR -, TCC cmd failed to complete before initializing channel timer expiration., == TCC command ==, TCC ref id = <*>, action = <*> ( <*> ), us chan id = <*>, new us chan id = <*> ( <*> ), ranging sid = <*>, ranging strategy = <*> ( <*> ), dyn ranging window = <*> ( <*> ), rng mode ( CM spec ) = <*> ( <*> ), UCD = <suppressed for brevity>, ranging params = ( <*> ), TCC Error:, error code = <*>"
+93a1ee79,93a1ee79,Partial service - not invoking D31PowerSave.
+69ad3532,69ad3532,BcmCmDocsisCtlThread:: DbcAckPendingTimerEvent: ( CmDocsisCtlThread ) Retransmitting DBC-RSP
+c24c4568,c24c4568,BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ) BcmCmDocsisCtlThread:: DbcAckPendingTimerEvent: ( CmDocsisCtlThread ) Retransmitting DBC-RSP
+69a89894,69a89894,BcmCmMultiUsHelper:: DynamicRangeWindowQtrDb: ( Cm Multi US Helper ) ERROR! Received a DRW set before TCC installation...Ignoring as this violates spec:
+eab4069f,eab4069f,"The CMTS is required to not include the Dynamic Range Window Upper Edge TLV in RNG-RSP messages sent, to a CM prior to sending the CM a REG-RSP-MP message."
+b82be07b,b82be07b,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> ), Special case: don't disable <*>"
+cbe47e3b,cbe47e3b,BcmCmDocsisCtlThread:: DsPulseFail: ( CmDocsisCtlThread ) WARNING - RFI-N- <*> - attempting to re-acquire Ds pulse without resetting the MAC.
+1410efa6,1410efa6,BcmCmDocsisCtlThread:: DsPulsePollEvent: ( CmDocsisCtlThread ) ds pulse is not ok. starting poll timer.
+c8b16311,c8b16311,BcmDocsisCmHalIf:: HandleStatusIndication: ( DOCSIS CableModem HalIf ) WARNING - ds data reseq <*> for dsid= <*>

@@ -92,7 +92,7 @@ reserveTS = True
 #----------------------------------------------------------------------------------------
 sLinePattern0 = re.compile(r'\*')
 sLinePattern1 = re.compile(r'\+{10}')
-sLinePattern2 = re.compile(r'Received DBC-REQ \(trans. id\=')
+#sLinePattern2 = re.compile(r'Received DBC-REQ \(trans. id\=')
 sLinePattern3 = re.compile(r'RCC->')
 sLinePattern4 = re.compile(r'TCC->')
 sLinePattern5 = re.compile(r'\d')
@@ -105,7 +105,7 @@ sLinePattern10 = re.compile(r'Type \'help\' or')
 sLinePatterns = [
     sLinePattern0,
     sLinePattern1,
-    sLinePattern2,
+    #sLinePattern2,
     sLinePattern3,
     sLinePattern4,
     sLinePattern5,
@@ -234,12 +234,15 @@ wMultiLineRmPatterns = [
 #----------------------------------------------------------------------------------------
 logBlockSrt0 = re.compile(r'BCM339\d{3}')
 logBlockEnd0 = re.compile(r'>>>>ChipID=0x339\d+')
-logBlockSrt1 = re.compile(r'Initializing DS Docsis 3.0 MAC')
-logBlockEnd1 = re.compile(r'(Running the system...)|(Automatically stopping at console)')
+logBlockSrt1 = re.compile(r'Downloading LEAP image')
+logBlockEnd1 = re.compile(r'>>>AP dload time')
+logBlockSrt2 = re.compile(r'Initializing DS Docsis 3.0 MAC')
+logBlockEnd2 = re.compile(r'(Running the system...)|(Automatically stopping at console)')
 
 logBlockPatterns = [
     [logBlockSrt0, logBlockEnd0],
     [logBlockSrt1, logBlockEnd1],
+    [logBlockSrt2, logBlockEnd2],
 ]
 
 #----------------------------------------------------------------------------------------
