@@ -101,6 +101,7 @@ sLinePattern7 = re.compile(r'DHCPc\:  Timed out waiting for offers for lease')
 sLinePattern8 = re.compile(r'fUsSetsState = ')
 sLinePattern9 = re.compile(r'( {7}munged error type: T=)|( {5}munged error type =)')
 sLinePattern10 = re.compile(r'Type \'help\' or')
+sLinePattern11 = re.compile(r' {24}dsid: | {24}DSID: | {24}CMIM: ')
 
 sLinePatterns = [
     sLinePattern0,
@@ -114,6 +115,7 @@ sLinePatterns = [
     sLinePattern8,
     sLinePattern9,
     sLinePattern10,
+    sLinePattern11,
 ]
 
 #----------------------------------------------------------------------------------------
