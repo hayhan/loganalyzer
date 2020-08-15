@@ -573,8 +573,6 @@ d936ad96,d936ad96,BcmCmMultiUsHelper:: DynamicRangeWindowQtrDb: Dynamic Range Wi
 7a6ccc0d,7a6ccc0d,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <*> ( <*> ) ucid= <*> rngSid= <*> init= <*> ( <*> ) profSet= [ <*> ] testSid= <*>
 3f6196fe,3f6196fe,BcmCmUsChan:: TccChangeCmd: txid= <*> ucid= <*> TCC changed upstream profile assignments
 028e31b6,028e31b6,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <*> ( <*> ) ucid= <*> init= <*> ( <*> )
-1b7bb7eb,1b7bb7eb,LBcmCmUsChan:: UsTimeRefOk: txid= <*> ucid= <*>
-72c2ba46,72c2ba46,ogging event: US profile assignment change. US Chan ID: <*>; Previous Profile: <*>; New Profile: <*>.; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
 f88f9eb4,f88f9eb4,BcmCmDsChanOfdm:: TmOcdDpdGatherEvent: rxid= <*> dcid= <*>
 818e827c,818e827c,BcmCmDsOfdmProfileState:: TmDpdInstallEvent: rxid= <*> dcid= <*> prof= <*> ( <*> )
 15c27bba,15c27bba,BcmCmDsOfdmProfileState:: TmDpdInstallEvent: rxid= <*> dcid= <*> prof= <*> ( <*> ) calling FecLockOk()
@@ -604,3 +602,9 @@ d0a9aa08,d0a9aa08,Remote interface cm0 DOWN
 0557a19f,0557a19f,Abnormal_DoS_Attack:_IdlePercent= <*>_WAN_DQM_FULL= <*>_LAN_DQM_FULL= <*>
 2aa021f8,2aa021f8,"bfcSerialConsoleMode set to read-only, disabling console input."
 ed731c22,ed731c22,"bfcSerialConsoleMode set to read-write, enabling console."
+65a231e5,65a231e5,"Receive Channel Config:, Primary DS channel assignment vector: <*>, OFDM profile assignments:, <*> -> <*>, <*> -> <*>"
+28daf2cf,28daf2cf,BcmCmDocsisCtlThread:: TestAndLaunchBpkm: ( CmDocsisCtlThread ) BPI disabled via manufacturing setting.
+09d38f21,09d38f21,"BcmCmDocsisCtlThread:: TccConnTimerEvent: ( CmDocsisCtlThread ), Channel init timer expired but neither registration nor DBC in progress. ignoring..."
+7a51b648,7a51b648,"AltWAN Mode Active - Scanning inhibited!, DefaultSnmpAgentClass:: RestartPendingEvent for Vendor CM Agent w/ BRCM Factory Support"
+c7de456f,c7de456f,AltWan mode enabled; enabling traffic between EMTA <-> Router Interface ( Proxy )
+63e8e393,63e8e393,Setting networked standby context to 'DOCSIS halt'

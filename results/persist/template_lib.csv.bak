@@ -75,7 +75,7 @@ c3ca8db6,c3ca8db6,== Starting IP Initialization in IPv4 Only provisioning mode =
 77571412,77571412,"BcmEcosIpHalIf:: FlushDefaultIPv6Routers: ( IP Stack1 HalIf ) Flushing default IPv6 routers, CmSnmpAgent:: ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support"
 7554a71f,7554a71f,Logging event: Honoring MDD; IP provisioning mode = IPv4
 a7da5e21,a7da5e21,Configuring IP stack <*>: IP Address = <*>
-12030668,12030668,Logging event: DHCP WARNING - Non-critical field invalid in response ; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
+d9569408,d9569408,Logging event: DHCP <*> - <*> field invalid in response ; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
 b49568ad,b49568ad,CM successfully pushed IP <*> to eRouter
 90387ea2,90387ea2,Initiating TFTP over IPv4 in IPv4 only provisioning mode
 61413b1c,61413b1c,Starting Time Of Day...
@@ -179,6 +179,7 @@ f9a64d8e,f9a64d8e,All IP initialization complete and CM operational. Enabling IP
 f0bc0de1,f0bc0de1,"D31PowerSave 'Off', DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> )"
 594a8f8e,594a8f8e,Restoring OFDM DS MAC settings
 a82bff10,a82bff10,Initializing Quarantine D31 DS MAC structures to <*>
+77e7c34d,77e7c34d,Received DBC-REQ ( trans. id= <*> ):
 ed645a0e,ed645a0e,"BcmCmDocsisCtlThread:: DbcReqMsgEvent: ( CmDocsisCtlThread ), DBC-REQ specifies ranging for all active us chan via tcc cmds. -> Stop tx."
 43cbcc1f,43cbcc1f,"Receive Channel Config:, Primary DS channel assignment vector: <*>, Non-primary DS channel assignment vector: <*>, OFDM profile assignments:, <*> -> <*>"
 b7439fd0,b7439fd0,BcmCmDsChanOfdm:: DsLockOk: ( BcmCmDsChanOfdm ) hwRxId= <*> freq= <*> dcid= <*> PLC found
@@ -251,7 +252,7 @@ bee48b02,bee48b02,BcmCmMultiUsHelper:: UsTimeRefFail: ( Cm Multi US Helper ) tar
 86a67123,86a67123,Scanning <*> MHz <*> ( Annex A even <*>MHz )
 41cfa9f5,41cfa9f5,Scanning <*> MHz SC-QAM ( Annex A non-even <*>MHz )
 1ce6f017,1ce6f017,"BcmCmDownstreamScan:: ScanNext: Cable reconnected., Publishing 'energy detected' event"
-4870d107,4870d107,"Trimmed Downstream Ambiguity Resolution Frequency List: list size = <*>, <*>-sc_qam <*>-ofdm, visible dcid set = <*>, freq with visible dcid set = <*>"
+7ae9e1e6,7ae9e1e6,"Trimmed Downstream Ambiguity Resolution Frequency List: list size = <*>, <*> <*>-ofdm, visible dcid set = <*>, freq with visible dcid set = <*>"
 3d5f977a,3d5f977a,"BcmCmMultiUsHelper:: StartPreRegUsInit: ( Cm Multi US Helper ), targeting context is error recovery or startup., Always use last good upstream target chan id= <*>"
 508e2cda,508e2cda,"== Beginning initial ranging for Docsis UCID <*> ==, Minimum transmit power is <*> dBmV, Maximum transmit power is <*> dBmV, Dynamic Range Window is from <*>dBmV to <*> dBmV, Stored power level for UCID <*> is <*> dBmV, Using bottom of DRW initial upstream power = <*> dBmV hwTxId = <*> docsis UCID = <*>"
 146db989,146db989,Adjusting the initial ranging power to <*> dBmV... hwTxId = <*> docsis UCID = <*>
@@ -385,7 +386,7 @@ d8f8d5ef,d8f8d5ef,BcmCmUsChan:: NewUcdInEffectTimerEvent: NewUcdInEffect event t
 843733d6,843733d6,ERROR: BcmRetrieverPerSubCarrierRxMer - bhab_OfdmGetDiagnosticData returned error
 6d3e097e,6d3e097e,"BcmCmDsChan:: DsLockFail: ( BcmCmDsChan <*> ) hwRxId= <*> freq= <*> dcid= <*>, failed to lock primary ds chan during RCC installation. restart error!"
 0e453a7b,0e453a7b,"OFDM DSID filter control = <*>, PLC NOT locked! Retrying..."
-6b0ae484,6b0ae484,Ofdm0: profile0 LOCK in <*> ms!
+bfabc702,bfabc702,Ofdm0: <*> LOCK in <*> ms!
 18971168,18971168,Logging event: CM-STATUS message sent. Event Type Code: <*>; Chan ID: <*>
 22851a47,22851a47,PnmTestDriveACT - event code <*> Setting PnmCmCtlStatus to TempReject
 615deec7,615deec7,"CM Multi US Helper info:, fUcdGatherState = <*> ( <*> ), TotalNumOfUsChans() = <*>, NumActiveUsChans() = <*>, fCmTccInstallState = <*> ( <*> ), fUsTimeWarpInProg = <*>, fPreferScQamStartup = <*>, fDynamicRangeWindowQtrDb = <*>"
@@ -431,7 +432,7 @@ c706be6f,c706be6f,Logging event: TLV- <*> - unrecognized OID; CM-MAC= <*>; CMTS-
 160d2df9,160d2df9,Reason = 'CM registered'
 56e6dcf8,56e6dcf8,BcmDhcpServerThread:: ThreadMain: ( DHCP Server Thread ) WARNING - Processing an ARP packet - Unable to find associated ServerIf for <*>
 31660cd9,31660cd9,BcmCmMultiUsHelper:: ExecuteTccCmdList: ( Cm Multi US Helper ) CM calculated value for P_hi ( <*> )( <*> )( <*> ) differs from CMTS provided P_hi value ( <*> )( <*> )
-47b75c90,47b75c90,Logging event: DBC-REQ Mismatch Between Calculated Value for P1.6hi Compared to CCAP Provided Value; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
+b6fa8a50,b6fa8a50,Logging event: <*> Mismatch Between Calculated Value for P1.6hi Compared to CCAP Provided Value; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
 0e8e4ea6,0e8e4ea6,"BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ) BcmCmDocsisCtlThread:: DetectTccInstallDone: ( CmDocsisCtlThread ), -> resume DBC transaction."
 62d923c2,62d923c2,BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> )
 7c961c2b,7c961c2b,BcmCmDocsisCtlThread:: DsPulsePollEvent: ( CmDocsisCtlThread ) ds pulse is ok.
@@ -439,8 +440,49 @@ ba2fe88e,ba2fe88e,DHCP lease renewed successfully!
 bf5e3d65,bf5e3d65,BcmCmDocsisCtlThread:: CmDhcpRenewSuccessNote: ( CmDocsisCtlThread ) Renew succeeded. Enabling forwarding to CPE.
 dd1fa2c7,dd1fa2c7,Failed to get UTC Time Offset option from DHCP lease
 2abb918f,2abb918f,Logging event: DHCP RENEW WARNING - Field invalid in response v4 option; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
-a4e07c69,a4e07c69,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> ), Special case: don't disable USMAC:D30 Channel_ <*>, Special case: don't disable <*>"
+2f000f05,2f000f05,">>>>ChipID= <*>, ChipRev= <*>. Allocated memory for Viper = <*>"
+3cddbb4c,3cddbb4c,"PllDcoCtrl B4= <*>, AF= <*>"
+9a6c023d,9a6c023d,>>>Loading Uni leap image...
+e5768c56,e5768c56,>>>Reset AP
+016d2772,016d2772,LeapCtrl.ByteSwapEn( <*> ) = <*>
+76be5398,76be5398,LeapCtrl.AddrTrans( <*> ) = <*>
+ab0b6946,ab0b6946,LEAP RevID reg( <*> ) = <*>
+2c073ecb,2c073ecb,>>>>EndianSwap( b7 )= <*>
+88385b1d,88385b1d,>>>>LEAP Chip Load Address= <*> len= <*>
+231842bb,231842bb,>>>>Mips Noncache Chip Load Address= <*>
+d4cf3a31,d4cf3a31,>>>AP dload time = <*> ms
+ad1ff175,ad1ff175,>>>Run AP
+fa48cdad,fa48cdad,Warning: service <*> rx unregistered function <*>
+03b55bb7,03b55bb7,HAB_InitDoneEvent set after <*> ms.
+815ee121,815ee121,>>>>HabStartAddress= <*>
+dcce2a58,dcce2a58,>>>>MultiMaster Leap access is working!
+2b2620a4,2b2620a4,>>LEAP CPPM= <*> ms. Disable optional Scan mode. CppmMode= <*><<
+3c67892a,3c67892a,LeapInit: powerup LNA pga1= <*> pga2= <*>
+b0c3794e,b0c3794e,"BcmHalMapInterrupt to INTERRUPT_ID_US_IRQ! Maskbit= <*>, Statusbit= <*>"
+5c406c41,5c406c41,WOD0 Shared Mem Address: <*>
+0ce4a382,0ce4a382,WOD1 Shared Mem Address: <*>
+49fc5c77,49fc5c77,AIF Status Shared Mem Address: <*>
+4c97539f,4c97539f,>>>>LEAP Serial Buffer Start Address= <*> size= <*> Curr_write_ptr= <*> NumPrintMsg= <*>
+ed64c1e2,ed64c1e2,>>>>Mips Noncache LeapUartCircularBufferStartAddr= <*>
+63bc5f08,63bc5f08,<-LeapInit Done! LeapVerNum= <*>
+85a38833,85a38833,"Curr Leap version= <*>, checkVersion= <*>"
+e5703369,e5703369,UDA <*> Shared Mem Address: <*> len= <*>
+d775feae,d775feae,UDA Shared Mem Address: <*>
+81ab2470,81ab2470,UDA PgaRloadgainCntl = <*>
+2300bdd7,2300bdd7,"===== Read Leap AIF Status =====, CfgMode: <*> CPPM= <*>( Completed ); CABLE= <*>( Connected ), LnaInfo: <*> = > LnaMode= <*>, LnaInfo_pga: <*> == > PGA_Tilt= <*>, PGA_Gain= <*>, PGA2_Tilt= <*>, PGA2_GAIN= <*>, FreqStep code: <*>, FreqStartHz: <*> hz, FreqStopHz: <*> hz, Composite Power: <*> <*>/ <*> dB == > <*> dB, Disconnect ThresHold: <*>, CPPM ThresHold: <*>, CPPM ThresHold Hysteresis: <*>, CPPM Max Power: <*> <*>/ <*> dB == > <*> dB, CPPM Min Power: <*> <*>/ <*> dB == > <*> dB"
+2545e5aa,2545e5aa,Skip External channels detection! Total channel= <*>
+3fa7d5cd,3fa7d5cd,"BcmMacInit: advMapRunAheadTimeMin = <*> ( <*> ) <*> MHz ticks, <*> usec"
+588f472d,588f472d,Control table same as default - offset is <*>
+0b1193d5,0b1193d5,Running the system...
+77a6e778,77a6e778,Beginning Cable Modem operation...
+3aaa43ff,3aaa43ff,Scanning for a downstream channel...
+043d2093,043d2093,"RG reset cause:software_master, Crash detected:No, Crash type:No crash"
+9fb97db1,9fb97db1,Initializing ifTableLastChange
+e9d14eee,e9d14eee,Abnormal_UART_RX_Bytes_ <*>
+1a20c335,1a20c335,Scanning <*> MHz <*> ( Non-vol entry # <*> )
+eecaeba5,eecaeba5,Scanning <*> MHz PLC/SC-QAM ( Non-vol entry # <*> ) locked <*>
 650cd3b8,650cd3b8,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> ), Special case: don't disable USMAC:D30 Channel_ <*>"
+a4e07c69,a4e07c69,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> ), Special case: don't disable USMAC:D30 Channel_ <*>, Special case: don't disable <*>"
 39ef5d35,39ef5d35,Checking for cable cut...
 6a9afdb3,6a9afdb3,"BcmDocsisCmHalIf:: HandleStatusIndication: ( DOCSIS CableModem HalIf ) WARNING - CM HAL declared PULSE lost!, Plant power is <*>"
 a1b37851,a1b37851,Cable connected
@@ -450,8 +492,6 @@ cf2c9b23,cf2c9b23,Reason = 'MAC Reset'
 fb91cf2a,fb91cf2a,BFE goodbye failed!
 c9f9425e,c9f9425e,"BcmCmDocsisCtlThread:: RegRspMsgEvent: ( CmDocsisCtlThread ) ERROR -, REG-RSP/MP response code NOT ok! rsp code = <*> ( <*> )"
 1694c6d2,1694c6d2,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: REG_ACK ( <*> ), fka reserved: <*>, MSG PDU:, primary sid: <*>, confirmation code: <*>"
-2034d135,2034d135,Scanning <*> MHz purged ( Non-vol entry # <*> )
-eecaeba5,eecaeba5,Scanning <*> MHz PLC/SC-QAM ( Non-vol entry # <*> ) locked <*>
 8e80c77e,8e80c77e,LoggingBcmCmMacDomainSetsState:: MddMsgEvent: refreshing primary downstream MDD.
 d9534e85,d9534e85,"OCD/DPD Filtering being configured for hwRxId= <*> on PLC_FC_REG -> filter enable = <*> TimeMs= <*>, event: DS profile assignment change. DS Chan ID: <*>; Previous Profile: ; New Profile: <*>.; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;"
 86ee70e9,86ee70e9,Logging event: B-INIT-RNG Failure - Retries exceeded; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
@@ -465,3 +505,102 @@ b82be07b,b82be07b,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-
 cbe47e3b,cbe47e3b,BcmCmDocsisCtlThread:: DsPulseFail: ( CmDocsisCtlThread ) WARNING - RFI-N- <*> - attempting to re-acquire Ds pulse without resetting the MAC.
 1410efa6,1410efa6,BcmCmDocsisCtlThread:: DsPulsePollEvent: ( CmDocsisCtlThread ) ds pulse is not ok. starting poll timer.
 c8b16311,c8b16311,BcmDocsisCmHalIf:: HandleStatusIndication: ( DOCSIS CableModem HalIf ) WARNING - ds data reseq <*> for dsid= <*>
+6fb72170,6fb72170,BcmCmMultiDsHelper:: ResetDsMacMddKeepAliveState:
+10def310,10def310,Deleting multicast DSID = <*> index = <*>
+a86fc591,a86fc591,BcmCmMultiUsHelper:: ExecuteTccCmdList: CM calculated value for P_hi ( <*> )( <*> )( <*> ) differs from CMTS provided P_hi value ( <*> )( <*> )
+4676d12f,4676d12f,BcmCmDocsisCtlThread:: DetectTccInstallDone: TCC installation done.
+0b4f554d,0b4f554d,BcmCmDocsisCtlThread:: ResumeDbcAfterTccOutcome: resume DBC sequence after TCC installation outcome.
+ed1abd84,ed1abd84,BcmCm3dfEventCensor:: CmPriDsMddKaRescue() - resume <*>df
+7439c001,7439c001,"BcmCmDsidHelper:: ExecuteDsidCommandList: ( Cm Dsid Helper ) ERROR - DSID command deleting an unknown DSID:, CM DSID command:, action: <*> ( <*> ), == Mcast settings ==, Mcast Enabled: Yes, Delete Client MAC Addr: <*>"
+a543b94b,a543b94b,Logging event: DBC-REQ denied - confirmation code <*>: <*> CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
+235f5ad4,235f5ad4,Control table different than default - offset is <*>
+977326c9,977326c9,BcmCmDsChanOfdm:: DsLockOk: rxid= <*> PLC found
+a292092c,a292092c,BcmCmDsChanOfdm:: StartOcdDpdGathering: rxid= <*> via PLC
+51b2c506,51b2c506,DPD rxid= <*> dcid= <*> ccc= <*> prof= <*> ( <*> )
+cf6a76d2,cf6a76d2,BcmCmDsChanOfdm:: DpdSetsRx: rxid= <*> dcid= <*> prof= <*> ( <*> )
+78d1b555,78d1b555,OCD rxid= <*> dcid= <*> ccc= <*> non-pri dft= <*> actSub= <*>- <*> plc= <*>
+893ea52a,893ea52a,BcmCmDsChanOfdm:: OcdSetsRx: rxid= <*> dcid= <*>
+e78cd0fb,e78cd0fb,BcmCmDsChanOfdm:: DetectOcdDpdGatheringPlcDone: rxid= <*> dcid= <*> OCD/DPD gathered via PLC. install OCD and DPD for prof NCP and A.
+1eef0c5b,1eef0c5b,BcmCmDsChanOfdm:: StopTmOcdDpdGather: rxid= <*> dcid= <*>
+61a35c06,61a35c06,BcmCmDsChanOfdm:: InstallOcdEssProfs: rxid= <*> dcid= <*>
+f9df7e45,f9df7e45,BcmCmDsOfdmProfileState:: InstallDpdSets: rxid= <*> dcid= <*> prof= <*> ( <*> )
+bfdf6564,bfdf6564,BcmCmDsChanOfdm:: OcdInstallOk: rxid= <*> dcid= <*> OCD installed.
+282df136,282df136,BcmCmDsChanOfdm:: DsLockOkProf: rxid= <*> dcid= <*> prof= <*> ( <*> )
+6da772eb,6da772eb,BcmCmDsOfdmProfileState:: FecLockOk: time= <*>: <*>: <*>hwRxId= <*> dcid= <*> profId= <*> ( <*> )
+18f66eee,18f66eee,MDD diplexer band edge not specified.
+b39f7aa6,b39f7aa6,MDD Plant US Frequency Range = standard ( Annex A ).
+2d5420fe,2d5420fe,BcmCmMultiUsHelper:: StartPreRegUsInit: gathering UCDs...
+959229ce,959229ce,BcmCmDsChanOfdm:: TmDpdInstallEvent: rxid= <*> dcid= <*>
+829db8d6,829db8d6,BcmCmMultiUsHelper:: TmUcdRxTimerEvent: ucd gathering ok.
+3677f962,3677f962,BcmCmMultiUsHelper:: TargetNextDocs3CandidateUcid: state at entry:
+803067eb,803067eb,BcmCmMultiUsHelper:: TargetNextDocs3CandidateUcid: start us init on txid= <*> ucid= <*>
+dd1ce045,dd1ce045,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <*> ( replace ) ucid= <*> newUcid= <*> rngMode= <*>
+8f9cbfb7,8f9cbfb7,BcmCmUsChan:: InstallUsSets: txid= <*> ucid= <*>
+a4d7fd17,a4d7fd17,BcmCmUsSetsState:: InstallUsSets: txid= <*> ucid= <*> contrive kDataProfileIuc13 assignment.
+a2424935,a2424935,BcmCmUsSetsState:: TestAndLaunchUsTimeSync: txid= <*> ucid= <*> acquire us time in ofdma mode.
+c9f3ac89,c9f3ac89,BcmCmUsChan:: UsTimeRefOk: txid= <*> ucid= <*>
+3c6a084a,3c6a084a,BcmCmUsChan:: UsTimeRefOkResumeUsInit: txid= <*> ucid= <*> start broadcast initial ranging.
+08184438,08184438,BcmCmUsRangingState:: ConfigInitialRanging: txid= <*> ucid= <*>
+4e1d2d4a,4e1d2d4a,BcmCmUsRangingState:: FirstRngSuccess: txid= <*> ucid= <*>
+c151db28,c151db28,"BcmCmDocsisCtlThread:: ConfigureAndStartIpInit: Beginning IP initialization., Utilizing configured MDD IP initialization parameters"
+f8dba164,f8dba164,EMTA: cmEmtaIpProvMode MIB ( <*> ) Honor ip-pref from DHCP server.
+bc2c3b1d,bc2c3b1d,"EMTA: cmEmtaIpProvMode MIB, get ip-pref from DHCP server."
+a720af16,a720af16,EMTA: option <*> missing in DHCP offer from <*>.
+c60ef050,c60ef050,"EMTA: no ip-pref, check for <*> or <*>"
+714e186e,714e186e,"EMTA: Rejecting offer - no <*> or <*>, no ip-pref."
+f317d8b5,f317d8b5,"DHCPc: Client ""MTA"" callout says the lease is not acceptable for reason: ""No <*> or <*>, no ip-pref""!"
+9f9c9c31,9f9c9c31,DHCPc: Offer isn't acceptable; ignoring...
+fc5fc3f6,fc5fc3f6,EMTA: reluctantly accepting any offer after <*> unsuccessful attempts to get offer with option <*>
+b7724324,b7724324,BcmEcosIpHalIf:: SetDnsServers: ( IP Stack1 HalIf ) Set eCos DNS resolver to <*>
+657aeecd,657aeecd,BcmCmDocsisCtlThread:: DetectOtfDipxTargetNextUs: switchable diplexer ECN support disabled via non-vol setting. NOT switching diplexer.
+4b0411b5,4b0411b5,CmSnmpAgent installing DOCSIS Default VACM entries...
+7c1ca851,7c1ca851,TLV- <*> is being provisioned with base = @CMconfig_ <*>
+0fef8009,0fef8009,Skipping interface discovery for eRouter mode.
+3f9d4536,3f9d4536,Adding MTA MAC ( <*> ) to the CM learning table.
+75a49e5c,75a49e5c,BcmCmDocsisCtlThread:: ResumePreRegSequence: Enabling forwarding from IP stack to CPE interfaces.
+b30364ca,b30364ca,BcmCmDocsisCtlThread:: TxRegReqMsg: send REG-REQ-MP to the CMTS.
+4d339a9f,4d339a9f,BcmCmDocsisCtlThread:: RegRspMsgEvent: Received a REG-RSP-MP message from the CMTS...
+6d8c6d64,6d8c6d64,"BcmCmDocsisCtlThread:: InstallDocsis11RegRspConfig:, REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx."
+88588513,88588513,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [( <*>- <*> )] prof= [( <*> -> <*> ) ( <*> -> <*> )]
+a2da1924,a2da1924,BcmCmDsChanOfdm:: StartOcdDpdGathering: rxid= <*> dcid= <*> via <*>
+13ded8f9,13ded8f9,BcmCmDsOfdmProfileState:: RefreshDpdSets: rxid= <*> dcid= <*> prof= <*> ( <*> )
+69a85a31,69a85a31,BcmCmDsChanOfdm:: DsLockOk: rxid= <*> dcid= <*> PLC found
+5d02c234,5d02c234,BcmCmDocsisCtlThread:: DetectRccInstallDone: RCC installation finished.
+636413f0,636413f0,BcmCmDocsisCtlThread:: DetectRccInstallDone: all ds chans ok.
+1b1f98e6,1b1f98e6,BcmCmDocsisCtlThread:: ResumeDocs11RegAfterRccOutcome: resume registration sequence after RCC installation outcome.
+bb3a3e50,bb3a3e50,BcmCmMultiUsHelper:: PhiQtrDb: Phi qtr dB set to : <*> ( <*> dB )
+d936ad96,d936ad96,BcmCmMultiUsHelper:: DynamicRangeWindowQtrDb: Dynamic Range Window set to: <*> ( <*> dB )
+7a6ccc0d,7a6ccc0d,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <*> ( <*> ) ucid= <*> rngSid= <*> init= <*> ( <*> ) profSet= [ <*> ] testSid= <*>
+3f6196fe,3f6196fe,BcmCmUsChan:: TccChangeCmd: txid= <*> ucid= <*> TCC changed upstream profile assignments
+028e31b6,028e31b6,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <*> ( <*> ) ucid= <*> init= <*> ( <*> )
+1b7bb7eb,1b7bb7eb,LBcmCmUsChan:: UsTimeRefOk: txid= <*> ucid= <*>
+72c2ba46,72c2ba46,ogging event: US profile assignment change. US Chan ID: <*>; Previous Profile: <*>; New Profile: <*>.; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>;
+f88f9eb4,f88f9eb4,BcmCmDsChanOfdm:: TmOcdDpdGatherEvent: rxid= <*> dcid= <*>
+818e827c,818e827c,BcmCmDsOfdmProfileState:: TmDpdInstallEvent: rxid= <*> dcid= <*> prof= <*> ( <*> )
+15c27bba,15c27bba,BcmCmDsOfdmProfileState:: TmDpdInstallEvent: rxid= <*> dcid= <*> prof= <*> ( <*> ) calling FecLockOk()
+b888cc7c,b888cc7c,Ofdm1: <*> LOCK in <*> ms!
+2a4fd0a7,2a4fd0a7,BcmCmDocsisCtlThread:: ResumeRegAfterTccOutcome: resume registration sequence after TCC installation outcome.
+513ff3d6,513ff3d6,BcmCmDocsisCtlThread:: ResumePostRegHold2RegistrationStuff: Registration complete!
+54b1d1ec,54b1d1ec,BcmCmDocsisCtlThread:: TestAndLaunchBpkm: BPI disabled via manufacturing setting.
+847ed01e,847ed01e,"CM operational, but option <*> not in DHCP ACK. Not initializing EMTA."
+61b3b456,61b3b456,"DH kickstart profiles and/or snmpCommunityTable entries installed., We will operate in COEXISTENCE mode."
+554068e3,554068e3,eRouter WAN IPv4 address: <*>
+29b831c7,29b831c7,Starting Diffie-Hellman calc.
+30304906,30304906,... SNMPv3 usmUsers initialization completed.
+5ac0a10b,5ac0a10b,Finished DH calculations -dhKickstart user enabled.
+c4b7ace3,c4b7ace3,"BcmCmDsidHelper:: ExecuteDsidCommandList: ( Cm Dsid Helper ) ERROR - DSID command adds an already installed DSID:, CM DSID command:, action: <*> ( <*> ), == Mcast settings ==, Mcast Enabled: Yes, Add Client MAC Addr: <*>"
+710285ff,710285ff,"Existing DSID:, == Mcast settings ==, Mcast Enabled: Yes, Add Client MAC Addr: <*>"
+2994c0c7,2994c0c7,"BcmCmDocsisCtlThread:: TccConnTimerEvent:, Channel init timer expired but neither registration nor DBC in progress. ignoring..."
+4dba10a9,4dba10a9,"Verifying RG ifTable stability..., <*> <*> <*> <*>"
+d8997938,d8997938,"ifNumber = <*>, ifTable entries = <*>, <*>: Ethernet CPE Interface ( eth0 )"
+30f2c017,30f2c017,"Parsing interface number from ifName, <*>: Ethernet CPE Interface ( eth1 ), <*>: Ethernet CPE Interface ( eth7 ), <*>: MOCA Interface <*> ( moca0 )"
+cb9c16cc,cb9c16cc,CmDocsisApplication ignoring Run()...
+2d43788a,2d43788a,BcmEmtaIfSettings:: StandaloneEmta - ALTWAN eMTA default value set
+811e1be4,811e1be4,EMTA: CL_OPTION_CCCV6 AND CL_OPTION_CCC present. IP_PREF says go single stack V4.
+7ca167b7,7ca167b7,No mtaCmStatusInfo - NOT notifying EMTA that CM is kCmStat_Operational
+e6dce456,e6dce456,"Cmisc_dqnet_statusmSnmpAgent operating in <*> mode, including docsQos"
+6a19033a,6a19033a,"Enabling SNMP link status checking., ifname cm0 up"
+d0a9aa08,d0a9aa08,Remote interface cm0 DOWN
+0557a19f,0557a19f,Abnormal_DoS_Attack:_IdlePercent= <*>_WAN_DQM_FULL= <*>_LAN_DQM_FULL= <*>
+2aa021f8,2aa021f8,"bfcSerialConsoleMode set to read-only, disabling console input."
+ed731c22,ed731c22,"bfcSerialConsoleMode set to read-write, enabling console."
