@@ -81,7 +81,7 @@ b49568ad,b49568ad,CM successfully pushed IP <*> to eRouter
 61413b1c,61413b1c,Starting Time Of Day...
 0afd1214,0afd1214,BcmCmDocsisIpThread:: StartTod: ( CmDocsisIpThread ) WARNING - Failed to get IPv4 Time Offset value!
 d2549774,d2549774,BcmDocsisTimeOfDayThread:: SetTodServerIpAddress: ( Time Of Day Thread ) ToD servers: <*>
-3bb085c8,3bb085c8,Connecting to ToD server <*>...
+e6a3eeb9,e6a3eeb9,Connecting to <*> server <*>
 b96a7aa0,b96a7aa0,Sending UDP ToD request to server...
 eb03da30,eb03da30,Using siaddr or option <*> for TFTP server.
 6e091df5,6e091df5,Starting Tftp of configuration file...
@@ -167,7 +167,7 @@ c5949648,c5949648,D31PowerSave 'On'
 b8005468,b8005468,"No UDC's, IP filters OK."
 a377766c,a377766c,"No DH kickstart profiles or snmpCommunityTable entries installed., We will operate in NMACCESS mode."
 a03fadfa,a03fadfa,Enabling SNMP link status checking.
-5293d7b1,5293d7b1,misc_dqnet_status ifname cm0 up
+ddc03679,ddc03679,misc_dqnet_status ifname <*> up
 40f948ae,40f948ae,Add eRouter MAC <*> to CM multicast table for IPv6 provision.
 683eae25,683eae25,Vendor CM Agent w/ BRCM Factory Support updating ifTableLastChange.
 31bfbf8f,31bfbf8f,PnmTestDriveACT - event code <*> Clearing kPnmStatusTempReject
@@ -476,7 +476,7 @@ d775feae,d775feae,UDA Shared Mem Address: <*>
 0b1193d5,0b1193d5,Running the system...
 77a6e778,77a6e778,Beginning Cable Modem operation...
 3aaa43ff,3aaa43ff,Scanning for a downstream channel...
-043d2093,043d2093,"RG reset cause:software_master, Crash detected:No, Crash type:No crash"
+b59ec861,b59ec861,"RG reset <*> Crash detected:No, Crash type:No crash"
 9fb97db1,9fb97db1,Initializing ifTableLastChange
 e9d14eee,e9d14eee,Abnormal_UART_RX_Bytes_ <*>
 1a20c335,1a20c335,Scanning <*> MHz <*> ( Non-vol entry # <*> )
@@ -598,7 +598,7 @@ cb9c16cc,cb9c16cc,CmDocsisApplication ignoring Run()...
 7ca167b7,7ca167b7,No mtaCmStatusInfo - NOT notifying EMTA that CM is kCmStat_Operational
 e6dce456,e6dce456,"Cmisc_dqnet_statusmSnmpAgent operating in <*> mode, including docsQos"
 6a19033a,6a19033a,"Enabling SNMP link status checking., ifname cm0 up"
-d0a9aa08,d0a9aa08,Remote interface cm0 DOWN
+9e7372d4,9e7372d4,Remote interface <*> DOWN
 0557a19f,0557a19f,Abnormal_DoS_Attack:_IdlePercent= <*>_WAN_DQM_FULL= <*>_LAN_DQM_FULL= <*>
 2aa021f8,2aa021f8,"bfcSerialConsoleMode set to read-only, disabling console input."
 ed731c22,ed731c22,"bfcSerialConsoleMode set to read-write, enabling console."
@@ -608,3 +608,26 @@ ed731c22,ed731c22,"bfcSerialConsoleMode set to read-write, enabling console."
 7a51b648,7a51b648,"AltWAN Mode Active - Scanning inhibited!, DefaultSnmpAgentClass:: RestartPendingEvent for Vendor CM Agent w/ BRCM Factory Support"
 c7de456f,c7de456f,AltWan mode enabled; enabling traffic between EMTA <-> Router Interface ( Proxy )
 63e8e393,63e8e393,Setting networked standby context to 'DOCSIS halt'
+be2918a2,be2918a2,Selecting HTTP protocol for software upgrade
+fd4b8d41,fd4b8d41,Starting software update...
+a6640930,a6640930,Logging event: SW Download INIT - Via NMS
+1ccadd06,1ccadd06,Trying to create a buffer of <*> bytes ( <*>k ) to store the image...
+e83a86fe,e83a86fe,Done! Actually allocated <*> bytes.
+556e4b02,556e4b02,Loading from server... Loaded <*> bytes.
+7f5b6a15,7f5b6a15,"Monolith Header, MagicNumber : <*>, MajorVersion : <*>, MinorVersion : <*>, CombinedLength : <*>, ImagesBitMask : <*>"
+ee9d2aab,ee9d2aab,Monolithic image detected...
+05eb00b7,05eb00b7,Board is manufactured.
+583a5522,583a5522,Combined ProgramStore header was verified. Image can be downloaded.
+3a80f9f7,3a80f9f7,"Image index = <*> Image to open = <*>, Signature: <*>, Control: <*>, Major Rev: <*>, Minor Rev: <*>, File Length: <*> bytes, Load Address: <*>, Filename: <*> HCS: <*> CRC: <*>"
+c7e8ac9e,c7e8ac9e,ProgramStoreDeviceDriverRemoteFlash:: ProgramStoreDriverIsHeaderValid: Allowing alternate image signature <*>
+1bfe36b6,1bfe36b6,!ProgramStore header was verified. Image can be downloaded.
+aa2990f8,aa2990f8,BcmRemoteProgramStoreDeviceDriverBridge:: Open: ( BcmRemoteProgramStoreDeviceDriverBridge )
+7e839fda,7e839fda,Opening the default image number ( <*> ).
+c3de15ce,c3de15ce,Opening the ProgramStore driver for image <*> isMonolithic = <*>
+f7e379b6,f7e379b6,Storing to device... Stored <*> bytes.
+c8f3a6e4,c8f3a6e4,Image parsing complete.
+2b1f7adf,2b1f7adf,"Loading from server...Successfully downloaded <*> bytes, Loaded <*> bytes."
+a1dfe289,a1dfe289,Computing CRC32 over the image to ensure that it is valid...
+c456b140,c456b140,Software image was successfully stored!
+16df1c06,16df1c06,Logging event: SW download Successful - Via NMS
+f65688cb,f65688cb,BcmCmDocsisCtlThread:: UpdateAltWanMode - new AltWan value: <*>

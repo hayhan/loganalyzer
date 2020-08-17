@@ -95,24 +95,27 @@ regexPattern4 = re.compile(r' (?:(?:[0-9A-Fa-f]{1,4}:){6}(?:[0-9A-Fa-f]{1,4}:[0-
                            r'|(?:(?:[0-9A-Fa-f]{1,4}:){,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}'
                            r'|(?:(?:[0-9A-Fa-f]{1,4}:){,6}[0-9A-Fa-f]{1,4})?::)(/\d{1,3})?')
 
+# The filename string of image
+regexPattern5 = re.compile(r'(?<= Filename: )\S+')
+
 # List of intergers and tuples like xxx = 1 2 3 4, (12-11.1) (10-11) as well as Numbers
 # including hex, decimal and integer
-regexPattern5 = re.compile(r'(?<=value=)(( [a-f0-9]{2}){14})'
+regexPattern6 = re.compile(r'(?<=value=)(( [a-f0-9]{2}){14})'
                            r'|(?<=HEX:)([A-F0-9]{2} )+'
                            r'|( \( \d+\.?(\d+)?-\d+\.?(\d+)? \))+|( \d+){2,}|0x[A-Fa-f0-9]+'
                            r'|(?<=[^A-Za-z0-9\.])(\-?\+?\d+\.?(\d+)?\*?)|(?<=\.\.)(\d+)')
 
 # OFDM channels CH32 and CH33, maybe different for 3391 and later
-regexPattern6 = re.compile(r'CH\d{2}')
+regexPattern7 = re.compile(r'CH\d{2}')
 
-regexPattern7 = re.compile(r'\( k[A-Z]\w+ \)|\( [du]cid \)|\( ErrorRecovery \)'
+regexPattern8 = re.compile(r'\( k[A-Z]\w+ \)|\( [du]cid \)|\( ErrorRecovery \)'
                            r'|\( ConsoleCmdOverride \)|\( T4NoStationMaintTimeout \)'
                            r'|\( T2NoInitMaintTimeout \)|\( not specified \)')
 
-regexPattern8 = re.compile(r'(QAM lock failure)|(FEC lock failure)')
-regexPattern9 = re.compile(r'Stat= (Continue|Success|Abort)')
-regexPattern10 = re.compile(r'qam [yn] fec [yn] snr')
-regexPattern11 = re.compile(r'txdata [yn]')
+regexPattern9 = re.compile(r'(QAM lock failure)|(FEC lock failure)')
+regexPattern10 = re.compile(r'Stat= (Continue|Success|Abort)')
+regexPattern11 = re.compile(r'qam [yn] fec [yn] snr')
+regexPattern12 = re.compile(r'txdata [yn]')
 
 regex = {
     regexPattern0: '<*>',
@@ -120,13 +123,14 @@ regex = {
     regexPattern2: '<*>',
     regexPattern3: '<*>',
     regexPattern4: '<*>',
-    regexPattern5: ' <*>',
-    regexPattern6: '<*>',
-    regexPattern7: '( <*> )',
-    regexPattern8: '<*>',
-    regexPattern9: 'Stat= <*>',
-    regexPattern10: 'qam <*> fec <*> snr',
-    regexPattern11: 'txdata <*>',
+    regexPattern5: '<*>',
+    regexPattern6: ' <*>',
+    regexPattern7: '<*>',
+    regexPattern8: '( <*> )',
+    regexPattern9: '<*>',
+    regexPattern10: 'Stat= <*>',
+    regexPattern11: 'qam <*> fec <*> snr',
+    regexPattern12: 'txdata <*>',
 }
 
 

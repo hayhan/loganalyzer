@@ -102,6 +102,7 @@ sLinePattern8 = re.compile(r'fUsSetsState = ')
 sLinePattern9 = re.compile(r'( {7}munged error type: T=)|( {5}munged error type =)')
 sLinePattern10 = re.compile(r'Type \'help\' or')
 sLinePattern11 = re.compile(r' {24}dsid: | {24}DSID: | {24}CMIM: ')
+sLinePattern12 = re.compile(r'={18}')
 
 sLinePatterns = [
     sLinePattern0,
@@ -116,6 +117,7 @@ sLinePatterns = [
     sLinePattern9,
     sLinePattern10,
     sLinePattern11,
+    sLinePattern12,
 ]
 
 #----------------------------------------------------------------------------------------
@@ -177,6 +179,7 @@ sPrimaryLinePattern1 = re.compile(r'fDestSingleTxTargetUsChanId')
 sPrimaryLinePattern2 = re.compile(r'fTmT4NoUnicastRngOpStdMlsec')
 sPrimaryLinePattern3 = re.compile(r'MSG PDU:')
 sPrimaryLinePattern4 = re.compile(r'to a CM prior to sending')
+sPrimaryLinePattern5 = re.compile(r'Load Address: ')
 
 sPrimaryLinePatterns = [
     sPrimaryLinePattern0,
@@ -184,6 +187,7 @@ sPrimaryLinePatterns = [
     sPrimaryLinePattern2,
     sPrimaryLinePattern3,
     sPrimaryLinePattern4,
+    sPrimaryLinePattern5,
 ]
 
 #----------------------------------------------------------------------------------------
@@ -204,12 +208,15 @@ sNestedLinePattern0 = re.compile(r' +DOWNSTREAM STATUS')
 sNestedLinePattern1 = re.compile(r' +CM Upstream channel info')
 sNestedLinePattern2 = re.compile(r' +Receive Channel Config\:')
 sNestedLinePattern3 = re.compile(r' Reason = ')
+sNestedLinePattern4 = re.compile(r'\t{7}Storing to device...|'
+                                 r'\t{7}Loading from server...')
 
 sNestedLinePatterns = [
     sNestedLinePattern0,
     sNestedLinePattern1,
     sNestedLinePattern2,
     sNestedLinePattern3,
+    sNestedLinePattern4,
 ]
 
 #----------------------------------------------------------------------------------------
