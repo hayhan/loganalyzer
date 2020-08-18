@@ -5,7 +5,11 @@ rem This script train the DeepLog exec model
 rem ---Concatenate multiple raw files into one
 rem ---Parameters: script inputLoc filenames outputLoc
 set fileList=log_4_3390.txt/^
-normal_0_register_202.txt/normal_1_register_202.txt/normal_2_dbc_202.txt
+normal_0_register_202.txt/normal_1_register_202.txt/normal_2_dbc_202.txt/normal_3.txt/^
+temp_updt_bfm_a350.txt/temp_updt_bfm_a351.txt/temp_updt_bfm_a370.txt/^
+temp_updt_bfm_a375.txt/temp_updt_bfm_a380.txt/temp_updt_bfm_a383.txt/^
+temp_updt_bfm_b329.txt/temp_updt_bfm_b330.txt/temp_updt_bfm_b331.txt/^
+temp_updt_bfm_b400.txt/temp_updt_bfm_b405.txt/temp_updt_bfm_b415.txt
 
 rem Concatenate above files into one and add segment sign 'segsign: '
 python ..\tools\cat_files_sign.py logs/raw %fileList% logs/train.txt
