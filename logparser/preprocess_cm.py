@@ -241,7 +241,7 @@ wMultiLineRmPatterns = [
 # Patterns for block of logs which I want to remove entirely
 # [logBlockStart: inclusive, logBlockEnd: exclusive)
 #----------------------------------------------------------------------------------------
-logBlockSrt0 = re.compile(r'BCM339\d{3}')
+logBlockSrt0 = re.compile(r'BCM339[0-9]+[a-zA-Z]*[0-9] Bootloader version')
 logBlockEnd0 = re.compile(r'>>>>ChipID=0x339\d+')
 logBlockSrt1 = re.compile(r'Downloading LEAP image')
 logBlockEnd1 = re.compile(r'>>>AP dload time')

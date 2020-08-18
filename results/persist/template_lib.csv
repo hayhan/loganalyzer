@@ -631,3 +631,4 @@ a1dfe289,a1dfe289,Computing CRC32 over the image to ensure that it is valid...
 c456b140,c456b140,Software image was successfully stored!
 16df1c06,16df1c06,Logging event: SW download Successful - Via NMS
 f65688cb,f65688cb,BcmCmDocsisCtlThread:: UpdateAltWanMode - new AltWan value: <*>
+c1d28593,c1d28593,BCM339010
