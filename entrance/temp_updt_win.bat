@@ -13,7 +13,7 @@ rem python ..\tools\cat_files.py logs/raw %fileList% logs/train.txt
 (
 echo TRAINING=1
 echo METRICS=1
-echo MODEL=DT
+echo MODEL=TEMPUPDT
 echo WINDOW_SIZE=10000
 echo WINDOW_STEP=5000
 echo TEMPLATE_LIB_SIZE=2000
@@ -21,6 +21,7 @@ echo TEMPLATE_LIB_SIZE=2000
 
 rem Separately process temp_updt_1.txt to workaround the Drain initial sim issue
 rem copy ..\logs\raw\temp_updt_1.txt ..\logs\train.txt > nul
+rem copy ..\logs\raw\temp_updt_2.txt ..\logs\train.txt > nul
 rem copy ..\logs\raw\temp_updt_bfm_a383.txt ..\logs\train.txt > nul
 rem copy ..\logs\raw\temp_updt_bfm_a350.txt ..\logs\train.txt > nul
 rem copy ..\logs\raw\temp_updt_bfm_a351.txt ..\logs\train.txt > nul

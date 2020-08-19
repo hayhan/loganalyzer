@@ -17,7 +17,7 @@ python3 ../tools/cat_files_sign.py logs/raw ${fileList} logs/train.txt
 (
 echo TRAINING=1
 echo METRICS=1
-echo MODEL=DT
+echo MODEL=DEEPLOG
 echo WINDOW_SIZE=10000
 echo WINDOW_STEP=5000
 echo TEMPLATE_LIB_SIZE=2000

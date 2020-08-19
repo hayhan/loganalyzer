@@ -12,7 +12,7 @@ import pickle
 curfiledir = os.path.dirname(__file__)
 parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
-# We only need do it for train dataset
+# We only need do it for DeepLog train dataset
 norm_file_loc = parentdir + '/logs/train_norm.txt'
 results_loc = parentdir + '/results/train'
 seg_vector_file = results_loc + '/train_norm.txt_seg.pkl'
@@ -29,6 +29,9 @@ if not os.path.exists(results_loc):
 #
 
 # Segment sign pattern
+# The sign can be added by both file concatenation and preprocess of logparser
+# The same sign might be added twice for the log at the beginging of each file
+# So we replace the signs with empty by max twice below
 sign_pattern = re.compile(r'segsign: ')
 
 seg_vector = []
@@ -43,7 +46,7 @@ for idx, line in enumerate(linesLst):
     if match:
         seg_vector.append(idx - seg_start)
         seg_start = idx
-        newline = sign_pattern.sub('', line, count=1)
+        newline = sign_pattern.sub('', line, count=2)
     else:
         newline = line
 

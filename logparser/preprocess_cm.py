@@ -19,17 +19,20 @@ parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 #from tools import helper
 
 #----------------------------------------------------------------------------------------
-# Process the train data or test data
+# Process the train data or test data. Read also other info from config file.
 #----------------------------------------------------------------------------------------
 # Read the config file to decide
 with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
-    conline = confile.readline().strip()
-    if conline == 'TRAINING=1':
+    conlines = confile.readlines()
+
+    if conlines[0].strip() == 'TRAINING=1':
         TRAINING = True
         DATATYPE = 'train'
     else:
         TRAINING = False
         DATATYPE = 'test'
+
+    DLOGCONTEX = bool(conlines[2].strip() == 'MODEL=DEEPLOG')
 
 if TRAINING:
     raw_file_loc = parentdir + '/logs/train.txt'
@@ -281,6 +284,17 @@ bracketPattern4 = re.compile(r'(?<=\w)\]')
 bracketPattern5 = re.compile(r'\d+(?=(ms))')
 #bracketPattern6 = re.compile(r'(?<=\.\.)\d')
 
+#----------------------------------------------------------------------------------------
+# Patterns for logs that I want to add the segmentatin sign 'segsign: '
+#----------------------------------------------------------------------------------------
+segsignPattern0 = re.compile(r'BCM339\d{3}')
+segsignPattern1 = re.compile(r'Moving to Downstream Frequency')
+
+segsignPatterns = [
+    segsignPattern0,
+    segsignPattern1,
+]
+
 #########################################################################################
 # 1. Start data cleaning and formating
 #########################################################################################
@@ -316,6 +330,7 @@ sccvEmptyLineCnt = 0
 # 11) Convert some specific lines as primary
 # 12) Remove specific whole multi-line log
 # 13) Split some tokens
+# 14) Add segmentation sign for DeepLog train dataset
 #----------------------------------------------------------------------
 print("Pre-processing the raw {0} dataset ...".format(DATATYPE))
 parse_st = datetime.now()
@@ -676,6 +691,14 @@ for _idx, line in enumerate(linesLst):
     #    substring = m.group(0)
     #    newline = bracketPattern6.sub(' '+substring, newline)
     #--end--
+
+    #------------------------------------------------------------
+    # Add segmentation sign 'segsign: ' for DeepLog train dataset
+    #------------------------------------------------------------
+    if TRAINING and DLOGCONTEX:
+        for pattern in segsignPatterns:
+            if pattern.match(newline):
+                newline = 'segsign: ' + newline
 
     # Update lastLineEmpty for the next line processing
     lastLineEmpty = False

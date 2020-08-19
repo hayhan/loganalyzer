@@ -369,7 +369,7 @@ cf2fb812,cf2fb812,BcmEcosCountingSemaphore:: Get: ( CmHalIf MessageSent Counting
 a5f73150,a5f73150,BcmDocsisCmHalIf:: TransmitManagementMessage: ( DOCSIS CableModem HalIf ) ERROR - MAC Management Message was NOT sent after <*> seconds!
 db66eb86,db66eb86,BcmCmDocsisCtlThread:: TxRegAckMsg: ( CmDocsisCtlThread ) ERROR - Failed to send the REG-ACK message to the CMTS!
 bfbbac45,bfbbac45,BcmCmUsRangingState:: RngRspMsgEvent: detected bogus RNG-RSP sid= <*> which is different than current sid= <*> hwTxId= <*> docs ucid= <*>
-5ea3e727,5ea3e727,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: RNG_RSP ( <*> ), fka reserved: <*>, fParseConfCode: <*> ( <*> ), MSG PDU:, primary sid: <*>, RNG-REQ us chan id: <*>, ranging status: <*> ( Success ), power adj, dB/ <*>: <*> ( <*> )"
+ca312056,ca312056,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: RNG_RSP ( <*> ), fka reserved: <*>, fParseConfCode: <*> ( <*> ), MSG PDU:, primary sid: <*>, RNG-REQ us chan id: <*>, ranging status: <*> ( <*> ), power adj, dB/ <*>: <*> ( <*> )"
 6447199e,6447199e,"BcmCmMultiUsHelper:: TestAndApplyRngRspDynamicRangeWindow: ( Cm Multi US Helper ) ERROR - Dynamic Range Window violation!, Docsis <*> error condition: <*> ( <*> )"
 50fa8f60,50fa8f60,RNG-RSP UsChanId= <*> Adj: power= <*> freq= <*> Stat= <*>
 46d6c4ec,46d6c4ec,"BcmDhcpClientIf:: ElapsedTimeSec: ( DHCP ClientIf for IP Stack1 ) WARNING - Sent Request, didn't receive Ack. Resending Request..."
@@ -632,3 +632,13 @@ c456b140,c456b140,Software image was successfully stored!
 16df1c06,16df1c06,Logging event: SW download Successful - Via NMS
 f65688cb,f65688cb,BcmCmDocsisCtlThread:: UpdateAltWanMode - new AltWan value: <*>
 c1d28593,c1d28593,BCM339010
+bc60924a,bc60924a,BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ) BcmCmUsRangingState:: RcvrTccReplace: starting TCC replace recovery strategy for hwTxId= <*> docs ucid= <*>
+872564b7,872564b7,"BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ) BcmCmMultiUsHelper:: DetectDeadInWaterPrimaryUsSvcFlow: ( Cm Multi US Helper ) ERROR -, zero ucid associated with primary upstream service flow are able to tx data."
+01cc2d3d,01cc2d3d,"BcmDocsis31InitDsProfileHw() for ofdmCh <*>, DefaultSnmpAgentClass:: RestartPendingEvent for Vendor CM Agent w/ BRCM Factory Support"
+b40ad5f9,b40ad5f9,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: RNG_RSP ( <*> ), fka reserved: <*>, fParseConfCode: <*> ( <*> ), MSG PDU:, primary sid: <*>, RNG-REQ us chan id: <*>, ranging status: <*> ( <*> ), timing adj, ticks / <*>: <*> ( <*> )"
+6d888c7b,6d888c7b,"Checking for cable cut..., Plant power is <*>"
+213c623b,213c623b,OpenSSL_addX509Header(): Public Key is NULL. Return.
+733eea80,733eea80,"BcmBfcProcessCvc:: CmCodeVerificationCertificate:: ParseAndValidate: ( Process CVC ) ERROR - Failed on rsaDecryptSignature, status= <*>"
+3fd21511,3fd21511,BcmBfcProcessCvc:: ProcessConfigFileSpecifiedCvc: ( Process CVC ) ERROR - Config file manufacturer CVC is rejected.
+3b3d9838,3b3d9838,BcmBfcProcessCvc:: ProcessConfigFileManufAndCosignerCvcs: ( Process CVC ) ERROR - Reject config file MFG CVC!
+f1db80b8,f1db80b8,Logging event: Configuration File CVC Validation Failure
