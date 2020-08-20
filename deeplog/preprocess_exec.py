@@ -73,7 +73,7 @@ def load_data(para):
     # Convert event id (hash value) log vector to event index (0 based int) log vector
     # For train dataset the template library / vocabulary normally contain all the
     # possible event ids. For validation / test datasets, they might not retrive some
-    # ones. Currently map the unknow event ids to 65535.
+    # ones. Currently map the unknow event ids to the last index in the vocabulary.
     #event_idx_logs = [event_id_voc.index(tid) for tid in event_id_logs]
     event_idx_logs = []
     for tid in event_id_logs:
@@ -87,14 +87,14 @@ def load_data(para):
     # 3. Slice the logs into sliding windows
     #####################################################################################
 
-    # For train, we need handle the concatenated norm dataset
-    # For validation / prediction, always suppose the dataset is not a concatenated one
-    if para['train']:
-        # Load the segment vector we get from logparser module
-        with open(para['seg_file'], 'rb') as fin:
-            seg_vector = pickle.load(fin)
+    # For train or validation, we always handle the multi-session logs
+    if para['train'] or para['metrics_enable']:
+        # Load the session vector we get from logparser module
+        with open(para['session_file'], 'rb') as fin:
+            session_vector = pickle.load(fin)
 
-        data_dict = slice_logs_multi(event_idx_logs, labels, para['window_size'], seg_vector)
+        data_dict = slice_logs_multi(event_idx_logs, labels, para['window_size'], session_vector)
+    # For prediction, we always suppose the dataset includes only one session
     else:
         data_dict = slice_logs(event_idx_logs, labels, para['window_size'])
 
@@ -207,7 +207,7 @@ def slice_logs(eidx_logs, labels, window_size):
 
     Note
     ----
-    This is single-file logs version
+    This is single-session logs version, which is used by prediction only
 
     Arguments
     ---------
@@ -225,7 +225,7 @@ def slice_logs(eidx_logs, labels, window_size):
     """
 
     results_lst = []
-    print("Slicing the single-file logs with window {} ...".format(window_size))
+    print("Slicing the single-session logs with window {} ...".format(window_size))
 
     logsnum = len(eidx_logs)
     i = 0
@@ -253,19 +253,20 @@ def slice_logs(eidx_logs, labels, window_size):
     return results_dict
 
 
-def slice_logs_multi(eidx_logs, labels, window_size, seg_vec):
+def slice_logs_multi(eidx_logs, labels, window_size, session_vec):
     """ Slice the event index vector in structured file into sequences
 
     Note
     ----
-    This is multi-file logs version
+    This is multi-session logs version, which is used by train or validation
+    This version must also be capable of handling the case of one session only
 
     Arguments
     ---------
     eidx_logs: event index (0 based int) vector mapping to each log in structured file
     labels: the label for each log in validation dataset
     window_size: the sliding window size, and the unit is log
-    seg_vec: the segment vector in which each element is the segment size
+    session_vec: the session vector in which each element is the session size
 
     Returns
     -------
@@ -277,25 +278,25 @@ def slice_logs_multi(eidx_logs, labels, window_size, seg_vec):
     """
 
     results_lst = []
-    print("Slicing the multi-file logs with window {} ...".format(window_size))
+    print("Slicing the multi-session logs with window {} ...".format(window_size))
 
-    seg_offset = 0
+    session_offset = 0
 
-    for _idx, seg_size in enumerate(seg_vec):
-        # The window only applies in each log file (aka segment) and do not cross the
-        # log file boundary. The SeqIdx is not necessary to be continuous with step one
-        # across files. We actually did not use the SeqIdx field in the later train /
-        # validate / predict. For simplicity, the SeqIdx will be reset to 0 to count
-        # again when across file boundary. Change this behavior if we want to utilize
-        # the sequence or sample index across multiple log files.
+    for _idx, session_size in enumerate(session_vec):
+        # The window only applies in each session and do not cross the session boundary.
+        # The SeqIdx is not necessary to be continuous with step one across sessions.
+        # We actually did not use the SeqIdx field in the later train/validate/predict.
+        # For simplicity, the SeqIdx will be reset to 0 to count again when across the
+        # session boundary. Change this behavior if we want to utilize the sequence or
+        # sample index across multiple sessions.
         i = 0
-        while (i + window_size) < seg_size:
-            sequence = eidx_logs[i + seg_offset: i + seg_offset + window_size]
-            results_lst.append([i, sequence, eidx_logs[i + seg_offset + window_size],
-                                labels[i + seg_offset + window_size]])
+        while (i + window_size) < session_size:
+            sequence = eidx_logs[i + session_offset: i + session_offset + window_size]
+            results_lst.append([i, sequence, eidx_logs[i + session_offset + window_size],
+                                labels[i + session_offset + window_size]])
             i += 1
-        # The segment first log offset in the concatenated monolith
-        seg_offset += seg_size
+        # The session first log offset in the concatenated monolith
+        session_offset += session_size
 
     results_df = pd.DataFrame(results_lst, columns=["SeqIdx", "EventSeq", "Target", "Label"])
     results_dict = {"SeqIdx": results_df["SeqIdx"].to_numpy(dtype='int32'),

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Description : Extract the label vector from norm logs
+Description : Extract the abnormal label vector from norm logs
 Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
@@ -9,22 +9,18 @@ import os
 import sys
 
 curfiledir = os.path.dirname(__file__)
-parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
+parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
-"""
-Process the train data or test data
-"""
+#
+# Process the train data or test data
+#
+
 # Read the config file to decide
 with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
     conlines = confile.readlines()
-    if conlines[0].strip() == 'TRAINING=1':
-        TRAINING = True
-    else:
-        TRAINING = False
-    if conlines[1].strip() == 'METRICS=1':
-        METRICSEN = True
-    else:
-        METRICSEN = False
+
+    TRAINING = bool(conlines[0].strip() == 'TRAINING=1')
+    METRICSEN = bool(conlines[1].strip() == 'METRICS=1')
 
 if TRAINING:
     norm_file_loc = parentdir + '/logs/train_norm.txt'
@@ -45,10 +41,11 @@ if not os.path.exists(parentdir+'/results'):
 if not os.path.exists(results_loc):
     os.mkdir(results_loc)
 
-"""
-Generate the label vector from norm file and remove the labels in norm file
-ToDo: optimize for test dataset if no validation is needed
-"""
+#
+# Generate the label vector from norm file and remove the labels in norm file
+# _ToDo_: optimize for test dataset if no validation is needed
+#
+
 import re
 import pandas as pd
 

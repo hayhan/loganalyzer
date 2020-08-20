@@ -25,19 +25,15 @@ parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
     conlines = confile.readlines()
 
-    if conlines[0].strip() == 'TRAINING=1':
-        TRAINING = True
-        DATATYPE = 'train'
-    else:
-        TRAINING = False
-        DATATYPE = 'test'
-
-    DLOGCONTEX = bool(conlines[2].strip() == 'MODEL=DEEPLOG')
+    TRAINING = bool(conlines[0].strip() == 'TRAINING=1')
+    METRICSEN = bool(conlines[1].strip() == 'METRICS=1')
+    DLOGCONTEXT = bool(conlines[2].strip() == 'MODEL=DEEPLOG')
 
 if TRAINING:
     raw_file_loc = parentdir + '/logs/train.txt'
     new_file_loc = parentdir + '/logs/train_new.txt'
     norm_file_loc = parentdir + '/logs/train_norm.txt'
+    DATATYPE = 'train'
 else:
     raw_file_loc = parentdir + '/logs/test.txt'
     new_file_loc = parentdir + '/logs/test_new.txt'
@@ -45,6 +41,7 @@ else:
     rawln_idx_loc = parentdir + '/results/test/rawline_idx_norm.pkl'
     rawLnIdxVectorNew = []
     rawLnIdxVectorNorm = []
+    DATATYPE = 'test'
 
 #
 # The original log usually comes from serial console tools like SecureCRT
@@ -285,14 +282,14 @@ bracketPattern5 = re.compile(r'\d+(?=(ms))')
 #bracketPattern6 = re.compile(r'(?<=\.\.)\d')
 
 #----------------------------------------------------------------------------------------
-# Patterns for logs that I want to add the segmentatin sign 'segsign: '
+# Patterns for logs that I want to add the session label 'segsign: '
 #----------------------------------------------------------------------------------------
-segsignPattern0 = re.compile(r'BCM339\d{3}')
-segsignPattern1 = re.compile(r'Moving to Downstream Frequency')
+sessionPattern0 = re.compile(r'BCM339\d{3}')
+sessionPattern1 = re.compile(r'Moving to Downstream Frequency')
 
-segsignPatterns = [
-    segsignPattern0,
-    segsignPattern1,
+sessionPatterns = [
+    sessionPattern0,
+    sessionPattern1,
 ]
 
 #########################################################################################
@@ -355,8 +352,8 @@ for _idx, line in enumerate(linesLst):
     # Remove unwanted strings including some kind of timestamps, console prompts and etc.
     #------------------------------------------------------------------------------------
     # Save the main timestamp if it exists. The newline does not contain the main
-    # timestamp before write it back to a new file. Train label is also considered
-    # in this pattern. Add it back along with main timestamp at the end.
+    # timestamp before write it back to a new file. The train label and session label are
+    # also is also considered. Add them back along with main timestamp at the end.
     matchTS = strPattern0.match(line)
     if matchTS:
         currentLineTS = matchTS.group(0)
@@ -692,11 +689,13 @@ for _idx, line in enumerate(linesLst):
     #    newline = bracketPattern6.sub(' '+substring, newline)
     #--end--
 
-    #------------------------------------------------------------
-    # Add segmentation sign 'segsign: ' for DeepLog train dataset
-    #------------------------------------------------------------
-    if TRAINING and DLOGCONTEX:
-        for pattern in segsignPatterns:
+    #--------------------------------------------------------------
+    # Add session label 'segsign: ' for DeepLog
+    # In DeepLog train or validation, we use the multi-session logs
+    # METRICSEN means we do validation on the test dataset or not
+    #--------------------------------------------------------------
+    if DLOGCONTEXT and (TRAINING or METRICSEN):
+        for pattern in sessionPatterns:
             if pattern.match(newline):
                 newline = 'segsign: ' + newline
 
@@ -709,8 +708,8 @@ for _idx, line in enumerate(linesLst):
     newfile.write(newline)
 
     # The raw line index list in the new file
-    # Do it only for test dataset
-    if not TRAINING:
+    # Do it only for prediction in DeepLog
+    if DLOGCONTEXT and ((not TRAINING) and (not METRICSEN)):
         rawLnIdxVectorNew.append(_idx+1)
 
 pbar.close()
@@ -759,7 +758,8 @@ for _idx, line in enumerate(newfile):
         normfile.write(lastLine)
 
         # The raw line index list based on the norm file
-        if not TRAINING:
+        # Do it only for prediction in DeepLog
+        if DLOGCONTEXT and ((not TRAINING) and (not METRICSEN)):
             rawLnIdxVectorNorm.append(rawLnIdxVectorNew[_idx])
 
         # Update last line parameters
@@ -776,6 +776,7 @@ newfile.close()
 normfile.close()
 
 # Write the raw line index list based on norm file to disk
-if not TRAINING:
+# Do it only for prediction in DeepLog
+if DLOGCONTEXT and ((not TRAINING) and (not METRICSEN)):
     with open(rawln_idx_loc, 'wb') as f:
         pickle.dump(rawLnIdxVectorNorm, f)

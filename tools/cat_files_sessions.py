@@ -1,5 +1,5 @@
 """
-Description : Concatenate multiple text files into one with segment signs
+Description : Concatenate multiple text files into one with session labels
 Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
@@ -31,15 +31,16 @@ for rf in t_lst:
     raw_in_lst.append(raw_in_loc + '/' + rf)
 
 # The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738].
+# We also considered the abnormal label.
 #
 strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
-                         r'\.(\d{3})|24:00:00\.000)\] ')
+                         r'\.(\d{3})|24:00:00\.000)\] (abn: )?')
 
 with open(raw_out_file, 'w') as rawout:
     for rf in raw_in_lst:
         with open(rf, 'r', encoding='utf-8-sig') as rawin:
             for idx, line in enumerate(rawin):
-                # Insert 'segsign: ' to the start line of each segment from each file
+                # Insert 'segsign: ' to the start line of each file
                 if idx == 0:
                     matchTS = strPattern0.match(line)
                     if matchTS:

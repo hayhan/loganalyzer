@@ -12,7 +12,7 @@ rem python ..\tools\cat_files.py logs/raw %fileList% logs/train.txt
 
 (
 echo TRAINING=1
-echo METRICS=1
+echo METRICS=0
 echo MODEL=TEMPUPDT
 echo WINDOW_SIZE=10000
 echo WINDOW_STEP=5000
