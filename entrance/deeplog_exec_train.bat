@@ -1,6 +1,6 @@
 @echo off
 
-rem This script train the DeepLog exec model
+rem This script trains the DeepLog exec model
 
 rem -----------------------------------------------------------------
 rem Train dataset

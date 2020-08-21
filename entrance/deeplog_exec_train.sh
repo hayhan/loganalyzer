@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# This script train the DeepLog exec model
+# This script trains the DeepLog exec model
 
 #--------------------------------------------------------------------
 # Train dataset

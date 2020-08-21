@@ -1,6 +1,6 @@
 @echo off
 
-rem This script validate the DeepLog exec model
+rem This script validates the DeepLog exec model
 
 rem -----------------------------------------------------------------
 rem Test dataset for validation

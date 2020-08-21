@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# This script validate the DeepLog exec model
+# This script validates the DeepLog exec model
 
 #--------------------------------------------------------------------
 # Test dataset for validation
@@ -50,4 +50,4 @@ echo TOPK=10
 echo DEVICE=cpu
 ) > deeplog_config.txt
 
-python3 ../deeplog/exec_path_anomaly_train.py
+python3 ../deeplog/exec_path_anomaly_validate.py
