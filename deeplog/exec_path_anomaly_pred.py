@@ -29,8 +29,6 @@ with open(parentdir+'/entrance/deeplog_config.txt', 'r', encoding='utf-8-sig') a
     TEMPLATE_LIB_SIZE = int(conlines[4].strip().replace('TEMPLATE_LIB_SIZE=', ''))
     # Read the batch size for training
     BATCH_SIZE = int(conlines[5].strip().replace('BATCH_SIZE=', ''))
-    # Read the number of epochs for training
-    NUM_EPOCHS = int(conlines[6].strip().replace('NUM_EPOCHS=', ''))
     # Read the number of workers for multi-process data
     NUM_WORKERS = int(conlines[7].strip().replace('NUM_WORKERS=', ''))
     # Read the number of hidden size
