@@ -93,7 +93,8 @@ def load_data(para):
         with open(para['session_file'], 'rb') as fin:
             session_vector = pickle.load(fin)
 
-        data_dict = slice_logs_multi(event_idx_logs, labels, para['window_size'], session_vector)
+        data_dict = slice_logs_multi(event_idx_logs, labels, para['window_size'],
+                                     session_vector, para['train'])
     # For prediction, we always suppose the dataset includes only one session
     else:
         data_dict = slice_logs(event_idx_logs, labels, para['window_size'])
@@ -253,7 +254,7 @@ def slice_logs(eidx_logs, labels, window_size):
     return results_dict
 
 
-def slice_logs_multi(eidx_logs, labels, window_size, session_vec):
+def slice_logs_multi(eidx_logs, labels, window_size, session_vec, no_metrics):
     """ Slice the event index vector in structured file into sequences
 
     Note
@@ -267,6 +268,7 @@ def slice_logs_multi(eidx_logs, labels, window_size, session_vec):
     labels: the label for each log in validation dataset
     window_size: the sliding window size, and the unit is log
     session_vec: the session vector in which each element is the session size
+    no_metrics: do not consider metrics
 
     Returns
     -------
@@ -292,8 +294,17 @@ def slice_logs_multi(eidx_logs, labels, window_size, session_vec):
         i = 0
         while (i + window_size) < session_size:
             sequence = eidx_logs[i + session_offset: i + session_offset + window_size]
+            # The target word label. Actually it is always 0 for train dataset
+            seq_label = labels[i + session_offset + window_size]
+
+            if not no_metrics:
+                # Check every word in the sequence as well as the target label
+                seq_labels = labels[i + session_offset: i + session_offset + window_size + 1]
+                if seq_labels.count(1) > 0:
+                    seq_label = 1
+
             results_lst.append([i, sequence, eidx_logs[i + session_offset + window_size],
-                                labels[i + session_offset + window_size]])
+                                seq_label])
             i += 1
         # The session first log offset in the concatenated monolith
         session_offset += session_size
@@ -321,9 +332,11 @@ class DeepLogExecDataset(Dataset):
 
     def __getitem__(self, index):
         """ Return a complete data sample at index
-        Here it returns a dict that represents a complete sample at index
-        The parameter is sample index, aka sequence index SeqIdx
-        After DataLoader processing, the value parts of the dict will be tensors
+        Here it returns a dict that represents a complete sample at index.
+        The parameter is sample index, which might not be same as the value of
+        self.data_dict["SeqIdx"] because the latter is not continous accross
+        session boundaries. See the comments of slice_logs for multi-session.
+        After DataLoader processing, the value parts of the dict will be tensors.
         """
         return {k: self.data_dict[k][index] for k in self.keys}
 

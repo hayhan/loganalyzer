@@ -5,7 +5,7 @@
 # Adapt boardfarm CM logs
 #python3 ../adapter/boardfarm_cm.py
 
-#cp ../logs/raw/temp_updt_bfm_a350.txt ../logs/test.txt
+cp ../logs/raw/temp_updt_bfm_a350.txt ../logs/test.txt
 
 # Configure parameters for logparser
 (
@@ -39,4 +39,4 @@ echo DEVICE=cpu
 ) > deeplog_config.txt
 
 #  Do prediction using DeepLog exec model
-python3 ../deeplog/exec_path_anomaly_train.py
+python3 ../deeplog/exec_path_anomaly_pred.py
