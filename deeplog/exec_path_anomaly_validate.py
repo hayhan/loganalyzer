@@ -93,6 +93,7 @@ if __name__ == '__main__':
         """ Block that evaluate the model
         """
         _anomaly_pred = []
+        _anomaly_debug = []
         _t_p = _t_n = _f_p = _f_n = 0
         model.eval()
         with torch.no_grad():
@@ -122,11 +123,13 @@ if __name__ == '__main__':
                     else:
                         if top_idx >= TOPK:
                             _anomaly_pred.append(1)
+                            _anomaly_debug.append(top_idx)
                             _f_p += 1
                         else:
                             _anomaly_pred.append(0)
                             _t_n += 1
                 #print('debug topk2:', topk_lst)
+            print(_anomaly_debug)
 
         return _t_p, _f_p, _t_n, _f_n, _anomaly_pred
 

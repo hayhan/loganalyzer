@@ -317,52 +317,33 @@ https://github.com/logpai/logparser.git
  3:     param_list <- append(logContentL[idx])
  4: END
 
-
-[20200421-12:10:43.143] 
-CM> 
-RNG-RSP UsChanId=49  Adj: tim=8912 power=-50  Stat=Continue 
-[20200421-12:10:43.414] [00:00:27 01/01/1970] [CmDocsisCtlThread] ...
-[ 1235]
-RNG-RSP UsChanId=49  Adj: tim= power=-8  Stat=Continue
-
 ### adapt boardfarm cm logs
- 1: lastline <- empty line w/o LF or CRLF
- 2: lastlineTS <- '[19700101-00:00:00.000]'
- 3: currlineTS <- '[19700101-00:00:00.000]'
- 4: recovContxt <- False
- 5: FOR line IN rawfile
- 6:     matchTS <- normalTimestamp.match(line)
- 7:     matchAbnTS <- abnormalTimestamp.match(line)
- 8:     IF matchTS
- 9:         currlineTS <- normalTimestamp
-10:     ESIF matchAbnTS
-11:         line <- Replace current line abnormal timestamp with last line normal one
-12:     # Other kind of line headings except both normal and abnormal timestamp
-13:     ELSE
-14:         # Not match the normal timestamp, and it is a primary line
-15:         IF line NOT empty AND NOT nestedLine.match(line)
-16:             IF recovContxt
-17:                 lastline <- Remove the LF or CRLF of last line
-18:             END
-19:         ELSE
-20:             recovContxt <- False
-21:         END
+ 1: curline_ts <- '[19700101-00:00:00.000] '
+ 2: FOR line IN rawfile
+ 3:     # Save the main timestamp
+ 4:     match_ts <- pattern_ts.match(line)
+ 5:     IF match_ts
+ 6:         # Match the main timestamp
+ 7:         curline_ts <- match_ts.group(0)
+ 8:         newline <- pattern_ts.sub('', line, count=1)
+ 9:     ELSE
+10:         match_abn_ts <- pattern_abn_ts.match(line)
+11:         IF match_abn_ts
+12:             # Match the abnormal timestamp from boardfarm system
+13:             newline <- pattern_abn_ts.sub('', line, count=1)
+14:         ELSE
+15:             # Both main and abnormal timestamp do not exist
+16:             newline <- line
+17:         END
+18:     END
+19:     # Remove console prompt
+20:     IF pattern_pt.search(newline)
+21:         newline <- pattern_pt.sub('', newline)
 22:     END
-23:     # Start the recover context
-24:     IF matchTS OR matchAbnTS
-25:         lineNoTS <- remove timestamp from current line
-26:         # Match the timestamp and it is an empty line
-27:         IF lineNoTS NOT empty
-28:             recovContxt <- True
-29:         ELSE
-30:             recovContxt <- False
-31:         END
-32:     END
-33:     newfile <- write(lastline)
-34:     lastline <- line
-35:     lastlineTS <- currlineTS
-36: END
-37: newfile <- write(lastline)
+23:     # Write current line to a new file with the timestamp
+24:     newline <- curline_ts + newline
+25:     newfile.write(newline)
+26: END
 
 ### deeplog exec dataloader
  1: step1_dict = {"SeqIdx": 1-D array, zero-based, sequence index in the logs

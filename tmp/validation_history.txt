@@ -1,3 +1,5 @@
+==============================Classic================================
+
 Step 1:
 #log_0 train/validation
 #log_2 validation
@@ -898,3 +900,420 @@ Test data shape: 5664-by-2000
 
 Test validation:
 Precision: 0.999, recall: 0.998, F1-measure: 0.999
+
+
+==============================DeepLog================================
+
+---------epoch=1, hidden=64, win=10-----------
+===> Start training the execution path model ...
+Slicing the multi-session logs with window 10 ...
+Epoch 1/1, train loss: 2.34789
+Train Dataset Validation ==> TP: 0, FP: 7827, TN: 196515, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Test Dataset Validation  ==> TP: 503, FP: 372, TN: 803, FN: 4
+Test Dataset Validation  ==> Precision: 57.49%, Recall: 99.21%, F1: 72.79%
+
+---------epoch=1, hidden=128, win=10-----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Epoch 1/1, train loss: 1.42619
+Train Dataset Validation ==> TP: 0, FP: 2034, TN: 202308, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Test Dataset Validation  ==> TP: 503, FP: 313, TN: 862, FN: 4
+Test Dataset Validation  ==> Precision: 61.64%, Recall: 99.21%, F1: 76.04%
+
+---------epoch=1, hidden=256, win=10-----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Epoch 1/1, train loss: 0.86946
+Train Dataset Validation ==> TP: 0, FP: 973, TN: 203369, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Test Dataset Validation  ==> TP: 500, FP: 320, TN: 855, FN: 7
+Test Dataset Validation  ==> Precision: 60.98%, Recall: 98.62%, F1: 75.36%
+
+---------epoch=1, hidden=512, win=10-----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Epoch 1/1, train loss: 0.67083
+Train Dataset Validation ==> TP: 0, FP: 538, TN: 203804, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Test Dataset Validation  ==> TP: 500, FP: 299, TN: 876, FN: 7
+Test Dataset Validation  ==> Precision: 62.58%, Recall: 98.62%, F1: 76.57%
+
+---------epoch=10, hidden=256, win=10-----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Epoch 1/10, train loss: 0.86775
+Epoch 2/10, train loss: 0.28339
+Epoch 3/10, train loss: 0.24785
+Epoch 4/10, train loss: 0.23422
+Epoch 5/10, train loss: 0.22111
+Epoch 6/10, train loss: 0.21773
+Epoch 7/10, train loss: 0.21918
+Epoch 8/10, train loss: 0.21071
+Epoch 9/10, train loss: 0.21315
+Epoch 10/10, train loss: 0.20986
+Train Dataset Validation ==> TP: 0, FP: 62, TN: 204280, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Test Dataset Validation  ==> TP: 501, FP: 299, TN: 876, FN: 6
+Test Dataset Validation  ==> Precision: 62.62%, Recall: 98.82%, F1: 76.66%
+
+---------epoch=40, hidden=512, win=10-----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Epoch 1/40, train loss: 0.63961
+Epoch 2/40, train loss: 0.27082
+Epoch 3/40, train loss: 0.25060
+Epoch 29/40, train loss: 0.18509
+Epoch 30/40, train loss: 0.18986
+Epoch 31/40, train loss: 0.18726
+Epoch 32/40, train loss: 0.18230
+Epoch 33/40, train loss: 0.18435
+Epoch 34/40, train loss: 0.18332
+Epoch 35/40, train loss: 0.18214
+Epoch 36/40, train loss: 0.18348
+Epoch 37/40, train loss: 0.18778
+Epoch 38/40, train loss: 0.18637
+Epoch 39/40, train loss: 0.17900
+Epoch 40/40, train loss: 0.18091
+Train Dataset Validation ==> TP: 0, FP: 63, TN: 204279, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Test Dataset Validation  ==> TP: 609, FP: 182, TN: 840, FN: 51
+Test Dataset Validation  ==> Precision: 76.99%, Recall: 92.27%, F1: 83.94%
+
+
+---------nolog4, epoch=10, hidden=64, win=10-----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Epoch 1/10, train loss: 3.98030
+Epoch 2/10, train loss: 1.92238
+Epoch 3/10, train loss: 1.21155
+Epoch 4/10, train loss: 0.88148
+Epoch 5/10, train loss: 0.71415
+Epoch 6/10, train loss: 0.60162
+Epoch 7/10, train loss: 0.52559
+Epoch 8/10, train loss: 0.48058
+Epoch 9/10, train loss: 0.43728
+Epoch 10/10, train loss: 0.40217
+Train Dataset Validation ==> TP: 0, FP: 800, TN: 71669, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Test Dataset Validation  ==> TP: 611, FP: 335, TN: 687, FN: 49
+Test Dataset Validation  ==> Precision: 64.59%, Recall: 92.58%, F1: 76.09%
+
+---------nolog4, epoch=10, hidden=64, win=15-----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Epoch 1/10, train loss: 3.71009
+Epoch 2/10, train loss: 1.55895
+Epoch 3/10, train loss: 0.96212
+Epoch 4/10, train loss: 0.69904
+Epoch 5/10, train loss: 0.55078
+Epoch 6/10, train loss: 0.46317
+Epoch 7/10, train loss: 0.40202
+Epoch 8/10, train loss: 0.35984
+Epoch 9/10, train loss: 0.32663
+Epoch 10/10, train loss: 0.30823
+Train Dataset Validation ==> TP: 0, FP: 414, TN: 71105, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Test Dataset Validation  ==> TP: 623, FP: 308, TN: 669, FN: 72
+Test Dataset Validation  ==> Precision: 66.92%, Recall: 89.64%, F1: 76.63%
+
+---------nolog4, epoch=20, hidden=64, win=15-----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Epoch 1/20, train loss: 3.90634
+Epoch 2/20, train loss: 1.69969
+Epoch 3/20, train loss: 1.01466
+Epoch 4/20, train loss: 0.72672
+Epoch 5/20, train loss: 0.57623
+Epoch 6/20, train loss: 0.47708
+Epoch 7/20, train loss: 0.41667
+Epoch 8/20, train loss: 0.36710
+Epoch 9/20, train loss: 0.33029
+Epoch 10/20, train loss: 0.31133
+Epoch 11/20, train loss: 0.28890
+Epoch 12/20, train loss: 0.26585
+Epoch 13/20, train loss: 0.25450
+Epoch 14/20, train loss: 0.24009
+Epoch 15/20, train loss: 0.23171
+Epoch 16/20, train loss: 0.22091
+Epoch 17/20, train loss: 0.21519
+Epoch 18/20, train loss: 0.20537
+Epoch 19/20, train loss: 0.20059
+Epoch 20/20, train loss: 0.19415
+Train Dataset Validation ==> TP: 0, FP: 119, TN: 71400, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Test Dataset Validation  ==> TP: 635, FP: 308, TN: 669, FN: 60
+Test Dataset Validation  ==> Precision: 67.34%, Recall: 91.37%, F1: 77.53%
+
+---------nolog4, epoch=50, hidden=64, win=15-----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Epoch 1/50, train loss: 3.93942
+Epoch 2/50, train loss: 1.77968
+Epoch 3/50, train loss: 1.03055
+Epoch 4/50, train loss: 0.71584
+Epoch 5/50, train loss: 0.56388
+Epoch 38/50, train loss: 0.15876
+Epoch 39/50, train loss: 0.15280
+Epoch 40/50, train loss: 0.14995
+Epoch 41/50, train loss: 0.14801
+Epoch 42/50, train loss: 0.14627
+Epoch 43/50, train loss: 0.15336
+Epoch 44/50, train loss: 0.15588
+Epoch 45/50, train loss: 0.13912
+Epoch 46/50, train loss: 0.14865
+Epoch 47/50, train loss: 0.13938
+Epoch 48/50, train loss: 0.14578
+Epoch 49/50, train loss: 0.13888
+Epoch 50/50, train loss: 0.14092
+Train Dataset Validation ==> TP: 0, FP: 24, TN: 71495, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Test Dataset Validation  ==> TP: 637, FP: 295, TN: 682, FN: 58
+Test Dataset Validation  ==> Precision: 68.35%, Recall: 91.65%, F1: 78.30%
+
+---------nolog4, epoch=50, hidden=128, win=15-----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Epoch 1/50, train loss: 2.62818
+Epoch 2/50, train loss: 0.78153
+Epoch 3/50, train loss: 0.45300
+Epoch 4/50, train loss: 0.34277
+Epoch 5/50, train loss: 0.27756
+Epoch 39/50, train loss: 0.12820
+Epoch 40/50, train loss: 0.13650
+Epoch 41/50, train loss: 0.12502
+Epoch 42/50, train loss: 0.15049
+Epoch 43/50, train loss: 0.13674
+Epoch 44/50, train loss: 0.13264
+Epoch 45/50, train loss: 0.13832
+Epoch 46/50, train loss: 0.13198
+Epoch 47/50, train loss: 0.13285
+Epoch 48/50, train loss: 0.14064
+Epoch 49/50, train loss: 0.13132
+Epoch 50/50, train loss: 0.13795
+Train Dataset Validation ==> TP: 0, FP: 10, TN: 71509, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Test Dataset Validation  ==> TP: 648, FP: 285, TN: 692, FN: 47
+Test Dataset Validation  ==> Precision: 69.45%, Recall: 93.24%, F1: 79.61%
+
+---------epoch=300, hidden=128, win=15-----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Epoch 1/300, train loss: 2.75612
+Epoch 2/300, train loss: 0.86305
+Epoch 3/300, train loss: 0.50623
+Epoch 4/300, train loss: 0.37446
+Epoch 45/300, train loss: 0.13068
+Epoch 46/300, train loss: 0.13196
+Epoch 47/300, train loss: 0.13028
+Epoch 48/300, train loss: 0.13536
+Epoch 49/300, train loss: 0.12556
+Epoch 50/300, train loss: 0.12838
+Epoch 51/300, train loss: 0.12882
+Epoch 52/300, train loss: 0.13361
+Epoch 53/300, train loss: 0.12697
+Epoch 95/300, train loss: 0.10975
+Epoch 96/300, train loss: 0.11831
+Epoch 97/300, train loss: 0.11231
+Epoch 98/300, train loss: 0.14519
+Epoch 99/300, train loss: 0.11714
+Epoch 100/300, train loss: 0.11384
+Epoch 101/300, train loss: 0.11622
+Epoch 130/300, train loss: 0.11297
+Epoch 131/300, train loss: 0.11060
+Epoch 160/300, train loss: 0.11334
+Epoch 161/300, train loss: 0.11697
+Epoch 162/300, train loss: 0.10709
+Epoch 163/300, train loss: 0.11530
+Epoch 193/300, train loss: 0.13242
+Epoch 194/300, train loss: 0.11132
+Epoch 195/300, train loss: 0.11000
+Epoch 196/300, train loss: 0.11290
+Epoch 197/300, train loss: 0.11277
+Epoch 198/300, train loss: 0.11563
+Epoch 199/300, train loss: 0.11771
+Epoch 200/300, train loss: 0.12417
+Epoch 201/300, train loss: 0.12453
+Epoch 264/300, train loss: 0.12026
+Epoch 265/300, train loss: 0.11622
+Epoch 266/300, train loss: 0.12380
+Epoch 267/300, train loss: 0.12722
+Epoch 299/300, train loss: 0.14052
+Epoch 300/300, train loss: 0.13801
+Train Dataset Validation ==> TP: 0, FP: 58, TN: 72653, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Test Dataset Validation  ==> TP: 645, FP: 182, TN: 795, FN: 50
+Test Dataset Validation  ==> Precision: 77.99%, Recall: 92.81%, F1: 84.76%
+
+
+---------epoch=50, hidden=128, win=15, normal_0/1/2-----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Epoch 1/50, train loss: 5.07849
+Epoch 2/50, train loss: 4.08859
+Epoch 3/50, train loss: 3.58933
+Epoch 4/50, train loss: 3.18508
+Epoch 49/50, train loss: 0.30498
+Epoch 50/50, train loss: 0.26244
+Train Dataset Validation ==> TP: 0, FP: 0, TN: 5197, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Test Dataset Validation  ==> TP: 618, FP: 184, TN: 793, FN: 77
+Test Dataset Validation  ==> Precision: 77.06%, Recall: 88.92%, F1: 82.57%
+
+---------epoch=50, hidden=64, win=15, normal_0/1/2-----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Epoch 1/50, train loss: 5.33145
+Epoch 2/50, train loss: 4.57109
+Epoch 49/50, train loss: 0.57072
+Epoch 50/50, train loss: 0.68493
+Train Dataset Validation ==> TP: 0, FP: 16, TN: 5181, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Test Dataset Validation  ==> TP: 625, FP: 205, TN: 772, FN: 70
+Test Dataset Validation  ==> Precision: 75.30%, Recall: 89.93%, F1: 81.97%
+
+--------epoch=100, hidden=128, win=15------------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Epoch 1/100, train loss: 2.71784
+Epoch 2/100, train loss: 0.86354
+Epoch 50/100, train loss: 0.12852
+Epoch 51/100, train loss: 0.13469
+Epoch 95/100, train loss: 0.12361
+Epoch 96/100, train loss: 0.12299
+Epoch 97/100, train loss: 0.12298
+Epoch 98/100, train loss: 0.12057
+Epoch 99/100, train loss: 0.12173
+Epoch 100/100, train loss: 0.11765
+Train Dataset Validation ==> TP: 0, FP: 1, TN: 72710, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Test Dataset Validation  ==> TP: 640, FP: 179, TN: 798, FN: 55
+Test Dataset Validation  ==> Precision: 78.14%, Recall: 92.09%, F1: 84.54%
+
+--------epoch=100, hidden=128, win=10----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Epoch 1/100, train loss: 2.84791
+Epoch 2/100, train loss: 0.88179
+Epoch 50/100, train loss: 0.15823
+Epoch 51/100, train loss: 0.16300
+Epoch 99/100, train loss: 0.15520
+Epoch 100/100, train loss: 0.15158
+Train Dataset Validation ==> TP: 0, FP: 40, TN: 73636, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Test Dataset Validation  ==> TP: 611, FP: 211, TN: 811, FN: 49
+Test Dataset Validation  ==> Precision: 74.33%, Recall: 92.58%, F1: 82.46%
+
+--------epoch=200, hidden=128, win=10----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Epoch 1/200, train loss: 2.81116
+Epoch 2/200, train loss: 0.91773
+Epoch 50/200, train loss: 0.16097
+Epoch 51/200, train loss: 0.16225
+Epoch 100/200, train loss: 0.15224
+Epoch 199/200, train loss: 0.16769
+Epoch 200/200, train loss: 0.15647
+Train Dataset Validation ==> TP: 0, FP: 14, TN: 73662, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Test Dataset Validation  ==> TP: 616, FP: 196, TN: 826, FN: 44
+Test Dataset Validation  ==> Precision: 75.86%, Recall: 93.33%, F1: 83.70%
+--------epoch=150, hidden=128, win=15----------
+Epoch 100/100, train loss: 0.11765
+Train Dataset Validation ==> TP: 0, FP: 0, TN: 72710, FN: 0
+
+
+--------epoch=300, hidden=128, win=10----------
+
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Epoch 1/300, train loss: 2.76781
+Epoch 2/300, train loss: 0.84473
+Epoch 100/300, train loss: 0.14799
+Epoch 101/300, train loss: 0.14049
+Epoch 102/300, train loss: 0.14676
+Epoch 199/300, train loss: 0.14147
+Epoch 200/300, train loss: 0.14472
+Epoch 201/300, train loss: 0.16890
+Epoch 202/300, train loss: 0.16090
+Epoch 298/300, train loss: 0.14741
+Epoch 299/300, train loss: 0.14518
+Epoch 300/300, train loss: 0.14628
+Train Dataset Validation ==> TP: 0, FP: 9, TN: 73667, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Test Dataset Validation  ==> TP: 611, FP: 214, TN: 808, FN: 49
+Test Dataset Validation  ==> Precision: 74.06%, Recall: 92.58%, F1: 82.29%
+
+--------epoch=150, hidden=128, win=15, new session----------
+===> Start training the execution path model ...
+Slicing the multi-session logs with window 15 ...
+Epoch 1/150, train loss: 2.58557
+Epoch 2/150, train loss: 0.63773
+Epoch 3/150, train loss: 0.37888
+Epoch 4/150, train loss: 0.29071
+Epoch 5/150, train loss: 0.24456
+Epoch 100/150, train loss: 0.12241
+Epoch 101/150, train loss: 0.10721
+Epoch 148/150, train loss: 0.10972
+Epoch 149/150, train loss: 0.11902
+Epoch 150/150, train loss: 0.11131
+Train Dataset Validation ==> TP: 0, FP: 1, TN: 77930, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Test Dataset Validation  ==> TP: 630, FP: 218, TN: 759, FN: 65
+Test Dataset Validation  ==> Precision: 74.29%, Recall: 90.65%, F1: 81.66%

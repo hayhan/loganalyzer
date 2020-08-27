@@ -90,9 +90,9 @@ reserveTS = True
 #----------------------------------------------------------------------------------------
 # Patterns for specific lines which I want to remove
 #----------------------------------------------------------------------------------------
-sLinePattern0 = re.compile(r'\*')
-sLinePattern1 = re.compile(r'\+{10}')
-#sLinePattern2 = re.compile(r'Received DBC-REQ \(trans. id\=')
+sLinePattern0 = re.compile(r'\*|BCM3390\d+|RAM Windows size \d+ mb')
+sLinePattern1 = re.compile(r'\+{10}|\+-{5}')
+sLinePattern2 = re.compile(r'BCM339[0-9]+[a-zA-Z]*[0-9] Bootloader version')
 sLinePattern3 = re.compile(r'RCC->')
 sLinePattern4 = re.compile(r'TCC->')
 sLinePattern5 = re.compile(r'\d')
@@ -107,7 +107,7 @@ sLinePattern12 = re.compile(r'={18}')
 sLinePatterns = [
     sLinePattern0,
     sLinePattern1,
-    #sLinePattern2,
+    sLinePattern2,
     sLinePattern3,
     sLinePattern4,
     sLinePattern5,
@@ -241,7 +241,7 @@ wMultiLineRmPatterns = [
 # Patterns for block of logs which I want to remove entirely
 # [logBlockStart: inclusive, logBlockEnd: exclusive)
 #----------------------------------------------------------------------------------------
-logBlockSrt0 = re.compile(r'BCM339[0-9]+[a-zA-Z]*[0-9] Bootloader version')
+logBlockSrt0 = re.compile(r'\| This image is built using remote flash as nonvol.')
 logBlockEnd0 = re.compile(r'>>>>ChipID=0x339\d+')
 logBlockSrt1 = re.compile(r'Downloading LEAP image')
 logBlockEnd1 = re.compile(r'>>>AP dload time')
@@ -284,7 +284,7 @@ bracketPattern5 = re.compile(r'\d+(?=(ms))')
 #----------------------------------------------------------------------------------------
 # Patterns for logs that I want to add the session label 'segsign: '
 #----------------------------------------------------------------------------------------
-sessionPattern0 = re.compile(r'BCM339\d{3}')
+sessionPattern0 = re.compile(r'Loading compressed image \d')
 sessionPattern1 = re.compile(r'Moving to Downstream Frequency')
 
 sessionPatterns = [

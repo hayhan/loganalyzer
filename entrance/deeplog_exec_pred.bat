@@ -28,12 +28,12 @@ rem Configure parameters for DeepLog exec model
 echo TRAINING=0
 echo METRICS=0
 echo MODEL=EXEC
-echo WINDOW_SIZE=10
+echo WINDOW_SIZE=15
 echo TEMPLATE_LIB_SIZE=2000
 echo BATCH_SIZE=32
-echo NUM_EPOCHS=10
+echo NUM_EPOCHS=150
 echo NUM_WORKERS=0
-echo HIDDEN_SIZE=256
+echo HIDDEN_SIZE=128
 echo TOPK=10
 echo DEVICE=cpu
 ) > deeplog_config.txt
