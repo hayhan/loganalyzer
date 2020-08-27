@@ -95,6 +95,7 @@ if __name__ == '__main__':
     model.eval()
     with torch.no_grad():
         for batch_in in test_data_loader:
+            #print(batch_in['EventSeq'])
             seq = batch_in['EventSeq'].clone().detach().view(-1, WINDOW_SIZE, 1).to(device)
             output = model(seq)
             #pred_prob = output.softmax(dim=-1)
@@ -113,15 +114,17 @@ if __name__ == '__main__':
                 if top_idx >= TOPK:
                     # Saves each log state from line (WINDOW_SIZE+1) in norm log file
                     anomaly_pred.append(1)
-                    # Save the log (line, 1-based) number of anomalies in norm log file
-                    anomaly_line.append(i+1+WINDOW_SIZE+j*BATCH_SIZE)
+                    # Save the log (line, 0-based) number of anomalies in norm log file
+                    anomaly_line.append(i+WINDOW_SIZE+j*BATCH_SIZE)
+                    #print(i)
                 else:
                     anomaly_pred.append(0)
             #print('debug topk2:', topk_lst)
             j += 1
 
     #print(anomaly_pred)
-    print(len(anomaly_line))
+    #print(anomaly_line)
+    #print(len(anomaly_line))
 
     #
     # 5. Map anomaly_line[] in norm file to the raw test data file
@@ -130,7 +133,7 @@ if __name__ == '__main__':
     with open(para_test['rawln_idx_file'], 'rb') as f:
         raw_idx_vector_norm = pickle.load(f)
 
-    # Write the final results to a file
+    # Write the final results to a file. It is 1-based line num in raw file
     with open(para_test['pred_result'], 'w') as f:
         for item in anomaly_line:
             f.write('%s\n' % (raw_idx_vector_norm[item]))
