@@ -84,7 +84,8 @@ if __name__ == '__main__':
     device = torch.device('cuda' if DEVICE != 'cpu' and torch.cuda.is_available() else 'cpu')
     model = DeepLogExec(device, num_classes=voc_size, hidden_size=HIDDEN_SIZE, num_layers=2,
                         num_dir=1)
-    model.load_state_dict(torch.load(para_test['persist_path']+'model_deeplog_exec'+'.pt'))
+    model.load_state_dict(torch.load(
+        para_test['persist_path']+'model_deeplog_exec_win'+str(WINDOW_SIZE)+'.pt'))
 
     #
     # 4. Predict the test data

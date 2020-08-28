@@ -192,7 +192,8 @@ if __name__ == '__main__':
     #
     # 5. Serialize the model
     #
-    torch.save(model.state_dict(), para_train['persist_path']+'model_deeplog_exec'+'.pt')
+    torch.save(model.state_dict(),
+               para_train['persist_path']+'model_deeplog_exec_win'+str(WINDOW_SIZE)+'.pt')
 
     #####################################################################################
     # Evaluate the model with test dataset
