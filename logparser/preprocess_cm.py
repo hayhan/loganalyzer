@@ -95,11 +95,13 @@ sLinePattern1 = re.compile(r'\+{10}|\+-{5}')
 sLinePattern2 = re.compile(r'BCM339[0-9]+[a-zA-Z]*[0-9] Bootloader version')
 sLinePattern3 = re.compile(r'RCC->')
 sLinePattern4 = re.compile(r'TCC->')
-sLinePattern5 = re.compile(r'\d')
+sLinePattern5 = re.compile(r'\d+\*')
 sLinePattern6 = re.compile(r'Readback Test pkt\:')
 sLinePattern7 = re.compile(r'DHCPc\:  Timed out waiting for offers for lease')
 sLinePattern8 = re.compile(r'fUsSetsState = ')
-sLinePattern9 = re.compile(r'( {7}munged error type: T=)|( {5}munged error type =)')
+sLinePattern9 = re.compile(r'( {7}munged error type: T=)|'
+                           r'( {5}munged error type =)|'
+                           r'( {5}partial svc dcid\(s\): T=)')
 sLinePattern10 = re.compile(r'Type \'help\' or')
 sLinePattern11 = re.compile(r' {24}dsid: | {24}DSID: | {24}CMIM: ')
 sLinePattern12 = re.compile(r'={18}')
@@ -209,7 +211,9 @@ sNestedLinePattern1 = re.compile(r' +CM Upstream channel info')
 sNestedLinePattern2 = re.compile(r' +Receive Channel Config\:')
 sNestedLinePattern3 = re.compile(r' Reason = ')
 sNestedLinePattern4 = re.compile(r'\t{7}Storing to device...|'
-                                 r'\t{7}Loading from server...')
+                                 r'\t{7}Loading from server...|'
+                                 r'  CmSnmpAgent::|'
+                                 r'  DefaultSnmpAgentClass::')
 
 sNestedLinePatterns = [
     sNestedLinePattern0,
