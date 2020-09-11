@@ -778,6 +778,7 @@ class Drain:
         #
         log_templates = [0] * self.df_log.shape[0]
         log_templateids = [0] * self.df_log.shape[0]
+        log_templateids_old = [0] * self.df_log.shape[0]
         tmp_eventL = []
         for logClust in logClustL:
             template_str = ' '.join(logClust.logTemplate)
@@ -793,6 +794,7 @@ class Drain:
                 logID -= 1
                 log_templates[logID] = template_str
                 log_templateids[logID] = template_id
+                log_templateids_old[logID] = template_id_old
 
             # Merge the duplicate templates
             # The row[0/1/2/3]: [template_id_old, template_id, template_str, occurrence]
@@ -832,6 +834,7 @@ class Drain:
                             index=False, columns=['EventIdOld', 'EventId', 'EventTemplate'])
 
         # Save the structured file to result/train or result/test directory
+        self.df_log['EventIdOld'] = log_templateids_old
         self.df_log['EventId'] = log_templateids
         self.df_log['EventTemplate'] = log_templates
         # self.df_log.drop(['Content'], inplace=True, axis=1)
@@ -885,7 +888,8 @@ class Drain:
         with open(log_file, 'r') as fin:
             for line in fin.readlines():
                 try:
-                    match = regex.search(line.strip())
+                    #  Note, reserve the trailing spaces of each log if it has
+                    match = regex.search(line.strip('\r\n'))
                     message = [match.group(header) for header in headers]
                     log_messages.append(message)
                     linecount += 1
@@ -955,9 +959,14 @@ class Drain:
         #
         for _rowIndex, line in self.df_tmp.iterrows():
             # Split the template into token list
-            tmpmessageL = line['EventTemplate'].strip().split()
+            # Note, reserve the trailing spaces of each log if it has
+            log_t = line['EventTemplate'].strip('\r\n')
+            token_count = len(log_t.split())
+            tmpmessageL = log_t.split(None, token_count-1)
+
             # Read the old template id for current template
             tmpEventIdOld = line['EventId']
+
             # Add new cluster to the tree, and no log id for template
             # The template in each cluster is NOT new
             self.addCluster(tmpmessageL, [], logCluL, outputCeL, rootNode, False, tmpEventIdOld)
@@ -983,8 +992,10 @@ class Drain:
             # Save the current processing logID to class object for debugging
             self.logID = logID
 
-            # LAYER--Preprocessing
-            logmessageL = self.preprocess(line['Content']).strip().split()
+            # LAYER--Preprocessing. Note, reserve the trailing spaces of each log if it has
+            log_t = self.preprocess(line['Content']).strip('\r\n')
+            token_count = len(log_t.split())
+            logmessageL = log_t.split(None, token_count-1)
 
             # Tree search but not generate node here
             matchCluster = self.treeSearch(rootNode, logmessageL)

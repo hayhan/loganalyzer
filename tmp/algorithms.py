@@ -451,3 +451,39 @@ https://github.com/logpai/logparser.git
 20:     END
 21:     j++
 22: END
+
+### recover messed cm logs
+ 1: temp_lib <- load event id from library
+ 2: log_rows <- load rows from test structured file
+ 3: m1_found <- False
+ 4: o1_head <- ''
+ 5: FOR idx, row IN enumerate(log_rows)
+ 6:     head_l <- bool(head_char(row['EventTemplate']) == 'L')
+ 7:     IF (row['EventIdOld'] != '0') OR (!m1_found AND !head_l)
+ 8:         log_templates[idx] <- row['EventTemplate']
+ 9:         CONTINUE
+10:     END
+11:     IF m1_found
+12:         IF row['EventIdOld'] == '0'
+13:             o1 <- o1_head + row['EventTemplate']
+14:             log_templates[idx] <- o1
+15:             m1_found <- False
+16:         END
+17:         CONTINUE
+18:     END
+19:     	chars_row <- char_list(row['EventTemplate'])
+20:     FOR i IN range(chars_row)
+21:         o1_head <- chars_row[0: i]
+22:         o2 <- cut off o1_head from chars_row
+23:         event_id_o2 <- hash(string(o2))
+24:         IF event_id_o2 IN temp_lib
+25:             m1_found <- True
+26:             log_templates[idx] <- o2
+27:             IF event_id == 'SPECIAL1'
+28:                 O1_head <- remove two trailing spaces
+29:             END
+30:             BREAK
+31:         END
+32:     END
+33:     log_templates[idx] <- row['EventTemplate']
+34: END
