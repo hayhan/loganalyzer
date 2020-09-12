@@ -23,6 +23,12 @@ python3 ../logparser/preprocess_cm.py
 # Parse the log and extract the templates
 python3 ../logparser/drain2_cm.py
 
+# Postprocess to recover messed logs
+python3 ../logparser/postprocess_cm.py
+
+# The second time clustering for messed logs
+python3 ../logparser/drain2_again_cm.py
+
 # Configure parameters for DeepLog exec model
 (
 echo TRAINING=0

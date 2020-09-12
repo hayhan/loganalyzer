@@ -39,7 +39,7 @@ with open(parentdir+'/entrance/deeplog_config.txt', 'r', encoding='utf-8-sig') a
     DEVICE = conlines[10].strip().replace('DEVICE=', '')
 
 para_test = {
-    'structured_file': parentdir+'/results/test/test_norm.txt_structured.csv',
+    'structured_file': parentdir+'/results/test/test_norm_pred.txt_structured.csv',
     'labels_file'    : parentdir+'/results/test/test_norm.txt_labels.csv',
     'rawln_idx_file' : parentdir+'/results/test/rawline_idx_norm.pkl',
     'pred_result'    : parentdir+'/results/test/anomaly_result.txt',
