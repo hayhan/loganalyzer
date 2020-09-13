@@ -55,6 +55,9 @@ def recover_messed_logs():
 
         # We get here only when old event id is zero AND (m1_found OR head_l)
         if m1_found:
+            # Abort if we cannot find m2 within 20 logs
+            if idx - m1_idx > 20:
+                m1_found = False
             if eido == '0':
                 temp_o1 = o1_head + temp
                 #new_temp_logs[idx] = temp_o1
@@ -70,6 +73,7 @@ def recover_messed_logs():
             eid_o2 = hashlib.md5(temp_o2.encode('utf-8')).hexdigest()[0:8]
             if eid_o2 in eid_lib:
                 m1_found = True
+                m1_idx = idx
                 #new_temp_logs[idx] = temp_o2
                 norm_pred_file.write(time_logs[idx]+' '+temp_o2+'\n')
                 if eid_o2 in SPECIAL_ID:
@@ -91,6 +95,7 @@ def recover_messed_logs():
 
             # The o1_head now contains the whole m1, so we claim m1 is found
             m1_found = True
+            m1_idx = idx
 
     norm_pred_file.close()
 

@@ -46,3 +46,6 @@ echo DEVICE=cpu
 
 #  Do prediction using DeepLog exec model
 python3 ../deeplog/exec_path_anomaly_pred.py
+
+# The oldshool way to analyze log data
+python3 ../oldschool/analyzer.py

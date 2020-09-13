@@ -460,13 +460,13 @@ https://github.com/logpai/logparser.git
  5: FOR idx, row IN enumerate(log_rows)
  6:     head_l <- bool(head_char(row['EventTemplate']) == 'L')
  7:     IF (row['EventIdOld'] != '0') OR (!m1_found AND !head_l)
- 8:         log_templates[idx] <- row['EventTemplate']
+ 8:         write_to_new_file <- row['EventTemplate']
  9:         CONTINUE
 10:     END
 11:     IF m1_found
 12:         IF row['EventIdOld'] == '0'
 13:             o1 <- o1_head + row['EventTemplate']
-14:             log_templates[idx] <- o1
+14:             write_to_new_file <- o1
 15:             m1_found <- False
 16:         END
 17:         CONTINUE
@@ -478,12 +478,22 @@ https://github.com/logpai/logparser.git
 23:         event_id_o2 <- hash(string(o2))
 24:         IF event_id_o2 IN temp_lib
 25:             m1_found <- True
-26:             log_templates[idx] <- o2
+26:             write_to_new_file <- o2
 27:             IF event_id == 'SPECIAL1'
 28:                 O1_head <- remove two trailing spaces
 29:             END
 30:             BREAK
 31:         END
 32:     END
-33:     log_templates[idx] <- row['EventTemplate']
-34: END
+33:     IF !m1_found
+34:         m1_found <- True
+35:     END
+36: END
+
+### update the raw / norm line-mapping list
+ 1: load skipped_line_list (we get from Algorithm 7-2 for case 3)
+ 2: reverse the elements in skipped_line_list
+ 3: load raw_norm_line_mapping_list
+ 4: FOR i reverse(skipped_line_list)
+ 5:     raw_norm_line_mapping_list.pop(i)
+ 6: END

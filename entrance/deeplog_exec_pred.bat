@@ -23,6 +23,12 @@ python ..\logparser\preprocess_cm.py
 rem Parse the log and extract the templates
 python ..\logparser\drain2_cm.py
 
+rem Postprocess to recover messed logs
+python ..\logparser\postprocess_cm.py
+
+rem The second time clustering for messed logs
+python ..\logparser\drain2_again_cm.py
+
 rem Configure parameters for DeepLog exec model
 (
 echo TRAINING=0
@@ -40,3 +46,6 @@ echo DEVICE=cpu
 
 rem Do prediction using DeepLog exec model
 python ..\deeplog\exec_path_anomaly_pred.py
+
+rem The oldshool way to analyze log data
+python ..\oldschool\analyzer.py
