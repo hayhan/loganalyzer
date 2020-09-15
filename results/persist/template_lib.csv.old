@@ -98,7 +98,7 @@ b8b04c8f,b8b04c8f,CM cfg file: <*> <*>
 44982e72,44982e72,BcmDocsisCfgVarBindEngine:: AddVarBind: ( CfgVB Thread ) Adding varbinds...
 60f3e349,60f3e349,UTC returned by ToD server <*>; UTC offset <*>
 3093fc36,3093fc36,Current system time -> <*>
-11f3ee74,11f3ee74,System start time -> <*>
+62b78dc7,62b78dc7,System <*> time -> <*>
 07364aeb,07364aeb,Time Of Day completed...
 44909320,44909320,DefaultSnmpAgentClass:: <*> for Vendor CM Agent w/ BRCM Factory Support
 4d192f71,4d192f71,BcmDocsisCfgVarBindEngine:: Process: ( CfgVB Thread ) Vendor CM Agent w/ BRCM Factory Support processing <*> TLV- <*>'s
@@ -519,17 +519,18 @@ b82be07b,b82be07b,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-
 cbe47e3b,cbe47e3b,BcmCmDocsisCtlThread:: DsPulseFail: ( CmDocsisCtlThread ) WARNING - RFI-N- <*> - attempting to re-acquire Ds pulse without resetting the MAC.
 1410efa6,1410efa6,BcmCmDocsisCtlThread:: DsPulsePollEvent: ( CmDocsisCtlThread ) ds pulse is not ok. starting poll timer.
 c8b16311,c8b16311,BcmDocsisCmHalIf:: HandleStatusIndication: ( DOCSIS CableModem HalIf ) WARNING - ds data reseq <*> for dsid= <*>
-7a6ccc0d,7a6ccc0d,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <*> ( <*> ) ucid= <*> rngSid= <*> init= <*> ( <*> ) profSet= [ <*> ] testSid= <*>
-028e31b6,028e31b6,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <*> ( <*> ) ucid= <*> init= <*> ( <*> )
-b40ad5f9,b40ad5f9,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: RNG_RSP ( <*> ), fka reserved: <*>, fParseConfCode: <*> ( <*> ), MSG PDU:, primary sid: <*>, RNG-REQ us chan id: <*>, ranging status: <*> ( <*> ), timing adj, ticks / <*>: <*> ( <*> )"
 bc60924a,bc60924a,BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ) BcmCmUsRangingState:: RcvrTccReplace: starting TCC replace recovery strategy for hwTxId= <*> docs ucid= <*>
 872564b7,872564b7,"BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ) BcmCmMultiUsHelper:: DetectDeadInWaterPrimaryUsSvcFlow: ( Cm Multi US Helper ) ERROR -, zero ucid associated with primary upstream service flow are able to tx data."
+b40ad5f9,b40ad5f9,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: RNG_RSP ( <*> ), fka reserved: <*>, fParseConfCode: <*> ( <*> ), MSG PDU:, primary sid: <*>, RNG-REQ us chan id: <*>, ranging status: <*> ( <*> ), timing adj, ticks / <*>: <*> ( <*> )"
 6d888c7b,6d888c7b,"Checking for cable cut..., Plant power is <*>"
 213c623b,213c623b,OpenSSL_addX509Header(): Public Key is NULL. Return.
 733eea80,733eea80,"BcmBfcProcessCvc:: CmCodeVerificationCertificate:: ParseAndValidate: ( Process CVC ) ERROR - Failed on rsaDecryptSignature, status= <*>"
 3fd21511,3fd21511,BcmBfcProcessCvc:: ProcessConfigFileSpecifiedCvc: ( Process CVC ) ERROR - Config file manufacturer CVC is rejected.
 3b3d9838,3b3d9838,BcmBfcProcessCvc:: ProcessConfigFileManufAndCosignerCvcs: ( Process CVC ) ERROR - Reject config file MFG CVC!
 f1db80b8,f1db80b8,Logging event: Configuration File CVC Validation Failure
+7a6ccc0d,7a6ccc0d,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <*> ( <*> ) ucid= <*> rngSid= <*> init= <*> ( <*> ) profSet= [ <*> ] testSid= <*>
+028e31b6,028e31b6,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <*> ( <*> ) ucid= <*> init= <*> ( <*> )
+4b4434d8,4b4434d8,BcmCmDsOfdmProfileState:: InstallDpdSets: rxid= <*> dcid= <*> prof= <*> ( <*> ) DPD installation failed.
 40ba48dc,40ba48dc,BcmCmMultiDsHelper:: ResetDsMacMddKeepAliveState:  
 2e48a665,2e48a665,Deleting multicast DSID = <*> index = <*> 
 a86fc591,a86fc591,BcmCmMultiUsHelper:: ExecuteTccCmdList: CM calculated value for P_hi ( <*> )( <*> )( <*> ) differs from CMTS provided P_hi value ( <*> )( <*> )
@@ -619,8 +620,6 @@ cb9c16cc,cb9c16cc,CmDocsisApplication ignoring Run()...
 84fb973d,84fb973d,BcmEmtaIfSettings:: StandaloneEmta - ALTWAN eMTA default value set 
 811e1be4,811e1be4,EMTA: CL_OPTION_CCCV6 AND CL_OPTION_CCC present. IP_PREF says go single stack V4.
 7ca167b7,7ca167b7,No mtaCmStatusInfo - NOT notifying EMTA that CM is kCmStat_Operational
-e6dce456,e6dce456,"Cmisc_dqnet_statusmSnmpAgent operating in <*> mode, including docsQos"
-6a19033a,6a19033a,"Enabling SNMP link status checking., ifname cm0 up"
 9e7372d4,9e7372d4,Remote interface <*> DOWN
 0557a19f,0557a19f,Abnormal_DoS_Attack:_IdlePercent= <*>_WAN_DQM_FULL= <*>_LAN_DQM_FULL= <*>
 2aa021f8,2aa021f8,"bfcSerialConsoleMode set to read-only, disabling console input."
@@ -631,6 +630,9 @@ f2902d1a,f2902d1a,"Receive Channel Config:, Primary DS channel assignment vector
 ef4e4351,ef4e4351,AltWAN Mode Active - Scanning inhibited!
 c7de456f,c7de456f,AltWan mode enabled; enabling traffic between EMTA <-> Router Interface ( Proxy )
 63e8e393,63e8e393,Setting networked standby context to 'DOCSIS halt'
+27e4810f,27e4810f,utcOffset -> <*>
+85b2c438,85b2c438,Current system time -> mktime( localtime()) check OKAY -> <*>
+3371996e,3371996e,Current system time -> timegm( gmtime()) check OKAY -> <*>
 be2918a2,be2918a2,Selecting HTTP protocol for software upgrade
 fd4b8d41,fd4b8d41,Starting software update...
 a6640930,a6640930,Logging event: SW Download INIT - Via NMS
@@ -654,3 +656,6 @@ a1dfe289,a1dfe289,Computing CRC32 over the image to ensure that it is valid...
 c456b140,c456b140,Software image was successfully stored!
 16df1c06,16df1c06,Logging event: SW download Successful - Via NMS
 f65688cb,f65688cb,BcmCmDocsisCtlThread:: UpdateAltWanMode - new AltWan value: <*>
+96c90d0c,96c90d0c,"SW dload complete, writing NV prior to finalizing image."
+a6cf4a93,a6cf4a93,NV write success.
+91fc7670,91fc7670,Fail to get <*> <*> lock change event

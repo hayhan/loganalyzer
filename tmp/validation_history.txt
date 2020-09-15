@@ -1480,3 +1480,45 @@ Loading shuffled EventId list of templates.
 Slicing the multi-session logs with window 10 ...
 Test Dataset Validation  ==> TP: 606, FP: 213, TN: 826, FN: 63
 Test Dataset Validation  ==> Precision: 73.99%, Recall: 90.58%, F1: 81.45%
+
+---2020/09/15-----epoch=150, hidden=128, win=15, new templates----------
+===> Start training the execution path model ...
+Slicing the multi-session logs with window 15 ...
+Epoch 1/150, train loss: 2.23680
+Epoch 2/150, train loss: 0.52090
+Epoch 3/150, train loss: 0.32288
+Epoch 99/150, train loss: 0.11875
+Epoch 100/150, train loss: 0.11905
+Epoch 101/150, train loss: 0.11270
+Epoch 102/150, train loss: 0.10745
+Epoch 147/150, train loss: 0.11583
+Epoch 148/150, train loss: 0.12291
+Epoch 149/150, train loss: 0.12040
+Epoch 150/150, train loss: 0.11495
+Train Dataset Validation ==> TP: 0, FP: 5, TN: 96890, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+Test Dataset Validation  ==> TP: 631, FP: 201, TN: 793, FN: 73
+Test Dataset Validation  ==> Precision: 75.84%, Recall: 89.63%, F1: 82.16%
+
+---2020/09/15-----epoch=150, hidden=128, win=10, new templates----------
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Epoch 1/150, train loss: 2.19489
+Epoch 2/150, train loss: 0.51872
+Epoch 3/150, train loss: 0.32962
+Epoch 98/150, train loss: 0.12633
+Epoch 99/150, train loss: 0.13134
+Epoch 100/150, train loss: 0.12714
+Epoch 101/150, train loss: 0.12787
+Epoch 148/150, train loss: 0.12789
+Epoch 149/150, train loss: 0.12301
+Epoch 150/150, train loss: 0.12789
+Train Dataset Validation ==> TP: 0, FP: 2, TN: 98038, FN: 0
+===> Start evaluating the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+Test Dataset Validation  ==> TP: 615, FP: 217, TN: 822, FN: 54
+Test Dataset Validation  ==> Precision: 73.92%, Recall: 91.93%, F1: 81.95%

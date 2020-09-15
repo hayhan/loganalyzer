@@ -22,18 +22,20 @@ echo TEMPLATE_LIB_SIZE=2000
 # Separately process temp_updt_1.txt to workaround the Drain initial sim issue
 #cp ../logs/raw/temp_updt_1.txt ../logs/train.txt
 #cp ../logs/raw/temp_updt_2.txt ../logs/train.txt
+#cp ../logs/raw/temp_updt_manu.txt ../logs/train.txt
 #cp ../logs/raw/temp_updt_bfm_a383.txt ../logs/train.txt
 #cp ../logs/raw/temp_updt_bfm_a350.txt ../logs/train.txt
 #cp ../logs/raw/temp_updt_bfm_a351.txt ../logs/train.txt
 #cp ../logs/raw/temp_updt_bfm_a370.txt ../logs/train.txt
 #cp ../logs/raw/temp_updt_bfm_a375.txt ../logs/train.txt
-#cp ../logs/raw/temp_updt_bfm_a380.txt ../logs/train.txt
+#cp ../logs/raw/temp_updt_bfm_a416.txt ../logs/train.txt
 #cp ../logs/raw/temp_updt_bfm_b329.txt ../logs/train.txt
 #cp ../logs/raw/temp_updt_bfm_b330.txt ../logs/train.txt
 #cp ../logs/raw/temp_updt_bfm_b331.txt ../logs/train.txt
 #cp ../logs/raw/temp_updt_bfm_b400.txt ../logs/train.txt
 #cp ../logs/raw/temp_updt_bfm_b405.txt ../logs/train.txt
 #cp ../logs/raw/temp_updt_bfm_b415.txt ../logs/train.txt
+#cp ../logs/raw/temp_updt_bfm_b451.txt ../logs/train.txt
 cp ../logs/raw/temp_updt_manu.txt ../logs/train.txt
 
 # Preprocess

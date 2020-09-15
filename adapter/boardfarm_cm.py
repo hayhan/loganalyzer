@@ -38,7 +38,12 @@ pattern_pt = re.compile('CM> ')
 
 curline_ts = '[19700101-00:00:00.000] '
 
-for line in rawfile:
+for idx, line in enumerate(rawfile):
+
+    # Remove the NULL char '\0' at the first line if it exists
+    if idx == 0:
+        line[0] == '\0'
+        continue
 
     # Save the main timestamp if it exists. The newline does not contain the main
     # timestamp before write it back to a new file. Add it back at the end.

@@ -5,7 +5,7 @@ rem This script does prediction using the DeepLog exec model
 rem Adapt boardfarm CM logs
 rem python ..\adapter\boardfarm_cm.py
 
-rem copy ..\logs\raw\temp_updt_bfm_a350.txt ..\logs\test.txt > nul
+rem copy ..\logs\raw\temp_updt_bfm_b433.txt ..\logs\test.txt > nul
 
 rem Configure parameters for logparser
 (
@@ -34,7 +34,7 @@ rem Configure parameters for DeepLog exec model
 echo TRAINING=0
 echo METRICS=0
 echo MODEL=EXEC
-echo WINDOW_SIZE=15
+echo WINDOW_SIZE=10
 echo TEMPLATE_LIB_SIZE=2000
 echo BATCH_SIZE=32
 echo NUM_EPOCHS=150
@@ -48,4 +48,4 @@ rem Do prediction using DeepLog exec model
 python ..\deeplog\exec_path_anomaly_pred.py
 
 rem The oldshool way to analyze log data
-python ..\oldschool\analyzer.py
+rem python ..\oldschool\analyzer.py

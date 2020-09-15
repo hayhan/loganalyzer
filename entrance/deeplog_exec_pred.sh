@@ -5,7 +5,7 @@
 # Adapt boardfarm CM logs
 #python3 ../adapter/boardfarm_cm.py
 
-#cp ../logs/raw/temp_updt_bfm_a350.txt ../logs/test.txt
+#cp ../logs/raw/temp_updt_bfm_b433.txt ../logs/test.txt
 
 # Configure parameters for logparser
 (
@@ -34,7 +34,7 @@ python3 ../logparser/drain2_again_cm.py
 echo TRAINING=0
 echo METRICS=0
 echo MODEL=EXEC
-echo WINDOW_SIZE=15
+echo WINDOW_SIZE=10
 echo TEMPLATE_LIB_SIZE=2000
 echo BATCH_SIZE=32
 echo NUM_EPOCHS=150
@@ -48,4 +48,4 @@ echo DEVICE=cpu
 python3 ../deeplog/exec_path_anomaly_pred.py
 
 # The oldshool way to analyze log data
-python3 ../oldschool/analyzer.py
+#python3 ../oldschool/analyzer.py
