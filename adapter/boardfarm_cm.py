@@ -31,7 +31,7 @@ pattern_pt = re.compile('CM> ')
 
 #
 # We do followings to adapt the boardfarm log to existing pre-processor of log parser
-# 1. Remove the abnormal timestamp with the main timestamp
+# 1. Replace the abnormal timestamp with the main timestamp
 # 2. Add the main timestamp if both main and abnormal timestamps do not exist
 # 3. Remove the prompt 'CM> ', which might be anywhere in the line
 #

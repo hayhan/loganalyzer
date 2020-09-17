@@ -17,7 +17,11 @@ test_norm_pred_file = parentdir + '/logs/test_norm_pred.txt'
 test_struct_file = parentdir + '/results/test/test_norm.txt_structured.csv'
 temp_library_file = parentdir + '/results/persist/template_lib.csv'
 test_struct_pred_file = parentdir + '/results/test/test_norm.txt_structured_pred.csv'
+# Two mapping files
+# 1) The mapping between raw (test.txt) and norm (test_norm.txt)
 rawln_idx_file = parentdir + '/results/test/rawline_idx_norm.pkl'
+# 2) The mapping between norm (test_norm.txt) and norm pred (test_norm_pred.txt)
+#mapping_norm_pred_file = parentdir + '/results/test/mapping_norm_pred.pkl'
 
 # Special templates, for case 2
 SPECIAL_ID = ['b9c1fdb1']
@@ -57,12 +61,15 @@ def recover_messed_logs():
         if m1_found:
             # Abort if we cannot find m2 within 20 logs
             if idx - m1_idx > 20:
+                #new_temp_logs[idx] = temp
+                norm_pred_file.write(time_logs[idx]+' '+temp+'\n')
                 m1_found = False
-            if eido == '0':
-                temp_o1 = o1_head + temp
-                #new_temp_logs[idx] = temp_o1
-                norm_pred_file.write(time_logs[idx]+' '+temp_o1+'\n')
-                m1_found = False
+                continue
+            # Note the eido == 0 here
+            temp_o1 = o1_head + temp
+            #new_temp_logs[idx] = temp_o1
+            norm_pred_file.write(time_logs[idx]+' '+temp_o1+'\n')
+            m1_found = False
             continue
 
         # We get here only when old event id is zero AND (m1_found==0 AND head_l=='L')
