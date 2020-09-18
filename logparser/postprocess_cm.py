@@ -16,12 +16,13 @@ parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 test_norm_pred_file = parentdir + '/logs/test_norm_pred.txt'
 test_struct_file = parentdir + '/results/test/test_norm.txt_structured.csv'
 temp_library_file = parentdir + '/results/persist/template_lib.csv'
-test_struct_pred_file = parentdir + '/results/test/test_norm.txt_structured_pred.csv'
+#test_struct_pred_file = parentdir + '/results/test/test_norm.txt_structured_pred.csv'
+
 # Two mapping files
 # 1) The mapping between raw (test.txt) and norm (test_norm.txt)
 rawln_idx_file = parentdir + '/results/test/rawline_idx_norm.pkl'
 # 2) The mapping between norm (test_norm.txt) and norm pred (test_norm_pred.txt)
-#mapping_norm_pred_file = parentdir + '/results/test/mapping_norm_pred.pkl'
+mapping_norm_pred_file = parentdir + '/results/test/mapping_norm_pred.pkl'
 
 # Special templates, for case 2
 SPECIAL_ID = ['b9c1fdb1']
@@ -45,6 +46,7 @@ def recover_messed_logs():
     m1_found = False
     o1_head = ''
     skipped_ln = []
+    mapping_norm_pred = []
     norm_pred_file = open(test_norm_pred_file, 'w')
 
     for idx, (eido, temp) in enumerate(zip(eid_old_logs, temp_logs)):
@@ -54,6 +56,7 @@ def recover_messed_logs():
         # found and the log does not start with char L.
         if (eido != '0') or (not m1_found and not head_l):
             #new_temp_logs[idx] = temp
+            mapping_norm_pred.append(idx)
             norm_pred_file.write(time_logs[idx]+' '+temp+'\n')
             continue
 
@@ -62,12 +65,14 @@ def recover_messed_logs():
             # Abort if we cannot find m2 within 20 logs
             if idx - m1_idx > 20:
                 #new_temp_logs[idx] = temp
+                mapping_norm_pred.append(idx)
                 norm_pred_file.write(time_logs[idx]+' '+temp+'\n')
                 m1_found = False
                 continue
             # Note the eido == 0 here
             temp_o1 = o1_head + temp
             #new_temp_logs[idx] = temp_o1
+            mapping_norm_pred.append(idx)
             norm_pred_file.write(time_logs[idx]+' '+temp_o1+'\n')
             m1_found = False
             continue
@@ -82,6 +87,7 @@ def recover_messed_logs():
                 m1_found = True
                 m1_idx = idx
                 #new_temp_logs[idx] = temp_o2
+                mapping_norm_pred.append(idx)
                 norm_pred_file.write(time_logs[idx]+' '+temp_o2+'\n')
                 if eid_o2 in SPECIAL_ID:
                     # Remove one trailing spaces in o1_head, the case 2
@@ -122,6 +128,9 @@ def recover_messed_logs():
             raw_idx_vector_norm.pop(i)
         with open(rawln_idx_file, 'wb') as fio:
             pickle.dump(raw_idx_vector_norm, fio)
+
+    with open(mapping_norm_pred_file, 'wb') as fio:
+        pickle.dump(mapping_norm_pred, fio)
 
 
 #
