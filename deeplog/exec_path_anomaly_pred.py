@@ -11,6 +11,7 @@ import pickle
 import torch
 
 import preprocess_exec as preprocess
+import para_value_anomaly_det as paradet
 from deeplog_models import DeepLogExec
 
 curfiledir = os.path.dirname(__file__)
@@ -39,9 +40,11 @@ with open(parentdir+'/entrance/deeplog_config.txt', 'r', encoding='utf-8-sig') a
     DEVICE = conlines[10].strip().replace('DEVICE=', '')
 
 para_test = {
+    'o_struct_file'  : parentdir+'/results/test/test_norm.txt_structured.csv',
     'structured_file': parentdir+'/results/test/test_norm_pred.txt_structured.csv',
     'labels_file'    : parentdir+'/results/test/test_norm.txt_labels.csv',
     'rawln_idx_file' : parentdir+'/results/test/rawline_idx_norm.pkl',
+    'map_norm_pred'  : parentdir+'/results/test/mapping_norm_pred.pkl',
     'pred_result'    : parentdir+'/results/test/anomaly_result.txt',
     'template_lib'   : parentdir+'/results/persist/template_lib.csv',
     'eid_file'       : parentdir+'/results/persist/event_id_deeplog.npy',
@@ -79,7 +82,16 @@ if __name__ == '__main__':
                                                      num_workers=NUM_WORKERS).loader
 
     #
-    # 3. Load deeplog_exec model back
+    # 3. Load the norm and norm pred structured files for the OSS para value detection
+    #
+    content_lst, eid_lst, template_lst = preprocess.load_oss_data(para_test)
+
+    # Load the mapping vector between norm and norm pred file for the OSS
+    with open(para_test['map_norm_pred'], 'rb') as f:
+        mnp_vec = pickle.load(f)
+
+    #
+    # 4. Load deeplog_exec model back
     #
     device = torch.device('cuda' if DEVICE != 'cpu' and torch.cuda.is_available() else 'cpu')
     model = DeepLogExec(device, num_classes=voc_size, hidden_size=HIDDEN_SIZE, num_layers=2,
@@ -88,7 +100,7 @@ if __name__ == '__main__':
         para_test['persist_path']+'model_deeplog_exec_win'+str(WINDOW_SIZE)+'.pt'))
 
     #
-    # 4. Predict the test data
+    # 5. Predict the test data
     #
     j = 0
     anomaly_pred = []
@@ -111,15 +123,23 @@ if __name__ == '__main__':
             #topk_lst = []
             for i in range(bt_size):
                 #topk_lst.append(seq_pred_sort[i].index(seq_target[i]))
+                # The log (line, 0-based) index of anomaly in norm (pred) log file
+                norm_idx = i+WINDOW_SIZE+j*BATCH_SIZE
                 top_idx = seq_pred_sort[i].index(seq_target[i])
+
                 if top_idx >= TOPK:
                     # Saves each log state from line (WINDOW_SIZE+1) in norm log file
                     anomaly_pred.append(1)
-                    # Save the log (line, 0-based) number of anomalies in norm log file
-                    anomaly_line.append(i+WINDOW_SIZE+j*BATCH_SIZE)
-                    #print(i)
+                    # Save anomaly log index of norm file
+                    anomaly_line.append(norm_idx)
                 else:
-                    anomaly_pred.append(0)
+                    # Integrate the OSS here as the para value anomaly detection
+                    if paradet.para_anomaly_det(content_lst[mnp_vec[norm_idx]], eid_lst[norm_idx],
+                                                template_lst[norm_idx]):
+                        anomaly_pred.append(1)
+                        anomaly_line.append(norm_idx)
+                    else:
+                        anomaly_pred.append(0)
             #print('debug topk2:', topk_lst)
             j += 1
 
@@ -128,7 +148,7 @@ if __name__ == '__main__':
     #print(len(anomaly_line))
 
     #
-    # 5. Map anomaly_line[] in norm file to the raw test data file
+    # 6. Map anomaly_line[] in norm file to the raw test data file
     #
     # Load the line mapping list between raw and norm test file
     with open(para_test['rawln_idx_file'], 'rb') as f:

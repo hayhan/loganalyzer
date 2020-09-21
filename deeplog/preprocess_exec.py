@@ -318,6 +318,34 @@ def slice_logs_multi(eidx_logs, labels, window_size, session_vec, no_metrics):
     return results_dict
 
 
+def load_oss_data(para):
+    """ Load the norm and norm pred structured files for the OSS para value detection
+
+    Arguments
+    ---------
+    para: the parameters dictionary
+
+    Returns
+    -------
+    content_lst: content list from norm struct file
+    eid_lst: event id list from norm pred struct file
+    template_lst: template list from norm pred struct file
+    """
+
+    # Read Content from original norm structured file
+    data_df1 = pd.read_csv(para['o_struct_file'], usecols=['Content'],
+                           engine='c', na_filter=False, memory_map=True)
+    content_lst = data_df1['Content'].values.tolist()
+
+    # Read EventId and Template from norm pred structured file
+    data_df1 = pd.read_csv(para['structured_file'], usecols=['EventId', 'EventTemplate'],
+                           engine='c', na_filter=False, memory_map=True)
+    eid_lst = data_df1['EventId'].values.tolist()
+    template_lst = data_df1['EventTemplate'].values.tolist()
+
+    return content_lst, eid_lst, template_lst
+
+
 class DeepLogExecDataset(Dataset):
     """ A map-style dataset and embed DataLoader by the way
     https://pytorch.org/docs/stable/data.html#dataset-types
