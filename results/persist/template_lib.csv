@@ -165,7 +165,8 @@ b4a1c2e6,b4a1c2e6,"NumDsChans = <*>, NumUsChans = <*>"
 814b90ae,814b90ae,Informing HAL of current RF configuration.
 c5949648,c5949648,D31PowerSave 'On'
 0208115b,0208115b,Storing off OFDM DS MAC settings for channel <*>
-37994930,37994930,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> )"
+880a5a90,880a5a90,"DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> )"
+cba3c503,cba3c503,"US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> )"
 109da36b,109da36b,"CmSnmpAgent operating in <*> mode, including docsQos"
 b8005468,b8005468,"No UDC's, IP filters OK."
 a377766c,a377766c,"No DH kickstart profiles or snmpCommunityTable entries installed., We will operate in NMACCESS mode."
@@ -179,7 +180,7 @@ f9a64d8e,f9a64d8e,All IP initialization complete and CM operational. Enabling IP
 9e6cf8f6,9e6cf8f6,BcmCmMacDomainSetsState:: MddMsgEvent: on-the-fly MDD change.
 16720b0f,16720b0f,FirstRngRsp <*> - adjustment was <*>
 7ab70722,7ab70722,Clearing D31 PowerSave.
-f0bc0de1,f0bc0de1,"D31PowerSave 'Off', DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> )"
+601f8257,601f8257,D31PowerSave 'Off'
 594a8f8e,594a8f8e,Restoring OFDM DS MAC settings
 a82bff10,a82bff10,Initializing Quarantine D31 DS MAC structures to <*>
 77e7c34d,77e7c34d,Received DBC-REQ ( trans. id= <*> ):
@@ -497,8 +498,8 @@ b59ec861,b59ec861,"RG reset <*> Crash detected:No, Crash type:No crash"
 e9d14eee,e9d14eee,Abnormal_UART_RX_Bytes_ <*>
 1a20c335,1a20c335,Scanning <*> MHz <*> ( Non-vol entry # <*> )
 eecaeba5,eecaeba5,Scanning <*> MHz PLC/SC-QAM ( Non-vol entry # <*> ) locked <*>
-650cd3b8,650cd3b8,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> ), Special case: don't disable USMAC:D30 Channel_ <*>"
-a4e07c69,a4e07c69,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> ), Special case: don't disable USMAC:D30 Channel_ <*>, Special case: don't disable <*>"
+9dcddb7f,9dcddb7f,Special case: don't disable <*> Channel_ <*>
+8157eb8c,8157eb8c,Special case: don't disable <*>
 39ef5d35,39ef5d35,Checking for cable cut...
 6a9afdb3,6a9afdb3,"BcmDocsisCmHalIf:: HandleStatusIndication: ( DOCSIS CableModem HalIf ) WARNING - CM HAL declared PULSE lost!, Plant power is <*>"
 a1b37851,a1b37851,Cable connected
@@ -515,7 +516,6 @@ fb91cf2a,fb91cf2a,BFE goodbye failed!
 c24c4568,c24c4568,BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ) BcmCmDocsisCtlThread:: DbcAckPendingTimerEvent: ( CmDocsisCtlThread ) Retransmitting DBC-RSP
 438b1d55,438b1d55,BcmCmMultiUsHelper:: DynamicRangeWindowQtrDb: ( Cm Multi US Helper ) ERROR! Received a DRW set before TCC installation...Ignoring as this violates spec: 
 eab4069f,eab4069f,"The CMTS is required to not include the Dynamic Range Window Upper Edge TLV in RNG-RSP messages sent, to a CM prior to sending the CM a REG-RSP-MP message."
-b82be07b,b82be07b,"Storing off OFDM DS MAC settings for channel <*>, DS: <*> SC-QAM ( <*> ), <*> OFDM ( <*> ), US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> ), Special case: don't disable <*>"
 cbe47e3b,cbe47e3b,BcmCmDocsisCtlThread:: DsPulseFail: ( CmDocsisCtlThread ) WARNING - RFI-N- <*> - attempting to re-acquire Ds pulse without resetting the MAC.
 1410efa6,1410efa6,BcmCmDocsisCtlThread:: DsPulsePollEvent: ( CmDocsisCtlThread ) ds pulse is not ok. starting poll timer.
 c8b16311,c8b16311,BcmDocsisCmHalIf:: HandleStatusIndication: ( DOCSIS CableModem HalIf ) WARNING - ds data reseq <*> for dsid= <*>
@@ -531,6 +531,7 @@ f1db80b8,f1db80b8,Logging event: Configuration File CVC Validation Failure
 7a6ccc0d,7a6ccc0d,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <*> ( <*> ) ucid= <*> rngSid= <*> init= <*> ( <*> ) profSet= [ <*> ] testSid= <*>
 028e31b6,028e31b6,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <*> ( <*> ) ucid= <*> init= <*> ( <*> )
 4b4434d8,4b4434d8,BcmCmDsOfdmProfileState:: InstallDpdSets: rxid= <*> dcid= <*> prof= <*> ( <*> ) DPD installation failed.
+91fc7670,91fc7670,Fail to get <*> <*> lock change event
 40ba48dc,40ba48dc,BcmCmMultiDsHelper:: ResetDsMacMddKeepAliveState:  
 2e48a665,2e48a665,Deleting multicast DSID = <*> index = <*> 
 a86fc591,a86fc591,BcmCmMultiUsHelper:: ExecuteTccCmdList: CM calculated value for P_hi ( <*> )( <*> )( <*> ) differs from CMTS provided P_hi value ( <*> )( <*> )
@@ -658,4 +659,3 @@ c456b140,c456b140,Software image was successfully stored!
 f65688cb,f65688cb,BcmCmDocsisCtlThread:: UpdateAltWanMode - new AltWan value: <*>
 96c90d0c,96c90d0c,"SW dload complete, writing NV prior to finalizing image."
 a6cf4a93,a6cf4a93,NV write success.
-91fc7670,91fc7670,Fail to get <*> <*> lock change event

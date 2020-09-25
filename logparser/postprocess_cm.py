@@ -50,17 +50,17 @@ def recover_messed_logs():
     norm_pred_file = open(test_norm_pred_file, 'w')
 
     for idx, (eido, temp) in enumerate(zip(eid_old_logs, temp_logs)):
-        # Check the first char to see if it is 'L'
-        head_l = bool(temp[0] == 'L')
+        # Check the first char to see if it is 'L' or 'C'
+        header_care = bool(temp[0] == 'L' or temp[0] == 'C')
         # Check th next log if current log id exists already in lib or m1 has not been
         # found and the log does not start with char L.
-        if (eido != '0') or (not m1_found and not head_l):
+        if (eido != '0') or (not m1_found and not header_care):
             #new_temp_logs[idx] = temp
             mapping_norm_pred.append(idx)
             norm_pred_file.write(time_logs[idx]+' '+temp+'\n')
             continue
 
-        # We get here only when old event id is zero AND (m1_found OR head_l)
+        # We get here only when old event id is zero AND (m1_found OR header_care)
         if m1_found:
             # Abort if we cannot find m2 within 20 logs
             if idx - m1_idx > 20:
@@ -77,7 +77,7 @@ def recover_messed_logs():
             m1_found = False
             continue
 
-        # We get here only when old event id is zero AND (m1_found==0 AND head_l=='L')
+        # We get here only when old event id is zero AND (m1_found==0 AND header_care)
         # The case 1, the most common case
         for i in range(len(temp)):
             o1_head = temp[0:i+1]

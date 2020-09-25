@@ -29,9 +29,9 @@ summary_file = parentdir+'/results/test/analysis_summary.csv'
 
 if __name__ == '__main__':
     # Init some values for storing analysis results for each detected fault log/line
-    logDescL = []
-    logSuggL = []
-    logTimeL = []
+    log_desc_l = []
+    log_sugg_l = []
+    log_time_l = []
     summary_df = pd.DataFrame()
 
     print("Oldschool way to analyze:")
@@ -41,40 +41,40 @@ if __name__ == '__main__':
     pbar = tqdm(total=logsize, unit='Logs', ncols=100, disable=False)
 
     for _rowIndex, line in data_df.iterrows():
-        timeStamp = line['Time']
-        logContentL = line['Content'].strip().split()
-        logEventTemplateL = line['EventTemplate'].strip().split()
-        eventId = line['EventId']
+        time_stamp = line['Time']
+        log_content_l = line['Content'].strip().split()
+        log_event_template_l = line['EventTemplate'].strip().split()
+        event_id = line['EventId']
 
         # Update the progress bar
         #helper.printProgressBar(_rowIndex+1, logsize, prefix='Progress:', suffix ='Complete', length=50)
         pbar.update(1)
 
-        if len(logContentL) != len(logEventTemplateL):
+        if len(log_content_l) != len(log_event_template_l):
             continue
 
-        # Traverse all <*> tokens in logEventTemplateL and save the index
+        # Traverse all <*> tokens in log_event_template_l and save the index
         # Consider cases like '<*>;', '<*>,', etc. Remove the unwanted ';,' in knowledgebase
-        idx_list = [idx for idx, value in enumerate(logEventTemplateL) if '<*>' in value]
+        idx_list = [idx for idx, value in enumerate(log_event_template_l) if '<*>' in value]
         #print(idx_list)
-        param_list = [logContentL[idx] for idx in idx_list]
+        param_list = [log_content_l[idx] for idx in idx_list]
         #print(param_list)
 
         # Now we can search in the knowledge base for the current log
-        logFault, logDesc, logSugg = kb.domain_knowledge(eventId, param_list)
+        log_fault, log_desc, log_sugg = kb.domain_knowledge(event_id, param_list)
 
         # If current log is fault, store the timestamp, log descrition and suggestion to lists
-        if logFault:
-            logTimeL.append(timeStamp)
-            logDescL.append(logDesc)
-            logSuggL.append(logSugg)
+        if log_fault:
+            log_time_l.append(time_stamp)
+            log_desc_l.append(log_desc)
+            log_sugg_l.append(log_sugg)
 
     # Close the progress bar
     pbar.close()
     # Store the results to data frame and file
-    summary_df['Time'] = logTimeL
-    summary_df['Description'] = logDescL
-    summary_df['Suggestion'] = logSuggL
+    summary_df['Time'] = log_time_l
+    summary_df['Description'] = log_desc_l
+    summary_df['Suggestion'] = log_sugg_l
     #print(summary_df)
 
     # Save the summary data frame to file

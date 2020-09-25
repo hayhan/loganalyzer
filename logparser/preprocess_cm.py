@@ -213,7 +213,9 @@ sNestedLinePattern3 = re.compile(r' Reason = ')
 sNestedLinePattern4 = re.compile(r'\t{7}Storing to device...|'
                                  r'\t{7}Loading from server...|'
                                  r'  CmSnmpAgent::|'
-                                 r'  DefaultSnmpAgentClass::')
+                                 r'  DefaultSnmpAgentClass::|'
+                                 r'  Special case: don\'t disable|'
+                                 r'  [DU]S: +\d+ SC-QAM \(0x')
 
 sNestedLinePatterns = [
     sNestedLinePattern0,
