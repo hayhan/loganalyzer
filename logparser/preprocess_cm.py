@@ -775,6 +775,7 @@ for _idx, line in enumerate(newfile):
         normfile.write(lastLine)
 
         # The raw line index list based on the norm file
+        # Mapping: norm file line index (0-based) -> test file line index (1-based)
         # Do it only for prediction in DeepLog or OSS
         if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
             rawLnIdxVectorNorm.append(rawLnIdxVectorNew[_idx])

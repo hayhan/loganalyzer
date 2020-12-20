@@ -7,6 +7,7 @@ License     : MIT
 import os
 #import sys
 #import re
+import pickle
 import pandas as pd
 from tqdm import tqdm
 import knowledgebase_cm as kb
@@ -18,19 +19,22 @@ parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
 #from tools import helper
 
+# The norm file -> test file line mapping
+rawln_idx_file = parentdir + '/results/test/rawline_idx_norm.pkl'
+
+# Load the norm structured log file, which is the result of log parser module
+structured_file = parentdir+'/results/test/test_norm.txt_structured.csv'
+
 # Read the runtime parameters
 with open(parentdir+'/results/test/test_runtime_para.txt', 'r') as parafile:
     paralines = parafile.readlines()
     RESERVE_TS = bool(paralines[0].strip() == 'RESERVE_TS=1')
 
-# Load the norm structured log file, which is the result of log parser module
-structured_file = parentdir+'/results/test/test_norm.txt_structured.csv'
-
 # Check what we use for each log, timestamp or linenum
 if RESERVE_TS:
     columns = ['Time', 'Content', 'EventTemplate', 'EventId']
 else:
-    columns = ['LineId', 'Content', 'EventTemplate', 'EventId']
+    columns = ['Content', 'EventTemplate', 'EventId']
 
 data_df = pd.read_csv(structured_file, usecols=columns)
 logsize = data_df.shape[0]
@@ -53,7 +57,6 @@ if __name__ == '__main__':
     pbar = tqdm(total=logsize, unit='Logs', ncols=100, disable=False)
 
     for _rowIndex, line in data_df.iterrows():
-        time_stamp = line['Time'] if RESERVE_TS else line['LineId']
         log_content_l = line['Content'].strip().split()
         log_event_template_l = line['EventTemplate'].strip().split()
         event_id = line['EventId']
@@ -77,6 +80,21 @@ if __name__ == '__main__':
 
         # If current log is fault, store the timestamp, log descrition and suggestion to lists
         if log_fault:
+            # Check if the timestamps are in the logs
+            if RESERVE_TS:
+                time_stamp = line['Time']
+            else:
+                # Use the line number to replace timestamp in original test.txt
+                # _rowIndex is the line number (0-based) in norm/norm structured file
+
+                # Load the line mapping list between raw and norm test file
+                with open(rawln_idx_file, 'rb') as f:
+                    raw_idx_vector_norm = pickle.load(f)
+
+                # Retrive the line number (1-based) in the test file
+                time_stamp = raw_idx_vector_norm[_rowIndex]
+
+            # Store the info of each anomaly log
             log_time_l.append(time_stamp)
             log_desc_l.append(log_desc)
             log_sugg_l.append(log_sugg)
