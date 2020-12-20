@@ -14,13 +14,24 @@ parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
 #
 # Input and output files
+# Currently this file is ONLY used for DeepLog predict.
+# Not for DeepLog train and validation.
+# Not for OSS and CML.
+# So we no need check some enviroment variables in config.txt
 #
 input_dir = parentdir + '/logs/'                # The input directory of log file
 output_dir = parentdir + '/results/test/'       # The output directory of parsing results
 persist_dir = parentdir + '/results/persist/'   # The directory of saving persist files
+TEMPLATE_LIB = 'template_lib.csv'               # The template lib file name
 LOG_FILE = 'test_norm_pred.txt'                 # The input log file name
 LOG_FORMAT = '<Time> <Content>'                 # DOCSIS log format
-TEMPLATE_LIB = 'template_lib.csv'               # The template lib file name
+
+# Check the runtime value of RESERVE_TS to see if there are timestamps
+with open(parentdir+'/results/test/test_runtime_para.txt', 'r') as parafile:
+    paralines = parafile.readlines()
+    RESERVE_TS = bool(paralines[0].strip() == 'RESERVE_TS=1')
+if not RESERVE_TS:
+    LOG_FORMAT = '<Content>'                    # DOCSIS log format
 
 #
 # Regular expression dict for optional preprocessing (can be empty {})

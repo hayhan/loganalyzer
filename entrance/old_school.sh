@@ -10,7 +10,7 @@ source $SHELL_FOLDER/../../pyVirtEnvs/log_env/bin/activate
 (
 echo TRAINING=0
 echo METRICS=0
-echo MODEL=DT
+echo MODEL=OSS
 echo WINDOW_SIZE=10000
 echo WINDOW_STEP=5000
 echo TEMPLATE_LIB_SIZE=2000
@@ -28,8 +28,6 @@ python3 $SHELL_FOLDER/../logparser/extractlabels.py
 # Parse the log and generate templates ...
 python3 $SHELL_FOLDER/../logparser/drain2_cm.py
 
-# The machine learning way to analyze log data
-#python3 $SHELL_FOLDER/../detector/supervised_learning_pred.py
 # The oldshool way to analyze log data
 python3 $SHELL_FOLDER/../oldschool/analyzer.py
 

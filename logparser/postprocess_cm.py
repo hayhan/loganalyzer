@@ -13,6 +13,13 @@ import pandas as pd
 curfiledir = os.path.dirname(__file__)
 parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
+#
+# Currently this file is ONLY used for DeepLog predict.
+# Not for DeepLog train and validation.
+# Not for OSS and CML.
+# So we no need check some enviroment variables in config.txt
+#
+
 test_norm_pred_file = parentdir + '/logs/test_norm_pred.txt'
 test_struct_file = parentdir + '/results/test/test_norm.txt_structured.csv'
 temp_library_file = parentdir + '/results/persist/template_lib.csv'
@@ -24,11 +31,17 @@ rawln_idx_file = parentdir + '/results/test/rawline_idx_norm.pkl'
 # 2) The mapping between norm (test_norm.txt) and norm pred (test_norm_pred.txt)
 mapping_norm_pred_file = parentdir + '/results/test/mapping_norm_pred.pkl'
 
+# Check the runtime variable RESERVE_TS to see if there are timestamps
+with open(parentdir+'/results/test/test_runtime_para.txt', 'r') as parafile:
+    paralines = parafile.readlines()
+    RESERVE_TS = bool(paralines[0].strip() == 'RESERVE_TS=1')
+
 # Special templates, for case 2
 SPECIAL_ID = ['b9c1fdb1']
 
 def recover_messed_logs():
     """ Recover CM logs which are messed up by higher priority threads
+        The output is a new file called logs/test_norm_pred.txt
     """
     # Load event id from template library
     data_df = pd.read_csv(temp_library_file, usecols=['EventId'],
@@ -36,9 +49,20 @@ def recover_messed_logs():
     eid_lib = data_df['EventId'].values.tolist()
 
     # Load old event id and template of each log from structured file
-    data_df = pd.read_csv(test_struct_file, usecols=['Time', 'EventIdOld', 'EventTemplate'],
-                          engine='c', na_filter=False, memory_map=True)
-    time_logs = data_df['Time'].values.tolist()
+    if RESERVE_TS:
+        columns = ['Time', 'EventIdOld', 'EventTemplate']
+    else:
+        columns = ['EventIdOld', 'EventTemplate']
+
+    data_df = pd.read_csv(test_struct_file, usecols=columns, engine='c',
+                          na_filter=False, memory_map=True)
+    if RESERVE_TS:
+        # Real timestamp plus a space
+        time_logs = (data_df['Time']+' ').values.tolist()
+    else:
+        # Empty string for each timestamp
+        time_logs = [''] * data_df.shape[0]
+
     eid_old_logs = data_df['EventIdOld'].values.tolist()
     temp_logs = data_df['EventTemplate'].values.tolist()
 
@@ -57,7 +81,7 @@ def recover_messed_logs():
         if (eido != '0') or (not m1_found and not header_care):
             #new_temp_logs[idx] = temp
             mapping_norm_pred.append(idx)
-            norm_pred_file.write(time_logs[idx]+' '+temp+'\n')
+            norm_pred_file.write(time_logs[idx]+temp+'\n')
             continue
 
         # We get here only when old event id is zero AND (m1_found OR header_care)
@@ -66,14 +90,14 @@ def recover_messed_logs():
             if idx - m1_idx > 20:
                 #new_temp_logs[idx] = temp
                 mapping_norm_pred.append(idx)
-                norm_pred_file.write(time_logs[idx]+' '+temp+'\n')
+                norm_pred_file.write(time_logs[idx]+temp+'\n')
                 m1_found = False
                 continue
             # Note the eido == 0 here
             temp_o1 = o1_head + temp
             #new_temp_logs[idx] = temp_o1
             mapping_norm_pred.append(idx)
-            norm_pred_file.write(time_logs[idx]+' '+temp_o1+'\n')
+            norm_pred_file.write(time_logs[idx]+temp_o1+'\n')
             m1_found = False
             continue
 
@@ -88,7 +112,7 @@ def recover_messed_logs():
                 m1_idx = idx
                 #new_temp_logs[idx] = temp_o2
                 mapping_norm_pred.append(idx)
-                norm_pred_file.write(time_logs[idx]+' '+temp_o2+'\n')
+                norm_pred_file.write(time_logs[idx]+temp_o2+'\n')
                 if eid_o2 in SPECIAL_ID:
                     # Remove one trailing spaces in o1_head, the case 2
                     o1_head = o1_head[0:-1]
@@ -99,7 +123,7 @@ def recover_messed_logs():
         # because we are encountering case 3.
         if not m1_found:
             # Skip writing the empty line to norm pred file
-            # norm_pred_file.write(time_logs[idx]+' '+'\n')
+            # norm_pred_file.write(time_logs[idx]+'\n')
             # new_temp_logs[idx] = ''
 
             # We write down the skipped line/log number, which will be used to update

@@ -18,13 +18,25 @@ parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
 #from tools import helper
 
+# Read the runtime parameters
+with open(parentdir+'/results/test/test_runtime_para.txt', 'r') as parafile:
+    paralines = parafile.readlines()
+    RESERVE_TS = bool(paralines[0].strip() == 'RESERVE_TS=1')
+
 # Load the norm structured log file, which is the result of log parser module
 structured_file = parentdir+'/results/test/test_norm.txt_structured.csv'
-data_df = pd.read_csv(structured_file, usecols=['Time', 'Content', 'EventTemplate', 'EventId'])
+
+# Check what we use for each log, timestamp or linenum
+if RESERVE_TS:
+    columns = ['Time', 'Content', 'EventTemplate', 'EventId']
+else:
+    columns = ['LineId', 'Content', 'EventTemplate', 'EventId']
+
+data_df = pd.read_csv(structured_file, usecols=columns)
 logsize = data_df.shape[0]
 
 # Output file that stores the summary results
-summary_file = parentdir+'/results/test/analysis_summary.csv'
+sum_file = parentdir+'/results/test/analysis_summary.csv'
 
 
 if __name__ == '__main__':
@@ -36,18 +48,18 @@ if __name__ == '__main__':
 
     print("Oldschool way to analyze:")
     # Init progress bar to 0%
-    #helper.printProgressBar(0, logsize, prefix ='Progress:', suffix='Complete', length=50)
+    #helper.printProgressBar(0, logsize, prefix ='Progress:', suffix='Complete')
     # A lower overhead progress bar
     pbar = tqdm(total=logsize, unit='Logs', ncols=100, disable=False)
 
     for _rowIndex, line in data_df.iterrows():
-        time_stamp = line['Time']
+        time_stamp = line['Time'] if RESERVE_TS else line['LineId']
         log_content_l = line['Content'].strip().split()
         log_event_template_l = line['EventTemplate'].strip().split()
         event_id = line['EventId']
 
         # Update the progress bar
-        #helper.printProgressBar(_rowIndex+1, logsize, prefix='Progress:', suffix ='Complete', length=50)
+        #helper.printProgressBar(_rowIndex+1, logsize, prefix='Progress:', suffix ='Complete')
         pbar.update(1)
 
         if len(log_content_l) != len(log_event_template_l):
@@ -72,10 +84,10 @@ if __name__ == '__main__':
     # Close the progress bar
     pbar.close()
     # Store the results to data frame and file
-    summary_df['Time'] = log_time_l
+    summary_df['Time/LineNum'] = log_time_l
     summary_df['Description'] = log_desc_l
     summary_df['Suggestion'] = log_sugg_l
     #print(summary_df)
 
     # Save the summary data frame to file
-    summary_df.to_csv(summary_file, index=False, columns=["Time", "Description", "Suggestion"])
+    summary_df.to_csv(sum_file, index=False, columns=["Time/LineNum", "Description", "Suggestion"])
