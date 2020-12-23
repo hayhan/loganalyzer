@@ -347,7 +347,12 @@ rawsize = len(linesLst)
 # Only do this for deeplog predict (including oss). The log for CML (Classical ML)
 # predict must have standard timestamp.
 if (not TRAINING) and (not METRICSEN):
-    reserveTS = strPattern0.match(linesLst[0])
+    for line in linesLst:
+        # Jumping the heading empty lines if any
+        if line in ['\n', '\r\n']:
+            continue
+        reserveTS = strPattern0.match(line)
+        break
 
 #
 # A lower overhead progress bar

@@ -22,12 +22,8 @@ echo TEMPLATE_LIB_SIZE=2000
 # Preprocess
 python3 $SHELL_FOLDER/../logparser/preprocess_cm.py
 
-# Extract the label vector from norm file
-python3 $SHELL_FOLDER/../logparser/extractlabels.py
-
 # Parse the log and generate templates ...
 python3 $SHELL_FOLDER/../logparser/drain2_cm.py
 
 # The oldshool way to analyze log data
 python3 $SHELL_FOLDER/../oldschool/analyzer.py
-
