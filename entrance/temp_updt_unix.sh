@@ -4,7 +4,7 @@
 
 # Concatenate multiple raw files into one
 # Parameters: script inputLoc filenames outputLoc
-#fileList="log_0_3390.txt/log_2_3390.txt/log_3_3390.txt/log_4_3390.txt/\
+#fileList="log_0_3390_labeled.txt/log_2_3390_labeled.txt/log_3_3390_labeled.txt/log_4_3390_labeled.txt/\
 #normal_0_register_202.txt/normal_1_register_202.txt/normal_2_dbc_202.txt/\
 #normal_3.txt/temp_updt_0.txt"
 
@@ -41,6 +41,9 @@ cp ../logs/raw/temp_updt_manu.txt ../logs/train.txt
 
 # Preprocess
 python3 ../logparser/preprocess_cm.py
+
+# Remove labels in logs if any
+python3 ../logparser/extractlabels.py
 
 # Parse the log and update the template library
 python3 ../logparser/drain2_cm.py

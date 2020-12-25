@@ -4,7 +4,7 @@ rem This script updates the template library
 
 rem ---Concatenate multiple raw files into one
 rem ---Parameters: script inputLoc filenames outputLoc
-rem set fileList=log_0_3390.txt/log_2_3390.txt/log_3_3390.txt/log_4_3390.txt/^
+rem set fileList=log_0_3390_labeled.txt/log_2_3390_labeled.txt/log_3_3390_labeled.txt/log_4_3390_labeled.txt/^
 rem normal_0_register_202.txt/normal_1_register_202.txt/normal_2_dbc_202.txt/^
 rem normal_3.txt/temp_updt_0.txt
 
@@ -41,6 +41,9 @@ copy ..\logs\raw\temp_updt_manu.txt ..\logs\train.txt > nul
 
 rem Preprocess
 python ..\logparser\preprocess_cm.py
+
+rem Remove labels in logs if any
+python ..\logparser\extractlabels.py
 
 rem Parse the log and update the template library
 python ..\logparser\drain2_cm.py
