@@ -13,6 +13,7 @@ import torch.optim as optim
 
 import preprocess_exec as preprocess
 from deeplog_models import DeepLogExec
+from tqdm import tqdm
 
 curfiledir = os.path.dirname(__file__)
 parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
@@ -118,6 +119,8 @@ if __name__ == '__main__':
         batch_cnt = len(train_data_loader)
         for epoch in range(NUM_EPOCHS):
             epoch_loss = 0
+            pbar = tqdm(total=batch_cnt, unit='Batches', disable=False,
+                        ncols=0)
             for batch_in in train_data_loader:
                 # Forward pass
                 # Each batch is a dict in the dataloader, in which the value is tensor
@@ -136,6 +139,10 @@ if __name__ == '__main__':
                 loss.backward()
                 epoch_loss += loss.item()
                 optimizer.step()
+
+                # Update the progress bar
+                pbar.update(1)
+            pbar.close()
             epoch_loss = epoch_loss / batch_cnt
             print("Epoch {}/{}, train loss: {:.5f}".format(epoch+1, NUM_EPOCHS, epoch_loss))
 

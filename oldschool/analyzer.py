@@ -54,7 +54,8 @@ if __name__ == '__main__':
     # Init progress bar to 0%
     #helper.printProgressBar(0, logsize, prefix ='Progress:', suffix='Complete')
     # A lower overhead progress bar
-    pbar = tqdm(total=logsize, unit='Logs', ncols=100, disable=False)
+    pbar = tqdm(total=logsize, unit='Logs', disable=False,
+                bar_format='{l_bar}{bar:40}{r_bar}{bar:-40b}')
 
     for _rowIndex, line in data_df.iterrows():
         log_content_l = line['Content'].strip().split()

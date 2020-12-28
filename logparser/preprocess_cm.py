@@ -359,7 +359,8 @@ if (not TRAINING) and (not METRICSEN):
 # https://github.com/tqdm/tqdm#documentation
 # To only display statics w/o bar, set ncols=0
 #
-pbar = tqdm(total=rawsize, unit='Lines', ncols=100, disable=False)
+pbar = tqdm(total=rawsize, unit='Lines', disable=False,
+            bar_format='{l_bar}{bar:40}{r_bar}{bar:-40b}')
 
 for _idx, line in enumerate(linesLst):
 #for line in rawfile:

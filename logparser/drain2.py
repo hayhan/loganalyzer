@@ -981,7 +981,8 @@ class Drain:
                                 length=50, disable=self.para.nopgbar)
         """
         # A lower overhead progress bar
-        pbar = tqdm(total=self.df_log.shape[0], unit='Logs', ncols=100, disable=self.para.nopgbar)
+        pbar = tqdm(total=self.df_log.shape[0], unit='Logs', disable=self.para.nopgbar,
+                    bar_format='{l_bar}{bar:40}{r_bar}{bar:-40b}')
 
         #
         # Process the raw log data
