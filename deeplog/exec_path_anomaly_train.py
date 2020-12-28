@@ -125,7 +125,7 @@ if __name__ == '__main__':
                 # Forward pass
                 # Each batch is a dict in the dataloader, in which the value is tensor
                 # batch_in['EventSeq'] is a 2-Dimension tensor (batch_size x seq_len)
-                # The tensor of input sequences to model shold be 3-Dimension as below
+                # The tensor of input sequences to model should be 3-Dimension as below
                 # (batch_size x seq_len x input_size)
                 seq = batch_in['EventSeq'].clone().detach().view(-1, WINDOW_SIZE, 1).to(device)
                 output = model(seq)
