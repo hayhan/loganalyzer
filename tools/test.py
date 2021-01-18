@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
 import os
+import sys
 import pandas as pd
 import numpy as np
 from sklearn.utils import shuffle
@@ -20,27 +21,31 @@ print(teststrin)
 m = re.search(r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$', '0x56')
 print(m.group(0))
 
-line = "P1.6hi P=1.6hi P6hi; CM-QOS=1.1; CM-VER=3.1; ipv6; D31; D31 5x; ..23; US:(0 MHz..204 MHz) DS:(258 MHz..1218 MHz); fMdDsSgId=0x7f (127)"
+#line = "P1.6hi P=1.6hi P6hi; CM-QOS=1.1; CM-VER=3.1; ipv6; D31; D31 5x; ..23; US:(0 MHz..204 MHz) DS:(258 MHz..1218 MHz); fMdDsSgId=0x7f (127)"
+line = "BcmBfcProcessCvc::CmCodeVerificationCertificate::ParseAndValidate:  (Process CVC) ERROR - Failed on rsaDecryptSignature, status=0x1, Certificate::ParseAndValidate:  (11qq/c CVC) "
 #currentRex = r'\d+|\d+\.\d+'
 #currentRex = r'(\(\d+\.?(\d+)?-\d+\.?(\d+)?\) )+'  # Numbers
 #currentRex = r'[A-Fa-f0-9]{2}'
 #currentRex = r'(\(\d+\.?(\d+)?-\d+\.?(\d+)?\) )+|( [A-Fa-f0-9]+){2,}|0x[A-Fa-f0-9]+|(?<=[^A-Za-z0-9])((\[ )?\-?\+?\d+\.?(\d+)?\*?( \])?)'
 #currentRex1 = r'([A-Fa-f0-9]+\:){5}[A-Fa-f0-9]+'
-currentRex3 = re.compile(
-    r'( \( \d+\.?(\d+)?-\d+\.?(\d+)? \))+'
-    r'|( \d+){2,}'
-    r'|0x[A-Fa-f0-9]+'
-    r'|(?<=[^A-Za-z0-9\.])(\-?\+?\d+\.?(\d+)?\*?)'
-    r'|(?<=\.\.)(\d+)'
-)
+#currentRex3 = re.compile(
+#    r'( \( \d+\.?(\d+)?-\d+\.?(\d+)? \))+'
+#    r'|( \d+){2,}'
+#    r'|0x[A-Fa-f0-9]+'
+#    r'|(?<=[^A-Za-z0-9\.])(\-?\+?\d+\.?(\d+)?\*?)'
+#    r'|(?<=\.\.)(\d+)'
+#)
+currentRex4 = re.compile(r'(?<=:  )\([a-zA-Z0-9/ ]+\) ')
 
 #line = re.sub(currentRex, '<*>', "Readback Test pkt: 0x2 =-18dB 300.123 10.156 -19dB -20.7890 30.111 dcid=1, ucid12 dcid11 ver=3.1; ucid22, 0x33")
 #line = re.sub(currentRex, '<*>', "RNsG-RSP s UsChanId = 149  Adj: tim=12496  Stat=Continue")
 #line = re.sub(currentRex, ' <*>', "CM-STATUS [ 12 ] trans= 1 4 ffevent= 5 (kCmEvDsPhyLockRescue)  param type= 4 (dcid)  param values= [ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 ] ttt: 18 de 33 93 00 03 00 01 00 10 18 de 33 93 ")
 #line = re.sub(currentRex1, ' <*>', "Logging event: CM-STATUS message sent. Event Type Code: 5; Chan ID: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32; DSID: N/A; MAC Addr: N/A; OFDM/OFDMA Profile ID: N/A.; CM-MAC= 00:10:18:de:33:93; CMTS-MAC= 00:80:42:42:20:9e; CM-QOS= 1.1; CM-VER= 3.1; ")
 #line = re.sub(currentRex2, ' <*>', line)
-line = re.sub(currentRex3, ' <*>', line)
+#line = re.sub(currentRex3, ' <*>', line)
+line = currentRex4.sub('', line, count=0)
 print(line)
+sys.exit(0)
 
 # IPv6 Address
 ipRex = r' (?:(?:[0-9A-Fa-f]{1,4}:){6}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|::(?:[0-9A-Fa-f]{1,4}:){5}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:(?:[0-9A-Fa-f]{1,4}:){,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:(?:[0-9A-Fa-f]{1,4}:){,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:(?:[0-9A-Fa-f]{1,4}:){,4}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:(?:[0-9A-Fa-f]{1,4}:){,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){,6}[0-9A-Fa-f]{1,4})?::)(/\d{1,3})?'

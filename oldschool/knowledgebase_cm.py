@@ -123,8 +123,8 @@ def domain_knowledge(template_id, param_list):
             log_suggestion = "Usually downstream or upstream has big issues and mac reset might happen"
             break
 
-        if case('fdc567db'):
-            # TEMPLATE: "BcmCmDocsisCtlThread:: IsUpstreamFreqUsable: ( CmDocsisCtlThread ) cannot use ucid= <*>, chanHiEdgeFreqHz(= <*> ) > maximumDiplexerFrequencyHz= ( <*> )"
+        if case('9701dcb3'):
+            # TEMPLATE: "BcmCmDocsisCtlThread:: IsUpstreamFreqUsable: cannot use ucid= <*>, chanHiEdgeFreqHz(= <*> ) > maximumDiplexerFrequencyHz= ( <*> )"
             log_fault = True
             log_description = "Some usable US chan ucid {0} freq {1} is beyond the hightest diplexer US range {2}." \
                              .format(param_list[0], param_list[1], param_list[2])
@@ -133,17 +133,17 @@ def domain_knowledge(template_id, param_list):
                             "need check the diplexer h/w to see if it supports"
             break
 
-        if case('22d6782b'):
-            # TEMPLATE: "BcmCmDsChan:: DsLockFail: ( BcmCmDsChan <*> ) hwRxId= <*> dcid= <*> -> enter kDsOperLockToRescueCmts state"
+        if case('9f88e081'):
+            # TEMPLATE: "BcmCmDsChan:: DsLockFail: hwRxId= <*> dcid= <*> -> enter kDsOperLockToRescueCmts state"
             log_fault = True
             log_description = "DS unlock happens on h/w channel {0}, dcid {1}".format(param_list[1], param_list[2])
             log_suggestion = "Downstream is broken ..."
             break
 
-        if case('3e1ca573'):
-            # TEMPLATE: "BcmCmDsChan:: MddKeepAliveFailTrans: ( BcmCmDsChan <*> ) hwRxId= <*> dcid= <*>"
+        if case('85b2bfec'):
+            # TEMPLATE: "BcmCmDsChan:: MddKeepAliveFailTrans: hwRxId= <*> dcid= <*>"
             log_fault = True
-            log_description = "MDD cannot be received on h/w channel {0}, dcic {1}".format(param_list[1], param_list[2])
+            log_description = "MDD cannot be received on h/w channel {0}, dcid {1}".format(param_list[1], param_list[2])
             log_suggestion = "Usually downstream is broken ..."
             break
 
@@ -161,8 +161,8 @@ def domain_knowledge(template_id, param_list):
             log_suggestion = "Check the DHCP Server behind the CMTS"
             break
 
-        if case('401640b9'):
-            # TEMPLATE: "BcmCmDocsisCtlThread:: IpInitErrorEvent: ( CmDocsisCtlThread ) ERROR - IP helper returned DhcpInitFailed error! Restarting!"
+        if case('36cb1e87'):
+            # TEMPLATE: "BcmCmDocsisCtlThread:: IpInitErrorEvent: ERROR - IP helper returned DhcpInitFailed error! Restarting!"
             log_fault = True
             log_description = "CM cannot be provisioned to get the IP address from DHCP server on CMTS side"
             log_suggestion = "Usually DHCP server down on CMTS side or upstream signal qulity is not good enough"

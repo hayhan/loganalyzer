@@ -80,10 +80,12 @@ strPattern4 = re.compile(r'\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d
 # The pattern for the tag of thread
 strPattern5 = re.compile(r'\[[a-z ]*\] ', re.IGNORECASE)
 strPattern6 = re.compile(r'\+{3} ')
+# The pattern for the instance name of BFC class
+strPattern7 = re.compile(r'(?<=:  )\([a-zA-Z0-9/ ]+\) ')
 
 strPatterns = [
-    strPattern1, strPattern2, strPattern3,
-    strPattern4, strPattern5, strPattern6,
+    strPattern1, strPattern2, strPattern3, strPattern4,
+    strPattern5, strPattern6, strPattern7,
 ]
 
 # Control if we need reserve the main timestamp: strPattern0 in the norm file
@@ -277,8 +279,8 @@ inMultiLineInitRangeEnd2 = re.compile(r'Using bottom of DRW initial upstream pow
 inMultiLineInitRangeEnd3 = re.compile(r'Using per transmitter stored initial upstream power')
 # Assign token something like ABC=xyz or ABC==xyz
 assignTokenPattern = re.compile(r'=(?=[^= \r\n])')
-# Cpp class token like ABC::Xyz:
-cppClassPattern = re.compile(r'\:\:(?=[A-Z][a-z0-9]+)')
+# Cpp class token like ABC::Xyz or ABC::xY
+cppClassPattern = re.compile(r'\:\:(?=[A-Z][a-z0-9]|[a-z][A-Z])')
 # Split 'ABC;DEF' to 'ABC; DEF'
 semicolonPattern = re.compile(r';(?! )')
 # Change something like (xx), [xx], ..., to ( xx ), [ xx ], ...
