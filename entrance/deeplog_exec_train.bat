@@ -15,7 +15,9 @@ temp_updt_bfm_a375.txt/temp_updt_bfm_a380.txt/temp_updt_bfm_a383.txt/^
 temp_updt_bfm_a425.txt/^
 temp_updt_bfm_b329.txt/temp_updt_bfm_b330.txt/temp_updt_bfm_b331.txt/^
 temp_updt_bfm_b400.txt/temp_updt_bfm_b405.txt/temp_updt_bfm_b415.txt/^
-temp_updt_bfm_b433.txt/temp_updt_bfm_b451.txt
+temp_updt_bfm_b433.txt/temp_updt_bfm_b451.txt/^
+normal_4_register_211.txt/normal_5_otf_mdd_ucd_211.txt/normal_6_dbc_211.txt/^
+normal_7_no_ofdm_211.txt/normal_8_no_ofdma_211.txt
 
 rem Concatenate above files into one and add session label 'segsign: '
 python ..\tools\cat_files_sessions.py logs/raw %fileList% logs/train.txt
@@ -87,6 +89,7 @@ echo NUM_WORKERS=0
 echo HIDDEN_SIZE=128
 echo TOPK=10
 echo DEVICE=cpu
+echo NUM_DIR=1
 ) > deeplog_config.txt
 
 python ..\deeplog\exec_path_anomaly_train.py
@@ -103,6 +106,7 @@ echo NUM_WORKERS=0
 echo HIDDEN_SIZE=128
 echo TOPK=10
 echo DEVICE=cpu
+echo NUM_DIR=1
 ) > deeplog_config.txt
 
 python ..\deeplog\exec_path_anomaly_train.py

@@ -42,10 +42,8 @@ echo NUM_WORKERS=0
 echo HIDDEN_SIZE=128
 echo TOPK=10
 echo DEVICE=cpu
+echo NUM_DIR=1
 ) > deeplog_config.txt
 
 rem Do prediction using DeepLog exec model
 python ..\deeplog\exec_path_anomaly_pred.py
-
-rem The oldshool way to analyze log data
-rem python ..\oldschool\analyzer.py

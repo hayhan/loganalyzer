@@ -41,6 +41,8 @@ with open(parentdir+'/entrance/deeplog_config.txt', 'r', encoding='utf-8-sig') a
     TOPK = int(conlines[9].strip().replace('TOPK=', ''))
     # Read the device, cpu or gpu
     DEVICE = conlines[10].strip().replace('DEVICE=', '')
+    # Read num of directions to train
+    NUM_DIR = int(conlines[11].strip().replace('NUM_DIR=', ''))
 
 para_train = {
     'structured_file': parentdir+'/results/train/train_norm.txt_structured.csv',
@@ -101,7 +103,7 @@ if __name__ == '__main__':
     #
     device = torch.device('cuda' if DEVICE != 'cpu' and torch.cuda.is_available() else 'cpu')
     model = DeepLogExec(device, num_classes=voc_size, hidden_size=HIDDEN_SIZE, num_layers=2,
-                        num_dir=1)
+                        num_dir=NUM_DIR)
 
     #
     # 4. Start training the model
