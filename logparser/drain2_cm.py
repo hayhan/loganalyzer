@@ -67,7 +67,7 @@ regexPattern0 = re.compile(r'(Mon|Tue|Wed|Thu|Fri|Sat|Sun) '
                            r'(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) \d{4}')
 
 # SNMP MIB OID
-regexPattern1 = re.compile(r'(?<=TLV\-11\[\ \d \]: )((\d+\.)+\d+)')
+regexPattern1 = re.compile(r'([0-9]+\.){4,20}[0-9]+')
 
 # MAC Address
 regexPattern2 = re.compile(r'([A-Fa-f0-9]+\:){5}[A-Fa-f0-9]+')
@@ -130,7 +130,7 @@ regex = {
     regexPattern1: '<*>',
     regexPattern2: '<*>',
     regexPattern3: '<*>',
-    regexPattern4: '<*>',
+    regexPattern4: ' <*>',
     regexPattern5: '<*>',
     regexPattern6: ' <*>',
     regexPattern7: '<*>',

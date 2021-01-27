@@ -73,12 +73,14 @@ strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d
 # The pattern for CM console prompts
 strPattern1 = re.compile('CM[/a-z-_ ]*> ', re.IGNORECASE)
 # The pattern for the timestamp added by BFC, e.g. [00:00:35 01/01/1970], [11/21/2018 14:49:32]
-strPattern2 = re.compile(r'\[(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) \d{2}/\d{2}/\d{4}\] ')
+# or emta specific "00:00:35.012 01/01/1970  "
+strPattern2 = re.compile(r'\[?(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)(.\d\d\d)?|24:00:00(.000)?) '
+                         r'\d{2}/\d{2}/\d{4}\]?  ?')
 strPattern3 = re.compile(r'\[\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00)\] ')
 # The pattern for the timestamp added by others, e.g. 01/01/1970 00:00:19
 strPattern4 = re.compile(r'\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) - ')
 # The pattern for the tag of thread
-strPattern5 = re.compile(r'\[[a-z ]*\] ', re.IGNORECASE)
+strPattern5 = re.compile(r'\[ ?[a-z][a-z0-9\- ]*\] ', re.IGNORECASE)
 strPattern6 = re.compile(r'\+{3} ')
 # The pattern for the instance name of BFC class
 strPattern7 = re.compile(r'(?<=:  )\([a-zA-Z0-9/ ]+\) ')
@@ -109,6 +111,9 @@ sLinePattern9 = re.compile(r'( {7}munged error type: T=)|'
 sLinePattern10 = re.compile(r'Type \'help\' or')
 sLinePattern11 = re.compile(r' {24}dsid: | {24}DSID: | {24}CMIM: ')
 sLinePattern12 = re.compile(r'={18}')
+sLinePattern13 = re.compile(r'Suboption \d:|'
+                            r'eptAsyncCmd: Ept not initialized|'
+                            r'\([a-zA-Z0-9]+\)')
 
 sLinePatterns = [
     sLinePattern0,
@@ -124,6 +129,7 @@ sLinePatterns = [
     sLinePattern10,
     sLinePattern11,
     sLinePattern12,
+    sLinePattern13,
 ]
 
 #----------------------------------------------------------------------------------------
@@ -240,11 +246,14 @@ eNestedLinePatterns = [
 
 #----------------------------------------------------------------------------------------
 # Patterns for specific whole multi-line log which I want to remove entirely
+# Block end condition: primary line (exclusive)
 #----------------------------------------------------------------------------------------
-wMultiLineRmPattern0 = re.compile(r'Configured O-INIT-RNG-REQ \:')
+wMultiLineRmPattern0 = re.compile(r'Configured O-INIT-RNG-REQ :')
+wMultiLineRmPattern1 = re.compile(r' {4}tap values:')
 
 wMultiLineRmPatterns = [
-    wMultiLineRmPattern0
+    wMultiLineRmPattern0,
+    wMultiLineRmPattern1,
 ]
 
 #----------------------------------------------------------------------------------------

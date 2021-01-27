@@ -5,7 +5,7 @@ bb174cf7,bb174cf7,Received RG Event <*> State <*>
 d1e3d1e2,d1e3d1e2,eRouter Linux WAN Down
 7371eafa,7371eafa,eRouterMsgPipe:: UpdateIpNetToMediaEntry: eRouter IP address:<*>
 a96d7974,a96d7974,Stopping DHCP/ToD/TFTP ( client requested )...
-28605ce4,28605ce4,BcmEcosIpHalIf:: RemoveIpv6Address: ERROR - Failed to remove IPv6 address<*> from the stack!
+b93afd69,b93afd69,BcmEcosIpHalIf:: RemoveIpv6Address: ERROR - Failed to remove IPv6 address <*> from the stack!
 21322baa,21322baa,BcmDhcpV6ClientIf:: ReleaseAddresses: ERROR - IA state is initial; there is no address to release.
 e75c8a0b,e75c8a0b,BcmDocsis3DsMacEnableMulticastDsidForwarding <*>; primary DS = <*>
 b92e78a3,b92e78a3,SCQAM DSID filter control = <*>
@@ -72,7 +72,7 @@ b2079e76,b2079e76,RNG-RSP UsChanId= <*> Adj: power= <*> Stat= <*>
 33de59d1,33de59d1,RNG-RSP UsChanId= <*> Stat= <*> 
 9fcbe451,9fcbe451,"BcmCmDocsisCtlThread:: FirstRngSuccess:, first RNG-RSP w/status== SUCCESS for hwTxId= <*> and DOCSIS ucid= <*>"
 c151db28,c151db28,"BcmCmDocsisCtlThread:: ConfigureAndStartIpInit: Beginning IP initialization., Utilizing configured MDD IP initialization parameters"
-c3ca8db6,c3ca8db6,== Starting IP Initialization in IPv4 Only provisioning mode ==
+3b824fc0,3b824fc0,== Starting IP Initialization in <*> Only provisioning mode ==
 67101bbe,67101bbe,BcmEcosIpHalIf:: FlushDefaultIPv6Routers: Flushing default IPv6 routers
 b9c1fdb1,b9c1fdb1,CmSnmpAgent:: ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support
 7554a71f,7554a71f,Logging event: Honoring MDD; IP provisioning mode = IPv4
@@ -540,6 +540,8 @@ c94ffcfa,c94ffcfa,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <
 550d7537,550d7537,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <*> ( <*> ) ucid= <*> newUcid= <*> rngSid= <*> init= <*> ( <*> )
 854d198b,854d198b,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <*> ( <*> ) ucid= <*> newUcid= <*> rngSid= <*> init= <*> ( <*> ) profSet= [ <*> ]
 3d2fccaa,3d2fccaa,ClientStateTransitionCompleted: thread state now full power
+d7109ef6,d7109ef6,( XDRV ) DSP shared mem address: <*>
+ff2455ec,ff2455ec,Inform <*> flushed due to reset ( <*> from emta factory agent )
 40ba48dc,40ba48dc,BcmCmMultiDsHelper:: ResetDsMacMddKeepAliveState:  
 2e48a665,2e48a665,Deleting multicast DSID = <*> index = <*> 
 4676d12f,4676d12f,BcmCmDocsisCtlThread:: DetectTccInstallDone: TCC installation done.
@@ -575,7 +577,7 @@ c9f3ac89,c9f3ac89,BcmCmUsChan:: UsTimeRefOk: txid= <*> ucid= <*>
 08184438,08184438,BcmCmUsRangingState:: ConfigInitialRanging: txid= <*> ucid= <*>
 4e1d2d4a,4e1d2d4a,BcmCmUsRangingState:: FirstRngSuccess: txid= <*> ucid= <*>
 f8dba164,f8dba164,EMTA: cmEmtaIpProvMode MIB ( <*> ) Honor ip-pref from DHCP server.
-bc2c3b1d,bc2c3b1d,"EMTA: cmEmtaIpProvMode MIB, get ip-pref from DHCP server."
+089f9bcc,089f9bcc,"EMTA: cmEmtaIpProvMode MIB, get ip-pref from <*> server."
 a720af16,a720af16,EMTA: option <*> missing in DHCP offer from <*>.
 c60ef050,c60ef050,"EMTA: no ip-pref, check for <*> or <*>"
 714e186e,714e186e,"EMTA: Rejecting offer - no <*> or <*>, no ip-pref."
@@ -583,7 +585,7 @@ f317d8b5,f317d8b5,"DHCPc: Client ""MTA"" callout says the lease is not acceptabl
 9f9c9c31,9f9c9c31,DHCPc: Offer isn't acceptable; ignoring...
 fc5fc3f6,fc5fc3f6,EMTA: reluctantly accepting any offer after <*> unsuccessful attempts to get offer with option <*>
 7a454459,7a454459,BcmEcosIpHalIf:: SetDnsServers: Set eCos DNS resolver to <*>
-4b0411b5,4b0411b5,CmSnmpAgent installing DOCSIS Default VACM entries...
+78b2d945,78b2d945,CmSnmpAgent installing DOCSIS Default <*> entries...
 7c1ca851,7c1ca851,TLV- <*> is being provisioned with base = @CMconfig_ <*>
 0fef8009,0fef8009,Skipping interface discovery for eRouter mode.
 3f9d4536,3f9d4536,Adding MTA MAC ( <*> ) to the CM learning table.
@@ -660,7 +662,7 @@ a6cf4a93,a6cf4a93,NV write success.
 1a142e6e,1a142e6e,BcmCmDsChan:: DsLockOk: rxid= <*>
 44516f7a,44516f7a,BcmCmUsChan:: UsTimeRefOk: txid= <*> ucid= <*> rx unexpected kUsTimeRefOk indication.
 22d472ab,22d472ab,"BcmCmDocsisCtlThread:: ConfigureAndStartIpInit: Beginning IP initialization., Overriding MDD IP initialization parameters due to IpProvMode"
-ff941073,ff941073,Logging event: Overriding MDD IP initialization parameters; IP provisioning mode = IPv4
+6ff3e0aa,6ff3e0aa,Logging event: Overriding MDD IP initialization parameters; IP provisioning mode = <*>
 ce4fa38e,ce4fa38e,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [( <*>- <*> )] prof= [( <*> -> <*> )]
 917602ac,917602ac,BcmCmDsChanOfdm:: ContriveProfileFailure: rxid= <*> dcid= <*>
 303f02c3,303f02c3,BcmCmDsChan:: DsLockOk: rxid= <*> dcid= <*>
@@ -676,13 +678,122 @@ d3ae406c,d3ae406c,BcmCmUsSetsState:: UsTimeRefFail: txid= <*> ucid= <*> lost ups
 e49a184e,e49a184e,BcmCmUsSetsState:: UsTimeRefFail: txid= <*> ucid= <*> RFI-N- <*> - attempting to re-acquire us time sync without resetting the MAC.
 24a1087f,24a1087f,BcmDocsisD31PowerSave 'Off'
 be0c6617,be0c6617,CmHalIf:: HandleStatusIndication: WARNING - CM HAL failed to acquire sync or lost sync!
+2a046b76,2a046b76,"Trimmed Downstream Ambiguity Resolution Frequency List: list size = <*>, <*>-sc_qam <*>-sc_qam <*>-sc_qam <*>-sc_qam, visible dcid set = <*>, freq with visible dcid set = <*> "
+819f031a,819f031a,D3.1 CM with switchable diplexer registering on a D3.0 CMTS. Special compatability logic applied here.
+0caea5f7,0caea5f7,Diplexer is currently configured to <*> frequency range. Advertising ' <*>' in modem capability TLV <*>.
+b4458c99,b4458c99,EMTA: option <*> VendorSpec not present.
+09065a40,09065a40,EMTA: Required option <*> sub-option <*> present in DHCP <*> from <*>
+7aa0bed8,7aa0bed8,"EMTA: Accepting <*> - no <*>, no ip-pref, <*> present - go single stack v4."
+10d0c329,10d0c329,EMTA: Required option <*> present in DHCP Ack from <*>
+ec002a20,ec002a20,Suboption <*> not present
+4a93a6c2,4a93a6c2,"Parsing interface number from ifName, <*>: Ethernet CPE Interface ( eth1 ), <*>: Ethernet CPE Interface ( eth2 ), <*>: Ethernet CPE Interface ( eth3 )"
+6f4b5032,6f4b5032,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [( <*>- <*> ) <*>]
+dd61c8dc,dd61c8dc,BcmCmUsRangingState:: ConfigInitialRanging: ERROR - Set power to <*> dBmV but returned power level is <*> dBmV
+bdde9060,bdde9060,Notifying EMTA that CM is kCmStat_Operational
+c15c3bfa,c15c3bfa,EmtaSnmpAgent:: SoftReset
+528e92ba,528e92ba,Pausing trap thread
+6de25266,6de25266,emta factory agentResetting to default state.
+784b588f,784b588f,emta factory agent destroying <*>
+aaf23f01,aaf23f01,emta factory agent entering RFC- <*> Coexistence security mode.
+5ffb824d,5ffb824d,emta factory agent entering Basic/Hybrid flow provisioning mode.
+cdc06c70,cdc06c70,Resuming trap thread
+b8acb7ba,b8acb7ba,mtaNvCalcChecksum: checksum= <*>EMTA: Enabling anti-spoofing measures
+8d46ee64,8d46ee64,Primary DHCP Provisioning Start. Attempt= <*>
+51e50337,51e50337,EMTA rejected offer or ack.
+2be56395,2be56395,"DHCPc: Client ""MTA"" callout says the lease is not acceptable for reason: ""Received OFFER is NOT Acceptable!""!"
+6f4029ec,6f4029ec,Abnormal_JTAG_Usage
+1e712866,1e712866,EMTA: Disabling anti-spoofing measures
+8a5da44f,8a5da44f,Done w/ deferred traps.
+133e67b3,133e67b3,BcmDocsisCfgVarBindEngine:: Process: emta factory agent processing <*> TLV- <*>/ <*>'s
+7e97b03a,7e97b03a,BcmDocsisCfgVarBindEngine:: Process: <*> TLV- <*>/ <*>'s OK.
+06980e09,06980e09,"emta factory agent sent SNMPv2c <*> <*>, request ID = <*> to <*>, ( NotifyName = <*> )"
+52788f5f,52788f5f,BcmSnmpTrapThread beginning to poll for inform retries.
+cdfb7412,cdfb7412,emta factory agent disabling management.
+4d6ad886,4d6ad886,emta factory agent deferring traps.
+e92380d9,e92380d9,"BcmSnmpTrapThread detected no more informs pending, stopping retry polling."
+f83d503a,f83d503a,### Killing thread <*> waiting on sync
+ed2fb70b,ed2fb70b,DumpEComUnknownObjects() - No leak. ObjectCount= <*>
+3c50c6bc,3c50c6bc,bosAppRootTask() - RESET NOW ( reset # <*> )
+cb9d9874,cb9d9874,CM MTA Reset due to a CM state change to 'Operational' while MTA state is 'Non-operational'
+f5f733e2,f5f733e2,bosAppRootTask() - Reset # <*> completed...
+2c3bd456,2c3bd456,bosAppRootTask() - Spawning app task ( epoch # <*> )...
+85477643,85477643,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: RNG_RSP ( <*> ), fka reserved: <*>, fParseConfCode: <*> ( <*> ), MSG PDU:, primary sid: <*>, RNG-REQ us chan id: <*>, ranging status: <*> ( Success ), timing adj, ticks / <*>: <*> ( <*> ), power adj, dB/ <*>: <*> ( <*> ), Transmit Equalizer Adjust Coeffs:, main tap location: <*>, number forward taps per symbol: <*>, number forward taps: <*>, number reverse taps: <*>"
+47f70fc6,47f70fc6,SCtarting Diffie-Hellman calc. 
+da3588bb,da3588bb,mSnmpAgent enabling management
 b8d9c893,b8d9c893,BcmDocsisCmDiplexerHelper:: ActivateDiplexer: ERROR - Diplexer settings latched. Reason = 'Diplexer switch US reconfig'. Not switching diplexer.
 2fee035d,2fee035d,"Logging event: Registration failure, re-scanning downstream"
 c77196dd,c77196dd,Unlatching diplexer settings. Latch Reason = 'Diplexer switch US reconfig'
-02f56771,02f56771,Scanning <*> MHz PLC/SC-QAM ( Scan list # <*> )
+39188e5d,39188e5d,Scanning <*> MHz <*> ( Scan list # <*> )
 b73d84d3,b73d84d3,BcmCmUsRangingState:: T4NoStationMaintEvent: ERROR - txid= <*> ucid= <*> no Station Maint map op error.
 24b26703,24b26703,BcmCmUsRangingState:: CommonRngErrorHandler: txid= <*> ucid= <*> reason= <*> ( <*> )
 08bdf729,08bdf729,BcmCmUsRangingState:: RcvrTccReplace: txid= <*> ucid= <*> starting upstream recovery.
 e7adb958,e7adb958,BcmCmUsRangingState:: CommonRngErrorHandler: txid= <*> ucid= <*> all pri us svc flow tx chan are down. -> restart error!
 e58582d7,e58582d7,BcmCmUsSetsState:: UsTimeRefFail: txid= <*> ucid= <*> failed to establish upstream time sync.
 7964a894,7964a894,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: RNG_RSP ( <*> ), fka reserved: <*>, fParseConfCode: <*> ( <*> ), MSG PDU:, primary sid: <*>, RNG-REQ us chan id: <*>, ranging status: <*> ( Continue ), timing adj, ticks / <*>: <*> ( <*> ), power adj, dB/ <*>: <*> ( <*> )"
+6ce4761e,6ce4761e,BcmCmUsRangingState:: RngRspMsgEvent: txid= <*> ucid= <*> received RNG-RSP with status= ABORT.
+ef1041d0,ef1041d0,BcmCmDocsisCtlThread:: TargetNextUsChan:  
+64026de6,64026de6,BcmCmMultiUsHelper:: ResetCmUsChan: target hwTxId= <*>
+28699786,28699786,BcmCmUsRangingState:: T3NoRngRspEvent: txid= <*> ucid= <*> no RNG-RSP timeout during initial ranging.
+52eef7dd,52eef7dd,BcmCmUsRangingState:: ConfigInitialRanging: txid= <*> ucid= <*> adjust tx power to <*> dBmV.
+f2b4cdbf,f2b4cdbf,BcmCmUsRangingState:: RngRspMsgEvent: txid= <*> ucid= <*> detected bogus RNG-RSP sid= <*> 
+aadd0558,aadd0558,Logging event: Received REG-RSP while in REG-HOLD1 state; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
+56da51d0,56da51d0,Scanning <*> MHz SC-QAM ( Annex A mod <*> )
+6d63ae2c,6d63ae2c,Scanning <*> MHz SC-QAM ( Annex A mod <*> ) locked SC-QAM
+2b9a5403,2b9a5403,Scanning <*> MHz PLC/SC-QAM ( Scan list # <*> ) locked SC-QAM
+a8f178a2,a8f178a2,RNG-RSP UsChanId= <*> Stat= <*> or ds freq= <*>
+94e6bdc9,94e6bdc9,BcmCmUsRangingState:: RngRspMsgEvent: txid= <*> ucid= <*> ds freq override= <*> Hz. current ds freq= <*> Hz.
+3401caac,3401caac,"Startup UCD Selection Info:, high priority candidate ucid list = <*>, low priority candidate ucid list = <*>, happy home ucid set = <*> "
+8f5e5fd4,8f5e5fd4,BcmCmDsChan:: DsLockFail: rxid= <*> dcid= <*> enter recovery state
+65b804bd,65b804bd,BcmCmDocsisCtlThread:: DetectRccInstallDone: partial service outcome.
+051e59a1,051e59a1,BcmCmDsChan:: DsLockFail: rxid= <*> dcid= <*> lock failure for active primary ds chan during startup. restart error!
+91d362f4,91d362f4,"NumDsChans = <*>, NumUsChans = <*>, Plant power is <*>"
+fc738c74,fc738c74,Cable disconnected
+4e7929d4,4e7929d4,"BcmCmMultiUsHelper:: DetectBogusTccUcidOrUcd: Errored TCC encodings!, == TCC command ==, TCC ref id = <*>, action = <*> ( <*> ), us chan id = <*>, new us chan id = <*> ( <*> ), ranging sid = <*>, ranging strategy = <*> ( <*> ), dyn ranging window = <*> ( <*> ), rng mode ( CM spec ) = <*> ( <*> ), UCD = <suppressed for brevity>, ranging params = ( <*> ), TCC Error:, error code = <*>"
+324ecd03,324ecd03,Aborted ToD acquisition due to client request...
+9452d52d,9452d52d,"The ToD thread was stopped., freeing <*>"
+2dc4ae70,2dc4ae70,BcmEcosIpHalIf:: RemoveIpv6Address: This was the last address on the stack; shutting the stack down:numberOfAddresses= <*>
+16cff17a,16cff17a,BcmEcosIpHalIf:: AddIpv6LinkLocalAddress: Configuring link-local IPv6 address <*>
+a24c1c20,a24c1c20,BcmHttpServerThread:: IpAddressChangeEvent: Adding HTTP support for interface ( <*> ) IpAddress <*>
+95e4657e,95e4657e,Initiating DAD on Link-local address <*>
+a0c5bdfa,a0c5bdfa,Sending IPv6 router solicitation <*> of <*>
+5cbbe5c7,5cbbe5c7,"=== Default Router List ===, Router IP address: <*>, Managed address configuration ( M-bit ): <*>, Other stateful configuration ( O-bit ): <*>, Current hop limit: <*>, Router lifetime: <*>, Reachable time: <*>, Retrans timer: <*>, Source link-layer address: <*>, Prefix: <*>, On-link flag ( L-bit ): <*>, Auto addr config flag ( A-bit ): <*>, Reserved bits: <*>, Valid lifetime: <*> seconds, Preferred lifetime: <*> seconds"
+eaa5176b,eaa5176b,Starting IP Initialization with DHCPv6...
+fffcd216,fffcd216,BcmDhcpV6ClientIf:: SendSolicit: Starting one-shot timer for <*> sec delay since first Solicit message.
+a13da46c,a13da46c,EMTA: no IP-PREF( <*> ) in vendor-spec DHCPv6 Advertise.
+54e96e3c,54e96e3c,EMTA: Required CL_OPTION_CCC not present in DHCPv6 Advertise/Reply
+1718b251,1718b251,"EMTA: Rejecting advertise - <*>, <*> or ip-pref."
+59cfcdaf,59cfcdaf,EMTA: reluctantly accepting any DHCPv6 Advertise after <*> unsuccessful attempts to get DHCPv6 Advertise with CL_OPTION_CCC
+d4ea3abe,d4ea3abe,DHCPv6 completed successfully!
+c1da05f2,c1da05f2,Looking for ToD server/offset in DHCPv6 options...
+5d47a976,5d47a976,BcmEcosSocket:: Recv: ERROR - SOCKET_ERROR: <*>
+d08c981c,d08c981c,BcmDocsisTimeOfDayThread:: HandleToD: Drop this scheduled TOD request during registration. 
+55a2c60e,55a2c60e,"== Beginning initial ranging for Docsis UCID <*> ==, Minimum transmit power is <*> dBmV, Maximum transmit power is <*> dBmV, Dynamic Range Window is from <*>dBmV to <*> dBmV, BcmDocsisTimeOfDayThread:: HandleToD: Drop this scheduled TOD request during registration., Starting TOD backoff timer for <*> seconds ..., Stored power level for UCID <*> is <*> dBmV, Using per transmitter stored initial upstream power = <*> dBmV hwTxId = <*> docsis UCID = <*>"
+315337c6,315337c6,"BcmDhcpV6ClientIf:: ProcessPacket: Client ""CM"" rejected the DHCPv6 packet due to: ""Required option missing: 'cableLabsVendorSpecificInfoOptions'"""
+f058fdeb,f058fdeb,== Starting IP Initialization in Dual Stack provisioning mode ==
+fa7a91dd,fa7a91dd,BcmCmDocsisCtlThread:: SyncCmDhcpInitOkNote: DHCPv4 or DHCPv6 is still acquiring or renewing an address. Not enabling forwarding.
+593d9808,593d9808,BcmCmDocsisCtlThread:: ResumePreRegSequence: Dual stack mode and DHCPv4 is not complete. Not enabling forwarding to CPE.
+2a96b1ea,2a96b1ea,BcmDhcpClientIf:: SendDhcpPacket: WARNING - Failed to send packet!
+da30d9e4,da30d9e4,BcmDhcpClientIf:: SendDiscover: WARNING - Failed to create/send Discover packet. Will try again later...
+279a65ba,279a65ba,RNG-RSP UsChanId= <*> Adj: tim= <*> power= <*> freq= <*> Stat= <*> 
+cafd6af8,cafd6af8,Deferring IP services since we are in dual stack mode.
+9afac1f5,9afac1f5,"BcmEcosIpHalIf:: ConfigureLeaseImpl: WARNING -, New lease specifies primary IP address= <*>, but existing non-zero primary IP address= <*>, ( Replacing )"
+8be26763,8be26763,BcmCmDocsisCtlThread:: SyncCmDhcpInitOkNote: Enabling forwarding from IP stack to CPE interfaces in dual-stack.
+c4d1a780,c4d1a780,== Starting IP Initialization in Alternate provisioning mode ==
+fd71a13f,fd71a13f,Verifying RG ifTable stability...
+0bfce56e,0bfce56e,BcmCmDocsisCtlThread:: ScanNextQd: Scanning algorithm has been 'round the horn' <*> times.
+87a34b02,87a34b02,"Cable disconnected, Publishing 'cable cut' event."
+4a6205bf,4a6205bf,mtaCmStatusInfo( <*> )
+899ed4f3,899ed4f3,Setting networked standby context to 'cable cut'
+5b90b9ad,5b90b9ad,"SetStateImpl: thread state now in transition: full -> networked standby, Notifying RG of networked standby."
+f9be4de5,f9be4de5,"networked standby, Cable cut detected, entering RF disconnect mode., Will check for reconnect in <*> seconds."
+810e821b,810e821b,ClientStateTransitionCompleted: thread state now networked standby
+4a93e2ac,4a93e2ac,Sending cm_power_op <*> to eRouter
+71b4157b,71b4157b,rpc_send_request timeout on tunnel <*>
+5e864c00,5e864c00,<<<<<<<<<<<<< rpc_dump_msg >>>>>>>>>>>>>>>>>>
+879448eb,879448eb,msg <*> RC <*> Req <*> Rep <*> Serv <*> Func <*> reqcnt <*>
+ff17ebbd,ff17ebbd,Len: <*>
+68bef2e7,68bef2e7,Setting proxy timeout to <*> mSecs
+921f9a92,921f9a92,Scan stopped...
+544eaeba,544eaeba,Checking for RF reconnect.
+bb99a5c5,bb99a5c5,"Cable disconnected, Cable still disconnected. Check again in <*> seconds."
+ec05b0a4,ec05b0a4,Networked standby - invoke D3PowerSave.

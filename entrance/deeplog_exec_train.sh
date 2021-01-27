@@ -17,7 +17,8 @@ temp_updt_bfm_b329.txt/temp_updt_bfm_b330.txt/temp_updt_bfm_b331.txt/\
 temp_updt_bfm_b400.txt/temp_updt_bfm_b405.txt/temp_updt_bfm_b415.txt/\
 temp_updt_bfm_b433.txt/temp_updt_bfm_b451.txt/\
 normal_4_register_211.txt/normal_5_otf_mdd_ucd_211.txt/normal_6_dbc_211.txt/\
-normal_7_no_ofdm_211.txt/normal_8_no_ofdma_211.txt"
+normal_7_no_ofdm_211.txt/normal_8_no_ofdma_211.txt/normal_9_voice_ipv4_211.txt/\
+normal_10_voice_ipv4_211.txt"
 
 # Concatenate above files into one and add session label 'segsign: '
 python3 ../tools/cat_files_sessions.py logs/raw ${fileList} logs/train.txt
