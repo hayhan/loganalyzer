@@ -143,6 +143,13 @@ def domain_knowledge(template_id, param_list):
                 log_suggestion = "Attanuation of upstream is too low or high usually. Adjust the US attnuation."
             break
 
+        if case('6ce4761e'):
+            # TEMPLATE: "BcmCmUsRangingState:: RngRspMsgEvent: txid= <*> ucid= <*> received RNG-RSP with status= ABORT."
+            log_fault = True
+            log_description = "The ranging process is terminated by CMTS on hwTxid {0} / ucid {1}".format(param_list[0], param_list[1])
+            log_suggestion = "Attanuation of upstream is too low or high usually. Adjust the US attnuation."
+            break
+
         if case('247a95a1'):
             # TEMPLATE: "Logging event: Unicast Ranging Received Abort Response - Re-initializing MAC; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
             log_fault = True
@@ -173,8 +180,9 @@ def domain_knowledge(template_id, param_list):
             log_suggestion = "Usually the US attnuation is too high or low, or some kind of CMTS issues ..."
             break
 
-        if case('4bd32394'):
+        if case('4bd32394') or case('28699786'):
             # TEMPLATE: "BcmCmUsRangingState:: T3NoRngRspEvent: ERROR - No initial ranging response from CMTS."
+            # TEMPLATE: "BcmCmUsRangingState:: T3NoRngRspEvent: txid= <*> ucid= <*> no RNG-RSP timeout during initial ranging."
             log_fault = True
             log_description = "T3 time out because of no Initial RNG-RSP from CMTS."
             log_suggestion = "Usually the US attnuation is too high or low, or some kind of CMTS issues ..."
@@ -219,6 +227,14 @@ def domain_knowledge(template_id, param_list):
             log_fault = True
             log_description = "Tftp client on CM cannot connect to the Tftp server behind the CMTS."
             log_suggestion = "Check the Tftp server behind the CMTS."
+            break
+
+        if case('ce1477b5') or case('de255b44'):
+            # TEMPLATE: "Logging event: ToD request sent - No Response received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+            # TEMPLATE: "BcmDocsisTimeOfDayThread:: HandleToD: WARNING - Timed out waiting for a response from the ToD server."
+            log_fault = True
+            log_description = "ToD request sent - No Response received."
+            log_suggestion = "ToD server might not be setup correctly behind the CMTS."
             break
 
         # ---------------------------------------------------------------------
