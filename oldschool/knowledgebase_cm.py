@@ -194,7 +194,7 @@ def domain_knowledge(template_id, param_list):
         if case('85b2bfec'):
             # TEMPLATE: "BcmCmDsChan:: MddKeepAliveFailTrans: hwRxId= <*> dcid= <*>"
             log_fault = True
-            log_description = "MDD cannot be received on h/w channel {0}, dcid {1}".format(param_list[1], param_list[2])
+            log_description = "MDD cannot be received on h/w channel {0}, dcid {1}".format(param_list[0], param_list[1])
             log_suggestion = "Usually downstream is broken ..."
             break
 
