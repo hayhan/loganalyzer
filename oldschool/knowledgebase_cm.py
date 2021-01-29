@@ -85,7 +85,7 @@ def domain_knowledge(template_id, param_list):
         if case('9f88e081'):
             # TEMPLATE: "BcmCmDsChan:: DsLockFail: hwRxId= <*> dcid= <*> -> enter kDsOperLockToRescueCmts state"
             log_fault = True
-            log_description = "DS unlock happens on h/w channel {0}, dcid {1}".format(param_list[1], param_list[2])
+            log_description = "DS unlock happens on h/w channel {0}, dcid {1}".format(param_list[0], param_list[1])
             log_suggestion = "Downstream is broken ..."
             break
 
