@@ -35,29 +35,29 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
 
     # Read the model name
     if conlines[2].strip() == 'MODEL=DT':
-        pred_model_file = 'DecesionTree.onnx'
-        incUpdate = False
+        PRED_MODEL_FILE = 'DecesionTree.onnx'
+        INC_UPDATE = False
     elif conlines[2].strip() == 'MODEL=LR':
-        pred_model_file = 'LR.onnx'
-        incUpdate = False
+        PRED_MODEL_FILE = 'LR.onnx'
+        INC_UPDATE = False
     elif conlines[2].strip() == 'MODEL=SVM':
-        pred_model_file = 'SVM.onnx'
-        incUpdate = False
+        PRED_MODEL_FILE = 'SVM.onnx'
+        INC_UPDATE = False
     elif conlines[2].strip() == 'MODEL=RFC':
-        pred_model_file = 'RandomForest.onnx'
-        incUpdate = False
+        PRED_MODEL_FILE = 'RandomForest.onnx'
+        INC_UPDATE = False
     elif conlines[2].strip() == 'MODEL=MultinomialNB':
-        pred_model_file = 'MultinomialNB.onnx'
-        incUpdate = True
+        PRED_MODEL_FILE = 'MultinomialNB.onnx'
+        INC_UPDATE = True
     elif conlines[2].strip() == 'MODEL=Perceptron':
-        pred_model_file = 'Perceptron.onnx'
-        incUpdate = True
+        PRED_MODEL_FILE = 'Perceptron.onnx'
+        INC_UPDATE = True
     elif conlines[2].strip() == 'MODEL=SGDC_SVM':
-        pred_model_file = 'SGDC_SVM.onnx'
-        incUpdate = True
+        PRED_MODEL_FILE = 'SGDC_SVM.onnx'
+        INC_UPDATE = True
     elif conlines[2].strip() == 'MODEL=SGDC_LR':
-        pred_model_file = 'SGDC_LR.onnx'
-        incUpdate = True
+        PRED_MODEL_FILE = 'SGDC_LR.onnx'
+        INC_UPDATE = True
     else:
         print("The model name is wrong. Exit.")
         sys.exit(1)
@@ -83,7 +83,7 @@ para_test = {
 
 
 if __name__ == '__main__':
-    print("===> Predict Model: {}\n".format(pred_model_file))
+    print("===> Predict Model: {}\n".format(PRED_MODEL_FILE))
 
     #####################################################################################
     # Feature extraction for the train data
@@ -100,15 +100,15 @@ if __name__ == '__main__':
     test_x, test_y = featurextor.add_sliding_window(para_test, raw_data_test, \
                                                     event_mapping_data_test, \
                                                     event_id_templates_test, \
-                                                    feat_ext_inc=incUpdate)
+                                                    feat_ext_inc=INC_UPDATE)
 
     # Add weighting factor as we did for training data
     test_x = weighting.transform(para_test, test_x, term_weighting='tf-idf', \
-                                  use_train_factor=True, df_vec_inc=incUpdate)
+                                  use_train_factor=True, df_vec_inc=INC_UPDATE)
 
     # Load the ONNX model which is equivalent to the scikit-learn model
     # https://microsoft.github.io/onnxruntime/python/api_summary.html
-    sess = rt.InferenceSession(para_test['persist_path']+pred_model_file)
+    sess = rt.InferenceSession(para_test['persist_path']+PRED_MODEL_FILE)
     input_name = sess.get_inputs()[0].name
     label_name = sess.get_outputs()[0].name
     test_y_pred = sess.run([label_name], {input_name: test_x.astype(np.float32)})[0]
@@ -120,7 +120,8 @@ if __name__ == '__main__':
     if metricsEn:
         print('Test validation:')
         precision, recall, f1 = utils.metrics(test_y_pred, test_y)
-        print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'.format(precision, recall, f1))
+        print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'\
+              .format(precision, recall, f1))
 
     #####################################################################################
     # Trace anomaly timestamp windows in the raw log file, aka. loganalyzer/logs/test.txt
@@ -132,8 +133,8 @@ if __name__ == '__main__':
     window_list = pd.read_csv(sliding_window_file, header=None).values
 
     anomaly_window_list = []
-    for i in range(len(test_y_pred)):
-        if test_y_pred[i]:
+    for i, pred_result in enumerate(test_y_pred):
+        if pred_result:
             start_index = window_list[i][0]
             end_index = window_list[i][1]
             anomaly_window_list.append(tuple((start_index, end_index)))
@@ -145,11 +146,12 @@ if __name__ == '__main__':
     norm_time_list = data_df['Time'].to_list()
 
     anomaly_timestamp_list = []
-    for i in range(len(anomaly_window_list)):
-        x = anomaly_window_list[i][0]
-        y = anomaly_window_list[i][1]
+    for _i, anomaly_window in enumerate(anomaly_window_list):
+        x = anomaly_window[0]
+        y = anomaly_window[1]
         anomaly_timestamp_list.append(tuple((norm_time_list[x], norm_time_list[y])))
     logging.debug('The anomaly timestamps: {}'.format(anomaly_timestamp_list))
 
     # Save the final timestamp tuples of anomaly
-    np.savetxt(para_test['data_path']+'anomaly_timestamp.csv', anomaly_timestamp_list, delimiter=',', fmt='%s')
+    np.savetxt(para_test['data_path']+'anomaly_timestamp.csv', anomaly_timestamp_list, \
+               delimiter=',', fmt='%s')

@@ -4,16 +4,14 @@ Author      : LogPAI Team, Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
 import logging
-import pandas as pd
 import os
-import numpy as np
 #import re
 #import sys
 import shutil
-from sklearn.utils import shuffle
 from datetime import datetime
-#from collections import OrderedDict
-#from collections import Counter
+from sklearn.utils import shuffle
+import numpy as np
+import pandas as pd
 
 #curfiledir = os.path.dirname(__file__)
 #parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
@@ -38,11 +36,12 @@ def load_data(para, feat_ext_inc=False):
     data_df1 = pd.read_csv(para['structured_file'], usecols=['Time', 'EventId'])
     data_df1['Time'] = pd.to_datetime(data_df1['Time'], format="[%Y%m%d-%H:%M:%S.%f]")
     # Convert timestamp to millisecond unit
-    data_df1['Ms_Elapsed'] = ((data_df1['Time']-data_df1['Time'][0]).dt.total_seconds()*1000).astype('int64')
+    data_df1['Ms_Elapsed'] = ((data_df1['Time']-data_df1['Time'][0]).dt.total_seconds()*1000)\
+                              .astype('int64')
 
     # If it is normal prediction, init the label vector with ZEROs
     # If train or predict with validating, read the real label vector
-    if (para['train'] == False) and (para['extractLabel'] == False):
+    if (not para['train']) and (not para['extractLabel']):
         data_df1['Label'] = pd.DataFrame(0, index=range(len(data_df1)), columns=['Label'])
     else:
         data_df2 = pd.read_csv(para['labels_file'], usecols=['Label'])
@@ -67,16 +66,18 @@ def load_data(para, feat_ext_inc=False):
     #logging.debug(raw_data)
     #logging.debug(event_mapping_data)
     #logging.debug(event_id_templates)
-    np.savetxt(para['data_path']+'elapsed_time_vector.csv', data_df1['Ms_Elapsed'].tolist(), fmt="%s")
+    np.savetxt(para['data_path']+'elapsed_time_vector.csv', \
+               data_df1['Ms_Elapsed'].tolist(), fmt="%s")
 
     # Do not calc the num of logs that are anomalies on test dataset w/o validating
-    if not ((para['train'] == False) and (para['extractLabel'] == False)):
-        print('The number of anomaly logs is %d, but it requires further processing' % sum(raw_data[:, 0]))
+    if not ((not para['train']) and (not para['extractLabel'])):
+        print('The number of anomaly logs is %d, but it requires further processing' \
+              % sum(raw_data[:, 0]))
     return raw_data, event_mapping_data, event_id_templates
 
 
 def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, feat_ext_inc=False):
-    """ Split logs into sliding windows, built an event count matrix and get the corresponding label
+    """ Split logs into sliding windows, built event count matrix and get the corresponding label
 
     Args:
     --------
@@ -92,12 +93,14 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
     labels: a list of labels, 1 represents anomaly
     """
 
-    # create the directory for saving the sliding windows (start_index, end_index), which can be directly loaded in future running
+    # create the directory for saving the sliding windows (start_index, end_index), which
+    # can be directly loaded in future running
     #if not os.path.exists(para['window_path']):
         #os.mkdir(para['window_path'])
 
     log_size = raw_data.shape[0]
-    sliding_window_file = para['data_path']+'sliding_'+str(para['window_size'])+'ms_'+str(para['step_size'])+'ms.csv'
+    sliding_window_file = para['data_path']+'sliding_'+str(para['window_size'])+'ms_'\
+                          +str(para['step_size'])+'ms.csv'
     event_id_shuffled_file = para['persist_path']+'event_id_shuffled.npy'
     event_id_shuffled_file_txt = para['persist_path']+'event_id_shuffled.txt'
     event_id_shuffled_file_static = para['persist_path']+'event_id_shuffled_static.npy'
@@ -109,7 +112,8 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
         if not os.path.exists(event_id_shuffled_file):
             # Init STIDLE: Shuffled Template Id List Expanded
             # Pad ZEROs at the end of event_id_templates to expand the size to TEMPLATE_LIB_SIZE.
-            event_id_templates_ext = event_id_templates + ['0'] * (para['tmplib_size'] - len(event_id_templates))
+            event_id_templates_ext = event_id_templates + ['0'] * (para['tmplib_size'] \
+                                     - len(event_id_templates))
 
             # Shuffle the expanded list now
             event_id_shuffled = shuffle(event_id_templates_ext)
@@ -120,11 +124,11 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
             event_id_shuffled = np.load(event_id_shuffled_file).tolist()
 
             # Update STIDLE, aka. event_id_shuffled, ONLY do the update for train dataset
-            if para['train'] == True:
+            if para['train']:
                 # Read the EventIdOld column from template library
                 data_df = pd.read_csv(template_lib_loc, usecols=['EventIdOld'])
                 event_id_templates_old = data_df['EventIdOld'].to_list()
-                STIDLE_update_flag = False
+                stidle_update_flag = False
 
                 # Case 1):
                 # Find the ZERO values in EventIdOld and the corresponding non ZERO EventId
@@ -133,10 +137,10 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
 
                 # There are ZEROs in EventIdOld. It means the corresponding EventId is new
                 # No need check the correspinding EventId is non-ZERO
-                if len(event_id_old_zero):
+                if not len(event_id_old_zero) == 0:
                     # Aggregate all idx of ZERO in STIDLE to a new list, then shuffle it
-                    idx_zero_STIDLE = [idx for idx, tid in enumerate(event_id_shuffled) if tid == '0']
-                    idx_zero_STIDLE_shuffled = shuffle(idx_zero_STIDLE)
+                    idx_zero_stidle = [idx for idx, tid in enumerate(event_id_shuffled) if tid == '0']
+                    idx_zero_stidle_shuffled = shuffle(idx_zero_stidle)
                     # Insert the new EventId to the STIDLE
                     new_insert_cnt = 0
                     for idx, tid in enumerate(event_id_old_zero):
@@ -144,25 +148,25 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
                         try:
                             event_id_shuffled.index(tid)
                         except:
-                            event_id_shuffled[idx_zero_STIDLE_shuffled[idx]] = tid
+                            event_id_shuffled[idx_zero_stidle_shuffled[idx]] = tid
                             new_insert_cnt += 1
                     # Set the update flag
-                    STIDLE_update_flag = True
+                    stidle_update_flag = True
                     print("%d new template IDs are inserted to STIDLE." % new_insert_cnt)
 
                 # Case 2):
                 # Find the non ZERO values in EventIdOld that are not equal to the ones in EventId
                 # Replace the old tid with the new one in STIDLE
                 updt_cnt = 0
-                for tidOld, tidNew in zip(event_id_templates_old, event_id_templates):
-                    if tidOld != '0' and tidOld != tidNew:
-                        idxOld = event_id_shuffled.index(tidOld)
-                        event_id_shuffled[idxOld] = tidNew
+                for tid_old, tid_new in zip(event_id_templates_old, event_id_templates):
+                    if tid_old not in ('0', tid_new):
+                        idx_old = event_id_shuffled.index(tid_old)
+                        event_id_shuffled[idx_old] = tid_new
                         updt_cnt += 1
 
                 if updt_cnt > 0:
                     # Set the update flag
-                    STIDLE_update_flag = True
+                    stidle_update_flag = True
                     print("%d existing template IDs are updated in STIDLE." % updt_cnt)
 
                 # Case 3):
@@ -172,7 +176,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
                 # TBD
 
                 # Update the STIDLE file
-                if STIDLE_update_flag:
+                if stidle_update_flag:
                     shutil.copy(event_id_shuffled_file_txt, event_id_shuffled_file_txt+'.old')
                     np.save(event_id_shuffled_file, event_id_shuffled)
                     np.savetxt(event_id_shuffled_file_txt, event_id_shuffled, fmt="%s")
@@ -187,7 +191,8 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
             event_id_shuffled = np.load(event_id_shuffled_file_static).tolist()
 
     #=============divide into sliding windows=========#
-    start_end_index_list = [] # list of tuples, tuple contains two numbers, which represents the start and end of sliding window
+    # List of tuples, each contains two numbers representing the start and end of sliding window
+    start_end_index_list = []
     label_data, time_data = raw_data[:, 0], raw_data[:, 1]
     if not os.path.exists(sliding_window_file) or para['window_rebuild']:
         parse_st = datetime.now()
@@ -252,7 +257,8 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
             start_end_index_list.append(start_end_pair)
             """
         inst_number = len(start_end_index_list)
-        print('There are {} instances (sliding windows) in this dataset, cost {!s}\n'.format(inst_number, datetime.now()-parse_st))
+        print('There are {} instances (sliding windows) in this dataset, cost {!s}\n'\
+              .format(inst_number, datetime.now()-parse_st))
         np.savetxt(sliding_window_file, start_end_index_list, delimiter=',',fmt='%d')
     else:
         print('Loading start_end_index_list from file')
@@ -304,7 +310,7 @@ def add_sliding_window(para, raw_data, event_mapping_data, event_id_templates, f
         labels.append(label)
     assert inst_number == len(labels)
     # Do not calc the num of instances that have anomalies on test dataset w/o validating
-    if not ((para['train'] == False) and (para['extractLabel'] == False)):
+    if not ((not para['train']) and (not para['extractLabel'])):
         print("Among all instances, %d are anomalies"%sum(labels))
     #assert event_count_matrix.shape[0] == len(labels)
 
