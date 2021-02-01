@@ -23,5 +23,3 @@ python ..\logparser\drain2_cm.py
 
 rem The machine learning way to analyze log data
 python ..\detector\supervised_learning_pred.py
-rem The oldshool way to analyze log data
-python ..\oldschool\analyzer.py
