@@ -4,6 +4,9 @@ Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
 
+# Global dict to store the context values
+context_store = {'b2079e76': 0}
+
 class switch:
     """
     switch/case of python version at http://code.activestate.com/recipes/410692/
@@ -26,6 +29,7 @@ class switch:
             return True
         else:
             return False
+
 
 def domain_knowledge(template_id, param_list):
     """
@@ -137,10 +141,15 @@ def domain_knowledge(template_id, param_list):
 
         if case('33de59d1'):
             # TEMPLATE: "RNG-RSP UsChanId= <*> Stat= <*> "
+            # Context TEMPLATE ('b2079e76'): "RNG-RSP UsChanId= <*> Adj: power= <*> Stat= <*> "
             if param_list[1] == 'Abort':
                 log_fault = True
                 log_description = "The ranging process is terminated by CMTS on ucid {0}".format(param_list[0])
-                log_suggestion = "Attanuation of upstream is too low or high usually. Adjust the US attnuation."
+                # Check the context info, such as the power adjustment of last time
+                if context_store['b2079e76'] >= 0:
+                    log_suggestion = "Attanuation of upstream is big. Decrease the upstream attnuation."
+                else:
+                    log_suggestion = "Attanuation of upstream is small. Increase the upstream attnuation."
             break
 
         if case('6ce4761e'):
@@ -257,6 +266,18 @@ def domain_knowledge(template_id, param_list):
             log_suggestion = "Check the BPI+ keys on CM, or disable it via CM Config file on CMTS."
             break
 
+        # ---------------------------------------------------------------------
+        # Context updates
+        # ---------------------------------------------------------------------
+        if case('b2079e76'):
+            # TEMPLATE: "RNG-RSP UsChanId= <*> Adj: power= <*> Stat= <*> "
+            if param_list[2] == 'Continue':
+                context_store.update({'b2079e76': int(param_list[1])})
+            break
+
+        # ---------------------------------------------------------------------
+        # Default branch
+        # ---------------------------------------------------------------------
         if case():
             # Default, no match, could also just omit condition or 'if True'
             break
