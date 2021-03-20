@@ -40,6 +40,7 @@ data_df = pd.read_csv(structured_file, usecols=columns)
 logsize = data_df.shape[0]
 
 # Output file that stores the summary results
+top_file = parentdir+'/results/test/analysis_summary_top.txt'
 sum_file = parentdir+'/results/test/analysis_summary.csv'
 
 
@@ -77,7 +78,9 @@ if __name__ == '__main__':
         #print(param_list)
 
         # Now we can search in the knowledge base for the current log
-        log_fault, log_desc, log_sugg = kb.domain_knowledge(event_id, param_list)
+        log_fault, \
+        log_desc, \
+        log_sugg = kb.domain_knowledge(event_id, param_list)
 
         # If current log is fault, store the timestamp, log descrition and suggestion to lists
         if log_fault:
@@ -106,7 +109,18 @@ if __name__ == '__main__':
     summary_df['Time/LineNum'] = log_time_l
     summary_df['Description'] = log_desc_l
     summary_df['Suggestion'] = log_sugg_l
-    #print(summary_df)
+
+    # Aggregate summaries and remove duplicates
+    # Add log_evid_l and log_sugg_l element wisely
+    #sum_list = [a + b for a, b in zip(log_evid_l, log_sugg_l)]
+    #kb.aggregate_summaries(sum_list)
+    summary_top = list(dict.fromkeys(log_sugg_l))
+
+    # Save the top summary to a file
+    with open(top_file, 'w') as outfile:
+        for item in summary_top:
+            outfile.write(item)
+            outfile.write('\n')
 
     # Save the summary data frame to file
     summary_df.to_csv(sum_file, index=False, columns=["Time/LineNum", "Description", "Suggestion"])
