@@ -131,9 +131,12 @@ def domain_knowledge(template_id, param_list):
             log_description = "Some usable US chan ucid {0} freq {1} is beyond the hightest " \
                               "diplexer US range {2}." \
                               .format(param_list[0], param_list[1], param_list[2])
-            log_suggestion = "Change the diplexer settings by CM/CmHal> diplexer_settings 0/1 " \
-                             "and CM/NonVol/CM DOCSIS NonVol> diplexer_mask_hw_provision or " \
-                             "you might need check the diplexer h/w to see if it supports."
+            log_suggestion = "Change the diplexer setting by \"CM/CmHal> diplexer_settings 1\" " \
+                             "and disable diplexer auto switch by \"CM/NonVol/CM DOCSIS 3.1 " \
+                             "NonVol> enable noDiplexerAutoSwitch 1\". Then write and reboot " \
+                             "the board. If issue persists, check the \"CM/NonVol/CM DOCSIS " \
+                             "NonVol> diplexer_mask_hw_provision\" and correct the bitmasks " \
+                             "according to the schematics."
             break
 
         # ---------------------------------------------------------------------

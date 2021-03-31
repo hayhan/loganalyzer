@@ -118,8 +118,8 @@ if __name__ == '__main__':
 
     # Save the top summary to a file
     with open(top_file, 'w') as outfile:
-        for item in summary_top:
-            outfile.write(item)
+        for idx, item in enumerate(summary_top):
+            outfile.write(str(idx+1) + ') ' + item)
             outfile.write('\n')
 
     # Save the summary data frame to file
