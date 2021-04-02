@@ -245,6 +245,15 @@ def domain_knowledge(template_id, param_list):
             log_suggestion = "Usually downstream has some problems ..."
             break
 
+        if case('758f2a6a'):
+            # TEMPLATE: "BcmCmMacDomainSetsState:: TmNoMddEvent:, MDD timeout during kGatherInitialPriDsMddSets"
+            log_fault = True
+            log_description = "No MDD received after scaning / locking primary downstream " \
+                              "channel."
+            log_suggestion = "You need reboot the CMTS if you always see the MDD timeout " \
+                             "after scaning / locking EVERY downstream channel."
+            break
+
         # ---------------------------------------------------------------------
         # DHCP, TFTP, TOD, IP, Networks
         # ---------------------------------------------------------------------
