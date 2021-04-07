@@ -36,7 +36,7 @@ for rf in t_lst:
 strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
                          r'\.(\d{3})|24:00:00\.000)\] (abn: )?')
 
-with open(raw_out_file, 'w') as rawout:
+with open(raw_out_file, 'w', encoding='utf-8') as rawout:
     for rf in raw_in_lst:
         with open(rf, 'r', encoding='utf-8-sig') as rawin:
             for idx, line in enumerate(rawin):

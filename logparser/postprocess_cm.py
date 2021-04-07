@@ -71,7 +71,7 @@ def recover_messed_logs():
     o1_head = ''
     skipped_ln = []
     mapping_norm_pred = []
-    norm_pred_file = open(test_norm_pred_file, 'w')
+    norm_pred_file = open(test_norm_pred_file, 'w', encoding='utf-8')
 
     for idx, (eido, temp) in enumerate(zip(eid_old_logs, temp_logs)):
         # Check the first char to see if it is 'L' or 'C'

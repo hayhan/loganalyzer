@@ -54,7 +54,7 @@ else:
 # https://docs.python.org/3/library/codecs.html
 #
 rawfile = open(raw_file_loc, 'r', encoding='utf-8-sig')
-newfile = open(new_file_loc, 'w')
+newfile = open(new_file_loc, 'w', encoding='utf-8')
 
 #---------------------------------------------
 # Definitions:
@@ -758,8 +758,8 @@ print('Purge costs {!s}\n'.format(datetime.now()-parse_st))
 #########################################################################################
 
 # Scan the new generated newfile
-newfile = open(new_file_loc, 'r')
-normfile = open(norm_file_loc, 'w')
+newfile = open(new_file_loc, 'r', encoding='utf-8')
+normfile = open(norm_file_loc, 'w', encoding='utf-8')
 
 #
 # Variables initialization

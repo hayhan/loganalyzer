@@ -30,7 +30,7 @@ t_lst = raw_in_lst_str.split(sep='/')
 for rf in t_lst:
     raw_in_lst.append(raw_in_loc + '/' + rf)
 
-with open(raw_out_file, 'w') as rawout:
+with open(raw_out_file, 'w', encoding='utf-8') as rawout:
     for rf in raw_in_lst:
         # Remove the utf-8 BOM in case it exists
         with open(rf, 'r', encoding='utf-8-sig') as rawin:
@@ -39,7 +39,7 @@ with open(raw_out_file, 'w') as rawout:
             rawout.write('\n')
 
 #--block comment out start--
-#with open(raw_out_file, 'w') as rawout:
+#with open(raw_out_file, 'w', encoding='utf-8') as rawout:
 #    for rf in raw_in_lst:
 #        with open(rf, 'r', encoding='utf-8-sig') as rawin:
 #            for line in rawin:

@@ -59,7 +59,7 @@ session_vector = []
 norm_logs = []
 session_start = 0
 
-normfile = open(norm_file_loc, 'r')
+normfile = open(norm_file_loc, 'r', encoding='utf-8')
 linesLst = normfile.readlines()
 
 for idx, line in enumerate(linesLst):
@@ -85,5 +85,5 @@ with open(session_file, 'wb') as fout:
     pickle.dump(session_vector, fout)
 
 # Overwrite the old norm file with contents that session labels are removed
-with open(norm_file_loc, 'w+') as fout:
+with open(norm_file_loc, 'w+', encoding='utf-8') as fout:
     fout.writelines(norm_logs)

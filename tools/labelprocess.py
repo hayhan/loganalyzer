@@ -46,8 +46,8 @@ if not os.path.exists(label_vector_file_loc):
     os.mkdir(label_vector_file_loc)
 
 # Scan the new generated newfile
-newfile    = open(new_file_labeled_loc, 'r')
-normfile   = open(norm_file_labeled_loc, 'w')
+newfile    = open(new_file_labeled_loc, 'r', encoding='utf-8')
+normfile   = open(norm_file_labeled_loc, 'w', encoding='utf-8')
 
 # The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738]
 strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)\.(\d{3})|24:00:00\.000)\] ')
@@ -106,7 +106,7 @@ labelPattern = re.compile(r'abn: ')
 
 label_messages = []
 linecount = 0
-with open(norm_file_labeled_loc, 'r') as fin:
+with open(norm_file_labeled_loc, 'r', encoding='utf-8') as fin:
     for line in fin.readlines():
         try:
             match = labelPattern.search(line, 24, 29)

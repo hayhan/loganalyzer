@@ -17,7 +17,7 @@ raw_file_labeled_loc  = parentdir + '/logs/raw/log_4_3390_labeled.txt'
 
 # Generate train/test_labeled.txt
 rawfile = open(raw_file_loc, 'r', encoding='utf-8-sig')
-rawfile_labeled = open(raw_file_labeled_loc, 'w')
+rawfile_labeled = open(raw_file_labeled_loc, 'w', encoding='utf-8')
 
 # The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738]
 mainTimestampPattern = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)\.(\d{3})|24:00:00\.000)\] ')

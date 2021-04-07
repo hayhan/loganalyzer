@@ -56,7 +56,7 @@ label_messages = []
 linecount = 0
 norm_logs = []
 
-with open(norm_file_loc, 'r') as fin:
+with open(norm_file_loc, 'r', encoding='utf-8') as fin:
     for line in fin.readlines():
         try:
             match = labelPattern.search(line, 24, 29)
@@ -80,5 +80,5 @@ logdf['LineId'] = [i + 1 for i in range(linecount)]
 logdf.to_csv(label_vector_file, index=False)
 
 # Overwrite the old norm file with contents that labels are removed
-with open(norm_file_loc, 'w+') as fin:
+with open(norm_file_loc, 'w+', encoding='utf-8') as fin:
     fin.writelines(norm_logs)
