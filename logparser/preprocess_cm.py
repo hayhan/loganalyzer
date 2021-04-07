@@ -359,16 +359,16 @@ rawsize = len(linesLst)
 # predict must have standard timestamp.
 if (not TRAINING) and (not METRICSEN):
     for line in linesLst:
-        # Jumping the heading empty lines if any
+        # Skip the heading empty lines if any exist
         if line in ['\n', '\r\n']:
             continue
         reserveTS = strPattern0.match(line)
         break
 
 #
-# A lower overhead progress bar
+# A low overhead progress bar
 # https://github.com/tqdm/tqdm#documentation
-# To only display statics w/o bar, set ncols=0
+# If only display statics w/o bar, set ncols=0
 #
 pbar = tqdm(total=rawsize, unit='Lines', disable=False,
             bar_format='{l_bar}{bar:40}{r_bar}{bar:-40b}')
@@ -814,6 +814,12 @@ normfile.close()
 # Write the reserveTS value to the realtime parameter file
 # Do it only for prediction in DeepLog and OSS
 if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
+    # Create dir below in case we run prediction directly in a fresh clone
+    if not os.path.exists(parentdir+'/results'):
+        os.mkdir(parentdir+'/results')
+    if not os.path.exists(parentdir+'/results/test'):
+        os.mkdir(parentdir+'/results/test')
+
     with open(rawln_idx_loc, 'wb') as f:
         pickle.dump(rawLnIdxVectorNorm, f)
 
