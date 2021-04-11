@@ -26,11 +26,11 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
     TRAINING = bool(conlines[0].strip() == 'TRAINING=1')
 
 if TRAINING:
-    norm_file_loc = parentdir + '/logs/train_norm.txt'
+    norm_file_loc = parentdir + '/logs/cm/train_norm.txt'
     results_loc = parentdir + '/results/train'
     session_file = results_loc + '/train_norm.txt_session.pkl'
 else:
-    norm_file_loc = parentdir + '/logs/test_norm.txt'
+    norm_file_loc = parentdir + '/logs/cm/test_norm.txt'
     results_loc = parentdir + '/results/test'
     session_file = results_loc + '/test_norm.txt_session.pkl'
 
@@ -63,6 +63,7 @@ normfile = open(norm_file_loc, 'r', encoding='utf-8')
 linesLst = normfile.readlines()
 
 for idx, line in enumerate(linesLst):
+    # Suppose the timestamp with format like '[20190719-08:58:23.738] ' is always there
     match = session_pattern.search(line, 24, 33)
     if match:
         newline = session_pattern.sub('', line, count=2)

@@ -14,13 +14,13 @@ parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
 """
 # For train files
-new_file_labeled_loc  = parentdir + '/logs/train_new_labeled.txt'
-raw_file_labeled_loc  = parentdir + '/logs/train_labeled.txt'
+new_file_labeled_loc  = parentdir + '/logs/cm/train_new_labeled.txt'
+raw_file_labeled_loc  = parentdir + '/logs/cm/train_labeled.txt'
 """
 
 # For test files
-new_file_labeled_loc  = parentdir + '/logs/test_new_labeled.txt'
-raw_file_labeled_loc  = parentdir + '/logs/test_labeled.txt'
+new_file_labeled_loc  = parentdir + '/logs/cm/test_new_labeled.txt'
+raw_file_labeled_loc  = parentdir + '/logs/cm/test_labeled.txt'
 
 # Generate train/test_labeled.txt
 newfile_labeled = open(new_file_labeled_loc, 'r', encoding='utf-8')

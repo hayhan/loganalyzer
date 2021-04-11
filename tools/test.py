@@ -8,8 +8,8 @@ from sklearn.utils import shuffle
 
 curfiledir = os.path.dirname(__file__)
 parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
-#file       = open(parentdir + '/logs/test.txt', 'r')
-#newfile    = open(parentdir + '/logs/test_tmp.txt', 'w')
+#file       = open(parentdir + '/logs/cm/test.txt', 'r')
+#newfile    = open(parentdir + '/logs/cm/test_tmp.txt', 'w')
 
 teststrin0 = re.sub(r'Assigned Data', '',
                     '[16:06:51:140]Assigned Data OFDMA Data Profile IUCs 123456', count=1)

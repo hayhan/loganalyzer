@@ -10,7 +10,7 @@ import os
 import pickle
 import pandas as pd
 from tqdm import tqdm
-import knowledgebase_cm as kb
+import cm.knowledgebase as kb
 
 # Absolute path of current file
 curfiledir = os.path.dirname(__file__)

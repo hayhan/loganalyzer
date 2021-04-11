@@ -15,8 +15,8 @@ parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 # The raw boardfarm log should be processed by following command to remove ^M charactors
 # sed -e "s/\r//g" cm_console.log > test_boardfarm.txt
 #
-raw_file_loc = parentdir + '/logs/test_boardfarm.txt'
-new_file_loc = parentdir + '/logs/test.txt'
+raw_file_loc = parentdir + '/logs/cm/test_boardfarm.txt'
+new_file_loc = parentdir + '/logs/cm/test.txt'
 
 rawfile = open(raw_file_loc, 'r', encoding='utf-8-sig')
 newfile = open(new_file_loc, 'w', encoding='utf-8')
@@ -41,8 +41,7 @@ curline_ts = '[19700101-00:00:00.000] '
 for idx, line in enumerate(rawfile):
 
     # Remove the NULL char '\0' at the first line if it exists
-    if idx == 0:
-        line[0] == '\0'
+    if idx == 0 and line[0] == '\0':
         continue
 
     # Save the main timestamp if it exists. The newline does not contain the main

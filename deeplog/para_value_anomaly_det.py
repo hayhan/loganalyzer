@@ -16,7 +16,7 @@ parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
 sys.path.append(parentdir)
 
-from oldschool import knowledgebase_cm as kb
+import oldschool.cm.knowledgebase as kb
 
 def para_anomaly_det(content, eid, template):
     """ Detect the parameter anomaly by using the OSS

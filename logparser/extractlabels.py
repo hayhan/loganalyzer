@@ -23,14 +23,14 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
     METRICSEN = bool(conlines[1].strip() == 'METRICS=1')
 
 if TRAINING:
-    norm_file_loc = parentdir + '/logs/train_norm.txt'
+    norm_file_loc = parentdir + '/logs/cm/train_norm.txt'
     results_loc   = parentdir + '/results/train'
     label_vector_file = results_loc + '/train_norm.txt_labels.csv'
 else:
     # For test dataset if METRICS is disabled, do not extract the label vector
     if not METRICSEN:
         sys.exit(0)
-    norm_file_loc = parentdir + '/logs/test_norm.txt'
+    norm_file_loc = parentdir + '/logs/cm/test_norm.txt'
     results_loc   = parentdir + '/results/test'
     label_vector_file = results_loc + '/test_norm.txt_labels.csv'
 
@@ -59,6 +59,7 @@ norm_logs = []
 with open(norm_file_loc, 'r', encoding='utf-8') as fin:
     for line in fin.readlines():
         try:
+            # Suppose the timestamp with format like '[20190719-08:58:23.738] ' is always there
             match = labelPattern.search(line, 24, 29)
             if match:
                 label_messages.append('a')

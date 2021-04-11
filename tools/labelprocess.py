@@ -28,22 +28,15 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
         TRAINING = False
 
 if TRAINING:
-    new_file_labeled_loc  = parentdir + '/logs/train_new_labeled.txt'
-    norm_file_labeled_loc = parentdir + '/logs/train_norm_labeled.txt'
-    label_vector_file_loc = parentdir + '/results/train/'
+    new_file_labeled_loc  = parentdir + '/logs/cm/train_new_labeled.txt'
+    norm_file_labeled_loc = parentdir + '/logs/cm/train_norm_labeled.txt'
+    label_vector_file_loc = parentdir + '/results/train/cm/'
     norm_flie_name        = 'train_norm.txt'
 else:
-    new_file_labeled_loc  = parentdir + '/logs/test_new_labeled.txt'
-    norm_file_labeled_loc = parentdir + '/logs/test_norm_labeled.txt'
-    label_vector_file_loc = parentdir + '/results/test/'
+    new_file_labeled_loc  = parentdir + '/logs/cm/test_new_labeled.txt'
+    norm_file_labeled_loc = parentdir + '/logs/cm/test_norm_labeled.txt'
+    label_vector_file_loc = parentdir + '/results/test/cm/'
     norm_flie_name        = 'test_norm.txt'
-
-# Create results/ and sub-dir train/ and test/ if not exist
-if not os.path.exists(parentdir+'/results'):
-    os.mkdir(parentdir+'/results')
-
-if not os.path.exists(label_vector_file_loc):
-    os.mkdir(label_vector_file_loc)
 
 # Scan the new generated newfile
 newfile    = open(new_file_labeled_loc, 'r', encoding='utf-8')

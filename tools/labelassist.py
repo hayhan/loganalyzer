@@ -12,8 +12,8 @@ import re
 curfiledir = os.path.dirname(__file__)
 parentdir  = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
-raw_file_loc  = parentdir + '/logs/raw/log_4_3390.txt'
-raw_file_labeled_loc  = parentdir + '/logs/raw/log_4_3390_labeled.txt'
+raw_file_loc  = parentdir + '/logs/raw/cm/log_4_3390.txt'
+raw_file_labeled_loc  = parentdir + '/logs/raw/cm/log_4_3390_labeled.txt'
 
 # Generate train/test_labeled.txt
 rawfile = open(raw_file_loc, 'r', encoding='utf-8-sig')
