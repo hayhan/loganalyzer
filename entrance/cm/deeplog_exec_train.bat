@@ -24,6 +24,7 @@ rem Concatenate above files into one and add session label 'segsign: '
 python ..\..\tools\cat_files_sessions.py logs/raw/cm %fileList% logs/cm/train.txt
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=1
 echo METRICS=1
 echo MODEL=DEEPLOG
@@ -51,6 +52,7 @@ rem -----------------------------------------------------------------
 copy ..\..\logs\raw\cm\log_2_3390_labeled.txt ..\..\logs\cm\test.txt > nul
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=DEEPLOG
@@ -79,6 +81,7 @@ rem Train the DeepLog exec model, then do a validation
 rem -----------------------------------------------------------------
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=1
 echo METRICS=1
 echo MODEL=EXEC
@@ -96,6 +99,7 @@ echo NUM_DIR=1
 python ..\..\deeplog\exec_path_anomaly_train.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=1
 echo METRICS=1
 echo MODEL=EXEC

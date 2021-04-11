@@ -30,32 +30,34 @@ logging.basicConfig(filename=parentdir+'/tmp/debug.log', \
 with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
     conlines = confile.readlines()
 
+    # The log type
+    LOG_TYPE = conlines[0].strip().replace('LOG_TYPE=', '')
     # Metrics enable
-    metricsEn = bool(conlines[1].strip() == 'METRICS=1')
+    metricsEn = bool(conlines[2].strip() == 'METRICS=1')
 
     # Read the model name
-    if conlines[2].strip() == 'MODEL=DT':
+    if conlines[3].strip() == 'MODEL=DT':
         PRED_MODEL_FILE = 'DecesionTree.onnx'
         INC_UPDATE = False
-    elif conlines[2].strip() == 'MODEL=LR':
+    elif conlines[3].strip() == 'MODEL=LR':
         PRED_MODEL_FILE = 'LR.onnx'
         INC_UPDATE = False
-    elif conlines[2].strip() == 'MODEL=SVM':
+    elif conlines[3].strip() == 'MODEL=SVM':
         PRED_MODEL_FILE = 'SVM.onnx'
         INC_UPDATE = False
-    elif conlines[2].strip() == 'MODEL=RFC':
+    elif conlines[3].strip() == 'MODEL=RFC':
         PRED_MODEL_FILE = 'RandomForest.onnx'
         INC_UPDATE = False
-    elif conlines[2].strip() == 'MODEL=MultinomialNB':
+    elif conlines[3].strip() == 'MODEL=MultinomialNB':
         PRED_MODEL_FILE = 'MultinomialNB.onnx'
         INC_UPDATE = True
-    elif conlines[2].strip() == 'MODEL=Perceptron':
+    elif conlines[3].strip() == 'MODEL=Perceptron':
         PRED_MODEL_FILE = 'Perceptron.onnx'
         INC_UPDATE = True
-    elif conlines[2].strip() == 'MODEL=SGDC_SVM':
+    elif conlines[3].strip() == 'MODEL=SGDC_SVM':
         PRED_MODEL_FILE = 'SGDC_SVM.onnx'
         INC_UPDATE = True
-    elif conlines[2].strip() == 'MODEL=SGDC_LR':
+    elif conlines[3].strip() == 'MODEL=SGDC_LR':
         PRED_MODEL_FILE = 'SGDC_LR.onnx'
         INC_UPDATE = True
     else:
@@ -63,16 +65,20 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
         sys.exit(1)
 
     # Read the sliding window size
-    window_size = int(conlines[3].strip().replace('WINDOW_SIZE=', ''))
+    window_size = int(conlines[4].strip().replace('WINDOW_SIZE=', ''))
     # Read the sliding window step size
-    window_step = int(conlines[4].strip().replace('WINDOW_STEP=', ''))
+    window_step = int(conlines[5].strip().replace('WINDOW_STEP=', ''))
+
+# Abstract results directories
+results_persist_dir = parentdir + '/results/persist/' + LOG_TYPE + '/'
+results_test_dir = parentdir + '/results/test/' + LOG_TYPE + '/'
 
 para_test = {
-    'labels_file'    : parentdir+'/results/test/test_norm.txt_labels.csv',
-    'structured_file': parentdir+'/results/test/test_norm.txt_structured.csv',
-    'templates_file' : parentdir+'/results/test/test_norm.txt_templates.csv',
-    'data_path'      : parentdir+'/results/test/',
-    'persist_path'   : parentdir+'/results/persist/',
+    'labels_file'    : results_test_dir+'test_norm.txt_labels.csv',
+    'structured_file': results_test_dir+'test_norm.txt_structured.csv',
+    'templates_file' : results_test_dir+'test_norm.txt_templates.csv',
+    'data_path'      : results_test_dir,
+    'persist_path'   : results_persist_dir,
     'window_size'    : window_size,    # milliseconds
     'step_size'      : window_step,    # milliseconds
     'window_rebuild' : True,

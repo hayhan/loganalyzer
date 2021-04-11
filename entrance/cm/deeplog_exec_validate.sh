@@ -22,6 +22,7 @@ python3 ../../tools/cat_files_sessions.py logs/raw/cm ${fileList} logs/cm/test.t
 #cp ../../logs/raw/cm/log_2_3390_labeled.txt ../../logs/cm/test.txt
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=DEEPLOG
@@ -50,6 +51,7 @@ python3 ../../logparser/cm/parser.py
 #--------------------------------------------------------------------
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=EXEC
@@ -67,6 +69,7 @@ echo NUM_DIR=1
 python3 ../../deeplog/exec_path_anomaly_validate.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=EXEC

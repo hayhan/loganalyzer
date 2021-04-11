@@ -1,6 +1,7 @@
 #! /bin/bash
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=MultinomialNB
@@ -22,6 +23,7 @@ python3 ../../logparser/cm/parser.py
 python3 ../../detector/supervised_learning_pred.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=Perceptron
@@ -32,6 +34,7 @@ echo TEMPLATE_LIB_SIZE=2000
 python3 ../../detector/supervised_learning_pred.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=SGDC_SVM
@@ -42,6 +45,7 @@ echo TEMPLATE_LIB_SIZE=2000
 python3 ../../detector/supervised_learning_pred.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=SGDC_LR

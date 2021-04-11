@@ -19,27 +19,21 @@ parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
     conlines = confile.readlines()
 
-    TRAINING = bool(conlines[0].strip() == 'TRAINING=1')
-    METRICSEN = bool(conlines[1].strip() == 'METRICS=1')
+    LOG_TYPE = conlines[0].strip().replace('LOG_TYPE=', '')
+    TRAINING = bool(conlines[1].strip() == 'TRAINING=1')
+    METRICSEN = bool(conlines[2].strip() == 'METRICS=1')
 
 if TRAINING:
-    norm_file_loc = parentdir + '/logs/cm/train_norm.txt'
-    results_loc   = parentdir + '/results/train'
+    norm_file_loc = parentdir + '/logs/' + LOG_TYPE + '/train_norm.txt'
+    results_loc   = parentdir + '/results/train/' + LOG_TYPE
     label_vector_file = results_loc + '/train_norm.txt_labels.csv'
 else:
     # For test dataset if METRICS is disabled, do not extract the label vector
     if not METRICSEN:
         sys.exit(0)
-    norm_file_loc = parentdir + '/logs/cm/test_norm.txt'
-    results_loc   = parentdir + '/results/test'
+    norm_file_loc = parentdir + '/logs/' + LOG_TYPE + '/test_norm.txt'
+    results_loc   = parentdir + '/results/test/' + LOG_TYPE
     label_vector_file = results_loc + '/test_norm.txt_labels.csv'
-
-# Create results/ and sub-dir train/ and test/ if not exist
-if not os.path.exists(parentdir+'/results'):
-    os.mkdir(parentdir+'/results')
-
-if not os.path.exists(results_loc):
-    os.mkdir(results_loc)
 
 #
 # Generate the label vector from norm file and remove the labels in norm file

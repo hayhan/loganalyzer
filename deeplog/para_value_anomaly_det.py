@@ -10,13 +10,20 @@ License     : MIT
 #
 import os
 import sys
+import importlib
 
 curfiledir = os.path.dirname(__file__)
 parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
 sys.path.append(parentdir)
 
-import oldschool.cm.knowledgebase as kb
+# Read the log type from the config file
+with open(parentdir+'/entrance/deeplog_config.txt', 'r', encoding='utf-8-sig') as confile:
+    conlines = confile.readlines()
+    LOG_TYPE = conlines[0].strip().replace('LOG_TYPE=', '')
+
+# Import the knowledge base for the corresponding log type
+kb = importlib.import_module('oldschool.'+LOG_TYPE+'.knowledgebase')
 
 def para_anomaly_det(content, eid, template):
     """ Detect the parameter anomaly by using the OSS

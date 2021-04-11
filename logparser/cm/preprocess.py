@@ -26,10 +26,10 @@ grandpadir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
     conlines = confile.readlines()
 
-    TRAINING = bool(conlines[0].strip() == 'TRAINING=1')
-    METRICSEN = bool(conlines[1].strip() == 'METRICS=1')
-    DLOGCONTEXT = bool(conlines[2].strip() == 'MODEL=DEEPLOG')
-    OSSCONTEXT = bool(conlines[2].strip() == 'MODEL=OSS')
+    TRAINING = bool(conlines[1].strip() == 'TRAINING=1')
+    METRICSEN = bool(conlines[2].strip() == 'METRICS=1')
+    DLOGCONTEXT = bool(conlines[3].strip() == 'MODEL=DEEPLOG')
+    OSSCONTEXT = bool(conlines[3].strip() == 'MODEL=OSS')
 
 if TRAINING:
     raw_file_loc = grandpadir + '/logs/cm/train.txt'
@@ -40,8 +40,8 @@ else:
     raw_file_loc = grandpadir + '/logs/cm/test.txt'
     new_file_loc = grandpadir + '/logs/cm/test_new.txt'
     norm_file_loc = grandpadir + '/logs/cm/test_norm.txt'
-    runtime_para_loc = grandpadir + '/results/test/test_runtime_para.txt'
-    rawln_idx_loc = grandpadir + '/results/test/rawline_idx_norm.pkl'
+    runtime_para_loc = grandpadir + '/results/test/cm/test_runtime_para.txt'
+    rawln_idx_loc = grandpadir + '/results/test/cm/rawline_idx_norm.pkl'
     rawLnIdxVectorNew = []
     rawLnIdxVectorNorm = []
     DATATYPE = 'test'

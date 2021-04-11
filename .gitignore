@@ -112,5 +112,3 @@ venv.bak/
 # generated log files
 raw/
 tmp/debug.log
-test/
-train/

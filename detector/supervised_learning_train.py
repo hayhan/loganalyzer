@@ -41,32 +41,34 @@ logging.basicConfig(filename=parentdir+'/tmp/debug.log', \
 with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
     conlines = confile.readlines()
 
+    # The log type
+    LOG_TYPE = conlines[0].strip().replace('LOG_TYPE=', '')
     # Metrics enable
-    metricsEn = bool(conlines[1].strip() == 'METRICS=1')
+    metricsEn = bool(conlines[2].strip() == 'METRICS=1')
 
     # Read the model name
-    if conlines[2].strip() == 'MODEL=DT':
+    if conlines[3].strip() == 'MODEL=DT':
         MODEL_NAME = 'DecesionTree'
         INC_UPDATE = False
-    elif conlines[2].strip() == 'MODEL=LR':
+    elif conlines[3].strip() == 'MODEL=LR':
         MODEL_NAME = 'LR'
         INC_UPDATE = False
-    elif conlines[2].strip() == 'MODEL=SVM':
+    elif conlines[3].strip() == 'MODEL=SVM':
         MODEL_NAME = 'SVM'
         INC_UPDATE = False
-    elif conlines[2].strip() == 'MODEL=RFC':
+    elif conlines[3].strip() == 'MODEL=RFC':
         MODEL_NAME = 'RandomForest'
         INC_UPDATE = False
-    elif conlines[2].strip() == 'MODEL=MultinomialNB':
+    elif conlines[3].strip() == 'MODEL=MultinomialNB':
         MODEL_NAME = 'MultinomialNB'
         INC_UPDATE = True
-    elif conlines[2].strip() == 'MODEL=Perceptron':
+    elif conlines[3].strip() == 'MODEL=Perceptron':
         MODEL_NAME = 'Perceptron'
         INC_UPDATE = True
-    elif conlines[2].strip() == 'MODEL=SGDC_SVM':
+    elif conlines[3].strip() == 'MODEL=SGDC_SVM':
         MODEL_NAME = 'SGDC_SVM'
         INC_UPDATE = True
-    elif conlines[2].strip() == 'MODEL=SGDC_LR':
+    elif conlines[3].strip() == 'MODEL=SGDC_LR':
         MODEL_NAME = 'SGDC_LR'
         INC_UPDATE = True
     else:
@@ -74,18 +76,23 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
         sys.exit(1)
 
     # Read the sliding window size
-    window_size = int(conlines[3].strip().replace('WINDOW_SIZE=', ''))
+    window_size = int(conlines[4].strip().replace('WINDOW_SIZE=', ''))
     # Read the sliding window step size
-    window_step = int(conlines[4].strip().replace('WINDOW_STEP=', ''))
+    window_step = int(conlines[5].strip().replace('WINDOW_STEP=', ''))
     # Read the template library size
-    tmplib_size = int(conlines[5].strip().replace('TEMPLATE_LIB_SIZE=', ''))
+    tmplib_size = int(conlines[6].strip().replace('TEMPLATE_LIB_SIZE=', ''))
+
+# Abstract results directories
+results_persist_dir = parentdir + '/results/persist/' + LOG_TYPE + '/'
+results_train_dir = parentdir + '/results/train/' + LOG_TYPE + '/'
+results_test_dir = parentdir + '/results/test/' + LOG_TYPE + '/'
 
 para_train = {
-    'labels_file'    : parentdir+'/results/train/train_norm.txt_labels.csv',
-    'structured_file': parentdir+'/results/train/train_norm.txt_structured.csv',
-    'templates_file' : parentdir+'/results/train/train_norm.txt_templates.csv',
-    'data_path'      : parentdir+'/results/train/',
-    'persist_path'   : parentdir+'/results/persist/',
+    'labels_file'    : results_train_dir+'train_norm.txt_labels.csv',
+    'structured_file': results_train_dir+'train_norm.txt_structured.csv',
+    'templates_file' : results_train_dir+'train_norm.txt_templates.csv',
+    'data_path'      : results_train_dir,
+    'persist_path'   : results_persist_dir,
     'window_size'    : window_size,    # milliseconds
     'step_size'      : window_step,    # milliseconds
     'tmplib_size'    : tmplib_size,    # only for train dataset
@@ -96,11 +103,11 @@ para_train = {
 }
 
 para_test = {
-    'labels_file'    : parentdir+'/results/test/test_norm.txt_labels.csv',
-    'structured_file': parentdir+'/results/test/test_norm.txt_structured.csv',
-    'templates_file' : parentdir+'/results/test/test_norm.txt_templates.csv',
-    'data_path'      : parentdir+'/results/test/',
-    'persist_path'   : parentdir+'/results/persist/',
+    'labels_file'    : results_test_dir+'test_norm.txt_labels.csv',
+    'structured_file': results_test_dir+'test_norm.txt_structured.csv',
+    'templates_file' : results_test_dir+'test_norm.txt_templates.csv',
+    'data_path'      : results_test_dir,
+    'persist_path'   : results_persist_dir,
     'window_size'    : window_size,    # milliseconds
     'step_size'      : window_step,    # milliseconds
     'window_rebuild' : True,

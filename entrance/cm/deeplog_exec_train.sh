@@ -24,6 +24,7 @@ normal_10_voice_ipv4_211.txt"
 python3 ../../tools/cat_files_sessions.py logs/raw/cm ${fileList} logs/cm/train.txt
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=1
 echo METRICS=1
 echo MODEL=DEEPLOG
@@ -51,6 +52,7 @@ python3 ../../logparser/cm/parser.py
 cp ../../logs/raw/cm/log_2_3390_labeled.txt ../../logs/cm/test.txt
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=DEEPLOG
@@ -79,6 +81,7 @@ python3 ../../logparser/cm/parser.py
 #--------------------------------------------------------------------
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=1
 echo METRICS=1
 echo MODEL=EXEC
@@ -96,6 +99,7 @@ echo NUM_DIR=1
 python3 ../../deeplog/exec_path_anomaly_train.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=1
 echo METRICS=1
 echo MODEL=EXEC

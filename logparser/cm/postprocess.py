@@ -22,18 +22,18 @@ grandpadir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 #
 
 test_norm_pred_file = grandpadir + '/logs/cm/test_norm_pred.txt'
-test_struct_file = grandpadir + '/results/test/test_norm.txt_structured.csv'
-temp_library_file = grandpadir + '/results/persist/template_lib.csv'
-#test_struct_pred_file = grandpadir + '/results/test/test_norm.txt_structured_pred.csv'
+test_struct_file = grandpadir + '/results/test/cm/test_norm.txt_structured.csv'
+temp_library_file = grandpadir + '/results/persist/cm/template_lib.csv'
+#test_struct_pred_file = grandpadir + '/results/test/cm/test_norm.txt_structured_pred.csv'
 
 # Two mapping files
 # 1) The mapping between raw (test.txt) and norm (test_norm.txt)
-rawln_idx_file = grandpadir + '/results/test/rawline_idx_norm.pkl'
+rawln_idx_file = grandpadir + '/results/test/cm/rawline_idx_norm.pkl'
 # 2) The mapping between norm (test_norm.txt) and norm pred (test_norm_pred.txt)
-mapping_norm_pred_file = grandpadir + '/results/test/mapping_norm_pred.pkl'
+mapping_norm_pred_file = grandpadir + '/results/test/cm/mapping_norm_pred.pkl'
 
 # Check the runtime variable RESERVE_TS to see if there are timestamps
-with open(grandpadir+'/results/test/test_runtime_para.txt', 'r') as parafile:
+with open(grandpadir+'/results/test/cm/test_runtime_para.txt', 'r') as parafile:
     paralines = parafile.readlines()
     RESERVE_TS = bool(paralines[0].strip() == 'RESERVE_TS=1')
 

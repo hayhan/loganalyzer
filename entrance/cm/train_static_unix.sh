@@ -2,6 +2,7 @@
 
 # Process train dataset
 (
+echo LOG_TYPE=cm
 echo TRAINING=1
 echo METRICS=1
 echo MODEL=DT
@@ -18,6 +19,7 @@ python3 ../../logparser/cm/parser.py
 
 # Process test dataset
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=DT
@@ -35,6 +37,7 @@ python3 ../../logparser/cm/parser.py
 python3 ../../detector/supervised_learning_train.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=LR
@@ -45,6 +48,7 @@ echo TEMPLATE_LIB_SIZE=2000
 python3 ../../detector/supervised_learning_train.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=SVM
@@ -55,6 +59,7 @@ echo TEMPLATE_LIB_SIZE=2000
 python3 ../../detector/supervised_learning_train.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=RFC

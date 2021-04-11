@@ -2,6 +2,7 @@
 
 # Process train dataset
 (
+echo LOG_TYPE=cm
 echo TRAINING=1
 echo METRICS=1
 echo MODEL=DT
@@ -18,6 +19,7 @@ python3 ../../logparser/cm/parser.py
 
 # Process test dataset
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=DT

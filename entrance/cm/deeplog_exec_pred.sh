@@ -9,6 +9,7 @@
 
 # Configure parameters for logparser
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=0
 echo MODEL=DEEPLOG
@@ -31,6 +32,7 @@ python3 ../../logparser/cm/parser_again.py
 
 # Configure parameters for DeepLog exec model
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=0
 echo MODEL=EXEC

@@ -9,6 +9,7 @@ rem copy ..\..\logs\raw\cm\temp_updt_bfm_b433.txt ..\..\logs\cm\test.txt > nul
 
 rem Configure parameters for logparser
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=0
 echo MODEL=DEEPLOG
@@ -31,6 +32,7 @@ python ..\..\logparser\parser_again.py
 
 rem Configure parameters for DeepLog exec model
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=0
 echo MODEL=EXEC

@@ -23,35 +23,42 @@ sys.path.append(parentdir)
 with open(parentdir+'/entrance/deeplog_config.txt', 'r', encoding='utf-8-sig') as confile:
     conlines = confile.readlines()
 
+    # The log type
+    LOG_TYPE = conlines[0].strip().replace('LOG_TYPE=', '')
     # Metrics enable
-    METRICS_EN = bool(conlines[1].strip() == 'METRICS=1')
+    METRICS_EN = bool(conlines[2].strip() == 'METRICS=1')
     # Read the sliding window size
-    WINDOW_SIZE = int(conlines[3].strip().replace('WINDOW_SIZE=', ''))
+    WINDOW_SIZE = int(conlines[4].strip().replace('WINDOW_SIZE=', ''))
     # Read the template library size
-    TEMPLATE_LIB_SIZE = int(conlines[4].strip().replace('TEMPLATE_LIB_SIZE=', ''))
+    TEMPLATE_LIB_SIZE = int(conlines[5].strip().replace('TEMPLATE_LIB_SIZE=', ''))
     # Read the batch size for training
-    BATCH_SIZE = int(conlines[5].strip().replace('BATCH_SIZE=', ''))
+    BATCH_SIZE = int(conlines[6].strip().replace('BATCH_SIZE=', ''))
     # Read the number of epochs for training
-    NUM_EPOCHS = int(conlines[6].strip().replace('NUM_EPOCHS=', ''))
+    NUM_EPOCHS = int(conlines[7].strip().replace('NUM_EPOCHS=', ''))
     # Read the number of workers for multi-process data
-    NUM_WORKERS = int(conlines[7].strip().replace('NUM_WORKERS=', ''))
+    NUM_WORKERS = int(conlines[8].strip().replace('NUM_WORKERS=', ''))
     # Read the number of hidden size
-    HIDDEN_SIZE = int(conlines[8].strip().replace('HIDDEN_SIZE=', ''))
+    HIDDEN_SIZE = int(conlines[9].strip().replace('HIDDEN_SIZE=', ''))
     # Read the number of topk
-    TOPK = int(conlines[9].strip().replace('TOPK=', ''))
+    TOPK = int(conlines[10].strip().replace('TOPK=', ''))
     # Read the device, cpu or gpu
-    DEVICE = conlines[10].strip().replace('DEVICE=', '')
+    DEVICE = conlines[11].strip().replace('DEVICE=', '')
     # Read num of directions to train
-    NUM_DIR = int(conlines[11].strip().replace('NUM_DIR=', ''))
+    NUM_DIR = int(conlines[12].strip().replace('NUM_DIR=', ''))
+
+# Abstract results directories
+results_persist_dir = parentdir + '/results/persist/' + LOG_TYPE + '/'
+results_train_dir = parentdir + '/results/train/' + LOG_TYPE + '/'
+results_test_dir = parentdir + '/results/test/' + LOG_TYPE + '/'
 
 para_train = {
-    'structured_file': parentdir+'/results/train/train_norm.txt_structured.csv',
-    'session_file'   : parentdir+'/results/train/train_norm.txt_session.pkl',
-    'template_lib'   : parentdir+'/results/persist/template_lib.csv',
-    'eid_file'       : parentdir+'/results/persist/event_id_deeplog.npy',
-    'eid_file_txt'   : parentdir+'/results/persist/event_id_deeplog.txt',
-    'data_path'      : parentdir+'/results/train/',
-    'persist_path'   : parentdir+'/results/persist/',
+    'structured_file': results_train_dir+'train_norm.txt_structured.csv',
+    'session_file'   : results_train_dir+'train_norm.txt_session.pkl',
+    'template_lib'   : results_persist_dir+'template_lib.csv',
+    'eid_file'       : results_persist_dir+'event_id_deeplog.npy',
+    'eid_file_txt'   : results_persist_dir+'event_id_deeplog.txt',
+    'data_path'      : results_train_dir,
+    'persist_path'   : results_persist_dir,
     'window_size'    : WINDOW_SIZE,         # aka sequence length, unit is log
     'tmplib_size'    : TEMPLATE_LIB_SIZE,
     'train'          : True,
@@ -59,14 +66,14 @@ para_train = {
 }
 
 para_test = {
-    'structured_file': parentdir+'/results/test/test_norm.txt_structured.csv',
-    'session_file'   : parentdir+'/results/test/test_norm.txt_session.pkl',
-    'labels_file'    : parentdir+'/results/test/test_norm.txt_labels.csv',
-    'template_lib'   : parentdir+'/results/persist/template_lib.csv',
-    'eid_file'       : parentdir+'/results/persist/event_id_deeplog.npy',
-    'eid_file_txt'   : parentdir+'/results/persist/event_id_deeplog.txt',
-    'data_path'      : parentdir+'/results/test/',
-    'persist_path'   : parentdir+'/results/persist/',
+    'structured_file': results_test_dir+'test_norm.txt_structured.csv',
+    'session_file'   : results_test_dir+'test_norm.txt_session.pkl',
+    'labels_file'    : results_test_dir+'test_norm.txt_labels.csv',
+    'template_lib'   : results_persist_dir+'template_lib.csv',
+    'eid_file'       : results_persist_dir+'event_id_deeplog.npy',
+    'eid_file_txt'   : results_persist_dir+'event_id_deeplog.txt',
+    'data_path'      : results_test_dir,
+    'persist_path'   : results_persist_dir,
     'window_size'    : WINDOW_SIZE,         # aka sequence length, unit is log
     'tmplib_size'    : TEMPLATE_LIB_SIZE,
     'train'          : False,

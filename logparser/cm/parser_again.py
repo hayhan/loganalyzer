@@ -23,19 +23,19 @@ from drain2 import Para, Drain
 # Not for OSS and CML.
 # So we no need check some enviroment variables in config.txt
 #
-input_dir = grandpadir + '/logs/cm/'            # The input directory of log file
-output_dir = grandpadir + '/results/test/'      # The output directory of parsing results
-persist_dir = grandpadir + '/results/persist/'  # The directory of saving persist files
-TEMPLATE_LIB = 'template_lib.csv'               # The template lib file name
-LOG_FILE = 'test_norm_pred.txt'                 # The input log file name
-LOG_FORMAT = '<Time> <Content>'                 # DOCSIS log format
+input_dir = grandpadir + '/logs/cm/'               # The input directory of log file
+output_dir = grandpadir + '/results/test/cm/'      # The output directory of parsing results
+persist_dir = grandpadir + '/results/persist/cm/'  # The directory of saving persist files
+TEMPLATE_LIB = 'template_lib.csv'                  # The template lib file name
+LOG_FILE = 'test_norm_pred.txt'                    # The input log file name
+LOG_FORMAT = '<Time> <Content>'                    # DOCSIS log format
 
 # Check the runtime value of RESERVE_TS to see if there are timestamps
-with open(grandpadir+'/results/test/test_runtime_para.txt', 'r') as parafile:
+with open(grandpadir+'/results/test/cm/test_runtime_para.txt', 'r') as parafile:
     paralines = parafile.readlines()
     RESERVE_TS = bool(paralines[0].strip() == 'RESERVE_TS=1')
 if not RESERVE_TS:
-    LOG_FORMAT = '<Content>'                    # DOCSIS log format
+    LOG_FORMAT = '<Content>'                       # DOCSIS log format
 
 #
 # Regular expression dict for optional preprocessing (can be empty {})

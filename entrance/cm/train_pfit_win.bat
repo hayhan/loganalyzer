@@ -2,6 +2,7 @@
 
 rem ---Process train dataset
 (
+echo LOG_TYPE=cm
 echo TRAINING=1
 echo METRICS=1
 echo MODEL=MultinomialNB
@@ -18,6 +19,7 @@ python ..\..\logparser\cm\parser.py
 
 rem ---Process test dataset
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=MultinomialNB
@@ -35,6 +37,7 @@ rem ---Train and test on different models
 python ..\..\detector\supervised_learning_train.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=Perceptron
@@ -45,6 +48,7 @@ echo TEMPLATE_LIB_SIZE=2000
 python ..\..\detector\supervised_learning_train.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=SGDC_SVM
@@ -55,6 +59,7 @@ echo TEMPLATE_LIB_SIZE=2000
 python ..\..\detector\supervised_learning_train.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=SGDC_LR

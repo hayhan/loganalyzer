@@ -3,6 +3,7 @@
 # This script updates the template library
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=1
 echo METRICS=0
 echo MODEL=TEMPUPDT

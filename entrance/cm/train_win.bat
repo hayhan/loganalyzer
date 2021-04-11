@@ -2,6 +2,7 @@
 
 rem ---Process train dataset
 (
+echo LOG_TYPE=cm
 echo TRAINING=1
 echo METRICS=1
 echo MODEL=DT
@@ -18,6 +19,7 @@ python ..\..\logparser\cm\parser.py
 
 rem ---Process test dataset
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=DT

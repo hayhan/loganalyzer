@@ -12,8 +12,8 @@ import pandas as pd
 curfiledir = os.path.dirname(__file__)
 parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
-test_struct_file = parentdir + '/results/test/test_norm.txt_structured.csv'
-temp_library_file = parentdir + '/results/persist/template_lib.csv'
+test_struct_file = parentdir + '/results/test/cm/test_norm.txt_structured.csv'
+temp_library_file = parentdir + '/results/persist/cm/template_lib.csv'
 
 def recover_messed_logs():
     """ Recover CM logs which are messed up by higher priority threads

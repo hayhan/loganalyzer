@@ -24,41 +24,31 @@ from drain2 import Para, Drain
 with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
     conlines = confile.readlines()
 
-    TRAINING = bool(conlines[0].strip() == 'TRAINING=1')
-    METRICSEN = bool(conlines[1].strip() == 'METRICS=1')
-    DLOGCONTEXT = bool(conlines[2].strip() == 'MODEL=DEEPLOG')
-    OSSCONTEXT = bool(conlines[2].strip() == 'MODEL=OSS')
+    TRAINING = bool(conlines[1].strip() == 'TRAINING=1')
+    METRICSEN = bool(conlines[2].strip() == 'METRICS=1')
+    DLOGCONTEXT = bool(conlines[3].strip() == 'MODEL=DEEPLOG')
+    OSSCONTEXT = bool(conlines[3].strip() == 'MODEL=OSS')
 
 if TRAINING:
     LOG_FILE = 'train_norm.txt'
-    output_dir = grandpadir + '/results/train/'
+    output_dir = grandpadir + '/results/train/cm/'
 else:
     LOG_FILE = 'test_norm.txt'
-    output_dir = grandpadir + '/results/test/'
+    output_dir = grandpadir + '/results/test/cm/'
 
-input_dir = grandpadir + '/logs/cm/'            # The input directory of log file
-persist_dir = grandpadir + '/results/persist/'  # The directory of saving persist files
-TEMPLATE_LIB = 'template_lib.csv'               # The template lib file name
-LOG_FORMAT = '<Time> <Content>'                 # DOCSIS log format
+input_dir = grandpadir + '/logs/cm/'               # The input directory of log file
+persist_dir = grandpadir + '/results/persist/cm/'  # The directory of saving persist files
+TEMPLATE_LIB = 'template_lib.csv'                  # The template lib file name
+LOG_FORMAT = '<Time> <Content>'                    # DOCSIS log format
 
 # For DeepLog predict and OSS, check the runtime RESERVE_TS to see if there are
 # timestamps in the norm log file
 if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
-    with open(grandpadir+'/results/test/test_runtime_para.txt', 'r') as parafile:
+    with open(grandpadir+'/results/test/cm/test_runtime_para.txt', 'r') as parafile:
         paralines = parafile.readlines()
         RESERVE_TS = bool(paralines[0].strip() == 'RESERVE_TS=1')
     if not RESERVE_TS:
-        LOG_FORMAT = '<Content>'                # DOCSIS log format
-
-# Create results/ and sub-dir train/ and test/ if not exist
-if not os.path.exists(grandpadir+'/results'):
-    os.mkdir(grandpadir+'/results')
-
-if not os.path.exists(output_dir):
-    os.mkdir(output_dir)
-
-if not os.path.exists(persist_dir):
-    os.mkdir(persist_dir)
+        LOG_FORMAT = '<Content>'                   # DOCSIS log format
 
 #
 # Regular expression dict for optional preprocessing (can be empty {})

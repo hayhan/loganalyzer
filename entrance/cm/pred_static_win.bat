@@ -1,6 +1,7 @@
 @echo off
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=DT
@@ -22,6 +23,7 @@ rem The machine learning way to analyze log data
 python ..\..\detector\supervised_learning_pred.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=LR
@@ -32,6 +34,7 @@ echo TEMPLATE_LIB_SIZE=2000
 python ..\..\detector\supervised_learning_pred.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=SVM
@@ -42,6 +45,7 @@ echo TEMPLATE_LIB_SIZE=2000
 python ..\..\detector\supervised_learning_pred.py
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=1
 echo MODEL=RFC

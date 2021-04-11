@@ -7,10 +7,10 @@ License     : MIT
 import os
 #import sys
 #import re
+import importlib
 import pickle
 import pandas as pd
 from tqdm import tqdm
-import cm.knowledgebase as kb
 
 # Absolute path of current file
 curfiledir = os.path.dirname(__file__)
@@ -19,14 +19,24 @@ parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
 #from tools import helper
 
+# Read the config file to see what kind of logs we are processing
+with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
+    conlines = confile.readlines()
+    LOG_TYPE = conlines[0].strip().replace('LOG_TYPE=', '')
+
+results_test_dir = parentdir + '/results/test/' + LOG_TYPE + '/'
+
+# Import the knowledge base for the corresponding log type
+kb = importlib.import_module(LOG_TYPE + '.knowledgebase')
+
 # The norm file -> test file line mapping
-rawln_idx_file = parentdir + '/results/test/rawline_idx_norm.pkl'
+rawln_idx_file = results_test_dir + 'rawline_idx_norm.pkl'
 
 # Load the norm structured log file, which is the result of log parser module
-structured_file = parentdir+'/results/test/test_norm.txt_structured.csv'
+structured_file = results_test_dir + 'test_norm.txt_structured.csv'
 
 # Read the runtime parameters
-with open(parentdir+'/results/test/test_runtime_para.txt', 'r') as parafile:
+with open(results_test_dir + 'test_runtime_para.txt', 'r') as parafile:
     paralines = parafile.readlines()
     RESERVE_TS = bool(paralines[0].strip() == 'RESERVE_TS=1')
 
@@ -40,8 +50,8 @@ data_df = pd.read_csv(structured_file, usecols=columns)
 logsize = data_df.shape[0]
 
 # Output file that stores the summary results
-top_file = parentdir+'/results/test/analysis_summary_top.txt'
-sum_file = parentdir+'/results/test/analysis_summary.csv'
+top_file = results_test_dir + 'analysis_summary_top.txt'
+sum_file = results_test_dir + 'analysis_summary.csv'
 
 
 if __name__ == '__main__':

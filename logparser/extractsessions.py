@@ -23,23 +23,17 @@ parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
     conlines = confile.readlines()
 
-    TRAINING = bool(conlines[0].strip() == 'TRAINING=1')
+    LOG_TYPE = conlines[0].strip().replace('LOG_TYPE=', '')
+    TRAINING = bool(conlines[1].strip() == 'TRAINING=1')
 
 if TRAINING:
-    norm_file_loc = parentdir + '/logs/cm/train_norm.txt'
-    results_loc = parentdir + '/results/train'
+    norm_file_loc = parentdir + '/logs/' + LOG_TYPE + '/train_norm.txt'
+    results_loc = parentdir + '/results/train/' + LOG_TYPE
     session_file = results_loc + '/train_norm.txt_session.pkl'
 else:
-    norm_file_loc = parentdir + '/logs/cm/test_norm.txt'
-    results_loc = parentdir + '/results/test'
+    norm_file_loc = parentdir + '/logs/' + LOG_TYPE + '/test_norm.txt'
+    results_loc = parentdir + '/results/test/' + LOG_TYPE
     session_file = results_loc + '/test_norm.txt_session.pkl'
-
-# Create results/ and sub-dir if not exist
-if not os.path.exists(parentdir+'/results'):
-    os.mkdir(parentdir+'/results')
-
-if not os.path.exists(results_loc):
-    os.mkdir(results_loc)
 
 #
 # Generate the session size vector from norm file, then remove the labels in norm file

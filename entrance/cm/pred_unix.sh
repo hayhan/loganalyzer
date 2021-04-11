@@ -1,6 +1,7 @@
 #! /bin/bash
 
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=0
 echo MODEL=DT

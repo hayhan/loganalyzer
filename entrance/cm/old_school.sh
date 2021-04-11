@@ -13,6 +13,7 @@ source $SHELL_FOLDER/../../../pyVirtEnvs/log_env/bin/activate
 
 # Set parameters for loganalyzer
 (
+echo LOG_TYPE=cm
 echo TRAINING=0
 echo METRICS=0
 echo MODEL=OSS
