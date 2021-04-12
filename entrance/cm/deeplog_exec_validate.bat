@@ -44,7 +44,7 @@ rem Save the session size to a vector, then remove the session labels from norm 
 python ..\..\logparser\extractsessions.py
 
 rem Parse the log and extract the templates
-python ..\..\logparser\parser.py
+python ..\..\logparser\cm\parser.py
 
 rem -----------------------------------------------------------------
 rem Do a validation

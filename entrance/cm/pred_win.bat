@@ -20,7 +20,7 @@ rem Extract the label vector from norm file
 python ..\..\logparser\extractlabels.py
 
 rem Parse the log and generate templates ...
-python ..\..\logparser\parser.py
+python ..\..\logparser\cm\parser.py
 
 rem The machine learning way to analyze log data
 python ..\..\detector\supervised_learning_pred.py

@@ -28,7 +28,7 @@ rem Postprocess to recover messed logs
 python ..\..\logparser\cm\postprocess.py
 
 rem The second time clustering for messed logs
-python ..\..\logparser\parser_again.py
+python ..\..\logparser\cm\parser_again.py
 
 rem Configure parameters for DeepLog exec model
 (
