@@ -28,7 +28,7 @@ output_dir = grandpadir + '/results/test/cm/'      # The output directory of par
 persist_dir = grandpadir + '/results/persist/cm/'  # The directory of saving persist files
 TEMPLATE_LIB = 'template_lib.csv'                  # The template lib file name
 LOG_FILE = 'test_norm_pred.txt'                    # The input log file name
-LOG_FORMAT = '<Time> <Content>'                    # DOCSIS log format
+LOG_FORMAT = '<Time> <Content>'                    # Default / standard DOCSIS log format
 
 # Check the runtime value of RESERVE_TS to see if there are timestamps
 with open(grandpadir+'/results/test/cm/test_runtime_para.txt', 'r') as parafile:
@@ -37,7 +37,7 @@ with open(grandpadir+'/results/test/cm/test_runtime_para.txt', 'r') as parafile:
     if RESERVE_TS == 0:
         LOG_FORMAT = '<Content>'
     elif RESERVE_TS > 0:
-        # The customized pattern for does not remove the trailing spaces behind timestamp
+        # The customized pattern does not remove the trailing spaces behind timestamp
         # comparing to the standard / default format. This does not matter for DeepLog
         # and OSS as we only display the timestamps. For Loglizer, we need calculate the
         # time window and should take care when this change affacts it in the future.

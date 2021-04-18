@@ -3,7 +3,7 @@
 ## **Usage**
 
 ### Raw log format prerequisite
-Add timestamp like this one "[20190719-08:58:23.748] " at the start of each line. This not always necessary as we support no timestamp for prediction of DeepLog and OSS (Old School System) now.
+Add timestamp like this one "[20190719-08:58:23.748] " at the start of each line. This not always necessary as we support arbitrary timestamp format including no timestamp for prediction of DeepLog and OSS (Old School System) now.
 
 ### Label your training logs
 Put a string "abn: " after the timestamp for the anomaly log. If it is a multi-line log, we just label the first line. The labeling is needed for the classical machine learning models but not for the DeepLog training and OSS. While for validation purpose, the labeling is always needed.
