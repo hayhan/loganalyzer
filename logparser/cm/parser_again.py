@@ -33,9 +33,18 @@ LOG_FORMAT = '<Time> <Content>'                    # DOCSIS log format
 # Check the runtime value of RESERVE_TS to see if there are timestamps
 with open(grandpadir+'/results/test/cm/test_runtime_para.txt', 'r') as parafile:
     paralines = parafile.readlines()
-    RESERVE_TS = bool(paralines[0].strip() == 'RESERVE_TS=1')
-if not RESERVE_TS:
-    LOG_FORMAT = '<Content>'                       # DOCSIS log format
+    RESERVE_TS = int(paralines[0].strip().replace('RESERVE_TS=', ''))
+    if RESERVE_TS == 0:
+        LOG_FORMAT = '<Content>'
+    elif RESERVE_TS > 0:
+        # The customized pattern for does not remove the trailing spaces behind timestamp
+        # comparing to the standard / default format. This does not matter for DeepLog
+        # and OSS as we only display the timestamps. For Loglizer, we need calculate the
+        # time window and should take care when this change affacts it in the future.
+        LOG_FORMAT = '(?P<Time>.{%d})(?P<Content>.*?)' % RESERVE_TS
+    else:
+        # Not CM log. Return right now.
+        sys.exit(0)
 
 #
 # Regular expression dict for optional preprocessing (can be empty {})

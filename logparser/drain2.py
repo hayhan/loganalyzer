@@ -857,7 +857,7 @@ class Drain:
         """
         Function to generate regular expression to split log messages
         """
-        # Suppose the logformat is:
+        # Suppose the default and standard logformat is:
         #     '<Date> <Time> <Pid> <Level> <Component>: <Content>'
         # Then the output:
         # headers
@@ -875,6 +875,11 @@ class Drain:
                 header = splitters[k].strip('<').strip('>')
                 regex += '(?P<%s>.*?)' % header
                 headers.append(header)
+        # For customized logformat, use it as rex pattern directly
+        # An example of customized one in logformat: '(?P<Time>.{m})(?P<Content>.*?)'
+        # Note, the customeized one should not break the headers generation
+        if logformat[0] != '<':
+            regex = logformat
         regex = re.compile('^' + regex + '$')
         return headers, regex
 
@@ -888,7 +893,7 @@ class Drain:
         with open(log_file, 'r', encoding='utf-8') as fin:
             for line in fin.readlines():
                 try:
-                    #  Note, reserve the trailing spaces of each log if it has
+                    # Note, reserve the trailing spaces of each log if it has
                     match = regex.search(line.strip('\r\n'))
                     message = [match.group(header) for header in headers]
                     log_messages.append(message)

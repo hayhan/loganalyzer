@@ -5,7 +5,7 @@ License     : MIT
 """
 
 import os
-#import sys
+import sys
 #import re
 import importlib
 import pickle
@@ -35,13 +35,41 @@ rawln_idx_file = results_test_dir + 'rawline_idx_norm.pkl'
 # Load the norm structured log file, which is the result of log parser module
 structured_file = results_test_dir + 'test_norm.txt_structured.csv'
 
+# Output file that stores the summary results
+top_file = results_test_dir + 'analysis_summary_top.txt'
+sum_file = results_test_dir + 'analysis_summary.csv'
+
+# Init some values for storing analysis results for each detected fault log/line
+log_desc_l = []
+log_sugg_l = []
+log_time_l = []
+summary_df = pd.DataFrame(columns=['Time/LineNum', 'Description', 'Suggestion'])
+
+def invalid_log_warning():
+    """ Warning message which is saved into txt file
+    """
+    print("The submitted log is NOT from {}.".format(LOG_TYPE))
+
+    # Save the warning message to the top summary file
+    with open(top_file, 'w') as fio:
+        fio.write("You sbumitted a wrong log, which is NOT from {}. Please check." \
+                  .format(LOG_TYPE))
+
+    # Save empty summary data frame to file
+    summary_df.to_csv(sum_file, index=False,
+                      columns=["Time/LineNum", "Description", "Suggestion"])
+
 # Read the runtime parameters
 with open(results_test_dir + 'test_runtime_para.txt', 'r') as parafile:
     paralines = parafile.readlines()
-    RESERVE_TS = bool(paralines[0].strip() == 'RESERVE_TS=1')
+    RESERVE_TS = int(paralines[0].strip().replace('RESERVE_TS=', ''))
+if RESERVE_TS < 0:
+    # Not LOG_TYPE log. Return right now.
+    invalid_log_warning()
+    sys.exit(0)
 
 # Check what we use for each log, timestamp or linenum
-if RESERVE_TS:
+if RESERVE_TS > 0:
     columns = ['Time', 'Content', 'EventTemplate', 'EventId']
 else:
     columns = ['Content', 'EventTemplate', 'EventId']
@@ -49,18 +77,8 @@ else:
 data_df = pd.read_csv(structured_file, usecols=columns)
 logsize = data_df.shape[0]
 
-# Output file that stores the summary results
-top_file = results_test_dir + 'analysis_summary_top.txt'
-sum_file = results_test_dir + 'analysis_summary.csv'
-
 
 if __name__ == '__main__':
-    # Init some values for storing analysis results for each detected fault log/line
-    log_desc_l = []
-    log_sugg_l = []
-    log_time_l = []
-    summary_df = pd.DataFrame()
-
     print("Oldschool way to analyze:")
     # Init progress bar to 0%
     #helper.printProgressBar(0, logsize, prefix ='Progress:', suffix='Complete')
@@ -92,10 +110,10 @@ if __name__ == '__main__':
         log_desc, \
         log_sugg = kb.domain_knowledge(event_id, param_list)
 
-        # If current log is fault, store the timestamp, log descrition and suggestion to lists
+        # If current log is fault, store the timestamp, log descrition and suggestion
         if log_fault:
             # Check if the timestamps are in the logs
-            if RESERVE_TS:
+            if RESERVE_TS > 0:
                 time_stamp = line['Time']
             else:
                 # Use the line number to replace timestamp in original test.txt
@@ -128,9 +146,14 @@ if __name__ == '__main__':
 
     # Save the top summary to a file
     with open(top_file, 'w') as outfile:
-        for idx, item in enumerate(summary_top):
-            outfile.write(str(idx+1) + ') ' + item)
-            outfile.write('\n')
+        if len(summary_top) > 0:
+            for idx, item in enumerate(summary_top):
+                outfile.write(str(idx+1) + ') ' + item)
+                outfile.write('\n')
+        else:
+            outfile.write("Oops, the wrong logs are not in the knowledge-base. \
+                           Feed Back Please by clicking the link above.")
 
     # Save the summary data frame to file
-    summary_df.to_csv(sum_file, index=False, columns=["Time/LineNum", "Description", "Suggestion"])
+    summary_df.to_csv(sum_file, index=False,
+                      columns=["Time/LineNum", "Description", "Suggestion"])

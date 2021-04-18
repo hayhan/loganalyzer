@@ -6,6 +6,7 @@ License     : MIT
 """
 
 import os
+import sys
 import pickle
 import hashlib
 import pandas as pd
@@ -35,7 +36,10 @@ mapping_norm_pred_file = grandpadir + '/results/test/cm/mapping_norm_pred.pkl'
 # Check the runtime variable RESERVE_TS to see if there are timestamps
 with open(grandpadir+'/results/test/cm/test_runtime_para.txt', 'r') as parafile:
     paralines = parafile.readlines()
-    RESERVE_TS = bool(paralines[0].strip() == 'RESERVE_TS=1')
+    RESERVE_TS = int(paralines[0].strip().replace('RESERVE_TS=', ''))
+if RESERVE_TS < 0:
+    # Not CM log. Return right now.
+    sys.exit(0)
 
 # Special templates, for case 2
 SPECIAL_ID = ['b9c1fdb1']
@@ -50,14 +54,14 @@ def recover_messed_logs():
     eid_lib = data_df['EventId'].values.tolist()
 
     # Load old event id and template of each log from structured file
-    if RESERVE_TS:
+    if RESERVE_TS > 0:
         columns = ['Time', 'EventIdOld', 'EventTemplate']
     else:
         columns = ['EventIdOld', 'EventTemplate']
 
     data_df = pd.read_csv(test_struct_file, usecols=columns, engine='c',
                           na_filter=False, memory_map=True)
-    if RESERVE_TS:
+    if RESERVE_TS > 0:
         # Real timestamp plus a space
         time_logs = (data_df['Time']+' ').values.tolist()
     else:

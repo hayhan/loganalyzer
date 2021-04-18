@@ -25,11 +25,14 @@ echo TEMPLATE_LIB_SIZE=2000
 # Adapt boardfarm CM logs
 #python3 $SHELL_FOLDER/../../adapter/boardfarm_cm.py
 
-# Detect timestamp
-#python3 $SHELL_FOLDER/../../logparser/cm/preprocess_ts.py
+# Preprocess for detecting timestamp
+python3 $SHELL_FOLDER/../../logparser/cm/preprocess_ts.py
 
-# Parse the log and generate templates ...
-#python3 $SHELL_FOLDER/../../logparser/cm/parser.py
+# Parse the log and generate templates for detecting timestamp
+python3 $SHELL_FOLDER/../../logparser/cm/parser.py
+
+# Detect the timestamp
+python3 $SHELL_FOLDER/../../logparser/det_timestamp.py
 
 # Preprocess
 python3 $SHELL_FOLDER/../../logparser/cm/preprocess.py

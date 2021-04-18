@@ -13,6 +13,15 @@ echo TEMPLATE_LIB_SIZE=2000
 rem Adapt boardfarm CM logs
 rem python ..\..\adapter\boardfarm_cm.py
 
+rem Preprocess for detecting timestamp
+python ..\..\logparser\cm\preprocess_ts.py
+
+rem Parse the log and generate templates for detecting timestamp
+python ..\..\logparser\cm\parser.py
+
+rem Detect the timestamp
+python ..\..\logparser\det_timestamp.py
+
 rem Preprocess
 python ..\..\logparser\cm\preprocess.py
 

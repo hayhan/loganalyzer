@@ -18,6 +18,15 @@ echo WINDOW_STEP=5000
 echo TEMPLATE_LIB_SIZE=2000
 ) > ..\config.txt
 
+rem Preprocess for detecting timestamp
+python ..\..\logparser\cm\preprocess_ts.py
+
+rem Parse the log and generate templates for detecting timestamp
+python ..\..\logparser\cm\parser.py
+
+rem Detect the timestamp
+python ..\..\logparser\det_timestamp.py
+
 rem Preprocess
 python ..\..\logparser\cm\preprocess.py
 

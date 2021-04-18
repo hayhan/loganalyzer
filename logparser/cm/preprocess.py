@@ -7,7 +7,7 @@ License     : MIT
 
 import os
 import re
-#import sys
+import sys
 import pickle
 from datetime import datetime
 from tqdm import tqdm
@@ -22,7 +22,7 @@ grandpadir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 #----------------------------------------------------------------------------------------
 # Process the train data or test data. Read also other info from config file.
 #----------------------------------------------------------------------------------------
-# Read the config file to decide
+#
 with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
     conlines = confile.readlines()
 
@@ -45,6 +45,28 @@ else:
     rawLnIdxVectorNew = []
     rawLnIdxVectorNorm = []
     DATATYPE = 'test'
+
+# The main timestamp flag. The default offset value comes from strPattern0 below.
+RESERVE_TS = True
+LOG_HEAD_OFFSET = 24
+
+# ---------------------------------------------------
+# RESERVE_TS == -1: Not valid log file for LOG_TYPE
+# RESERVE_TS ==  0: Valid log file without timestamp
+# RESERVE_TS >   0: Valid log file with timestamp
+# ---------------------------------------------------
+if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
+    with open(runtime_para_loc, 'r') as parafile:
+        paralines = parafile.readlines()
+        LOG_HEAD_OFFSET = int(paralines[0].strip().replace('RESERVE_TS=', ''))
+
+    if LOG_HEAD_OFFSET > 0:
+        RESERVE_TS = True
+    elif LOG_HEAD_OFFSET == 0:
+        RESERVE_TS = False
+    else:
+        # Not a LOG_TYPE log file
+        sys.exit(0)
 
 #
 # The original log usually comes from serial console tools like SecureCRT
@@ -69,8 +91,12 @@ newfile = open(new_file_loc, 'w', encoding='utf-8')
 #----------------------------------------------------------------------------------------
 # The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738].
 # Label and segment sign are also considered.
-strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
-                         r'\.(\d{3})|24:00:00\.000)\] (abn: )?(segsign: )?')
+if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
+    strPattern0 = re.compile(r'.{%d}' % LOG_HEAD_OFFSET)
+else:
+    strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
+                             r'\.(\d{3})|24:00:00\.000)\] (abn: )?(segsign: )?')
+
 # The pattern for CM console prompts
 strPattern1 = re.compile('CM[/a-z-_ ]*> ', re.IGNORECASE)
 # The pattern for the timestamp added by BFC, e.g. [00:00:35 01/01/1970], [11/21/2018 14:49:32]
@@ -91,8 +117,10 @@ strPatterns = [
     strPattern5, strPattern6, strPattern7,
 ]
 
-# Control if we need reserve the main timestamp: strPattern0 in the norm file
-reserveTS = True
+#----------------------------------------------------------------------------------------
+# Patterns for fuzzy time format, e.g. 12:34:56, 12-34-56, 12/34/56, etc.
+#----------------------------------------------------------------------------------------
+fuzzyTimePattern = re.compile(r'[0-5][0-9][^a-zA-Z0-9 ][0-5][0-9][^a-zA-Z0-9 ][0-5][0-9]')
 
 #----------------------------------------------------------------------------------------
 # Patterns for specific lines which I want to remove
@@ -319,6 +347,7 @@ sessionPatterns = [
 #-------------------------
 # Variables initialization
 #-------------------------
+heading_clean = False
 inDsChStatTable = False
 inUsChStatTable = False
 tableMessed = False
@@ -334,7 +363,7 @@ lastLineEmpty = False
 sccvEmptyLineCnt = 0
 
 #----------------------------------------------------------------------
-# 01) Remove timestamps, console prompts, tables, empty lines
+# 01) Extrace timestamps, remove console prompts, etc.
 # 02) Remove log blocks
 # 03) Format DS/US channel status tables
 # 04) Remove some tables which are useless
@@ -358,13 +387,16 @@ rawsize = len(linesLst)
 # So we always suppose the first line of the log file is good and not messed up.
 # Only do this for deeplog predict (including oss). The log for CML (Classical ML)
 # predict must have standard timestamp.
-if (not TRAINING) and (not METRICSEN):
-    for line in linesLst:
-        # Skip the heading empty lines if any exist
-        if line in ['\n', '\r\n']:
-            continue
-        reserveTS = strPattern0.match(line)
-        break
+
+#--block comment out start--
+#if (not TRAINING) and (not METRICSEN):
+#    for line in linesLst:
+#        # Skip the heading empty lines if any exist
+#        if line in ['\n', '\r\n']:
+#            continue
+#        RESERVE_TS = strPattern0.match(line)
+#        break
+#--end--
 
 #
 # A low overhead progress bar
@@ -388,17 +420,33 @@ for _idx, line in enumerate(linesLst):
     # before write it back to a new file. The train label and the session label are also
     # considered. Add them back along with the main timestamp at the end.
     matchTS = strPattern0.match(line)
-    if reserveTS and matchTS:
-        # Strip off the main timestamp including train and session labels if any
+    if RESERVE_TS and matchTS:
+        # Strip off the main timestamp including train and session labels if any exist
         currentLineTS = matchTS.group(0)
+        if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)) \
+            and (not fuzzyTimePattern.search(currentLineTS)):
+            if _idx == 0:
+                heading_clean = True
+            continue
         newline = strPattern0.sub('', line, count=1)
-    elif reserveTS:
+    elif RESERVE_TS:
         # If we intend to reserve the main timestamp but does not match, delete this line
-        # This usually happens when the timestamp is messed up
+        # This usually happens when the timestamp is messed up, the timestamp format is
+        # not recognized, or no timestamp at all at the head of some log.
+        if _idx == 0:
+            heading_clean = True
         continue
     else:
         # No main timestamp in the log file or we do not want to reserve it
         newline = line
+
+    # Remove some heading lines at the start of log file
+    if (_idx == 0 or heading_clean) \
+        and (nestedLinePattern.match(newline) or newline in ['\n', '\r\n']):
+        heading_clean = True
+        continue
+    elif heading_clean:
+        heading_clean = False
 
     #------------------------------------------------------------------------------------
     # No main timestamp and train label at start of each line in the remaining of the loop
@@ -738,7 +786,7 @@ for _idx, line in enumerate(linesLst):
     lastLineEmpty = False
 
     # Write current line to a new file with the timestamp if it exists
-    if reserveTS and matchTS:
+    if RESERVE_TS and matchTS:
         newline = currentLineTS + newline
     newfile.write(newline)
 
@@ -767,7 +815,7 @@ normfile = open(norm_file_loc, 'w', encoding='utf-8')
 #
 # The lastLine is initialized as empty w/o LF or CRLF
 lastLine = ''
-lastLinTS = ''
+lastLineTS = ''
 
 #
 # Concatenate nested line to its parent (primary) line
@@ -775,7 +823,7 @@ lastLinTS = ''
 for _idx, line in enumerate(newfile):
     # Save timestamp if it exists. Only two cases: match or no main timestamp
     matchTS = strPattern0.match(line)
-    if reserveTS and matchTS:
+    if RESERVE_TS and matchTS:
         currentLineTS = matchTS.group(0)
         newline = strPattern0.sub('', line, count=1)
     else:
@@ -788,23 +836,23 @@ for _idx, line in enumerate(newfile):
         lastLine += newline.lstrip()
     else:
         # If current is primary line, it means concatenating ends
-        if reserveTS and matchTS and (lastLine != ''):
+        if RESERVE_TS and matchTS and (lastLine != ''):
             lastLine = lastLineTS + lastLine
         normfile.write(lastLine)
 
         # The raw line index list based on the norm file
         # Mapping: norm file line index (0-based) -> test file line index (1-based)
-        # Do it only for prediction in DeepLog or OSS
+        # Do it only for prediction in DeepLog and OSS
         if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
             rawLnIdxVectorNorm.append(rawLnIdxVectorNew[_idx])
 
         # Update last line parameters
         lastLine = newline
-        if reserveTS and matchTS:
+        if RESERVE_TS and matchTS:
             lastLineTS = currentLineTS
 
 # Write the last line of the file
-if reserveTS and matchTS and (lastLine != ''):
+if RESERVE_TS and matchTS and (lastLine != ''):
     lastLine = lastLineTS + lastLine
 normfile.write(lastLine)
 
@@ -812,11 +860,11 @@ newfile.close()
 normfile.close()
 
 # Write the raw line index list based on norm file to disk
-# Write the reserveTS value to the realtime parameter file
+# Write the RESERVE_TS value to the realtime parameter file
 # Do it only for prediction in DeepLog and OSS
 if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
     with open(rawln_idx_loc, 'wb') as f:
         pickle.dump(rawLnIdxVectorNorm, f)
 
-    with open(runtime_para_loc, 'w') as f:
-        f.write('RESERVE_TS=1' if reserveTS else 'RESERVE_TS=0')
+    #with open(runtime_para_loc, 'w') as f:
+    #    f.write('RESERVE_TS=1' if RESERVE_TS else 'RESERVE_TS=0')

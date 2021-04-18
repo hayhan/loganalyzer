@@ -12,8 +12,17 @@ curfiledir = os.path.dirname(__file__)
 parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 grandpadir = os.path.abspath(os.path.join(parentdir, os.path.pardir))
 
+with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
+    conlines = confile.readlines()
+
+    TRAINING = bool(conlines[1].strip() == 'TRAINING=1')
+    METRICSEN = bool(conlines[2].strip() == 'METRICS=1')
+    DLOGCONTEXT = bool(conlines[3].strip() == 'MODEL=DEEPLOG')
+    OSSCONTEXT = bool(conlines[3].strip() == 'MODEL=OSS')
+
 raw_file_loc = grandpadir + '/logs/cm/test.txt'
 norm_file_loc = grandpadir + '/logs/cm/test_norm.txt'
+runtime_para_loc = grandpadir + '/results/test/cm/test_runtime_para.txt'
 
 rawfile = open(raw_file_loc, 'r', encoding='utf-8-sig')
 normfile = open(norm_file_loc, 'w', encoding='utf-8')
@@ -50,13 +59,14 @@ for idx, line in enumerate(rawfile):
     # Remove the NULL char '\0' at the first line if it exists
     if idx == 0 and line[0] == '\0':
         continue
-    # Remove empty line
-    if line in ['\n', '\r\n']:
-        continue
 
     # Remove some unwanted strings
     for pattern in strPatterns:
         line = pattern.sub('', line, count=1)
+
+    # Remove empty line
+    if line in ['\n', '\r\n']:
+        continue
 
     normfile.write(line)
 
@@ -66,3 +76,9 @@ for idx, line in enumerate(rawfile):
 
 rawfile.close()
 normfile.close()
+
+# Suppose no timestamps in the log file before we detect them
+# Do it only for prediction in DeepLog and OSS
+if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
+    with open(runtime_para_loc, 'w') as f:
+        f.write('RESERVE_TS=0')

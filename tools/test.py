@@ -45,7 +45,7 @@ currentRex4 = re.compile(r'(?<=:  )\([a-zA-Z0-9/ ]+\) ')
 #line = re.sub(currentRex3, ' <*>', line)
 line = currentRex4.sub('', line, count=0)
 print(line)
-sys.exit(0)
+#sys.exit(0)
 
 # IPv6 Address
 ipRex = r' (?:(?:[0-9A-Fa-f]{1,4}:){6}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|::(?:[0-9A-Fa-f]{1,4}:){5}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:(?:[0-9A-Fa-f]{1,4}:){,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:(?:[0-9A-Fa-f]{1,4}:){,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:(?:[0-9A-Fa-f]{1,4}:){,4}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|(?:(?:[0-9A-Fa-f]{1,4}:){,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){,6}[0-9A-Fa-f]{1,4})?::)(/\d{1,3})?'
@@ -65,6 +65,7 @@ parentddir = os.path.abspath(os.path.join(currentfiledir, os.path.pardir))
 print(type(parentddir))
 """
 
+"""
 #log_format = '<Date> <Time> <Pid> <Level> <Component>: <Content>'
 log_format = '<Content>'
 headers = []
@@ -87,6 +88,7 @@ print(headers)
 
 m1 = re.search('(?P<Content>.*?)', '')
 print(m1.group(0))
+"""
 
 """
 log_messages = []
@@ -288,3 +290,56 @@ def forward(aaa, *bbb):
     print(bbb[0])
 
 forward('AAA', 'BBB', 'CCC')
+
+# 'and' regex
+test_str = "2021 Mar 19 | _16_56:04.581_____ arrisxg1v4 cat[3195]: DHCPV6 option17 override [tag:2][length:3]"
+and_regrex = re.compile(r'.{50}')
+m = and_regrex.match(test_str)
+ts = m.group(0)
+
+digit_regrex = re.compile(r'[0-5][0-9][^a-zA-Z0-9 ][0-5][0-9][^a-zA-Z0-9 ][0-5][0-9]')
+n = digit_regrex.search(ts)
+timeg = n.group(0)
+print(timeg)
+
+#----------------
+def generate_logformat_regex(logformat):
+    """
+    Function to generate regular expression to split log messages
+    """
+    # Suppose the logformat is:
+    #     '<Date> <Time> <Pid> <Level> <Component>: <Content>'
+    # Then the output:
+    # headers
+    #     ['Date', 'Time', 'Pid', 'Level', 'Component', 'Content']
+    # regex
+    #     (?P<Date>.*?)\s+(?P<Time>.*?)\s+(?P<Pid>.*?)\s+(?P<Level>.*?)\s+(?P<Component>.*?):\s+(?P<Content>.*?)
+    headers = []
+    splitters = re.split(r'(<[^<>]+>)', logformat)
+    regex = ''
+    for k in range(len(splitters)):
+        if k % 2 == 0:
+            splitter = re.sub(' +', '\\\\s+', splitters[k])
+            regex += splitter
+        else:
+            header = splitters[k].strip('<').strip('>')
+            regex += '(?P<%s>.*?)' % header
+            headers.append(header)
+    print(headers, regex)
+
+    if logformat[0] != '<':
+        regex = logformat
+    print(headers, regex)
+
+    regex = re.compile('^' + regex + '$')
+    return headers, regex
+
+log_offset = 24
+
+logformat1 = '<Time> <Content>'
+#logformat1 = '(?P<Time>.{%d})(?P<Content>.*?)' % log_offset
+head, regx = generate_logformat_regex(logformat1)
+
+tt_str = "[20210117-16:35:02.014] BcmCmDocsisCtlMsgACT::HandleEvent() @time=364267280  event_code=4 (kCmPriDsMddSetsOk) "
+mm = regx.search(tt_str.strip('\r\n'))
+print(mm.group('Time') + 'tail')

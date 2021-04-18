@@ -47,6 +47,16 @@ with open(parentdir+'/entrance/deeplog_config.txt', 'r', encoding='utf-8-sig') a
 results_persist_dir = parentdir + '/results/persist/' + LOG_TYPE + '/'
 results_test_dir = parentdir + '/results/test/' + LOG_TYPE + '/'
 
+# Read the runtime parameters
+with open(results_test_dir + 'test_runtime_para.txt', 'r') as parafile:
+    paralines = parafile.readlines()
+    RESERVE_TS = int(paralines[0].strip().replace('RESERVE_TS=', ''))
+if RESERVE_TS < 0:
+    # Not LOG_TYPE log. Return right now.
+    print("You submitted a non {} log. Please check.".format(LOG_TYPE))
+    sys.exit(0)
+
+# Parameter dictionary
 para_test = {
     'o_struct_file'  : results_test_dir+'test_norm.txt_structured.csv',
     'structured_file': results_test_dir+'test_norm_pred.txt_structured.csv',

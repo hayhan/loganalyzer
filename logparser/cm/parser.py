@@ -39,16 +39,25 @@ else:
 input_dir = grandpadir + '/logs/cm/'               # The input directory of log file
 persist_dir = grandpadir + '/results/persist/cm/'  # The directory of saving persist files
 TEMPLATE_LIB = 'template_lib.csv'                  # The template lib file name
-LOG_FORMAT = '<Time> <Content>'                    # DOCSIS log format
+LOG_FORMAT = '<Time> <Content>'                    # Default DOCSIS log format
 
 # For DeepLog predict and OSS, check the runtime RESERVE_TS to see if there are
 # timestamps in the norm log file
 if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
     with open(grandpadir+'/results/test/cm/test_runtime_para.txt', 'r') as parafile:
         paralines = parafile.readlines()
-        RESERVE_TS = bool(paralines[0].strip() == 'RESERVE_TS=1')
-    if not RESERVE_TS:
-        LOG_FORMAT = '<Content>'                   # DOCSIS log format
+        RESERVE_TS = int(paralines[0].strip().replace('RESERVE_TS=', ''))
+    if RESERVE_TS == 0:
+        LOG_FORMAT = '<Content>'
+    elif RESERVE_TS > 0:
+        # The customized pattern for does not remove the trailing spaces behind timestamp
+        # comparing to the standard / default format. This does not matter for DeepLog
+        # and OSS as we only display the timestamps. For Loglizer, we need calculate the
+        # time window and should take care when this change affacts it in the future.
+        LOG_FORMAT = '(?P<Time>.{%d})(?P<Content>.*?)' % RESERVE_TS
+    else:
+        # Not CM log. Return right now.
+        sys.exit(0)
 
 #
 # Regular expression dict for optional preprocessing (can be empty {})

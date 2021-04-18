@@ -6,18 +6,36 @@ License     : MIT
 """
 
 import os
+import re
 import hashlib
 import pandas as pd
 
 curfiledir = os.path.dirname(__file__)
 parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
-test_struct_file = parentdir + '/results/test/cm/test_norm.txt_structured.csv'
-temp_library_file = parentdir + '/results/persist/cm/template_lib.csv'
+# Read the config file
+with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confile:
+    conlines = confile.readlines()
 
-def recover_messed_logs():
-    """ Recover CM logs which are messed up by higher priority threads
-        The output is a new file called logs/test_norm_pred.txt
+    LOG_TYPE = conlines[0].strip().replace('LOG_TYPE=', '')
+    TRAINING = bool(conlines[1].strip() == 'TRAINING=1')
+    METRICSEN = bool(conlines[2].strip() == 'METRICS=1')
+    DLOGCONTEXT = bool(conlines[3].strip() == 'MODEL=DEEPLOG')
+    OSSCONTEXT = bool(conlines[3].strip() == 'MODEL=OSS')
+
+# Abstract results directories
+results_persist_dir = parentdir + '/results/persist/' + LOG_TYPE + '/'
+results_test_dir = parentdir + '/results/test/' + LOG_TYPE + '/'
+
+test_struct_file = results_test_dir + 'test_norm.txt_structured.csv'
+runtime_para_loc = results_test_dir + 'test_runtime_para.txt'
+temp_library_file = results_persist_dir + 'template_lib.csv'
+
+MAX_TIMESTAMP_LENGTH = 50
+
+def detect_timestamp():
+    """ Detect timestamp automatically without apriori
+        return the offset of log header
     """
     # Load event id from template library
     data_df = pd.read_csv(temp_library_file, usecols=['EventId'],
@@ -25,71 +43,52 @@ def recover_messed_logs():
     eid_lib = data_df['EventId'].values.tolist()
 
     # Load old event id and template of each log from structured file
-    if RESERVE_TS:
-        columns = ['Time', 'EventIdOld', 'EventTemplate']
-    else:
-        columns = ['EventIdOld', 'EventTemplate']
+    data_df = pd.read_csv(test_struct_file, usecols=['Content', 'EventTemplate'],
+                          engine='c', na_filter=False, memory_map=True)
 
-    data_df = pd.read_csv(test_struct_file, usecols=columns, engine='c',
-                          na_filter=False, memory_map=True)
-    if RESERVE_TS:
-        # Real timestamp plus a space
-        time_logs = (data_df['Time']+' ').values.tolist()
-    else:
-        # Empty string for each timestamp
-        time_logs = [''] * data_df.shape[0]
-
-    eid_old_logs = data_df['EventIdOld'].values.tolist()
+    content_logs = data_df['Content'].values.tolist()
     temp_logs = data_df['EventTemplate'].values.tolist()
+    # Init offset as -1 which means a non LOG_TYPE log file
+    log_start_offset = -1
 
-    #new_temp_logs = [0] * data_df.shape[0]
-    m1_found = False
-    o1_head = ''
-    skipped_ln = []
-    mapping_norm_pred = []
-    norm_pred_file = open(test_norm_pred_file, 'w', encoding='utf-8')
-
-    for idx, (eido, temp) in enumerate(zip(eid_old_logs, temp_logs)):
-        # Check the first char to see if it is 'L' or 'C'
-        header_care = bool(temp[0] == 'L' or temp[0] == 'C')
-        # Check th next log if current log id exists already in lib or m1 has not been
-        # found and the log does not start with char L.
-        if (eido != '0') or (not m1_found and not header_care):
-            #new_temp_logs[idx] = temp
-            mapping_norm_pred.append(idx)
-            norm_pred_file.write(time_logs[idx]+temp+'\n')
-            continue
-
-        # We get here only when old event id is zero AND (m1_found OR header_care)
-        if m1_found:
-            # Abort if we cannot find m2 within 20 logs
-            if idx - m1_idx > 20:
-                #new_temp_logs[idx] = temp
-                mapping_norm_pred.append(idx)
-                norm_pred_file.write(time_logs[idx]+temp+'\n')
-                m1_found = False
-                continue
-            # Note the eido == 0 here
-            temp_o1 = o1_head + temp
-            #new_temp_logs[idx] = temp_o1
-            mapping_norm_pred.append(idx)
-            norm_pred_file.write(time_logs[idx]+temp_o1+'\n')
-            m1_found = False
-            continue
-
-        # We get here only when old event id is zero AND (m1_found==0 AND header_care)
-        # The case 1, the most common case
+    for _idx, (content, temp) in enumerate(zip(content_logs, temp_logs)):
+        # Slice one char at the head of current template, and then hash the remaining
         for i in range(len(temp)):
-            o1_head = temp[0:i+1]
-            temp_o2 = temp[i+1:]
-            eid_o2 = hashlib.md5(temp_o2.encode('utf-8')).hexdigest()[0:8]
-            if eid_o2 in eid_lib:
-                m1_found = True
-                m1_idx = idx
-                #new_temp_logs[idx] = temp_o2
-                mapping_norm_pred.append(idx)
-                norm_pred_file.write(time_logs[idx]+temp_o2+'\n')
-                if eid_o2 in SPECIAL_ID:
-                    # Remove one trailing spaces in o1_head, the case 2
-                    o1_head = o1_head[0:-1]
+            if i > MAX_TIMESTAMP_LENGTH:
                 break
+            temp_tail = temp[i:]
+            eid_tail = hashlib.md5(temp_tail.encode('utf-8')).hexdigest()[0:8]
+            if eid_tail in eid_lib:
+                if i == 0:
+                    # No timestamp at all, we can return directly
+                    log_start_offset = 0
+                    return log_start_offset
+
+                # Take out the first word (append a space) of the template and locate
+                # where it is in the raw log (content).
+                header = temp[i:].split()[0]+' '
+                match = re.search(header, content)
+                if match:
+                    log_start_offset = match.start()
+                    return log_start_offset
+                # For some reason we cannot locate the header in the raw log
+                # Go to check the next log
+                break
+
+    return log_start_offset
+
+# Get the start offset of log in the raw file
+log_offset = detect_timestamp()
+#print(log_offset)
+
+# Save the log offst value to RESERVE_TS in the test_runtime_para.txt
+# -----------------------------------------------------------------------------
+# RESERVE_TS == -1: Not valid log file for LOG_TYPE
+# RESERVE_TS ==  0: Valid log file without timestamp
+# RESERVE_TS >   0: Valid log file with timestamp.
+#
+# The value represents the width of timestamp and offset of log header
+# -----------------------------------------------------------------------------
+if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
+    with open(runtime_para_loc, 'w') as f:
+        f.write('RESERVE_TS='+str(log_offset))
