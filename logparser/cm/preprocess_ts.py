@@ -27,6 +27,9 @@ runtime_para_loc = grandpadir + '/results/test/cm/test_runtime_para.txt'
 rawfile = open(raw_file_loc, 'r', encoding='utf-8-sig')
 normfile = open(norm_file_loc, 'w', encoding='utf-8')
 
+#----------------------------------------------------------------------------------------
+# Patterns for removing non-primary timestamp, console prompt and others
+#----------------------------------------------------------------------------------------
 # The pattern for CM console prompts
 strPattern1 = re.compile('CM[/a-z-_ ]*> ', re.IGNORECASE)
 # The pattern for the timestamp added by BFC, e.g. [00:00:35 01/01/1970], [11/21/2018 14:49:32]
@@ -47,7 +50,23 @@ strPatterns = [
     strPattern5, strPattern6, strPattern7,
 ]
 
-LINES_TO_PROCESS = 100
+#----------------------------------------------------------------------------------------
+# Patterns for other specific lines
+#----------------------------------------------------------------------------------------
+# Assign token something like ABC=xyz or ABC==xyz
+assignTokenPattern = re.compile(r'=(?=[^= \r\n])')
+# Cpp class token like ABC::Xyz or ABC::xY
+cppClassPattern = re.compile(r'\:\:(?=[A-Z][a-z0-9]|[a-z][A-Z])')
+# Split 'ABC;DEF' to 'ABC; DEF'
+semicolonPattern = re.compile(r';(?! )')
+# Change something like (xx), [xx], ..., to ( xx ), [ xx ], ...
+bracketPattern1 = re.compile(r'\((?=(\w|[-+]))')
+bracketPattern2 = re.compile(r'(?<=\w)\)')
+bracketPattern3 = re.compile(r'\[(?=(\w|[-+]))')
+bracketPattern4 = re.compile(r'(?<=\w)\]')
+bracketPattern5 = re.compile(r'\d+(?=(ms))')
+
+LINES_TO_PROCESS = 500
 
 #
 # 1. Remove empty lines
@@ -67,6 +86,26 @@ for idx, line in enumerate(rawfile):
     # Remove empty line
     if line in ['\n', '\r\n']:
         continue
+
+    # Split assignment token something like ABC=xyz to ABC= xyz
+    line = assignTokenPattern.sub('= ', line)
+
+    # Split class token like ABC::Xyz: to ABC:: Xyz:
+    line = cppClassPattern.sub(':: ', line)
+
+    # Split 'ABC;DEF' to 'ABC; DEF'
+    line = semicolonPattern.sub('; ', line)
+
+    # Change something like (xx), [xx], ..., to ( xx ), [ xx ], ...
+    line = bracketPattern1.sub('( ', line)
+    line = bracketPattern2.sub(' )', line)
+    #line = bracketPattern3.sub('[ ', line)
+    #line = bracketPattern4.sub(' ]', line)
+
+    m = bracketPattern5.search(line)
+    if m:
+        substring = m.group(0)
+        line = bracketPattern5.sub(substring+' ', line)
 
     normfile.write(line)
 

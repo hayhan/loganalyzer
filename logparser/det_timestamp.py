@@ -62,7 +62,7 @@ def detect_timestamp():
                 if i == 0:
                     # No timestamp at all, we can return directly
                     log_start_offset = 0
-                    return log_start_offset
+                    return log_start_offset, _idx
 
                 # Take out the first word (append a space) of the template and locate
                 # where it is in the raw log (content).
@@ -70,16 +70,16 @@ def detect_timestamp():
                 match = re.search(header, content)
                 if match:
                     log_start_offset = match.start()
-                    return log_start_offset
+                    return log_start_offset, _idx
                 # For some reason we cannot locate the header in the raw log
                 # Go to check the next log
                 break
 
-    return log_start_offset
+    return log_start_offset, _idx
 
 # Get the start offset of log in the raw file
-log_offset = detect_timestamp()
-#print(log_offset)
+log_offset, log_idx = detect_timestamp()
+#print(log_offset, log_idx)
 
 # Save the log offst value to RESERVE_TS in the test_runtime_para.txt
 # -----------------------------------------------------------------------------
