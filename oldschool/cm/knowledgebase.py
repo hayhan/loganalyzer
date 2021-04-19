@@ -65,7 +65,7 @@ def domain_knowledge(template_id, param_list):
             # Check qam and fec status
             if param_list[3] == 'n' or param_list[4] == 'n':
                 log_fault = True
-                log_description = "QAM/FEC is not locked on DS channle {0}, freq {1}" \
+                log_description = "QAM/FEC is not locked on DS channle {0}, freq {1}\n" \
                                   .format(param_list[0], param_list[2])
                 log_suggestion = "Low power, big noise ...\n"
             # Check DS SNR comparing to threshold. QAM64 18+3=21dB, QAM256 24+3=27dB.
@@ -73,15 +73,15 @@ def domain_knowledge(template_id, param_list):
             if (param_list[7] == 'Qam64' and int(param_list[5]) <= 21) or \
                (param_list[7] == 'Qam256' and int(param_list[5]) <= 27):
                 log_fault = True
-                log_description += "\nSNR is low below the threshold and it's not stable"
-                log_suggestion += "\nLow power, noise or bad board design all contribute " \
-                                  "to low SNR"
+                log_description += "SNR is low below the threshold and it's not stable\n"
+                log_suggestion += "Low power, noise or bad board design all contribute " \
+                                  "to low SNR\n"
             # Check the rx power. -15dBmV ~ +15dBmV per spec. Warning if out of this range.
             if int(param_list[6]) > 15 or int(param_list[6]) < -15:
                 log_fault = True
-                log_description += "\nDS Power is out of range of -15dBmV ~ +15dBmV per " \
+                log_description += "DS Power is out of range of -15dBmV ~ +15dBmV per " \
                                    "spec on freq {0}".format(param_list[2])
-                log_suggestion += "\nAdjust the attanuator on DS link. The DS power at 0dBmV " \
+                log_suggestion += "Adjust the attanuator on DS link. The DS power at 0dBmV " \
                                   "is better."
             break
 
@@ -111,17 +111,17 @@ def domain_knowledge(template_id, param_list):
             if float(param_list[4]) <= 17 or float(param_list[4]) >= 51:
                 log_fault = True
                 log_description = "US Tx Power is out of range of 17dBmV ~ 51dBmV on " \
-                                  "US channel {0} ucid {1} freq {2}" \
+                                  "US channel {0} ucid {1} freq {2}\n" \
                                   .format(param_list[0], param_list[1], param_list[5])
                 log_suggestion = "Adjust the attanuator on US link. The US Tx power " \
-                                 "within 20~50 dBmV is better."
+                                 "within 20~50 dBmV is better.\n"
             # Check the data path of tx
             if param_list[9] == 'n':
                 log_fault = True
-                log_description += "\nUS path has no data, Ranging is NOT ok on " \
+                log_description += "US path has no data, Ranging is NOT ok on " \
                                    "channel {0} ucid {1} freq {2}" \
                                    .format(param_list[0], param_list[1], param_list[5])
-                log_suggestion += "\nRanging issue, check the ranging process with other " \
+                log_suggestion += "Ranging issue, check the ranging process with other " \
                                   "warnings / errors."
             break
 
