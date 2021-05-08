@@ -18,7 +18,7 @@ fileList="log_0_3390_labeled.txt/log_2_3390_labeled.txt/log_3_3390_labeled.txt/l
 normal_0_register_202.txt/normal_1_register_202.txt/normal_2_dbc_202.txt/\
 normal_3.txt/temp_updt_0.txt"
 
-python3 ../../tools/cat_files.py logs/raw/cm ${fileList} logs/cm/train.txt
+python3 ../../tools/cat_files.py logs/raw/cm ${fileList} logs/cm/train.txt 0
 
 # Preprocess
 python3 ../../logparser/cm/preprocess.py
@@ -42,7 +42,7 @@ abnormal_4_diplexer_211.txt/abnormal_5_tod_ipv6_only_211.txt/abnormal_6_tod_ipv6
 abnormal_7_tod_ipv6_apm_211.txt/abnormal_8_scanning_211.txt/\
 temp_updt_manu.txt"
 
-python3 ../../tools/cat_files.py logs/raw/cm ${fileList} logs/cm/train.txt
+python3 ../../tools/cat_files.py logs/raw/cm ${fileList} logs/cm/train.txt 0
 
 #cp ../../logs/raw/cm/temp_updt_manu.txt ../../logs/cm/train.txt
 
