@@ -40,7 +40,7 @@ rem Do not consider abnormal label in train dataset for DeepLog as we suppose al
 rem logs in train dataset are normal, say, DeepLog is unsupervised.
 
 rem Save the session size to a vector, then remove the session labels from norm file
-python ..\..\logparser\extractsessions.py
+python ..\..\logparser\extract_sessions.py
 
 rem Parse the log and update the template library
 python ..\..\logparser\cm\parser.py
@@ -68,10 +68,10 @@ rem We need firstly extract abnormal labels, then extract session vector
 rem Do NOT reverse them.
 
 rem Extract the abnormal labels from norm file
-python ..\..\logparser\extractlabels.py
+python ..\..\logparser\extract_labels.py
 
 rem Save the session size to a vector, then remove the session labels from norm file
-python ..\..\logparser\extractsessions.py
+python ..\..\logparser\extract_sessions.py
 
 rem Parse the log and extract the templates
 python ..\..\logparser\cm\parser.py

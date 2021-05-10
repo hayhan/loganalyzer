@@ -40,7 +40,7 @@ python3 ../../logparser/cm/preprocess.py
 # logs in train dataset are normal, say, DeepLog is unsupervised.
 
 # Save the session size to a vector, then remove the session labels from norm file 
-python3 ../../logparser/extractsessions.py
+python3 ../../logparser/extract_sessions.py
 
 # Parse the log and update the template library
 python3 ../../logparser/cm/parser.py
@@ -68,10 +68,10 @@ python3 ../../logparser/cm/preprocess.py
 # Do NOT reverse them.
 
 # Extract the abnormal labels from norm file
-python3 ../../logparser/extractlabels.py
+python3 ../../logparser/extract_labels.py
 
 # Save the session size to a vector, then remove the session labels from norm file 
-python3 ../../logparser/extractsessions.py
+python3 ../../logparser/extract_sessions.py
 
 # Parse the log and extract the templates
 python3 ../../logparser/cm/parser.py

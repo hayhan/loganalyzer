@@ -14,7 +14,7 @@ rem Preprocess
 python ..\..\logparser\cm\preprocess.py
 
 rem Extract the label vector from norm file
-python ..\..\logparser\extractlabels.py
+python ..\..\logparser\extract_labels.py
 
 rem Parse the log and generate templates ...
 python ..\..\logparser\cm\parser.py

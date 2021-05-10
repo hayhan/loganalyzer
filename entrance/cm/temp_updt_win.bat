@@ -24,7 +24,7 @@ rem Preprocess
 python ..\..\logparser\cm\preprocess.py
 
 rem Remove labels in logs if any
-python ..\..\logparser\extractlabels.py
+python ..\..\logparser\extract_labels.py
 
 rem Parse the log and update the template library
 python ..\..\logparser\cm\parser.py
@@ -50,7 +50,7 @@ rem Preprocess
 python ..\..\logparser\cm\preprocess.py
 
 rem Remove labels in logs if any
-python ..\..\logparser\extractlabels.py
+python ..\..\logparser\extract_labels.py
 
 rem Parse the log and update the template library
 python ..\..\logparser\cm\parser.py

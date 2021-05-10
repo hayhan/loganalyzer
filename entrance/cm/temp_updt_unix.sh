@@ -24,7 +24,7 @@ python3 ../../tools/cat_files.py logs/raw/cm ${fileList} logs/cm/train.txt 0
 python3 ../../logparser/cm/preprocess.py
 
 # Remove labels in logs if any
-python3 ../../logparser/extractlabels.py
+python3 ../../logparser/extract_labels.py
 
 # Parse the log and update the template library
 python3 ../../logparser/cm/parser.py
@@ -50,7 +50,7 @@ python3 ../../tools/cat_files.py logs/raw/cm ${fileList} logs/cm/train.txt 0
 python3 ../../logparser/cm/preprocess.py
 
 # Remove labels in logs if any
-python3 ../../logparser/extractlabels.py
+python3 ../../logparser/extract_labels.py
 
 # Parse the log and update the template library
 python3 ../../logparser/cm/parser.py

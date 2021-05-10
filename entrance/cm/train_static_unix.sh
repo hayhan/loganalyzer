@@ -13,7 +13,7 @@ echo TEMPLATE_LIB_SIZE=2000
 # Preprocess
 python3 ../../logparser/cm/preprocess.py
 # Extract the label vector from norm file
-python3 ../../logparser/extractlabels.py
+python3 ../../logparser/extract_labels.py
 # Parse the log and generate templates ...
 python3 ../../logparser/cm/parser.py
 
@@ -29,7 +29,7 @@ echo TEMPLATE_LIB_SIZE=2000
 ) > ../config.txt
 python3 ../../logparser/cm/preprocess.py
 # Extract the label vector from norm file
-python3 ../../logparser/extractlabels.py
+python3 ../../logparser/extract_labels.py
 # Parse the log and generate templates ...
 python3 ../../logparser/cm/parser.py
 

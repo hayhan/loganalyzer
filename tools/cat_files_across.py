@@ -26,7 +26,7 @@ pattern_classname = re.compile(r'c[0-9]{3}')
 # Note: name the class folder as 'cxxx', and training log files in it as '*_xxx.txt'
 # Concatenate files under logs/raw/LOG_TYPE/loglab/c001/ ... /cxxx/.
 for dirpath, dirnames, files in sorted(os.walk(loglab_dir, topdown=True)):
-    print(f'Found directory: {dirpath}')
+    #print(f'Found directory: {dirpath}')
     # Extract the class name (sub-folder name cxxx, dirpath[-4:])
     classname = re.split(r'[\\|/]', dirpath.strip('[\\|/]'))[-1]
     if not pattern_classname.match(classname):
