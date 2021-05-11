@@ -217,11 +217,18 @@ def domain_knowledge(template_id, param_list):
                              "of CMTS issues ..."
             break
 
-        if case('4bd32394') or case('28699786'):
+        if case('4bd32394'):
             # TEMPLATE: "BcmCmUsRangingState:: T3NoRngRspEvent: ERROR - No initial ranging response from CMTS."
-            # TEMPLATE: "BcmCmUsRangingState:: T3NoRngRspEvent: txid= <*> ucid= <*> no RNG-RSP timeout during initial ranging."
             log_fault = True
             log_description = "T3 time out because of no Initial RNG-RSP from CMTS."
+            log_suggestion = "Usually the US attnuation is too high or low, or some kind " \
+                             "of CMTS issues ..."
+            break
+
+        if case('9006eea9'):
+            # TEMPLATE: "BcmCmUsRangingState:: T3NoRngRspEvent: txid= <*> ucid= <*> no RNG-RSP timeout during <*> ranging."
+            log_fault = True
+            log_description = "T3 time out because of no {%s} RNG-RSP from CMTS." % param_list[2]
             log_suggestion = "Usually the US attnuation is too high or low, or some kind " \
                              "of CMTS issues ..."
             break

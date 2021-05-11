@@ -34,7 +34,7 @@ c61ea93f,c61ea93f,Switchable diplexer ECN support disabled. NOT switching diplex
 24a7177a,24a7177a,"BcmCmMdDsSgDiscState:: TrimSgSetWithoutThisDcid:, <*> candidate MD-DS-SG remain after TrimSgSetWithoutThisDcid( target_dcid ), for target_dcid= <*> ( <*> ) "
 4b82483e,4b82483e,"BcmCmMdDsSgDiscState:: StartMdDsSgDisc:, special case: one and only one MD-DS-SG contains mdd_dcid., fMdDsSgId= <*> ( <*> ) "
 a877c3a3,a877c3a3,"MD-DS-SG discovery info:, fCmMdDsSgDiscState = <*> ( <*> ), fMdDsSgId = <*> ( <*> ), fMdDsSgDiscovered = <*>"
-39cd72ea,39cd72ea,"Trimmed Downstream Ambiguity Resolution Frequency List: list size = <*>, <*>-sc_qam, visible dcid set = <*>, freq with visible dcid set = <*> "
+1e5aff32,1e5aff32,"Trimmed Downstream Ambiguity Resolution Frequency List: list size = <*>, <*> visible dcid set = <*>, freq with visible dcid set = <*> "
 ebdddf1d,ebdddf1d,BcmDocsisCmHalIf:: SetPrimaryDownstreamChannel: Installing primary downstream channel index: <*>
 2c5a73b0,2c5a73b0,SetRatios called with primary downstream channel number = <*>
 2f643572,2f643572,AnnexMode[ <*> ] = <*> QAM_Mode[ <*> ] = <*>
@@ -247,7 +247,8 @@ c62d43ff,c62d43ff,BcmVendorCmApplication:: StartDhcpServer: Starting DHCP Server
 a5f666b8,a5f666b8,ERROR removing multicast DSID = <*> index = <*> 
 553e18e1,553e18e1,BcmSetDocsis3TransmitMode multiTxMode= <*>
 266ef213,266ef213,"BcmBfcForwardAssistManager:: ThreadMain: Removing flow( s ) due to MAC address removal, MAC: <*>"
-431af0cc,431af0cc,"BcmCmDownstreamScan:: CheckForCableCut: Checking for cable cut..., Plant power is <*>, Cable disconnected., Publishing 'cable cut' event."
+94987f88,94987f88,BcmCmDownstreamScan:: CheckForCableCut: Checking for cable cut...
+984c1cb3,984c1cb3,"Plant power is <*>, Cable disconnected., Publishing 'cable cut' event."
 23084349,23084349,Scanning <*> MHz <*> ( Non-vol entry <*> )
 67644c00,67644c00,Scanning <*> MHz <*>
 c59d1714,c59d1714,Scanning <*> MHz <*> ( Non-vol happy-home )
@@ -282,7 +283,7 @@ a5f34158,a5f34158,BcmCmDsChanOfdm:: MddKeepAliveRescueTrans: hwRxId= <*> dcid= <
 738aa70f,738aa70f,Logging event: Started Unicast Maintenance Ranging - No Response received - T3 time-out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
 93944dfa,93944dfa,"BcmCmUsSetsState:: UsTimeRefFail: WARNING -, RFI-N- <*> - attempting to re-acquire us time sync without resetting the MAC."
 683faf45,683faf45,BcmDocsisCmHalIf:: HandleStatusIndication: WARNING - CM HAL declared PULSE lost!
-9de1bc0f,9de1bc0f,"BcmCmDownstreamScan:: CheckForCableCut: Checking for cable cut..., Plant power is <*>, Cable connected."
+c24b2cc8,c24b2cc8,"Plant power is <*>, Cable connected."
 796eb86f,796eb86f,"BcmCmMultiUsHelper:: RngRspMsgEvent: ERROR -, unable to find target BcmCmUsChan for RNG-RSP. Discarding:"
 abd7d8c3,abd7d8c3,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: RNG_RSP ( <*> ), fka reserved: <*>, fParseConfCode: <*> ( <*> ), MSG PDU:, primary sid: <*>, RNG-REQ us chan id: <*>, ranging status: <*> ( <*> ), power adj, dB/ <*>: <*> ( <*> ), Dynamic range window: <*>, Commanded Power: "
 eab1c29f,eab1c29f,Scanning <*> MHz PLC/SC-QAM ( <*> ) locked <*>
@@ -499,7 +500,7 @@ eecaeba5,eecaeba5,Scanning <*> MHz PLC/SC-QAM ( Non-vol entry # <*> ) locked <*>
 9dcddb7f,9dcddb7f,Special case: don't disable <*> Channel_ <*>
 8157eb8c,8157eb8c,Special case: don't disable <*>
 39ef5d35,39ef5d35,Checking for cable cut...
-47837ba1,47837ba1,"BcmDocsisCmHalIf:: HandleStatusIndication: WARNING - CM HAL declared PULSE lost!, Plant power is <*>"
+17ba63e6,17ba63e6,Plant power is <*>
 a1b37851,a1b37851,Cable connected
 2f06ae53,2f06ae53,Informing RG CM energy detected = <*>
 cf2c9b23,cf2c9b23,Reason = 'MAC Reset'
@@ -520,7 +521,6 @@ eab4069f,eab4069f,"The CMTS is required to not include the Dynamic Range Window 
 bc60924a,bc60924a,BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ) BcmCmUsRangingState:: RcvrTccReplace: starting TCC replace recovery strategy for hwTxId= <*> docs ucid= <*>
 b7f89f2f,b7f89f2f,"BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ) BcmCmMultiUsHelper:: DetectDeadInWaterPrimaryUsSvcFlow: ERROR -, zero ucid associated with primary upstream service flow are able to tx data."
 b40ad5f9,b40ad5f9,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: RNG_RSP ( <*> ), fka reserved: <*>, fParseConfCode: <*> ( <*> ), MSG PDU:, primary sid: <*>, RNG-REQ us chan id: <*>, ranging status: <*> ( <*> ), timing adj, ticks / <*>: <*> ( <*> )"
-6d888c7b,6d888c7b,"Checking for cable cut..., Plant power is <*>"
 213c623b,213c623b,OpenSSL_addX509Header(): Public Key is NULL. Return.
 c2a5d8cf,c2a5d8cf,"BcmBfcProcessCvc:: CmCodeVerificationCertificate:: ParseAndValidate: ERROR - Failed on rsaDecryptSignature, status= <*>"
 b75807f9,b75807f9,BcmBfcProcessCvc:: ProcessConfigFileSpecifiedCvc: ERROR - Config file manufacturer CVC is rejected.
@@ -732,11 +732,11 @@ e58582d7,e58582d7,BcmCmUsSetsState:: UsTimeRefFail: txid= <*> ucid= <*> failed t
 6ce4761e,6ce4761e,BcmCmUsRangingState:: RngRspMsgEvent: txid= <*> ucid= <*> received RNG-RSP with status= ABORT.
 ef1041d0,ef1041d0,BcmCmDocsisCtlThread:: TargetNextUsChan:  
 64026de6,64026de6,BcmCmMultiUsHelper:: ResetCmUsChan: target hwTxId= <*>
-28699786,28699786,BcmCmUsRangingState:: T3NoRngRspEvent: txid= <*> ucid= <*> no RNG-RSP timeout during initial ranging.
+9006eea9,9006eea9,BcmCmUsRangingState:: T3NoRngRspEvent: txid= <*> ucid= <*> no RNG-RSP timeout during <*> ranging.
 52eef7dd,52eef7dd,BcmCmUsRangingState:: ConfigInitialRanging: txid= <*> ucid= <*> adjust tx power to <*> dBmV.
 f2b4cdbf,f2b4cdbf,BcmCmUsRangingState:: RngRspMsgEvent: txid= <*> ucid= <*> detected bogus RNG-RSP sid= <*> 
 aadd0558,aadd0558,Logging event: Received REG-RSP while in REG-HOLD1 state; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
-56da51d0,56da51d0,Scanning <*> MHz SC-QAM ( Annex A mod <*> )
+60eb5b9b,60eb5b9b,Scanning <*> MHz <*> ( Annex A mod <*> )
 6d63ae2c,6d63ae2c,Scanning <*> MHz SC-QAM ( Annex A mod <*> ) locked SC-QAM
 2b9a5403,2b9a5403,Scanning <*> MHz PLC/SC-QAM ( Scan list # <*> ) locked SC-QAM
 a8f178a2,a8f178a2,RNG-RSP UsChanId= <*> Stat= <*> or ds freq= <*>
@@ -745,7 +745,6 @@ a8f178a2,a8f178a2,RNG-RSP UsChanId= <*> Stat= <*> or ds freq= <*>
 8f5e5fd4,8f5e5fd4,BcmCmDsChan:: DsLockFail: rxid= <*> dcid= <*> enter recovery state
 65b804bd,65b804bd,BcmCmDocsisCtlThread:: DetectRccInstallDone: partial service outcome.
 051e59a1,051e59a1,BcmCmDsChan:: DsLockFail: rxid= <*> dcid= <*> lock failure for active primary ds chan during startup. restart error!
-91d362f4,91d362f4,"NumDsChans = <*>, NumUsChans = <*>, Plant power is <*>"
 fc738c74,fc738c74,Cable disconnected
 4e7929d4,4e7929d4,"BcmCmMultiUsHelper:: DetectBogusTccUcidOrUcd: Errored TCC encodings!, == TCC command ==, TCC ref id = <*>, action = <*> ( <*> ), us chan id = <*>, new us chan id = <*> ( <*> ), ranging sid = <*>, ranging strategy = <*> ( <*> ), dyn ranging window = <*> ( <*> ), rng mode ( CM spec ) = <*> ( <*> ), UCD = <suppressed for brevity>, ranging params = ( <*> ), TCC Error:, error code = <*>"
 324ecd03,324ecd03,Aborted ToD acquisition due to client request...
@@ -790,9 +789,34 @@ f9be4de5,f9be4de5,"networked standby, Cable cut detected, entering RF disconnect
 71b4157b,71b4157b,rpc_send_request timeout on tunnel <*>
 5e864c00,5e864c00,<<<<<<<<<<<<< rpc_dump_msg >>>>>>>>>>>>>>>>>>
 879448eb,879448eb,msg <*> RC <*> Req <*> Rep <*> Serv <*> Func <*> reqcnt <*>
-ff17ebbd,ff17ebbd,Len: <*>
 68bef2e7,68bef2e7,Setting proxy timeout to <*> mSecs
 921f9a92,921f9a92,Scan stopped...
 544eaeba,544eaeba,Checking for RF reconnect.
 bb99a5c5,bb99a5c5,"Cable disconnected, Cable still disconnected. Check again in <*> seconds."
 ec05b0a4,ec05b0a4,Networked standby - invoke D3PowerSave.
+f228dfa5,f228dfa5,BcmCmDsChanOfdm:: DsLockFail: rxid= <*> dcid= <*>
+7f7e47ee,7f7e47ee,BcmCmDsOfdmProfileState:: FecLockFail: hwRxId= <*> dcid= <*> profId= <*> ( <*> ) reason= <*>
+b7431314,b7431314,BcmCmDsChanOfdm:: CommonPlcErrorHandler: rxid= <*> dcid= <*> restart recovery retry timer
+0f4bcf81,0f4bcf81,BcmCmDsChanOfdm:: LockToRescueCmtsRetryTimerEvent: rxid= <*> dcid= <*> retry recovery for active primary channel
+635494bb,635494bb,BcmCmDsChanOfdm:: RecoverChan: rxid= <*> dcid= <*>
+a379e6bc,a379e6bc,BcmCmDsChanOfdm:: RecoverPlc: rxid= <*> dcid= <*> freq= <*>
+169f89c8,169f89c8,BcmCmDsChanOfdm:: MddKeepAliveFailTrans: rxid= <*> dcid= <*>
+8f310cda,8f310cda,BcmCmDsChan:: MddKeepAliveFailTrans: rxid= <*> dcid= <*>
+f8557fc8,f8557fc8,BcmCmDsChan:: DsLockFail: rxid= <*> dcid= <*> restart recovery retry timer
+7b0aae6b,7b0aae6b,BcmCmDsChan:: LockToRescueCmtsRetryTimerEvent: rxid= <*> dcid= <*> retry recovery for active primary channel
+78a18bef,78a18bef,BcmCmDsChan:: RecoverChan: rxid= <*> dcid= <*>
+e583b516,e583b516,"Docsis31ConfigureUpstream: TC OFDM DtrLock is not set! ReadySts= <*>, returning..."
+8e9af238,8e9af238,Clearing 'networked standby' mode
+b0ffd2ea,b0ffd2ea,Setting networked standby context to 'none'
+263f4dc1,263f4dc1,SetStateImpl: thread state now in transition: reduced->full
+bb372f37,bb372f37,"eRouterMsgPipe power management client transitioning from networked standby -> full power, eRouter is powered up. Sending notification."
+8c0ec7bf,8c0ec7bf,BcmCmUsRangingState:: T3NoRngRspEvent: txid= <*> ucid= <*> max consecutive no RNG-RSP timeout.
+320e1e9c,320e1e9c,BcmCmUsChan:: UsTimeRefOk: txid= <*> ucid= <*> us time ref recovered.
+6f24bdf6,6f24bdf6,"BcmCmMultiUsHelper:: TargetNextDocs3CandidateUcid:, error: upstream settings not found or not usable for target ucid= <*>!, try next candidate ucid."
+de088ffe,de088ffe,"BcmCmMultiUsHelper:: TargetNextDocs3CandidateUcid:, error: no more candidate ucid's. continue downstream scanning."
+b4b09e4b,b4b09e4b,BcmCmDocsisCtlThread:: TargetNextDocs3CandidateUcid: All candidate upstream chans tried. Target next ds.
+85199bea,85199bea,"Startup UCD Selection Info:, happy home ucid set = <*> "
+446464e9,446464e9,BcmCmDsOfdmProfileState:: TmDpdInstallEvent: rxid= <*> dcid= <*> Profile <*> calling FecLockOk()
+265c7a92,265c7a92,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: REG_ACK ( <*> ), fka reserved: <*>, MSG PDU:, primary sid: <*>, confirmation code: <*>, receive channel config: T= <*> ( <*> ) L= <*> ( <*> ) V=, primary ds channel: T= <*> ( <*> ) L= <*> ( <*> ) V= <*> ( <*> ) "
+2ebdb73b,2ebdb73b,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [ <*> ]
+b9c05b52,b9c05b52,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [ <*> ] prof= [( <*> -> <*> )]

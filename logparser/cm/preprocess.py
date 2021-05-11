@@ -142,7 +142,8 @@ sLinePattern11 = re.compile(r' {24}dsid: | {24}DSID: | {24}CMIM: ')
 sLinePattern12 = re.compile(r'={18}')
 sLinePattern13 = re.compile(r'Suboption \d:|'
                             r'eptAsyncCmd: Ept not initialized|'
-                            r'\([a-zA-Z0-9]+\)')
+                            r'\([a-zA-Z0-9]+\)|'
+                            r'Len: \d+ ')
 
 sLinePatterns = [
     sLinePattern0,
@@ -255,6 +256,7 @@ sNestedLinePattern4 = re.compile(r'\t{7}Storing to device...|'
                                  r'  DefaultSnmpAgentClass::|'
                                  r'  Special case: don\'t disable|'
                                  r'  [DU]S: +\d+ SC-QAM \(0x')
+sNestedLinePattern5 = re.compile(r'  Plant power is')
 
 sNestedLinePatterns = [
     sNestedLinePattern0,
@@ -262,6 +264,7 @@ sNestedLinePatterns = [
     sNestedLinePattern2,
     sNestedLinePattern3,
     sNestedLinePattern4,
+    sNestedLinePattern5,
 ]
 
 #----------------------------------------------------------------------------------------
