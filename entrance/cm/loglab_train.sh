@@ -1,14 +1,14 @@
 #! /bin/bash
 
-# This script updates the template library by the logs for Loglab
+# This script trains the model of Loglab
 
 (
 echo LOG_TYPE=cm
 echo TRAINING=1
 echo METRICS=0
 echo MODEL=LOGLAB
-echo WINDOW_SIZE=10000
-echo WINDOW_STEP=5000
+echo WINDOW_SIZE=10
+echo WINDOW_STEP=1
 echo TEMPLATE_LIB_SIZE=2000
 ) > ../config.txt
 
@@ -25,3 +25,5 @@ python3 ../../logparser/extract_samples.py
 # Parse the log and update the template library
 python3 ../../logparser/cm/parser.py
 
+# Train the model of Loglab
+python3 ../../loglab/loglab_model_train.py

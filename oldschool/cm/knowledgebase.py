@@ -93,12 +93,75 @@ def domain_knowledge(template_id, param_list):
                              "decrease DS attanuation ..."
             break
 
-        if case('9f88e081'):
+        if case('4df6cac3'):
+            # TEMPLATE: "Telling application we lost lock on channel <*> ( lostbits= <*> )"
+            log_fault = True
+            log_description = "Lost lock happens on OFDM channel {0}".format(param_list[0])
+            log_suggestion = "Disconnected/Bad RF cable, low DS power, etc. Replace cable, " \
+                             "decrease DS attanuation ..."
+            break
+
+        if case('9f88e081') or case('8f5e5fd4'):
             # TEMPLATE: "BcmCmDsChan:: DsLockFail: hwRxId= <*> dcid= <*> -> enter kDsOperLockToRescueCmts state"
+            # TEMPLATE: "BcmCmDsChan:: DsLockFail: rxid= <*> dcid= <*> enter recovery state"
             log_fault = True
             log_description = "DS unlock happens on h/w channel {0}, dcid {1}" \
                               .format(param_list[0], param_list[1])
             log_suggestion = "Downstream is broken ..."
+            break
+
+        if case('565f2f45'):
+            # TEMPLATE: "1st try PLC NOT locked! Retrying..."
+            log_fault = True
+            log_description = "Downstream OFDM PLC channel is not stable, trying to re-lock."
+            log_suggestion = "RF cable cut, weak downstream OFDM signal, or have noises ..."
+            break
+
+        if case('a8db0840'):
+            # TEMPLATE: "BcmDocsisCmHalIf:: HandleStatusIndication: WARNING - <*> lost PLC Lock"
+            log_fault = True
+            log_description = "Downstream OFDM {0} PLC channel lost lock.".format(param_list[0])
+            log_suggestion = "RF cable cut, weak downstream OFDM signal, or have noises ..."
+            break
+
+        if case('f228dfa5'):
+            # TEMPLATE: "BcmCmDsChanOfdm:: DsLockFail: rxid= <*> dcid= <*>"
+            log_fault = True
+            log_description = "Downstream OFDM channel {0} lock fails on dcid {1}." \
+                              .format(param_list[0], param_list[1])
+            log_suggestion = "RF cable cut, weak downstream OFDM signal, or have noises ..."
+            break
+
+        if case('917602ac'):
+            # TEMPLATE: "BcmCmDsChanOfdm:: ContriveProfileFailure: rxid= <*> dcid= <*>"
+            log_fault = True
+            log_description = "Downstream OFDM channel {0} contrive profle failure on dcid {1}." \
+                              .format(param_list[0], param_list[1])
+            log_suggestion = "RF cable cut, weak downstream OFDM signal, or have noises ..."
+            break
+
+        if case('7f7e47ee'):
+            # TEMPLATE: "BcmCmDsOfdmProfileState:: FecLockFail: hwRxId= <*> dcid= <*> profId= <*> ( <*> ) reason= <*>"
+            log_fault = True
+            log_description = "Downstream OFDM channel {0} FEC lock fail on dcid {1} " \
+                              "profile {2}, the reason is {3}" \
+                              .format(param_list[0], param_list[1], param_list[2], param_list[3])
+            log_suggestion = "RF cable cut, weak downstream OFDM signal, or have noises ..."
+            break
+
+        if case('fc738c74'):
+            # TEMPLATE: "Cable disconnected"
+            log_fault = True
+            log_description = "Cable disconnected"
+            log_suggestion = "Cable disconnected, or no any signals on the cable."
+            break
+
+        if case('2f06ae53'):
+            # TEMPLATE: "Informing RG CM energy detected = <*>"
+            if param_list[0] == '0':
+                log_fault = True
+                log_description = "Cable disconnected"
+                log_suggestion = "Cable disconnected, or no any signals on the cable."
             break
 
         # ---------------------------------------------------------------------

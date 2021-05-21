@@ -10,7 +10,7 @@ import collections
 curfiledir = os.path.dirname(__file__)
 parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
-file_loc = parentdir + '/results/persist/cm/event_id_deeplog.txt'
+file_loc = parentdir + '/results/persist/cm/event_id_loglab.txt'
 
 file = open(file_loc, 'r')
 
