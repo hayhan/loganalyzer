@@ -318,12 +318,14 @@ initRangePattern = re.compile(r'== Beginning initial ranging for Docsis UCID')
 inMultiLineInitRangeEnd1 = re.compile(r'Using clamped minimum transmit power')
 inMultiLineInitRangeEnd2 = re.compile(r'Using bottom of DRW initial upstream power')
 inMultiLineInitRangeEnd3 = re.compile(r'Using per transmitter stored initial upstream power')
-# Assign token something like ABC=xyz or ABC==xyz
+# Split assignment token something like ABC=xyz or ABC==xyz
 assignTokenPattern = re.compile(r'=(?=[^= \r\n])')
-# Cpp class token like ABC::Xyz or ABC::xY
+# Split cpp class token like ABC::Xyz or ABC::xY
 cppClassPattern = re.compile(r'\:\:(?=[A-Z][a-z0-9]|[a-z][A-Z])')
 # Split 'ABC;DEF' to 'ABC; DEF'
 semicolonPattern = re.compile(r';(?! )')
+# Split hash number like #123 to # 123
+hashNumPattern = re.compile(r'#(?=[0-9]+)')
 # Change something like (xx), [xx], ..., to ( xx ), [ xx ], ...
 bracketPattern1 = re.compile(r'\((?=(\w|[-+]))')
 bracketPattern2 = re.compile(r'(?<=\w)\)')
@@ -756,6 +758,9 @@ for _idx, line in enumerate(linesLst):
 
     # Split 'ABC;DEF' to 'ABC; DEF'
     newline = semicolonPattern.sub('; ', newline)
+
+    # Split hash number like #123 to # 123
+    newline = hashNumPattern.sub('# ', newline)
 
     # Change something like (xx), [xx], ..., to ( xx ), [ xx ], ...
     newline = bracketPattern1.sub('( ', newline)

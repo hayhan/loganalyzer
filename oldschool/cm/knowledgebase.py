@@ -306,6 +306,31 @@ def domain_knowledge(template_id, param_list):
                              "mac reset might happen."
             break
 
+        if case('24b26703'):
+            # TEMPLATE: "BcmCmUsRangingState:: CommonRngErrorHandler: txid= <*> ucid= <*> reason= <*> ( <*> )"
+            if param_list[3] == 'T4NoStationMaintTimeout':
+                log_fault = True
+                log_description = "T4 timeout on one US channel."
+                log_suggestion = "Usually downstream or upstream has big issues and " \
+                                 "mac reset might happen."
+
+            if param_list[3] == 'MaxT3NoRngRspTimeouts':
+                log_fault = True
+                log_description = "16 consective no unicast RNG-RSP on one US channel."
+                log_suggestion = "Usually happens when the US channel is broken down. " \
+                                 "E.g. US RF cut, noise / distortion on US channel " \
+                                 "because of some external spliter / combiner / filter."
+
+            if param_list[3] == 'RngRspAbortStatus':
+                log_fault = True
+                log_description = "RNG-RSP with Abort."
+                log_suggestion = "Usually US attenuation is too high, low or other " \
+                                 "reasons that CMTS is not happy with the RNG-REQ."
+            break
+
+        # ---------------------------------------------------------------------
+        # Reinit MAC
+        # ---------------------------------------------------------------------
         if case('ec4a6237'):
             # TEMPLATE: "BcmCmDocsisCtlThread:: SyncRestartErrorEvent: reinit MAC # <*>: <*>"
             if param_list[1] == 'T4NoStationMaintTimeout':
@@ -313,6 +338,43 @@ def domain_knowledge(template_id, param_list):
                 log_description = "MAC reset because of T4 timeout."
                 log_suggestion = "Usually downstream or upstream has big issues and " \
                                  "mac reset might happen."
+
+            if param_list[1] == 'NoMddTimeout':
+                log_fault = True
+                log_description = "MAC reset because of No MDD timeout."
+                log_suggestion = "Usually CM scans and locks a non-primary DS channel. " \
+                                 "If every DS channel has this MDD timeout, most probably " \
+                                 "CMTS has issues. Then try to reboot CMTS."
+
+            if param_list[1] == 'NegOrBadRegRsp':
+                log_fault = True
+                log_description = "MAC reset because of invalid values in REG-RSP."
+                log_suggestion = "Some incorrect settings on CM like diplexer might " \
+                                 "introduce the wrong values in REG-RSP."
+
+            if param_list[1] == 'MaxT3NoRngRspTimeouts':
+                log_fault = True
+                log_description = "MAC reset because of 16 consective no unicast RNG-RSP."
+                log_suggestion = "This usually happens when no unicast RNG-RSP on all US " \
+                                 "channels. E.g. upstream cable is broken."
+
+            if param_list[1] == 'RngRspAbortStatus':
+                log_fault = True
+                log_description = "MAC reset because of Abort in RNG-RSP."
+                log_suggestion = "This usually happens when CMTS is not happy with RNG-REQ " \
+                                 "although NO T3 timeout on all US channels. E.g. US Tx " \
+                                 "power reaches the max or min."
+
+            if param_list[1] == 'BogusUsTarget':
+                log_fault = True
+                log_description = "MAC reset because of no usable UCDs."
+                log_suggestion = "This usually happens when no usable UCDs exist."
+
+            if param_list[1] == 'DsLockFail':
+                log_fault = True
+                log_description = "MAC reset because of DS lock fails."
+                log_suggestion = "This usually happens when CM tries to lock DS but RF cut off. " \
+
             break
 
         # ---------------------------------------------------------------------

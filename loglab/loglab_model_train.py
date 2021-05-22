@@ -58,7 +58,7 @@ para_train = {
     'data_path'      : results_train_dir,
     'persist_path'   : results_persist_dir,
     'window_size'    : WINDOW_SIZE,    # unit is log
-    'tmplib_size'    : TMPLIB_SIZE,    # only for train dataset
+    'tmplib_size'    : TMPLIB_SIZE,
     'train'          : True,
     'metrics_enable' : METRICS_EN,
     'weight'         : 1,
@@ -73,6 +73,7 @@ para_test = {
     'data_path'      : results_test_dir,
     'persist_path'   : results_persist_dir,
     'window_size'    : WINDOW_SIZE,    # unit is log
+    'tmplib_size'    : TMPLIB_SIZE,
     'train'          : False,
     'metrics_enable' : METRICS_EN,
     'weight'         : 1,

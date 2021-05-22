@@ -258,19 +258,29 @@ def extract_feature(para, data_df, eid_voc, eid_logs):
             # The axis part, it is also the typical log
             event_count_matrix[0, eid_voc.index(event_id)] = para['weight']
 
-            # The other part in the window
+            # The upper part of the window
             for i in range(para['window_size']):
-                # The upper part of the window
                 if axis - (i+1) >= 0:
-                    feature_idx = eid_voc.index(eid_logs[axis-(i+1)])
-                    if event_count_matrix[0, feature_idx] == 0:
-                        event_count_matrix[0, feature_idx] = 1
+                    # Skip the event id which is not in the tempalte lib / vocabulary
+                    # This usually happens in the logs of prediction
+                    try:
+                        feature_idx = eid_voc.index(eid_logs[axis-(i+1)])
+                        if event_count_matrix[0, feature_idx] == 0:
+                            event_count_matrix[0, feature_idx] = 1
+                    except ValueError:
+                        continue
 
-                # The under part of the window
+            # The under part of the window
+            for i in range(para['window_size']):
                 if axis + (i+1) < len(eid_logs):
-                    feature_idx = eid_voc.index(eid_logs[axis+(i+1)])
-                    if event_count_matrix[0, feature_idx] == 0:
-                        event_count_matrix[0, feature_idx] = 1
+                    # Skip the event id which is not in the tempalte lib / vocabulary
+                    # This usually happens in the logs of prediction
+                    try:
+                        feature_idx = eid_voc.index(eid_logs[axis+(i+1)])
+                        if event_count_matrix[0, feature_idx] == 0:
+                            event_count_matrix[0, feature_idx] = 1
+                    except ValueError:
+                        continue
 
     # Empty target class for prediction
     class_vec = []
