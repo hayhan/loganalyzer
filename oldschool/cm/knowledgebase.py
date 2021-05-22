@@ -149,8 +149,9 @@ def domain_knowledge(template_id, param_list):
             log_suggestion = "RF cable cut, weak downstream OFDM signal, or have noises ..."
             break
 
-        if case('fc738c74'):
+        if case('fc738c74') or case('87a34b02'):
             # TEMPLATE: "Cable disconnected"
+            # TEMPLATE: "Cable disconnected, Publishing 'cable cut' event."
             log_fault = True
             log_description = "Cable disconnected"
             log_suggestion = "Cable disconnected, or no any signals on the cable."
@@ -205,23 +206,6 @@ def domain_knowledge(template_id, param_list):
         # ---------------------------------------------------------------------
         # Ranging, T2/T3/T4 ... timeout
         # ---------------------------------------------------------------------
-        if case('85511099'):
-            # TEMPLATE: "BcmCmUsRangingState:: T2NoInitMaintEvent: ERROR - no Init Maint map op -> restart error"
-            log_fault = True
-            log_description = "CM cannot receive broadcast init ranging opportunities"
-            log_suggestion = "MAPs are not received on downstream (bad SNR?) " \
-                             "or MAP flushing because of CM transmiter problems."
-            break
-
-        if case('2fc6ea2f'):
-            # TEMPLATE: "BcmCmUsRangingState:: T4NoStationMaintEvent: ERROR - no Station Maint map op error. hwTxId= <*> docs ucid= <*>"
-            log_fault = True
-            log_description = "T4 timeout happens on Tx channel {0} ucid {1}" \
-                              .format(param_list[0], param_list[1])
-            log_suggestion = "Usually downstream or upstream has big issues and " \
-                             "mac reset might happen."
-            break
-
         if case('33de59d1'):
             # TEMPLATE: "RNG-RSP UsChanId= <*> Stat= <*> "
             # Context TEMPLATE ('b2079e76'): "RNG-RSP UsChanId= <*> Adj: power= <*> Stat= <*> "
@@ -252,6 +236,14 @@ def domain_knowledge(template_id, param_list):
             log_description = "Ranging is Aborted by CMTS and MAC will be reset"
             log_suggestion = "Attanuation of upstream is too low or high usually. " \
                              "Adjust the US attnuation according to previous suggestion."
+            break
+
+        if case('85511099'):
+            # TEMPLATE: "BcmCmUsRangingState:: T2NoInitMaintEvent: ERROR - no Init Maint map op -> restart error"
+            log_fault = True
+            log_description = "CM cannot receive broadcast init ranging opportunities"
+            log_suggestion = "MAPs are not received on downstream (bad SNR?) " \
+                             "or MAP flushing because of CM transmiter problems."
             break
 
         if case('67d9799e'):
@@ -296,11 +288,41 @@ def domain_knowledge(template_id, param_list):
                              "of CMTS issues ..."
             break
 
+        if case('2fc6ea2f') or case('b73d84d3'):
+            # TEMPLATE: "BcmCmUsRangingState:: T4NoStationMaintEvent: ERROR - no Station Maint map op error. hwTxId= <*> docs ucid= <*>"
+            # TEMPLATE: "BcmCmUsRangingState:: T4NoStationMaintEvent: ERROR - txid= <*> ucid= <*> no Station Maint map op error."
+            log_fault = True
+            log_description = "T4 timeout happens on Tx channel {0} ucid {1}" \
+                              .format(param_list[0], param_list[1])
+            log_suggestion = "Usually downstream or upstream has big issues and " \
+                             "mac reset might happen."
+            break
+
+        if case('a8b689c1'):
+            # TEMPLATE: "Logging event: Received Response to Broadcast Maintenance Request, But no Unicast Maintenance opportunities received - T4 time out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+            log_fault = True
+            log_description = "T4 timeout happens."
+            log_suggestion = "Usually downstream or upstream has big issues and " \
+                             "mac reset might happen."
+            break
+
+        if case('ec4a6237'):
+            # TEMPLATE: "BcmCmDocsisCtlThread:: SyncRestartErrorEvent: reinit MAC # <*>: <*>"
+            if param_list[1] == 'T4NoStationMaintTimeout':
+                log_fault = True
+                log_description = "MAC reset because of T4 timeout."
+                log_suggestion = "Usually downstream or upstream has big issues and " \
+                                 "mac reset might happen."
+            break
+
         # ---------------------------------------------------------------------
         # MDD
         # ---------------------------------------------------------------------
-        if case('85b2bfec'):
+        if case('85b2bfec') or case('8f310cda') or case('c4c2729c') or case('169f89c8'):
             # TEMPLATE: "BcmCmDsChan:: MddKeepAliveFailTrans: hwRxId= <*> dcid= <*>"
+            # TEMPLATE: "BcmCmDsChan:: MddKeepAliveFailTrans: rxid= <*> dcid= <*>"
+            # TEMPLATE: "BcmCmDsChanOfdm:: MddKeepAliveFailTrans: hwRxId= <*> dcid= <*>"
+            # TEMPLATE: "BcmCmDsChanOfdm:: MddKeepAliveFailTrans: rxid= <*> dcid= <*>"
             log_fault = True
             log_description = "MDD cannot be received on h/w channel {0}, dcid {1}" \
                               .format(param_list[0], param_list[1])
