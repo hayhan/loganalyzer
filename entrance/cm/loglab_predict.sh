@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# This script trains the model of Loglab
+# This script predicts using the model of Loglab
 
 (
 echo LOG_TYPE=cm
