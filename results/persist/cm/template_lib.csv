@@ -34,7 +34,6 @@ c61ea93f,c61ea93f,Switchable diplexer ECN support disabled. NOT switching diplex
 24a7177a,24a7177a,"BcmCmMdDsSgDiscState:: TrimSgSetWithoutThisDcid:, <*> candidate MD-DS-SG remain after TrimSgSetWithoutThisDcid( target_dcid ), for target_dcid= <*> ( <*> ) "
 4b82483e,4b82483e,"BcmCmMdDsSgDiscState:: StartMdDsSgDisc:, special case: one and only one MD-DS-SG contains mdd_dcid., fMdDsSgId= <*> ( <*> ) "
 a877c3a3,a877c3a3,"MD-DS-SG discovery info:, fCmMdDsSgDiscState = <*> ( <*> ), fMdDsSgId = <*> ( <*> ), fMdDsSgDiscovered = <*>"
-1e5aff32,1e5aff32,"Trimmed Downstream Ambiguity Resolution Frequency List: list size = <*>, <*> visible dcid set = <*>, freq with visible dcid set = <*> "
 ebdddf1d,ebdddf1d,BcmDocsisCmHalIf:: SetPrimaryDownstreamChannel: Installing primary downstream channel index: <*>
 2c5a73b0,2c5a73b0,SetRatios called with primary downstream channel number = <*>
 2f643572,2f643572,AnnexMode[ <*> ] = <*> QAM_Mode[ <*> ] = <*>
@@ -257,7 +256,6 @@ c59d1714,c59d1714,Scanning <*> MHz <*> ( Non-vol happy-home )
 86a67123,86a67123,Scanning <*> MHz <*> ( Annex A even <*>MHz )
 41cfa9f5,41cfa9f5,Scanning <*> MHz SC-QAM ( Annex A non-even <*>MHz )
 1ce6f017,1ce6f017,"BcmCmDownstreamScan:: ScanNext: Cable reconnected., Publishing 'energy detected' event"
-c62f9c8d,c62f9c8d,"Trimmed Downstream Ambiguity Resolution Frequency List: list size = <*>, <*> <*>-ofdm, visible dcid set = <*>, freq with visible dcid set = <*> "
 2160a7db,2160a7db,"BcmCmMultiUsHelper:: StartPreRegUsInit:, targeting context is error recovery or startup., Always use last good upstream target chan id= <*>"
 508e2cda,508e2cda,"== Beginning initial ranging for Docsis UCID <*> ==, Minimum transmit power is <*> dBmV, Maximum transmit power is <*> dBmV, Dynamic Range Window is from <*>dBmV to <*> dBmV, Stored power level for UCID <*> is <*> dBmV, Using bottom of DRW initial upstream power = <*> dBmV hwTxId = <*> docsis UCID = <*>"
 146db989,146db989,Adjusting the initial ranging power to <*> dBmV... hwTxId = <*> docsis UCID = <*>
@@ -677,7 +675,6 @@ d3ae406c,d3ae406c,BcmCmUsSetsState:: UsTimeRefFail: txid= <*> ucid= <*> lost ups
 e49a184e,e49a184e,BcmCmUsSetsState:: UsTimeRefFail: txid= <*> ucid= <*> RFI-N- <*> - attempting to re-acquire us time sync without resetting the MAC.
 24a1087f,24a1087f,BcmDocsisD31PowerSave 'Off'
 be0c6617,be0c6617,CmHalIf:: HandleStatusIndication: WARNING - CM HAL failed to acquire sync or lost sync!
-2a046b76,2a046b76,"Trimmed Downstream Ambiguity Resolution Frequency List: list size = <*>, <*>-sc_qam <*>-sc_qam <*>-sc_qam <*>-sc_qam, visible dcid set = <*>, freq with visible dcid set = <*> "
 819f031a,819f031a,D3.1 CM with switchable diplexer registering on a D3.0 CMTS. Special compatability logic applied here.
 0caea5f7,0caea5f7,Diplexer is currently configured to <*> frequency range. Advertising ' <*>' in modem capability TLV <*>.
 b4458c99,b4458c99,EMTA: option <*> VendorSpec not present.
@@ -820,3 +817,17 @@ b4b09e4b,b4b09e4b,BcmCmDocsisCtlThread:: TargetNextDocs3CandidateUcid: All candi
 265c7a92,265c7a92,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: REG_ACK ( <*> ), fka reserved: <*>, MSG PDU:, primary sid: <*>, confirmation code: <*>, receive channel config: T= <*> ( <*> ) L= <*> ( <*> ) V=, primary ds channel: T= <*> ( <*> ) L= <*> ( <*> ) V= <*> ( <*> ) "
 2ebdb73b,2ebdb73b,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [ <*> ]
 b9c05b52,b9c05b52,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [ <*> ] prof= [( <*> -> <*> )]
+f3038809,f3038809,BcmCmDocsisCtlThread:: OcdChangeCmdSync: This id <*> is a invalid ID or it is not an OFDM channel.
+c29aa301,c29aa301,"No temperature message responses received from RG after <*> attempts, halting messages."
+fd25ad9c,fd25ad9c,BcmPortForwardSnoop:: RemoveProxyRule: WARNING - Entry Not Found
+32b90f4c,32b90f4c,"Parsing interface number from ifName, <*>: Ethernet CPE Interface ( eth1 ), <*>: Ethernet CPE Interface ( eth7 )"
+2055ecd9,2055ecd9,CmSnmpAgent:: ResetMibDefaults not restting due to factory mode
+95595a7b,95595a7b,"BcmDocsisCfgVarBindEngine:: ProcessViaBfc: Processing <*> VBs via BFC, TLV- <*> error: <*> -> <*> ( i32 ): INCONSISTENT_VALUE"
+0a33136b,0a33136b,"BcmDocsisCfgVarBindEngine:: Process: TLV- <*> failure: error status= <*>, error index= <*>"
+6b967bda,6b967bda,"Invalid TLV- <*>'s: <*> wrong values, <*> duplicate sets., But since we're in FACTORY mode we won't reject the cfg file."
+94c144e9,94c144e9,Logging event: TLV- <*> - Illegal Set operation failed; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
+b1b0b4a3,b1b0b4a3,CM diplexer US upper edge = <*> MHz.
+b03d06cd,b03d06cd,"No exact match of { <*>, <*>, <*>, <*>, <*>}. Reporting next LOWER match <*>"
+2b02d4ac,2b02d4ac,BcmCmMultiUsHelper:: TmUcdRxTimerEvent: ERROR - UCD rx timer expired and no usable ucd's received. -> restart timer.
+2bdf39df,2bdf39df,"BcmCmMultiUsHelper:: TmUcdRxTimerEvent: ERROR -, T1 expired and no usable ucd's received -> restart error"
+9beb20c5,9beb20c5,Logging event: No UCDs Received - Timeout; ; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 

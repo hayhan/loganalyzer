@@ -93,6 +93,14 @@ def domain_knowledge(template_id, param_list):
                              "decrease DS attanuation ..."
             break
 
+        if case('b90344c4'):
+            # TEMPLATE: "Telling application we lost lock on QAM primary channel <*>"
+            log_fault = True
+            log_description = "Lost lock happens on QAM primary channel {0}".format(param_list[0])
+            log_suggestion = "Disconnected/Bad RF cable, low DS power, etc. Replace cable, " \
+                             "decrease DS attanuation ..."
+            break
+
         if case('4df6cac3'):
             # TEMPLATE: "Telling application we lost lock on channel <*> ( lostbits= <*> )"
             log_fault = True
@@ -204,8 +212,19 @@ def domain_knowledge(template_id, param_list):
             break
 
         # ---------------------------------------------------------------------
-        # Ranging, T2/T3/T4 ... timeout
+        # Ranging, ucd, T1/T2/T3/T4 ... timeout
         # ---------------------------------------------------------------------
+        if case('2bdf39df') or case('2b02d4ac') or case('9beb20c5') or case('140fe4f6'):
+            # TEMPLATE: "BcmCmMultiUsHelper:: TmUcdRxTimerEvent: ERROR -, T1 expired and no usable ucd's received -> restart error"
+            # TEMPLATE: "BcmCmMultiUsHelper:: TmUcdRxTimerEvent: ERROR - UCD rx timer expired and no usable ucd's received. -> restart timer."
+            # TEMPLATE: "Logging event: No UCDs Received - Timeout; ; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+            # TEMPLATE: "Logging event: UCD invalid or channel unusable; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+            log_fault = True
+            log_description = "Invalid UCDs or not usable UCDs are received on CM."
+            log_suggestion = "No any UCDs or the received UCDs are invalid. E.g. the upstream " \
+                             "channel freq > diplexer band edge."
+            break
+
         if case('33de59d1'):
             # TEMPLATE: "RNG-RSP UsChanId= <*> Stat= <*> "
             # Context TEMPLATE ('b2079e76'): "RNG-RSP UsChanId= <*> Adj: power= <*> Stat= <*> "
@@ -374,6 +393,11 @@ def domain_knowledge(template_id, param_list):
                 log_fault = True
                 log_description = "MAC reset because of DS lock fails."
                 log_suggestion = "This usually happens when CM tries to lock DS but RF cut off. " \
+
+            if param_list[1] == 'T1NoUcdTimeout':
+                log_fault = True
+                log_description = "MAC reset because of T1NoUcdTimeout."
+                log_suggestion = "This usually happens when no usable UCDs collected on CM. " \
 
             break
 

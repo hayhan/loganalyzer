@@ -282,10 +282,12 @@ eNestedLinePatterns = [
 #----------------------------------------------------------------------------------------
 wMultiLineRmPattern0 = re.compile(r'Configured O-INIT-RNG-REQ :')
 wMultiLineRmPattern1 = re.compile(r' {4}tap values:')
+wMultiLineRmPattern2 = re.compile(r' *Trimmed Downstream Ambiguity Resolution Frequency List')
 
 wMultiLineRmPatterns = [
     wMultiLineRmPattern0,
     wMultiLineRmPattern1,
+    wMultiLineRmPattern2,
 ]
 
 #----------------------------------------------------------------------------------------
