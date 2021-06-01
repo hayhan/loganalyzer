@@ -673,8 +673,6 @@ ed53b839,ed53b839,RNG-RSP UsChanId= <*> Adj: power= <*> Stat= <*> ( CmdPwr ( UsC
 bed8f3e4,bed8f3e4,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [( <*>- <*> )]
 d3ae406c,d3ae406c,BcmCmUsSetsState:: UsTimeRefFail: txid= <*> ucid= <*> lost upstream time sync.
 e49a184e,e49a184e,BcmCmUsSetsState:: UsTimeRefFail: txid= <*> ucid= <*> RFI-N- <*> - attempting to re-acquire us time sync without resetting the MAC.
-24a1087f,24a1087f,BcmDocsisD31PowerSave 'Off'
-be0c6617,be0c6617,CmHalIf:: HandleStatusIndication: WARNING - CM HAL failed to acquire sync or lost sync!
 819f031a,819f031a,D3.1 CM with switchable diplexer registering on a D3.0 CMTS. Special compatability logic applied here.
 0caea5f7,0caea5f7,Diplexer is currently configured to <*> frequency range. Advertising ' <*>' in modem capability TLV <*>.
 b4458c99,b4458c99,EMTA: option <*> VendorSpec not present.
