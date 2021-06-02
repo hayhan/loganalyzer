@@ -13,7 +13,7 @@ echo TEMPLATE_LIB_SIZE=2000
 ) > ..\config.txt
 
 rem logs/raw/cm/loglab/c001/ ... /cxxx/
-copy ..\..\logs\raw\cm\loglab\c005\loglab_diplexer_016.txt ..\..\logs\cm\test.txt
+copy ..\..\logs\raw\cm\loglab\c005\loglab_diplexer_017.txt ..\..\logs\cm\test.txt
 
 rem Preprocess
 python ..\..\logparser\cm\preprocess.py

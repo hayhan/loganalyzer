@@ -140,14 +140,6 @@ def domain_knowledge(template_id, param_list):
             log_suggestion = "RF cable cut, weak downstream OFDM signal, or have noises ..."
             break
 
-        if case('917602ac'):
-            # TEMPLATE: "BcmCmDsChanOfdm:: ContriveProfileFailure: rxid= <*> dcid= <*>"
-            log_fault = True
-            log_description = "Downstream OFDM channel {0} contrive profle failure on dcid {1}." \
-                              .format(param_list[0], param_list[1])
-            log_suggestion = "RF cable cut, weak downstream OFDM signal, or have noises ..."
-            break
-
         if case('7f7e47ee'):
             # TEMPLATE: "BcmCmDsOfdmProfileState:: FecLockFail: hwRxId= <*> dcid= <*> profId= <*> ( <*> ) reason= <*>"
             log_fault = True
@@ -171,6 +163,45 @@ def domain_knowledge(template_id, param_list):
                 log_fault = True
                 log_description = "Cable disconnected"
                 log_suggestion = "Cable disconnected, or no any signals on the cable."
+            break
+
+        # ---------------------------------------------------------------------
+        # Recover ds channels
+        # ---------------------------------------------------------------------
+        if case('8673876f'):
+            # TEMPLATE: "BcmCmDsChan:: RecoverChan: retry -> hwRxId= <*> freq= <*> dcid= <*>"
+            log_fault = True
+            log_description = "Try to recover DS SC-QAM channel {0} frequency {1} dcid {2}." \
+                              .format(param_list[0], param_list[1], param_list[2])
+            log_suggestion = "DS SC-QAM chan {0} dcid {2} is broken and is trying to recover." \
+                             .format(param_list[0], param_list[2])
+            break
+
+        if case('78a18bef'):
+            # TEMPLATE: "BcmCmDsChan:: RecoverChan: rxid= <*> dcid= <*>"
+            log_fault = True
+            log_description = "Try to recover DS SC-QAM channel {0} dcid {1}." \
+                              .format(param_list[0], param_list[1])
+            log_suggestion = "DS SC-QAM chan {0} dcid {1} is broken and is trying to recover." \
+                             .format(param_list[0], param_list[1])
+            break
+
+        if case('635494bb'):
+            # TEMPLATE: "BcmCmDsChanOfdm:: RecoverChan: rxid= <*> dcid= <*>"
+            log_fault = True
+            log_description = "Try to recover OFDM channel {0} dcid {1}." \
+                              .format(param_list[0], param_list[1])
+            log_suggestion = "OFDM chan {0} dcid {1} is broken and is trying to recover." \
+                             .format(param_list[0], param_list[1])
+            break
+
+        if case('a379e6bc'):
+            # TEMPLATE: "BcmCmDsChanOfdm:: RecoverPlc: rxid= <*> dcid= <*> freq= <*>"
+            log_fault = True
+            log_description = "Try to recover OFDM PLC channel {0} dcid {1} freq {2}." \
+                              .format(param_list[0], param_list[1], param_list[2])
+            log_suggestion = "OFDM PLC chan {0} dcid {1} is broken and is trying to recover." \
+                             .format(param_list[0], param_list[1])
             break
 
         # ---------------------------------------------------------------------
@@ -281,6 +312,22 @@ def domain_knowledge(template_id, param_list):
                              "kind of CMTS issues ..."
             break
 
+        if case('b52f1595'):
+            # TEMPLATE: "Logging event: Unicast Maintenance Ranging attempted - No response - Retries exhausted; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+            log_fault = True
+            log_description = "Retries exhausted for Unicast Maintenance Ranging."
+            log_suggestion = "Usually the US attnuation is too high or low, or some " \
+                             "kind of CMTS issues ..."
+            break
+
+        if case('18157661'):
+            # TEMPLATE: "Logging event: B-INIT-RNG Failure - Retries exceeded; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+            log_fault = True
+            log_description = "Retries exhausted for Broadcast Initial Ranging."
+            log_suggestion = "Usually the US attnuation is too high or low, or some " \
+                             "kind of CMTS issues ..."
+            break
+
         if case('bd66bf4c') or case('ea78b302') or case('b5dae8ef'):
             # TEMPLATE: "BcmCmUsRangingState:: T3NoRngRspEvent: ERROR - no more RNG-REQ retries."
             # TEMPLATE: "Logging event: <*> consecutive T3 timeouts while trying to range on upstream channel <*>; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
@@ -345,6 +392,16 @@ def domain_knowledge(template_id, param_list):
                 log_description = "RNG-RSP with Abort."
                 log_suggestion = "Usually US attenuation is too high, low or other " \
                                  "reasons that CMTS is not happy with the RNG-REQ."
+            break
+
+        if case('e58582d7') or case('6c23502a') or case('55932cf1') or case('d3ae406c'):
+            # TEMPLATE: "BcmCmUsSetsState:: UsTimeRefFail: txid= <*> ucid= <*> failed to establish upstream time sync."
+            # TEMPLATE: "BcmCmUsSetsState:: UsTimeRefFail: Failed to establish upstream time sync."
+            # TEMPLATE: "BcmCmUsSetsState:: UsTimeRefFail: Lost upstream time sync."
+            # TEMPLATE: "BcmCmUsSetsState:: UsTimeRefFail: txid= <*> ucid= <*> lost upstream time sync."
+            log_fault = True
+            log_description = "Failed to establish upstream time sync."
+            log_suggestion = "Usually upstream is broken, cut off, etc."
             break
 
         # ---------------------------------------------------------------------
@@ -465,6 +522,33 @@ def domain_knowledge(template_id, param_list):
             log_fault = True
             log_description = "ToD request sent - No Response received."
             log_suggestion = "ToD server might not be setup correctly behind the CMTS."
+            break
+
+        # ---------------------------------------------------------------------
+        # Registration
+        # ---------------------------------------------------------------------
+        if case('5fe4fd5b'):
+            # TEMPLATE: "BcmCmDocsisCtlThread:: TxRegAckMsg: ERROR - Failed to send the REG-ACK message to the CMTS!"
+            log_fault = True
+            log_description = "REG-ACK send failure."
+            log_suggestion = "Something wrong that REG-ACK cannot or does not send. " \
+                             "E.g. Wrong diplexer settings that makes the REG-RSP has " \
+                             "some bad values. Then CM refuses to send the ACK."
+            break
+
+        if case('3bd0cdca'):
+            # TEMPLATE: "BcmDocsisCmHalIf:: TransmitManagementMessage: ERROR - MAC Management Message was NOT sent after <*> seconds!"
+            log_fault = True
+            log_description = "MMM cannot be sent out."
+            log_suggestion = "Usually some issue happened in upstream MAC module."
+            break
+
+        if case('2fee035d'):
+            # TEMPLATE: "Logging event: Registration failure, re-scanning downstream"
+            log_fault = True
+            log_description = "Registration failure, re-scanning downstream."
+            log_suggestion = "Registration failure, re-scanning downstream. Need see other " \
+                             "error or warning logs to decide what happened."
             break
 
         # ---------------------------------------------------------------------
