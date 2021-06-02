@@ -92,10 +92,6 @@ def load_data(para):
 
     # For training or validation, we always handle the multi-sample logs
     if para['train'] or para['metrics_enable']:
-        # Load the sample info we stored in logparser module
-        with open(para['saminfo_file'], 'rb') as fin:
-            sample_info = pickle.load(fin)
-
         event_matrix, class_vector = extract_feature_multi(para, data_df1, event_id_voc,
                                                            event_id_logs)
     # For prediction, we have to suppose it is always one sample
@@ -246,7 +242,7 @@ def extract_feature(para, data_df, eid_voc, eid_logs):
         # Now we can search in the knowledge base for the current log
         typical_log_hit, _, _ = kb.domain_knowledge(event_id, param_list)
 
-        # If current log is hit in KB, add window around the axis
+        # If current log is hit in KB, we call it typical log and add window around the it
         if typical_log_hit:
             print('current line {} is hit, eid is {}.'.format(axis+1, event_id))
 
@@ -262,7 +258,7 @@ def extract_feature(para, data_df, eid_voc, eid_logs):
             for i in range(para['window_size']):
                 if axis - (i+1) >= 0:
                     # Skip the event id which is not in the tempalte lib / vocabulary
-                    # This usually happens in the logs of prediction
+                    # This usually happens in the logs for prediction
                     try:
                         feature_idx = eid_voc.index(eid_logs[axis-(i+1)])
                         if event_count_matrix[0, feature_idx] == 0:
@@ -274,7 +270,7 @@ def extract_feature(para, data_df, eid_voc, eid_logs):
             for i in range(para['window_size']):
                 if axis + (i+1) < len(eid_logs):
                     # Skip the event id which is not in the tempalte lib / vocabulary
-                    # This usually happens in the logs of prediction
+                    # This usually happens in the logs for prediction
                     try:
                         feature_idx = eid_voc.index(eid_logs[axis+(i+1)])
                         if event_count_matrix[0, feature_idx] == 0:
@@ -306,6 +302,18 @@ def extract_feature_multi(para, data_df, eid_voc, eid_logs):
     """
     eid_matrix = []
     class_vec = []
+
+    # Load the sample info vector we generate in logparser module
+    with open(para['saminfo_file'], 'rb') as fin:
+        sample_info = pickle.load(fin)
+    #print(sample_info)
+    #
+    # The sample info format: [(sample_size, sample_class), ...]
+    # sample_size is int type and unit is log, aka. one line in norm file
+    # sample_class is str type and can be int after removing the heading char 'c'
+    #
+
+
     return eid_matrix, class_vec
 
 
