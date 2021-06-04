@@ -14,6 +14,8 @@ import numpy as np
 import pandas as pd
 import loglab_data_load as dload
 
+# import matplotlib.pyplot as plt
+
 
 curfiledir = os.path.dirname(__file__)
 parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
@@ -61,7 +63,7 @@ para_train = {
     'tmplib_size'    : TMPLIB_SIZE,
     'train'          : True,
     'metrics_enable' : METRICS_EN,
-    'weight'         : 1,
+    'weight'         : 2,
 }
 
 para_test = {
@@ -76,7 +78,7 @@ para_test = {
     'tmplib_size'    : TMPLIB_SIZE,
     'train'          : False,
     'metrics_enable' : METRICS_EN,
-    'weight'         : 1,
+    'weight'         : 2,
 }
 
 
@@ -88,4 +90,10 @@ if __name__ == '__main__':
     #------------------------------------------------------------------------------------
     event_matrix, class_vector = dload.load_data(para_train)
 
+    # Save the event count matrix
+    # np.savetxt(para_train['data_path']+'loglab_event_count_matrix.txt', event_matrix, fmt="%s")
+
+    # Visualize the sparse matrix
+    # plt.spy(event_matrix, markersize=1)
+    # plt.show()
 

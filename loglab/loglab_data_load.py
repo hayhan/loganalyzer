@@ -66,18 +66,18 @@ def load_data(para):
 
     # Load and update vocabulary. Currently only update with train dataset
     event_id_voc = load_vocabulary(para, event_id_templates)
-    #event_id_voc = event_id_templates
+    # event_id_voc = event_id_templates
 
     # Count the non-zero event id number in the vocabulary. Suppose at least one zero
     # element exists in the voc.
     voc_size = len(set(event_id_voc)) - 1
-    #voc_size = len(set(event_id_voc))
+    # voc_size = len(set(event_id_voc))
 
     # Convert event id (hash value) log vector to event index (0 based int) log vector
     # For train dataset the template library / vocabulary normally contain all the
     # possible event ids. For validation / test datasets, they might not retrive some
     # ones. Currently map the unknow event ids to the last index in the vocabulary.
-    #event_idx_logs = [event_id_voc.index(tid) for tid in event_id_logs]
+    # event_idx_logs = [event_id_voc.index(tid) for tid in event_id_logs]
     event_idx_logs = []
     for tid in event_id_logs:
         try:
@@ -205,26 +205,32 @@ def load_vocabulary(para, event_id_templates):
     return event_id_shuffled
 
 
-def extract_feature(para, data_df, eid_voc, eid_logs):
-    """ Extract feature in a file which we suppose always contains one sample
+def extract_feature(para, data_df, eid_voc, eid_logs, sample_offset=0):
+    """ Extract feature in one sample
 
     Arguments
     ---------
     para: the parameters dictionary
-    data_df: data frame contains log content, EventId and EventTemplate
+    data_df: data frame structured logs
     eid_voc: event id vocabulary
-    eid_logs: event ids in raw log file
+    eid_logs: event ids in structured logs
+    sample_offset: the offset of current sample in the monolith
 
     Returns
     -------
-    event_count_matrix: one line matrix (one sampe) for prediction
+    event_count_vec: one line matrix, aka. one sampe
     class_vec: empty
     """
 
     # Initialize the matrix for one sample
-    event_count_matrix = np.zeros((1,len(eid_voc)))
+    event_count_vec = np.zeros((1,len(eid_voc)))
 
     for axis, line in data_df.iterrows():
+        #
+        # The sliced pandas dataframe of one sample still contrains the absolute index of
+        # monolith. Convert it to relative index of log in current sample.
+        axis -= sample_offset
+
         log_content_l = line['Content'].strip().split()
         log_event_template_l = line['EventTemplate'].strip().split()
         event_id = line['EventId']
@@ -235,16 +241,16 @@ def extract_feature(para, data_df, eid_voc, eid_logs):
         # Traverse all <*> tokens in log_event_template_l and save the index
         # Consider cases like '<*>;', '<*>,', etc. Remove the unwanted ';,' in knowledgebase
         idx_list = [idx for idx, value in enumerate(log_event_template_l) if '<*>' in value]
-        #print(idx_list)
+        # print(idx_list)
         param_list = [log_content_l[idx] for idx in idx_list]
-        #print(param_list)
+        # print(param_list)
 
         # Now we can search in the knowledge base for the current log
         typical_log_hit, _, _ = kb.domain_knowledge(event_id, param_list)
 
         # If current log is hit in KB, we call it typical log and add window around the it
         if typical_log_hit:
-            print('current line {} is hit, eid is {}.'.format(axis+1, event_id))
+            # print('current line {} is hit, eid is {}.'.format(axis+1, event_id))
 
             # Capture the logs within the window. The real window size around typical
             # log is 2*WINDOW_SIZE+1. That is, there are WINDOW_SIZE logs respectively
@@ -252,7 +258,7 @@ def extract_feature(para, data_df, eid_voc, eid_logs):
             #
 
             # The axis part, it is also the typical log
-            event_count_matrix[0, eid_voc.index(event_id)] = para['weight']
+            event_count_vec[0, eid_voc.index(event_id)] = para['weight']
 
             # The upper part of the window
             for i in range(para['window_size']):
@@ -261,8 +267,8 @@ def extract_feature(para, data_df, eid_voc, eid_logs):
                     # This usually happens in the logs for prediction
                     try:
                         feature_idx = eid_voc.index(eid_logs[axis-(i+1)])
-                        if event_count_matrix[0, feature_idx] == 0:
-                            event_count_matrix[0, feature_idx] = 1
+                        if event_count_vec[0, feature_idx] == 0:
+                            event_count_vec[0, feature_idx] = 1
                     except ValueError:
                         continue
 
@@ -273,48 +279,68 @@ def extract_feature(para, data_df, eid_voc, eid_logs):
                     # This usually happens in the logs for prediction
                     try:
                         feature_idx = eid_voc.index(eid_logs[axis+(i+1)])
-                        if event_count_matrix[0, feature_idx] == 0:
-                            event_count_matrix[0, feature_idx] = 1
+                        if event_count_vec[0, feature_idx] == 0:
+                            event_count_vec[0, feature_idx] = 1
                     except ValueError:
                         continue
 
     # Empty target class for prediction
     class_vec = []
 
-    print_ecm(event_count_matrix, eid_voc)
+    # print_ecm(event_count_vec, eid_voc)
 
-    return event_count_matrix, class_vec
+    return event_count_vec, class_vec
 
 
 def extract_feature_multi(para, data_df, eid_voc, eid_logs):
     """ Extract feature in a monolith file which always contains multiple samples
+
     Arguments
     ---------
     para: the parameters dictionary
-    data_df: data frame contains log content, EventId and EventTemplate
+    data_df: data frame structured logs, monolith
     eid_voc: event id vocabulary
-    eid_logs: event ids in raw log file
+    eid_logs: event ids in structured logs, monolith
 
     Returns
     -------
     event_count_matrix: multi-line (samples) for training / validation
     class_vector: vector of target class for each sample
     """
-    eid_matrix = []
-    class_vec = []
 
     # Load the sample info vector we generate in logparser module
     with open(para['saminfo_file'], 'rb') as fin:
-        sample_info = pickle.load(fin)
-    #print(sample_info)
+        saminfo_vec = pickle.load(fin)
+    # print(saminfo_vec)
     #
-    # The sample info format: [(sample_size, sample_class), ...]
+    # The sample info vector format: [(sample_size, sample_class), ...]
     # sample_size is int type and unit is log, aka. one line in norm file
     # sample_class is str type and can be int after removing the heading char 'c'
     #
 
+    # Initialize the matrix for multiple samples
+    event_count_matrix = np.zeros((len(saminfo_vec),len(eid_voc)))
+    class_vec = []
+    samoffset = 0
 
-    return eid_matrix, class_vec
+    # Traverse each sample in the monolith of training dataset
+    for idx, saminfo in enumerate(saminfo_vec):
+        #
+        # Extract class label for each training sample
+        class_vec.append(saminfo[1])
+
+        # Slice event id and pandas data frame of a sample from the monolith
+        eid_sample = eid_logs[samoffset: samoffset+saminfo[0]]
+        data_df_sample = data_df[samoffset: samoffset+saminfo[0]]
+
+        # Do feature extraction for current sample
+        event_count_matrix[idx], _ \
+            = extract_feature(para, data_df_sample, eid_voc, eid_sample, samoffset)
+
+        # Calc offset for the next sample in the monolith
+        samoffset += saminfo[0]
+
+    return event_count_matrix, class_vec
 
 
 def print_ecm(ecm, eid_voc):
