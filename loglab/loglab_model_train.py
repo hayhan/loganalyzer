@@ -13,10 +13,18 @@ import joblib
 import numpy as np
 import pandas as pd
 import loglab_data_load as dload
+from sklearn import utils
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
+from skl2onnx import convert_sklearn
+from skl2onnx.common.data_types import FloatTensorType
+
 
 # import matplotlib.pyplot as plt
 
-
+KFOLD_MANU = False
 curfiledir = os.path.dirname(__file__)
 parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 sys.path.append(parentdir)
@@ -35,8 +43,8 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
     METRICS_EN = bool(conlines[2].strip() == 'METRICS=1')
 
     # Read the model name
-    if conlines[3].strip() == 'MODEL=LOGLAB':
-        MODEL_NAME = 'DecesionTree'
+    if conlines[3].strip() == 'MODEL=LOGLAB.RFC':
+        MODEL_NAME = 'RandomForest'
     else:
         print("The model name is wrong. Exit.")
         sys.exit(1)
@@ -88,12 +96,95 @@ if __name__ == '__main__':
     #------------------------------------------------------------------------------------
     # Load data and do feature extraction on the training dataset
     #------------------------------------------------------------------------------------
-    event_matrix, class_vector = dload.load_data(para_train)
+
+    # x_train data type is float while y_train is integer here
+    x_train, y_train = dload.load_data(para_train)
 
     # Save the event count matrix
-    # np.savetxt(para_train['data_path']+'loglab_event_count_matrix.txt', event_matrix, fmt="%s")
+    # np.savetxt(para_train['data_path']+'loglab_event_count_matrix.txt', x_train, fmt="%s")
 
     # Visualize the sparse matrix
-    # plt.spy(event_matrix, markersize=1)
+    # plt.spy(x_train, markersize=1)
     # plt.show()
 
+    # Feature scaling
+    # TBD:
+    # scaler = StandardScaler()
+    # x_train = scaler.fit_transform(x_train)
+
+    #------------------------------------------------------------------------------------
+    # Select models and tune the parameters by cross validation
+    #------------------------------------------------------------------------------------
+    if MODEL_NAME == 'RandomForest':
+        model = RandomForestClassifier(n_estimators=100)
+    else:
+        print("The model name is not defined. Exit.")
+        sys.exit(1)
+
+    #------------------------------------------------------------------------------------
+    # k-fold cross validation
+    # We can use numpy, pandas or sklearn KFold api directly.
+    #------------------------------------------------------------------------------------
+
+    # Convert the class target list to column array and merge with x_train
+    class_vec = np.reshape(y_train, (len(y_train), 1))
+    # The monolith dataset is type of float including the last column, which is class labels
+    monolith_data = np.hstack((x_train, class_vec))
+
+    # Randomize the training samples
+    monolith_data = utils.shuffle(monolith_data)
+    # print(f"monolith_data:\n{monolith_data}\nlen of monolith_data:{(monolith_data).shape}")
+
+    if KFOLD_MANU:
+        # Leave-one-out cross validation
+        k = len(y_train)
+        k_sample_count = monolith_data.shape[0] // k
+
+        for fold in range(k):
+            test_begin = k_sample_count * fold
+            test_end = k_sample_count * (fold + 1)
+
+            test_data = monolith_data[test_begin: test_end]
+
+            train_data = np.vstack([
+                monolith_data[:test_begin],
+                monolith_data[test_end:]
+            ])
+
+            # Train the model with train data
+            x_train = train_data[:, :-1]
+            y_train = train_data[:, -1].astype(int)
+            model.fit(x_train, y_train)
+
+            # Validate the model with test data
+            x_test = test_data[:, :-1]
+            y_test = test_data[:, -1].astype(int)
+            y_test_pred = model.predict(x_test)
+            print(y_test, y_test_pred)
+
+    else:
+        # Initialise the number of folds k for doing CV
+        kfold = KFold(n_splits=66)
+        x_train = monolith_data[:, :-1]
+        y_train = monolith_data[:, -1].astype(int)
+
+        # Evaluate the model using k-fold CV
+        scores = cross_val_score(model, x_train, y_train, cv=kfold, scoring='accuracy')
+
+        # Get the model performance metrics
+        print(scores)
+        print("Mean: " + str(scores.mean()))
+
+    #------------------------------------------------------------------------------------
+    # Train model with the optimized parameters in validation or models and distrubute it
+    #------------------------------------------------------------------------------------
+    x_train = monolith_data[:, :-1]
+    y_train = monolith_data[:, -1].astype(int)
+    model.fit(x_train, y_train)
+
+    # Persist the model for deployment by using sklearn-onnx converter
+    # http://onnx.ai/sklearn-onnx/
+    initial_type = [('float_input', FloatTensorType([None, x_train.shape[1]]))]
+    onx = convert_sklearn(model, initial_types=initial_type)
+    with open(para_train['persist_path']+'loglab_'+MODEL_NAME+'.onnx', "wb") as f:
+        f.write(onx.SerializeToString())

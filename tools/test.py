@@ -343,3 +343,10 @@ head, regx = generate_logformat_regex(logformat1)
 tt_str = "[20210117-16:35:02.014] BcmCmDocsisCtlMsgACT::HandleEvent() @time=364267280  event_code=4 (kCmPriDsMddSetsOk) "
 mm = regx.search(tt_str.strip('\r\n'))
 print(mm.group('Time') + 'tail')
+
+event_count_matrix = np.zeros((3,5), dtype=int)
+#class_vec = np.ones((3, 1), dtype=int)
+class_list = [1, 2, 3]
+class_vec = np.reshape(class_list, (len(class_list), 1))
+train_data = np.hstack((event_count_matrix, class_vec)).astype(float)
+print(train_data[:, :-1])

@@ -13,6 +13,9 @@ import joblib
 import numpy as np
 import pandas as pd
 import loglab_data_load as dload
+import onnxruntime as rt
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import precision_recall_fscore_support
 
 
 curfiledir = os.path.dirname(__file__)
@@ -33,8 +36,8 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
     METRICS_EN = bool(conlines[2].strip() == 'METRICS=1')
 
     # Read the model name
-    if conlines[3].strip() == 'MODEL=LOGLAB':
-        MODEL_NAME = 'DecesionTree'
+    if conlines[3].strip() == 'MODEL=LOGLAB.RFC':
+        PRED_MODEL_FILE = 'loglab_RandomForest.onnx'
     else:
         print("The model name is wrong. Exit.")
         sys.exit(1)
@@ -65,11 +68,22 @@ para_test = {
 
 
 if __name__ == '__main__':
-    print("===> Predict With Loglab Model: {}\n".format(MODEL_NAME))
+    print("===> Predict With Loglab Model: {}\n".format(PRED_MODEL_FILE))
 
     #------------------------------------------------------------------------------------
-    # Load data and do feature extraction on the training dataset
+    # Load data and do feature extraction on the test dataset
     #------------------------------------------------------------------------------------
-    event_matrix, class_vector = dload.load_data(para_test)
+    x_test, _ = dload.load_data(para_test)
 
+    # Feature scaling based on training dataset
+    # TBD:
+    # scaler = StandardScaler()
+    # x_test = scaler.transform(x_test)
 
+    # Load the ONNX model which is equivalent to the scikit-learn model
+    # https://microsoft.github.io/onnxruntime/python/api_summary.html
+    sess = rt.InferenceSession(para_test['persist_path']+PRED_MODEL_FILE)
+    input_name = sess.get_inputs()[0].name
+    label_name = sess.get_outputs()[0].name
+    y_pred = sess.run([label_name], {input_name: x_test.astype(np.float32)})[0]
+    print(y_pred)

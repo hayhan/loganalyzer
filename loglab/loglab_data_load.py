@@ -305,7 +305,7 @@ def extract_feature_multi(para, data_df, eid_voc, eid_logs):
     Returns
     -------
     event_count_matrix: multi-line (samples) for training / validation
-    class_vector: vector of target class for each sample
+    class_vector: vector of target class for each sample, int
     """
 
     # Load the sample info vector we generate in logparser module
@@ -327,7 +327,7 @@ def extract_feature_multi(para, data_df, eid_voc, eid_logs):
     for idx, saminfo in enumerate(saminfo_vec):
         #
         # Extract class label for each training sample
-        class_vec.append(saminfo[1])
+        class_vec.append(int(saminfo[1][1:]))
 
         # Slice event id and pandas data frame of a sample from the monolith
         eid_sample = eid_logs[samoffset: samoffset+saminfo[0]]
