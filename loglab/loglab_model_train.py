@@ -164,7 +164,7 @@ if __name__ == '__main__':
 
     else:
         # Initialise the number of folds k for doing CV
-        kfold = KFold(n_splits=66)
+        kfold = KFold(n_splits=monolith_data.shape[0])
         x_train = monolith_data[:, :-1]
         y_train = monolith_data[:, -1].astype(int)
 

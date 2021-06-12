@@ -13,7 +13,7 @@ echo TEMPLATE_LIB_SIZE=2000
 ) > ../config.txt
 
 # logs/raw/cm/loglab/c001/ ... /cxxx/
-cp ../../logs/raw/cm/loglab/c004/loglab_psv_ds_001.txt ../../logs/cm/test.txt
+cp ../../logs/raw/cm/loglab/c004/loglab_psv_ds_007.txt ../../logs/cm/test.txt
 
 # Preprocess
 python3 ../../logparser/cm/preprocess.py
