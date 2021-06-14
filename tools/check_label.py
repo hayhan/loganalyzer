@@ -4,6 +4,8 @@ Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
 
+# This file is depricated
+
 import os
 import re
 #import pandas as pd

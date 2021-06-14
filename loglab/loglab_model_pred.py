@@ -90,7 +90,7 @@ if __name__ == '__main__':
     y_pred = sess.run([label_name], {input_name: x_test.astype(np.float32)})[0]
     print(y_pred)
 
-    # Probabilites of each target class
+    # Probability of each target class
     label_name = sess.get_outputs()[1].name
     y_pred_prob = sess.run([label_name], {input_name: x_test.astype(np.float32)})[0]
     print(y_pred_prob)

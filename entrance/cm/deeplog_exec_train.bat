@@ -21,7 +21,7 @@ normal_7_no_ofdm_211.txt/normal_8_no_ofdma_211.txt/normal_9_voice_ipv4_211.txt/^
 normal_10_voice_ipv4_211.txt
 
 rem Concatenate above files into one and add session label 'segsign: '
-python ..\..\tools\cat_files.py logs/raw/cm %fileList% logs/cm/train.txt 1
+python ..\..\logparser\cat_files.py logs/raw/cm %fileList% logs/cm/train.txt 1
 
 (
 echo LOG_TYPE=cm

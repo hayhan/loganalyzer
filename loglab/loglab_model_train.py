@@ -176,7 +176,7 @@ if __name__ == '__main__':
         print("Mean: " + str(scores.mean()))
 
     #------------------------------------------------------------------------------------
-    # Train model with the optimized parameters in validation or models and distrubute it
+    # Train the model with the optimized parameters in validation and distrubute it
     #------------------------------------------------------------------------------------
     x_train = monolith_data[:, :-1]
     y_train = monolith_data[:, -1].astype(int)

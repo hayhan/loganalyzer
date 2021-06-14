@@ -17,7 +17,7 @@ normal_4_register_211.txt/normal_5_otf_mdd_ucd_211.txt/normal_6_dbc_211.txt/\
 normal_7_no_ofdm_211.txt/normal_8_no_ofdma_211.txt"
 
 # Concatenate above files into one and add session label 'segsign: '
-python3 ../../tools/cat_files.py logs/raw/cm ${fileList} logs/cm/test.txt 1
+python3 ../../logparser/cat_files.py logs/raw/cm ${fileList} logs/cm/test.txt 1
 
 #cp ../../logs/raw/cm/log_2_3390_labeled.txt ../../logs/cm/test.txt
 
