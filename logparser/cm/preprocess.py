@@ -30,6 +30,7 @@ with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confi
     METRICSEN = bool(conlines[2].strip() == 'METRICS=1')
     DLOGCONTEXT = bool(conlines[3].strip() == 'MODEL=DEEPLOG')
     OSSCONTEXT = bool(conlines[3].strip() == 'MODEL=OSS')
+    LLABCONTEXT = bool(conlines[3].strip()[0:12] == 'MODEL=LOGLAB')
 
 if TRAINING:
     raw_file_loc = grandpadir + '/logs/cm/train.txt'
@@ -55,7 +56,7 @@ LOG_HEAD_OFFSET = 24
 # RESERVE_TS ==  0: Valid log file without timestamp
 # RESERVE_TS >   0: Valid log file with timestamp
 # ---------------------------------------------------
-if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
+if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)):
     with open(runtime_para_loc, 'r') as parafile:
         paralines = parafile.readlines()
         LOG_HEAD_OFFSET = int(paralines[0].strip().replace('RESERVE_TS=', ''))
@@ -91,7 +92,7 @@ newfile = open(new_file_loc, 'w', encoding='utf-8')
 #----------------------------------------------------------------------------------------
 # The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738].
 # Loglizer Label, Deeplog segment sign and Loglab class label are also considered.
-if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
+if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)):
     strPattern0 = re.compile(r'.{%d}' % LOG_HEAD_OFFSET)
 else:
     strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
@@ -392,8 +393,8 @@ rawsize = len(linesLst)
 
 # Decide if we reserve the main timestamp by checking the first line of the log file
 # So we always suppose the first line of the log file is good and not messed up.
-# Only do this for deeplog predict (including oss). The log for CML (Classical ML)
-# predict must have standard timestamp.
+# Only do for deeplog/loglab predict (including oss). The loglizer predict must have
+# standard timestamp.
 
 #--block comment out start--
 #if (not TRAINING) and (not METRICSEN):
@@ -430,7 +431,7 @@ for _idx, line in enumerate(linesLst):
     if RESERVE_TS and matchTS:
         # Strip off the main timestamp including train and session labels if any exist
         currentLineTS = matchTS.group(0)
-        if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)) \
+        if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)) \
             and (not fuzzyTimePattern.search(currentLineTS)):
             if _idx == 0:
                 heading_clean = True
@@ -801,8 +802,8 @@ for _idx, line in enumerate(linesLst):
     newfile.write(newline)
 
     # The raw line index list in the new file
-    # Do it only for prediction in DeepLog and OSS
-    if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
+    # Do it only for prediction in DeepLog/Loglab and OSS
+    if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)):
         rawLnIdxVectorNew.append(_idx+1)
 
 pbar.close()
@@ -852,8 +853,8 @@ for _idx, line in enumerate(newfile):
 
         # The raw line index list based on the norm file
         # Mapping: norm file line index (0-based) -> test file line index (1-based)
-        # Do it only for prediction in DeepLog and OSS
-        if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
+        # Do it only for prediction in DeepLog/Loglab and OSS
+        if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)):
             rawLnIdxVectorNorm.append(rawLnIdxVectorNew[_idx])
 
         # Update last line parameters
@@ -871,8 +872,8 @@ normfile.close()
 
 # Write the raw line index list based on norm file to disk
 # Write the RESERVE_TS value to the realtime parameter file
-# Do it only for prediction in DeepLog and OSS
-if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
+# Do it only for prediction in DeepLog/Loglab and OSS
+if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)):
     with open(rawln_idx_loc, 'wb') as f:
         pickle.dump(rawLnIdxVectorNorm, f)
 

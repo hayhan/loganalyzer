@@ -15,6 +15,15 @@ echo TEMPLATE_LIB_SIZE=2000
 rem logs/raw/cm/loglab/c001/ ... /cxxx/
 copy ..\..\logs\raw\cm\loglab\c005\loglab_diplexer_017.txt ..\..\logs\cm\test.txt
 
+rem Preprocess for detecting timestamp
+python ..\..\logparser\cm\preprocess_ts.py
+
+rem Parse the log and generate templates for detecting timestamp
+python ..\..\logparser\cm\parser.py
+
+rem Detect the timestamp
+python ..\..\logparser\det_timestamp.py
+
 rem Preprocess
 python ..\..\logparser\cm\preprocess.py
 

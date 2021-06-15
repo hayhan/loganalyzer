@@ -6,7 +6,7 @@ rem This script updates the template library by the logs for Loglab
 echo LOG_TYPE=cm
 echo TRAINING=1
 echo METRICS=0
-echo MODEL=LOGLAB
+echo MODEL=TEMPUPDT
 echo WINDOW_SIZE=10000
 echo WINDOW_STEP=5000
 echo TEMPLATE_LIB_SIZE=2000

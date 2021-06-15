@@ -22,6 +22,7 @@ with open(parentdir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confil
     METRICSEN = bool(conlines[2].strip() == 'METRICS=1')
     DLOGCONTEXT = bool(conlines[3].strip() == 'MODEL=DEEPLOG')
     OSSCONTEXT = bool(conlines[3].strip() == 'MODEL=OSS')
+    LLABCONTEXT = bool(conlines[3].strip()[0:12] == 'MODEL=LOGLAB')
 
 # Abstract results directories
 results_persist_dir = parentdir + '/results/persist/' + LOG_TYPE + '/'
@@ -89,6 +90,6 @@ log_offset, log_idx = detect_timestamp()
 #
 # The value represents the width of timestamp and offset of log header
 # -----------------------------------------------------------------------------
-if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
+if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)):
     with open(runtime_para_loc, 'w') as f:
         f.write('RESERVE_TS='+str(log_offset))

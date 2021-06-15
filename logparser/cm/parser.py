@@ -28,6 +28,7 @@ with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confi
     METRICSEN = bool(conlines[2].strip() == 'METRICS=1')
     DLOGCONTEXT = bool(conlines[3].strip() == 'MODEL=DEEPLOG')
     OSSCONTEXT = bool(conlines[3].strip() == 'MODEL=OSS')
+    LLABCONTEXT = bool(conlines[3].strip()[0:12] == 'MODEL=LOGLAB')
 
 if TRAINING:
     LOG_FILE = 'train_norm.txt'
@@ -43,7 +44,7 @@ LOG_FORMAT = '<Time> <Content>'                    # Default / standard DOCSIS l
 
 # For DeepLog predict and OSS, check the runtime RESERVE_TS to see if there are
 # timestamps in the norm log file
-if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
+if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)):
     with open(grandpadir+'/results/test/cm/test_runtime_para.txt', 'r') as parafile:
         paralines = parafile.readlines()
         RESERVE_TS = int(paralines[0].strip().replace('RESERVE_TS=', ''))
@@ -52,8 +53,9 @@ if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
     elif RESERVE_TS > 0:
         # The customized pattern does not remove the trailing spaces behind timestamp
         # comparing to the standard / default format. This does not matter for DeepLog
-        # and OSS as we only display the timestamps. For Loglizer, we need calculate the
-        # time window and should take care when this change affacts it in the future.
+        # Loglab and OSS as we only display the timestamps. For Loglizer, we should
+        # calculate the time window and should take care when this change affacts it
+        # in the future.
         LOG_FORMAT = '(?P<Time>.{%d})(?P<Content>.*?)' % RESERVE_TS
     else:
         # Not CM log. Return right now.

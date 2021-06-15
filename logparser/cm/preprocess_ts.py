@@ -19,6 +19,7 @@ with open(grandpadir+'/entrance/config.txt', 'r', encoding='utf-8-sig') as confi
     METRICSEN = bool(conlines[2].strip() == 'METRICS=1')
     DLOGCONTEXT = bool(conlines[3].strip() == 'MODEL=DEEPLOG')
     OSSCONTEXT = bool(conlines[3].strip() == 'MODEL=OSS')
+    LLABCONTEXT = bool(conlines[3].strip()[0:12] == 'MODEL=LOGLAB')
 
 raw_file_loc = grandpadir + '/logs/cm/test.txt'
 norm_file_loc = grandpadir + '/logs/cm/test_norm.txt'
@@ -117,7 +118,7 @@ rawfile.close()
 normfile.close()
 
 # Suppose no timestamps in the log file before we detect them
-# Do it only for prediction in DeepLog and OSS
-if (DLOGCONTEXT or OSSCONTEXT) and ((not TRAINING) and (not METRICSEN)):
+# Do it only for prediction in DeepLog/Loglab and OSS
+if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)):
     with open(runtime_para_loc, 'w') as f:
         f.write('RESERVE_TS=0')

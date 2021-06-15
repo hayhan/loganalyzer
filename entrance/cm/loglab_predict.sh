@@ -13,7 +13,16 @@ echo TEMPLATE_LIB_SIZE=2000
 ) > ../config.txt
 
 # logs/raw/cm/loglab/c001/ ... /cxxx/
-cp ../../logs/raw/cm/loglab/c004/loglab_psv_ds_007.txt ../../logs/cm/test.txt
+#cp ../../logs/raw/cm/loglab/c001/loglab_rfcut_ds_us_001.txt ../../logs/cm/test.txt
+
+# Preprocess for detecting timestamp
+python3 ../../logparser/cm/preprocess_ts.py
+
+# Parse the log and generate templates for detecting timestamp
+python3 ../../logparser/cm/parser.py
+
+# Detect the timestamp
+python3 ../../logparser/det_timestamp.py
 
 # Preprocess
 python3 ../../logparser/cm/preprocess.py

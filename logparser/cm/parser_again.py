@@ -20,7 +20,7 @@ from drain2 import Para, Drain
 # Input and output files
 # Currently this file is ONLY used for DeepLog predict.
 # Not for DeepLog train and validation.
-# Not for OSS and CML.
+# Not for OSS, Loglalb and Loglizer.
 # So we no need check some enviroment variables in config.txt
 #
 input_dir = grandpadir + '/logs/cm/'               # The input directory of log file
@@ -39,8 +39,9 @@ with open(grandpadir+'/results/test/cm/test_runtime_para.txt', 'r') as parafile:
     elif RESERVE_TS > 0:
         # The customized pattern does not remove the trailing spaces behind timestamp
         # comparing to the standard / default format. This does not matter for DeepLog
-        # and OSS as we only display the timestamps. For Loglizer, we need calculate the
-        # time window and should take care when this change affacts it in the future.
+        # Loglab and OSS as we only display the timestamps. For Loglizer, we should
+        # calculate the time window and should take care when this change affacts it
+        # in the future.
         LOG_FORMAT = '(?P<Time>.{%d})(?P<Content>.*?)' % RESERVE_TS
     else:
         # Not CM log. Return right now.
