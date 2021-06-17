@@ -9,6 +9,7 @@ License     : MIT
 
 import os
 import re
+import sys
 import subprocess
 from datetime import datetime
 from shutil import copyfile
@@ -48,9 +49,10 @@ for dirpath, dirnames, files in sorted(os.walk(tmp_dir, topdown=True)):
         copyfile(rf, df)
 
         # Learn the width of timestamp in raw log files
-        subprocess.run(['python', os.path.join(parser_domain, 'preprocess_ts.py')], check=False)
-        subprocess.run(['python', os.path.join(parser_domain, 'parser.py')], check=False)
-        subprocess.run(['python', os.path.join(parser, 'det_timestamp.py')], check=False)
+        # Use sys.executable instead of 'python' to keep the subprocess in the virtualenv on Windows
+        subprocess.run([sys.executable, os.path.join(parser_domain, 'preprocess_ts.py')], check=False)
+        subprocess.run([sys.executable, os.path.join(parser_domain, 'parser.py')], check=False)
+        subprocess.run([sys.executable, os.path.join(parser, 'det_timestamp.py')], check=False)
 
         # Read the width of timestamp, aka. log head offset, we just learned
         with open(runtime_para, 'r') as parafile:
