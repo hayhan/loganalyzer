@@ -31,4 +31,4 @@ python3 ../../logparser/cm/preprocess.py
 python3 ../../logparser/cm/parser.py
 
 # Train the model of Loglab
-python3 ../../loglab/loglab_model_pred.py
+python3 ../../loglab/loglab_cml_pred.py

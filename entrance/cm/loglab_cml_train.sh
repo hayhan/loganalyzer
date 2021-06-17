@@ -26,4 +26,4 @@ python3 ../../logparser/extract_samples.py
 python3 ../../logparser/cm/parser.py
 
 # Train the model of Loglab
-python3 ../../loglab/loglab_model_train.py
+python3 ../../loglab/loglab_cml_train.py
