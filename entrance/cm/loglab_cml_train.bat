@@ -14,7 +14,7 @@ echo TEMPLATE_LIB_SIZE=2000
 
 rem Concatenate multiple raw files into one by reading logs under
 rem logs/raw/cm/loglab/c001/ ... /cxxx/
-python ..\..\logparser\cat_files_across.py
+python ..\..\logparser\cat_multi_class.py
 
 rem Preprocess
 python ..\..\logparser\cm\preprocess.py

@@ -14,7 +14,7 @@ echo TEMPLATE_LIB_SIZE=2000
 
 # Concatenate multiple raw files into one by reading logs under
 # logs/raw/cm/loglab/c001/ ... /cxxx/
-python3 ../../logparser/cat_files_across.py
+python3 ../../logparser/cat_multi_class.py
 
 # Preprocess
 python3 ../../logparser/cm/preprocess.py
