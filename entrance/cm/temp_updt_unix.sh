@@ -12,39 +12,18 @@ echo WINDOW_STEP=5000
 echo TEMPLATE_LIB_SIZE=2000
 ) > ../config.txt
 
-# Concatenate multiple raw files into one
-# Parameters: script inputLoc filenames outputLoc
-fileList="log_0_3390_labeled.txt/log_2_3390_labeled.txt/log_3_3390_labeled.txt/log_4_3390_labeled.txt/\
-normal_0_register_202.txt/normal_1_register_202.txt/normal_2_dbc_202.txt/\
-normal_3.txt/temp_updt_0.txt"
+# Concatenate all the log files under logs/raw/cm/ and store it as logs/cm/train.txt
+python3 ../../logparser/cat_files.py logs/raw/cm
 
-python3 ../../logparser/cat_files.py logs/raw/cm ${fileList} logs/cm/train.txt 0
+# Insert temp_updt_manu.txt to the head of generated train.txt to workaround some
+# similarity threshold issue in Drain agorithm
+# Do not use unix cat command because of the trailing ^M char.
+cp ../../logs/raw/cm/others/temp_updt_manu.txt ../../logs/cm/tmp1.txt
+mv ../../logs/cm/train.txt ../../logs/cm/tmp2.txt
 
-# Preprocess
-python3 ../../logparser/cm/preprocess.py
-
-# Remove labels in logs if any
-python3 ../../logparser/extract_labels.py
-
-# Parse the log and update the template library
-python3 ../../logparser/cm/parser.py
-
-# Separately process temp_updt_1.txt to workaround the Drain initial sim issue
-fileList="temp_updt_1.txt/temp_updt_2.txt/temp_updt_manu.txt/\
-temp_updt_bfm_a383.txt/temp_updt_bfm_a350.txt/temp_updt_bfm_a351.txt/temp_updt_bfm_a370.txt/\
-temp_updt_bfm_a375.txt/temp_updt_bfm_a416.txt/temp_updt_bfm_a425.txt/temp_updt_bfm_b329.txt/\
-temp_updt_bfm_b330.txt/temp_updt_bfm_b331.txt/temp_updt_bfm_b400.txt/temp_updt_bfm_b405.txt/\
-temp_updt_bfm_b415.txt/temp_updt_bfm_b451.txt/\
-normal_4_register_211.txt/normal_5_otf_mdd_ucd_211.txt/normal_6_dbc_211.txt/normal_7_no_ofdm_211.txt/\
-normal_8_no_ofdma_211.txt/normal_9_voice_ipv4_211.txt/normal_10_voice_ipv4_211.txt/\
-abnormal_1_diplexer_211.txt/abnormal_2_t4_211.txt/abnormal_3_attnuation_d30_211.txt/\
-abnormal_4_diplexer_211.txt/abnormal_5_tod_ipv6_only_211.txt/abnormal_6_tod_ipv6_dual_211.txt/\
-abnormal_7_tod_ipv6_apm_211.txt/abnormal_8_scanning_211.txt/\
-temp_updt_manu.txt"
-
-python3 ../../logparser/cat_files.py logs/raw/cm ${fileList} logs/cm/train.txt 0
-
-#cp ../../logs/raw/cm/temp_updt_manu.txt ../../logs/cm/train.txt
+fileList="tmp1.txt/tmp2.txt"
+python3 ../../logparser/cat_files.py logs/cm ${fileList}
+rm ../../logs/cm/tmp*.txt
 
 # Preprocess
 python3 ../../logparser/cm/preprocess.py

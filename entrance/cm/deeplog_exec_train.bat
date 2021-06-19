@@ -6,23 +6,6 @@ rem -----------------------------------------------------------------
 rem Train dataset
 rem -----------------------------------------------------------------
 
-rem ---Concatenate multiple raw files into one
-rem ---Parameters: script inputLoc filenames outputLoc
-set fileList=normal_0_register_202.txt/^
-normal_1_register_202.txt/normal_2_dbc_202.txt/normal_3.txt/^
-temp_updt_bfm_a350.txt/temp_updt_bfm_a351.txt/temp_updt_bfm_a370.txt/^
-temp_updt_bfm_a375.txt/temp_updt_bfm_a380.txt/temp_updt_bfm_a383.txt/^
-temp_updt_bfm_a425.txt/^
-temp_updt_bfm_b329.txt/temp_updt_bfm_b330.txt/temp_updt_bfm_b331.txt/^
-temp_updt_bfm_b400.txt/temp_updt_bfm_b405.txt/temp_updt_bfm_b415.txt/^
-temp_updt_bfm_b433.txt/temp_updt_bfm_b451.txt/^
-normal_4_register_211.txt/normal_5_otf_mdd_ucd_211.txt/normal_6_dbc_211.txt/^
-normal_7_no_ofdm_211.txt/normal_8_no_ofdma_211.txt/normal_9_voice_ipv4_211.txt/^
-normal_10_voice_ipv4_211.txt
-
-rem Concatenate above files into one and add session label 'segsign: '
-python ..\..\logparser\cat_files.py logs/raw/cm %fileList% logs/cm/train.txt 1
-
 (
 echo LOG_TYPE=cm
 echo TRAINING=1
@@ -33,6 +16,9 @@ echo WINDOW_STEP=5000
 echo TEMPLATE_LIB_SIZE=2000
 ) > ..\config.txt
 
+rem Concatenate files under logs/raw/cm/normal into one and add session label 'segsign: '
+python ..\..\logparser\cat_files.py logs/raw/cm/normal
+
 rem Preprocess
 python ..\..\logparser\cm\preprocess.py
 
@@ -40,7 +26,7 @@ rem Do not consider abnormal label in train dataset for DeepLog as we suppose al
 rem logs in train dataset are normal, say, DeepLog is unsupervised.
 
 rem Save the session size to a vector, then remove the session labels from norm file
-python ..\..\logparser\extract_sessions.py
+python ..\..\logparser\segment_info.py
 
 rem Parse the log and update the template library
 python ..\..\logparser\cm\parser.py
@@ -49,7 +35,7 @@ rem -----------------------------------------------------------------
 rem Test dataset for validation
 rem -----------------------------------------------------------------
 
-copy ..\..\logs\raw\cm\log_2_3390_labeled.txt ..\..\logs\cm\test.txt > nul
+copy ..\..\logs\raw\cm\labeled\log_2_3390_labeled.txt ..\..\logs\cm\test.txt > nul
 
 (
 echo LOG_TYPE=cm
@@ -71,7 +57,7 @@ rem Extract the abnormal labels from norm file
 python ..\..\logparser\extract_labels.py
 
 rem Save the session size to a vector, then remove the session labels from norm file
-python ..\..\logparser\extract_sessions.py
+python ..\..\logparser\segment_info.py
 
 rem Parse the log and extract the templates
 python ..\..\logparser\cm\parser.py

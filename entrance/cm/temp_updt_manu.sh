@@ -12,7 +12,7 @@ echo WINDOW_STEP=5000
 echo TEMPLATE_LIB_SIZE=2000
 ) > ../config.txt
 
-cp ../../logs/raw/cm/temp_updt_manu.txt ../../logs/cm/train.txt
+cp ../../logs/raw/cm/others/temp_updt_manu.txt ../../logs/cm/train.txt
 
 # Preprocess
 python3 ../../logparser/cm/preprocess.py

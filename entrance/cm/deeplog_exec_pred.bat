@@ -5,7 +5,7 @@ rem This script does prediction using the DeepLog exec model
 rem Adapt boardfarm CM logs
 rem python ..\..\adapter\boardfarm_cm.py
 
-rem copy ..\..\logs\raw\cm\temp_updt_bfm_b433.txt ..\..\logs\cm\test.txt > nul
+rem copy ..\..\logs\raw\cm\normal\temp_updt_bfm_b433.txt ..\..\logs\cm\test.txt > nul
 
 rem Configure parameters for logparser
 (

@@ -14,13 +14,13 @@ echo TEMPLATE_LIB_SIZE=2000
 
 # Concatenate multiple raw files into one by reading logs under
 # logs/raw/cm/loglab/c001/ ... /cxxx/
-python3 ../../logparser/cat_multi_class.py
+python3 ../../logparser/cat_files.py logs/raw/cm/loglab
 
 # Preprocess
 python3 ../../logparser/cm/preprocess.py
 
 # Extract sample info
-python3 ../../logparser/extract_samples.py
+python3 ../../logparser/segment_info.py
 
 # Parse the log and update the template library
 python3 ../../logparser/cm/parser.py

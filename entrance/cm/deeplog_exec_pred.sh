@@ -5,7 +5,7 @@
 # Adapt boardfarm CM logs
 #python3 ../../adapter/boardfarm_cm.py
 
-#cp ../../logs/raw/cm/temp_updt_bfm_b433.txt ../../logs/cm/test.txt
+#cp ../../logs/raw/cm/normal/temp_updt_bfm_b433.txt ../../logs/cm/test.txt
 
 # Configure parameters for logparser
 (
