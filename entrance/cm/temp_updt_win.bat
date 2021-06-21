@@ -18,7 +18,7 @@ python ..\..\logparser\cat_files.py logs/raw/cm
 rem Insert temp_updt_manu.txt to the head of train.txt
 rem Do not use unix cat command because of trailing ^M char.
 copy ..\..\logs\raw\cm\others\temp_updt_manu.txt ..\..\logs\cm\tmp1.txt > nul
-ren ..\..\logs\cm\train.txt ..\..\logs\cm\tmp2.txt
+ren ..\..\logs\cm\train.txt tmp2.txt
 
 set fileList=tmp1.txt/tmp2.txt
 python ..\..\logparser\cat_files.py logs/cm %fileList%
