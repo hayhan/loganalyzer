@@ -287,7 +287,8 @@ def extract_feature(para, data_df, eid_voc, eid_logs, sample_offset=0):
     # Empty target class for prediction
     class_vec = []
 
-    # print_ecm(event_count_vec, eid_voc)
+    if para['debug']:
+        print_ecm(event_count_vec, eid_voc)
 
     return event_count_vec, class_vec
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Description : Train/validate different models for Loglab multi-classification
+Description : Verify typical features for a sample
 Author      : Wei Han <wei.han@broadcom.com>
 License     : MIT
 """
@@ -9,13 +9,7 @@ License     : MIT
 import os
 import sys
 import logging
-import joblib
-import numpy as np
-import pandas as pd
 import loglab_data_load as dload
-import onnxruntime as rt
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import precision_recall_fscore_support
 
 
 curfiledir = os.path.dirname(__file__)
@@ -64,34 +58,14 @@ para_test = {
     'train'          : False,
     'metrics_enable' : METRICS_EN,
     'weight'         : 2,
-    'debug'          : False,
+    'debug'          : True,
 }
 
 
 if __name__ == '__main__':
-    print("===> Predict With Loglab Model: {}\n".format(PRED_MODEL_FILE))
+    print("===> Verify typical features in the provided sample\n")
 
     #------------------------------------------------------------------------------------
     # Load data and do feature extraction on the test dataset
     #------------------------------------------------------------------------------------
     x_test, _ = dload.load_data(para_test)
-
-    # Feature scaling based on training dataset
-    # TBD:
-    # scaler = StandardScaler()
-    # x_test = scaler.transform(x_test)
-
-    # Load the ONNX model which is equivalent to the scikit-learn model
-    # https://microsoft.github.io/onnxruntime/python/api_summary.html
-    sess = rt.InferenceSession(para_test['persist_path']+PRED_MODEL_FILE)
-    input_name = sess.get_inputs()[0].name
-
-    # Target class
-    label_name = sess.get_outputs()[0].name
-    y_pred = sess.run([label_name], {input_name: x_test.astype(np.float32)})[0]
-    print(y_pred)
-
-    # Probability of each target class
-    label_name = sess.get_outputs()[1].name
-    y_pred_prob = sess.run([label_name], {input_name: x_test.astype(np.float32)})[0]
-    print(y_pred_prob)

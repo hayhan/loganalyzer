@@ -72,6 +72,7 @@ para_train = {
     'train'          : True,
     'metrics_enable' : METRICS_EN,
     'weight'         : 2,
+    'debug'          : False,
 }
 
 para_test = {
@@ -87,6 +88,7 @@ para_test = {
     'train'          : False,
     'metrics_enable' : METRICS_EN,
     'weight'         : 2,
+    'debug'          : False,
 }
 
 
