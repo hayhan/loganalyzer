@@ -348,6 +348,12 @@ sessionPatterns = [
     sessionPattern1,
 ]
 
+#----------------------------------------------------------------------------------------
+# Patterns for segment labels, 'segsign: ' or 'cxxx '
+#----------------------------------------------------------------------------------------
+label_pattern = re.compile(r'(segsign: )|(c[0-9]{3} )')
+
+
 #########################################################################################
 # 1. Start data cleaning and formating
 #########################################################################################
@@ -369,6 +375,8 @@ inMultiLineRemove = False
 inLogBlockPrim = False
 lastLineEmpty = False
 sccvEmptyLineCnt = 0
+lastLabelRemoved = False
+lastLabel = ''
 
 #----------------------------------------------------------------------
 # 01) Extrace timestamps, remove console prompts, etc.
@@ -437,6 +445,12 @@ for _idx, line in enumerate(linesLst):
                 heading_clean = True
             continue
         newline = strPattern0.sub('', line, count=1)
+        # Inherit segment labels (segsign: or cxxx) from last labeled line if it is removed
+        if (DLOGCONTEXT or LLABCONTEXT) and (TRAINING or METRICSEN) and lastLabelRemoved:
+            currentLineTS += lastLabel
+            # Reset
+            lastLabelRemoved = False
+            lastLabel = ''
     elif RESERVE_TS:
         # If we intend to reserve the main timestamp but does not match, delete this line
         # This usually happens when the timestamp is messed up, the timestamp format is
@@ -452,8 +466,14 @@ for _idx, line in enumerate(linesLst):
     if (_idx == 0 or heading_clean) \
         and (nestedLinePattern.match(newline) or newline in ['\n', '\r\n']):
         heading_clean = True
+        # Take care if the removed line has segment label. Hand it to the next line
+        if (DLOGCONTEXT or LLABCONTEXT) and (TRAINING or METRICSEN):
+            label_match = label_pattern.search(currentLineTS)
+            if label_match:
+                lastLabel = label_match.group(0)
+                lastLabelRemoved = True
         continue
-    elif heading_clean:
+    if heading_clean:
         heading_clean = False
 
     #------------------------------------------------------------------------------------
@@ -502,6 +522,12 @@ for _idx, line in enumerate(linesLst):
             goNextLine = True
             break
     if goNextLine:
+        # Take care if the removed line has segment label. Hand it to the next line
+        if (DLOGCONTEXT or LLABCONTEXT) and (TRAINING or METRICSEN):
+            label_match = label_pattern.search(currentLineTS)
+            if label_match:
+                lastLabel = label_match.group(0)
+                lastLabelRemoved = True
         # Update for the next line
         lastLineEmpty = False
         continue
@@ -707,6 +733,13 @@ for _idx, line in enumerate(linesLst):
             sccvEmptyLineCnt = 1
         else:
             sccvEmptyLineCnt += 1
+
+        # Take care if the removed line has segment label. Hand it to the next line
+        if (DLOGCONTEXT or LLABCONTEXT) and (TRAINING or METRICSEN):
+            label_match = label_pattern.search(currentLineTS)
+            if label_match:
+                lastLabel = label_match.group(0)
+                lastLabelRemoved = True
 
         # Update lastLineEmpty for the next line processing
         lastLineEmpty = True
