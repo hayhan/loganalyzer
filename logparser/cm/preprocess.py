@@ -145,6 +145,8 @@ sLinePattern13 = re.compile(r'Suboption \d:|'
                             r'eptAsyncCmd: Ept not initialized|'
                             r'\([a-zA-Z0-9]+\)|'
                             r'Len: \d+ ')
+# Hex line like "  00 10 18 de   f1 b8 c5 2e   14 56  | .........V"
+sLinePattern14 = re.compile(r'( {2}([0-9a-f]{2} ){1,4}){1,4} {1,52}\| ')
 
 sLinePatterns = [
     sLinePattern0,
@@ -161,6 +163,7 @@ sLinePatterns = [
     sLinePattern11,
     sLinePattern12,
     sLinePattern13,
+    sLinePattern14,
 ]
 
 #----------------------------------------------------------------------------------------
@@ -195,18 +198,6 @@ titlePatterns = [
     title00, title01, title02, title03, title04, title05, title06, title07,
     title08, title09, title10, title11, title12, title13, title14, title15,
     title16, title17, title18, title19, title20, title21, title22, title23,
-]
-
-#----------------------------------------------------------------------------------------
-# Patterns for hex blocks in MMM pdu, which I want to remove
-#----------------------------------------------------------------------------------------
-pduHexBlkHeaderPattern0 = re.compile(r' {13}description: T=')
-pduHexBlkHeaderPattern1 = re.compile(r' {11}description =')
-pduHexBlkBodyPattern = re.compile(r' {2}[a-f0-9]{2} ')
-
-pduHexBlkHeaderPatterns = [
-    pduHexBlkHeaderPattern0,
-    pduHexBlkHeaderPattern1,
 ]
 
 #----------------------------------------------------------------------------------------
@@ -281,14 +272,12 @@ eNestedLinePatterns = [
 # Patterns for specific whole multi-line log which I want to remove entirely
 # Block end condition: primary line (exclusive)
 #----------------------------------------------------------------------------------------
-wMultiLineRmPattern0 = re.compile(r'Configured O-INIT-RNG-REQ :')
-wMultiLineRmPattern1 = re.compile(r' {4}tap values:')
-wMultiLineRmPattern2 = re.compile(r' *Trimmed Downstream Ambiguity Resolution Frequency List')
+wMultiLineRmPattern0 = re.compile(r' {4}tap values:')
+wMultiLineRmPattern1 = re.compile(r' *Trimmed Downstream Ambiguity Resolution Frequency List')
 
 wMultiLineRmPatterns = [
     wMultiLineRmPattern0,
     wMultiLineRmPattern1,
-    wMultiLineRmPattern2,
 ]
 
 #----------------------------------------------------------------------------------------
@@ -368,7 +357,6 @@ tableMessed = False
 dsTableEntryProcessed = False
 lastLineMessed = False
 inTable = False
-inHexBlock = False
 inLogBlock = False
 inMultiLineInitRange = False
 inMultiLineRemove = False
@@ -666,26 +654,6 @@ for _idx, line in enumerate(linesLst):
         # Update for the next line
         lastLineEmpty = False
         continue
-
-    # Remove hex blocks in the MMM pdu
-    goNextLine = False
-    for pattern in pduHexBlkHeaderPatterns:
-        match = pattern.match(newline)
-        if match:
-            goNextLine = True
-            break
-    if goNextLine:
-        inHexBlock = True
-        # Update for the next line
-        lastLineEmpty = False
-        continue
-    if inHexBlock:
-        match = pduHexBlkBodyPattern.match(newline)
-        if match:
-            # Update for the next line
-            lastLineEmpty = False
-            continue
-        inHexBlock = False
 
     # Indent lines as multi-line log for initial ranging
     # Note: the block ending is special
