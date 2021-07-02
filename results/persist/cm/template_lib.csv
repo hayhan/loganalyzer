@@ -29,7 +29,6 @@ c94ffcfa,c94ffcfa,BcmCmUsChan:: ExecuteTccCmd: txid= <*> ucid= <*> -> TCC act= <
 d7109ef6,d7109ef6,( XDRV ) DSP shared mem address: <*>
 ff2455ec,ff2455ec,Inform <*> flushed due to reset ( <*> from emta factory agent )
 6ad8238d,6ad8238d,Logging event: CM-STATUS message sent. Event Type Code: <*>; Chan ID: <*> DSID: <*> MAC Addr: N/A; OFDM/OFDMA Profile ID: <*> CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
-66668476,66668476,"BcmCmDocsisCtlThread:: DetectTccInstallDone:, -> resume DBC transaction."
 11303e8a,11303e8a,Deleting DOCSIS <*> CoS Settings for SID <*>
 266ef213,266ef213,"BcmBfcForwardAssistManager:: ThreadMain: Removing flow( s ) due to MAC address removal, MAC: <*>"
 f0d412e2,f0d412e2,"BcmDocsisCmHalIf:: DeleteAllServiceFlows: Deleting all Upstream and Downstream Service Flows, along with associated Classifiers and PHS rules..."
@@ -82,7 +81,7 @@ da07d46f,da07d46f,"Startup UCD Selection Info:, low priority candidate ucid list
 c9f3ac89,c9f3ac89,BcmCmUsChan:: UsTimeRefOk: txid= <*> ucid= <*>
 3c6a084a,3c6a084a,BcmCmUsChan:: UsTimeRefOkResumeUsInit: txid= <*> ucid= <*> start broadcast initial ranging.
 08184438,08184438,BcmCmUsRangingState:: ConfigInitialRanging: txid= <*> ucid= <*>
-c3a8771a,c3a8771a,"== Beginning initial ranging for Docsis UCID <*> ==, Minimum transmit power is <*> dBmV, Maximum transmit power is <*> dBmV, Stored power level for UCID <*> is <*> dBmV, Using per transmitter stored initial upstream power = <*> dBmV hwTxId = <*> docsis UCID = <*>"
+16b475b4,16b475b4,"== Beginning initial ranging for Docsis UCID <*> ==, Minimum transmit power is <*> dBmV, Maximum <*> power is <*> dBmV, Stored power level for UCID <*> is <*> dBmV, Using per transmitter stored initial upstream power = <*> dBmV hwTxId = <*> docsis UCID = <*>"
 4abed230,4abed230,RNG-RSP UsChanId= <*> Adj: tim= <*> power= <*> Stat= <*> 
 4e1d2d4a,4e1d2d4a,BcmCmUsRangingState:: FirstRngSuccess: txid= <*> ucid= <*>
 819f031a,819f031a,D3.1 CM with switchable diplexer registering on a D3.0 CMTS. Special compatability logic applied here.
@@ -440,7 +439,7 @@ f9be4de5,f9be4de5,"networked standby, Cable cut detected, entering RF disconnect
 bb99a5c5,bb99a5c5,"Cable disconnected, Cable still disconnected. Check again in <*> seconds."
 ec05b0a4,ec05b0a4,Networked standby - invoke D3PowerSave.
 bb174cf7,bb174cf7,Received RG Event <*> State <*>
-7371eafa,7371eafa,eRouterMsgPipe:: UpdateIpNetToMediaEntry: eRouter IP address:<*>
+c6f015a6,c6f015a6,eRouterMsgPipe:: UpdateIpNetToMediaEntry: eRouter IP address: <*>
 84796c41,84796c41,BcmCmDsChan:: DsLockOk: hwRxId= <*> freq= <*> dcid= <*>
 76329d0f,76329d0f,"BcmCmMultiUsHelper:: StartPreRegUsInit:, targeting context= <*> ( <*> )"
 674874ec,674874ec,BcmCmMultiUsHelper:: StartPreRegUsInit: Locked on the downstream. Waiting for UCDs...
@@ -494,6 +493,7 @@ bcb02643,bcb02643,BcmCmDsChanOfdm:: OcdSetsRx: hwRxId= <*> dcid= <*>
 6992cc8d,6992cc8d,BcmCmDsChanOfdm:: OcdInstallOk: hwRxId= <*> dcid= <*> OCD installed.
 158db986,158db986,BcmCmDsOfdmProfileState:: InstallDpdSets: HwRxId= <*>: installing DPD for profile <*>
 b435a8ee,b435a8ee,BcmCmDsOfdmProfileState:: FecLockOk: hwRxId= <*> dcid= <*> profId= <*> ( <*> )
+66668476,66668476,"BcmCmDocsisCtlThread:: DetectTccInstallDone:, -> resume DBC transaction."
 9f88e081,9f88e081,BcmCmDsChan:: DsLockFail: hwRxId= <*> dcid= <*> -> enter kDsOperLockToRescueCmts state
 8673876f,8673876f,BcmCmDsChan:: RecoverChan: retry -> hwRxId= <*> freq= <*> dcid= <*>
 82b1a49e,82b1a49e,Scanning DS Channel at <*> Hz...
@@ -823,3 +823,46 @@ c2a5d8cf,c2a5d8cf,"BcmBfcProcessCvc:: CmCodeVerificationCertificate:: ParseAndVa
 b75807f9,b75807f9,BcmBfcProcessCvc:: ProcessConfigFileSpecifiedCvc: ERROR - Config file manufacturer CVC is rejected.
 147936b5,147936b5,BcmBfcProcessCvc:: ProcessConfigFileManufAndCosignerCvcs: ERROR - Reject config file MFG CVC!
 f1db80b8,f1db80b8,Logging event: Configuration File CVC Validation Failure
+f58db473,f58db473,BcmCmDocsisCtlThread:: DbcAckPendingTimerEvent: ERROR - Failed to receive DBC-ACK from CMTS!
+6727de02,6727de02,Logging event: DBC-ACK not received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
+c5a7d203,c5a7d203,DocsisCmHalIf:: SetPrimarySid: Setting the Primary SID for usHwChannel <*> to <*>
+1f3bc80a,1f3bc80a,"BcmCmUsRangingState:: ConfigRngReqMsg:, hw rng mode = kInitialRanging, fRngMode = kBcastInitRng, hwTxId = <*>, docs ucid = <*>, docs dcid = <*>, using O-INIT-RNG-REQ format"
+efbff1c8,efbff1c8,"== Beginning initial ranging for Docsis UCID <*> ==, Minimum transmit power is <*> dBmV, Maximum transmit power is <*>dBmV, Stored power level for UCID <*> is <*> dBmV, Using per transmitter stored initial upstream power = <*> dBmV hwTxId = <*> docsis UCID = <*>"
+d6e9b7e3,d6e9b7e3,RNG-RSP UsChanId= <*> Adj: tim= <*> freq= <*> Stat= <*> ( CmdPwr ( UsChanId-dBmV ): <*> )
+f562d232,f562d232,BcmDocsisTimeOfDayThread:: SetTodServerIpAddress: ToD servers: <*>; <*>
+23d88ee4,23d88ee4,SpecA - IP Stack address is <*>
+eb6716ea,eb6716ea,TLV- <*>[ <*> ]: <*> -> <*> ( i32 ) <*> ignoring.
+723a3938,723a3938,WARNING! Not counting MTA against max CPE! This is an eDOCSIS violation!
+8946d229,8946d229,CmDownloadMatchBuffer - Organization Name Match Succeed
+57a0f177,57a0f177,Non-Vol BPI Settings successfully written to the device.
+99386c34,99386c34,Manufacturer CVC verified
+9875dcca,9875dcca,At least one CVC is valid.
+27faf8dc,27faf8dc,BPI31 initialization completed. Calling ConfigOperational().
+8ef21225,8ef21225,Enabling network access for all CPE
+35236937,35236937,Match found. No further action to be done
+df86b31d,df86b31d,"BcmSoamThread:: SyncCmOperationalNote: WARNING - L2VPN Settings List is NULL or empty, disabled SOAM Thread."
+8d7330f2,8d7330f2,A software upgrade filename was specified in the config file.
+8e4331dc,8e4331dc,The s/w filename specified in the config file is the same as what we already have; skipping s/w update.
+3b7acc85,3b7acc85,BcmDocsisCmHalIf:: RemoveCpe: WARNING - Failed to remove CPE MAC address from learning table!
+88d6aa5a,88d6aa5a,Set up multicast forwarding for global addresses.
+ad4ecdba,ad4ecdba,"Initializing Quarantine D31 DS MAC structures to <*>, fState = <*>, fDesiredState = <*>"
+197f3019,197f3019,BcmCmUsRangingState:: TestAndApplyOtfUcdRangingStrategy: resetting ranging state and re-starting station maint iuc <*> or <*> ( a.k.a. unicast initial ranging...
+1881bb52,1881bb52,"Primary Channel: <*>, Interleave depth: <*>, QAM_Mode: <*>, AnnexMode: <*>, Ranging Response received - T3 time-out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+25b218fd,25b218fd,OCD/DPD Filtering being configured for hwRxId= <*> on FilCh= <*>[ PLC= <*>/ProfA= <*> ] -> filter enable = <*> TimeMs= <*>
+44375da8,44375da8,Docsis3.1 UCD Change Detected:UpstreamChan= <*>
+0906d189,0906d189,BcmProcessTcofdmInterrupts:IrqMainStatus:lost_sts_irq:UpstreamPhyChannelNumber= <*>
+ec24dbb6,ec24dbb6,BcmProcessTcofdmInterrupts:IrqMainStatus:ready_sts_irq:UpstreamPhyChannelNumber= <*>
+3040aecf,3040aecf,BcmProcessTcofdmInterrupts:IrqMainStatus:ifft_sts_irq:UpstreamPhyChannelNumber= <*>
+1f1e8e02,1f1e8e02,Docsis3ConfigureUpstream[ <*> ]: calling Docsis31ConfigureUpstream() for ofdma install
+d777aa37,d777aa37,Bcm3390A0UcdSwWorkaround:START: TCOFDM UCD Change Timing Control SW Workaround ..
+3610f2ac,3610f2ac,Bcm3390A0UcdSwWorkaround:Reading current Snapshot from timing control....
+79fc29fe,79fc29fe,Bcm3390A0UcdSwWorkaround:Resetting TIM data path ...
+29860d95,29860d95,Bcm3390A0UcdSwWorkaround:Writing Back Snapshot to timing control....
+f4509084,f4509084,Bcm3390A0UcdSwWorkaround:Reading/Writing Minislot Spacing and SymblsPerFrame to timing control....
+52b073c1,52b073c1,Bcm3390A0UcdSwWorkaround:END: TCOFDM UCD Change Timing Control SW Workaround ..
+1e8aea89,1e8aea89,CmHalAcquireDownstSync:OFDMA channel:Calling start ds sync acquisition
+65b225f1,65b225f1,CmHalStartDsSyncAcquisition:OFDM channel sync not ready
+14cf0684,14cf0684,BcmProcessTcofdmInterrupts:IrqMainStatus:tim_sts_irq:UpstreamPhyChannelNumber= <*> TimIrqStatus= <*>
+1ca43a17,1ca43a17,BcmProcessTcofdmInterrupts:TimIrqStatus:snapshot_err:UpstreamPhyChannelNumber= <*>:TimIrqStatus= <*>
+1b0fbe39,1b0fbe39,Docsis3 Bandwidth Request Failed
+92e893cc,92e893cc,CmHalAcquireDownstSync:Calling start ds sync acquisition

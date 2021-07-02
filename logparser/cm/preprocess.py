@@ -318,6 +318,8 @@ cppClassPattern = re.compile(r'\:\:(?=[A-Z][a-z0-9]|[a-z][A-Z])')
 semicolonPattern = re.compile(r';(?! )')
 # Split hash number like #123 to # 123
 hashNumPattern = re.compile(r'#(?=[0-9]+)')
+# Split ip/mac address name and value like address:xx to address: xx
+ipmacNameValPattern = re.compile(r'address:(?=[0-9a-fA-F])')
 # Change something like (xx), [xx], ..., to ( xx ), [ xx ], ...
 bracketPattern1 = re.compile(r'\((?=(\w|[-+]))')
 bracketPattern2 = re.compile(r'(?<=\w)\)')
@@ -769,6 +771,9 @@ for _idx, line in enumerate(linesLst):
     # Split hash number like #123 to # 123
     newline = hashNumPattern.sub('# ', newline)
 
+    # Split ip/mac address name and value like address:xx to address: xx
+    newline = ipmacNameValPattern.sub('address: ', newline)
+
     # Change something like (xx), [xx], ..., to ( xx ), [ xx ], ...
     newline = bracketPattern1.sub('( ', newline)
     newline = bracketPattern2.sub(' )', newline)
@@ -777,14 +782,12 @@ for _idx, line in enumerate(linesLst):
 
     m = bracketPattern5.search(newline)
     if m:
-        substring = m.group(0)
-        newline = bracketPattern5.sub(substring+' ', newline)
+        newline = bracketPattern5.sub(m.group(0)+' ', newline)
 
     #--block comment out start--
     #m = bracketPattern6.search(newline)
     #if m:
-    #    substring = m.group(0)
-    #    newline = bracketPattern6.sub(' '+substring, newline)
+    #    newline = bracketPattern6.sub(' '+m.group(0), newline)
     #--end--
 
     #--------------------------------------------------------------
