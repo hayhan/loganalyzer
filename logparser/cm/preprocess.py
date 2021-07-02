@@ -467,15 +467,18 @@ for _idx, line in enumerate(linesLst):
     #------------------------------------------------------------------------------------
     # No main timestamp and train label at start of each line in the remaining of the loop
     #------------------------------------------------------------------------------------
+
+    # Because of host system code bug of no endl, some primary logs are concatenated to
+    # the former one. Split them and only reserve the last log in the same line.
+    # Skip the match at position 0 if exits as I will remove it later
+    if strPattern2.search(newline, 2):
+        match_g = strPattern2.finditer(newline, 2)
+        *_, last_match = match_g
+        newline = newline[last_match.start() :]
+
     # Remove remaining timestamps, console prompts and others
     for pattern in strPatterns:
         newline = pattern.sub('', newline, count=1)
-
-    # Remove the line if the timestamp appears in the middle because of code bug w/o endl.
-    if strPattern2.search(newline):
-        # Update for the next line
-        lastLineEmpty = False
-        continue
 
     # Remove some log blocks
     foundStart = False
