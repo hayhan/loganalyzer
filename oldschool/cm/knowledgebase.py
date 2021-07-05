@@ -173,7 +173,7 @@ def domain_knowledge(template_id, param_list):
             log_fault = True
             log_description = "Try to recover DS SC-QAM channel {0} frequency {1} dcid {2}." \
                               .format(param_list[0], param_list[1], param_list[2])
-            log_suggestion = "DS SC-QAM chan {0} dcid {2} is broken and is trying to recover." \
+            log_suggestion = "DS SC-QAM chan {0} dcid {1} is broken and is trying to recover." \
                              .format(param_list[0], param_list[2])
             break
 
@@ -405,6 +405,24 @@ def domain_knowledge(template_id, param_list):
             break
 
         # ---------------------------------------------------------------------
+        # OFDMA / Tcofdm
+        # ---------------------------------------------------------------------
+        if case('cf8606ae'):
+            # TEMPLATE: "BcmProcessTcofdmInterrupts:IrqMainStatus:ifft_sts_irq:UpstreamPhyChannelNumber= <*>, symbol overrun"
+            log_fault = True
+            log_description = "HW channel {0} (OFDMA) has symbol overrun.".format(param_list[0])
+            log_suggestion = "The upstream pipe is messing up. TCOFDMA block has issues."
+            break
+
+        if case('f80f8e58') or case('552d7db9'):
+            # TEMPLATE: "Resetting TCOFDM core <*>.."
+            # TEMPLATE: "Performing full reset on TCOFDM core <*>.."
+            log_fault = True
+            log_description = "Reseting TCOFDM core {0}..".format(param_list[0])
+            log_suggestion = "The upstream pipe is messing up. TCOFDMA block has issues."
+            break
+
+        # ---------------------------------------------------------------------
         # Reinit MAC
         # ---------------------------------------------------------------------
         if case('ec4a6237'):
@@ -514,14 +532,6 @@ def domain_knowledge(template_id, param_list):
             log_description = "Tftp client on CM cannot connect to the Tftp server behind " \
                               "the CMTS."
             log_suggestion = "Check the Tftp server settings behind the CMTS."
-            break
-
-        if case('ce1477b5') or case('de255b44'):
-            # TEMPLATE: "Logging event: ToD request sent - No Response received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-            # TEMPLATE: "BcmDocsisTimeOfDayThread:: HandleToD: WARNING - Timed out waiting for a response from the ToD server."
-            log_fault = True
-            log_description = "ToD request sent - No Response received."
-            log_suggestion = "ToD server might not be setup correctly behind the CMTS."
             break
 
         # ---------------------------------------------------------------------
