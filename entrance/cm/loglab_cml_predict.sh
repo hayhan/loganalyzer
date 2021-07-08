@@ -13,7 +13,7 @@ echo TEMPLATE_LIB_SIZE=2000
 ) > ../config.txt
 
 # logs/raw/cm/loglab/c001/ ... /cxxx/
-cp ../../logs/raw/cm/loglab/c006/loglab_symbol_overrun_006.txt ../../logs/cm/test.txt
+cp ../../logs/raw/cm/loglab/c007/loglab_no_mdd_001.txt ../../logs/cm/test.txt
 
 # Preprocess for detecting timestamp
 python3 ../../logparser/cm/preprocess_ts.py

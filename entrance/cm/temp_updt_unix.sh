@@ -13,7 +13,7 @@ echo TEMPLATE_LIB_SIZE=2000
 ) > ../config.txt
 
 # Concatenate all the log files under logs/raw/cm/ and store it as logs/cm/train.txt
-python3 ../../logparser/cat_files.py logs/raw/cm
+python3 ../../logparser/cat_files.py logs/raw/cm/loglab/c007
 
 # Insert temp_updt_manu.txt to the head of generated train.txt to workaround some
 # similarity threshold issue in Drain agorithm

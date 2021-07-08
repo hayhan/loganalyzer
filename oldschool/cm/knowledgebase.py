@@ -404,6 +404,14 @@ def domain_knowledge(template_id, param_list):
             log_suggestion = "Usually upstream is broken, cut off, etc."
             break
 
+        if case('f2b4cdbf'):
+            # TEMPLATE: "BcmCmUsRangingState:: RngRspMsgEvent: txid= <*> ucid= <*> detected bogus RNG-RSP sid= <*> "
+            log_fault = True
+            log_description = "Detected bogus RNG-RSP sid {0} on txid {1} / ucid {2}" \
+                              .format(param_list[2], param_list[0], param_list[1])
+            log_suggestion = "Upstream maybe not stable with high attenuation."
+            break
+
         # ---------------------------------------------------------------------
         # OFDMA / Tcofdm
         # ---------------------------------------------------------------------
@@ -498,8 +506,11 @@ def domain_knowledge(template_id, param_list):
             log_suggestion = "Usually downstream has some problems ..."
             break
 
-        if case('758f2a6a'):
+        if case('758f2a6a') or case('10ab4b85'):
             # TEMPLATE: "BcmCmMacDomainSetsState:: TmNoMddEvent:, MDD timeout during kGatherInitialPriDsMddSets"
+            # TEMPLATE: "BcmCmDocsisCtlMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ), No MDD timeout == > \
+            #            If no MDDs are detected on the candidate, Primary Downstream Channel, then the CM MUST abort \
+            #            the attempt, to utilize the current downstream channel"
             log_fault = True
             log_description = "No MDD received after scaning / locking primary downstream " \
                               "channel."

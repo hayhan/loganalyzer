@@ -162,7 +162,8 @@ if __name__ == '__main__':
             x_test = test_data[:, :-1]
             y_test = test_data[:, -1].astype(int)
             y_test_pred = model.predict(x_test)
-            print(y_test, y_test_pred)
+            if y_test != y_test_pred:
+                print(f"raw sample index {test_begin+1} of class {y_test} -> {y_test_pred}")
 
     else:
         # Initialise the number of folds k for doing CV
