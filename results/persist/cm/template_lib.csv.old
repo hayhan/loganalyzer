@@ -866,3 +866,8 @@ f4509084,f4509084,Bcm3390A0UcdSwWorkaround:Reading/Writing Minislot Spacing and 
 1ca43a17,1ca43a17,BcmProcessTcofdmInterrupts:TimIrqStatus:snapshot_err:UpstreamPhyChannelNumber= <*>:TimIrqStatus= <*>
 1b0fbe39,1b0fbe39,Docsis3 Bandwidth Request Failed
 92e893cc,92e893cc,CmHalAcquireDownstSync:Calling start ds sync acquisition
+a3bf48e6,a3bf48e6,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [( <*>- <*> )] dcid= [( <*>- <*> )]
+46bf553d,46bf553d,"sfid <*>, emc enabled <*>"
+4bee6c62,4bee6c62,SetLldOnEmc: LLD on EMC enabled!
+368641b8,368641b8,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] prof= [( <*> -> <*> )]
+2e58da72,2e58da72,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ]

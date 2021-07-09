@@ -243,7 +243,7 @@ def domain_knowledge(template_id, param_list):
             break
 
         # ---------------------------------------------------------------------
-        # Ranging, ucd, T1/T2/T3/T4 ... timeout
+        # Ranging, ucd, T1/T2/T3/T4 ... timeout, us partial service
         # ---------------------------------------------------------------------
         if case('2bdf39df') or case('2b02d4ac') or case('9beb20c5') or case('140fe4f6'):
             # TEMPLATE: "BcmCmMultiUsHelper:: TmUcdRxTimerEvent: ERROR -, T1 expired and no usable ucd's received -> restart error"
@@ -412,6 +412,13 @@ def domain_knowledge(template_id, param_list):
             log_suggestion = "Upstream maybe not stable with high attenuation."
             break
 
+        if case('a3d3e790'):
+            # TEMPLATE: "Partial Service Upstream Channels:"
+            log_fault = True
+            log_description = "Upstream partial service."
+            log_suggestion = "Some upstream channels are impaired or filtered."
+            break
+
         # ---------------------------------------------------------------------
         # OFDMA / Tcofdm
         # ---------------------------------------------------------------------
@@ -428,6 +435,17 @@ def domain_knowledge(template_id, param_list):
             log_fault = True
             log_description = "Reseting TCOFDM core {0}..".format(param_list[0])
             log_suggestion = "The upstream pipe is messing up. TCOFDMA block has issues."
+            break
+
+        # ---------------------------------------------------------------------
+        # DocsisMsgACT
+        # ---------------------------------------------------------------------
+        if case('755bd6ed'):
+            # TEMPLATE: "BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ) "
+            if param_list[2] == 'kCmIsUpstreamPartialService':
+                log_fault = True
+                log_description = "Upstream partial service."
+                log_suggestion = "Some upstream channels are impaired or filtered."
             break
 
         # ---------------------------------------------------------------------
