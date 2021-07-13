@@ -1,7 +1,5 @@
-"""
-Description : Configuring, packaging and distributing project
-Author      : Wei Han <wei.han@broadcom.com>
-License     : MIT
+# Licensed under the MIT License - see License.txt
+""" Configuring, packaging and distributing project
 """
 
 import setuptools
