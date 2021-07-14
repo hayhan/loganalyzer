@@ -62,6 +62,34 @@ def cli(log_level, ignore_warnings):
         warnings.simplefilter("ignore")
 
 
+@cli.group("config", short_help="Show or edit the config file")
+def cli_config():
+    """ Show or edit the config file.
+
+    \b
+    Examples
+    --------
+
+    \b
+    $ analyzer config show
+    $ analyzer config edit --logtype my/type
+    """
+
+
+@cli.group("preprocess", short_help="Preprocess raw logs")
+def cli_preprocess():
+    """ Clean, restruct and normalize raw logs.
+
+    \b
+    Examples
+    --------
+
+    \b
+    $ analyzer preprocess new
+    $ analyzer preprocess norm --overwrite
+    """
+
+
 @cli.group("template", short_help="Generate and update templates")
 def cli_template():
     """ Parse logs, generate and update templates.
@@ -104,7 +132,8 @@ def cli_loglab(ctx):
 
 
 def add_subcommands():
-    from .info import cli_info
+    """ add subcommands dynamically """
+    from .info import cli_info  # pylint:disable=import-outside-toplevel
 
     cli.add_command(cli_info)
 

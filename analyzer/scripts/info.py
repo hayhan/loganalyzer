@@ -23,6 +23,7 @@ LOGANALYZER_DEPENDENCIES = [
     "skl2onnx",
     "onnxruntime",
     "click",
+    "yaml",
     "tqdm",
     # optional
     "pylint",
@@ -83,7 +84,7 @@ def get_info_version():
     info = {"version": __version__}
     try:
         path = sys.modules["analyzer"].__path__[0]
-    except:
+    except:  # pylint:disable=bare-except
         path = "unknown"
     info["path"] = path
 

@@ -11,16 +11,17 @@ it only contains this:
 
  __version__       --- Loganalyzer version string
 
-
 The Loganalyzer functionality is available by importing from
 the following sub-packages (e.g. `analyzer.parser`):
 
 ::
 
- preprocessor      --- Preprocess raw logs before parsing them
- parser            --- Clustering, templates extracting
- classifier        --- Log classifying
- postprocessor     --- Postprocess results
+ preprocess        --- Preprocess raw logs before parsing them
+ parser            --- Clustering, generate templates
+ loglizer          --- Anomaly detection (Calssical ML)
+ deeplog           --- Anomaly detection (Deep Learning)
+ oldschool         --- Anomaly detection (Knowledge-base)
+ loglab            --- Anomaly multi-classification
  utils             --- Utility functions and classes
 """
 
