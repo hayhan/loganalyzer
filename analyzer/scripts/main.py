@@ -11,7 +11,7 @@ from analyzer import __version__
 
 # We implement the --version following the example from here:
 # https://click.palletsprojects.com/en/latest/options/#callbacks-and-eager-options
-def print_version(ctx, param, value):
+def print_version(ctx, param, value):  # pylint:disable=unused-argument
     """ Version info."""
     if not value or ctx.resilient_parsing:
         return
@@ -133,9 +133,20 @@ def cli_loglab(ctx):
 
 def add_subcommands():
     """ add subcommands dynamically """
-    from .info import cli_info  # pylint:disable=import-outside-toplevel
+    from .info import cli_info                  # pylint:disable=import-outside-toplevel
 
     cli.add_command(cli_info)
 
+    from .check import cli_check                # pylint:disable=import-outside-toplevel
+
+    cli.add_command(cli_check)
+
+    from .config import cli_show_config         # pylint:disable=import-outside-toplevel
+
+    cli_config.add_command(cli_show_config)
+
+    from .config import cli_update_config       # pylint:disable=import-outside-toplevel
+
+    cli_config.add_command(cli_update_config)
 
 add_subcommands()

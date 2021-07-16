@@ -16,6 +16,7 @@ the following sub-packages (e.g. `analyzer.parser`):
 
 ::
 
+ config            --- Global config file
  preprocess        --- Preprocess raw logs before parsing them
  parser            --- Clustering, generate templates
  loglizer          --- Anomaly detection (Calssical ML)
