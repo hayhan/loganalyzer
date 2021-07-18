@@ -1,0 +1,36 @@
+# As of 2021, preserving comments in yaml updating is still not supported with PyYAML.
+# Consider pyckage ruamel.yaml which is a derivative of PyYAML and supports round trip
+# preservation of comments.
+# Section: general
+general:
+    log_type: cm        # Sub-folder of log platform must be consistent with name here
+    training: 1         # 1 for training, and 0 for prediction
+    metrics: 0
+    context: TEMPUPDT   # One of TEMPUPDT, LOGLAB, OLDSCHOOL, DEEPLOG AND LOGLIZER
+
+# Section: templte
+template:
+    size: 2000          # The max size of template library
+
+# Section: loglab
+loglab:
+    model: RFC          # The classical machine learning models
+    window_size: 10     # 1/2 window around the axis, unit is log
+
+# Section: deeplog
+deeplog:
+    model: EXEC         # The execution path model, the other one is parameter model PARAM
+    window_size: 15     # The sequence length, unit is log
+    batch_size: 32
+    num_epochs: 150
+    num_workers: 0
+    hidden_size: 128    # The hidden size of LSTM
+    topk: 10
+    device: cpu
+    num_dir: 1          # The number of directions of LSTM
+
+# Section: loglizer
+loglizer:
+    model: DT           # The classical machine learning models
+    window_size: 10000  # The time window size, unit is ms
+    window_step: 5000   # The sliding window step, unit is ms
