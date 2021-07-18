@@ -3,12 +3,11 @@
 """
 import logging
 from pathlib import Path
-import yaml
-from analyzer.utils.config_helper import read_yaml, write_yaml
+from analyzer.utils.config_helper import read_yaml, read_yaml_pretty, write_yaml
 
 log = logging.getLogger(__name__)
 
-__all__ = ["GlobalConfig"]
+__all__ = ["GlobalConfig", "CONFIG_FILE"]
 
 CONFIG_FILE = Path(__file__).resolve().parent / "config.yaml"
 
@@ -24,8 +23,7 @@ class GlobalConfig:
     @classmethod
     def read_pretty(cls, path):
         """ Reads from YAML file for pretty display. """
-        config = read_yaml(path)
-        config_format = yaml.dump(config, sort_keys=False, default_flow_style=False)
+        config_format = read_yaml_pretty(path)
         return config_format
 
     @classmethod

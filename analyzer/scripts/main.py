@@ -12,7 +12,7 @@ from analyzer import __version__
 # We implement the --version following the example from here:
 # https://click.palletsprojects.com/en/latest/options/#callbacks-and-eager-options
 def print_version(ctx, param, value):  # pylint:disable=unused-argument
-    """ Version info."""
+    """ Version info. """
     if not value or ctx.resilient_parsing:
         return
     print(f"Loganalyzer version {__version__}")
@@ -67,12 +67,21 @@ def cli_config():
     """ Show or edit the config file.
 
     \b
+    - The sub-command `show` will print the config content
+    \b
+    - The sub-command `edit` will open the config content in vim editor and can edit
+    \b
+    - The sub-command `updt` will update the item in the config content directly
+      The option `intv` indicates the value part is type int
+
+    \b
     Examples
     --------
 
     \b
     $ analyzer config show
-    $ analyzer config edit --logtype my/type
+    $ analyzer config edit
+    $ analyzer config updt --intv --item top-key sub-key val
     """
 
 
@@ -148,5 +157,10 @@ def add_subcommands():
     from .config import cli_update_config       # pylint:disable=import-outside-toplevel
 
     cli_config.add_command(cli_update_config)
+
+    from .config import cli_edit_config         # pylint:disable=import-outside-toplevel
+
+    cli_config.add_command(cli_edit_config)
+
 
 add_subcommands()

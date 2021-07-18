@@ -6,6 +6,7 @@ import yaml
 
 __all__ = [
     "read_yaml",
+    "read_yaml_pretty",
     "write_yaml",
     "make_path",
 ]
@@ -34,6 +35,31 @@ def read_yaml(filename, logger=None):
     return yaml.safe_load(text)
 
 
+def read_yaml_pretty(filename, logger=None):
+    """ Read YAML file with pretty format.
+
+    Parameters
+    ----------
+    filename : `~pathlib.Path`
+        Filename
+    logger : `~logging.Logger`
+        Logger
+
+    Returns
+    -------
+    pretty_doc : YAML doc
+    """
+    path = make_path(filename)
+    if logger is not None:
+        logger.info(f"Reading {path}")
+
+    text = path.read_text()
+    dict_format = yaml.safe_load(text)
+    pretty_doc = yaml.safe_dump(dict_format, indent=4, default_flow_style=False,
+                            sort_keys=False)
+    return pretty_doc
+
+
 def write_yaml(dictionary, filename, logger=None, sort_keys=False):
     """ Write YAML file.
 
@@ -48,7 +74,8 @@ def write_yaml(dictionary, filename, logger=None, sort_keys=False):
     sort_keys : bool
         Whether to sort keys.
     """
-    text = yaml.safe_dump(dictionary, default_flow_style=False, sort_keys=sort_keys)
+    text = yaml.safe_dump(dictionary, indent=4, default_flow_style=False,
+                          sort_keys=sort_keys)
 
     path = make_path(filename)
     path.parent.mkdir(exist_ok=True)
@@ -67,5 +94,4 @@ def make_path(path):
     """
     # _ToDo: raise error or warning if environment variables that don't resolve are used
     # e.g. "spam/$DAMN/ham" where `$DAMN` is not defined
-    # Otherwise this can result in cryptic errors later on
     return Path(os.path.expandvars(path))
