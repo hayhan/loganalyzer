@@ -9,6 +9,19 @@ from analyzer.config import GlobalConfig, CONFIG_FILE
 
 log = logging.getLogger(__name__)
 
+@click.command(name="show")
+@click.option(
+    "--filename",
+    default=CONFIG_FILE,
+    help="Show the configuration values.",
+    show_default=True,
+)
+def cli_show_config(filename):
+    """ Show configuration file. """
+    print(GlobalConfig.read_pretty(filename))
+    log.info("Configuration file showed: %s", filename)
+
+
 @click.command(name="edit")
 @click.option(
     "--filename",
@@ -20,6 +33,19 @@ def cli_edit_config(filename):
     """ Edit configuration file. """
     subprocess.run(["vim", filename], check=False)
     log.info("Configuration file opened in editor: %s", filename)
+
+
+@click.command(name="default")
+@click.option(
+    "--filename",
+    default=CONFIG_FILE,
+    help=" Default the configuration values.",
+    show_default=True,
+)
+def cli_default_config(filename):
+    """ Default configuration file. """
+    GlobalConfig.default(filename)
+    log.info("Configuration file defaulted: %s", filename)
 
 
 @click.command(name="updt")
@@ -50,20 +76,7 @@ def cli_update_config(filename, intv, item):
     sect, key, val = item
     if intv:
         val = int(val)
-    config = GlobalConfig.read(filename)
-    config[sect][key] = val
-    GlobalConfig.update(config, filename)
+    GlobalConfig.read(filename)
+    GlobalConfig.conf[sect][key] = val
+    GlobalConfig.write(filename)
     log.info("Configuration file updated: %s", filename)
-
-
-@click.command(name="show")
-@click.option(
-    "--filename",
-    default=CONFIG_FILE,
-    help="Show the configuration values.",
-    show_default=True,
-)
-def cli_show_config(filename):
-    """ Show configuration file. """
-    print(GlobalConfig.read_pretty(filename))
-    log.info("Configuration file showed: %s", filename)

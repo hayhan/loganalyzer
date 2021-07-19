@@ -2,9 +2,7 @@
 """ Loganalyzer command line interface (scripts).
 """
 import logging
-import sys
 import warnings
-from pathlib import Path
 import click
 from analyzer import __version__
 
@@ -71,8 +69,10 @@ def cli_config():
     \b
     - The sub-command `edit` will open the config content in vim editor and can edit
     \b
+    - The sub-command `default` will default the config content
+    \b
     - The sub-command `updt` will update the item in the config content directly
-      The option `intv` indicates the value part is type int
+      The option `intv` indicates the value part is type int, otherwise is string
 
     \b
     Examples
@@ -81,6 +81,7 @@ def cli_config():
     \b
     $ analyzer config show
     $ analyzer config edit
+    $ analyzer config default
     $ analyzer config updt --intv --item top-key sub-key val
     """
 
@@ -154,13 +155,17 @@ def add_subcommands():
 
     cli_config.add_command(cli_show_config)
 
-    from .config import cli_update_config       # pylint:disable=import-outside-toplevel
-
-    cli_config.add_command(cli_update_config)
-
     from .config import cli_edit_config         # pylint:disable=import-outside-toplevel
 
     cli_config.add_command(cli_edit_config)
+
+    from .config import cli_default_config      # pylint:disable=import-outside-toplevel
+
+    cli_config.add_command(cli_default_config)
+
+    from .config import cli_update_config       # pylint:disable=import-outside-toplevel
+
+    cli_config.add_command(cli_update_config)
 
 
 add_subcommands()

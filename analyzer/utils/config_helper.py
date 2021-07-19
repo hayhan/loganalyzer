@@ -2,6 +2,7 @@
 """ Utils to handle config file """
 import os.path
 from pathlib import Path
+import shutil
 import yaml
 
 __all__ = [
@@ -9,6 +10,7 @@ __all__ = [
     "read_yaml_pretty",
     "write_yaml",
     "make_path",
+    "copy_file",
 ]
 
 
@@ -95,3 +97,24 @@ def make_path(path):
     # _ToDo: raise error or warning if environment variables that don't resolve are used
     # e.g. "spam/$DAMN/ham" where `$DAMN` is not defined
     return Path(os.path.expandvars(path))
+
+
+def copy_file(dest_file, source_file, logger=None):
+    """ Copy file source_file to dest_file.
+
+    Parameters
+    ----------
+    dest_file : `~pathlib.Path`
+        Filename
+    source_file : `~pathlib.Path`
+        Filename
+    logger : `~logging.Logger`
+        Logger
+    """
+    dest_path = make_path(dest_file)
+    source_path = Path(source_file)
+
+    if logger is not None:
+        logger.info(f"Defaulting {dest_path}")
+
+    shutil.copy(source_path, dest_path)
