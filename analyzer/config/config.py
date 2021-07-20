@@ -20,22 +20,22 @@ class GlobalConfig:
     conf = {}
 
     @classmethod
-    def read(cls, path):
+    def read(cls, path=CONFIG_FILE):
         """ Reads from YAML file. Populate the conf member. """
         cls.conf = confhelper.read_yaml(path)
 
     @classmethod
-    def read_pretty(cls, path):
+    def read_pretty(cls, path=CONFIG_FILE):
         """ Reads from YAML file for pretty display. """
         config_format = confhelper.read_yaml_pretty(path)
         return config_format
 
     @classmethod
-    def write(cls, path):
+    def write(cls, path=CONFIG_FILE):
         """ Update YAML file. """
         confhelper.write_yaml(cls.conf, path)
 
     @classmethod
-    def default(cls, path):
+    def default(cls, path=CONFIG_FILE):
         """ Default YAML file. """
         confhelper.copy_file(path, CONFIG_FILE_DEFAULT)

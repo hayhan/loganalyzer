@@ -72,7 +72,7 @@ def cli_config():
     - The sub-command `default` will default the config content
     \b
     - The sub-command `updt` will update the item in the config content directly
-      The option `intv` indicates the value part is type int, otherwise is string
+      The option `type` indicates the value part type, e.g. int/bool/str(default)
 
     \b
     Examples
@@ -82,7 +82,7 @@ def cli_config():
     $ analyzer config show
     $ analyzer config edit
     $ analyzer config default
-    $ analyzer config updt --intv --item top-key sub-key val
+    $ analyzer config updt --item top-key sub-key val --type int/bool/str
     """
 
 

@@ -56,10 +56,9 @@ def cli_default_config(filename):
     show_default=True,
 )
 @click.option(
-    "--intv",
-    is_flag=True,
-    default=False,
-    help="Update integer value.",
+    "--type",
+    default="str",
+    help="Annotate the value type.",
     show_default=True,
 )
 @click.option(
@@ -68,14 +67,16 @@ def cli_default_config(filename):
     help="Update the key-value pair in the configuration file.",
     show_default=True,
 )
-def cli_update_config(filename, intv, item):
+def cli_update_config(filename, type, item):  # pylint:disable=redefined-builtin
     """ Update the key-value pair. """
     if item is None:
         print("Please define at least the key-value pair.")
         sys.exit()
     sect, key, val = item
-    if intv:
+    if type == "int":
         val = int(val)
+    elif type == "bool":
+        val = bool(val=="True" or val=="true" or val=="1")
     GlobalConfig.read(filename)
     GlobalConfig.conf[sect][key] = val
     GlobalConfig.write(filename)
