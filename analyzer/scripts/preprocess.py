@@ -32,11 +32,12 @@ def cli_gen_new(training):
     GlobalConfig.conf['general']['training'] = training
     GlobalConfig.conf['general']['metrics'] = False
     GlobalConfig.conf['general']['context'] = 'TEMPUPDT'
+    GlobalConfig.conf['general']['intmdt'] = True
     # Sync the config update in memory to file. Really necessary?
     GlobalConfig.write()
 
     ppobj = pp.Preprocess()
-    ppobj.get_timestamp_info()
+    ppobj.preprocess_new()
 
     log.info("The new log file is generated.")
 
@@ -65,14 +66,15 @@ def cli_gen_norm(training, overwrite):
     GlobalConfig.conf['general']['training'] = training
     GlobalConfig.conf['general']['metrics'] = False
     GlobalConfig.conf['general']['context'] = 'TEMPUPDT'
+    GlobalConfig.conf['general']['intmdt'] = True
 
     ppobj = pp.Preprocess()
     if overwrite:
         ppobj.preprocess_new()
     elif GlobalConfig.conf['general']['aim']:
-        # Use existing new file to generate norm log, then must set
+        # Use existing new file to generate norm log, we then must set
         # general:aim field to false. The aim:true means always using
-        # in memory data.
+        # in-memory data.
         GlobalConfig.conf['general']['aim'] = False
 
     # Sync the config update in memory to file. Really necessary?

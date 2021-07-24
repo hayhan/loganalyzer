@@ -350,3 +350,16 @@ class_list = [1, 2, 3]
 class_vec = np.reshape(class_list, (len(class_list), 1))
 train_data = np.hstack((event_count_matrix, class_vec)).astype(float)
 print(train_data[:, :-1])
+
+pattn = re.compile(
+    # abc
+    r'CM[/a-z-_ ]*> |'
+    # def
+    r'\[ ?[a-zA-Z][a-zA-Z0-9\- ]*\] '
+)
+
+newline = "CM> [08:33:27 01/17/2021] [CmDocsisCtlThread] BcmCmDocsisCtlThread::IsUpstreamFreqUsable:  cannot use ucid=156"
+
+newline = pattn.sub('', newline)
+
+print(newline)
