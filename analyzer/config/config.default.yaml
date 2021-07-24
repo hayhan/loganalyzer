@@ -4,9 +4,12 @@
 # Section: general
 general:
     log_type: cm        # Sub-folder of log platform must be consistent with name here
+    log_head: 24        # Log head offset. Default value is from standard timestamp
     training: true      # true for training, and false for prediction
     metrics: false
     context: TEMPUPDT   # One of TEMPUPDT, LOGLAB, OLDSCHOOL, DEEPLOG AND LOGLIZER
+    intmdt: true        # Save intermediate results to files
+    aim: true           # Process data always in memory, otherwise intmdt must be true
 
 # Section: templte
 template:
@@ -14,23 +17,23 @@ template:
 
 # Section: loglab
 loglab:
-    model: RFC          # The classical machine learning models
+    model: RFC          # Classical machine learning models
     window_size: 10     # 1/2 window around the axis, unit is log
 
 # Section: deeplog
 deeplog:
-    model: EXEC         # The execution path model, the other one is parameter model PARAM
-    window_size: 15     # The sequence length, unit is log
+    model: EXEC         # Execution path model. Parameter model PARAM is not implemented
+    window_size: 15     # Sequence length, unit is log
     batch_size: 32
     num_epochs: 150
     num_workers: 0
-    hidden_size: 128    # The hidden size of LSTM
+    hidden_size: 128    # Hidden size of LSTM
     topk: 10
     device: cpu
-    num_dir: 1          # The number of directions of LSTM
+    num_dir: 1          # Number of directions of LSTM
 
 # Section: loglizer
 loglizer:
-    model: DT           # The classical machine learning models
-    window_size: 10000  # The time window size, unit is ms
-    window_step: 5000   # The sliding window step, unit is ms
+    model: DT           # Classical machine learning models
+    window_size: 10000  # Time window size, unit is ms
+    window_step: 5000   # Sliding window step, unit is ms

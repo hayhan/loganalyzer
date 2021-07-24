@@ -57,8 +57,8 @@ def read_yaml_pretty(filename, logger=None):
 
     text = path.read_text()
     dict_format = yaml.safe_load(text)
-    pretty_doc = yaml.safe_dump(dict_format, indent=4, default_flow_style=False,
-                            sort_keys=False)
+    pretty_doc = yaml.safe_dump(dict_format, indent=4, sort_keys=False,
+                                default_flow_style=False)
     return pretty_doc
 
 
@@ -76,8 +76,8 @@ def write_yaml(dictionary, filename, logger=None, sort_keys=False):
     sort_keys : bool
         Whether to sort keys.
     """
-    text = yaml.safe_dump(dictionary, indent=4, default_flow_style=False,
-                          sort_keys=sort_keys)
+    text = yaml.safe_dump(dictionary, indent=4, sort_keys=sort_keys,
+                          default_flow_style=False)
 
     path = make_path(filename)
     path.parent.mkdir(exist_ok=True)
@@ -94,8 +94,6 @@ def make_path(path):
     path : str, `pathlib.Path`
         path to expand
     """
-    # _ToDo: raise error or warning if environment variables that don't resolve are used
-    # e.g. "spam/$DAMN/ham" where `$DAMN` is not defined
     return Path(os.path.expandvars(path))
 
 

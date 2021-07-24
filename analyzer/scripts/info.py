@@ -10,6 +10,7 @@ import warnings
 import click
 from analyzer import __version__
 
+
 log = logging.getLogger(__name__)
 
 # See setup.cfg
@@ -35,6 +36,9 @@ LOGANALYZER_DEPENDENCIES = [
 LOGANALYZER_ENV_VARIABLES = ["ANALYZER_DATA"]
 
 
+# ----------------------------------------------------------------------
+# analyzer info
+# ----------------------------------------------------------------------
 @click.command(name="info")
 @click.option("--system/--no-system", default=True, help="Show system info")
 @click.option("--version/--no-version", default=True, help="Show version")

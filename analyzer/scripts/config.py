@@ -1,5 +1,5 @@
 # Licensed under the MIT License - see License.txt
-""" Interface to the global config file.
+""" CLI interface to the global config file.
 """
 import sys
 import logging
@@ -7,8 +7,13 @@ import subprocess
 import click
 from analyzer.config import GlobalConfig, CONFIG_FILE
 
+
 log = logging.getLogger(__name__)
 
+
+# ----------------------------------------------------------------------
+# analyzer config show
+# ----------------------------------------------------------------------
 @click.command(name="show")
 @click.option(
     "--filename",
@@ -22,6 +27,9 @@ def cli_show_config(filename):
     log.info("Configuration file showed: %s", filename)
 
 
+# ----------------------------------------------------------------------
+# analyzer config edit
+# ----------------------------------------------------------------------
 @click.command(name="edit")
 @click.option(
     "--filename",
@@ -35,6 +43,9 @@ def cli_edit_config(filename):
     log.info("Configuration file opened in editor: %s", filename)
 
 
+# ----------------------------------------------------------------------
+# analyzer config default
+# ----------------------------------------------------------------------
 @click.command(name="default")
 @click.option(
     "--filename",
@@ -48,6 +59,9 @@ def cli_default_config(filename):
     log.info("Configuration file defaulted: %s", filename)
 
 
+# ----------------------------------------------------------------------
+# analyzer config updt
+# ----------------------------------------------------------------------
 @click.command(name="updt")
 @click.option(
     "--filename",
@@ -67,7 +81,8 @@ def cli_default_config(filename):
     help="Update the key-value pair in the configuration file.",
     show_default=True,
 )
-def cli_update_config(filename, type, item):  # pylint:disable=redefined-builtin
+# pylint:disable=redefined-builtin
+def cli_update_config(filename, type, item):
     """ Update the key-value pair. """
     if item is None:
         print("Please define at least the key-value pair.")

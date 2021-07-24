@@ -41,8 +41,8 @@ def cli(log_level, ignore_warnings):
 
     Loganalyzer is a Python package for log analyzing.
 
-    Use ``--help`` to see available sub-commands, as well as the available
-    arguments and options for each sub-command.
+    Use ``--help`` to see available sub-commands, as well as the
+    available arguments and options for each sub-command.
 
     \b
     Examples
@@ -67,12 +67,12 @@ def cli_config():
     \b
     - The sub-command `show` will print the config content
     \b
-    - The sub-command `edit` will open the config content in vim editor and can edit
+    - The sub-command `edit` will open the config content in vim editor
     \b
     - The sub-command `default` will default the config content
     \b
-    - The sub-command `updt` will update the item in the config content directly
-      The option `type` indicates the value part type, e.g. int/bool/str(default)
+    - The sub-command `updt` will update the item in the config directly
+      The option `type` sets the value type, e.g. int/bool/str(default)
 
     \b
     Examples
@@ -82,7 +82,7 @@ def cli_config():
     $ analyzer config show
     $ analyzer config edit
     $ analyzer config default
-    $ analyzer config updt --item top-key sub-key val --type int/bool/str
+    $ analyzer config updt --item key1 key2 val [--type int/bool/str]
     """
 
 
@@ -95,8 +95,8 @@ def cli_preprocess():
     --------
 
     \b
-    $ analyzer preprocess new
-    $ analyzer preprocess norm --overwrite
+    $ analyzer preprocess new [--training]
+    $ analyzer preprocess norm [--training] [--overwrite]
     """
 
 
@@ -122,10 +122,10 @@ def cli_loglab(ctx):
     """ Multi-classification of log anomalies.
 
     \b
-    - The option `kfold-manu` will use kfold cross-verification implemented manually.
+    - The option `kfold-manu` will use kfold cross-verification manually
     \b
-    - The option `model` will train / predict using the model assigned here instead
-    of the one in the config file.
+    - The option `model` will train / predict using the model assigned
+      here instead of the one in the config file.
 
     \b
     Examples
@@ -143,29 +143,31 @@ def cli_loglab(ctx):
 
 def add_subcommands():
     """ add subcommands dynamically """
-    from .info import cli_info                  # pylint:disable=import-outside-toplevel
+    # pylint:disable=import-outside-toplevel
 
+    from .info import cli_info
     cli.add_command(cli_info)
 
-    from .check import cli_check                # pylint:disable=import-outside-toplevel
-
+    from .check import cli_check
     cli.add_command(cli_check)
 
-    from .config import cli_show_config         # pylint:disable=import-outside-toplevel
-
+    from .config import cli_show_config
     cli_config.add_command(cli_show_config)
 
-    from .config import cli_edit_config         # pylint:disable=import-outside-toplevel
-
+    from .config import cli_edit_config
     cli_config.add_command(cli_edit_config)
 
-    from .config import cli_default_config      # pylint:disable=import-outside-toplevel
-
+    from .config import cli_default_config
     cli_config.add_command(cli_default_config)
 
-    from .config import cli_update_config       # pylint:disable=import-outside-toplevel
-
+    from .config import cli_update_config
     cli_config.add_command(cli_update_config)
+
+    from .preprocess import cli_gen_new
+    cli_preprocess.add_command(cli_gen_new)
+
+    from .preprocess import cli_gen_norm
+    cli_preprocess.add_command(cli_gen_norm)
 
 
 add_subcommands()
