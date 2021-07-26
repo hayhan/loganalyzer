@@ -275,13 +275,17 @@ PTN_BLOCK_RM_END = re.compile(
 )
 
 #----------------------------------------------------------------------------------------
-# Pattern for other specific Tables
+# Pattern for DS/US channel Tables
 #----------------------------------------------------------------------------------------
 # Common table
-PTN_TABLE_TITLE_COMMON = re.compile(r' *----')
+PTN_TABLE_TITLE_COMMON = re.compile(
+    # The line starting with "----", " ----" or "  ----"
+    r' *----'
+)
+
 # DS/US channel status tables
-dsChStatTablePattern = re.compile(r'Active Downstream Channel Diagnostics\:')
-usChStatTablePattern = re.compile(r'Active Upstream Channels\:')
+PTN_DS_CHAN_TABLE = re.compile(r'Active Downstream Channel Diagnostics\:')
+PTN_US_CHAN_TABLE = re.compile(r'Active Upstream Channels\:')
 
 
 #----------------------------------------------------------------------------------------
@@ -356,11 +360,11 @@ PTN_LABEL = re.compile(
 # Variables initialization
 #-------------------------
 heading_clean = False
-inDsChStatTable = False
-inUsChStatTable = False
-tableMessed = False
-dsTableEntryProcessed = False
-lastLineMessed = False
+in_ds_stat_table = False
+in_us_stat_table = False
+table_messed = False
+table_entry_processed = False
+last_ln_messed = False
 in_log_table = False
 in_log_block = False
 in_log_block2 = False
@@ -525,41 +529,40 @@ for _idx, line in enumerate(linesLst):
     #       1     2   308000000   y    y          34            4      Qam256
     #      32    66   698000000   y    y          35            1    OFDM PLC
     #
-    match = dsChStatTablePattern.match(newline)
-    if match:
-        inDsChStatTable = True
-    elif inDsChStatTable and in_log_table:
+    if PTN_DS_CHAN_TABLE.match(newline):
+        in_ds_stat_table = True
+    elif in_ds_stat_table and in_log_table:
         if (not PTN_NESTED_LINE.match(newline)) and (newline not in ['\n', '\r\n']):
             # The table is messed by printings from other thread if we run into here
             # The normal DS channel status row should be nested by default. The messed
             # table might have empty lines in the middle of table
-            tableMessed = True
+            table_messed = True
             # Remove this line here, do not leave it to the "Remove table block"
             # Update for the next line
             last_line_empty = False
             continue
-        elif newline in ['\n', '\r\n'] and dsTableEntryProcessed and (not lastLineMessed):
+        elif newline in ['\n', '\r\n'] and table_entry_processed and (not last_ln_messed):
             # Suppose table ended with empty line but need also consider the case of
-            # messed table. The 'dsTableEntryProcessed', 'lastLineMessed' and 'tableMessed'
+            # messed table. The 'table_entry_processed', 'last_ln_messed' and 'table_messed'
             # are used here to process the messed table case.
             # Leave reset of 'in_log_table' to the "Remove table block"
-            inDsChStatTable = False
-            tableMessed = False
-            dsTableEntryProcessed = False
+            in_ds_stat_table = False
+            table_messed = False
+            table_entry_processed = False
         elif newline not in ['\n', '\r\n']:
             # The real table row, that is, nested line
-            dsTableEntryProcessed = True
+            table_entry_processed = True
             # Convert current line to new ds format
             # DS channel status, rxid 0, dcid 1, freq 300000000, qam y, fec y, snr 35, power 3, mod Qam256
             lineList = newline.split(None, 7)
-            if tableMessed:
+            if table_messed:
                 # Need consider the last colomn of DS channel status, aka. lineList[7]
                 if lineList[7] not in ['Qam64\n', 'Qam256\n', 'OFDM PLC\n', 'Qam64\r\n', 'Qam256\r\n', 'OFDM PLC\r\n']:
                     # Current line is messed and the last colomn might be concatednated by
                     # other thread printings inadvertently and the next line will be empty
                     # See example of the DS messed table in test.003.txt
-                    # Update lastLineMessed for next line processing
-                    lastLineMessed = True
+                    # Update last_ln_messed for next line processing
+                    last_ln_messed = True
                     if lineList[7][3] == '6':       # Qam64
                         lineList[7] = 'Qam64\n'
                     elif lineList[7][3] == '2':     # Q256
@@ -567,7 +570,7 @@ for _idx, line in enumerate(linesLst):
                     else:
                         lineList[7] = 'OFDM PLC\n'  # OFDM PLC
                 else:
-                    lastLineMessed = False
+                    last_ln_messed = False
 
             if lineList[7][0] == 'O':
                 # Keep the OFDM channel status log length as same as QAM channel
@@ -589,14 +592,13 @@ for _idx, line in enumerate(linesLst):
     #     1   102     1     0x2      18            15.400  5120000     3      y
     #     8   149     1     0x2      18   63.700 - 78.450        0     5      y
     #
-    match = usChStatTablePattern.match(newline)
-    if match:
-        inUsChStatTable = True
-    elif inUsChStatTable and in_log_table:
+    if PTN_US_CHAN_TABLE.match(newline):
+        in_us_stat_table = True
+    elif in_us_stat_table and in_log_table:
         if newline in ['\n', '\r\n']:
             # Suppose table ended with empty line
             # Leave reset of in_log_table to the remove table block
-            inUsChStatTable = False
+            in_us_stat_table = False
         else:
             # Convert current line to new us format
             # US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freq_start 9.000, freq_end 9.000, symrate 5120000, phytype 3, txdata y
@@ -628,9 +630,9 @@ for _idx, line in enumerate(linesLst):
         if newline in ['\n', '\r\n']:
             # Suppose table ended with empty line
             # Note: we also reset the in_log_table for the DS/US channel status table above
-            if (not inDsChStatTable) or (inDsChStatTable and dsTableEntryProcessed and (not lastLineMessed)):
+            if (not in_ds_stat_table) or (in_ds_stat_table and table_entry_processed and (not last_ln_messed)):
                 in_log_table = False
-        elif not (inDsChStatTable or inUsChStatTable):
+        elif not (in_ds_stat_table or in_us_stat_table):
             # Still table line, remove it
             # Update for the next line
             last_line_empty = False
