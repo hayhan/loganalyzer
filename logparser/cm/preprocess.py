@@ -98,218 +98,190 @@ else:
     strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
                              r'\.(\d{3})|24:00:00\.000)\] (abn: )?(segsign: )?(c[0-9]{3} )?')
 
-# The pattern for CM console prompts
-strPattern1 = re.compile('CM[/a-z-_ ]*> ', re.IGNORECASE)
-# The pattern for the timestamp added by BFC, e.g. [00:00:35 01/01/1970], [11/21/2018 14:49:32]
-# or emta specific "00:00:35.012 01/01/1970  "
-strPattern2 = re.compile(r'\[?(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)(.\d\d\d)?|24:00:00(.000)?) '
-                         r'\d{2}/\d{2}/\d{4}\]?  ?')
-strPattern3 = re.compile(r'\[\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00)\] ')
-# The pattern for the timestamp added by others, e.g. 01/01/1970 00:00:19
-strPattern4 = re.compile(r'\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00) - ')
-# The pattern for the tag of thread
-strPattern5 = re.compile(r'\[ ?[a-z][a-z0-9\- ]*\] ', re.IGNORECASE)
-strPattern6 = re.compile(r'\+{3} ')
-# The pattern for the instance name of BFC class
-strPattern7 = re.compile(r'(?<=:  )\([a-zA-Z0-9/ ]+\) ')
+PTN_BFC_TS = re.compile(
+    # BFC timestamps [00:00:35 01/01/1970]
+    r'\[?(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00(.000)?) \d{2}/\d{2}/\d{4}\]?  ?'
+)
 
-strPatterns = [
-    strPattern1, strPattern2, strPattern3, strPattern4,
-    strPattern5, strPattern6, strPattern7,
-]
+PTN_CLEAN_CHAR = re.compile(
+    # CM console prompts
+    r'CM[/a-z-_ ]*> |'
+    # BFC timestamps [00:00:35 01/01/1970], "00:00:35.012 01/01/1970  "
+    r'\[?(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)(.\d\d\d)?|24:00:00(.000)?) \d{2}/\d{2}/\d{4}\]?  ?|'
+    # BFC timestamps [11/21/2018 14:49:32]
+    r'\[\d{2}/\d{2}/\d{4} (([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00)\] (- )?|'
+    # Tag of thread
+    r'\[ ?[a-z][a-z0-9\- ]*\] |'
+    # Instance name of BFC class
+    r'(?<=:  )\([a-zA-Z0-9/ ]+\) |'
+    # Misc unwanted chars embedded in the log
+    r'\+{3} ',
+
+    re.IGNORECASE
+)
+
 
 #----------------------------------------------------------------------------------------
 # Patterns for fuzzy time format, e.g. 12:34:56, 12-34-56, 12/34/56, etc.
 #----------------------------------------------------------------------------------------
-fuzzyTimePattern = re.compile(r'[0-5][0-9][^a-zA-Z0-9 ][0-5][0-9][^a-zA-Z0-9 ][0-5][0-9]')
+PTN_FUZZY_TIME = re.compile(
+    r'[0-5][0-9][^a-zA-Z0-9 ][0-5][0-9][^a-zA-Z0-9 ][0-5][0-9]'
+)
 
 #----------------------------------------------------------------------------------------
-# Patterns for specific lines which I want to remove
+# Pattern for removing specific lines
 #----------------------------------------------------------------------------------------
-sLinePattern0 = re.compile(r'\*|BCM3390\d+|RAM Windows size \d+ mb')
-sLinePattern1 = re.compile(r'\+{10}|\+-{5}')
-sLinePattern2 = re.compile(r'BCM339[0-9]+[a-zA-Z]*[0-9] Bootloader version')
-sLinePattern3 = re.compile(r'RCC->')
-sLinePattern4 = re.compile(r'TCC->')
-sLinePattern5 = re.compile(r'\d+\*')
-sLinePattern6 = re.compile(r'Readback Test pkt\:')
-sLinePattern7 = re.compile(r'DHCPc\:  Timed out waiting for offers for lease')
-sLinePattern8 = re.compile(r'fUsSetsState = ')
-sLinePattern9 = re.compile(r'( {7}munged error type: T=)|'
-                           r'( {5}munged error type =)|'
-                           r'( {5}partial svc dcid\(s\): T=)')
-sLinePattern10 = re.compile(r'Type \'help\' or')
-sLinePattern11 = re.compile(r' {24}dsid: | {24}DSID: | {24}CMIM: ')
-sLinePattern12 = re.compile(r'={18}')
-sLinePattern13 = re.compile(r'Suboption \d:|'
-                            r'eptAsyncCmd: Ept not initialized|'
-                            r'\([a-zA-Z0-9]+\)|'
-                            r'Len: \d+ ')
-# Hex line like "  00 10 18 de   f1 b8 c5 2e   14 56  | .........V"
-sLinePattern14 = re.compile(r'( {2}([0-9a-f]{2} ){1,4}){1,4} {1,52}\| ')
-
-sLinePatterns = [
-    sLinePattern0,
-    sLinePattern1,
-    sLinePattern2,
-    sLinePattern3,
-    sLinePattern4,
-    sLinePattern5,
-    sLinePattern6,
-    sLinePattern7,
-    sLinePattern8,
-    sLinePattern9,
-    sLinePattern10,
-    sLinePattern11,
-    sLinePattern12,
-    sLinePattern13,
-    sLinePattern14,
-]
+PTN_LINE_RM = re.compile(
+    r'\*|BCM3390\d+|RAM Windows size \d+ mb|'
+    r'\+{10}|\+-{5}|'
+    r'BCM339[0-9]+[a-zA-Z]*[0-9] Bootloader version|'
+    r'RCC->|'
+    r'TCC->|'
+    r'\d+\*|'
+    r'Readback Test pkt\:|'
+    r'DHCPc\:  Timed out waiting for offers for lease|'
+    r'fUsSetsState = |'
+    r'( {7}munged error type: T=)|'
+    r'( {5}munged error type =)|'
+    r'( {5}partial svc dcid\(s\): T=)|'
+    r'Type \'help\' or|'
+    r' {24}dsid: | {24}DSID: | {24}CMIM: |'
+    r'={18}|'
+    r'Suboption \d:|'
+    r'eptAsyncCmd: Ept not initialized|'
+    r'\([a-zA-Z0-9]+\)|'
+    r'Len: \d+ |'
+    # Hex line like "  00 10 18 de   f1 b8 c5 2e   14 56  | .........V"
+    r'( {2}([0-9a-f]{2} ){1,4}){1,4} {1,52}\| '
+)
 
 #----------------------------------------------------------------------------------------
-# Patterns for removing Table headers
+# Pattern for removing Table headers
 #----------------------------------------------------------------------------------------
-title00 = re.compile(r' *Trimmed Candidate Downstream Service Group')
-title01 = re.compile(r' *sgid +size +member')
-title02 = re.compile(r' *Downstream Active Channel Settings')
-title03 = re.compile(r' *dcid +type +frequency')
-title04 = re.compile(r' *Upstream Active Channel Settings')
-title05 = re.compile(r' *ucid +rpt enable')
-title06 = re.compile(r' *BcmCmUsTargetMset \(a.k.a. usable UCDs')
-title07 = re.compile(r' *us +config')
-title08 = re.compile(r' *phy +change')
-title09 = re.compile(r' *type +ucid +dcid +count')
-title10 = re.compile(r' *REG-RSP-MP Summary:')
-title11 = re.compile(r' *TCC commands->')
-title12 = re.compile(r' *ucid +action +ranging strategy')
-title13 = re.compile(r' *Service Flow settings->')
-title14 = re.compile(r' *sfid +sid +ucids')
-title15 = re.compile(r' *DSID settings->')
-title16 = re.compile(r' *dsid +action +reseq')
-title17 = re.compile(r' *Active Downstream Channel Diagnostics')
-title18 = re.compile(r' *rx id +dcid +freq')
-title19 = re.compile(r' *plc +prfA')
-title20 = re.compile(r' *Active Upstream Channels:')
-title21 = re.compile(r' *rng +pwr')
-title22 = re.compile(r' *txid +ucid +dcid +sid')
-title23 = re.compile(r' {5}US chan ID {5}Tx Power \(dBmV\)')
-
-titlePatterns = [
-    title00, title01, title02, title03, title04, title05, title06, title07,
-    title08, title09, title10, title11, title12, title13, title14, title15,
-    title16, title17, title18, title19, title20, title21, title22, title23,
-]
+PTN_TABLE_TITLE = re.compile(
+    r' *Trimmed Candidate Downstream Service Group|'
+    r' *sgid +size +member|'
+    r' *Downstream Active Channel Settings|'
+    r' *dcid +type +frequency|'
+    r' *Upstream Active Channel Settings|'
+    r' *ucid +rpt enable|'
+    r' *BcmCmUsTargetMset \(a.k.a. usable UCDs|'
+    r' *us +config|'
+    r' *phy +change|'
+    r' *type +ucid +dcid +count|'
+    r' *REG-RSP-MP Summary:|'
+    r' *TCC commands->|'
+    r' *ucid +action +ranging strategy|'
+    r' *Service Flow settings->|'
+    r' *sfid +sid +ucids|'
+    r' *DSID settings->|'
+    r' *dsid +action +reseq|'
+    r' *Active Downstream Channel Diagnostics|'
+    r' *rx id +dcid +freq|'
+    r' *plc +prfA|'
+    r' *Active Upstream Channels:|'
+    r' *rng +pwr|'
+    r' *txid +ucid +dcid +sid|'
+    r' {5}US chan ID {5}Tx Power \(dBmV\)'
+)
 
 #----------------------------------------------------------------------------------------
 # Pattern for nested line
 #----------------------------------------------------------------------------------------
-nestedLinePattern = re.compile(r' +|\t+')
+PTN_NESTED_LINE = re.compile(
+    r' +|\t+'
+)
 
 #----------------------------------------------------------------------------------------
-# Patterns for specific primary lines which I want to indent them
+# Pattern for nested line (exceptions)
 #----------------------------------------------------------------------------------------
-sPrimaryLinePattern0 = re.compile(r'Assigned OFDMA Data Profile IUCs')
-sPrimaryLinePattern1 = re.compile(r'fDestSingleTxTargetUsChanId')
-sPrimaryLinePattern2 = re.compile(r'fTmT4NoUnicastRngOpStdMlsec')
-sPrimaryLinePattern3 = re.compile(r'MSG PDU:')
-sPrimaryLinePattern4 = re.compile(r'to a CM prior to sending')
-sPrimaryLinePattern5 = re.compile(r'Load Address: ')
-
-sPrimaryLinePatterns = [
-    sPrimaryLinePattern0,
-    sPrimaryLinePattern1,
-    sPrimaryLinePattern2,
-    sPrimaryLinePattern3,
-    sPrimaryLinePattern4,
-    sPrimaryLinePattern5,
-]
+PTN_NESTED_LINE_EXCEPTION = re.compile(
+    r' +Ranging state info:'
+)
 
 #----------------------------------------------------------------------------------------
-# Patterns for a block/table of lines which I want to indent them
-# Empty line indicates the end of the block
+# Pattern for indenting specific primary lines
+#----------------------------------------------------------------------------------------
+PTN_PRI_TO_NESTED = re.compile(
+    r'Assigned OFDMA Data Profile IUCs|'
+    r'fDestSingleTxTargetUsChanId|'
+    r'fTmT4NoUnicastRngOpStdMlsec|'
+    r'MSG PDU:|'
+    r'to a CM prior to sending|'
+    r'Load Address: '
+)
+
+#----------------------------------------------------------------------------------------
+# Pattern for indenting a block/table of lines
 # Run this before removing empty lines
 #----------------------------------------------------------------------------------------
-blockTitlePattern0 = re.compile(r'===== Read Leap AIF Status =====')
 
-blockTitlePatterns = [
-    blockTitlePattern0
-]
+# Do not indent the first line. Empty line indicates the block end
+PTN_BLOCK_INDENT = re.compile(
+    r'===== Read Leap AIF Status ====='
+)
 
-#----------------------------------------------------------------------------------------
-# Patterns for specific lines which I want to convert them as primary
-#----------------------------------------------------------------------------------------
-sNestedLinePattern0 = re.compile(r' +DOWNSTREAM STATUS')
-sNestedLinePattern1 = re.compile(r' +CM Upstream channel info')
-sNestedLinePattern2 = re.compile(r' +Receive Channel Config\:')
-sNestedLinePattern3 = re.compile(r' Reason = ')
-sNestedLinePattern4 = re.compile(r'\t{7}Storing to device...|'
-                                 r'\t{7}Loading from server...|'
-                                 r'  CmSnmpAgent::|'
-                                 r'  DefaultSnmpAgentClass::|'
-                                 r'  Special case: don\'t disable|'
-                                 r'  [DU]S: +\d+ SC-QAM \(0x')
-sNestedLinePattern5 = re.compile(r'  Plant power is')
+# Do not indent the first line. Special line indicates the block end
+PTN_BLOCK_INDENT2 = re.compile(
+    r'== Beginning initial ranging for Docsis UCID'
+)
 
-sNestedLinePatterns = [
-    sNestedLinePattern0,
-    sNestedLinePattern1,
-    sNestedLinePattern2,
-    sNestedLinePattern3,
-    sNestedLinePattern4,
-    sNestedLinePattern5,
-]
+PTN_BLOCK_INDENT2_END = re.compile(
+    r'Using clamped minimum transmit power|'
+    r'Using bottom of DRW initial upstream power|'
+    r'Using per transmitter stored initial upstream power'
+)
 
 #----------------------------------------------------------------------------------------
-# Patterns for nested lines (exceptions) which I do not want to make them as primary
+# Pattern for converting specific lines as primary
 #----------------------------------------------------------------------------------------
-eNestedLinePattern0 = re.compile(r' +Ranging state info:')
-
-eNestedLinePatterns = [
-    eNestedLinePattern0
-]
+PTN_NESTED_TO_PRI = re.compile(
+    r' +DOWNSTREAM STATUS|'
+    r' +CM Upstream channel info|'
+    r' +Receive Channel Config\:|'
+    r' Reason = |'
+    r'\t{7}Storing to device...|'
+    r'\t{7}Loading from server...|'
+    r'  CmSnmpAgent::|'
+    r'  DefaultSnmpAgentClass::|'
+    r'  Special case: don\'t disable|'
+    r'  [DU]S: +\d+ SC-QAM \(0x|'
+    r'  Plant power is'
+)
 
 #----------------------------------------------------------------------------------------
-# Patterns for specific whole multi-line log which I want to remove entirely
+# Pattern for whole multi-line log which should be removed entirely
 # Block end condition: primary line (exclusive)
 #----------------------------------------------------------------------------------------
-wMultiLineRmPattern0 = re.compile(r' {4}tap values:')
-wMultiLineRmPattern1 = re.compile(r' *Trimmed Downstream Ambiguity Resolution Frequency List')
-
-wMultiLineRmPatterns = [
-    wMultiLineRmPattern0,
-    wMultiLineRmPattern1,
-]
+PTN_BLOCK_RM_PRI = re.compile(
+    r' {4}tap values:|'
+    r' *Trimmed Downstream Ambiguity Resolution Frequency List'
+)
 
 #----------------------------------------------------------------------------------------
-# Patterns for block of logs which I want to remove entirely
-# [logBlockStart: inclusive, logBlockEnd: exclusive)
+# Pattern for block of logs that should be removed entirely
+# [BlockStart: inclusive, BlockEnd: exclusive)
 #----------------------------------------------------------------------------------------
-logBlockSrt0 = re.compile(r'\| This image is built using remote flash as nonvol.')
-logBlockEnd0 = re.compile(r'>>>>ChipID=0x339\d+')
-logBlockSrt1 = re.compile(r'Downloading LEAP image')
-logBlockEnd1 = re.compile(r'>>>AP dload time')
-logBlockSrt2 = re.compile(r'Initializing DS Docsis 3.0 MAC')
-logBlockEnd2 = re.compile(r'(Running the system...)|(Automatically stopping at console)')
+PTN_BLOCK_RM_START = re.compile(
+    r'\| This image is built using remote flash as nonvol.|'
+    r'Downloading LEAP image|'
+    r'Initializing DS Docsis 3.0 MAC'
+)
 
-logBlockPatterns = [
-    [logBlockSrt0, logBlockEnd0],
-    [logBlockSrt1, logBlockEnd1],
-    [logBlockSrt2, logBlockEnd2],
-]
+PTN_BLOCK_RM_END = re.compile(
+    r'>>>>ChipID=0x339\d+|'
+    r'>>>AP dload time|'
+    r'(Running the system...)|(Automatically stopping at console)'
+)
 
 #----------------------------------------------------------------------------------------
 # Patterns for other specific lines
 #----------------------------------------------------------------------------------------
+# Common table
+PTN_TABLE_TITLE_COMMON = re.compile(r' *----')
 # DS/US channel status tables
 dsChStatTablePattern = re.compile(r'Active Downstream Channel Diagnostics\:')
 usChStatTablePattern = re.compile(r'Active Upstream Channels\:')
-# Common table
-commonTablePattern = re.compile(r' *----')
-# Initial ranging block for each UCID
-initRangePattern = re.compile(r'== Beginning initial ranging for Docsis UCID')
-inMultiLineInitRangeEnd1 = re.compile(r'Using clamped minimum transmit power')
-inMultiLineInitRangeEnd2 = re.compile(r'Using bottom of DRW initial upstream power')
-inMultiLineInitRangeEnd3 = re.compile(r'Using per transmitter stored initial upstream power')
 # Split assignment token something like ABC=xyz or ABC==xyz
 assignTokenPattern = re.compile(r'=(?=[^= \r\n])')
 # Split cpp class token like ABC::Xyz or ABC::xY
@@ -329,20 +301,19 @@ bracketPattern5 = re.compile(r'\d+(?=(ms))')
 #bracketPattern6 = re.compile(r'(?<=\.\.)\d')
 
 #----------------------------------------------------------------------------------------
-# Patterns for logs that I want to add the session label 'segsign: '
+# Pattern for adding session label 'segsign: '
 #----------------------------------------------------------------------------------------
-sessionPattern0 = re.compile(r'Loading compressed image \d')
-sessionPattern1 = re.compile(r'Moving to Downstream Frequency')
-
-sessionPatterns = [
-    sessionPattern0,
-    sessionPattern1,
-]
+PTN_SESSION = re.compile(
+    r'Loading compressed image \d|'
+    r'Moving to Downstream Frequency'
+)
 
 #----------------------------------------------------------------------------------------
-# Patterns for segment labels, 'segsign: ' or 'cxxx '
+# Pattern for segment labels, 'segsign: ' or 'cxxx '
 #----------------------------------------------------------------------------------------
-label_pattern = re.compile(r'(segsign: )|(c[0-9]{3} )')
+PTN_LABEL = re.compile(
+    r'(segsign: )|(c[0-9]{3} )'
+)
 
 
 #########################################################################################
@@ -358,15 +329,15 @@ inUsChStatTable = False
 tableMessed = False
 dsTableEntryProcessed = False
 lastLineMessed = False
-inTable = False
-inLogBlock = False
-inMultiLineInitRange = False
-inMultiLineRemove = False
-inLogBlockPrim = False
-lastLineEmpty = False
-sccvEmptyLineCnt = 0
-lastLabelRemoved = False
-lastLabel = ''
+in_log_table = False
+in_log_block = False
+in_log_block2 = False
+in_log_block3 = False
+in_log_block4 = False
+last_line_empty = False
+con_empty_ln_cnt = 0
+last_label_removed = False
+last_label = ''
 
 #----------------------------------------------------------------------
 # 01) Extrace timestamps, remove console prompts, etc.
@@ -430,17 +401,17 @@ for _idx, line in enumerate(linesLst):
         # Strip off the main timestamp including train and session labels if any exist
         currentLineTS = matchTS.group(0)
         if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)) \
-            and (not fuzzyTimePattern.search(currentLineTS)):
+            and (not PTN_FUZZY_TIME.search(currentLineTS)):
             if _idx == 0:
                 heading_clean = True
             continue
         newline = strPattern0.sub('', line, count=1)
         # Inherit segment labels (segsign: or cxxx) from last labeled line if it is removed
-        if (DLOGCONTEXT or LLABCONTEXT) and (TRAINING or METRICSEN) and lastLabelRemoved:
-            currentLineTS += lastLabel
+        if (DLOGCONTEXT or LLABCONTEXT) and (TRAINING or METRICSEN) and last_label_removed:
+            currentLineTS += last_label
             # Reset
-            lastLabelRemoved = False
-            lastLabel = ''
+            last_label_removed = False
+            last_label = ''
     elif RESERVE_TS:
         # If we intend to reserve the main timestamp but does not match, delete this line
         # This usually happens when the timestamp is messed up, the timestamp format is
@@ -454,75 +425,61 @@ for _idx, line in enumerate(linesLst):
 
     # Remove some heading lines at the start of log file
     if (_idx == 0 or heading_clean) \
-        and (nestedLinePattern.match(newline) or newline in ['\n', '\r\n']):
+        and (PTN_NESTED_LINE.match(newline) or newline in ['\n', '\r\n']):
         heading_clean = True
         # Take care if the removed line has segment label. Hand it to the next line
         if (DLOGCONTEXT or LLABCONTEXT) and (TRAINING or METRICSEN):
-            label_match = label_pattern.search(currentLineTS)
+            label_match = PTN_LABEL.search(currentLineTS)
             if label_match:
-                lastLabel = label_match.group(0)
-                lastLabelRemoved = True
+                last_label = label_match.group(0)
+                last_label_removed = True
         continue
     if heading_clean:
         heading_clean = False
 
-    #------------------------------------------------------------------------------------
-    # No main timestamp and train label at start of each line in the remaining of the loop
-    #------------------------------------------------------------------------------------
+    #-------------------------------------------------------------------
+    # No STB timestamp and train label at start of each line in the
+    # remaining of the loop
+    #-------------------------------------------------------------------
 
-    # Because of host system code bug of no endl, some primary logs are concatenated to
-    # the former one. Split them and only reserve the last log in the same line.
-    # Skip the match at position 0 if exits as I will remove it later
-    if strPattern2.search(newline, 2):
-        match_g = strPattern2.finditer(newline, 2)
+    # Because of host system code bug of no endl, some primary logs are
+    # concatenated to the former one. Split them and only reserve the
+    # last log in the same line. Skip the match at position 0 if exits
+    # as I will remove it later.
+    if PTN_BFC_TS.search(newline, 2):
+        match_g = PTN_BFC_TS.finditer(newline, 2)
         *_, last_match = match_g
         newline = newline[last_match.start() :]
 
-    # Remove remaining timestamps, console prompts and others
-    for pattern in strPatterns:
-        newline = pattern.sub('', newline, count=1)
+    # Remove other timestamps, console prompts and others unwanted chars
+    newline = PTN_CLEAN_CHAR.sub('', newline)
 
-    # Remove some log blocks
-    foundStart = False
-    foundEnd = False
-    for patternStart, patternEnd in logBlockPatterns:
-        if patternStart.match(newline):
-            foundStart = True
-            break
-        if patternEnd.match(newline):
-            foundEnd = True
-            break
-    if foundStart:
-        inLogBlock = True
+    # Remove unwanted log blocks
+    if PTN_BLOCK_RM_START.match(newline):
+        in_log_block = True
         # Delete current line
         # Update for the next line
-        lastLineEmpty = False
+        last_line_empty = False
         continue
-    if inLogBlock:
-        if foundEnd:
-            inLogBlock = False
+    if in_log_block:
+        if PTN_BLOCK_RM_END.match(newline):
+            in_log_block = False
         else:
             # Delete current line
             # Update for the next line
-            lastLineEmpty = False
+            last_line_empty = False
             continue
 
     # Remove line starting with specific patterns
-    goNextLine = False
-    for pattern in sLinePatterns:
-        match = pattern.match(newline)
-        if match:
-            goNextLine = True
-            break
-    if goNextLine:
-        # Take care if the removed line has segment label. Hand it to the next line
+    if PTN_LINE_RM.match(newline):
+        # If the removed line has segment label. Hand it to next line
         if (DLOGCONTEXT or LLABCONTEXT) and (TRAINING or METRICSEN):
-            label_match = label_pattern.search(currentLineTS)
+            label_match = PTN_LABEL.search(currentLineTS)
             if label_match:
-                lastLabel = label_match.group(0)
-                lastLabelRemoved = True
+                last_label = label_match.group(0)
+                last_label_removed = True
         # Update for the next line
-        lastLineEmpty = False
+        last_line_empty = False
         continue
 
     # Format DS channel status table
@@ -539,21 +496,21 @@ for _idx, line in enumerate(linesLst):
     match = dsChStatTablePattern.match(newline)
     if match:
         inDsChStatTable = True
-    elif inDsChStatTable and inTable:
-        if (not nestedLinePattern.match(newline)) and (newline not in ['\n', '\r\n']):
+    elif inDsChStatTable and in_log_table:
+        if (not PTN_NESTED_LINE.match(newline)) and (newline not in ['\n', '\r\n']):
             # The table is messed by printings from other thread if we run into here
             # The normal DS channel status row should be nested by default. The messed
             # table might have empty lines in the middle of table
             tableMessed = True
             # Remove this line here, do not leave it to the "Remove table block"
             # Update for the next line
-            lastLineEmpty = False
+            last_line_empty = False
             continue
         elif newline in ['\n', '\r\n'] and dsTableEntryProcessed and (not lastLineMessed):
             # Suppose table ended with empty line but need also consider the case of
             # messed table. The 'dsTableEntryProcessed', 'lastLineMessed' and 'tableMessed'
             # are used here to process the messed table case.
-            # Leave reset of 'inTable' to the "Remove table block"
+            # Leave reset of 'in_log_table' to the "Remove table block"
             inDsChStatTable = False
             tableMessed = False
             dsTableEntryProcessed = False
@@ -603,10 +560,10 @@ for _idx, line in enumerate(linesLst):
     match = usChStatTablePattern.match(newline)
     if match:
         inUsChStatTable = True
-    elif inUsChStatTable and inTable:
+    elif inUsChStatTable and in_log_table:
         if newline in ['\n', '\r\n']:
             # Suppose table ended with empty line
-            # Leave reset of inTable to the remove table block
+            # Leave reset of in_log_table to the remove table block
             inUsChStatTable = False
         else:
             # Convert current line to new us format
@@ -630,133 +587,102 @@ for _idx, line in enumerate(linesLst):
 
     # Remove table block
     # The line starting with "----", " ----" or "  ----"
-    match = commonTablePattern.match(newline)
-    if match:
-        inTable = True
+    if PTN_TABLE_TITLE_COMMON.match(newline):
+        in_log_table = True
         # Update for the next line
-        lastLineEmpty = False
+        last_line_empty = False
         continue
-    if inTable:
+    if in_log_table:
         if newline in ['\n', '\r\n']:
             # Suppose table ended with empty line
-            # Note: we also reset the inTable for the DS/US channel status table above
+            # Note: we also reset the in_log_table for the DS/US channel status table above
             if (not inDsChStatTable) or (inDsChStatTable and dsTableEntryProcessed and (not lastLineMessed)):
-                inTable = False
+                in_log_table = False
         elif not (inDsChStatTable or inUsChStatTable):
             # Still table line, remove it
             # Update for the next line
-            lastLineEmpty = False
+            last_line_empty = False
             continue
 
-    # Remove specific table title line
-    goNextLine = False
-    for pattern in titlePatterns:
-        match = pattern.match(newline)
-        if match:
-            goNextLine = True
-            break
-    if goNextLine:
+    # Remove title line of specific tables
+    if PTN_TABLE_TITLE.match(newline):
         # Update for the next line
-        lastLineEmpty = False
+        last_line_empty = False
         continue
 
-    # Indent lines as multi-line log for initial ranging
-    # Note: the block ending is special
-    match = initRangePattern.match(newline)
-    if match:
-        inMultiLineInitRange = True
-    elif inMultiLineInitRange:
-        if inMultiLineInitRangeEnd1.match(newline) or inMultiLineInitRangeEnd2.match(newline) \
-            or inMultiLineInitRangeEnd3.match(newline):
-            # Suppose multi-line log ended with special lines
-            newline = ' ' + newline
-            inMultiLineInitRange = False
-        else:
-            # Still multi-line, indent it, say add a space at the start
-            newline = ' ' + newline
-
     # Indent some specific lines
-    for pattern in sPrimaryLinePatterns:
-        match = pattern.match(newline)
-        if match:
-            # Indent this line
-            newline = ' ' + newline
-            break
+    if PTN_PRI_TO_NESTED.match(newline):
+        # Indent this line
+        newline = ' ' + newline
 
     # Indent a block of lines from primary to embedded
-    # Note: the block ending is an empty line
-    foundPattern = False
-    for pattern in blockTitlePatterns:
-        if pattern.match(newline):
-            foundPattern = True
-            break
-    if foundPattern:
-        inLogBlockPrim = True
-        # Keep the title line and goto next line now
-    elif inLogBlockPrim:
-        # Indent the line if it is not empty
+    # Note: Do not indent the first line.
+    # Empty line ends the block.
+    if PTN_BLOCK_INDENT.match(newline):
+        in_log_block3 = True
+    elif in_log_block3:
+        # Empty line ends the block
         if newline in ['\n', '\r\n']:
-            inLogBlockPrim = False
+            in_log_block3 = False
+        else:
+            newline = ' ' + newline
+
+    # Indent a block of lines from primary to embedded
+    # Note: Do not indent the first line.
+    # Special line (inclusive) ends the block.
+    if PTN_BLOCK_INDENT2.match(newline):
+        in_log_block4 = True
+    elif in_log_block4:
+        if PTN_BLOCK_INDENT2_END.match(newline):
+            # Special line ends the block
+            newline = ' ' + newline
+            in_log_block4 = False
         else:
             newline = ' ' + newline
 
     # It is time to remove empty line
     if newline in ['\n', '\r\n']:
-        if lastLineEmpty == False:
-            sccvEmptyLineCnt = 1
+        if not last_line_empty:
+            con_empty_ln_cnt = 1
         else:
-            sccvEmptyLineCnt += 1
+            con_empty_ln_cnt += 1
 
         # Take care if the removed line has segment label. Hand it to the next line
         if (DLOGCONTEXT or LLABCONTEXT) and (TRAINING or METRICSEN):
-            label_match = label_pattern.search(currentLineTS)
+            label_match = PTN_LABEL.search(currentLineTS)
             if label_match:
-                lastLabel = label_match.group(0)
-                lastLabelRemoved = True
+                last_label = label_match.group(0)
+                last_label_removed = True
 
-        # Update lastLineEmpty for the next line processing
-        lastLineEmpty = True
+        # Update last_line_empty for the next line processing
+        last_line_empty = True
         continue
 
     # Convert a nested line as primary if two more empty lines proceeded
-    if nestedLinePattern.match(newline):
-        if (lastLineEmpty == True) and (sccvEmptyLineCnt >= 2):
+    if PTN_NESTED_LINE.match(newline):
+        if last_line_empty and (con_empty_ln_cnt >= 2):
             # Try to see if there are any exceptions
-            noException = True
-            for pattern in eNestedLinePatterns:
-                if pattern.match(newline):
-                    noException = False
-                    break
-            if noException:
+            if not PTN_NESTED_LINE_EXCEPTION.match(newline):
                 newline = newline.lstrip()
 
     # Convert some specific nested lines as primary
-    for pattern in sNestedLinePatterns:
-        match = pattern.match(newline)
-        if match:
-            newline = newline.lstrip()
-            break
+    if PTN_NESTED_TO_PRI.match(newline):
+        newline = newline.lstrip()
 
     # Remove specific whole multi-line log
-    foundPattern = False
-    for pattern in wMultiLineRmPatterns:
-        match = pattern.match(newline)
-        if match:
-            foundPattern = True
-            break
-    if foundPattern:
-        inMultiLineRemove = True
+    if PTN_BLOCK_RM_PRI.match(newline):
+        in_log_block2 = True
         # Delete current line
         # Update for the next line
-        lastLineEmpty = False
+        last_line_empty = False
         continue
-    if inMultiLineRemove:
-        if not nestedLinePattern.match(newline):
-            inMultiLineRemove = False
+    if in_log_block2:
+        if not PTN_NESTED_LINE.match(newline):
+            in_log_block2 = False
         else:
             # Delete current line
             # Update for the next line
-            lastLineEmpty = False
+            last_line_empty = False
             continue
 
     # Split assignment token something like ABC=xyz to ABC= xyz
@@ -796,12 +722,11 @@ for _idx, line in enumerate(linesLst):
     # METRICSEN means we do validation on the test dataset or not
     #--------------------------------------------------------------
     if DLOGCONTEXT and (TRAINING or METRICSEN):
-        for pattern in sessionPatterns:
-            if pattern.match(newline):
-                newline = 'segsign: ' + newline
+        if PTN_SESSION.match(newline):
+            newline = 'segsign: ' + newline
 
-    # Update lastLineEmpty for the next line processing
-    lastLineEmpty = False
+    # Update last_line_empty for the next line processing
+    last_line_empty = False
 
     # Write current line to a new file with the timestamp if it exists
     if RESERVE_TS and matchTS:
@@ -847,7 +772,7 @@ for _idx, line in enumerate(newfile):
     else:
         newline = line
 
-    if nestedLinePattern.match(newline):
+    if PTN_NESTED_LINE.match(newline):
         # Concatenate current line to lastLine. rstrip() will strip LF or CRLF too
         lastLine = lastLine.rstrip()
         lastLine += ', '
