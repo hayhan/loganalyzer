@@ -47,7 +47,7 @@ else:
     rawLnIdxVectorNorm = []
     DATATYPE = 'test'
 
-# The main timestamp flag. The default offset value comes from strPattern0 below.
+# The main timestamp flag. The default offset value comes from PTN_MAIN_TS below.
 RESERVE_TS = True
 LOG_HEAD_OFFSET = 24
 
@@ -93,9 +93,9 @@ newfile = open(new_file_loc, 'w', encoding='utf-8')
 # The pattern for the timestamp added by console tool, e.g. [20190719-08:58:23.738].
 # Loglizer Label, Deeplog segment sign and Loglab class label are also considered.
 if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)):
-    strPattern0 = re.compile(r'.{%d}' % LOG_HEAD_OFFSET)
+    PTN_MAIN_TS = re.compile(r'.{%d}' % LOG_HEAD_OFFSET)
 else:
-    strPattern0 = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
+    PTN_MAIN_TS = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
                              r'\.(\d{3})|24:00:00\.000)\] (abn: )?(segsign: )?(c[0-9]{3} )?')
 
 PTN_BFC_TS = re.compile(
@@ -275,30 +275,62 @@ PTN_BLOCK_RM_END = re.compile(
 )
 
 #----------------------------------------------------------------------------------------
-# Patterns for other specific lines
+# Pattern for other specific Tables
 #----------------------------------------------------------------------------------------
 # Common table
 PTN_TABLE_TITLE_COMMON = re.compile(r' *----')
 # DS/US channel status tables
 dsChStatTablePattern = re.compile(r'Active Downstream Channel Diagnostics\:')
 usChStatTablePattern = re.compile(r'Active Upstream Channels\:')
-# Split assignment token something like ABC=xyz or ABC==xyz
-assignTokenPattern = re.compile(r'=(?=[^= \r\n])')
-# Split cpp class token like ABC::Xyz or ABC::xY
-cppClassPattern = re.compile(r'\:\:(?=[A-Z][a-z0-9]|[a-z][A-Z])')
-# Split 'ABC;DEF' to 'ABC; DEF'
-semicolonPattern = re.compile(r';(?! )')
-# Split hash number like #123 to # 123
-hashNumPattern = re.compile(r'#(?=[0-9]+)')
-# Split ip/mac address name and value like address:xx to address: xx
-ipmacNameValPattern = re.compile(r'address:(?=[0-9a-fA-F])')
-# Change something like (xx), [xx], ..., to ( xx ), [ xx ], ...
-bracketPattern1 = re.compile(r'\((?=(\w|[-+]))')
-bracketPattern2 = re.compile(r'(?<=\w)\)')
-bracketPattern3 = re.compile(r'\[(?=(\w|[-+]))')
-bracketPattern4 = re.compile(r'(?<=\w)\]')
-bracketPattern5 = re.compile(r'\d+(?=(ms))')
-#bracketPattern6 = re.compile(r'(?<=\.\.)\d')
+
+
+#----------------------------------------------------------------------------------------
+# Pattern for spliting tokens
+#----------------------------------------------------------------------------------------
+PTN_SPLIT_LEFT = []
+PTN_SPLIT_RIGHT = []
+
+PTN_SPLIT_LEFT.append(
+    # Split assignment token like ABC=xyz to ABC= xyz
+    re.compile(r'=(?=[^= \r\n])')
+)
+PTN_SPLIT_LEFT.append(
+    # Split cpp class token like ABC::Xyz to ABC:: Xyz
+    re.compile(r'\:\:(?=[A-Z][a-z0-9]|[a-z][A-Z])')
+)
+PTN_SPLIT_LEFT.append(
+    # Split 'ABC;DEF' to 'ABC; DEF'
+    re.compile(r';(?! )')
+)
+PTN_SPLIT_LEFT.append(
+    # Split hash number like #123 to # 123
+    re.compile(r'#(?=[0-9]+)')
+)
+PTN_SPLIT_LEFT.append(
+    # Split ip/mac address like address:xx to address: xx
+    re.compile(r'address:(?=[0-9a-fA-F])')
+)
+PTN_SPLIT_LEFT.append(
+    # Change something like (xx) to ( xx)
+    re.compile(r'\((?=(\w|[-+]))')
+)
+PTN_SPLIT_LEFT.append(
+    # Change something like [xx] to [ xx]
+    re.compile(r'\[(?=(\w|[-+]))')
+)
+PTN_SPLIT_LEFT.append(
+    # Split something like 5ms to 5 ms
+    re.compile(r'\d+(?=(ms))')
+)
+
+PTN_SPLIT_RIGHT.append(
+    # Split Change something like (xx) to (xx )
+    re.compile(r'(?<=\w)\)')
+)
+PTN_SPLIT_RIGHT.append(
+    # Split Change something like [xx] to [xx ]
+    re.compile(r'(?<=\w)\]')
+)
 
 #----------------------------------------------------------------------------------------
 # Pattern for adding session label 'segsign: '
@@ -371,7 +403,7 @@ rawsize = len(linesLst)
 #        # Skip the heading empty lines if any exist
 #        if line in ['\n', '\r\n']:
 #            continue
-#        RESERVE_TS = strPattern0.match(line)
+#        RESERVE_TS = PTN_MAIN_TS.match(line)
 #        break
 #--end--
 
@@ -396,7 +428,7 @@ for _idx, line in enumerate(linesLst):
     # Save the main timestamp if it exists. The newline does not have the main timestamp
     # before write it back to a new file. The train label and the session label are also
     # considered. Add them back along with the main timestamp at the end.
-    matchTS = strPattern0.match(line)
+    matchTS = PTN_MAIN_TS.match(line)
     if RESERVE_TS and matchTS:
         # Strip off the main timestamp including train and session labels if any exist
         currentLineTS = matchTS.group(0)
@@ -405,7 +437,7 @@ for _idx, line in enumerate(linesLst):
             if _idx == 0:
                 heading_clean = True
             continue
-        newline = strPattern0.sub('', line, count=1)
+        newline = PTN_MAIN_TS.sub('', line, count=1)
         # Inherit segment labels (segsign: or cxxx) from last labeled line if it is removed
         if (DLOGCONTEXT or LLABCONTEXT) and (TRAINING or METRICSEN) and last_label_removed:
             currentLineTS += last_label
@@ -685,36 +717,16 @@ for _idx, line in enumerate(linesLst):
             last_line_empty = False
             continue
 
-    # Split assignment token something like ABC=xyz to ABC= xyz
-    newline = assignTokenPattern.sub('= ', newline)
+    # Split some tokens apart
+    for ptn_obj in PTN_SPLIT_LEFT:
+        m = ptn_obj.search(newline)
+        if m:
+            newline = ptn_obj.sub(m.group(0)+' ', newline)
 
-    # Split class token like ABC::Xyz: to ABC:: Xyz:
-    newline = cppClassPattern.sub(':: ', newline)
-
-    # Split 'ABC;DEF' to 'ABC; DEF'
-    newline = semicolonPattern.sub('; ', newline)
-
-    # Split hash number like #123 to # 123
-    newline = hashNumPattern.sub('# ', newline)
-
-    # Split ip/mac address name and value like address:xx to address: xx
-    newline = ipmacNameValPattern.sub('address: ', newline)
-
-    # Change something like (xx), [xx], ..., to ( xx ), [ xx ], ...
-    newline = bracketPattern1.sub('( ', newline)
-    newline = bracketPattern2.sub(' )', newline)
-    newline = bracketPattern3.sub('[ ', newline)
-    newline = bracketPattern4.sub(' ]', newline)
-
-    m = bracketPattern5.search(newline)
-    if m:
-        newline = bracketPattern5.sub(m.group(0)+' ', newline)
-
-    #--block comment out start--
-    #m = bracketPattern6.search(newline)
-    #if m:
-    #    newline = bracketPattern6.sub(' '+m.group(0), newline)
-    #--end--
+    for ptn_obj in PTN_SPLIT_RIGHT:
+        m = ptn_obj.search(newline)
+        if m:
+            newline = ptn_obj.sub(' '+m.group(0), newline)
 
     #--------------------------------------------------------------
     # Add session label 'segsign: ' for DeepLog
@@ -765,10 +777,10 @@ lastLineTS = ''
 #
 for _idx, line in enumerate(newfile):
     # Save timestamp if it exists. Only two cases: match or no main timestamp
-    matchTS = strPattern0.match(line)
+    matchTS = PTN_MAIN_TS.match(line)
     if RESERVE_TS and matchTS:
         currentLineTS = matchTS.group(0)
-        newline = strPattern0.sub('', line, count=1)
+        newline = PTN_MAIN_TS.sub('', line, count=1)
     else:
         newline = line
 
