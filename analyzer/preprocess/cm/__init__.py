@@ -2,3 +2,4 @@
 """ Preprocess package.
 """
 from .preprocess import *
+from .patterns import *

@@ -39,7 +39,7 @@ def cli_gen_new(training):
     ppobj = pp.Preprocess()
     ppobj.preprocess_new()
 
-    log.info("The new log file is generated.")
+    log.info("The new log dataset is generated.")
 
 
 # ----------------------------------------------------------------------
@@ -81,4 +81,4 @@ def cli_gen_norm(training, overwrite):
     GlobalConfig.write()
     ppobj.preprocess_norm()
 
-    log.info("The norm log file is generated.")
+    log.info("The norm log dataset is generated.")

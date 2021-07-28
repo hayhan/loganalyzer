@@ -4,21 +4,24 @@
 import re
 import sys
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Pattern
 import logging
 from analyzer.config import GlobalConfig
 import analyzer.utils.data_helper as datahelp
 
 __all__ = [
-    "STD_TS_PTTN",
+    "PTN_STD_TS",
     "PreprocessBase",
 ]
 
-
 log = logging.getLogger(__name__)
 
-STD_TS_PTTN = re.compile(r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
-                         r'\.(\d{3})|24:00:00\.000)\] (abn: )?(segsign: )?(c[0-9]{3} )?')
+PTN_STD_TS = re.compile(
+    # Standard timestamp from console tool, e.g. [20190719-08:58:23.738]
+    # Also add Loglizer Label, Deeplog segment sign, Loglab class label.
+    r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
+    r'\.(\d{3})|24:00:00\.000)\] (abn: )?(segsign: )?(c[0-9]{3} )?'
+)
 
 
 class PreprocessBase(ABC):
@@ -31,25 +34,56 @@ class PreprocessBase(ABC):
         self.metrics: bool = GlobalConfig.conf['general']['metrics']
         self.context: str = GlobalConfig.conf['general']['context']
 
+        self.newlogs: List[str] = []
+        self.normlogs: List[str] = []
+
         # The main timestamp flag. The default offset value is from
         # the standard format
-        self.reserve_ts: bool = True
-        self.log_head_offset: int = GlobalConfig.conf['general']['head_offset']
+        self._reserve_ts: bool = True
+        self._log_head_offset: int = GlobalConfig.conf['general']['head_offset']
+        self.ptn_main_ts : Pattern = PTN_STD_TS
 
-        # For prediction only. Not include Loglizer.
+        # For prediction only. Does not include Loglizer.
         if not self.training:
             self.raw_ln_idx_new: List[int] = []
             self.raw_ln_idx_norm: List[int] = []
 
-    def get_timestamp_info(self):
-        """ Get updated timestamp info """
-        if self.log_head_offset > 0:
-            self.reserve_ts = True
-        elif self.log_head_offset == 0:
-            self.reserve_ts = False
+    def _main_timestamp_regx(self):
+        """ Get timestamp regx pattern object. """
+        if self.context in ['LOGLAB', 'OLDSCHOOL', 'DEEPLOG'] \
+            and not (self.training or self.metrics):
+            self.ptn_main_ts = re.compile(r'.{%d}' % self._log_head_offset)
+        else:
+            self.ptn_main_ts = PTN_STD_TS
+
+    def _get_timestamp_info(self):
+        """ Get updated timestamp info. """
+        if self._log_head_offset > 0:
+            self._reserve_ts = True
+        elif self._log_head_offset == 0:
+            self._reserve_ts = False
         else:
             # Not a LOG_TYPE log file
             sys.exit("It looks not {} log!".format(datahelp.LOG_TYPE))
+        # Update main timestamp pattern object
+        self._main_timestamp_regx()
+
+    @property
+    def log_head_offset(self):
+        """ Get log head offset info. """
+        return self._log_head_offset
+
+    @log_head_offset.setter
+    def log_head_offset(self, head_offset):
+        """ Set log head offset info.
+            Timestamp learnning will set the log_head_offset member as
+            well as the config field in memory and file.
+            \b
+            - offset == -1: Not valid log file for LOG_TYPE
+            - offset ==  0: Valid log file without timestamp
+            - offset >   0: Valid log file with timestamp
+        """
+        self._log_head_offset = head_offset
 
     @abstractmethod
     def preprocess_ts(self):
@@ -60,12 +94,12 @@ class PreprocessBase(ABC):
 
     @abstractmethod
     def preprocess_new(self):
-        """ Preprocess to generate new log data.
+        """ Preprocess to generate the new log data.
             Clean the raw log data.
         """
 
     def preprocess_norm(self):
-        """ Preprocess to generate norm log data.
+        """ Preprocess to generate the norm log data.
             Normalize the new log data, aka. converting multi-line log
             to one line.
         """

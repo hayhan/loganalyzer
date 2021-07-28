@@ -43,8 +43,8 @@ else:
     norm_file_loc = grandpadir + '/logs/cm/test_norm.txt'
     runtime_para_loc = grandpadir + '/results/test/cm/test_runtime_para.txt'
     rawln_idx_loc = grandpadir + '/results/test/cm/rawline_idx_norm.pkl'
-    rawLnIdxVectorNew = []
-    rawLnIdxVectorNorm = []
+    raw_ln_idx_new = []
+    raw_ln_idx_norm = []
     DATATYPE = 'test'
 
 # The main timestamp flag. The default offset value comes from PTN_MAIN_TS below.
@@ -419,11 +419,11 @@ rawsize = len(linesLst)
 pbar = tqdm(total=rawsize, unit='Lines', disable=False,
             bar_format='{l_bar}{bar:40}{r_bar}{bar:-40b}')
 
-for _idx, line in enumerate(linesLst):
+for idx, line in enumerate(linesLst):
 #for line in rawfile:
 
     # Update the progress bar
-    #helper.printProgressBar(_idx+1, rawsize, prefix='Progress:')
+    #helper.printProgressBar(idx+1, rawsize, prefix='Progress:')
     pbar.update(1)
 
     #------------------------------------------------------------------------------------
@@ -432,19 +432,19 @@ for _idx, line in enumerate(linesLst):
     # Save the main timestamp if it exists. The newline does not have the main timestamp
     # before write it back to a new file. The train label and the session label are also
     # considered. Add them back along with the main timestamp at the end.
-    matchTS = PTN_MAIN_TS.match(line)
-    if RESERVE_TS and matchTS:
+    match_ts = PTN_MAIN_TS.match(line)
+    if RESERVE_TS and match_ts:
         # Strip off the main timestamp including train and session labels if any exist
-        currentLineTS = matchTS.group(0)
+        curr_line_ts = match_ts.group(0)
         if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)) \
-            and (not PTN_FUZZY_TIME.search(currentLineTS)):
-            if _idx == 0:
+            and (not PTN_FUZZY_TIME.search(curr_line_ts)):
+            if idx == 0:
                 heading_clean = True
             continue
         newline = PTN_MAIN_TS.sub('', line, count=1)
         # Inherit segment labels (segsign: or cxxx) from last labeled line if it is removed
         if (DLOGCONTEXT or LLABCONTEXT) and (TRAINING or METRICSEN) and last_label_removed:
-            currentLineTS += last_label
+            curr_line_ts += last_label
             # Reset
             last_label_removed = False
             last_label = ''
@@ -452,7 +452,7 @@ for _idx, line in enumerate(linesLst):
         # If we intend to reserve the main timestamp but does not match, delete this line
         # This usually happens when the timestamp is messed up, the timestamp format is
         # not recognized, or no timestamp at all at the head of some log.
-        if _idx == 0:
+        if idx == 0:
             heading_clean = True
         continue
     else:
@@ -460,12 +460,12 @@ for _idx, line in enumerate(linesLst):
         newline = line
 
     # Remove some heading lines at the start of log file
-    if (_idx == 0 or heading_clean) \
+    if (idx == 0 or heading_clean) \
         and (PTN_NESTED_LINE.match(newline) or newline in ['\n', '\r\n']):
         heading_clean = True
         # Take care if the removed line has segment label. Hand it to the next line
         if (DLOGCONTEXT or LLABCONTEXT) and (TRAINING or METRICSEN):
-            label_match = PTN_LABEL.search(currentLineTS)
+            label_match = PTN_LABEL.search(curr_line_ts)
             if label_match:
                 last_label = label_match.group(0)
                 last_label_removed = True
@@ -510,7 +510,7 @@ for _idx, line in enumerate(linesLst):
     if PTN_LINE_RM.match(newline):
         # If the removed line has segment label. Hand it to next line
         if (DLOGCONTEXT or LLABCONTEXT) and (TRAINING or METRICSEN):
-            label_match = PTN_LABEL.search(currentLineTS)
+            label_match = PTN_LABEL.search(curr_line_ts)
             if label_match:
                 last_label = label_match.group(0)
                 last_label_removed = True
@@ -554,32 +554,32 @@ for _idx, line in enumerate(linesLst):
             table_entry_processed = True
             # Convert current line to new ds format
             # DS channel status, rxid 0, dcid 1, freq 300000000, qam y, fec y, snr 35, power 3, mod Qam256
-            lineList = newline.split(None, 7)
+            lineview = newline.split(None, 7)
             if table_messed:
-                # Need consider the last colomn of DS channel status, aka. lineList[7]
-                if lineList[7] not in ['Qam64\n', 'Qam256\n', 'OFDM PLC\n', 'Qam64\r\n', 'Qam256\r\n', 'OFDM PLC\r\n']:
+                # Need consider the last colomn of DS channel status, aka. lineview[7]
+                if lineview[7] not in ['Qam64\n', 'Qam256\n', 'OFDM PLC\n', 'Qam64\r\n', 'Qam256\r\n', 'OFDM PLC\r\n']:
                     # Current line is messed and the last colomn might be concatednated by
                     # other thread printings inadvertently and the next line will be empty
                     # See example of the DS messed table in test.003.txt
                     # Update last_ln_messed for next line processing
                     last_ln_messed = True
-                    if lineList[7][3] == '6':       # Qam64
-                        lineList[7] = 'Qam64\n'
-                    elif lineList[7][3] == '2':     # Q256
-                        lineList[7] = 'Qam256\n'
+                    if lineview[7][3] == '6':       # Qam64
+                        lineview[7] = 'Qam64\n'
+                    elif lineview[7][3] == '2':     # Q256
+                        lineview[7] = 'Qam256\n'
                     else:
-                        lineList[7] = 'OFDM PLC\n'  # OFDM PLC
+                        lineview[7] = 'OFDM PLC\n'  # OFDM PLC
                 else:
                     last_ln_messed = False
 
-            if lineList[7][0] == 'O':
+            if lineview[7][0] == 'O':
                 # Keep the OFDM channel status log length as same as QAM channel
                 # Then they will share the same log template after clustering
-                lineList[7] = 'OFDM_PLC\n'  # OFDM PLC
+                lineview[7] = 'OFDM_PLC\n'  # OFDM PLC
 
-            newline = 'DS channel status' + ' rxid ' + lineList[0] + ' dcid ' + lineList[1] + \
-                      ' freq ' + lineList[2] + ' qam ' + lineList[3] + ' fec ' + lineList[4] + \
-                      ' snr ' + lineList[5] + ' power ' + lineList[6] + ' mod ' + lineList[7]
+            newline = 'DS channel status' + ' rxid ' + lineview[0] + ' dcid ' + lineview[1] + \
+                      ' freq ' + lineview[2] + ' qam ' + lineview[3] + ' fec ' + lineview[4] + \
+                      ' snr ' + lineview[5] + ' power ' + lineview[6] + ' mod ' + lineview[7]
 
     # Format US channel status table
     #
@@ -602,22 +602,22 @@ for _idx, line in enumerate(linesLst):
         else:
             # Convert current line to new us format
             # US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2, power 18, freq_start 9.000, freq_end 9.000, symrate 5120000, phytype 3, txdata y
-            lineList = newline.split(None, 8)
-            if lineList[6] == '-':
+            lineview = newline.split(None, 8)
+            if lineview[6] == '-':
                 # This line is for OFDMA channel, so split it again
-                lineList = newline.split(None, 10)
-                newline = 'US channel status' + ' txid ' + lineList[0] + ' ucid ' + lineList[1] + \
-                          ' dcid ' + lineList[2] + ' rngsid ' + lineList[3] + ' power ' + lineList[4] + \
-                          ' freqstart ' + lineList[5] + ' freqend ' +lineList[7] + \
-                          ' symrate ' + lineList[8] + ' phytype ' + lineList[9] + \
-                          ' txdata ' + lineList[10]
+                lineview = newline.split(None, 10)
+                newline = 'US channel status' + ' txid ' + lineview[0] + ' ucid ' + lineview[1] + \
+                          ' dcid ' + lineview[2] + ' rngsid ' + lineview[3] + ' power ' + lineview[4] + \
+                          ' freqstart ' + lineview[5] + ' freqend ' +lineview[7] + \
+                          ' symrate ' + lineview[8] + ' phytype ' + lineview[9] + \
+                          ' txdata ' + lineview[10]
             else:
                 # For SC-QAM channels
-                newline = 'US channel status' + ' txid ' + lineList[0] + ' ucid ' + lineList[1] + \
-                          ' dcid ' + lineList[2] + ' rngsid ' + lineList[3] + ' power ' + lineList[4] + \
-                          ' freqstart ' + lineList[5] + ' freqend ' +lineList[5] + \
-                          ' symrate ' + lineList[6] + ' phytype ' + lineList[7] + \
-                          ' txdata ' + lineList[8]
+                newline = 'US channel status' + ' txid ' + lineview[0] + ' ucid ' + lineview[1] + \
+                          ' dcid ' + lineview[2] + ' rngsid ' + lineview[3] + ' power ' + lineview[4] + \
+                          ' freqstart ' + lineview[5] + ' freqend ' +lineview[5] + \
+                          ' symrate ' + lineview[6] + ' phytype ' + lineview[7] + \
+                          ' txdata ' + lineview[8]
 
     # Remove table block
     # The line starting with "----", " ----" or "  ----"
@@ -683,7 +683,7 @@ for _idx, line in enumerate(linesLst):
 
         # Take care if the removed line has segment label. Hand it to the next line
         if (DLOGCONTEXT or LLABCONTEXT) and (TRAINING or METRICSEN):
-            label_match = PTN_LABEL.search(currentLineTS)
+            label_match = PTN_LABEL.search(curr_line_ts)
             if label_match:
                 last_label = label_match.group(0)
                 last_label_removed = True
@@ -743,14 +743,14 @@ for _idx, line in enumerate(linesLst):
     last_line_empty = False
 
     # Write current line to a new file with the timestamp if it exists
-    if RESERVE_TS and matchTS:
-        newline = currentLineTS + newline
+    if RESERVE_TS and match_ts:
+        newline = curr_line_ts + newline
     newfile.write(newline)
 
     # The raw line index list in the new file
     # Do it only for prediction in DeepLog/Loglab and OSS
     if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)):
-        rawLnIdxVectorNew.append(_idx+1)
+        raw_ln_idx_new.append(idx+1)
 
 pbar.close()
 rawfile.close()
@@ -770,48 +770,48 @@ normfile = open(norm_file_loc, 'w', encoding='utf-8')
 #
 # Variables initialization
 #
-# The lastLine is initialized as empty w/o LF or CRLF
-lastLine = ''
-lastLineTS = ''
+# The last_line is initialized as empty w/o LF or CRLF
+last_line = ''
+last_line_ts = ''
 
 #
 # Concatenate nested line to its parent (primary) line
 #
-for _idx, line in enumerate(newfile):
+for idx, line in enumerate(newfile):
     # Save timestamp if it exists. Only two cases: match or no main timestamp
-    matchTS = PTN_MAIN_TS.match(line)
-    if RESERVE_TS and matchTS:
-        currentLineTS = matchTS.group(0)
+    match_ts = PTN_MAIN_TS.match(line)
+    if RESERVE_TS and match_ts:
+        curr_line_ts = match_ts.group(0)
         newline = PTN_MAIN_TS.sub('', line, count=1)
     else:
         newline = line
 
     if PTN_NESTED_LINE.match(newline):
-        # Concatenate current line to lastLine. rstrip() will strip LF or CRLF too
-        lastLine = lastLine.rstrip()
-        lastLine += ', '
-        lastLine += newline.lstrip()
+        # Concatenate current line to last_line. rstrip() will strip LF or CRLF too
+        last_line = last_line.rstrip()
+        last_line += ', '
+        last_line += newline.lstrip()
     else:
         # If current is primary line, it means concatenating ends
-        if RESERVE_TS and matchTS and (lastLine != ''):
-            lastLine = lastLineTS + lastLine
-        normfile.write(lastLine)
+        if RESERVE_TS and match_ts and (last_line != ''):
+            last_line = last_line_ts + last_line
+        normfile.write(last_line)
 
         # The raw line index list based on the norm file
         # Mapping: norm file line index (0-based) -> test file line index (1-based)
         # Do it only for prediction in DeepLog/Loglab and OSS
         if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)):
-            rawLnIdxVectorNorm.append(rawLnIdxVectorNew[_idx])
+            raw_ln_idx_norm.append(raw_ln_idx_new[idx])
 
         # Update last line parameters
-        lastLine = newline
-        if RESERVE_TS and matchTS:
-            lastLineTS = currentLineTS
+        last_line = newline
+        if RESERVE_TS and match_ts:
+            last_line_ts = curr_line_ts
 
 # Write the last line of the file
-if RESERVE_TS and matchTS and (lastLine != ''):
-    lastLine = lastLineTS + lastLine
-normfile.write(lastLine)
+if RESERVE_TS and match_ts and (last_line != ''):
+    last_line = last_line_ts + last_line
+normfile.write(last_line)
 
 newfile.close()
 normfile.close()
@@ -821,7 +821,7 @@ normfile.close()
 # Do it only for prediction in DeepLog/Loglab and OSS
 if (DLOGCONTEXT or OSSCONTEXT or LLABCONTEXT) and ((not TRAINING) and (not METRICSEN)):
     with open(rawln_idx_loc, 'wb') as f:
-        pickle.dump(rawLnIdxVectorNorm, f)
+        pickle.dump(raw_ln_idx_norm, f)
 
     #with open(runtime_para_loc, 'w') as f:
     #    f.write('RESERVE_TS=1' if RESERVE_TS else 'RESERVE_TS=0')
