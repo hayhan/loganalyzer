@@ -183,7 +183,7 @@ PTN_NESTED_TO_PRI = re.compile(
 )
 
 # ----------------------------------------------------------------------
-# Pattern for whole multi-line log which should be removed entirely
+# Pattern for block of logs that should be removed entirely
 # Block end condition: primary line (exclusive)
 # ----------------------------------------------------------------------
 PTN_BLOCK_RM_PRI = re.compile(

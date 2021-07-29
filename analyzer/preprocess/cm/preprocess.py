@@ -189,6 +189,24 @@ class Preprocess(PreprocessBase):
                     continue
 
             #
+            # Remove unwanted log blocks. Primary line ends the block
+            #
+            if ptn.PTN_BLOCK_RM_PRI.match(newline):
+                in_log_block2 = True
+                # Delete current line
+                # Update for the next line
+                last_line_empty = False
+                continue
+            if in_log_block2:
+                if not ptn.PTN_NESTED_LINE.match(newline) and newline not in ['\n', '\r\n']:
+                    in_log_block2 = False
+                else:
+                    # Delete current line
+                    # Update for the next line
+                    last_line_empty = False
+                    continue
+
+            #
             # Remove line starting with specific patterns
             #
             if ptn.PTN_LINE_RM.match(newline):
@@ -350,6 +368,22 @@ class Preprocess(PreprocessBase):
                 continue
 
             #
+            # Convert a nested line as primary if two more empty lines
+            # proceeded
+            #
+            if ptn.PTN_NESTED_LINE.match(newline):
+                if last_line_empty and (con_empty_ln_cnt >= 2):
+                    # Try to see if there are any exceptions
+                    if not ptn.PTN_NESTED_LINE_EXCEPTION.match(newline):
+                        newline = newline.lstrip()
+
+            #
+            # Convert some specific nested lines as primary
+            #
+            if ptn.PTN_NESTED_TO_PRI.match(newline):
+                newline = newline.lstrip()
+
+            #
             # Indent some specific lines
             #
             if ptn.PTN_PRI_TO_NESTED.match(newline):
@@ -407,38 +441,10 @@ class Preprocess(PreprocessBase):
                 continue
 
             #
-            # Convert a nested line as primary if two more empty lines
-            # proceeded
+            # Line removing (including empty) should precede here
+            # Update last_line_empty for the next line processing
             #
-            if ptn.PTN_NESTED_LINE.match(newline):
-                if last_line_empty and (con_empty_ln_cnt >= 2):
-                    # Try to see if there are any exceptions
-                    if not ptn.PTN_NESTED_LINE_EXCEPTION.match(newline):
-                        newline = newline.lstrip()
-
-            #
-            # Convert some specific nested lines as primary
-            #
-            if ptn.PTN_NESTED_TO_PRI.match(newline):
-                newline = newline.lstrip()
-
-            #
-            # Remove specific whole multi-line log
-            #
-            if ptn.PTN_BLOCK_RM_PRI.match(newline):
-                in_log_block2 = True
-                # Delete current line
-                # Update for the next line
-                last_line_empty = False
-                continue
-            if in_log_block2:
-                if not ptn.PTN_NESTED_LINE.match(newline):
-                    in_log_block2 = False
-                else:
-                    # Delete current line
-                    # Update for the next line
-                    last_line_empty = False
-                    continue
+            last_line_empty = False
 
             #
             # Split some tokens apart
@@ -461,9 +467,6 @@ class Preprocess(PreprocessBase):
             if self.context in ['DEEPLOG'] and (self.training or self.metrics):
                 if ptn.PTN_SESSION.match(newline):
                     newline = 'segsign: ' + newline
-
-            # Update last_line_empty for the next line processing
-            last_line_empty = False
 
             # ----------------------------------------------------------
             # Add back the timestamp if it exists and store new line
