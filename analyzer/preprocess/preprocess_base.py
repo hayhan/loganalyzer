@@ -4,7 +4,7 @@
 import re
 import sys
 from abc import ABC, abstractmethod
-from typing import List, Pattern
+from typing import List, Pattern, Match
 import logging
 from analyzer.config import GlobalConfig
 import analyzer.utils.data_helper as datahelp
@@ -74,13 +74,22 @@ class PreprocessBase(ABC):
         # Update main timestamp pattern object
         self._main_timestamp_regx()
 
+    @staticmethod
+    def _hand_over_label(curr_line_ts: str):
+        """ Hand over the label to the next line """
+        label_match: Match[str] = PTN_LABEL.search(curr_line_ts)
+        if label_match:
+            last_label: str = label_match.group(0)
+            last_label_removed: bool = True
+        return last_label, last_label_removed
+
     @property
     def log_head_offset(self):
         """ Get log head offset info. """
         return self._log_head_offset
 
     @log_head_offset.setter
-    def log_head_offset(self, head_offset):
+    def log_head_offset(self, head_offset: int):
         """ Set log head offset info.
             Timestamp learnning will set the log_head_offset member as
             well as the config field in memory and file.

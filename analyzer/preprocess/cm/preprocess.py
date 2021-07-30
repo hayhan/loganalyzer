@@ -3,7 +3,7 @@
 """
 from datetime import datetime
 import logging
-from typing import List, Match
+from typing import List
 from tqdm import tqdm
 import analyzer.preprocess.preprocess_base as ppb
 from . import patterns as ptn
@@ -136,7 +136,7 @@ class Preprocess(ppb.PreprocessBase):
                 newline = line
 
             # ----------------------------------------------------------
-            # No main timestamp and train label since then before adding
+            # No main timestamp and train label since then until adding
             # them back at the end of preprocess_new.
             # ----------------------------------------------------------
 
@@ -149,7 +149,7 @@ class Preprocess(ppb.PreprocessBase):
                 # Take care if the removed line has segment label. Hand
                 # it over to the next line.
                 if self.context in ['LOGLAB', 'DEEPLOG'] and (self.training or self.metrics):
-                    last_label, last_label_removed = self.hand_over_label(curr_line_ts)
+                    last_label, last_label_removed = self._hand_over_label(curr_line_ts)
                 continue
             if heading_clean:
                 heading_clean = False
@@ -208,7 +208,7 @@ class Preprocess(ppb.PreprocessBase):
                 # Take care if the removed line has segment label. Hand
                 # it over to the next line.
                 if self.context in ['LOGLAB', 'DEEPLOG'] and (self.training or self.metrics):
-                    last_label, last_label_removed = self.hand_over_label(curr_line_ts)
+                    last_label, last_label_removed = self._hand_over_label(curr_line_ts)
                 remove_line = True
 
             #
@@ -346,7 +346,7 @@ class Preprocess(ppb.PreprocessBase):
                 # Take care if the removed line has segment label. Hand
                 # it over to the next line
                 if self.context in ['LOGLAB', 'DEEPLOG'] and (self.training or self.metrics):
-                    last_label, last_label_removed = self.hand_over_label(curr_line_ts)
+                    last_label, last_label_removed = self._hand_over_label(curr_line_ts)
 
                 # Update last_line_empty for the next line processing
                 last_line_empty = True
@@ -398,21 +398,12 @@ class Preprocess(ppb.PreprocessBase):
 
         pbar.close()
 
-        # Conditionally save the newlogs to file per config file
+        # Conditionally save the newlogs to a file per the config file
         if self.intmdt or not self.aim:
             with open(self.fzip['new'], 'w', encoding='utf-8') as fnew:
                 fnew.writelines(self.newlogs)
 
         print('Purge costs {!s}\n'.format(datetime.now()-parse_st))
-
-    @staticmethod
-    def hand_over_label(curr_line_ts: str):
-        """ Hand over the label to the next line """
-        label_match: Match[str] = ppb.PTN_LABEL.search(curr_line_ts)
-        if label_match:
-            last_label: str = label_match.group(0)
-            last_label_removed: bool = True
-        return last_label, last_label_removed
 
     @staticmethod
     def format_ds_chan_table(newline: str, table_messed: bool, last_ln_messed: bool):
