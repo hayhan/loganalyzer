@@ -26,7 +26,6 @@ __all__ = [
     "PTN_SPLIT_LEFT",
     "PTN_SPLIT_RIGHT",
     "PTN_SESSION",
-    "PTN_LABEL",
 ]
 
 # ----------------------------------------------------------------------
@@ -109,10 +108,10 @@ PTN_TABLE_TITLE = re.compile(
     r' *sfid +sid +ucids|'
     r' *DSID settings->|'
     r' *dsid +action +reseq|'
-    r' *Active Downstream Channel Diagnostics|'
+    #r' *Active Downstream Channel Diagnostics|'
     r' *rx id +dcid +freq|'
     r' *plc +prfA|'
-    r' *Active Upstream Channels:|'
+    #r' *Active Upstream Channels:|'
     r' *rng +pwr|'
     r' *txid +ucid +dcid +sid|'
     r' {5}US chan ID {5}Tx Power \(dBmV\)'
@@ -273,11 +272,4 @@ PTN_SPLIT_RIGHT.append(
 PTN_SESSION = re.compile(
     r'Loading compressed image \d|'
     r'Moving to Downstream Frequency'
-)
-
-# ----------------------------------------------------------------------
-# Pattern for segment labels, 'segsign: ' or 'cxxx '
-# ----------------------------------------------------------------------
-PTN_LABEL = re.compile(
-    r'(segsign: )|(c[0-9]{3} )'
 )

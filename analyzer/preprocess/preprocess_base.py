@@ -11,6 +11,7 @@ import analyzer.utils.data_helper as datahelp
 
 __all__ = [
     "PTN_STD_TS",
+    "PTN_LABEL",
     "PreprocessBase",
 ]
 
@@ -22,7 +23,10 @@ PTN_STD_TS = re.compile(
     r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
     r'\.(\d{3})|24:00:00\.000)\] (abn: )?(segsign: )?(c[0-9]{3} )?'
 )
-
+PTN_LABEL = re.compile(
+    # Pattern for segment labels, 'segsign: ' or 'cxxx '
+    r'(segsign: )|(c[0-9]{3} )'
+)
 
 class PreprocessBase(ABC):
     """ The base class of preprocess. """
@@ -33,6 +37,8 @@ class PreprocessBase(ABC):
         self.training: bool = GlobalConfig.conf['general']['training']
         self.metrics: bool = GlobalConfig.conf['general']['metrics']
         self.context: str = GlobalConfig.conf['general']['context']
+        self.intmdt: bool = GlobalConfig.conf['general']['intmdt']
+        self.aim: bool = GlobalConfig.conf['general']['aim']
 
         self.newlogs: List[str] = []
         self.normlogs: List[str] = []
