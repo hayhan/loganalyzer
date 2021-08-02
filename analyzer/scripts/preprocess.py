@@ -4,7 +4,7 @@
 import logging
 from importlib import import_module
 import click
-from analyzer.config import GlobalConfig
+from analyzer.config import GlobalConfig as GC
 from analyzer.utils.data_helper import LOG_TYPE
 
 # Load derived preprocess class module of LOG_TYPE
@@ -12,7 +12,6 @@ pp = import_module("analyzer.preprocess." + LOG_TYPE + '.preprocess')
 
 
 log = logging.getLogger(__name__)
-
 
 # ----------------------------------------------------------------------
 # analyzer preprocess new
@@ -27,14 +26,14 @@ log = logging.getLogger(__name__)
 def cli_gen_new(training):
     """ Preprocess the raw log file to generate new log file. """
     # Populate the in-memory config singleton with config file
-    GlobalConfig.read()
+    GC.read()
     # Set the items here
-    GlobalConfig.conf['general']['training'] = training
-    GlobalConfig.conf['general']['metrics'] = False
-    GlobalConfig.conf['general']['context'] = 'TEMPUPDT'
-    GlobalConfig.conf['general']['intmdt'] = True
+    GC.conf['general']['training'] = training
+    GC.conf['general']['metrics'] = False
+    GC.conf['general']['context'] = 'TEMPUPDT'
+    GC.conf['general']['intmdt'] = True
     # Sync the config update in memory to file. Really necessary?
-    GlobalConfig.write()
+    # GC.write()
 
     ppobj = pp.Preprocess()
     ppobj.preprocess_new()
@@ -61,24 +60,26 @@ def cli_gen_new(training):
 def cli_gen_norm(training, overwrite):
     """ Preprocess the raw log file to generate norm log file. """
     # Populate the in-memory config singleton with config file
-    GlobalConfig.read()
+    GC.read()
     # Set the items here
-    GlobalConfig.conf['general']['training'] = training
-    GlobalConfig.conf['general']['metrics'] = False
-    GlobalConfig.conf['general']['context'] = 'TEMPUPDT'
-    GlobalConfig.conf['general']['intmdt'] = True
+    GC.conf['general']['training'] = training
+    GC.conf['general']['metrics'] = False
+    GC.conf['general']['context'] = 'TEMPUPDT'
+    GC.conf['general']['intmdt'] = True
 
     ppobj = pp.Preprocess()
     if overwrite:
         ppobj.preprocess_new()
-    elif GlobalConfig.conf['general']['aim']:
+    elif GC.conf['general']['aim']:
         # Use existing new file to generate norm log, we then must set
         # general:aim field to false. The aim:true means always using
         # in-memory data.
-        GlobalConfig.conf['general']['aim'] = False
+        GC.conf['general']['aim'] = False
 
     # Sync the config update in memory to file. Really necessary?
-    GlobalConfig.write()
+    # GC.write()
     ppobj.preprocess_norm()
+    # Remove the abnormal labels from norm dataset if any exist.
+    ppobj.extract_labels()
 
     log.info("The norm log dataset is generated.")

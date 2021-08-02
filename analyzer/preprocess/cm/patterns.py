@@ -1,8 +1,7 @@
 # Licensed under the MIT License - see License.txt
-""" The re patterns for preprocess module.
+""" The re patterns for preprocess module. LOG_TYPE specific.
 """
 import re
-from typing import List, Pattern
 
 __all__ = [
     "PTN_BFC_TS",
@@ -25,6 +24,8 @@ __all__ = [
     "PTN_US_CHAN_TABLE",
     "PTN_SPLIT_LEFT",
     "PTN_SPLIT_RIGHT",
+    "PTN_SPLIT_LEFT_TS",
+    "PTN_SPLIT_RIGHT_TS",
     "PTN_SESSION",
 ]
 
@@ -219,52 +220,45 @@ PTN_DS_CHAN_TABLE = re.compile(r'Active Downstream Channel Diagnostics\:')
 PTN_US_CHAN_TABLE = re.compile(r'Active Upstream Channels\:')
 
 # ----------------------------------------------------------------------
-# Patterns for spliting tokens
+# Patterns for spliting tokens. They cannot be built as a big one.
 # ----------------------------------------------------------------------
-PTN_SPLIT_LEFT: List[Pattern[str]] = []
-PTN_SPLIT_RIGHT: List[Pattern[str]] = []
+# Split assignment token like ABC=xyz to ABC= xyz
+ptnobj_l0 = re.compile(r'=(?=[^= \r\n])')
+# Split cpp class token like ABC::Xyz to ABC:: Xyz
+ptnobj_l1 = re.compile(r'\:\:(?=[A-Z][a-z0-9]|[a-z][A-Z])')
+# Split 'ABC;DEF' to 'ABC; DEF'
+ptnobj_l2 = re.compile(r';(?! )')
+# Split hash number like #123 to # 123
+ptnobj_l3 = re.compile(r'#(?=[0-9]+)')
+# Split ip/mac address like address:xx to address: xx
+ptnobj_l4 = re.compile(r'address:(?=[0-9a-fA-F])')
+# Change something like (xx) to ( xx)
+ptnobj_l5 = re.compile(r'\((?=(\w|[-+]))')
+# Change something like [xx] to [ xx]
+ptnobj_l6 = re.compile(r'\[(?=(\w|[-+]))')
+# Split something like 5ms to 5 ms
+ptnobj_l7 = re.compile(r'\d+(?=(ms))')
 
-PTN_SPLIT_LEFT.append(
-    # Split assignment token like ABC=xyz to ABC= xyz
-    re.compile(r'=(?=[^= \r\n])')
-)
-PTN_SPLIT_LEFT.append(
-    # Split cpp class token like ABC::Xyz to ABC:: Xyz
-    re.compile(r'\:\:(?=[A-Z][a-z0-9]|[a-z][A-Z])')
-)
-PTN_SPLIT_LEFT.append(
-    # Split 'ABC;DEF' to 'ABC; DEF'
-    re.compile(r';(?! )')
-)
-PTN_SPLIT_LEFT.append(
-    # Split hash number like #123 to # 123
-    re.compile(r'#(?=[0-9]+)')
-)
-PTN_SPLIT_LEFT.append(
-    # Split ip/mac address like address:xx to address: xx
-    re.compile(r'address:(?=[0-9a-fA-F])')
-)
-PTN_SPLIT_LEFT.append(
-    # Change something like (xx) to ( xx)
-    re.compile(r'\((?=(\w|[-+]))')
-)
-PTN_SPLIT_LEFT.append(
-    # Change something like [xx] to [ xx]
-    re.compile(r'\[(?=(\w|[-+]))')
-)
-PTN_SPLIT_LEFT.append(
-    # Split something like 5ms to 5 ms
-    re.compile(r'\d+(?=(ms))')
-)
+# Split Change something like (xx) to (xx )
+ptnobj_r0 = re.compile(r'(?<=\w)\)')
+# Split Change something like [xx] to [xx ]
+ptnobj_r1 = re.compile(r'(?<=\w)\]')
 
-PTN_SPLIT_RIGHT.append(
-    # Split Change something like (xx) to (xx )
-    re.compile(r'(?<=\w)\)')
-)
-PTN_SPLIT_RIGHT.append(
-    # Split Change something like [xx] to [xx ]
-    re.compile(r'(?<=\w)\]')
-)
+PTN_SPLIT_LEFT = [
+    ptnobj_l0, ptnobj_l1, ptnobj_l2, ptnobj_l3,
+    ptnobj_l4, ptnobj_l5, ptnobj_l6, ptnobj_l7,
+]
+PTN_SPLIT_RIGHT = [
+    ptnobj_r0, ptnobj_r1,
+]
+
+PTN_SPLIT_LEFT_TS = [
+    ptnobj_l0, ptnobj_l1, ptnobj_l2, ptnobj_l5,
+    ptnobj_l7,
+]
+PTN_SPLIT_RIGHT_TS = [
+    ptnobj_r0,
+]
 
 # ----------------------------------------------------------------------
 # Pattern for adding session label 'segsign: '

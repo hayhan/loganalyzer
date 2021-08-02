@@ -7,6 +7,7 @@ general:
     context: TEMPUPDT   # One of TEMPUPDT, LOGLAB, OLDSCHOOL, DEEPLOG AND LOGLIZER
     intmdt: true        # Save intermediate results to files
     aim: true           # Process data always in memory, otherwise intmdt must be true
+    max_line: 500       # Max number of lines that is used for timestamp learning
 
 # Section: templte
 template:

@@ -5,11 +5,10 @@ import sys
 import logging
 import subprocess
 import click
-from analyzer.config import GlobalConfig, CONFIG_FILE
+from analyzer.config import GlobalConfig as GC, CONFIG_FILE
 
 
 log = logging.getLogger(__name__)
-
 
 # ----------------------------------------------------------------------
 # analyzer config show
@@ -23,7 +22,7 @@ log = logging.getLogger(__name__)
 )
 def cli_show_config(filename):
     """ Show configuration file. """
-    print(GlobalConfig.read_pretty(filename))
+    print(GC.read_pretty(filename))
     log.info("Configuration file showed: %s", filename)
 
 
@@ -55,7 +54,7 @@ def cli_edit_config(filename):
 )
 def cli_default_config(filename):
     """ Default configuration file. """
-    GlobalConfig.default(filename)
+    GC.default(filename)
     log.info("Configuration file defaulted: %s", filename)
 
 
@@ -91,8 +90,8 @@ def cli_update_config(filename, type, item):
     if type == "int":
         val = int(val)
     elif type == "bool":
-        val = bool(val=="True" or val=="true" or val=="1")
-    GlobalConfig.read(filename)
-    GlobalConfig.conf[sect][key] = val
-    GlobalConfig.write(filename)
+        val = val in ('True', 'true', '1')
+    GC.read(filename)
+    GC.conf[sect][key] = val
+    GC.write(filename)
     log.info("Configuration file updated: %s", filename)

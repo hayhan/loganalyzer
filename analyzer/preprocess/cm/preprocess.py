@@ -1,10 +1,11 @@
 # Licensed under the MIT License - see License.txt
-""" Derived class of preprocess.
+""" Derived class of preprocess. LOG_TYPE specific.
 """
 from datetime import datetime
 import logging
-from typing import List
+from typing import List, Pattern
 from tqdm import tqdm
+from analyzer.config import GlobalConfig as GC
 import analyzer.preprocess.preprocess_base as ppb
 from . import patterns as ptn
 
@@ -34,6 +35,43 @@ class Preprocess(ppb.PreprocessBase):
         """
         log.info("Preprocess before timestamp detection.")
 
+        # Reset normlogs in case it is not empty
+        self.normlogs = []
+
+        for idx, line in enumerate(self.rawlogs):
+
+            # Remove the NULL char '\0' at the first line if it exists
+            if idx == 0 and line[0] == '\0':
+                continue
+
+            # Remove other timestamps, console prompt and unwanted chars
+            line = ptn.PTN_CLEAN_CHAR.sub('', line)
+
+            # Remove empty line
+            if line in ['\n', '\r\n']:
+                continue
+
+            # Split some tokens apart
+            line = self.split_token_apart(line, ptn.PTN_SPLIT_LEFT_TS,
+                                          ptn.PTN_SPLIT_RIGHT_TS)
+
+            # Save directly as norm data for parsing / clustering
+            self.normlogs.append(line)
+
+            # Check only part of lines which are usually enough to
+            # determine timestamp
+            if idx >= self.max_line:
+                break
+
+        # Suppose the log head offset is always zero
+        self._log_head_offset = 0
+
+        # Conditionally save the normlogs to a file per the config file
+        # Note: preprocess_norm will overwrite the normlogs
+        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
+            with open(self.fzip['norm'], 'w', encoding='utf-8') as fnorm:
+                fnorm.writelines(self.normlogs)
+
     # pylint: disable=too-many-locals；too-many-statements
     # pylint: disable=too-many-branches
     def preprocess_new(self):
@@ -46,6 +84,9 @@ class Preprocess(ppb.PreprocessBase):
         # width of the unknown timestamp in advance. So here get the
         # updated info instead of the default one in cofig file.
         self._get_timestamp_info()
+
+        # Reset newlogs in case it is not empty
+        self.newlogs = []
 
         #-------------------------------
         # Local state variables
@@ -71,26 +112,14 @@ class Preprocess(ppb.PreprocessBase):
         parse_st: datetime = datetime.now()
 
         #
-        # Raw log usually comes from serial console tools like SecureCRT
-        # and probably the text file encoding is utf-8 (with BOM). See
-        # https://en.wikipedia.org/wiki/Byte_order_mark#UTF-8
-        #
-        # To skip the BOM when decoding the file, use utf-8-sig codec.
-        # https://docs.python.org/3/library/codecs.html
-        #
-        with open(self.fzip['raw'], 'r', encoding='utf-8-sig') as rawfile:
-            rawlines: List[str] = rawfile.readlines()
-        rawsize: int = len(rawlines)
-
-        #
         # A low overhead progress bar
         # https://github.com/tqdm/tqdm#documentation
         # If only display statics w/o bar, set ncols=0
         #
-        pbar = tqdm(total=rawsize, unit='Lines', disable=False,
+        pbar = tqdm(total=len(self.rawlogs), unit='Lines', disable=False,
                     bar_format='{l_bar}{bar:40}{r_bar}{bar:-40b}')
 
-        for idx, line in enumerate(rawlines):
+        for idx, line in enumerate(self.rawlogs):
             # Update the progress bar
             pbar.update(1)
 
@@ -169,6 +198,7 @@ class Preprocess(ppb.PreprocessBase):
             # instead of 'continue' directly.
             #
 
+            #
             # Remove other timestamps, console prompt and unwanted chars
             #
             newline = ptn.PTN_CLEAN_CHAR.sub('', newline)
@@ -212,10 +242,9 @@ class Preprocess(ppb.PreprocessBase):
                 remove_line = True
 
             #
-            # Indent a block of lines from primary to embedded
+            # Indent a block of lines from primary to embedded. Note:
+            # Do not indent the first line. Empty line ends the block.
             #
-            # Note: Do not indent the first line.
-            # Empty line ends the block.
             elif ptn.PTN_BLOCK_INDENT.match(newline):
                 in_log_block3 = True
             elif in_log_block3:
@@ -226,10 +255,10 @@ class Preprocess(ppb.PreprocessBase):
                     newline = ' ' + newline
 
             #
-            # Indent a block of lines from primary to embedded
+            # Indent a block of lines from primary to embedded. Note:
+            # Do not indent the first line. Special line (inclusive)
+            # ends the block.
             #
-            # Note: Do not indent the first line.
-            # Special line (inclusive) ends the block.
             elif ptn.PTN_BLOCK_INDENT2.match(newline):
                 in_log_block4 = True
             elif in_log_block4:
@@ -364,15 +393,8 @@ class Preprocess(ppb.PreprocessBase):
             #
             # Split some tokens apart
             #
-            for ptn_obj in ptn.PTN_SPLIT_LEFT:
-                mtch = ptn_obj.search(newline)
-                if mtch:
-                    newline = ptn_obj.sub(mtch.group(0)+' ', newline)
-
-            for ptn_obj in ptn.PTN_SPLIT_RIGHT:
-                mtch = ptn_obj.search(newline)
-                if mtch:
-                    newline = ptn_obj.sub(' '+mtch.group(0), newline)
+            newline = self.split_token_apart(newline, ptn.PTN_SPLIT_LEFT,
+                                             ptn.PTN_SPLIT_RIGHT)
 
             # ----------------------------------------------------------
             # Add session label 'segsign: ' for DeepLog.
@@ -399,7 +421,7 @@ class Preprocess(ppb.PreprocessBase):
         pbar.close()
 
         # Conditionally save the newlogs to a file per the config file
-        if self.intmdt or not self.aim:
+        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['new'], 'w', encoding='utf-8') as fnew:
                 fnew.writelines(self.newlogs)
 
@@ -489,4 +511,19 @@ class Preprocess(ppb.PreprocessBase):
                         lineview[5] + ' freqend ' +lineview[5] + ' symrate ' + \
                         lineview[6] + ' phytype ' + lineview[7] + ' txdata ' + \
                         lineview[8]
+        return newline
+
+    @staticmethod
+    def split_token_apart(newline: str, ptn_left: Pattern[str], ptn_right: Pattern[str]):
+        """ Split some token apart per the regx patterns """
+        for ptn_obj in ptn_left:
+            mtch = ptn_obj.search(newline)
+            if mtch:
+                newline = ptn_obj.sub(mtch.group(0)+' ', newline)
+
+        for ptn_obj in ptn_right:
+            mtch = ptn_obj.search(newline)
+            if mtch:
+                newline = ptn_obj.sub(' '+mtch.group(0), newline)
+
         return newline
