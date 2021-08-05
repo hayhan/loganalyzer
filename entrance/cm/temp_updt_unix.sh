@@ -32,4 +32,4 @@ python3 ../../logparser/cm/preprocess.py
 python3 ../../logparser/extract_labels.py
 
 # Parse the log and update the template library
-# python3 ../../logparser/cm/parser.py
+python3 ../../logparser/cm/parser.py

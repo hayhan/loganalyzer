@@ -6,7 +6,7 @@ import logging
 from typing import List, Pattern
 from tqdm import tqdm
 from analyzer.config import GlobalConfig as GC
-import analyzer.preprocess.preprocess_base as ppb
+from analyzer.preprocess import PreprocessBase
 from . import patterns as ptn
 
 
@@ -23,10 +23,10 @@ __all__ = [
 
 log = logging.getLogger(__name__)
 
-class Preprocess(ppb.PreprocessBase):
+class Preprocess(PreprocessBase):
     """ The class of preprocess. """
     def __init__(self):
-        ppb.PreprocessBase.__init__(self)
+        PreprocessBase.__init__(self)
 
     def preprocess_ts(self):
         """ Preprocess before learning timestamp width.

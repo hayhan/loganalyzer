@@ -163,9 +163,9 @@ sTokenPatterns = [
     sTokenPattern3,
 ]
 
-myPara = Para(LOG_FORMAT, LOG_FILE, TEMPLATE_LIB, indir=input_dir, outdir=output_dir, \
-              pstdir=persist_dir, rex=regex, rex_s_token=sTokenPatterns, incUpdate=1, \
-              overWrLib=TRAINING, prnTree=0, nopgbar=0)
+myPara = Para(LOG_FORMAT, regex, sTokenPatterns, LOG_FILE, TEMPLATE_LIB,
+              indir=input_dir, outdir=output_dir, pstdir=persist_dir,
+              inc_updt=1, over_wr_lib=TRAINING, prt_tree=0, nopgbar=0)
 
 myParser = Drain(myPara)
-myParser.mainProcess()
+myParser.main_process()

@@ -244,6 +244,7 @@ class PreprocessBase(ABC):
                 fnorm.writelines(self.normlogs)
 
             if self.context in ['LOGLIZER', 'DEEPLOG']:
+                # _ToDo: Use other format instead of pandas dataframe
                 # pylint: disable=import-outside-toplevel
                 import pandas as pd
                 logdf = pd.DataFrame(self.labelvec, columns=['Label'])
