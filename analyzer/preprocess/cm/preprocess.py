@@ -65,6 +65,7 @@ class Preprocess(PreprocessBase):
 
         # Suppose the log head offset is always zero
         self._log_head_offset = 0
+        GC.conf['general']['head_offset'] = 0
 
         # Conditionally save the normlogs to a file per the config file
         # Note: preprocess_norm will overwrite the normlogs

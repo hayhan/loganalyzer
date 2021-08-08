@@ -10,7 +10,7 @@ import pandas as pd
 curfiledir = os.path.dirname(__file__)
 parentdir = os.path.abspath(os.path.join(curfiledir, os.path.pardir))
 
-templib_loc = parentdir + '/results/persist/cm/template_lib.csv'
+templib_loc = parentdir + '/data/persist/cm/template_lib.csv'
 sorted_templib_loc = parentdir + '/tmp/template_lib_sorted.csv'
 
 df = pd.read_csv(templib_loc)

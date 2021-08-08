@@ -169,5 +169,8 @@ def add_subcommands():
     from .preprocess import cli_gen_norm
     cli_preprocess.add_command(cli_gen_norm)
 
+    from .parser import cli_updt_tmplt
+    cli_template.add_command(cli_updt_tmplt)
+
 
 add_subcommands()

@@ -14,6 +14,7 @@ __all__ = [
     "TMP_DATA",
     "LOG_TYPE",
     "get_files_preprocess",
+    "get_files_parser",
     "get_data_type",
 ]
 
@@ -40,6 +41,7 @@ PERSIST_DATA = os.path.join(ANALYZER_DATA, 'persist', LOG_TYPE)
 TRAIN_DATA = os.path.join(ANALYZER_DATA, 'train', LOG_TYPE)
 TEST_DATA = os.path.join(ANALYZER_DATA, 'test', LOG_TYPE)
 TMP_DATA = os.path.join(ANALYZER_DATA, 'tmp')
+TEMPLATE_LIB = os.path.join(PERSIST_DATA, 'template_lib.csv')
 
 
 def get_files_preprocess():
@@ -59,6 +61,22 @@ def get_files_preprocess():
             'label': os.path.join(TEST_DATA, 'test_norm.txt_labels.csv'),
             'runtime_para': os.path.join(TEST_DATA, 'test_runtime_para.txt'),
             'rawln_idx': os.path.join(TEST_DATA, 'rawline_idx_norm.pkl')
+        }
+    return files_zip
+
+
+def get_files_parser():
+    """ Collect the files of input / output of parser """
+    if GC.conf['general']['training']:
+        files_zip = {
+            'norm': os.path.join(COOKED_DATA, 'train_norm.txt'),
+            'output': TRAIN_DATA,
+        }
+    else:
+        files_zip = {
+            'norm': os.path.join(COOKED_DATA, 'test_norm.txt'),
+            'output': TEST_DATA,
+            'runtime_para': os.path.join(TEST_DATA, 'test_runtime_para.txt'),
         }
     return files_zip
 
