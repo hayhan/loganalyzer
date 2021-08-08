@@ -47,7 +47,7 @@ class Parser():
             log_format = '<Time> <Content>'
 
         my_para = Para(
-            log_format, ptn.regex, ptn.sTokenPatterns, self.fzip['norm'],
+            log_format, ptn.PTN_HARD_PARA, ptn.PTN_SPEC_TOKEN, self.fzip['norm'],
             dh.TEMPLATE_LIB, outdir=self.fzip['output'], inc_updt=1,
             over_wr_lib=self.training, prt_tree=0, nopgbar=0
         )

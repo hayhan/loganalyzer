@@ -878,7 +878,7 @@ class Drain:
         Pre-process the log in Drain domain
         """
         for cur_rex in self.para.rex.keys():
-            # We put a space before <*>. It does not affect a sperated
+            # We put a space before <*>. It does not affect a separate
             # token number. It only affects something like offset:123
             # and the result will be offset: <*>
             line = cur_rex.sub(self.para.rex[cur_rex], line)
