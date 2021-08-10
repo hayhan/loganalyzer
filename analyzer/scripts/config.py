@@ -49,7 +49,7 @@ def cli_edit_config(filename):
 @click.option(
     "--filename",
     default=CONFIG_FILE,
-    help=" Default the configuration values.",
+    help="Default the configuration values.",
     show_default=True,
 )
 def cli_default_config(filename):

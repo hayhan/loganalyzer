@@ -91,12 +91,25 @@ def cli_preprocess():
     """ Clean, restruct and normalize raw logs.
 
     \b
+    - The option `src` will denote the raw data source folder. We use
+      all log files under data/raw by default
+    \b
+    - The option `current` will use existing data/cooked/train.txt or
+      test.txt directly.
+    \b
+    - The option `training` will denote the training or test phase.
+    \b
+    - The option `overwrite` will generate new log data again. Otherwise
+      it will use existing new log file.
+
+    \b
     Examples
     --------
 
     \b
-    $ analyzer preprocess new [--training]
-    $ analyzer preprocess norm [--training] [--overwrite]
+    $ analyzer preprocess new [--training] [--src folder] [--current]
+    $ analyzer preprocess norm [--training] [--src folder] [--current]
+    $ analyzer preprocess norm [--overwrite]
     """
 
 
@@ -105,13 +118,24 @@ def cli_template():
     """ Parse logs, generate and update templates.
 
     \b
+    - The option `src` will denote the raw data source folder. We use
+      all log files under data/raw by default
+    \b
+    - The option `current` will use existing data/cooked/train.txt or
+      test.txt directly.
+    \b
+    - The option `overwrite` will delete the template lib firstly.
+    \b
+    - The option `training` will denote the training or test phase.
+
+    \b
     Examples
     --------
 
     \b
-    $ analyzer template updt
-    $ analyzer template updt --overwrite
-    $ analyzer template updt --src my/folder
+    $ analyzer template updt [--src folder]
+    $ analyzer template updt [--current] [--overwrite]
+    $ analyzer template updt [--training/no-training]
     $ analyzer template del
     """
 
@@ -171,6 +195,9 @@ def add_subcommands():
 
     from .parser import cli_updt_tmplt
     cli_template.add_command(cli_updt_tmplt)
+
+    from .parser import cli_del_tmplt
+    cli_template.add_command(cli_del_tmplt)
 
 
 add_subcommands()

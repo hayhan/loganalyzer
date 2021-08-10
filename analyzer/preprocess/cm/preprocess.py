@@ -1,10 +1,14 @@
 # Licensed under the MIT License - see License.txt
 """ Derived class of preprocess. LOG_TYPE specific.
 """
+import os
+import sys
+from shutil import copyfile
 from datetime import datetime
 import logging
 from typing import List, Pattern
 from tqdm import tqdm
+import analyzer.utils.data_helper as dh
 from analyzer.config import GlobalConfig as GC
 from analyzer.preprocess import PreprocessBase
 from . import patterns as ptn
@@ -27,6 +31,7 @@ class Preprocess(PreprocessBase):
     """ The class of preprocess. """
     def __init__(self):
         PreprocessBase.__init__(self)
+
 
     def preprocess_ts(self):
         """ Preprocess before learning timestamp width.
@@ -72,6 +77,7 @@ class Preprocess(PreprocessBase):
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['norm'], 'w', encoding='utf-8') as fnorm:
                 fnorm.writelines(self.normlogs)
+
 
     # pylint: disable=too-many-locals；too-many-statements
     # pylint: disable=too-many-branches
@@ -428,6 +434,7 @@ class Preprocess(PreprocessBase):
 
         print('Purge costs {!s}\n'.format(datetime.now()-parse_st))
 
+
     @staticmethod
     def format_ds_chan_table(newline: str, table_messed: bool, last_ln_messed: bool):
         """ Format one item of ds channel table """
@@ -476,6 +483,7 @@ class Preprocess(PreprocessBase):
                     lineview[5] + ' power ' + lineview[6] + ' mod ' + lineview[7]
         return newline, last_ln_messed
 
+
     @staticmethod
     def format_us_chan_table(newline: str):
         """ Format one item of us channel table """
@@ -514,6 +522,7 @@ class Preprocess(PreprocessBase):
                         lineview[8]
         return newline
 
+
     @staticmethod
     def split_token_apart(newline: str, ptn_left: Pattern[str], ptn_right: Pattern[str]):
         """ Split some token apart per the regx patterns """
@@ -528,3 +537,27 @@ class Preprocess(PreprocessBase):
                 newline = ptn_obj.sub(' '+mtch.group(0), newline)
 
         return newline
+
+    def exceptions_tmplt(self):
+        """ Do some exceptional works of template update """
+        # Insert data/raw/cm/others/temp_updt_manu.txt to the head of
+        # data/cooked/cm/train.txt when doing template lib gen/update.
+        # This workarounds some similarity threshold issue in Drain
+        # agorithm. Unix cat however will generate trailing ^M char.
+        src1 = os.path.join(dh.RAW_DATA, 'others', 'temp_updt_manu.txt')
+        tmp1 = os.path.join(dh.COOKED_DATA, 'tmp1.txt')
+        try:
+            copyfile(src1, tmp1)
+        except IOError as err:
+            print("Unable to copy file. %s" % err)
+            sys.exit(1)
+
+        src2 = os.path.join(dh.COOKED_DATA, 'train.txt')
+        tmp2 = os.path.join(dh.COOKED_DATA, 'tmp2.txt')
+        os.rename(src2, tmp2)
+
+        # New train.txt under data/cooked/cm
+        self.cat_files_lst(dh.COOKED_DATA, ['tmp1.txt', 'tmp2.txt'])
+        # Delete temporary files
+        os.remove(tmp1)
+        os.remove(tmp2)

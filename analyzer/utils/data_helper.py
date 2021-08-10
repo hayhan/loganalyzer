@@ -13,6 +13,8 @@ __all__ = [
     "TEST_DATA",
     "TMP_DATA",
     "LOG_TYPE",
+    "TEMPLATE_LIB",
+    "SKIP_FILE_LIST",
     "get_files_preprocess",
     "get_files_parser",
     "get_data_type",
@@ -42,6 +44,9 @@ TRAIN_DATA = os.path.join(ANALYZER_DATA, 'train', LOG_TYPE)
 TEST_DATA = os.path.join(ANALYZER_DATA, 'test', LOG_TYPE)
 TMP_DATA = os.path.join(ANALYZER_DATA, 'tmp')
 TEMPLATE_LIB = os.path.join(PERSIST_DATA, 'template_lib.csv')
+
+# Skip file list when concatenates raw log files under data/raw
+SKIP_FILE_LIST = ['README.md', 'desc.txt']
 
 
 def get_files_preprocess():

@@ -6,6 +6,7 @@ import re
 __all__ = [
     "PTN_STD_TS",
     "PTN_SEG_LABEL",
+    "PTN_CLASS_LABEL",
     "PTN_ABN_LABEL",
     "PTN_NESTED_LINE",
 ]
@@ -20,6 +21,11 @@ PTN_STD_TS = re.compile(
 PTN_SEG_LABEL = re.compile(
     # Pattern for segment labels, 'segsign: ' or 'cxxx '
     r'(segsign: )|(c[0-9]{3} )'
+)
+
+PTN_CLASS_LABEL = re.compile(
+    # Pattern for class label 'cxxx'
+    r'c[0-9]{3}'
 )
 
 PTN_ABN_LABEL = re.compile(

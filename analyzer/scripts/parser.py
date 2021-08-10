@@ -1,15 +1,16 @@
 # Licensed under the MIT License - see License.txt
 """ CLI interface to the parser module.
 """
+import os
 import logging
 from importlib import import_module
 import click
-from analyzer.utils.data_helper import LOG_TYPE
+import analyzer.utils.data_helper as dh
 from analyzer.config import GlobalConfig as GC
 from analyzer.parser import Parser
 
 # Load derived preprocess class module of LOG_TYPE
-pp = import_module("analyzer.preprocess." + LOG_TYPE + '.preprocess')
+pp = import_module("analyzer.preprocess." + dh.LOG_TYPE + '.preprocess')
 
 log = logging.getLogger(__name__)
 
@@ -18,6 +19,12 @@ log = logging.getLogger(__name__)
 # analyzer template updt
 # ----------------------------------------------------------------------
 @click.command(name="updt")
+@click.option(
+    "--src",
+    default=dh.RAW_DATA,
+    help="Choose source raw log files.",
+    show_default=True,
+)
 @click.option(
     "--training/--no-training",
     default=True,
@@ -30,7 +37,14 @@ log = logging.getLogger(__name__)
     help="Overwrite the template library.",
     show_default=True,
 )
-def cli_updt_tmplt(training, overwrite):
+@click.option(
+    "--current",
+    default=False,
+    is_flag=True,
+    help="Use existing train.txt or test.txt.",
+    show_default=True,
+)
+def cli_updt_tmplt(src, training, overwrite, current):
     """ Generate, update the template lib from raw data. """
     # Populate the in-memory config singleton with config file
     GC.read()
@@ -40,13 +54,29 @@ def cli_updt_tmplt(training, overwrite):
     GC.conf['general']['context'] = 'TEMPUPDT'
     GC.conf['general']['intmdt'] = True
 
-    ppobj = pp.Preprocess()
-    if overwrite:
-        # _ToDo: give a confirmation prompt in console
-        log.info("Delete the template library.")
-
     # Sync the config update in memory to file. Really necessary?
     # GC.write()
+
+    ppobj = pp.Preprocess()
+
+    if overwrite:
+        log.info("Delete the template library.")
+        try:
+            os.remove(dh.TEMPLATE_LIB)
+            os.remove(dh.TEMPLATE_LIB + '.old')
+        except OSError:
+            # Already removed
+            pass
+
+    # Get the raw data files from data/raw folder and cat/save them as
+    # train.txt or test.txt in data/cooked.
+    if not current:
+        if src != dh.RAW_DATA:
+            src = os.path.join(dh.RAW_DATA, src)
+        ppobj.cat_files_dir(src)
+        if training:
+            # Exceptions for specific LOG_TYPE
+            ppobj.exceptions_tmplt()
 
     # Process the raw data and generate new data
     ppobj.preprocess_new()
@@ -62,3 +92,18 @@ def cli_updt_tmplt(training, overwrite):
     psobj.parse()
 
     log.info("The templates are generated / updated.")
+
+# ----------------------------------------------------------------------
+# analyzer template del
+# ----------------------------------------------------------------------
+@click.command(name="del")
+@click.confirmation_option(
+    prompt='Are you sure you want to delete the template lib?'
+)
+def cli_del_tmplt():
+    """ Delete the template lib. """
+    try:
+        os.remove(dh.TEMPLATE_LIB)
+        os.remove(dh.TEMPLATE_LIB + '.old')
+    except OSError as error:
+        print(error)

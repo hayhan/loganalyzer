@@ -1,14 +1,15 @@
 # Licensed under the MIT License - see License.txt
 """ CLI interface to the preprocess module.
 """
+import os
 import logging
 from importlib import import_module
 import click
+import analyzer.utils.data_helper as dh
 from analyzer.config import GlobalConfig as GC
-from analyzer.utils.data_helper import LOG_TYPE
 
 # Load derived preprocess class module of LOG_TYPE
-pp = import_module("analyzer.preprocess." + LOG_TYPE + '.preprocess')
+pp = import_module("analyzer.preprocess." + dh.LOG_TYPE + '.preprocess')
 
 
 log = logging.getLogger(__name__)
@@ -18,12 +19,25 @@ log = logging.getLogger(__name__)
 # ----------------------------------------------------------------------
 @click.command(name="new")
 @click.option(
+    "--src",
+    default=dh.RAW_DATA,
+    help="Choose source raw log files.",
+    show_default=True,
+)
+@click.option(
     "--training/--no-training",
     default=True,
     help="Change to training phase.",
     show_default=True,
 )
-def cli_gen_new(training):
+@click.option(
+    "--current",
+    default=False,
+    is_flag=True,
+    help="Use existing train.txt or test.txt.",
+    show_default=True,
+)
+def cli_gen_new(src, training, current):
     """ Preprocess the raw log file to generate new log file. """
     # Populate the in-memory config singleton with config file
     GC.read()
@@ -36,6 +50,14 @@ def cli_gen_new(training):
     # GC.write()
 
     ppobj = pp.Preprocess()
+
+    # Get the raw data files from data/raw folder and cat/save them to
+    # train.txt or test.txt in data/cooked.
+    if not current:
+        if src != dh.RAW_DATA:
+            src = os.path.join(dh.RAW_DATA, src)
+        ppobj.cat_files_dir(src)
+
     ppobj.preprocess_new()
 
     log.info("The new log dataset is generated.")
@@ -45,6 +67,12 @@ def cli_gen_new(training):
 # analyzer preprocess norm
 # ----------------------------------------------------------------------
 @click.command(name="norm")
+@click.option(
+    "--src",
+    default=dh.RAW_DATA,
+    help="Choose source raw log files.",
+    show_default=True,
+)
 @click.option(
     "--training/--no-training",
     default=True,
@@ -57,7 +85,14 @@ def cli_gen_new(training):
     help="Overwrite new log file, aka. generate new log from scratch.",
     show_default=True,
 )
-def cli_gen_norm(training, overwrite):
+@click.option(
+    "--current",
+    default=False,
+    is_flag=True,
+    help="Use existing train.txt or test.txt.",
+    show_default=True,
+)
+def cli_gen_norm(src, training, overwrite, current):
     """ Preprocess the raw log file to generate norm log file. """
     # Populate the in-memory config singleton with config file
     GC.read()
@@ -69,6 +104,13 @@ def cli_gen_norm(training, overwrite):
 
     ppobj = pp.Preprocess()
     if overwrite:
+        # Get the raw data files from data/raw folder and cat/save them
+        # as train.txt or test.txt in data/cooked.
+        if not current:
+            if src != dh.RAW_DATA:
+                src = os.path.join(dh.RAW_DATA, src)
+            ppobj.cat_files_dir(src)
+
         ppobj.preprocess_new()
     elif GC.conf['general']['aim']:
         # Use existing new file to generate norm log, we then must set
