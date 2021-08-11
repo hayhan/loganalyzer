@@ -5,7 +5,6 @@
 """
 import re
 import os
-import gc
 import math
 import shutil
 import hashlib
@@ -77,14 +76,14 @@ class Ouputcell:
 class Para:
     """ Class of parameters """
     def __init__(self, log_format, rex, rex_s_token, raw_file, tmplt_lib,
-                 outdir='./', max_child=120, sim_t_m=1, inc_updt=1,
-                 over_wr_lib=False, prt_tree=0, nopgbar=0):
+                 outdir='./', max_child=120, sim_t_m=1, over_wr_lib=False,
+                 intmdt=True, aim=True, inc_updt=1, prt_tree=0, nopgbar=0):
         """
         Attributes
         ----------
         log_format  : used to load the needed colomns of raw logs
-        raw_file    : the input raw file
-        tmplt_lib   : the template library
+        raw_file    : the input raw file path/name
+        tmplt_lib   : the template library path/name
         save_path   : the output path for structured logs
         rex         : regular expressions used in preprocess in parser
         rex_s_token : pattern list of special tokens that must be same
@@ -92,11 +91,13 @@ class Para:
         max_child   : max number of children of length layer node
         sim_t_m     : similarity threshold for the merge step
         inc_updt    : incrementally generate the template file.
-                      Can apply to both train and test dataset
+                      apply to both train and test dataset
         over_wr_lib : overwrite the template lib in persist directory.
-                      Only apply to train dataset
+                      only apply to train dataset
         prt_tree    : write the tree to a file for debugging
         nopgbar     : disable the progress bar
+        intmdt      : save intermediate results to files
+        aim         : alway using in-memory data
         """
         self.log_format = log_format
         self.raw_file = raw_file
@@ -110,35 +111,38 @@ class Para:
         self.over_wr_lib = over_wr_lib
         self.prt_tree = prt_tree
         self.nopgbar = nopgbar
+        self.intmdt = intmdt
+        self.aim = aim
 
 
 class Drain:
     """ The Drain core """
-    def __init__(self, para):
+    def __init__(self, para, raws):
         """
         Attributes
         ----------
-        para    : the parameter object from class Para
-        pointer : dict of pointers for cache mechanism
-        df_log  : data frame of raw logs
-        df_tmp  : data frame of templates loaded from template lib
-        log_id  : log line number in the raw file, debug only
-        tree    : the tree, debug only
+        para     : the parameter object from class Para
+        raws     : the raw log data, aka. norm data of preprocess
+        pointer  : dict of pointers for cache mechanism
+        df_raws  : data frame of raw logs, aka. norm data of preprocess
+        df_tmplt : data frame of templates
+        log_id   : log line number in the raw file, debug only
+        tree     : the tree, debug only
         """
         self.para = para
+        self.raws = raws
         self.pointer = dict()
-        self.df_log = None
-        self.df_tmp = None
+        self.df_raws = None
+        self.df_tmplt = None
         self.log_id = 0
         self.tree = ''
 
 
     @staticmethod
     def has_numbers(string):
-        """ Check the digits in string
-        """
+        """ Check the digits in string """
         # return any(char.isdigit() for char in string)
-        # Let me only check the 1st char in string
+        # Let us only check the 1st char in string
         return string[0].isdigit()
 
 
@@ -150,7 +154,7 @@ class Drain:
         pun_chars = set(pun_str)
         return any(char in pun_chars for char in string)
         """
-        # I do not check the special char
+        # We do not check the special char
         return None
 
 
@@ -527,13 +531,12 @@ class Drain:
         return : new_tmplt that represents the new template
                  updt_token_num, num of tokens that are replaced by <*>
         """
-        # This function can convert the 1st/last token to <*> too. It
-        # does not conflict with the <*> token node in paper Fig. 2. The
-        # former one is still under the "First/Last: xxxx" node per
-        # add_seq_to_tree(). E.g. If the 1st token is replaced with <*>,
-        # it means the cluster is under a Last split token layer node.
-        # We cannot get here in the case that is under a First split
-        # token layer node.
+        # This func converts the 1st/last token to <*> too. It does not
+        # conflict with the <*> token node in paper Fig. 2. The former's
+        # still under the "First/Last: xxxx" node per add_seq_to_tree().
+        # E.g. If the 1st token is replaced with <*>, it means that the
+        # cluster is under a Last split token layer node. We cannot get
+        # here in the case that is under a First split token layer node.
         assert len(seq1) == len(seq2)
         new_tmplt = []
 
@@ -576,9 +579,9 @@ class Drain:
         # Calculate the original num of parameters in the log message
         para_num = 0
         for token in message_lst:
-            # In the pre-process of Drain domain, we replaced all
-            # possible digitals with <*> already. Do not follow the
-            # original method in the paper section 4.1.2.
+            # In preprocess of Drain domain, we replaced all possible
+            # digitals with <*> already. Do not follow the original
+            # method in section 4.1.2. in the paper.
             # Paper: if self.has_numbers(token):
             if token == '<*>':
                 para_num += 1
@@ -640,7 +643,7 @@ class Drain:
             # if the adaptive theshold is applied.
 
             # If the merge mechanism is used, then merge the nodes
-            # TBD if I need this feature in ML and Oldshchool
+            # TBD if we need this feature in ML and Oldshchool
             if self.para.sim_t_m < 1:
                 self.adjust_output_cell(match_clust, clust_lst)
 
@@ -651,7 +654,7 @@ class Drain:
         Print the whole tree with param (root_node, dep=0)
         """
         p_str = ''
-        for _i in range(dep):
+        for _ in range(dep):
             p_str += '\t'
 
         if dep == 0:
@@ -661,12 +664,10 @@ class Drain:
         else:
             p_str += node.digit_or_token
 
-        # print (p_str)
         self.tree += (p_str + '\n')
 
         if dep == 2:
             for child in node.child_node:
-                # print ('\t\t\t' + ' '.join(child.log_tmplt))
                 tmp = '\t\t\t' + ' '.join(child.log_tmplt) + '\n'
                 self.tree += tmp
             return
@@ -725,7 +726,6 @@ class Drain:
         if similar_clust is not None and sim>self.para.sim_t_m:
             similar_clust.outcell.log_id_lst = similar_clust.outcell.log_id_lst + \
                                                log_clust.outcell.log_id_lst
-
             remove_out_cell = log_clust.outcell
 
             for parent in remove_out_cell.parent_lst:
@@ -740,9 +740,9 @@ class Drain:
         """ Output the template library and structured logs """
         # No need feature of merging outputcell in Fig. 2 in paper. Just
         # suppose 1-to-1 mapping between template and output always.
-        log_templates = [0] * self.df_log.shape[0]
-        log_templateids = [0] * self.df_log.shape[0]
-        log_templateids_old = [0] * self.df_log.shape[0]
+        log_templates = [0] * self.df_raws.shape[0]
+        log_templateids = [0] * self.df_raws.shape[0]
+        log_templateids_old = [0] * self.df_raws.shape[0]
         tmplt_event_lst = []
         for log_clust in log_clust_lst:
             tmplt_str = ' '.join(log_clust.log_tmplt)
@@ -763,11 +763,11 @@ class Drain:
             # Merge the duplicate templates
             # The row[0/1/2/3] maps to items below:
             # [tmplt_id_old, tmplt_id, tmplt_str, occurrence]
-            tmp_unique = True
+            tmplt_unique = True
             for row in tmplt_event_lst:
                 if tmplt_id == row[1]:
                     print("Warning: template is duplicated, merging.")
-                    tmp_unique = False
+                    tmplt_unique = False
                     if row[0] != row[1]:
                         if tmplt_id == tmplt_id_old:
                             row[0] = row[1]
@@ -775,45 +775,46 @@ class Drain:
                     break
 
             # Drop current template if it is duplicate
-            if tmp_unique:
+            if tmplt_unique:
                 tmplt_event_lst.append([tmplt_id_old, tmplt_id, tmplt_str, occurrence])
 
         # Convert to data frame for saving
-        df_event = pd.DataFrame(tmplt_event_lst,
+        self.df_tmplt = pd.DataFrame(tmplt_event_lst,
             columns=['EventIdOld', 'EventId', 'EventTemplate', 'Occurrences'])
 
         # Double check if there are any duplicates in templates
-        if len(df_event['EventId'].values) != len(df_event['EventId'].unique()):
+        if len(self.df_tmplt['EventId'].values) != len(self.df_tmplt['EventId'].unique()):
             print("Error: template is still duplicated!")
 
         # Save the template file to data/train or data/test directory
-        df_event.to_csv(os.path.join(self.para.save_path,
-                        os.path.basename(self.para.raw_file) + '_templates.csv'),
-                        columns=['EventId', 'EventTemplate', 'Occurrences'], index=False)
+        if self.para.intmdt or not self.para.aim:
+            self.df_tmplt.to_csv(os.path.join(self.para.save_path,
+                                 os.path.basename(self.para.raw_file) + '_templates.csv'),
+                                 columns=['EventId', 'EventTemplate', 'Occurrences'],
+                                 index=False)
 
         # Backup the template library and then update it in data/persist
         # Only do for train data and when template lib inc update enable
         if self.para.over_wr_lib and self.para.inc_updt:
             if os.path.exists(self.para.tmplt_lib):
                 shutil.copy(self.para.tmplt_lib, self.para.tmplt_lib+'.old')
-            df_event.to_csv(self.para.tmplt_lib, index=False,
-                            columns=['EventIdOld', 'EventId', 'EventTemplate'])
+            self.df_tmplt.to_csv(self.para.tmplt_lib, index=False,
+                                 columns=['EventIdOld', 'EventId', 'EventTemplate'])
 
         # Save the structured file to data/train or data/test directory
-        self.df_log['EventIdOld'] = log_templateids_old
-        self.df_log['EventId'] = log_templateids
-        self.df_log['EventTemplate'] = log_templates
-        # self.df_log.drop(['Content'], inplace=True, axis=1)
-        self.df_log.to_csv(os.path.join(self.para.save_path,
-                           os.path.basename(self.para.raw_file) + '_structured.csv'),
-                           index=False)
+        self.df_raws['EventIdOld'] = log_templateids_old
+        self.df_raws['EventId'] = log_templateids
+        self.df_raws['EventTemplate'] = log_templates
+        # self.df_raws.drop(['Content'], inplace=True, axis=1)
+        if self.para.intmdt or not self.para.aim:
+            self.df_raws.to_csv(os.path.join(self.para.save_path,
+                                os.path.basename(self.para.raw_file) + '_structured.csv'),
+                                index=False)
 
 
     @staticmethod
     def generate_logformat_regex(logformat):
-        """
-        Function to generate regular expression to split log messages
-        """
+        """ Function to generate regex to split log messages """
         # Suppose the default and standard logformat is:
         #     '<Date> <Time> <Pid> <Level> <Component>: <Content>'
         # Then the output:
@@ -842,23 +843,26 @@ class Drain:
         return headers, regex
 
 
-    @staticmethod
-    def log_to_dataframe(log_file, regex, headers):
-        """
-        Function to transform log file to dataframe
-        """
+    def log_to_dataframe(self, regex, headers):
+        """ Function to transform log file to dataframe """
         log_messages = []
         linecount = 0
-        with open(log_file, 'r', encoding='utf-8') as fin:
-            for line in fin.readlines():
-                try:
-                    # Reserve the trailing spaces of each log if it has
-                    match = regex.search(line.strip('\r\n'))
-                    message = [match.group(header) for header in headers]
-                    log_messages.append(message)
-                    linecount += 1
-                except Exception:  # pylint: disable=broad-except
-                    pass
+        # Use in-momory raw data, aka. norm from preprocess by default.
+        # Read the norm file if config setting tells us to do so.
+        if not self.para.aim:
+            with open(self.para.raw_file, 'r', encoding='utf-8') as fin:
+                self.raws = fin.readlines()
+
+        for line in self.raws:
+            try:
+                # Reserve the trailing spaces of each log if it has
+                match = regex.search(line.strip('\r\n'))
+                message = [match.group(header) for header in headers]
+                log_messages.append(message)
+                linecount += 1
+            except Exception:  # pylint: disable=broad-except
+                pass
+
         logdf = pd.DataFrame(log_messages, columns=headers)
         logdf.insert(0, 'LineId', None)
         logdf['LineId'] = [i + 1 for i in range(linecount)]
@@ -866,17 +870,13 @@ class Drain:
 
 
     def load_data(self):
-        """
-        Read the raw log data to dataframe
-        """
+        """ Read the raw log data to dataframe """
         headers, regex = self.generate_logformat_regex(self.para.log_format)
-        self.df_log = self.log_to_dataframe(self.para.raw_file, regex, headers)
+        self.df_raws = self.log_to_dataframe(regex, headers)
 
 
     def preprocess(self, line):
-        """
-        Pre-process the log in Drain domain
-        """
+        """ Pre-process the log in Drain domain """
         for cur_rex in self.para.rex.keys():
             # We put a space before <*>. It does not affect a separate
             # token number. It only affects something like offset:123
@@ -886,21 +886,17 @@ class Drain:
 
 
     def load_template_lib(self):
-        """
-        Read the templates from the library to dataframe
-        """
+        """ Read the templates from the library to dataframe """
         if self.para.inc_updt and os.path.exists(self.para.tmplt_lib):
-            self.df_tmp = pd.read_csv(self.para.tmplt_lib,
-                                      usecols=['EventId', 'EventTemplate'])
+            self.df_tmplt = pd.read_csv(self.para.tmplt_lib,
+                                        usecols=['EventId', 'EventTemplate'])
         else:
             # Only initialize an empty dataframe
-            self.df_tmp = pd.DataFrame()
+            self.df_tmplt = pd.DataFrame()
 
 
     def main_process(self):
-        """
-        The main entry
-        """
+        """ The main entry """
         print('Parsing file: ' + self.para.raw_file)
         start_time = datetime.now()
 
@@ -912,7 +908,7 @@ class Drain:
         log_clust_lst = []
 
         # List of nodes in the final layer that outputs containing logs.
-        # Same as log_clust_lst, it contains all the outputCells under
+        # Same as log_clust_lst, it contains all the Outputcells under
         # root node too.
         out_cell_lst = []
 
@@ -922,7 +918,7 @@ class Drain:
         #
         # Build the tree by using templates from library
         #
-        for _, line in self.df_tmp.iterrows():
+        for _, line in self.df_tmplt.iterrows():
             # Split the template into token list
             # Note, reserve the trailing spaces of each log if it has
             log_t = line['EventTemplate'].strip('\r\n')
@@ -941,13 +937,13 @@ class Drain:
         self.load_data()
 
         # A lower overhead progress bar
-        pbar = tqdm(total=self.df_log.shape[0], unit='Logs', disable=self.para.nopgbar,
+        pbar = tqdm(total=self.df_raws.shape[0], unit='Logs', disable=self.para.nopgbar,
                     bar_format='{l_bar}{bar:40}{r_bar}{bar:-40b}')
 
         #
         # Process the raw log data
         #
-        for _, line in self.df_log.iterrows():
+        for _, line in self.df_raws.iterrows():
 
             log_id = line['LineId']
             # Save the current processing log_id for debugging purpose
@@ -967,8 +963,7 @@ class Drain:
                 self.add_cluster(message_lst, [log_id], log_clust_lst,
                                  out_cell_lst, root_node, True, 0)
             else:
-                # Match an existing cluster, add the new log message to
-                # the existing cluster
+                # Match an existing cluster, add new log message to it
                 self.update_cluster(message_lst, log_id, log_clust_lst, match_clust)
 
             pbar.update(1)
@@ -985,5 +980,3 @@ class Drain:
             self.print_tree(root_node, 0)
             with open(os.path.join(self.para.save_path, 'tree.txt'), 'w') as drain_tree:
                 drain_tree.write(self.tree)
-
-        gc.collect()

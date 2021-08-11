@@ -47,11 +47,8 @@ class PreprocessBase(ABC):
             self.raw_ln_idx_new: List[int] = []
             self.raw_ln_idx_norm: List[int] = []
 
-        # Populate rawlogs with data from raw log file
-        self._get_raw_logs()
 
-
-    def _get_raw_logs(self):
+    def load_raw_logs(self):
         """ Read raw data file into memory """
         #
         # Raw log usually comes from serial console tools like SecureCRT

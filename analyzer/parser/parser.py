@@ -2,6 +2,7 @@
 """ Class of parser that wraps Drain """
 import sys
 import logging
+from typing import List
 from importlib import import_module
 import analyzer.utils.data_helper as dh
 from analyzer.config import GlobalConfig as GC
@@ -17,12 +18,17 @@ log = logging.getLogger(__name__)
 
 class Parser():
     """ The parser class """
-    def __init__(self):
+    def __init__(self, rawlogs: List[str]):
         self.fzip: dict = dh.get_files_parser()
         self.training: bool = GC.conf['general']['training']
         self.metrics: bool = GC.conf['general']['metrics']
         self.context: str = GC.conf['general']['context']
+        self.intmdt: bool = GC.conf['general']['intmdt']
+        self.aim: bool = GC.conf['general']['aim']
         self._log_head_offset: int = GC.conf['general']['head_offset']
+        self.rawlogs: List[str] = rawlogs
+        self.df_raws = None
+        self.df_tmplt = None
 
     def parse(self):
         """ Parse, generate and update templates """
@@ -48,9 +54,11 @@ class Parser():
 
         my_para = Para(
             log_format, ptn.PTN_HARD_PARA, ptn.PTN_SPEC_TOKEN, self.fzip['norm'],
-            dh.TEMPLATE_LIB, outdir=self.fzip['output'], inc_updt=1,
-            over_wr_lib=self.training, prt_tree=0, nopgbar=0
+            dh.TEMPLATE_LIB, outdir=self.fzip['output'], over_wr_lib=self.training,
+            intmdt=self.intmdt, aim=self.aim, inc_updt=1, prt_tree=0, nopgbar=0
         )
 
-        my_parser = Drain(my_para)
+        my_parser = Drain(my_para, self.rawlogs)
         my_parser.main_process()
+        self.df_raws = my_parser.df_raws
+        self.df_tmplt = my_parser.df_tmplt

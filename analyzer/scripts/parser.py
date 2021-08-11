@@ -79,6 +79,7 @@ def cli_updt_tmplt(src, training, overwrite, current):
             ppobj.exceptions_tmplt()
 
     # Process the raw data and generate new data
+    ppobj.load_raw_logs()
     ppobj.preprocess_new()
 
     # Normalize the new data to generate norm data
@@ -88,7 +89,7 @@ def cli_updt_tmplt(src, training, overwrite, current):
     ppobj.extract_labels()
 
     # Parsing using the norm data
-    psobj = Parser()
+    psobj = Parser(ppobj.normlogs)
     psobj.parse()
 
     log.info("The templates are generated / updated.")
