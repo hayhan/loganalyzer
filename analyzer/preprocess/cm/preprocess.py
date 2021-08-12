@@ -41,9 +41,9 @@ class Preprocess(PreprocessBase):
         log.info("Preprocess before timestamp detection.")
 
         # Reset normlogs in case it is not empty
-        self.normlogs = []
+        self._normlogs = []
 
-        for idx, line in enumerate(self.rawlogs):
+        for idx, line in enumerate(self._rawlogs):
 
             # Remove the NULL char '\0' at the first line if it exists
             if idx == 0 and line[0] == '\0':
@@ -61,7 +61,7 @@ class Preprocess(PreprocessBase):
                                           ptn.PTN_SPLIT_RIGHT_TS)
 
             # Save directly as norm data for parsing / clustering
-            self.normlogs.append(line)
+            self._normlogs.append(line)
 
             # Check only part of lines which are usually enough to
             # determine timestamp
@@ -76,7 +76,7 @@ class Preprocess(PreprocessBase):
         # Note: preprocess_norm will overwrite the normlogs
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['norm'], 'w', encoding='utf-8') as fnorm:
-                fnorm.writelines(self.normlogs)
+                fnorm.writelines(self._normlogs)
 
 
     # pylint: disable=too-many-locals；too-many-statements
@@ -93,7 +93,7 @@ class Preprocess(PreprocessBase):
         self._get_timestamp_info()
 
         # Reset newlogs in case it is not empty
-        self.newlogs = []
+        self._newlogs = []
 
         #-------------------------------
         # Local state variables
@@ -123,10 +123,10 @@ class Preprocess(PreprocessBase):
         # https://github.com/tqdm/tqdm#documentation
         # If only display statics w/o bar, set ncols=0
         #
-        pbar = tqdm(total=len(self.rawlogs), unit='Lines', disable=False,
+        pbar = tqdm(total=len(self._rawlogs), unit='Lines', disable=False,
                     bar_format='{l_bar}{bar:40}{r_bar}{bar:-40b}')
 
-        for idx, line in enumerate(self.rawlogs):
+        for idx, line in enumerate(self._rawlogs):
             # Update the progress bar
             pbar.update(1)
 
@@ -417,7 +417,7 @@ class Preprocess(PreprocessBase):
             # ----------------------------------------------------------
             if self._reserve_ts and match_ts:
                 newline = curr_line_ts + newline
-            self.newlogs.append(newline)
+            self._newlogs.append(newline)
 
             # The raw line index list in the new file
             # Do it only for prediction in DeepLog/Loglab and OSS
@@ -430,7 +430,7 @@ class Preprocess(PreprocessBase):
         # Conditionally save the newlogs to a file per the config file
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['new'], 'w', encoding='utf-8') as fnew:
-                fnew.writelines(self.newlogs)
+                fnew.writelines(self._newlogs)
 
         print('Purge costs {!s}\n'.format(datetime.now()-parse_st))
 

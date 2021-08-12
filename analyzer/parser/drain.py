@@ -121,19 +121,19 @@ class Drain:
         """
         Attributes
         ----------
-        para     : the parameter object from class Para
-        raws     : the raw log data, aka. norm data of preprocess
-        pointer  : dict of pointers for cache mechanism
-        df_raws  : data frame of raw logs, aka. norm data of preprocess
-        df_tmplt : data frame of templates
-        log_id   : log line number in the raw file, debug only
-        tree     : the tree, debug only
+        para       : the parameter object from class Para
+        raws       : the raw log data, aka. norm data of preprocess
+        pointer    : dict of pointers for cache mechanism
+        _df_raws   : data frame of raw logs, aka. norm data of preprocess
+        _df_tmplts : data frame of templates
+        log_id     : log line number in the raw file, debug only
+        tree       : the tree, debug only
         """
         self.para = para
         self.raws = raws
         self.pointer = dict()
-        self.df_raws = None
-        self.df_tmplt = None
+        self._df_raws = None
+        self._df_tmplts = None
         self.log_id = 0
         self.tree = ''
 
@@ -288,8 +288,8 @@ class Drain:
 
     def add_seq_to_tree(self, rtn, log_clust):
         """
-        A log sequence cannot be matched by an existing cluster, so add the
-        new corresponding log cluster to the tree
+        A log sequence cannot be matched by an existing cluster, so add
+        the new corresponding log cluster to the tree.
 
         Attributes
         ----------
@@ -740,9 +740,9 @@ class Drain:
         """ Output the template library and structured logs """
         # No need feature of merging outputcell in Fig. 2 in paper. Just
         # suppose 1-to-1 mapping between template and output always.
-        log_templates = [0] * self.df_raws.shape[0]
-        log_templateids = [0] * self.df_raws.shape[0]
-        log_templateids_old = [0] * self.df_raws.shape[0]
+        log_templates = [0] * self._df_raws.shape[0]
+        log_templateids = [0] * self._df_raws.shape[0]
+        log_templateids_old = [0] * self._df_raws.shape[0]
         tmplt_event_lst = []
         for log_clust in log_clust_lst:
             tmplt_str = ' '.join(log_clust.log_tmplt)
@@ -779,37 +779,49 @@ class Drain:
                 tmplt_event_lst.append([tmplt_id_old, tmplt_id, tmplt_str, occurrence])
 
         # Convert to data frame for saving
-        self.df_tmplt = pd.DataFrame(tmplt_event_lst,
+        self._df_tmplts = pd.DataFrame(tmplt_event_lst,
             columns=['EventIdOld', 'EventId', 'EventTemplate', 'Occurrences'])
 
         # Double check if there are any duplicates in templates
-        if len(self.df_tmplt['EventId'].values) != len(self.df_tmplt['EventId'].unique()):
+        if len(self._df_tmplts['EventId'].values) != len(self._df_tmplts['EventId'].unique()):
             print("Error: template is still duplicated!")
 
         # Save the template file to data/train or data/test directory
         if self.para.intmdt or not self.para.aim:
-            self.df_tmplt.to_csv(os.path.join(self.para.save_path,
-                                 os.path.basename(self.para.raw_file) + '_templates.csv'),
-                                 columns=['EventId', 'EventTemplate', 'Occurrences'],
-                                 index=False)
+            self._df_tmplts.to_csv(os.path.join(self.para.save_path,
+                                   os.path.basename(self.para.raw_file) + '_templates.csv'),
+                                   columns=['EventId', 'EventTemplate', 'Occurrences'],
+                                   index=False)
 
         # Backup the template library and then update it in data/persist
         # Only do for train data and when template lib inc update enable
         if self.para.over_wr_lib and self.para.inc_updt:
             if os.path.exists(self.para.tmplt_lib):
                 shutil.copy(self.para.tmplt_lib, self.para.tmplt_lib+'.old')
-            self.df_tmplt.to_csv(self.para.tmplt_lib, index=False,
-                                 columns=['EventIdOld', 'EventId', 'EventTemplate'])
+            self._df_tmplts.to_csv(self.para.tmplt_lib, index=False,
+                                   columns=['EventIdOld', 'EventId', 'EventTemplate'])
 
         # Save the structured file to data/train or data/test directory
-        self.df_raws['EventIdOld'] = log_templateids_old
-        self.df_raws['EventId'] = log_templateids
-        self.df_raws['EventTemplate'] = log_templates
-        # self.df_raws.drop(['Content'], inplace=True, axis=1)
+        self._df_raws['EventIdOld'] = log_templateids_old
+        self._df_raws['EventId'] = log_templateids
+        self._df_raws['EventTemplate'] = log_templates
+        # self._df_raws.drop(['Content'], inplace=True, axis=1)
         if self.para.intmdt or not self.para.aim:
-            self.df_raws.to_csv(os.path.join(self.para.save_path,
-                                os.path.basename(self.para.raw_file) + '_structured.csv'),
-                                index=False)
+            self._df_raws.to_csv(os.path.join(self.para.save_path,
+                                 os.path.basename(self.para.raw_file) + '_structured.csv'),
+                                 index=False)
+
+
+    @property
+    def df_raws(self):
+        """ Get raws in pandas dataframe """
+        return self._df_raws
+
+
+    @property
+    def df_tmplts(self):
+        """ Get templates in pandas dataframe """
+        return self._df_tmplts
 
 
     @staticmethod
@@ -872,7 +884,7 @@ class Drain:
     def load_data(self):
         """ Read the raw log data to dataframe """
         headers, regex = self.generate_logformat_regex(self.para.log_format)
-        self.df_raws = self.log_to_dataframe(regex, headers)
+        self._df_raws = self.log_to_dataframe(regex, headers)
 
 
     def preprocess(self, line):
@@ -888,11 +900,11 @@ class Drain:
     def load_template_lib(self):
         """ Read the templates from the library to dataframe """
         if self.para.inc_updt and os.path.exists(self.para.tmplt_lib):
-            self.df_tmplt = pd.read_csv(self.para.tmplt_lib,
-                                        usecols=['EventId', 'EventTemplate'])
+            self._df_tmplts = pd.read_csv(self.para.tmplt_lib,
+                                          usecols=['EventId', 'EventTemplate'])
         else:
             # Only initialize an empty dataframe
-            self.df_tmplt = pd.DataFrame()
+            self._df_tmplts = pd.DataFrame()
 
 
     def main_process(self):
@@ -918,7 +930,7 @@ class Drain:
         #
         # Build the tree by using templates from library
         #
-        for _, line in self.df_tmplt.iterrows():
+        for _, line in self._df_tmplts.iterrows():
             # Split the template into token list
             # Note, reserve the trailing spaces of each log if it has
             log_t = line['EventTemplate'].strip('\r\n')
@@ -937,13 +949,13 @@ class Drain:
         self.load_data()
 
         # A lower overhead progress bar
-        pbar = tqdm(total=self.df_raws.shape[0], unit='Logs', disable=self.para.nopgbar,
+        pbar = tqdm(total=self._df_raws.shape[0], unit='Logs', disable=self.para.nopgbar,
                     bar_format='{l_bar}{bar:40}{r_bar}{bar:-40b}')
 
         #
         # Process the raw log data
         #
-        for _, line in self.df_raws.iterrows():
+        for _, line in self._df_raws.iterrows():
 
             log_id = line['LineId']
             # Save the current processing log_id for debugging purpose

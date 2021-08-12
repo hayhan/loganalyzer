@@ -31,9 +31,9 @@ class PreprocessBase(ABC):
         self.context: str = GC.conf['general']['context']
         self.max_line: int = GC.conf['general']['max_line']
 
-        self.rawlogs: List[str] = []
-        self.newlogs: List[str] = []
-        self.normlogs: List[str] = []
+        self._rawlogs: List[str] = []
+        self._newlogs: List[str] = []
+        self._normlogs: List[str] = []
         self.labelvec: List[str] = []
 
         # The main timestamp flag. The default offset value is from
@@ -59,7 +59,7 @@ class PreprocessBase(ABC):
         # https://docs.python.org/3/library/codecs.html
         #
         with open(self.fzip['raw'], 'r', encoding='utf-8-sig') as rawfile:
-            self.rawlogs = rawfile.readlines()
+            self._rawlogs = rawfile.readlines()
 
 
     def _main_timestamp_regx(self):
@@ -115,6 +115,12 @@ class PreprocessBase(ABC):
         self._log_head_offset = head_offset
 
 
+    @property
+    def normlogs(self):
+        """ Get norm logs. """
+        return self._normlogs
+
+
     @abstractmethod
     def preprocess_ts(self):
         """ Preprocess before learning timestamp width.
@@ -139,10 +145,10 @@ class PreprocessBase(ABC):
             format instead of primary/nested combination.
         """
         # Reset normlogs in case it is not empty
-        self.normlogs = []
+        self._normlogs = []
 
         if GC.conf['general']['aim']:
-            newlogs = self.newlogs
+            newlogs = self._newlogs
         else:
             with open(self.fzip['new'], 'r', encoding='utf-8') as newfile:
                 newlogs = newfile.readlines()
@@ -176,7 +182,7 @@ class PreprocessBase(ABC):
                 # If current is primary line, then concatenating ends
                 if self._reserve_ts and match_ts and (last_line != ''):
                     last_line = last_line_ts + last_line
-                self.normlogs.append(last_line)
+                self._normlogs.append(last_line)
 
                 # The raw line index list based on the norm file.
                 # Mapping: norm file line index (0-based) -> test file
@@ -194,13 +200,13 @@ class PreprocessBase(ABC):
         # Write the last line of norm dataset
         if self._reserve_ts and match_ts and (last_line != ''):
             last_line = last_line_ts + last_line
-        self.normlogs.append(last_line)
+        self._normlogs.append(last_line)
 
         # Conditionally save the normlogs and rawln idx to files per the
         # config file
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['norm'], 'w', encoding='utf-8') as fnorm:
-                fnorm.writelines(self.normlogs)
+                fnorm.writelines(self._normlogs)
 
             if self.context in ['LOGLAB', 'OLDSCHOOL', 'DEEPLOG'] \
                 and not (self.training or self.metrics):
@@ -219,15 +225,12 @@ class PreprocessBase(ABC):
         """
         linecount: int = 0
         norm_logs: List[str] = []
-        normlogs: List[str] = []
 
-        if GC.conf['general']['aim']:
-            normlogs = self.normlogs
-        else:
+        if not GC.conf['general']['aim']:
             with open(self.fzip['norm'], 'r', encoding='utf-8') as fnorm:
-                normlogs = fnorm.readlines()
+                self._normlogs = fnorm.readlines()
 
-        for line in normlogs:
+        for line in self._normlogs:
             try:
                 # Suppose the standard timestamp
                 match = ptn.PTN_ABN_LABEL.search(line, 24, 29)
@@ -245,12 +248,12 @@ class PreprocessBase(ABC):
                 pass
 
         # Overwrite the old norm data with contents that labels removed
-        self.normlogs = norm_logs
+        self._normlogs = norm_logs
 
         # Save norm data and abnormal label vector to files per config
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['norm'], 'w+', encoding='utf-8') as fnorm:
-                fnorm.writelines(self.normlogs)
+                fnorm.writelines(self._normlogs)
 
             if self.context in ['LOGLIZER', 'DEEPLOG']:
                 # _ToDo: Use other format instead of pandas dataframe

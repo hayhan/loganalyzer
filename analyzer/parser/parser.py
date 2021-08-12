@@ -16,6 +16,7 @@ __all__ = ["Parser"]
 
 log = logging.getLogger(__name__)
 
+# pylint: disable=too-many-instance-attributes
 class Parser():
     """ The parser class """
     def __init__(self, rawlogs: List[str]):
@@ -25,10 +26,23 @@ class Parser():
         self.context: str = GC.conf['general']['context']
         self.intmdt: bool = GC.conf['general']['intmdt']
         self.aim: bool = GC.conf['general']['aim']
-        self._log_head_offset: int = GC.conf['general']['head_offset']
         self.rawlogs: List[str] = rawlogs
-        self.df_raws = None
-        self.df_tmplt = None
+        self._log_head_offset: int = GC.conf['general']['head_offset']
+        self._df_raws = None
+        self._df_tmplts = None
+
+
+    @property
+    def df_raws(self):
+        """ Get raws in pandas dataframe """
+        return self._df_raws
+
+
+    @property
+    def df_tmplts(self):
+        """ Get templates in pandas dataframe """
+        return self._df_tmplts
+
 
     def parse(self):
         """ Parse, generate and update templates """
@@ -60,5 +74,5 @@ class Parser():
 
         my_parser = Drain(my_para, self.rawlogs)
         my_parser.main_process()
-        self.df_raws = my_parser.df_raws
-        self.df_tmplt = my_parser.df_tmplt
+        self._df_raws = my_parser.df_raws
+        self._df_tmplts = my_parser.df_tmplts
