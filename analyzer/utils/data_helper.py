@@ -17,6 +17,7 @@ __all__ = [
     "SKIP_FILE_LIST",
     "get_files_preprocess",
     "get_files_parser",
+    "get_files_oss",
     "get_data_type",
 ]
 
@@ -48,6 +49,8 @@ TEMPLATE_LIB = os.path.join(PERSIST_DATA, 'template_lib.csv')
 # Skip file list when concatenates raw log files under data/raw
 SKIP_FILE_LIST = ['README.md', 'desc.txt']
 
+MAX_TIMESTAMP_LENGTH = 50
+
 
 def get_files_preprocess():
     """ Collect the files of input / output of preprocess """
@@ -64,7 +67,6 @@ def get_files_preprocess():
             'new': os.path.join(COOKED_DATA, 'test_new.txt'),
             'norm': os.path.join(COOKED_DATA, 'test_norm.txt'),
             'label': os.path.join(TEST_DATA, 'test_norm.txt_labels.csv'),
-            'runtime_para': os.path.join(TEST_DATA, 'test_runtime_para.txt'),
             'rawln_idx': os.path.join(TEST_DATA, 'rawline_idx_norm.pkl')
         }
     return files_zip
@@ -76,13 +78,27 @@ def get_files_parser():
         files_zip = {
             'norm': os.path.join(COOKED_DATA, 'train_norm.txt'),
             'output': TRAIN_DATA,
+            'structured': os.path.join(TRAIN_DATA, 'train_norm.txt_structured.csv')
         }
     else:
         files_zip = {
             'norm': os.path.join(COOKED_DATA, 'test_norm.txt'),
             'output': TEST_DATA,
-            'runtime_para': os.path.join(TEST_DATA, 'test_runtime_para.txt'),
+            'structured': os.path.join(TEST_DATA, 'test_norm.txt_structured.csv')
         }
+    return files_zip
+
+
+def get_files_oss():
+    """ Collect the files of input / output of oss """
+    assert GC.conf['general']['training'] is False
+
+    files_zip = {
+        'structured': os.path.join(TEST_DATA, 'test_norm.txt_structured.csv'),
+        'rawln_idx': os.path.join(TEST_DATA, 'rawline_idx_norm.pkl'),
+        'top': os.path.join(TEST_DATA, 'analysis_summary_top.txt'),
+        'sum': os.path.join(TEST_DATA, 'analysis_summary.csv')
+    }
     return files_zip
 
 

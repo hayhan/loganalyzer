@@ -814,13 +814,17 @@ class Drain:
 
     @property
     def df_raws(self):
-        """ Get raws in pandas dataframe """
+        """ Get raws (structured) in pandas dataframe
+            Column: LineId/Time/Content/EventIdOld/EventId/EventTemplate
+        """
         return self._df_raws
 
 
     @property
     def df_tmplts(self):
-        """ Get templates in pandas dataframe """
+        """ Get templates in pandas dataframe
+            Column: EventIdOld/EventId/EventTemplate/Occurrences
+        """
         return self._df_tmplts
 
 

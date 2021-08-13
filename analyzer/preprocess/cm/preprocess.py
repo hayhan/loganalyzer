@@ -423,7 +423,7 @@ class Preprocess(PreprocessBase):
             # Do it only for prediction in DeepLog/Loglab and OSS
             if self.context in ['LOGLAB', 'OLDSCHOOL', 'DEEPLOG'] \
                 and not (self.training or self.metrics):
-                self.raw_ln_idx_new.append(idx+1)
+                self._raw_ln_idx_new.append(idx+1)
 
         pbar.close()
 

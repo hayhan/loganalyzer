@@ -140,6 +140,19 @@ def cli_template():
     """
 
 
+@cli.group("oldschool", short_help="Analyze logs using oldschool")
+def cli_oldschool():
+    """ Oldschool for analyzing logs, and maintaining of knowledge-base.
+
+    \b
+    Examples
+    --------
+
+    \b
+    $ analyzer oldschool run
+    """
+
+
 @cli.group("loglab", short_help="Multi-classification of log anomalies")
 @click.pass_context
 def cli_loglab(ctx):
@@ -198,6 +211,9 @@ def add_subcommands():
 
     from .parser import cli_del_tmplt
     cli_template.add_command(cli_del_tmplt)
+
+    from .oldschool import cli_run_oss
+    cli_oldschool.add_command(cli_run_oss)
 
 
 add_subcommands()

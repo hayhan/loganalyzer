@@ -12,7 +12,7 @@ __all__ = [
 
 #
 # Regular expression dict for optional preprocessing (can be empty {})
-# Compiling ptnobj_p0~5 into a big one will slow down the preprocess
+# Compiling ptnobj_p0~6 into a big one will slow down the preprocess
 #
 
 ptnobj_p0 = ptn.PTN_LIBC_CTIME
@@ -24,12 +24,6 @@ ptnobj_p4 = ptn.PTN_IP_V6
 ptnobj_p5 = re.compile(
     # The filename string of image
     r'(?<= Filename: )\S+|'
-    # List of intergers and tuples like xxx = 1 2 3 4, (12-11.1) (10-11)
-    # as well as Numbers including hex, decimal and integer.
-    r'(?<=value=)(( [a-f0-9]{2}){14})'
-    r'|(?<=HEX:)([A-F0-9]{2} )+'
-    r'|( \( \d+\.?(\d+)?-\d+\.?(\d+)? \))+|( \d+){2,}|0x[A-Fa-f0-9]+'
-    r'|(?<=[^A-Za-z0-9\.])(\-?\+?\d+\.?(\d+)?\*?)|(?<=\.\.)(\d+)|'
     # OFDM channels CH32 and CH33, maybe different for 3391 and later
     r'CH\d{2}|'
     # QAM/FEC lock status
@@ -37,14 +31,23 @@ ptnobj_p5 = re.compile(
 )
 
 ptnobj_p6 = re.compile(
+    # List of intergers and tuples like xxx = 1 2 3 4, (12-11.1) (10-11)
+    # as well as Numbers including hex, decimal and integer.
+    r'(?<=value=)(( [a-f0-9]{2}){14})'
+    r'|(?<=HEX:)([A-F0-9]{2} )+'
+    r'|( \( \d+\.?(\d+)?-\d+\.?(\d+)? \))+|( \d+){2,}|0x[A-Fa-f0-9]+'
+    r'|(?<=[^A-Za-z0-9\.])(\-?\+?\d+\.?(\d+)?\*?)|(?<=\.\.)(\d+)'
+)
+
+ptnobj_p7 = re.compile(
     r'\( k[A-Z]\w+ \)|\( [du]cid \)|\( ErrorRecovery \)'
     r'|\( ConsoleCmdOverride \)|\( T4NoStationMaintTimeout \)'
     r'|\( T2NoInitMaintTimeout \)|\( not specified \)'
 )
 
-ptnobj_p7 = re.compile(r'Stat= (Continue|Success|Abort)')
-ptnobj_p8 = re.compile(r'qam [yn] fec [yn] snr')
-ptnobj_p9 = re.compile(r'txdata [yn]')
+ptnobj_p8 = re.compile(r'Stat= (Continue|Success|Abort)')
+ptnobj_p9 = re.compile(r'qam [yn] fec [yn] snr')
+ptnobj_p10 = re.compile(r'txdata [yn]')
 
 PTN_HARD_PARA= {
     ptnobj_p0: '<*>',
@@ -52,11 +55,12 @@ PTN_HARD_PARA= {
     ptnobj_p2: '<*>',
     ptnobj_p3: '<*>',
     ptnobj_p4: ' <*>',
-    ptnobj_p5: ' <*>',
-    ptnobj_p6: '( <*> )',
-    ptnobj_p7: 'Stat= <*>',
-    ptnobj_p8: 'qam <*> fec <*> snr',
-    ptnobj_p9: 'txdata <*>',
+    ptnobj_p5: '<*>',
+    ptnobj_p6: ' <*>',
+    ptnobj_p7: '( <*> )',
+    ptnobj_p8: 'Stat= <*>',
+    ptnobj_p9: 'qam <*> fec <*> snr',
+    ptnobj_p10: 'txdata <*>',
 }
 
 #

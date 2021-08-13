@@ -44,8 +44,8 @@ class PreprocessBase(ABC):
 
         # For prediction only. Does not include Loglizer.
         if not self.training:
-            self.raw_ln_idx_new: List[int] = []
-            self.raw_ln_idx_norm: List[int] = []
+            self._raw_ln_idx_new: List[int] = []
+            self._raw_ln_idx_norm: List[int] = []
 
 
     def load_raw_logs(self):
@@ -73,6 +73,10 @@ class PreprocessBase(ABC):
 
     def _get_timestamp_info(self):
         """ Get updated timestamp info. """
+        # In other modules, we more likely change the global config
+        # setting. So sync it here.
+        self._log_head_offset = GC.conf['general']['head_offset']
+
         if self._log_head_offset > 0:
             self._reserve_ts = True
         elif self._log_head_offset == 0:
@@ -121,6 +125,12 @@ class PreprocessBase(ABC):
         return self._normlogs
 
 
+    @property
+    def raw_ln_idx_norm(self):
+        """ Get the raw line index in norm data """
+        return self._raw_ln_idx_norm
+
+
     @abstractmethod
     def preprocess_ts(self):
         """ Preprocess before learning timestamp width.
@@ -147,11 +157,14 @@ class PreprocessBase(ABC):
         # Reset normlogs in case it is not empty
         self._normlogs = []
 
-        if GC.conf['general']['aim']:
-            newlogs = self._newlogs
-        else:
+        if not GC.conf['general']['aim']:
             with open(self.fzip['new'], 'r', encoding='utf-8') as newfile:
-                newlogs = newfile.readlines()
+                self._newlogs = newfile.readlines()
+
+        # Make sure newlogs is not empty. Usually if the preprocess_new
+        # thinks the timestamp format is abnormal, it will delete all
+        # the lines and leads to an empty newlogs.
+        assert len(self._newlogs) > 0
 
         #-------------------------------
         # Local state variables
@@ -163,7 +176,7 @@ class PreprocessBase(ABC):
         #
         # Concatenate nested line to its parent (primary) line
         #
-        for idx, line in enumerate(newlogs):
+        for idx, line in enumerate(self._newlogs):
 
             match_ts = self.ptn_main_ts.match(line)
             if self._reserve_ts and match_ts:
@@ -190,7 +203,7 @@ class PreprocessBase(ABC):
                 # Do it only for prediction in DeepLog/Loglab and OSS
                 if self.context in ['LOGLAB', 'OLDSCHOOL', 'DEEPLOG'] \
                     and not (self.training or self.metrics):
-                    self.raw_ln_idx_norm.append(self.raw_ln_idx_new[idx])
+                    self._raw_ln_idx_norm.append(self._raw_ln_idx_new[idx])
 
                 # Update last line parameters
                 last_line = newline
@@ -211,7 +224,7 @@ class PreprocessBase(ABC):
             if self.context in ['LOGLAB', 'OLDSCHOOL', 'DEEPLOG'] \
                 and not (self.training or self.metrics):
                 with open(self.fzip['rawln_idx'], 'wb') as fridx:
-                    pickle.dump(self.raw_ln_idx_norm, fridx)
+                    pickle.dump(self._raw_ln_idx_norm, fridx)
 
 
     def extract_labels(self):
