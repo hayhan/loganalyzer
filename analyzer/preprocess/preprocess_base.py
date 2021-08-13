@@ -195,7 +195,13 @@ class PreprocessBase(ABC):
                 # If current is primary line, then concatenating ends
                 if self._reserve_ts and match_ts and (last_line != ''):
                     last_line = last_line_ts + last_line
-                self._normlogs.append(last_line)
+                # Bypass appending the first empty line. This empty line
+                # will be in the in-memory _normlogs although it will be
+                # removed after writing to a file. It brings troubles to
+                # the in-memory data in GlobalConfig['general']['aim']
+                # enabled mode.
+                if idx != 0:
+                    self._normlogs.append(last_line)
 
                 # The raw line index list based on the norm file.
                 # Mapping: norm file line index (0-based) -> test file
