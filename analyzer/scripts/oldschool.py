@@ -2,18 +2,14 @@
 """ CLI interface to the oldschool module.
 """
 import logging
-from importlib import import_module
 import click
-import analyzer.utils.data_helper as dh
 from analyzer.config import GlobalConfig as GC
+from analyzer.preprocess import pp
 from analyzer.parser import Parser
 from analyzer.oldschool import OSS
 
-# Load derived preprocess class module of LOG_TYPE
-pp = import_module("analyzer.preprocess." + dh.LOG_TYPE + '.preprocess')
 
 log = logging.getLogger(__name__)
-
 
 # ----------------------------------------------------------------------
 # analyzer oldschool run

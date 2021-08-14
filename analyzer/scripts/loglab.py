@@ -2,18 +2,14 @@
 """ CLI interface to the loglab module.
 """
 import logging
-from importlib import import_module
 import click
-import analyzer.utils.data_helper as dh
 from analyzer.config import GlobalConfig as GC
+from analyzer.preprocess import pp
 from analyzer.parser import Parser
 from analyzer.modern.loglab import Loglab
 
-# Load derived preprocess class module of LOG_TYPE
-pp = import_module("analyzer.preprocess." + dh.LOG_TYPE + '.preprocess')
 
 log = logging.getLogger(__name__)
-
 
 # ----------------------------------------------------------------------
 # analyzer loglab train
@@ -24,9 +20,9 @@ def cli_loglab_train():
     # Populate the in-memory config singleton with config file
     GC.read()
     # Set the items here
-    GC.conf['general']['training'] = False
+    GC.conf['general']['training'] = True
     GC.conf['general']['metrics'] = False
-    GC.conf['general']['context'] = 'OLDSCHOOL'
+    GC.conf['general']['context'] = 'LOGLAB'
     GC.conf['general']['intmdt'] = True
 
     # Sync the config update in memory to file. Really necessary?
@@ -69,7 +65,7 @@ def cli_loglab_predict(learn_ts):
     # Set the items here
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = False
-    GC.conf['general']['context'] = 'OLDSCHOOL'
+    GC.conf['general']['context'] = 'LOGLAB'
     GC.conf['general']['intmdt'] = True
 
     # Sync the config update in memory to file. Really necessary?
