@@ -1,3 +1,4 @@
 # Licensed under the MIT License - see License.txt
-""" DeepLog package.
+""" Loglizer module
 """
+from .loglizer import *

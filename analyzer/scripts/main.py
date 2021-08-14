@@ -145,17 +145,19 @@ def cli_oldschool():
     """ Oldschool for analyzing logs, and maintaining of knowledge-base.
 
     \b
+    - The option `learn-ts` will learn the width of timestamp
+
+    \b
     Examples
     --------
 
     \b
-    $ analyzer oldschool run
+    $ analyzer oldschool run [--learn-ts/--no-learn-ts]
     """
 
 
 @cli.group("loglab", short_help="Multi-classification of log anomalies")
-@click.pass_context
-def cli_loglab(ctx):
+def cli_loglab():
     """ Multi-classification of log anomalies.
 
     \b
@@ -163,17 +165,17 @@ def cli_loglab(ctx):
     \b
     - The option `model` will train / predict using the model assigned
       here instead of the one in the config file.
+    \b
+    - The option `learn-ts` will learn the width of timestamp
 
     \b
     Examples
     --------
 
     \b
-    $ analyzer loglab train
-    $ analyzer loglab train --kfold-manu
-    $ analyzer loglab train --model model-name
-    $ analyzer loglab predict
-    $ analyzer loglab predict --model model-name
+    $ analyzer loglab train [--kfold-manu] [--model model-name]
+    $ analyzer loglab predict [--model model-name]
+    $ analyzer loglab predict [--learn-ts/--no-learn-ts]
     $ analyzer loglab feat
     """
 
@@ -214,6 +216,12 @@ def add_subcommands():
 
     from .oldschool import cli_run_oss
     cli_oldschool.add_command(cli_run_oss)
+
+    from .loglab import cli_loglab_train
+    cli_loglab.add_command(cli_loglab_train)
+
+    from .loglab import cli_loglab_predict
+    cli_loglab.add_command(cli_loglab_predict)
 
 
 add_subcommands()
