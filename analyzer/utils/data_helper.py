@@ -1,5 +1,5 @@
 # Licensed under the MIT License - see License.txt
-""" Utils to handle data folder """
+""" Utils to handle anything that are data/log related """
 import os
 import sys
 from analyzer.config import GlobalConfig as GC
@@ -51,6 +51,15 @@ SKIP_FILE_LIST = ['README.md', 'desc.txt']
 
 MAX_TIMESTAMP_LENGTH = 50
 
+# Standard timestamp length including the last space
+STD_TIMESTAMP_LENGTH = 24
+# Length of abnormal label 'abn: ', including the last space
+ABN_LABEL_LENGTH = 5
+# Length of segment label 'segsign: ', including the last space
+SEG_LABEL_LENGTH = 9
+# Length of abnormal label 'cxxx ', including the last space
+CLASS_LABEL_LENGTH = 5
+
 
 def get_files_preprocess():
     """ Collect the files of input / output of preprocess """
@@ -59,7 +68,10 @@ def get_files_preprocess():
             'raw': os.path.join(COOKED_DATA, 'train.txt'),
             'new': os.path.join(COOKED_DATA, 'train_new.txt'),
             'norm': os.path.join(COOKED_DATA, 'train_norm.txt'),
-            'label': os.path.join(TRAIN_DATA, 'train_norm.txt_labels.csv')
+            'label': os.path.join(TRAIN_DATA, 'train_norm.txt_labels.csv'),
+            'segll': os.path.join(TRAIN_DATA, 'train_norm.txt_seginf_loglab.pkl'),
+            'segdl': os.path.join(TRAIN_DATA, 'train_norm.txt_seginf_deeplog.pkl')
+
         }
     else:
         files_zip = {
@@ -67,6 +79,8 @@ def get_files_preprocess():
             'new': os.path.join(COOKED_DATA, 'test_new.txt'),
             'norm': os.path.join(COOKED_DATA, 'test_norm.txt'),
             'label': os.path.join(TEST_DATA, 'test_norm.txt_labels.csv'),
+            'segll': os.path.join(TEST_DATA, 'test_norm.txt_seginf_loglab.pkl'),
+            'segdl': os.path.join(TEST_DATA, 'test_norm.txt_seginf_deeplog.pkl'),
             'rawln_idx': os.path.join(TEST_DATA, 'rawline_idx_norm.pkl')
         }
     return files_zip

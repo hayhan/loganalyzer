@@ -23,6 +23,16 @@ PTN_SEG_LABEL = re.compile(
     r'(segsign: )|(c[0-9]{3} )'
 )
 
+PTN_SEG_LABEL_1 = re.compile(
+    # Pattern for segment label, 'segsign: '
+    r'segsign: '
+)
+
+PTN_SEG_LABEL_2 = re.compile(
+    # Pattern for segment label, 'cxxx: '
+    r'c[0-9]{3} '
+)
+
 PTN_CLASS_LABEL = re.compile(
     # Pattern for class label 'cxxx'
     r'c[0-9]{3}'

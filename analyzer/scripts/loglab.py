@@ -15,7 +15,13 @@ log = logging.getLogger(__name__)
 # analyzer loglab train
 # ----------------------------------------------------------------------
 @click.command(name="train")
-def cli_loglab_train():
+@click.option(
+    "--model",
+    default="NOPE",
+    help="Select model to train.",
+    show_default=True,
+)
+def cli_loglab_train(model):
     """ Train the model for loglab """
     # Populate the in-memory config singleton with config file
     GC.read()
@@ -25,10 +31,17 @@ def cli_loglab_train():
     GC.conf['general']['context'] = 'LOGLAB'
     GC.conf['general']['intmdt'] = True
 
+    # By default, use the model defined in config file
+    if model != "NOPE":
+        GC.conf['loglab']['model'] = model
+
     # Sync the config update in memory to file. Really necessary?
     # GC.write()
 
     ppobj = pp.Preprocess()
+
+    # Concatenate the logs under data/raw/LOG_TYPE/loglab
+    ppobj.cat_files_loglab()
     ppobj.load_raw_logs()
 
     # Process the raw data and generate new data
@@ -36,6 +49,9 @@ def cli_loglab_train():
 
     # Normalize the new data to generate norm data
     ppobj.preprocess_norm()
+
+    # Extract class info and remove them from norm data
+    ppobj.segment_loglab()
 
     # Parse the norm data
     psobj = Parser(ppobj.normlogs)
@@ -53,12 +69,18 @@ def cli_loglab_train():
 # ----------------------------------------------------------------------
 @click.command(name="predict")
 @click.option(
+    "--model",
+    default="NOPE",
+    help="Select model to train.",
+    show_default=True,
+)
+@click.option(
     "--learn-ts/--no-learn-ts",
     default=True,
     help="Learn the width of timestamp.",
     show_default=True,
 )
-def cli_loglab_predict(learn_ts):
+def cli_loglab_predict(model, learn_ts):
     """ Predict logs by using loglab model """
     # Populate the in-memory config singleton with config file
     GC.read()
@@ -67,6 +89,10 @@ def cli_loglab_predict(learn_ts):
     GC.conf['general']['metrics'] = False
     GC.conf['general']['context'] = 'LOGLAB'
     GC.conf['general']['intmdt'] = True
+
+    # By default, use the model defined in config file
+    if model != "NOPE":
+        GC.conf['loglab']['model'] = model
 
     # Sync the config update in memory to file. Really necessary?
     # GC.write()

@@ -35,6 +35,8 @@ class PreprocessBase(ABC):
         self._newlogs: List[str] = []
         self._normlogs: List[str] = []
         self.labelvec: List[str] = []
+        self._segdl: List[int] = []
+        self._segll: List[tuple] = []
 
         # The main timestamp flag. The default offset value is from
         # the standard format
@@ -90,13 +92,16 @@ class PreprocessBase(ABC):
 
     @staticmethod
     def _hand_over_label(curr_line_ts: str):
-        """ There are cases that log with segment label is removed.
-            Hand over the labe to the next line/log.
         """
+        There are cases that log with segment label is removed. Hand
+        over the labe to the next line/log.
+        """
+        last_label: str = ''
+        last_label_removed: bool = False
         label_match: Match[str] = ptn.PTN_SEG_LABEL.search(curr_line_ts)
         if label_match:
-            last_label: str = label_match.group(0)
-            last_label_removed: bool = True
+            last_label = label_match.group(0)
+            last_label_removed = True
         return last_label, last_label_removed
 
 
@@ -108,13 +113,14 @@ class PreprocessBase(ABC):
 
     @log_head_offset.setter
     def log_head_offset(self, head_offset: int):
-        """ Set log head offset info.
-            Timestamp learnning will set the log_head_offset member.
-            Update the value in config file and in-memory as well?
-            \b
-            - offset == -1: Not valid log file for LOG_TYPE
-            - offset ==  0: Valid log file without timestamp
-            - offset >   0: Valid log file with timestamp
+        """
+        Set log head offset info.
+        Timestamp learnning will set the log_head_offset member.
+        Update the value in config file and in-memory as well?
+        \b
+        - offset == -1: Not valid log file for LOG_TYPE
+        - offset ==  0: Valid log file without timestamp
+        - offset >   0: Valid log file with timestamp
         """
         self._log_head_offset = head_offset
 
@@ -133,26 +139,29 @@ class PreprocessBase(ABC):
 
     @abstractmethod
     def preprocess_ts(self):
-        """ Preprocess before learning timestamp width.
-            Only for prediction of (OSS, DeepLog or Loglab).
-            Not for Loglizer as it requires timestamps for windowing.
+        """
+        Preprocess before learning timestamp width.
+        Only for prediction of (OSS, DeepLog or Loglab).
+        Not for Loglizer as it requires timestamps for windowing.
         """
 
 
     @abstractmethod
     def preprocess_new(self):
-        """ Preprocess to generate the new log data.
-            Clean the raw log data.
+        """
+        Preprocess to generate the new log data. Clean the raw log data.
         """
 
 
     def preprocess_norm(self): # pylint: disable=too-many-branches
-        """ Preprocess to generate the norm log data.
-            Normalize the new log data, aka. converting multi-line log
-            to one line.
-            \b
-            Note: Overwrite this func if multi-line log has a different
-            format instead of primary/nested combination.
+        """
+        Preprocess to generate the norm log data.
+        Normalize the new log data, aka. converting multi-line log to
+        one line.
+        \b
+        Note:
+            Overwrite this func if multi-line log has a different format
+            instead of primary/nested combination.
         """
         # Reset normlogs in case it is not empty
         self._normlogs = []
@@ -234,12 +243,13 @@ class PreprocessBase(ABC):
 
 
     def extract_labels(self):
-        """ Extract the abnormal label vector from norm data.
-            Use cases:
+        """
+        Extract the abnormal label vector from norm data.
+        Use cases:
             1) Template generation from scratch
             2) Loglizer training and validation
             3) DeepLog validation
-            Note:
+        Note:
             Do not call this func for predition
         """
         linecount: int = 0
@@ -252,7 +262,8 @@ class PreprocessBase(ABC):
         for line in self._normlogs:
             try:
                 # Suppose the standard timestamp
-                match = ptn.PTN_ABN_LABEL.search(line, 24, 29)
+                match = ptn.PTN_ABN_LABEL.search(line, dh.STD_TIMESTAMP_LENGTH,
+                    dh.STD_TIMESTAMP_LENGTH+dh.ABN_LABEL_LENGTH)
                 if match:
                     self.labelvec.append('a')
                     newline = ptn.PTN_ABN_LABEL.sub('', line, count=1)
@@ -284,10 +295,15 @@ class PreprocessBase(ABC):
                 logdf.to_csv(self.fzip['label'], index=False)
 
 
+    # Note: The four cat_files functions below can save data directly to
+    # self._rawlogs then we no need use self.load_raw_logs() to read the
+    # train.txt or test.txt into memory again. For prediction, we always
+    # need read the physical test.txt. _ToDo in the furthur.
     def cat_files_lst(self, raw_dir: str, file_names: List[str]):
-        """ Cat multi raw log files in the file list under raw_dir
-            into a monolith. Monolith file is either data/train.txt
-            or data/test.txt based on the config settings.
+        """
+        Cat multi raw log files in the file list under raw_dir into a
+        monolith. Based on the config settings, monolith file is either
+        data/train.txt or data/test.txt .
         """
         raw_in_lst: List[str] = []
         with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
@@ -301,10 +317,11 @@ class PreprocessBase(ABC):
 
 
     def cat_files_dir(self, raw_dir: str):
-        """ Cat all raw log files under raw_dir (including sub-dirs)
-            into a monolith for template gen / update and Loglizer.
-            Monolith file is either data/train.txt or data/test.txt
-            based on the config settings.
+        """
+        Cat all raw log files under raw_dir (including sub-dirs) into a
+        monolith for template gen / update and Loglizer. Monolith file
+        is either data/train.txt or data/test.txt based on the config
+        settings.
         """
         with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
             for dirpath, _, files in sorted(os.walk(raw_dir, topdown=True)):
@@ -321,10 +338,11 @@ class PreprocessBase(ABC):
 
 
     def cat_files_deeplog(self, raw_dir: str):
-        """ Cat all raw log files under raw_dir (including sub-dirs)
-            into a monolith. This is used for DeepLog training and
-            validation by considering session labels. Monolith is either
-            data/train.txt or data/test.txt based on the config settings
+        """
+        Cat all raw log files under raw_dir (including sub-dirs) into a
+        a monolith. This is used for DeepLog training and validation by
+        considering session labels. Monolith is either data/train.txt or
+        data/test.txt based on the config settings.
         """
         with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
             for dirpath, _, files in sorted(os.walk(raw_dir, topdown=True)):
@@ -351,9 +369,10 @@ class PreprocessBase(ABC):
 
 
     def cat_files_loglab(self):
-        """ Cat all raw log files under raw_dir (including sub-dirs)
-            into a monolith. Extract class names. This is used for
-            Loglab training. Monolith is data/train.txt
+        """
+        Cat all raw log files under raw_dir (including sub-dirs) into a
+        monolith. Extract class names. This is used for Loglab training.
+        Monolith is data/train.txt
         """
         with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
             loglab_dir = os.path.join(dh.RAW_DATA, 'loglab')
@@ -387,3 +406,102 @@ class PreprocessBase(ABC):
                                     print("Error: The timestamp is wrong!")
                             monolith.write(line)
                         monolith.write('\n')
+
+
+    def segment_deeplog(self):
+        """
+        The label can be added by both file concatenation and preprocess
+        of logparser. The same label might be added twice for the log at
+        the beginging of each file. So we replace the labels with empty
+        by max twice below.
+
+        In test dataset for validation, the session label might not
+        exist. Make sure we return the correct session vector (aka one
+        element representing the session size) in this case.
+        """
+        norm_logs: List[str] = []
+        session_start: int = 0
+
+        if not GC.conf['general']['aim']:
+            with open(self.fzip['norm'], 'r', encoding='utf-8') as fnorm:
+                self._normlogs = fnorm.readlines()
+
+        for idx, line in enumerate(self._normlogs):
+            # Standard format '[20190719-08:58:23.738] ' is always there
+            match = ptn.PTN_SEG_LABEL_1.search(line, dh.STD_TIMESTAMP_LENGTH,
+                    dh.STD_TIMESTAMP_LENGTH+dh.SEG_LABEL_LENGTH)
+            if match:
+                newline = ptn.PTN_SEG_LABEL_1.sub('', line, count=2)
+                if idx != 0:
+                    self._segdl.append(idx - session_start)
+                    session_start = idx
+            else:
+                newline = line
+
+            # Session label is removed
+            norm_logs.append(newline)
+
+        # The last session size
+        self._segdl.append(len(self._normlogs) - session_start)
+
+        # Conditionally save data to files per config file
+        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
+            with open(self.fzip['segdl'], 'wb') as fout:
+                pickle.dump(self._segdl, fout)
+
+            with open(self.fzip['norm'], 'w+', encoding='utf-8') as fout:
+                fout.writelines(norm_logs)
+
+
+    def segment_loglab(self):
+        """
+        The class label 'cxxx' was inserted at the first line of each
+        file when generating the monolith training data/file. As each
+        separate training file is one sample, we can get the size of
+        each sample and the target class of the sample resides in.
+
+        The segment info format: [(sample_size, sample_class), ...]
+        sample_size is int type and unit is log, aka. one line in norm.
+        sample_class is str type and is int after removing heading 'c'.
+        """
+        norm_logs: List[str] = []
+        sample_start: int = 0
+
+        if not GC.conf['general']['aim']:
+            with open(self.fzip['norm'], 'r', encoding='utf-8') as fnorm:
+                self._normlogs = fnorm.readlines()
+
+        for idx, line in enumerate(self._normlogs):
+            # Standard format '[20190719-08:58:23.738] ' is always there
+            match = ptn.PTN_SEG_LABEL_2.search(line, dh.STD_TIMESTAMP_LENGTH,
+                    dh.STD_TIMESTAMP_LENGTH+dh.CLASS_LABEL_LENGTH)
+            if idx == 0 and not match:
+                print("Something is wrong with the monolith file, exit!")
+                sys.exit(1)
+            elif match:
+                classname = match.group(0).strip()
+                newline = ptn.PTN_SEG_LABEL_2.sub('', line, count=1)
+                norm_logs.append(newline)
+                if idx == 0:
+                    classname_last = classname
+                    continue
+                self._segll.append((idx - sample_start, classname_last))
+                sample_start = idx
+                classname_last = classname
+            else:
+                norm_logs.append(line)
+
+        # The last segment/sample info
+        self._segll.append((len(self._normlogs) - sample_start, classname_last))
+        # print(self._segll)
+
+        # Overwrite the old norm data
+        self._normlogs = norm_logs
+
+        # Conditionally save data to files per config file
+        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
+            with open(self.fzip['segll'], 'wb') as fout:
+                pickle.dump(self._segll, fout)
+
+            with open(self.fzip['norm'], 'w+', encoding='utf-8') as fout:
+                fout.writelines(self._normlogs)

@@ -1,5 +1,5 @@
 # Licensed under the MIT License - see License.txt
-""" Utils to handle config file """
+""" Utils to handle config file read/write """
 import os.path
 from pathlib import Path
 import shutil
