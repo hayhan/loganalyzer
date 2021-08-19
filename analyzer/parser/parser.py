@@ -12,7 +12,7 @@ from analyzer.config import GlobalConfig as GC
 from analyzer.parser import Para, Drain
 
 # Load LOG_TYPE specific patterns
-ptn = import_module("analyzer.parser." + dh.LOG_TYPE + '.patterns')
+ptn = import_module("analyzer.parser." + dh.LOG_TYPE + ".patterns")
 
 __all__ = ["Parser"]
 
@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 class Parser():
     """ The parser class """
     def __init__(self, rawlogs: List[str]):
-        self.fzip: dict = dh.get_files_parser()
+        self.fzip: dict = dh.get_files_io()
         self.training: bool = GC.conf['general']['training']
         self.metrics: bool = GC.conf['general']['metrics']
         self.context: str = GC.conf['general']['context']

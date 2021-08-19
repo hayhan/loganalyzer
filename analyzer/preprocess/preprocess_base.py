@@ -24,7 +24,7 @@ class PreprocessBase(ABC):
     """ The base class of preprocess. """
     # pylint:disable=too-many-instance-attributes
     def __init__(self):
-        self.fzip: dict = dh.get_files_preprocess()
+        self.fzip: dict = dh.get_files_io()
         self.datatype: str = dh.get_data_type()
         self.training: bool = GC.conf['general']['training']
         self.metrics: bool = GC.conf['general']['metrics']
@@ -135,6 +135,18 @@ class PreprocessBase(ABC):
     def raw_ln_idx_norm(self):
         """ Get the raw line index in norm data """
         return self._raw_ln_idx_norm
+
+
+    @property
+    def segdl(self):
+        """ Get the segment info of deeplog """
+        return self._segdl
+
+
+    @property
+    def segll(self):
+        """ Get the segment info of loglab """
+        return self._segll
 
 
     @abstractmethod
@@ -263,7 +275,7 @@ class PreprocessBase(ABC):
             try:
                 # Suppose the standard timestamp
                 match = ptn.PTN_ABN_LABEL.search(line, dh.STD_TIMESTAMP_LENGTH,
-                    dh.STD_TIMESTAMP_LENGTH+dh.ABN_LABEL_LENGTH)
+                        dh.STD_TIMESTAMP_LENGTH+dh.ABN_LABEL_LENGTH)
                 if match:
                     self.labelvec.append('a')
                     newline = ptn.PTN_ABN_LABEL.sub('', line, count=1)

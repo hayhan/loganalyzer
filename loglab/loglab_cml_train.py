@@ -103,7 +103,8 @@ if __name__ == '__main__':
     x_train, y_train = dload.load_data(para_train)
 
     # Save the event count matrix
-    # np.savetxt(para_train['data_path']+'loglab_event_count_matrix.txt', x_train, fmt="%s")
+    np.savetxt(para_train['data_path']+'loglab_event_count_matrix.txt', x_train, fmt="%s")
+    sys.exit(0)
 
     # Visualize the sparse matrix
     # plt.spy(x_train, markersize=1)

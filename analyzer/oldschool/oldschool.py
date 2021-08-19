@@ -12,7 +12,7 @@ import analyzer.utils.data_helper as dh
 from analyzer.config import GlobalConfig as GC
 
 # Load knowledge-base of LOG_TYPE
-kb = import_module("analyzer.oldschool." + dh.LOG_TYPE + '.knowledgebase')
+kb = import_module("analyzer.oldschool." + dh.LOG_TYPE + ".knowledgebase")
 
 __all__ = ["OSS"]
 
@@ -22,7 +22,7 @@ log = logging.getLogger(__name__)
 class OSS():
     """ The oldshcool class """
     def __init__(self, df_raws, raw_idx_norm):
-        self.fzip: dict = dh.get_files_oss()
+        self.fzip: dict = dh.get_files_io()
         self.intmdt: bool = GC.conf['general']['intmdt']
         self.aim: bool = GC.conf['general']['aim']
         self._log_head_offset: int = GC.conf['general']['head_offset']

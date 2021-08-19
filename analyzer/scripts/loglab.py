@@ -58,7 +58,7 @@ def cli_loglab_train(model):
     psobj.parse()
 
     # Train the model for loglab
-    llobj = Loglab()
+    llobj = Loglab(psobj.df_raws, psobj.df_tmplts, ppobj.segll)
     llobj.train()
 
     log.info("The model is trained for loglab.")
@@ -118,7 +118,7 @@ def cli_loglab_predict(model, learn_ts):
     psobj.parse()
 
     # Predict using loglab model
-    llobj = Loglab()
+    llobj = Loglab(psobj.df_raws, psobj.df_tmplts, ppobj.segll)
     llobj.predict()
 
     log.info("The logs are predicted using loglab.")

@@ -7,4 +7,4 @@ import analyzer.utils.data_helper as dh
 __all__ = ["pp"]
 
 # Load derived preprocess class module of LOG_TYPE
-pp = import_module("analyzer.preprocess." + dh.LOG_TYPE + '.preprocess')
+pp = import_module("analyzer.preprocess." + dh.LOG_TYPE + ".preprocess")
