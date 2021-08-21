@@ -11,6 +11,27 @@ from analyzer.modern.loglab import Loglab
 
 log = logging.getLogger(__name__)
 
+# Classical models for Loglab
+CML_MODELS = {
+    'RFC': {'win_size': 10, 'weight': 2},
+    'LR': {'win_size': 10, 'weight': 2},
+    'SVM': {'win_size': 10, 'weight': 2},
+}
+
+
+def exercise_all_models(llobj):
+    """ Train/Predict all the models defined by Loglab """
+    for model, attr in CML_MODELS.items():
+        GC.conf['loglab']['model'] = model
+        GC.conf['loglab']['window_size'] = attr['win_size']
+        GC.conf['loglab']['weight'] = attr['weight']
+
+        if GC.conf['general']['training']:
+            llobj.train()
+        else:
+            llobj.predict()
+
+
 # ----------------------------------------------------------------------
 # analyzer loglab train
 # ----------------------------------------------------------------------
@@ -21,7 +42,28 @@ log = logging.getLogger(__name__)
     help="Select model to train.",
     show_default=True,
 )
-def cli_loglab_train(model):
+@click.option(
+    "--adm",
+    default=False,
+    is_flag=True,
+    help="Train all defined models.",
+    show_default=True,
+)
+@click.option(
+    "--mykfold",
+    default=False,
+    is_flag=True,
+    help="Select manual kfold implementation.",
+    show_default=True,
+)
+@click.option(
+    "--debug",
+    default=False,
+    is_flag=True,
+    help="Debug messages.",
+    show_default=True,
+)
+def cli_loglab_train(model, adm, mykfold, debug):
     """ Train the model for loglab """
     # Populate the in-memory config singleton with config file
     GC.read()
@@ -30,6 +72,9 @@ def cli_loglab_train(model):
     GC.conf['general']['metrics'] = False
     GC.conf['general']['context'] = 'LOGLAB'
     GC.conf['general']['intmdt'] = True
+
+    if mykfold:
+        GC.conf['loglab']['mykfold'] = True
 
     # By default, use the model defined in config file
     if model != "NOPE":
@@ -58,10 +103,14 @@ def cli_loglab_train(model):
     psobj.parse()
 
     # Train the model for loglab
-    llobj = Loglab(psobj.df_raws, psobj.df_tmplts, ppobj.segll)
-    llobj.train()
+    llobj = Loglab(psobj.df_raws, psobj.df_tmplts, ppobj.segll, dbg=debug)
 
-    log.info("The model is trained for loglab.")
+    if adm:
+        exercise_all_models(llobj)
+    else:
+        llobj.train()
+
+    log.info("The loglab model training done.")
 
 
 # ----------------------------------------------------------------------
@@ -75,12 +124,33 @@ def cli_loglab_train(model):
     show_default=True,
 )
 @click.option(
+    "--adm",
+    default=False,
+    is_flag=True,
+    help="Predict using all defined models.",
+    show_default=True,
+)
+@click.option(
     "--learn-ts/--no-learn-ts",
     default=True,
     help="Learn the width of timestamp.",
     show_default=True,
 )
-def cli_loglab_predict(model, learn_ts):
+@click.option(
+    "--debug",
+    default=False,
+    is_flag=True,
+    help="Debug messages.",
+    show_default=True,
+)
+@click.option(
+    "--feat",
+    default=False,
+    is_flag=True,
+    help="Display the features of test logs.",
+    show_default=True,
+)
+def cli_loglab_predict(model, adm, learn_ts, debug, feat):
     """ Predict logs by using loglab model """
     # Populate the in-memory config singleton with config file
     GC.read()
@@ -118,7 +188,16 @@ def cli_loglab_predict(model, learn_ts):
     psobj.parse()
 
     # Predict using loglab model
-    llobj = Loglab(psobj.df_raws, psobj.df_tmplts, ppobj.segll)
-    llobj.predict()
+    if feat:
+        debug = True
+
+    llobj = Loglab(psobj.df_raws, psobj.df_tmplts, ppobj.segll, dbg=debug)
+
+    if feat:
+        llobj.check_feature()
+    elif adm:
+        exercise_all_models(llobj)
+    else:
+        llobj.predict()
 
     log.info("The logs are predicted using loglab.")

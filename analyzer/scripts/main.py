@@ -161,22 +161,25 @@ def cli_loglab():
     """ Multi-classification of log anomalies.
 
     \b
-    - The option `kfold-manu` will use kfold cross-verification manually
+    - The option `mykfold` will use kfold cross-verification manually
     \b
     - The option `model` will train / predict using the model assigned
       here instead of the one in the config file.
     \b
+    - The option `amd` will train/predict using all defined models
+    \b
     - The option `learn-ts` will learn the width of timestamp
+    \b
+    - The option `feat` will display the features of test logs
 
     \b
     Examples
     --------
 
     \b
-    $ analyzer loglab train [--kfold-manu] [--model model-name]
-    $ analyzer loglab predict [--model model-name]
-    $ analyzer loglab predict [--learn-ts/--no-learn-ts]
-    $ analyzer loglab feat
+    $ analyzer loglab train [--mykfold] [--model name] [--debug] [--adm]
+    $ analyzer loglab predict [--model name] [--debug] [--adm]
+    $ analyzer loglab predict [--learn-ts/--no-learn-ts] [--feat]
     """
 
 

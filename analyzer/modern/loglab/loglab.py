@@ -2,14 +2,27 @@
 """ Loglab module
 """
 import os
+import sys
 import logging
 from typing import List
 from importlib import import_module
 import pickle
 import numpy as np
+# import matplotlib.pyplot as plt
+from sklearn import utils
+# from sklearn.preprocessing import StandardScaler
+from sklearn import svm
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
+from skl2onnx import convert_sklearn
+from skl2onnx.common.data_types import FloatTensorType
+import onnxruntime as rt
 from analyzer.config import GlobalConfig as GC
 import analyzer.utils.data_helper as dh
 from analyzer.modern import ModernBase
+
 
 # Import the knowledge base for the corresponding log type
 kb = import_module("analyzer.oldschool." + dh.LOG_TYPE + ".knowledgebase")
@@ -27,8 +40,17 @@ class Loglab(ModernBase):
         self.weight: int = GC.conf['loglab']['weight']
         self.dbg: bool = dbg
         self._segll: List[tuple] = segll
+        self.onnx_model: str = os.path.join(dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx')
 
         ModernBase.__init__(self, df_raws, df_tmplts)
+
+
+    def load_para(self):
+        """ Load/Update model parameters """
+        self.model = GC.conf['loglab']['model']
+        self.win_size = GC.conf['loglab']['window_size']
+        self.weight = GC.conf['loglab']['weight']
+        self.onnx_model = os.path.join(dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx')
 
 
     def load_data(self):
@@ -71,9 +93,9 @@ class Loglab(ModernBase):
                 print("Warning: Event ID {} is not in vocabulary!!!".format(tid))
                 event_idx_logs.append(self.libsize-1)
 
-        #---------------------------------------------------------------
+        # --------------------------------------------------------------
         # Extract features
-        #---------------------------------------------------------------
+        # --------------------------------------------------------------
         # For training or validation, always handle multi-sample logs
         if self.training or self.metrics:
             event_matrix, class_vector = \
@@ -240,14 +262,47 @@ class Loglab(ModernBase):
                 print("ECM: idx -> {}, eid -> {}, val -> {}".format(idx, eid_voc[idx], val))
 
 
+    @staticmethod
+    def mykfold(y_train, monolith_data, model):
+        """ Leave-one-out cross validation """
+        k = len(y_train)
+        k_sample_count = monolith_data.shape[0] // k
+
+        for fold in range(k):
+            test_begin = k_sample_count * fold
+            test_end = k_sample_count * (fold + 1)
+
+            test_data = monolith_data[test_begin: test_end]
+
+            train_data = np.vstack([
+                monolith_data[:test_begin],
+                monolith_data[test_end:]
+            ])
+
+            # Train the model with training data
+            x_train = train_data[:, :-1]
+            y_train = train_data[:, -1].astype(int)
+            model.fit(x_train, y_train)
+
+            # Validate the model with test data
+            x_test = test_data[:, :-1]
+            y_test = test_data[:, -1].astype(int)
+            y_test_pred = model.predict(x_test)
+            if y_test != y_test_pred:
+                print(f"raw sample index {test_begin+1} of class {y_test} -> {y_test_pred}")
+
+
     def train(self):
         """ Train the model.
         """
+        # Update selected model and its parameters
+        self.load_para()
+
         print("===> Train Loglab Model: {}\n".format(self.model))
 
-        #---------------------------------------------------------------
+        # --------------------------------------------------------------
         # Load data and do feature extraction on the training dataset
-        #---------------------------------------------------------------
+        # --------------------------------------------------------------
 
         # x_train data type is float while y_train is integer here
         x_train, y_train = self.load_data()
@@ -256,8 +311,123 @@ class Loglab(ModernBase):
         if self.dbg:
             np.savetxt(os.path.join(self.fzip['output'], 'ecm_loglab.txt'), x_train, fmt="%s")
 
+        # Visualize the sparse matrix
+        # plt.spy(x_train, markersize=1)
+        # plt.show()
+
+        # Feature scaling
+        # TBD:
+        # scaler = StandardScaler()
+        # x_train = scaler.fit_transform(x_train)
+
+        # --------------------------------------------------------------
+        # Select models and tune the parameters by cross validation
+        # --------------------------------------------------------------
+        if self.model == 'RFC':
+            model = RandomForestClassifier(n_estimators=100)
+        elif self.model == 'LR':
+            model = LogisticRegression(penalty='l2', C=100, tol=0.01,
+                        class_weight=None, solver='liblinear', max_iter=100,
+                        multi_class='auto')
+        elif self.model == 'SVM':
+            # model = svm.LinearSVC(penalty='l1', tol=0.1, C=1, dual=False,
+            #             class_weight=None, max_iter=1000,
+            #             multi_class='ovr')
+            # model = svm.SVC()
+            model = svm.LinearSVC()
+        else:
+            print("The model name is not defined. Exit.")
+            sys.exit(1)
+
+        # --------------------------------------------------------------
+        # k-fold cross validation
+        # We can use numpy, pandas or sklearn KFold api directly.
+        # --------------------------------------------------------------
+
+        # Convert class target list to column array and merge w/ x_train
+        class_vec = np.reshape(y_train, (len(y_train), 1))
+        # Monolith dataset is type of float including the last column,
+        # which is class labels.
+        monolith_data = np.hstack((x_train, class_vec))
+
+        # Randomize the training samples
+        monolith_data = utils.shuffle(monolith_data)
+        if self.dbg:
+            print(f"monolith_data:\n{monolith_data}\nlen of monolith_data:\
+                  {(monolith_data).shape}")
+
+        if GC.conf['loglab']['mykfold']:
+            self.mykfold(y_train, monolith_data, model)
+        else:
+            # Initialise the number of folds k for doing CV
+            kfold = KFold(n_splits=monolith_data.shape[0])
+            x_train = monolith_data[:, :-1]
+            y_train = monolith_data[:, -1].astype(int)
+
+            # Evaluate the model using k-fold CV
+            scores = cross_val_score(model, x_train, y_train, cv=kfold, scoring='accuracy')
+
+            # Get the model performance metrics
+            print(scores)
+            print("Mean: " + str(scores.mean()))
+
+        # --------------------------------------------------------------
+        # Train the model with the optimized parameters in validation
+        # and distrubute it
+        # --------------------------------------------------------------
+        x_train = monolith_data[:, :-1]
+        y_train = monolith_data[:, -1].astype(int)
+        model.fit(x_train, y_train)
+
+        # Persist the model for deployment using sklearn-onnx converter
+        # http://onnx.ai/sklearn-onnx/
+        initial_type = [('float_input', FloatTensorType([None, x_train.shape[1]]))]
+        onx = convert_sklearn(model, initial_types=initial_type)
+        with open(self.onnx_model, "wb") as f:
+            f.write(onx.SerializeToString())
+
 
     def predict(self):
         """ Predict using the trained model.
         """
-        print(self.weight)
+        # Update selected model and its parameters
+        self.load_para()
+
+        print("===> Predict With Loglab Model: {}\n".format(self.model))
+
+        # --------------------------------------------------------------
+        # Load data and do feature extraction on the test dataset
+        # --------------------------------------------------------------
+        # Update the parameters of selected model
+        self.load_para()
+
+        x_test, _ = self.load_data()
+
+        # Feature scaling based on training dataset
+        # TBD:
+        # scaler = StandardScaler()
+        # x_test = scaler.transform(x_test)
+
+        # Load ONNX model which is equivalent to the scikit-learn model
+        # https://microsoft.github.io/onnxruntime/python/api_summary.html
+        assert os.path.exists(self.onnx_model)
+        sess = rt.InferenceSession(self.onnx_model)
+        input_name = sess.get_inputs()[0].name
+
+        # Target class
+        label_name = sess.get_outputs()[0].name
+        y_pred = sess.run([label_name], {input_name: x_test.astype(np.float32)})[0]
+        print(y_pred)
+
+        # Probability of each target class
+        label_name = sess.get_outputs()[1].name
+        y_pred_prob = sess.run([label_name], {input_name: x_test.astype(np.float32)})[0]
+        print(y_pred_prob)
+
+
+    def check_feature(self):
+        """ Check the features of the dataset.
+        """
+        # Update the parameters of selected model
+        self.load_para()
+        self.load_data()
