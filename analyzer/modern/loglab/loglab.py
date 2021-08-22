@@ -8,6 +8,7 @@ from typing import List
 from importlib import import_module
 import pickle
 import numpy as np
+from tqdm import tqdm
 # import matplotlib.pyplot as plt
 from sklearn import utils
 # from sklearn.preprocessing import StandardScaler
@@ -233,6 +234,12 @@ class Loglab(ModernBase):
         class_vec = []
         samoffset = 0
 
+        print("Extracting features...")
+
+        # A lower overhead progress bar
+        pbar = tqdm(total=len(self._segll), unit='Lines', disable=False,
+                    bar_format='{l_bar}{bar:40}{r_bar}{bar:-40b}')
+
         # Traverse each sample in the monolith of training dataset
         for idx, saminfo in enumerate(self._segll):
             #
@@ -249,6 +256,10 @@ class Loglab(ModernBase):
 
             # Calc offset for the next sample in the monolith
             samoffset += saminfo[0]
+
+            pbar.update(1)
+
+        pbar.close()
 
         return event_count_matrix, class_vec
 
@@ -356,6 +367,8 @@ class Loglab(ModernBase):
             print(f"monolith_data:\n{monolith_data}\nlen of monolith_data:\
                   {(monolith_data).shape}")
 
+        print("Training...")
+
         if GC.conf['loglab']['mykfold']:
             self.mykfold(y_train, monolith_data, model)
         else:
@@ -383,8 +396,8 @@ class Loglab(ModernBase):
         # http://onnx.ai/sklearn-onnx/
         initial_type = [('float_input', FloatTensorType([None, x_train.shape[1]]))]
         onx = convert_sklearn(model, initial_types=initial_type)
-        with open(self.onnx_model, "wb") as f:
-            f.write(onx.SerializeToString())
+        with open(self.onnx_model, "wb") as fout:
+            fout.write(onx.SerializeToString())
 
 
     def predict(self):

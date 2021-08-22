@@ -34,7 +34,7 @@ class PreprocessBase(ABC):
         self._rawlogs: List[str] = []
         self._newlogs: List[str] = []
         self._normlogs: List[str] = []
-        self.labelvec: List[str] = []
+        self._labels: List[int] = []
         self._segdl: List[int] = []
         self._segll: List[tuple] = []
 
@@ -129,6 +129,12 @@ class PreprocessBase(ABC):
     def normlogs(self):
         """ Get norm logs. """
         return self._normlogs
+
+
+    @property
+    def labels(self):
+        """ Get the labels ('abn: ') vector. """
+        return self._labels
 
 
     @property
@@ -264,7 +270,6 @@ class PreprocessBase(ABC):
         Note:
             Do not call this func for predition
         """
-        linecount: int = 0
         norm_logs: List[str] = []
 
         if not GC.conf['general']['aim']:
@@ -277,13 +282,12 @@ class PreprocessBase(ABC):
                 match = ptn.PTN_ABN_LABEL.search(line, dh.STD_TIMESTAMP_LENGTH,
                         dh.STD_TIMESTAMP_LENGTH+dh.ABN_LABEL_LENGTH)
                 if match:
-                    self.labelvec.append('a')
+                    self.labels.append(1)  # Abnormal
                     newline = ptn.PTN_ABN_LABEL.sub('', line, count=1)
                 else:
-                    self.labelvec.append('-')
+                    self.labels.append(0)  # Normal
                     newline = line
 
-                linecount += 1
                 # Label is removed
                 norm_logs.append(newline)
             except Exception:  # pylint: disable=broad-except
@@ -298,13 +302,8 @@ class PreprocessBase(ABC):
                 fnorm.writelines(self._normlogs)
 
             if self.context in ['LOGLIZER', 'DEEPLOG']:
-                # _ToDo: Use other format instead of pandas dataframe
-                # pylint: disable=import-outside-toplevel
-                import pandas as pd
-                logdf = pd.DataFrame(self.labelvec, columns=['Label'])
-                logdf.insert(0, 'LineId', None)
-                logdf['LineId'] = [i + 1 for i in range(linecount)]
-                logdf.to_csv(self.fzip['label'], index=False)
+                with open(self.fzip['labels'], 'wb') as fout:
+                    pickle.dump(self._labels, fout)
 
 
     # Note: The four cat_files functions below can save data directly to
@@ -430,6 +429,8 @@ class PreprocessBase(ABC):
         In test dataset for validation, the session label might not
         exist. Make sure we return the correct session vector (aka one
         element representing the session size) in this case.
+
+        The segment info format: [segment_size, ...]
         """
         norm_logs: List[str] = []
         session_start: int = 0
@@ -455,6 +456,10 @@ class PreprocessBase(ABC):
 
         # The last session size
         self._segdl.append(len(self._normlogs) - session_start)
+        # print(self._segdl)
+
+        # Overwrite the old norm data
+        self._normlogs = norm_logs
 
         # Conditionally save data to files per config file
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
@@ -462,7 +467,7 @@ class PreprocessBase(ABC):
                 pickle.dump(self._segdl, fout)
 
             with open(self.fzip['norm'], 'w+', encoding='utf-8') as fout:
-                fout.writelines(norm_logs)
+                fout.writelines(self._normlogs)
 
 
     def segment_loglab(self):

@@ -2,3 +2,4 @@
 """ DeepLog module
 """
 from .deeplog import *
+#from .models import *

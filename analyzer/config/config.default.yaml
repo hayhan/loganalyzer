@@ -34,6 +34,7 @@ deeplog:
     topk: 10
     device: cpu
     num_dir: 1          # Number of directions of LSTM
+    para_group: 0       # Parameter group number
 
 # Section: loglizer
 loglizer:

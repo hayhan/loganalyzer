@@ -166,7 +166,7 @@ def cli_loglab():
     - The option `model` will train / predict using the model assigned
       here instead of the one in the config file.
     \b
-    - The option `amd` will train/predict using all defined models
+    - The option `adm` will train/predict using all defined models
     \b
     - The option `learn-ts` will learn the width of timestamp
     \b
@@ -183,6 +183,31 @@ def cli_loglab():
     """
 
 
+@cli.group("deeplog", short_help="DeepLog method of log anomaly detection")
+def cli_deeplog():
+    """ DeepLog method of log anomaly detection.
+
+    \b
+    - The option `adm` will train/predict using all defined models param
+    \b
+    - The option `learn-ts` will learn the width of timestamp
+    \b
+    - The option `src` will validate the given folder, otherwise it will
+      validate the existing test.txt in data/cooked.
+
+    \b
+    Examples
+    --------
+
+    \b
+    $ analyzer deeplog train [--debug] [--adm]
+    $ analyzer deeplog validate [--debug] [--adm] [--src folder]
+    $ analyzer deeplog predict [--debug] [--adm]
+    $ analyzer deeplog predict [--learn-ts/--no-learn-ts]
+    """
+
+
+# pylint:disable=too-many-locals
 def add_subcommands():
     """ add subcommands dynamically """
     # pylint:disable=import-outside-toplevel
@@ -225,6 +250,15 @@ def add_subcommands():
 
     from .loglab import cli_loglab_predict
     cli_loglab.add_command(cli_loglab_predict)
+
+    from .deeplog import cli_deeplog_train
+    cli_deeplog.add_command(cli_deeplog_train)
+
+    from .deeplog import cli_deeplog_validate
+    cli_deeplog.add_command(cli_deeplog_validate)
+
+    from .deeplog import cli_deeplog_predict
+    cli_deeplog.add_command(cli_deeplog_predict)
 
 
 add_subcommands()
