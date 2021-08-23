@@ -5,6 +5,7 @@ import os
 import logging
 import pickle
 from typing import List
+from importlib import import_module
 import numpy as np
 import pandas as pd
 from torch.utils.data import DataLoader, Dataset
@@ -16,6 +17,9 @@ from analyzer.config import GlobalConfig as GC
 import analyzer.utils.data_helper as dh
 from analyzer.modern import ModernBase
 from .models import DeepLogExec
+
+# Import the knowledge base for the corresponding log type
+kb = import_module("analyzer.oldschool." + dh.LOG_TYPE + ".knowledgebase")
 
 __all__ = ["DeepLog"]
 
@@ -32,8 +36,8 @@ class DeepLogExecDataset(Dataset):
         """
         self.data_dict = data_dict
         self.keys = list(data_dict.keys())
-        self.loader = DataLoader(dataset=self, batch_size=batch_size, shuffle=shuffle,
-                                 num_workers=num_workers)
+        self.loader = DataLoader(dataset=self, batch_size=batch_size,
+                                 shuffle=shuffle, num_workers=num_workers)
 
     def __getitem__(self, index):
         """ Return a complete data sample at index
@@ -57,9 +61,10 @@ class DeepLog(ModernBase):
     """ The class of DeepLog technique """
     # pylint: disable=too-many-arguments
     def __init__(self, df_raws, df_tmplts, segdl: List[tuple],
-                 labels: List[int], dbg: bool = False):
+                 labels: List[int], dbg: bool = False, rcv: bool = False):
         self.model_para: dict = {}
         self.dbg: bool = dbg
+        self.rcv: bool = rcv  # Recover messed logs
         self._segdl: List[tuple] = segdl
         self.exec_model: str = ''
         self.labels: List[int] = labels
@@ -289,6 +294,126 @@ class DeepLog(ModernBase):
         return results_dict
 
 
+    @staticmethod
+    def para_anomaly_det(content, eid, template):
+        """ Detect the parameter anomaly by using the OSS
+
+        Arguments
+        ---------
+        content: the content of the log
+        eid: the event id of the log
+        template: the template of the log
+
+        Returns
+        -------
+        True/False: Anomaly is detected (True) or not (False)
+        """
+        # Convert the log string into token list
+        content_ln = content.strip().split()
+        template_ln = template.strip().split()
+
+        if len(content_ln) != len(template_ln):
+            return False
+
+        # Traverse all <*> tokens in log_event_tmplt_l and save the
+        # index. Consider cases like '<*>;', '<*>,', etc. Remove the
+        # unwanted ';,' in knowledgebase.
+        idx_list = [idx for idx, value in enumerate(template_ln) if '<*>' in value]
+        # print(idx_list)
+        param_list = [content_ln[idx] for idx in idx_list]
+        # print(param_list)
+
+        # Now we can search in the knowledge base for the current log
+        log_fault, _, _ = kb.domain_knowledge(eid, param_list)
+
+        return log_fault
+
+
+    def load_oss_data(self):
+        """ Load data for OSS para value detection
+
+        Arguments
+        ---------
+
+        Returns
+        -------
+        content_lst: content list from norm struct data
+        eid_lst: event id list from norm struct data
+        template_lst: template list from nnorm struct data
+        """
+
+        # # Read Content from original norm structured file
+        # data_df1 = pd.read_csv(para['o_struct_file'], usecols=['Content'],
+        #                     engine='c', na_filter=False, memory_map=True)
+        # content_lst = data_df1['Content'].values.tolist()
+
+        # # Read EventId and Template from norm pred structured file
+        # data_df1 = pd.read_csv(para['structured_file'], usecols=['EventId', 'EventTemplate'],
+        #                     engine='c', na_filter=False, memory_map=True)
+        # eid_lst = data_df1['EventId'].values.tolist()
+        # template_lst = data_df1['EventTemplate'].values.tolist()
+
+        content_lst = self._df_raws['Content'].tolist()
+        eid_lst = self._df_raws['EventId'].tolist()
+        template_lst = self._df_raws['EventTemplate'].tolist()
+
+        return content_lst, eid_lst, template_lst
+
+
+    # pylint: disable=too-many-locals
+    def predict_core(self, model, data_loader, device, mnp_vec):
+        """ The predict core
+        """
+        # Data for parameter value anomaly detection
+        content_lst, eid_lst, template_lst = self.load_oss_data()
+
+        j = 0
+        anomaly_pred = []
+        anomaly_line = []
+        model.eval()
+        with torch.no_grad():
+            for batch_in in data_loader:
+                # print(batch_in['EventSeq'])
+                seq = batch_in['EventSeq'].clone().detach()\
+                      .view(-1, self.model_para['win_size'], 1).to(device)
+                output = model(seq)
+                # pred_prob = output.softmax(dim=-1)
+                # pred_sort = torch.argsort(pred_prob, 1, True)
+                pred_sort = torch.argsort(output, 1, True)
+                bt_size = pred_sort.size(0)
+                # topk_val = torch.narrow(pred_sort, 1, 0, 10)
+                # print('debug topk1:', topk_val)
+                seq_pred_sort = pred_sort.tolist()
+                seq_target = batch_in['Target'].tolist()
+                # topk_lst = []
+                for i in range(bt_size):
+                    # topk_lst.append(seq_pred_sort[i].index(seq_target[i]))
+                    # The log (line, 0-based) index of anomaly in norm
+                    norm_idx = i+self.model_para['win_size']+j*self.model_para['batch_size']
+                    top_idx = seq_pred_sort[i].index(seq_target[i])
+
+                    if top_idx >= self.model_para['topk']:
+                        # Save each log state from line (WIN_SIZE+1)
+                        anomaly_pred.append(1)
+                        # Save anomaly log index of norm data
+                        anomaly_line.append(norm_idx)
+                    else:
+                        # Integrate OSS as para value anomaly detection
+                        if self.para_anomaly_det(content_lst[mnp_vec[norm_idx]],
+                                                 eid_lst[norm_idx], template_lst[norm_idx]):
+                            anomaly_pred.append(1)
+                            anomaly_line.append(norm_idx)
+                        else:
+                            anomaly_pred.append(0)
+                # print('debug topk2:', topk_lst)
+                j += 1
+
+        # print(anomaly_pred)
+        # print(anomaly_line)
+        # print(len(anomaly_line))
+        return anomaly_line
+
+
     # pylint: disable=too-many-locals
     def evaluate_core(self, model, data_loader, device):
         """ The evaluate core
@@ -490,4 +615,59 @@ class DeepLog(ModernBase):
     def predict(self):
         """ Predict using mdoel.
         """
-        print(self.dbg)
+        print("===> Start predicting using the execution path model ...")
+
+        #
+        # 1. Load data from test norm structured dataset
+        #
+        self.load_para()
+        test_data_dict, voc_size = self.load_data()
+        voc_size = self.libsize
+
+        #
+        # 2. Feed pytorch Dataset/DataLoader to get the iterator/tensors
+        #
+        test_data_loader = DeepLogExecDataset(
+            test_data_dict, batch_size=self.model_para['batch_size'],
+            shuffle=False, num_workers=self.model_para['num_workers']).loader
+
+        #
+        # 3. The line mapping between norm and norm pred
+        #
+        if not self.rcv:
+            mnp_vec = [i for i in range(self._df_raws.shape[0])]
+
+        # # Load the mapping vector between norm and norm pred file for the OSS
+        # with open(para_test['map_norm_pred'], 'rb') as f:
+        #     mnp_vec = pickle.load(f)
+
+        #
+        # 4. Load deeplog_exec model
+        #
+        device = torch.device(
+            'cuda' if self.model_para['device'] != 'cpu' and torch.cuda.is_available() else 'cpu')
+
+        model = DeepLogExec(
+            device, num_classes=voc_size, hidden_size=self.model_para['hidden_size'],
+            num_layers=2, num_dir=self.model_para['num_dir'])
+
+        model.load_state_dict(torch.load(self.exec_model))
+
+        #
+        # 5. Predict the test data
+        #
+        anomaly_line = self.predict_core(model, test_data_loader, device, mnp_vec)
+
+        #
+        # 6. Map anomaly_line[] in norm file to the raw test data file
+        #
+
+        # Load the line mapping list between raw and norm test file
+        if not GC.conf['general']['aim']:
+            with open(self.fzip['rawln_idx'], 'rb') as fin:
+                self._raw_ln_idx_norm = pickle.load(fin)
+
+        # Write to file. It is 1-based line num in raw file.
+        with open(self.fzip['rst_dlog'], 'w') as fout:
+            for item in anomaly_line:
+                fout.write('%s\n' % (self._raw_ln_idx_norm[item]))

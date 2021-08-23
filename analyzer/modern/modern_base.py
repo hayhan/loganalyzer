@@ -47,6 +47,10 @@ class ModernBase(ABC):
             # The in-memory template lib from parser module
             self._df_tmplts = df_tmplts
 
+        # For prediction only.
+        if not self.training:
+            self._raw_ln_idx_norm: List[int] = []
+
 
     def load_vocab(self, vocab_file: str, event_id_lib: List[str]):
         """ Generate/Load/Update vocabulary of eid (event id)
@@ -152,6 +156,17 @@ class ModernBase(ABC):
                 np.savetxt(vocab_file+'.txt', event_id_shuffled, fmt="%s")
 
         return event_id_shuffled
+
+
+    @property
+    def raw_ln_idx_norm(self):
+        """ Get the raw line index in norm data """
+        return self._raw_ln_idx_norm
+
+    @raw_ln_idx_norm.setter
+    def raw_ln_idx_norm(self, raw_ln_idx_norm: List[int]):
+        """ Set the raw line index in norm data """
+        self._raw_ln_idx_norm = raw_ln_idx_norm
 
 
     @abstractmethod

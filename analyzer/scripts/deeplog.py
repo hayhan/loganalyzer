@@ -202,7 +202,14 @@ def cli_deeplog_validate(adm, debug, src):
     help="Debug messages.",
     show_default=True,
 )
-def cli_deeplog_predict(adm, learn_ts, debug):
+@click.option(
+    "--recover",
+    default=False,
+    is_flag=True,
+    help="Recover the messed logs because of multi threads.",
+    show_default=True,
+)
+def cli_deeplog_predict(adm, learn_ts, debug, recover):
     """ Predict logs by using deeplog model """
     # Populate the in-memory config singleton with config file
     GC.read()
@@ -237,6 +244,7 @@ def cli_deeplog_predict(adm, learn_ts, debug):
 
     # Predict using deeplog model
     dlobj = DeepLog(psobj.df_raws, psobj.df_tmplts, ppobj.segdl, ppobj.labels, dbg=debug)
+    dlobj.raw_ln_idx_norm = ppobj.raw_ln_idx_norm
 
     if adm:
         exercise_all_para_groups(dlobj)

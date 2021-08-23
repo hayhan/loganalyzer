@@ -62,7 +62,9 @@ CLASS_LABEL_LENGTH = 5
 
 
 def get_files_io():
-    """ Collect the files of input / output. Mainly for debugging. """
+    """ Collect the files of input / output. Mainly for debugging except
+        analyzing results.
+    """
     if GC.conf['general']['training']:
         files_zip = {
             'raw': os.path.join(COOKED_DATA, 'train.txt'),
@@ -87,6 +89,9 @@ def get_files_io():
             'structured': os.path.join(TEST_DATA, 'test_norm.txt_structured.csv'),
             'top': os.path.join(TEST_DATA, 'analysis_summary_top.txt'),
             'sum': os.path.join(TEST_DATA, 'analysis_summary.csv'),
+            'rst_llab': os.path.join(TEST_DATA, 'results_loglab.txt'),
+            'rst_dlog': os.path.join(TEST_DATA, 'results_deeplog.txt'),
+            'rst_llzr': os.path.join(TEST_DATA, 'results_loglizer.txt'),
             'output': TEST_DATA
         }
     return files_zip
