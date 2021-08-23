@@ -21,15 +21,27 @@ log = logging.getLogger(__name__)
 
 class OSS():
     """ The oldshcool class """
-    def __init__(self, df_raws, raw_idx_norm):
+    def __init__(self, df_raws):
         self.fzip: dict = dh.get_files_io()
         self.intmdt: bool = GC.conf['general']['intmdt']
         self.aim: bool = GC.conf['general']['aim']
         self._log_head_offset: int = GC.conf['general']['head_offset']
-        self._raw_ln_idx_norm: List[int] = raw_idx_norm
+        self._raw_ln_idx_norm: List[int] = []
         self._df_raws = df_raws
         self._summary_df = pd.DataFrame(
             columns=['Time/LineNum', 'Description', 'Suggestion'])
+
+
+    @property
+    def raw_ln_idx_norm(self):
+        """ Get the raw line index in norm data """
+        return self._raw_ln_idx_norm
+
+
+    @raw_ln_idx_norm.setter
+    def raw_ln_idx_norm(self, raw_ln_idx_norm: List[int]):
+        """ Set the raw line index in norm data """
+        self._raw_ln_idx_norm = raw_ln_idx_norm
 
 
     def invalid_log_warning(self):

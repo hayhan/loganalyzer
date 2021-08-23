@@ -55,7 +55,11 @@ def cli_run_oss(learn_ts):
     psobj.parse()
 
     # Analyze the structured norm data
-    ossobj = OSS(psobj.df_raws, ppobj.raw_ln_idx_norm)
+    ossobj = OSS(psobj.df_raws)
+
+    # Hand over the line mapping between raw and norm
+    ossobj.raw_ln_idx_norm = ppobj.raw_ln_idx_norm
+
     ossobj.analyze()
 
     log.info("The logs are analyzed by oldschool module.")

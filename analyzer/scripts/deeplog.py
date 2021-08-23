@@ -93,8 +93,11 @@ def cli_deeplog_train(adm, debug):
     psobj = Parser(ppobj.normlogs)
     psobj.parse()
 
-    # Train the model for loglab
-    dlobj = DeepLog(psobj.df_raws, psobj.df_tmplts, ppobj.segdl, ppobj.labels, dbg=debug)
+    # Train the model for deeplog
+    dlobj = DeepLog(psobj.df_raws, psobj.df_tmplts, dbg=debug)
+
+    # Hand over segment info for training
+    dlobj.segdl = ppobj.segdl
 
     if adm:
         exercise_all_para_groups(dlobj)
@@ -167,8 +170,12 @@ def cli_deeplog_validate(adm, debug, src):
     psobj = Parser(ppobj.normlogs)
     psobj.parse()
 
-    # Train the model for loglab
-    dlobj = DeepLog(psobj.df_raws, psobj.df_tmplts, ppobj.segdl, ppobj.labels, dbg=debug)
+    # Train the model for deeplog
+    dlobj = DeepLog(psobj.df_raws, psobj.df_tmplts, dbg=debug)
+
+    # Hand over segment info and label info for validation
+    dlobj.segdl = ppobj.segdl
+    dlobj.labels = ppobj.labels
 
     if adm:
         exercise_all_para_groups(dlobj)
@@ -243,7 +250,9 @@ def cli_deeplog_predict(adm, learn_ts, debug, recover):
     psobj.parse()
 
     # Predict using deeplog model
-    dlobj = DeepLog(psobj.df_raws, psobj.df_tmplts, ppobj.segdl, ppobj.labels, dbg=debug)
+    dlobj = DeepLog(psobj.df_raws, psobj.df_tmplts, dbg=debug, rcv=recover)
+
+    # Hand over the line mapping between raw and norm for prediction
     dlobj.raw_ln_idx_norm = ppobj.raw_ln_idx_norm
 
     if adm:

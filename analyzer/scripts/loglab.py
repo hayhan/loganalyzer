@@ -103,7 +103,10 @@ def cli_loglab_train(model, adm, mykfold, debug):
     psobj.parse()
 
     # Train the model for loglab
-    llobj = Loglab(psobj.df_raws, psobj.df_tmplts, ppobj.segll, dbg=debug)
+    llobj = Loglab(psobj.df_raws, psobj.df_tmplts, dbg=debug)
+
+    # Hand over segment info for training
+    llobj.segll = ppobj.segll
 
     if adm:
         exercise_all_models(llobj)
@@ -191,7 +194,7 @@ def cli_loglab_predict(model, adm, learn_ts, debug, feat):
     if feat:
         debug = True
 
-    llobj = Loglab(psobj.df_raws, psobj.df_tmplts, ppobj.segll, dbg=debug)
+    llobj = Loglab(psobj.df_raws, psobj.df_tmplts, dbg=debug)
 
     if feat:
         llobj.check_feature()

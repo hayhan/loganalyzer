@@ -35,15 +35,27 @@ log = logging.getLogger(__name__)
 
 class Loglab(ModernBase):
     """ The class of Loglab technique """
-    def __init__(self, df_raws, df_tmplts, segll: List[tuple], dbg: bool = False):
+    def __init__(self, df_raws, df_tmplts, dbg: bool = False):
         self.model: str = GC.conf['loglab']['model']
         self.win_size: int = GC.conf['loglab']['window_size']
         self.weight: int = GC.conf['loglab']['weight']
         self.dbg: bool = dbg
-        self._segll: List[tuple] = segll
+        self._segll: List[tuple] = []
         self.onnx_model: str = os.path.join(dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx')
 
         ModernBase.__init__(self, df_raws, df_tmplts)
+
+
+    @property
+    def segll(self):
+        """ Get the segment info """
+        return self._segll
+
+
+    @segll.setter
+    def segll(self, segll: List[tuple]):
+        """ Set the segment info """
+        self._segll = segll
 
 
     def load_para(self):

@@ -60,17 +60,40 @@ class DeepLogExecDataset(Dataset):
 class DeepLog(ModernBase):
     """ The class of DeepLog technique """
     # pylint: disable=too-many-arguments
-    def __init__(self, df_raws, df_tmplts, segdl: List[tuple],
-                 labels: List[int], dbg: bool = False, rcv: bool = False):
+    def __init__(self, df_raws, df_tmplts, dbg: bool = False, rcv: bool = False):
         self.model_para: dict = {}
         self.dbg: bool = dbg
         self.rcv: bool = rcv  # Recover messed logs
-        self._segdl: List[tuple] = segdl
+        self._segdl: List[int] = []
+        self._labels: List[int] = []
         self.exec_model: str = ''
-        self.labels: List[int] = labels
         self.load_para()
 
         ModernBase.__init__(self, df_raws, df_tmplts)
+
+
+    @property
+    def segdl(self):
+        """ Get the segment info """
+        return self._segdl
+
+
+    @segdl.setter
+    def segdl(self, segdl: List[int]):
+        """ Set the segment info """
+        self._segdl = segdl
+
+
+    @property
+    def labels(self):
+        """ Get the label vector in norm data """
+        return self._labels
+
+
+    @labels.setter
+    def labels(self, labels: List[int]):
+        """ Set the raw line index in norm data """
+        self._labels = labels
 
 
     def load_para(self):
@@ -120,9 +143,9 @@ class DeepLog(ModernBase):
         if not self.training and self.metrics:
             if not GC.conf['general']['aim']:
                 with open(self.fzip['labels'], 'rb') as fin:
-                    self.labels = pickle.load(fin)
+                    self._labels = pickle.load(fin)
         else:
-            self.labels = [0] * len(event_id_logs)
+            self._labels = [0] * len(event_id_logs)
 
         # --------------------------------------------------------------
         # Load vocab, aka STIDLE: Shuffled Template Id List Expanded
@@ -159,12 +182,12 @@ class DeepLog(ModernBase):
                 with open(self.fzip['segdl'], 'rb') as fin:
                     self._segdl = pickle.load(fin)
 
-            data_dict = self.slice_logs_multi(event_idx_logs, self.labels,
+            data_dict = self.slice_logs_multi(event_idx_logs, self._labels,
                                               self.model_para['win_size'],
                                               self._segdl, self.training)
         # For prediction, we need to suppose it is always one session
         else:
-            data_dict = self.slice_logs(event_idx_logs, self.labels,
+            data_dict = self.slice_logs(event_idx_logs, self._labels,
                                         self.model_para['win_size'])
 
         # data_dict:
@@ -635,7 +658,7 @@ class DeepLog(ModernBase):
         # 3. The line mapping between norm and norm pred
         #
         if not self.rcv:
-            mnp_vec = [i for i in range(self._df_raws.shape[0])]
+            mnp_vec = list(range(self._df_raws.shape[0]))
 
         # # Load the mapping vector between norm and norm pred file for the OSS
         # with open(para_test['map_norm_pred'], 'rb') as f:

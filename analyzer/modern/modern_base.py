@@ -163,6 +163,7 @@ class ModernBase(ABC):
         """ Get the raw line index in norm data """
         return self._raw_ln_idx_norm
 
+
     @raw_ln_idx_norm.setter
     def raw_ln_idx_norm(self, raw_ln_idx_norm: List[int]):
         """ Set the raw line index in norm data """
