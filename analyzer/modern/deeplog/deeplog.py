@@ -383,6 +383,36 @@ class DeepLog(ModernBase):
         return content_lst, eid_lst, template_lst
 
 
+    def get_ready(self, is_shuffle=True):
+        """ Get work ready before training/validation/prediction
+        """
+        #
+        # Load data from train/test norm structured dataset per config
+        #
+        self.load_para()
+        data_dict, voc_size = self.load_data()
+        voc_size = self.libsize
+
+        #
+        # Feed pytorch Dataset/DataLoader to get the iterator/tensors
+        #
+        data_loader = DeepLogExecDataset(
+            data_dict, batch_size=self.model_para['batch_size'],
+            shuffle=is_shuffle, num_workers=self.model_para['num_workers']).loader
+
+        #
+        # Build DeepLog Model for Execution Path Anomaly Detection
+        #
+        device = torch.device(
+            'cuda' if self.model_para['device'] != 'cpu' and torch.cuda.is_available() else 'cpu')
+
+        model = DeepLogExec(
+            device, num_classes=voc_size, hidden_size=self.model_para['hidden_size'],
+            num_layers=2, num_dir=self.model_para['num_dir'])
+
+        return model, data_loader, device
+
+
     # pylint: disable=too-many-locals
     def predict_core(self, model, data_loader, device, mnp_vec):
         """ The predict core
@@ -539,33 +569,11 @@ class DeepLog(ModernBase):
         """
         print("===> Start training the execution path model ...")
 
-        #
-        # 1. Load data from train norm structured dataset
-        #
-        self.load_para()
-        train_data_dict, voc_size = self.load_data()
-        voc_size = self.libsize
+        # Get everything ready before training
+        model, train_data_loader, device = \
+            self.get_ready(is_shuffle=True)
 
-        #
-        # 2. Feed pytorch Dataset/DataLoader to get the iterator/tensors
-        #
-        train_data_loader = DeepLogExecDataset(
-            train_data_dict, batch_size=self.model_para['batch_size'],
-            shuffle=True, num_workers=self.model_para['num_workers']).loader
-
-        #
-        # 3. Build DeepLog Model for Execution Path Anomaly Detection
-        #
-        device = torch.device(
-            'cuda' if self.model_para['device'] != 'cpu' and torch.cuda.is_available() else 'cpu')
-
-        model = DeepLogExec(
-            device, num_classes=voc_size, hidden_size=self.model_para['hidden_size'],
-            num_layers=2, num_dir=self.model_para['num_dir'])
-
-        #
-        # 4. Start training the model
-        #
+        # Start training the model
         self.train_core(model, train_data_loader, device)
 
         # Evaluate itself
@@ -575,9 +583,7 @@ class DeepLog(ModernBase):
         print('Train Dataset Validation ==> TP: {}, FP: {}, TN: {}, FN: {}'
               .format(t_p, f_p, t_n, f_n))
 
-        #
-        # 5. Serialize the model
-        #
+        # Serialize the model
         torch.save(model.state_dict(), self.exec_model)
 
 
@@ -586,37 +592,14 @@ class DeepLog(ModernBase):
         """
         print("===> Start validating the execution path model ...")
 
-        #
-        # 1. Load data from test norm structured dataset
-        #
-        self.load_para()
-        test_data_dict, voc_size = self.load_data()
-        voc_size = self.libsize
-        # print(test_data_dict['EventSeq'])
-        # print(test_data_dict['Target'])
+        # Get everything ready before validation
+        model, test_data_loader, device = \
+            self.get_ready(is_shuffle=False)
 
-        #
-        # 2. Feed pytorch Dataset/DataLoader to get the iterator/tensors
-        #
-        test_data_loader = DeepLogExecDataset(
-            test_data_dict, batch_size=self.model_para['batch_size'],
-            shuffle=False, num_workers=self.model_para['num_workers']).loader
-
-        #
-        # 3. Load deeplog_exec model
-        #
-        device = torch.device(
-            'cuda' if self.model_para['device'] != 'cpu' and torch.cuda.is_available() else 'cpu')
-
-        model = DeepLogExec(
-            device, num_classes=voc_size, hidden_size=self.model_para['hidden_size'],
-            num_layers=2, num_dir=self.model_para['num_dir'])
-
+        # Load the model from file
         model.load_state_dict(torch.load(self.exec_model))
 
-        #
-        # 4. Validate the test data
-        #
+        # Validate the test data
         print("Validating...")
         t_p, f_p, t_n, f_n, _ = \
             self.evaluate_core(model, test_data_loader, device)
@@ -636,61 +619,35 @@ class DeepLog(ModernBase):
 
 
     def predict(self):
-        """ Predict using mdoel.
+        """ Predict using model.
         """
         print("===> Start predicting using the execution path model ...")
 
-        #
-        # 1. Load data from test norm structured dataset
-        #
-        self.load_para()
-        test_data_dict, voc_size = self.load_data()
-        voc_size = self.libsize
+        # Get everything ready before prediction
+        model, test_data_loader, device = \
+            self.get_ready(is_shuffle=False)
 
-        #
-        # 2. Feed pytorch Dataset/DataLoader to get the iterator/tensors
-        #
-        test_data_loader = DeepLogExecDataset(
-            test_data_dict, batch_size=self.model_para['batch_size'],
-            shuffle=False, num_workers=self.model_para['num_workers']).loader
+        # Load the model from file
+        model.load_state_dict(torch.load(self.exec_model))
 
-        #
-        # 3. The line mapping between norm and norm pred
-        #
+        # The line mapping between norm and norm pred
         if not self.rcv:
             mnp_vec = list(range(self._df_raws.shape[0]))
 
-        # # Load the mapping vector between norm and norm pred file for the OSS
+        # # Load the map between norm and norm pred for the OSS
         # with open(para_test['map_norm_pred'], 'rb') as f:
         #     mnp_vec = pickle.load(f)
 
-        #
-        # 4. Load deeplog_exec model
-        #
-        device = torch.device(
-            'cuda' if self.model_para['device'] != 'cpu' and torch.cuda.is_available() else 'cpu')
-
-        model = DeepLogExec(
-            device, num_classes=voc_size, hidden_size=self.model_para['hidden_size'],
-            num_layers=2, num_dir=self.model_para['num_dir'])
-
-        model.load_state_dict(torch.load(self.exec_model))
-
-        #
-        # 5. Predict the test data
-        #
+        # Predict the test data
         anomaly_line = self.predict_core(model, test_data_loader, device, mnp_vec)
-
-        #
-        # 6. Map anomaly_line[] in norm file to the raw test data file
-        #
 
         # Load the line mapping list between raw and norm test file
         if not GC.conf['general']['aim']:
             with open(self.fzip['rawln_idx'], 'rb') as fin:
                 self._raw_ln_idx_norm = pickle.load(fin)
 
-        # Write to file. It is 1-based line num in raw file.
+        # Write to file. It is 1-based line num in raw file. Map the
+        # anomaly_line in norm file to the raw test data file.
         with open(self.fzip['rst_dlog'], 'w') as fout:
             for item in anomaly_line:
                 fout.write('%s\n' % (self._raw_ln_idx_norm[item]))
