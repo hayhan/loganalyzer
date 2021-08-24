@@ -317,7 +317,7 @@ class PreprocessBase(ABC):
             raw_in_lst.append(os.path.join(raw_dir, fname))
         for rawf in raw_in_lst:
             with open(rawf, 'r', encoding='utf-8-sig') as rawin:
-                self._rawlogs.append(rawin.read())
+                self._rawlogs += rawin.readlines()
             # Add newline in case no one at end of preceding file
             self._rawlogs.append('\n')
 
@@ -343,7 +343,7 @@ class PreprocessBase(ABC):
                 rawf = os.path.join(dirpath, filename)
                 # print(rawf)
                 with open(rawf, 'r', encoding='utf-8-sig') as rawin:
-                    self._rawlogs.append(rawin.read())
+                    self._rawlogs += rawin.readlines()
                 # Add newline in case no one at end of preceding file
                 self._rawlogs.append('\n')
 

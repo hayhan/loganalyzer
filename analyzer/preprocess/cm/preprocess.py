@@ -545,19 +545,15 @@ class Preprocess(PreprocessBase):
         # This workarounds some similarity threshold issue in Drain
         # agorithm. Unix cat however will generate trailing ^M char.
         src1 = os.path.join(dh.RAW_DATA, 'others', 'temp_updt_manu.txt')
-        tmp1 = os.path.join(dh.COOKED_DATA, 'tmp1.txt')
-        try:
-            copyfile(src1, tmp1)
-        except IOError as err:
-            print("Unable to copy file. %s" % err)
-            sys.exit(1)
 
-        src2 = os.path.join(dh.COOKED_DATA, 'train.txt')
-        tmp2 = os.path.join(dh.COOKED_DATA, 'tmp2.txt')
-        os.rename(src2, tmp2)
+        rawlogs: List[str] = []
+        with open(src1, 'r', encoding='utf-8-sig') as rawfile:
+            rawlogs = rawfile.readlines()
+        # Add newline in case no one at the end of the heading file
+        rawlogs.append('\n')
 
-        # New train.txt under data/cooked/cm
-        self.cat_files_lst(dh.COOKED_DATA, ['tmp1.txt', 'tmp2.txt'])
-        # Delete temporary files
-        os.remove(tmp1)
-        os.remove(tmp2)
+        self._rawlogs = rawlogs + self._rawlogs
+
+        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
+            with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
+                monolith.writelines(self._rawlogs)
