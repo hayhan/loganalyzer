@@ -78,7 +78,6 @@ def cli_deeplog_train(adm, debug):
 
     # Concatenate the logs under data/raw/LOG_TYPE/normal
     ppobj.cat_files_deeplog(os.path.join(dh.RAW_DATA, 'normal'))
-    ppobj.load_raw_logs()
 
     # Process the raw data and generate new data
     ppobj.preprocess_new()
@@ -151,7 +150,9 @@ def cli_deeplog_validate(adm, debug, src):
     # validate the existing test.txt in data/cooked/LOG_TYPE/.
     if src != "NOPE":
         ppobj.cat_files_deeplog(os.path.join(dh.RAW_DATA, src))
-    ppobj.load_raw_logs()
+    else:
+        # Load existing test.txt for validation
+        ppobj.load_raw_logs()
 
     # Process the raw data and generate new data
     ppobj.preprocess_new()
@@ -230,6 +231,8 @@ def cli_deeplog_predict(adm, learn_ts, debug, recover):
     # GC.write()
 
     ppobj = pp.Preprocess()
+
+    # Load existing test.txt for prediction
     ppobj.load_raw_logs()
 
     # By default, learn the width of timestamp

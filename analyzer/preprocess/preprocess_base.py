@@ -5,7 +5,6 @@ import re
 import os
 import sys
 import pickle
-import shutil
 from abc import ABC, abstractmethod
 from typing import List, Pattern, Match
 import logging
@@ -248,8 +247,7 @@ class PreprocessBase(ABC):
             last_line = last_line_ts + last_line
         self._normlogs.append(last_line)
 
-        # Conditionally save the normlogs and rawln idx to files per the
-        # config file
+        # Conditionally save the normlogs and rawln idx to files
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['norm'], 'w', encoding='utf-8') as fnorm:
                 fnorm.writelines(self._normlogs)
@@ -306,10 +304,6 @@ class PreprocessBase(ABC):
                     pickle.dump(self._labels, fout)
 
 
-    # Note: The four cat_files functions below can save data directly to
-    # self._rawlogs then we no need use self.load_raw_logs() to read the
-    # train.txt or test.txt into memory again. For prediction, we always
-    # need read the physical test.txt. _ToDo in the furthur.
     def cat_files_lst(self, raw_dir: str, file_names: List[str]):
         """
         Cat multi raw log files in the file list under raw_dir into a
@@ -317,14 +311,19 @@ class PreprocessBase(ABC):
         data/train.txt or data/test.txt .
         """
         raw_in_lst: List[str] = []
-        with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
-            for fname in file_names:
-                raw_in_lst.append(os.path.join(raw_dir, fname))
-            for rawf in raw_in_lst:
-                with open(rawf, 'r', encoding='utf-8-sig') as rawin:
-                    shutil.copyfileobj(rawin, monolith)
-                    # Add newline if no one at end of preceding file
-                    monolith.write('\n')
+        self._rawlogs = []
+
+        for fname in file_names:
+            raw_in_lst.append(os.path.join(raw_dir, fname))
+        for rawf in raw_in_lst:
+            with open(rawf, 'r', encoding='utf-8-sig') as rawin:
+                self._rawlogs.append(rawin.read())
+            # Add newline in case no one at end of preceding file
+            self._rawlogs.append('\n')
+
+        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
+            with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
+                monolith.writelines(self._rawlogs)
 
 
     def cat_files_dir(self, raw_dir: str):
@@ -334,18 +333,23 @@ class PreprocessBase(ABC):
         is either data/train.txt or data/test.txt based on the config
         settings.
         """
-        with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
-            for dirpath, _, files in sorted(os.walk(raw_dir, topdown=True)):
-                # print(f'Found directory: {dirpath}')
-                for filename in files:
-                    if filename in dh.SKIP_FILE_LIST:
-                        continue
-                    rawf = os.path.join(dirpath, filename)
-                    # print(rawf)
-                    with open(rawf, 'r', encoding='utf-8-sig') as rawin:
-                        shutil.copyfileobj(rawin, monolith)
-                        # Add newline if no one at end of preceding file
-                        monolith.write('\n')
+        self._rawlogs = []
+
+        for dirpath, _, files in sorted(os.walk(raw_dir, topdown=True)):
+            # print(f'Found directory: {dirpath}')
+            for filename in files:
+                if filename in dh.SKIP_FILE_LIST:
+                    continue
+                rawf = os.path.join(dirpath, filename)
+                # print(rawf)
+                with open(rawf, 'r', encoding='utf-8-sig') as rawin:
+                    self._rawlogs.append(rawin.read())
+                # Add newline in case no one at end of preceding file
+                self._rawlogs.append('\n')
+
+        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
+            with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
+                monolith.writelines(self._rawlogs)
 
 
     def cat_files_deeplog(self, raw_dir: str):
@@ -355,28 +359,33 @@ class PreprocessBase(ABC):
         considering session labels. Monolith is either data/train.txt or
         data/test.txt based on the config settings.
         """
-        with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
-            for dirpath, _, files in sorted(os.walk(raw_dir, topdown=True)):
-                # print(f'Found directory: {dirpath}')
-                for filename in files:
-                    if filename in dh.SKIP_FILE_LIST:
-                        continue
-                    rawf = os.path.join(dirpath, filename)
-                    # print(rawf)
-                    with open(rawf, 'r', encoding='utf-8-sig') as rawin:
-                        for idx, line in enumerate(rawin):
-                            # Insert 'segsign: ' to the start line of
-                            # each file
-                            if idx == 0:
-                                match_ts = ptn.PTN_STD_TS.match(line)
-                                if match_ts:
-                                    curr_line_ts = match_ts.group(0)
-                                    newline = ptn.PTN_STD_TS.sub('', line, count=1)
-                                    line = curr_line_ts + 'segsign: ' + newline
-                                else:
-                                    print("Error: The timestamp is wrong!")
-                            monolith.write(line)
-                        monolith.write('\n')
+        self._rawlogs = []
+
+        for dirpath, _, files in sorted(os.walk(raw_dir, topdown=True)):
+            # print(f'Found directory: {dirpath}')
+            for filename in files:
+                if filename in dh.SKIP_FILE_LIST:
+                    continue
+                rawf = os.path.join(dirpath, filename)
+                # print(rawf)
+                with open(rawf, 'r', encoding='utf-8-sig') as rawin:
+                    for idx, line in enumerate(rawin):
+                        # Insert 'segsign: ' to start line of each file
+                        if idx == 0:
+                            match_ts = ptn.PTN_STD_TS.match(line)
+                            if match_ts:
+                                curr_line_ts = match_ts.group(0)
+                                newline = ptn.PTN_STD_TS.sub('', line, count=1)
+                                line = curr_line_ts + 'segsign: ' + newline
+                            else:
+                                print("Error: The timestamp is wrong!")
+                        self._rawlogs.append(line)
+                # Add newline in case no one at end of preceding file
+                self._rawlogs.append('\n')
+
+        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
+            with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
+                monolith.writelines(self._rawlogs)
 
 
     def cat_files_loglab(self):
@@ -385,38 +394,44 @@ class PreprocessBase(ABC):
         monolith. Extract class names. This is used for Loglab training.
         Monolith is data/train.txt
         """
-        with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
-            loglab_dir = os.path.join(dh.RAW_DATA, 'loglab')
-            # Note: name the class folder as 'cxxx', and training log
-            # files in it as '*_xxx.txt'. Concatenate files under dir
-            # data/raw/LOG_TYPE/loglab/c001/ ... /cxxx/.
-            for dirpath, _, files in sorted(os.walk(loglab_dir, topdown=True)):
-                # print(f'Found directory: {dirpath}')
-                # Extract class name (sub-folder cxxx, dirpath[-4:])
-                classname = re.split(r'[\\|/]', dirpath.strip('[\\|/]'))[-1]
-                if not ptn.PTN_CLASS_LABEL.match(classname):
-                    # Skip loglab itself and non-standard class name
-                    # sub-folders if any exists.
-                    continue
-                # Sort the files per the file name string[-7:-4], aka.
-                # the 3 digits num part.
-                for filename in sorted(files, key=lambda x:x[-7:-4]):
-                    rawf = os.path.join(dirpath, filename)
-                    # print(rawf)
-                    with open(rawf, 'r', encoding='utf-8-sig') as rawin:
-                        for idx, line in enumerate(rawin):
-                            # Insert class_name to the start line of
-                            # each file
-                            if idx == 0:
-                                match = ptn.PTN_STD_TS.match(line)
-                                if match:
-                                    curline_ts = match.group(0)
-                                    newline = ptn.PTN_STD_TS.sub('', line, count=1)
-                                    line = curline_ts + classname + ' ' + newline
-                                else:
-                                    print("Error: The timestamp is wrong!")
-                            monolith.write(line)
-                        monolith.write('\n')
+        self._rawlogs = []
+
+        loglab_dir = os.path.join(dh.RAW_DATA, 'loglab')
+        # Note: name the class folder as 'cxxx', and training log
+        # files in it as '*_xxx.txt'. Concatenate files under dir
+        # data/raw/LOG_TYPE/loglab/c001/ ... /cxxx/.
+        for dirpath, _, files in sorted(os.walk(loglab_dir, topdown=True)):
+            # print(f'Found directory: {dirpath}')
+            # Extract class name (sub-folder cxxx, dirpath[-4:])
+            classname = re.split(r'[\\|/]', dirpath.strip('[\\|/]'))[-1]
+            if not ptn.PTN_CLASS_LABEL.match(classname):
+                # Skip loglab itself and non-standard class name
+                # sub-folders if any exists.
+                continue
+            # Sort the files per the file name string[-7:-4], aka.
+            # the 3 digits num part.
+            for filename in sorted(files, key=lambda x:x[-7:-4]):
+                rawf = os.path.join(dirpath, filename)
+                # print(rawf)
+                with open(rawf, 'r', encoding='utf-8-sig') as rawin:
+                    for idx, line in enumerate(rawin):
+                        # Insert class_name to the start line of
+                        # each file
+                        if idx == 0:
+                            match = ptn.PTN_STD_TS.match(line)
+                            if match:
+                                curline_ts = match.group(0)
+                                newline = ptn.PTN_STD_TS.sub('', line, count=1)
+                                line = curline_ts + classname + ' ' + newline
+                            else:
+                                print("Error: The timestamp is wrong!")
+                        self._rawlogs.append(line)
+                # Add newline in case no one at end of preceding file
+                self._rawlogs.append('\n')
+
+        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
+            with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
+                monolith.writelines(self._rawlogs)
 
 
     def segment_deeplog(self):

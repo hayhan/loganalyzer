@@ -74,9 +74,11 @@ def cli_updt_tmplt(src, training, overwrite, current):
         if training:
             # Exceptions for specific LOG_TYPE
             ppobj.exceptions_tmplt()
+    else:
+        # Load existing tran.txt or test.txt
+        ppobj.load_raw_logs()
 
     # Process the raw data and generate new data
-    ppobj.load_raw_logs()
     ppobj.preprocess_new()
 
     # Normalize the new data to generate norm data

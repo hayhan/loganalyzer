@@ -35,6 +35,8 @@ def cli_run_oss(learn_ts):
     # GC.write()
 
     ppobj = pp.Preprocess()
+
+    # Load existing test.txt
     ppobj.load_raw_logs()
 
     # By default, learn the width of timestamp

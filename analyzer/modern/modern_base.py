@@ -17,6 +17,7 @@ __all__ = ["ModernBase"]
 
 log = logging.getLogger(__name__)
 
+# pylint: disable=too-many-instance-attributes
 class ModernBase(ABC):
     """ The base class of modern analyzing techniques. """
     def __init__(self, df_raws, df_tmplts):

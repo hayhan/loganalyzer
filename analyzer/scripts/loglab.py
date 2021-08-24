@@ -87,7 +87,6 @@ def cli_loglab_train(model, adm, mykfold, debug):
 
     # Concatenate the logs under data/raw/LOG_TYPE/loglab
     ppobj.cat_files_loglab()
-    ppobj.load_raw_logs()
 
     # Process the raw data and generate new data
     ppobj.preprocess_new()
@@ -171,6 +170,8 @@ def cli_loglab_predict(model, adm, learn_ts, debug, feat):
     # GC.write()
 
     ppobj = pp.Preprocess()
+
+    # Load existing test.txt for prediction
     ppobj.load_raw_logs()
 
     # By default, learn the width of timestamp

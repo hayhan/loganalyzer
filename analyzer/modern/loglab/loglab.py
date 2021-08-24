@@ -394,7 +394,7 @@ class Loglab(ModernBase):
 
             # Get the model performance metrics
             print(scores)
-            print("Mean: " + str(scores.mean()))
+            print("Mean: " + str(scores.mean()) + '\n')
 
         # --------------------------------------------------------------
         # Train the model with the optimized parameters in validation

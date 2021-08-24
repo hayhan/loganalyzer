@@ -54,8 +54,10 @@ def cli_gen_new(src, training, current):
         if src != dh.RAW_DATA:
             src = os.path.join(dh.RAW_DATA, src)
         ppobj.cat_files_dir(src)
+    else:
+        # Load existing tran.txt or test.txt
+        ppobj.load_raw_logs()
 
-    ppobj.load_raw_logs()
     ppobj.preprocess_new()
 
     log.info("The new log dataset is generated.")
@@ -108,8 +110,10 @@ def cli_gen_norm(src, training, overwrite, current):
             if src != dh.RAW_DATA:
                 src = os.path.join(dh.RAW_DATA, src)
             ppobj.cat_files_dir(src)
+        else:
+            # Load existing tran.txt or test.txt
+            ppobj.load_raw_logs()
 
-        ppobj.load_raw_logs()
         ppobj.preprocess_new()
     elif GC.conf['general']['aim']:
         # Use existing new file to generate norm log, we then must set
