@@ -26,22 +26,22 @@ class OSS():
         self.intmdt: bool = GC.conf['general']['intmdt']
         self.aim: bool = GC.conf['general']['aim']
         self._log_head_offset: int = GC.conf['general']['head_offset']
-        self._raw_ln_idx_norm: List[int] = []
+        self._map_norm_raw: List[int] = []
         self._df_raws = df_raws
         self._summary_df = pd.DataFrame(
             columns=['Time/LineNum', 'Description', 'Suggestion'])
 
 
     @property
-    def raw_ln_idx_norm(self):
+    def map_norm_raw(self):
         """ Get the raw line index in norm data """
-        return self._raw_ln_idx_norm
+        return self._map_norm_raw
 
 
-    @raw_ln_idx_norm.setter
-    def raw_ln_idx_norm(self, raw_ln_idx_norm: List[int]):
+    @map_norm_raw.setter
+    def map_norm_raw(self, map_norm_raw: List[int]):
         """ Set the raw line index in norm data """
-        self._raw_ln_idx_norm = raw_ln_idx_norm
+        self._map_norm_raw = map_norm_raw
 
 
     def invalid_log_warning(self):
@@ -74,9 +74,9 @@ class OSS():
 
         # Use in-memory data by default unless config file tells
         if not GC.conf['general']['aim']:
-            self._df_raws = pd.read_csv(self.fzip['structured'])
-            with open(self.fzip['rawln_idx'], 'rb') as fin:
-                self._raw_ln_idx_norm = pickle.load(fin)
+            self._df_raws = pd.read_csv(self.fzip['struct'])
+            with open(self.fzip['map_norm_raw'], 'rb') as fin:
+                self._map_norm_raw = pickle.load(fin)
 
         # A lower overhead progress bar
         pbar = tqdm(total=self._df_raws.shape[0], unit='Logs', disable=False,
@@ -117,7 +117,7 @@ class OSS():
                     # norm structured data/file
 
                     # Retrive the line number (1-based) in the test file
-                    time_stamp = self._raw_ln_idx_norm[rowidx]
+                    time_stamp = self._map_norm_raw[rowidx]
 
                 # Store the info of each anomaly log
                 log_time_l.append(time_stamp)

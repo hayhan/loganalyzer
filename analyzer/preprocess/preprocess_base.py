@@ -45,8 +45,8 @@ class PreprocessBase(ABC):
 
         # For prediction only. Does not include Loglizer.
         if not self.training:
-            self._raw_ln_idx_new: List[int] = []
-            self._raw_ln_idx_norm: List[int] = []
+            self._map_new_raw: List[int] = []
+            self._map_norm_raw: List[int] = []
 
 
     def load_raw_logs(self):
@@ -137,9 +137,9 @@ class PreprocessBase(ABC):
 
 
     @property
-    def raw_ln_idx_norm(self):
+    def map_norm_raw(self):
         """ Get the raw line index in norm data """
-        return self._raw_ln_idx_norm
+        return self._map_norm_raw
 
 
     @property
@@ -235,7 +235,7 @@ class PreprocessBase(ABC):
                 # Do it only for prediction in DeepLog/Loglab and OSS
                 if self.context in ['LOGLAB', 'OLDSCHOOL', 'DEEPLOG'] \
                     and not (self.training or self.metrics):
-                    self._raw_ln_idx_norm.append(self._raw_ln_idx_new[idx])
+                    self._map_norm_raw.append(self._map_new_raw[idx])
 
                 # Update last line parameters
                 last_line = newline
@@ -254,8 +254,8 @@ class PreprocessBase(ABC):
 
             if self.context in ['LOGLAB', 'OLDSCHOOL', 'DEEPLOG'] \
                 and not (self.training or self.metrics):
-                with open(self.fzip['rawln_idx'], 'wb') as fridx:
-                    pickle.dump(self._raw_ln_idx_norm, fridx)
+                with open(self.fzip['map_norm_raw'], 'wb') as fridx:
+                    pickle.dump(self._map_norm_raw, fridx)
 
 
     def extract_labels(self):

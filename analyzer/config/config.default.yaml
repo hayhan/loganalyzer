@@ -11,6 +11,7 @@ general:
     intmdt: true        # Save intermediate results to files
     aim: true           # Process data always in memory, otherwise intmdt must be true
     max_line: 500       # Max number of lines that is used for timestamp learning
+    rcv_mess: false     # Recover the messed logs because of multi-thread breaking
 
 # Section: templte
 template:

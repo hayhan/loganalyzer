@@ -60,10 +60,9 @@ class DeepLogExecDataset(Dataset):
 class DeepLog(ModernBase):
     """ The class of DeepLog technique """
     # pylint: disable=too-many-arguments
-    def __init__(self, df_raws, df_tmplts, dbg: bool = False, rcv: bool = False):
+    def __init__(self, df_raws, df_tmplts, dbg: bool = False):
         self.model_para: dict = {}
         self.dbg: bool = dbg
-        self.rcv: bool = rcv  # Recover messed logs
         self._segdl: List[int] = []
         self._labels: List[int] = []
         self.exec_model: str = ''
@@ -364,19 +363,17 @@ class DeepLog(ModernBase):
         eid_lst: event id list from norm struct data
         template_lst: template list from nnorm struct data
         """
+        # If messed logs recovering enabled, read the content from the
+        # original (aka. the 1st parsing result) structured norm.
+        if self.rcv:
+            if GC.conf['general']['aim']:
+                content_lst = self._df_raws_ori['Content'].tolist()
+            else:
+                content_lst = pd.read_csv(self.fzip['struct'], usecols=['Content'],
+                                    engine='c', na_filter=False, memory_map=True)
+        else:
+            content_lst = self._df_raws['Content'].tolist()
 
-        # # Read Content from original norm structured file
-        # data_df1 = pd.read_csv(para['o_struct_file'], usecols=['Content'],
-        #                     engine='c', na_filter=False, memory_map=True)
-        # content_lst = data_df1['Content'].values.tolist()
-
-        # # Read EventId and Template from norm pred structured file
-        # data_df1 = pd.read_csv(para['structured_file'], usecols=['EventId', 'EventTemplate'],
-        #                     engine='c', na_filter=False, memory_map=True)
-        # eid_lst = data_df1['EventId'].values.tolist()
-        # template_lst = data_df1['EventTemplate'].values.tolist()
-
-        content_lst = self._df_raws['Content'].tolist()
         eid_lst = self._df_raws['EventId'].tolist()
         template_lst = self._df_raws['EventTemplate'].tolist()
 
@@ -631,23 +628,25 @@ class DeepLog(ModernBase):
         model.load_state_dict(torch.load(self.exec_model))
 
         # The line mapping between norm and norm pred
-        if not self.rcv:
+        if self.rcv:
+            if GC.conf['general']['aim']:
+                mnp_vec = self._map_norm_rcv
+            else:
+                with open(self.fzip['map_norm_rcv'], 'rb') as fin:
+                    mnp_vec = pickle.load(fin)
+        else:
             mnp_vec = list(range(self._df_raws.shape[0]))
-
-        # # Load the map between norm and norm pred for the OSS
-        # with open(para_test['map_norm_pred'], 'rb') as f:
-        #     mnp_vec = pickle.load(f)
 
         # Predict the test data
         anomaly_line = self.predict_core(model, test_data_loader, device, mnp_vec)
 
         # Load the line mapping list between raw and norm test file
         if not GC.conf['general']['aim']:
-            with open(self.fzip['rawln_idx'], 'rb') as fin:
-                self._raw_ln_idx_norm = pickle.load(fin)
+            with open(self.fzip['map_norm_raw'], 'rb') as fin:
+                self._map_norm_raw = pickle.load(fin)
 
         # Write to file. It is 1-based line num in raw file. Map the
         # anomaly_line in norm file to the raw test data file.
         with open(self.fzip['rst_dlog'], 'w') as fout:
             for item in anomaly_line:
-                fout.write('%s\n' % (self._raw_ln_idx_norm[item]))
+                fout.write('%s\n' % (self._map_norm_raw[item]))

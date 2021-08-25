@@ -73,7 +73,7 @@ def get_files_io():
             'labels': os.path.join(TRAIN_DATA, 'train_norm.txt_labels.pkl'),
             'segll': os.path.join(TRAIN_DATA, 'train_norm.txt_seginf_loglab.pkl'),
             'segdl': os.path.join(TRAIN_DATA, 'train_norm.txt_seginf_deeplog.pkl'),
-            'structured': os.path.join(TRAIN_DATA, 'train_norm.txt_structured.csv'),
+            'struct': os.path.join(TRAIN_DATA, 'train_norm.txt_structured.csv'),
             'output': TRAIN_DATA
 
         }
@@ -85,13 +85,17 @@ def get_files_io():
             'labels': os.path.join(TEST_DATA, 'test_norm.txt_labels.pkl'),
             'segll': os.path.join(TEST_DATA, 'test_norm.txt_seginf_loglab.pkl'),
             'segdl': os.path.join(TEST_DATA, 'test_norm.txt_seginf_deeplog.pkl'),
-            'rawln_idx': os.path.join(TEST_DATA, 'rawline_idx_norm.pkl'),
-            'structured': os.path.join(TEST_DATA, 'test_norm.txt_structured.csv'),
+            'map_norm_raw': os.path.join(TEST_DATA, 'map_norm_raw.pkl'),
+            'map_norm_rcv': os.path.join(TEST_DATA, 'map_norm_rcv.pkl'),
+            'norm_rcv': os.path.join(TEST_DATA, 'test_norm_rcv.txt'),
+            'struct': os.path.join(TEST_DATA, 'test_norm.txt_structured.csv'),
+            'struct_rcv': os.path.join(TEST_DATA, 'test_norm_rcv.txt_structured.csv'),
             'top': os.path.join(TEST_DATA, 'analysis_summary_top.txt'),
             'sum': os.path.join(TEST_DATA, 'analysis_summary.csv'),
             'rst_llab': os.path.join(TEST_DATA, 'results_loglab.txt'),
             'rst_dlog': os.path.join(TEST_DATA, 'results_deeplog.txt'),
             'rst_llzr': os.path.join(TEST_DATA, 'results_loglizer.txt'),
+            'dbg': os.path.join(TEST_DATA, 'debug.csv'),
             'output': TEST_DATA
         }
     return files_zip

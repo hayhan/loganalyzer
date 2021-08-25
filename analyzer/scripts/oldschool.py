@@ -60,7 +60,7 @@ def cli_run_oss(learn_ts):
     ossobj = OSS(psobj.df_raws)
 
     # Hand over the line mapping between raw and norm
-    ossobj.raw_ln_idx_norm = ppobj.raw_ln_idx_norm
+    ossobj.map_norm_raw = ppobj.map_norm_raw
 
     ossobj.analyze()
 

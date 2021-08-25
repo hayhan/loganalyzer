@@ -210,14 +210,7 @@ def cli_deeplog_validate(adm, debug, src):
     help="Debug messages.",
     show_default=True,
 )
-@click.option(
-    "--recover",
-    default=False,
-    is_flag=True,
-    help="Recover the messed logs because of multi threads.",
-    show_default=True,
-)
-def cli_deeplog_predict(adm, learn_ts, debug, recover):
+def cli_deeplog_predict(adm, learn_ts, debug):
     """ Predict logs by using deeplog model """
     # Populate the in-memory config singleton with config file
     GC.read()
@@ -252,11 +245,30 @@ def cli_deeplog_predict(adm, learn_ts, debug, recover):
     psobj = Parser(ppobj.normlogs)
     psobj.parse()
 
-    # Predict using deeplog model
-    dlobj = DeepLog(psobj.df_raws, psobj.df_tmplts, dbg=debug, rcv=recover)
+    # Recover the messed logs per the setting in config file
+    if GC.conf['general']['rcv_mess']:
+        psobj.map_norm_raw = ppobj.map_norm_raw
+        # Recover logs using structured norm data from the 1st parsing
+        psobj.rcv_mess()
+        # Parse again the recovered norm data
+        ps_rcv_obj = Parser(psobj.norm_rcv, rcv=True)
+        ps_rcv_obj.parse()
+        # Until now, psobj.df_raws is the 1st time structured norm.
+        # ps_rcv_obj.df_raws is the 2nd time structured norm data.
 
-    # Hand over the line mapping between raw and norm for prediction
-    dlobj.raw_ln_idx_norm = ppobj.raw_ln_idx_norm
+        # Predict using deeplog model
+        dlobj = DeepLog(ps_rcv_obj.df_raws, ps_rcv_obj.df_tmplts, dbg=debug)
+        # Provide the 1st time structured norm for OSS para detection
+        dlobj.df_raws_ori = psobj.df_raws
+        # Hand over mapping between raw and norm_rcv for prediction
+        dlobj.map_norm_raw = psobj.map_norm_raw
+        # Hand over mapping between norm and norm_rcv
+        dlobj.map_norm_rcv = psobj.map_norm_rcv
+    else:
+        # Predict using deeplog model
+        dlobj = DeepLog(psobj.df_raws, psobj.df_tmplts, dbg=debug)
+        # Hand over mapping between raw and norm for prediction
+        dlobj.map_norm_raw = ppobj.map_norm_raw
 
     if adm:
         exercise_all_para_groups(dlobj)

@@ -194,9 +194,6 @@ def cli_deeplog():
     \b
     - The option `src` will validate the given folder, otherwise it will
       validate the existing test.txt in data/cooked.
-    \b
-    - The option `recover` will try to recover the messed logs because
-      of multi threads.
 
     \b
     Examples
@@ -205,7 +202,7 @@ def cli_deeplog():
     \b
     $ analyzer deeplog train [--debug] [--adm]
     $ analyzer deeplog validate [--debug] [--adm] [--src folder]
-    $ analyzer deeplog predict [--debug] [--adm] [--recover]
+    $ analyzer deeplog predict [--debug] [--adm]
     $ analyzer deeplog predict [--learn-ts/--no-learn-ts]
     """
 

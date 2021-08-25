@@ -25,16 +25,25 @@ class ModernBase(ABC):
         self.training: bool = GC.conf['general']['training']
         self.metrics: bool = GC.conf['general']['metrics']
         self.context: str = GC.conf['general']['context']
+        self.rcv: bool = GC.conf['general']['rcv_mess']
         self.libsize: int = GC.conf['template']['size']
 
         # The in-memory structured norm raw logs from parser module
         self._df_raws = df_raws
+        self._df_raws_ori = []  # used for the messed logs recovering
 
         # By default, we use the in-memory dataframe of structured norm
         # and template lib. But for prediction, always use file library
         if not GC.conf['general']['aim']:
+            if self.rcv:
+                # The recovered structured norm file
+                struct_file = self.fzip['struct_rcv']
+            else:
+                # The original structured norm file
+                struct_file = self.fzip['struct']
+
             # Read columns from normalized / structured log file
-            self._df_raws = pd.read_csv(self.fzip['structured'],
+            self._df_raws = pd.read_csv(struct_file,
                                 usecols=['Content', 'EventId', 'EventTemplate'],
                                 engine='c', na_filter=False, memory_map=True)
             # Read EventId from template library file
@@ -50,7 +59,8 @@ class ModernBase(ABC):
 
         # For prediction only.
         if not self.training:
-            self._raw_ln_idx_norm: List[int] = []
+            self._map_norm_raw: List[int] = []
+            self._map_norm_rcv: List[int] = []
 
 
     def load_vocab(self, vocab_file: str, event_id_lib: List[str]):
@@ -160,15 +170,39 @@ class ModernBase(ABC):
 
 
     @property
-    def raw_ln_idx_norm(self):
-        """ Get the raw line index in norm data """
-        return self._raw_ln_idx_norm
+    def df_raws_ori(self):
+        """ Get the original structured norm data"""
+        return self._df_raws_ori
 
 
-    @raw_ln_idx_norm.setter
-    def raw_ln_idx_norm(self, raw_ln_idx_norm: List[int]):
-        """ Set the raw line index in norm data """
-        self._raw_ln_idx_norm = raw_ln_idx_norm
+    @df_raws_ori.setter
+    def df_raws_ori(self, df_raws_ori):
+        """ Set the original structured norm data"""
+        self._df_raws_ori = df_raws_ori
+
+
+    @property
+    def map_norm_raw(self):
+        """ Get mapping between norm and raw """
+        return self._map_norm_raw
+
+
+    @map_norm_raw.setter
+    def map_norm_raw(self, map_norm_raw: List[int]):
+        """ Set mapping between norm and raw """
+        self._map_norm_raw = map_norm_raw
+
+
+    @property
+    def map_norm_rcv(self):
+        """ Get mapping between norm and recovered norm """
+        return self._map_norm_rcv
+
+
+    @map_norm_rcv.setter
+    def map_norm_rcv(self, map_norm_rcv: List[int]):
+        """ Set mapping between norm and recovered norm """
+        self._map_norm_rcv = map_norm_rcv
 
 
     @abstractmethod
