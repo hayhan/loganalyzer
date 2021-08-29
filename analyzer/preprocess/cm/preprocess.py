@@ -2,8 +2,6 @@
 """ Derived class of preprocess. LOG_TYPE specific.
 """
 import os
-import sys
-from shutil import copyfile
 from datetime import datetime
 import logging
 from typing import List, Pattern
