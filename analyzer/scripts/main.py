@@ -161,10 +161,10 @@ def cli_loglab():
     """ Multi-classification of log anomalies.
 
     \b
-    - The option `mykfold` will use kfold cross-verification manually
-    \b
     - The option `model` will train / predict using the model assigned
       here instead of the one in the config file.
+    \b
+    - The option `mykfold` will use kfold cross-verification manually
     \b
     - The option `adm` will train/predict using all defined models
     \b
@@ -177,8 +177,8 @@ def cli_loglab():
     --------
 
     \b
-    $ analyzer loglab train [--mykfold] [--model name] [--debug] [--adm]
-    $ analyzer loglab predict [--model name] [--debug] [--adm]
+    $ analyzer loglab train [--model name] [--mykfold] [--adm] [--debug]
+    $ analyzer loglab predict [--model name] [--adm] [--debug]
     $ analyzer loglab predict [--learn-ts/--no-learn-ts] [--feat]
     """
 
@@ -200,10 +200,38 @@ def cli_deeplog():
     --------
 
     \b
-    $ analyzer deeplog train [--debug] [--adm]
-    $ analyzer deeplog validate [--debug] [--adm] [--src folder]
-    $ analyzer deeplog predict [--debug] [--adm]
+    $ analyzer deeplog train [--adm] [--debug]
+    $ analyzer deeplog validate [--adm] [--src folder] [--debug]
+    $ analyzer deeplog predict [--adm] [--debug]
     $ analyzer deeplog predict [--learn-ts/--no-learn-ts]
+    """
+
+
+@cli.group("loglizer", short_help="Loglizer method of log anomaly detection")
+def cli_loglizer():
+    """ Loglizer method of log anomaly detection.
+
+    \b
+    - The option `model` will train / predict using the model assigned
+      here instead of the one in the config file.
+    \b
+    - The option `inc` will train models incrementally in one shot per
+      the file list
+    \b
+    - The option `adm` will train/predict using all defined models param
+    \b
+    - The option `src` will validate the given folder, otherwise it will
+      validate the existing test.txt in data/cooked.
+
+    \b
+    Examples
+    --------
+
+    \b
+    $ analyzer loglizer train [--model name] [--inc] [--adm] [--debug]
+    $ analyzer loglizer validate [--model name] [--adm] [--debug]
+    $ analyzer loglizer validate [--src folder]
+    $ analyzer loglizer predict [--model name] [--adm] [--debug]
     """
 
 
@@ -259,6 +287,15 @@ def add_subcommands():
 
     from .deeplog import cli_deeplog_predict
     cli_deeplog.add_command(cli_deeplog_predict)
+
+    from .loglizer import cli_loglizer_train
+    cli_loglizer.add_command(cli_loglizer_train)
+
+    from .loglizer import cli_loglizer_validate
+    cli_loglizer.add_command(cli_loglizer_validate)
+
+    from .loglizer import cli_loglizer_predict
+    cli_loglizer.add_command(cli_loglizer_predict)
 
 
 add_subcommands()

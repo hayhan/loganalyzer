@@ -72,7 +72,7 @@ class Loglab(ModernBase):
 
         Returns
         -------
-        event_matrix: multi-line for training / validation, one line
+        event_matrix: multi-line for training / validation, one line \
                       matrix for prediction
         class_vector: vector of target class for each sample
         """
@@ -410,6 +410,12 @@ class Loglab(ModernBase):
         onx = convert_sklearn(model, initial_types=initial_type)
         with open(self.onnx_model, "wb") as fout:
             fout.write(onx.SerializeToString())
+
+
+    def evaluate(self):
+        """ Validate the model.
+        """
+        log.info("Not implemented.")
 
 
     def predict(self):

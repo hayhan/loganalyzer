@@ -50,9 +50,9 @@ class Node:
         ----------
         child_node     : the child node
         digit_or_token : seq_len - length layer node
-                         token_first_key - The first token split
-                         token_last_key - The last token split
-                         <*> - others-node within each length layer node
+                       : token_first_key - The first token split
+                       : token_last_key - The last token split
+                       : <*> - others-node within each length layer node
         """
         if child_node is None:
             child_node = dict()
@@ -86,13 +86,13 @@ class Para:
         tmplt_lib   : the template library path/name
         save_path   : the output path for structured logs
         rex         : regular expressions used in preprocess in parser
-        rex_s_token : pattern list of special tokens that must be same
+        rex_s_token : pattern list of special tokens that must be same \
                       between template and accepted log
         max_child   : max number of children of length layer node
         sim_t_m     : similarity threshold for the merge step
-        inc_updt    : incrementally generate the template file.
+        inc_updt    : incrementally generate the template file. \
                       apply to both train and test dataset
-        over_wr_lib : overwrite the template lib in persist directory.
+        over_wr_lib : overwrite the template lib in persist directory. \
                       only apply to train dataset
         prt_tree    : write the tree to a file for debugging
         nopgbar     : disable the progress bar
@@ -388,7 +388,7 @@ class Drain:
         ----------
         seq1   : the template
         seq2   : the raw log
-        return : sim that represents the similarity
+        return : sim that represents the similarity \
                  para_num, the num of parameters
         """
 
@@ -528,7 +528,7 @@ class Drain:
         ----------
         seq1   : the raw log
         seq2   : the template
-        return : new_tmplt that represents the new template
+        return : new_tmplt that represents the new template \
                  updt_token_num, num of tokens that are replaced by <*>
         """
         # This func converts the 1st/last token to <*> too. It does not

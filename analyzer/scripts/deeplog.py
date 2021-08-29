@@ -15,9 +15,9 @@ log = logging.getLogger(__name__)
 
 # Parameter groups for DeepLog Exec/LSTM model
 PARA_GROUPS = {
-    0: {'win_size': 10, 'batch_size': 32, 'num_epochs': 150, 'hidden_size': 128,
+    0: {'win_size': 15, 'batch_size': 32, 'num_epochs': 150, 'hidden_size': 128,
         'topk': 10, 'num_dir': 1, 'num_workers': 0, 'device': 'cpu'},
-    1: {'win_size': 15, 'batch_size': 32, 'num_epochs': 150, 'hidden_size': 128,
+    1: {'win_size': 10, 'batch_size': 32, 'num_epochs': 150, 'hidden_size': 128,
         'topk': 10, 'num_dir': 1, 'num_workers': 0, 'device': 'cpu'},
 }
 
@@ -171,7 +171,7 @@ def cli_deeplog_validate(adm, debug, src):
     psobj = Parser(ppobj.normlogs)
     psobj.parse()
 
-    # Train the model for deeplog
+    # Validate the model for deeplog
     dlobj = DeepLog(psobj.df_raws, psobj.df_tmplts, dbg=debug)
 
     # Hand over segment info and label info for validation

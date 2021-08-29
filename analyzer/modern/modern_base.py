@@ -44,7 +44,6 @@ class ModernBase(ABC):
 
             # Read columns from normalized / structured log file
             self._df_raws = pd.read_csv(struct_file,
-                                usecols=['Content', 'EventId', 'EventTemplate'],
                                 engine='c', na_filter=False, memory_map=True)
             # Read EventId from template library file
             self._df_tmplts = pd.read_csv(dh.TEMPLATE_LIB, usecols=['EventId'],
@@ -206,6 +205,12 @@ class ModernBase(ABC):
 
 
     @abstractmethod
+    def load_para(self):
+        """ Load/Update model parameters.
+        """
+
+
+    @abstractmethod
     def load_data(self):
         """ Extract features, vectoring, and compose data matrix.
         """
@@ -214,6 +219,12 @@ class ModernBase(ABC):
     @abstractmethod
     def train(self):
         """ Train the model.
+        """
+
+
+    @abstractmethod
+    def evaluate(self):
+        """ Validate the model.
         """
 
 

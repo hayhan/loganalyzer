@@ -45,6 +45,8 @@ TMP_DATA = os.path.join(ANALYZER_DATA, 'tmp')
 TEMPLATE_LIB = os.path.join(PERSIST_DATA, 'template_lib.csv')
 VOCAB_LOGLAB = os.path.join(PERSIST_DATA, 'vocab_loglab.npy')
 VOCAB_DEEPLOG = os.path.join(PERSIST_DATA, 'vocab_deeplog.npy')
+VOCAB_LOGLIZER = os.path.join(PERSIST_DATA, 'vocab_loglizer.npy')
+VOCAB_LOGLIZER_STATIC = os.path.join(PERSIST_DATA, 'vocab_loglizer_static.npy')
 
 # Skip file list when concatenates raw log files under data/raw
 SKIP_FILE_LIST = ['README.md', 'desc.txt']
@@ -94,7 +96,7 @@ def get_files_io():
             'sum': os.path.join(TEST_DATA, 'analysis_summary.csv'),
             'rst_llab': os.path.join(TEST_DATA, 'results_loglab.txt'),
             'rst_dlog': os.path.join(TEST_DATA, 'results_deeplog.txt'),
-            'rst_llzr': os.path.join(TEST_DATA, 'results_loglizer.txt'),
+            'rst_llzr': os.path.join(TEST_DATA, 'results_loglizer.csv'),
             'dbg': os.path.join(TEST_DATA, 'debug.csv'),
             'output': TEST_DATA
         }

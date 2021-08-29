@@ -207,15 +207,15 @@ class DeepLog(ModernBase):
 
         Arguments
         ---------
-        eidx_logs: event index (0 based int) vector mapping to each log
-                   in structured data
+        eidx_logs: event index (0 based int) vector mapping to each \
+                   log in structured data
         labels: the label for each log in validation dataset
         win_size: the window size, aka. sequence length
 
         Returns
         -------
         results_dict:
-        <SeqIdx> the sequence / sample idx,
+        <SeqIdx> the sequence / sample idx, \
                  aka. log line number [0 ~ (logsnum-win_size-1)]
         <EventSeq> array of [seq_num x win_size] event sequence
         <Target> the target event index for each event sequence
