@@ -137,6 +137,7 @@ def cli_template():
     $ analyzer template updt [--current] [--overwrite]
     $ analyzer template updt [--training/no-training]
     $ analyzer template del
+    $ analyzer template sort
     """
 
 
@@ -235,6 +236,24 @@ def cli_loglizer():
     """
 
 
+@cli.group("utils", short_help="Some utils for helping debug/clean logs")
+def cli_utils():
+    """ Some utils for helping debug/clean logs.
+
+    \b
+    - The sub command chkcup will check duplicates in a file.
+    \b
+    - The sub command normts will normalize timestamp.
+
+    \b
+    Examples
+    --------
+
+    \b
+    $ analyzer utils chkdup --src path name
+    $ analyzer utils normts
+    """
+
 # pylint:disable=too-many-locals
 def add_subcommands():
     """ add subcommands dynamically """
@@ -270,6 +289,9 @@ def add_subcommands():
     from .parser import cli_del_tmplt
     cli_template.add_command(cli_del_tmplt)
 
+    from .parser import cli_sort_tmplt
+    cli_template.add_command(cli_sort_tmplt)
+
     from .oldschool import cli_run_oss
     cli_oldschool.add_command(cli_run_oss)
 
@@ -296,6 +318,12 @@ def add_subcommands():
 
     from .loglizer import cli_loglizer_predict
     cli_loglizer.add_command(cli_loglizer_predict)
+
+    from .utils import cli_chkdup
+    cli_utils.add_command(cli_chkdup)
+
+    from .utils import cli_normts
+    cli_utils.add_command(cli_normts)
 
 
 add_subcommands()

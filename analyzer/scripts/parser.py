@@ -5,6 +5,7 @@ import os
 import logging
 import click
 import analyzer.utils.data_helper as dh
+import analyzer.utils.misc_tools as mt
 from analyzer.config import GlobalConfig as GC
 from analyzer.preprocess import pp
 from analyzer.parser import Parser
@@ -107,3 +108,13 @@ def cli_del_tmplt():
         os.remove(dh.TEMPLATE_LIB + '.old')
     except OSError as error:
         print(error)
+
+    log.info("The template lib is removed.")  
+
+# ----------------------------------------------------------------------
+# analyzer template sort
+# ----------------------------------------------------------------------
+@click.command(name="sort")
+def cli_sort_tmplt():
+    """ Sor the template lib for debugging. """
+    mt.sort_tmplt_lib()

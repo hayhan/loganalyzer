@@ -1,6 +1,7 @@
 # Licensed under the MIT License - see License.txt
 """ Class of parser that wraps Drain """
 import sys
+import os
 import re
 import logging
 import hashlib
