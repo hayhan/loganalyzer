@@ -49,7 +49,7 @@ VOCAB_LOGLIZER = os.path.join(PERSIST_DATA, 'vocab_loglizer.npy')
 VOCAB_LOGLIZER_STATIC = os.path.join(PERSIST_DATA, 'vocab_loglizer_static.npy')
 
 # Skip file list when concatenates raw log files under data/raw
-SKIP_FILE_LIST = ['README.md', 'desc.txt']
+SKIP_FILE_LIST = ['README.md', 'desc.txt', 'train.lst', 'validate.lst']
 
 # Max length of customized timestamp in logs for prediction
 MAX_TIMESTAMP_LENGTH = 50
