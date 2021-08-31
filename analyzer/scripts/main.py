@@ -3,7 +3,6 @@
 """
 import logging
 import warnings
-from datetime import datetime
 import click
 from analyzer import __version__
 
@@ -94,11 +93,9 @@ def cli(ctx, log_level, ignore_warnings):
         cli_oldschool.add_command(cli_run_oss)
 
     elif ctx.invoked_subcommand == 'loglab':
-        parse_st: datetime = datetime.now()
         from . import loglab as mod
         cli_loglab.add_command(mod.cli_loglab_train)
         cli_loglab.add_command(mod.cli_loglab_predict)
-        print('import costs {!s}\n'.format(datetime.now()-parse_st))
 
     elif ctx.invoked_subcommand == 'deeplog':
         from . import deeplog as mod
@@ -107,12 +104,10 @@ def cli(ctx, log_level, ignore_warnings):
         cli_deeplog.add_command(mod.cli_deeplog_predict)
 
     elif ctx.invoked_subcommand == 'loglizer':
-        parse_st: datetime = datetime.now()
         from . import loglizer as mod
         cli_loglizer.add_command(mod.cli_loglizer_train)
         cli_loglizer.add_command(mod.cli_loglizer_validate)
         cli_loglizer.add_command(mod.cli_loglizer_predict)
-        print('import costs {!s}\n'.format(datetime.now()-parse_st))
 
     elif ctx.invoked_subcommand == 'utils':
         from . import utils as mod

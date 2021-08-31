@@ -15,6 +15,7 @@ from tqdm import tqdm
 
 __all__ = ["Para", "Drain"]
 
+# pylint: disable=too-many-lines
 # pylint: disable=too-many-instance-attributes:too-few-public-methods
 # pylint: disable=too-many-arguments:too-many-public-methods
 # pylint: disable=too-many-boolean-expressions:too-many-branches
@@ -121,19 +122,21 @@ class Drain:
         """
         Attributes
         ----------
-        para       : the parameter object from class Para
-        raws       : the raw log data, aka. norm data of preprocess
-        pointer    : dict of pointers for cache mechanism
-        _df_raws   : data frame of raw logs, aka. norm data of preprocess
-        _df_tmplts : data frame of templates
-        log_id     : log line number in the raw file, debug only
-        tree       : the tree, debug only
+        para         : the parameter object from class Para
+        raws         : the raw log data, aka. norm of preprocess
+        pointer      : dict of pointers for cache mechanism
+        _df_raws     : data frame of raw logs, aka. norm of preprocess
+        _df_tmplts   : updated data frame of templates
+        _df_tmplts_o : original data frame of templates
+        log_id       : log line number in the raw file, debug only
+        tree         : the tree, debug only
         """
         self.para = para
         self.raws = raws
         self.pointer = dict()
         self._df_raws = None
         self._df_tmplts = None
+        self._df_tmplts_o = None
         self.log_id = 0
         self.tree = ''
 
@@ -204,7 +207,6 @@ class Drain:
             # Paper: ret_log_cluster = self.key_tree_search(seq)
 
             if ret_log_cluster is None:
-                # Search the token layer
                 token_layer_node = self.token_tree_search(rtn, seq)
 
                 if token_layer_node is not None:
@@ -643,7 +645,6 @@ class Drain:
             # if the adaptive theshold is applied.
 
             # If the merge mechanism is used, then merge the nodes
-            # TBD if we need this feature in ML and Oldshchool
             if self.para.sim_t_m < 1:
                 self.adjust_output_cell(match_clust, clust_lst)
 
@@ -822,10 +823,18 @@ class Drain:
 
     @property
     def df_tmplts(self):
-        """ Get templates in pandas dataframe
+        """ Get templates (updated by Drain) in pandas dataframe
             Column: EventIdOld/EventId/EventTemplate/Occurrences
         """
         return self._df_tmplts
+
+
+    @property
+    def df_tmplts_o(self):
+        """ Get templates (non-updated version) in pandas dataframe
+            Column: EventIdOld/EventId/EventTemplate
+        """
+        return self._df_tmplts_o
 
 
     @staticmethod
@@ -904,8 +913,8 @@ class Drain:
     def load_template_lib(self):
         """ Read the templates from the library to dataframe """
         if self.para.inc_updt and os.path.exists(self.para.tmplt_lib):
-            self._df_tmplts = pd.read_csv(self.para.tmplt_lib,
-                                          usecols=['EventId', 'EventTemplate'])
+            self._df_tmplts = \
+            self._df_tmplts_o = pd.read_csv(self.para.tmplt_lib)
         else:
             # Only initialize an empty dataframe
             self._df_tmplts = pd.DataFrame()

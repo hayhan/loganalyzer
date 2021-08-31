@@ -259,7 +259,7 @@ def cli_deeplog_predict(adm, learn_ts, debug):
         # Predict using deeplog model
         dlobj = DeepLog(ps_rcv_obj.df_raws, ps_rcv_obj.df_tmplts, dbg=debug)
         # Provide the 1st time structured norm for OSS para detection
-        dlobj.df_raws_ori = psobj.df_raws
+        dlobj.df_raws_o = psobj.df_raws
         # Hand over mapping between raw and norm_rcv for prediction
         dlobj.map_norm_raw = psobj.map_norm_raw
         # Hand over mapping between norm and norm_rcv

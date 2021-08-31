@@ -7,7 +7,7 @@ import hashlib
 import pickle
 from typing import List
 from importlib import import_module
-import pandas as pd
+#import pandas as pd
 import analyzer.utils.data_helper as dh
 from analyzer.config import GlobalConfig as GC
 from analyzer.parser import Para, Drain
@@ -124,16 +124,23 @@ class Parser():
         #
         # Column: LineId/Time/Content/EventIdOld/EventId/EventTemplate
         self._df_raws = my_parser.df_raws
-        # Column: EventIdOld/EventId/EventTemplate/Occurrences
-        self._df_tmplts = my_parser.df_tmplts
+
+        # For in-memory template lib, it is always the same as the data
+        # in lib file except 'Occurrences' for training. It is probably
+        # different for prediction as we dont overwrite lib file with
+        # the parsing result. So reload the non-updated version.
+        if self.training:
+            # Column: EventIdOld/EventId/EventTemplate/Occurrences
+            self._df_tmplts = my_parser.df_tmplts
+        else:
+            # Column: EventIdOld/EventId/EventTemplate
+            self._df_tmplts = my_parser.df_tmplts_o
 
 
     def learn_timestamp(self):
-        """ Learn the width of timestamp """
+        """ Learn the width of timestamp. Run parse beforehand. """
         # Load event id from template library
-        data_df = pd.read_csv(dh.TEMPLATE_LIB, usecols=['EventId'],
-                              engine='c', na_filter=False, memory_map=True)
-        eid_lib: List[str] = data_df['EventId'].values.tolist()
+        eid_lib: List[str] = self._df_tmplts['EventId'].values.tolist()
 
         # Take the structured logs
         content_logs: List[str] = self._df_raws['Content'].values.tolist()
@@ -186,16 +193,15 @@ class Parser():
     # pylint: disable=too-many-statements
     def rcv_mess(self):
         """ Recover messed logs (test.txt) caused by multi threads
-            See design doc to understand the algorithm.
+            See design doc to understand the algorithm. Run parse
+            beforehand.
 
             Currently this file is ONLY used for DeepLog predict.
             Not for DeepLog train and validation.
             Not for OSS, Loglab and Loglizer.
         """
         # Load event id from template library
-        data_df = pd.read_csv(dh.TEMPLATE_LIB, usecols=['EventId'],
-                              engine='c', na_filter=False, memory_map=True)
-        eid_lib: List[str] = data_df['EventId'].values.tolist()
+        eid_lib: List[str] = self._df_tmplts['EventId'].values.tolist()
 
         # Load old event id & template of each log from structured norm
         if self._log_head_offset > 0:

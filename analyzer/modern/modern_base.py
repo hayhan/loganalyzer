@@ -7,7 +7,6 @@ from abc import ABC, abstractmethod
 from typing import List
 import shutil
 import numpy as np
-import pandas as pd
 from analyzer.config import GlobalConfig as GC
 import analyzer.utils.data_helper as dh
 
@@ -30,11 +29,16 @@ class ModernBase(ABC):
 
         # The in-memory structured norm raw logs from parser module
         self._df_raws = df_raws
-        self._df_raws_ori = []  # used for the messed logs recovering
+        self._df_raws_o = []  # used for the messed logs recovering
+
+        # The in-memory template lib from parser module
+        self._df_tmplts = df_tmplts
 
         # By default, we use the in-memory dataframe of structured norm
-        # and template lib. But for prediction, always use file library
+        # and template lib. Read from files if in-memory mode disabled.
         if not GC.conf['general']['aim']:
+            # pylint: disable=import-outside-toplevel
+            import pandas as pd
             if self.rcv:
                 # The recovered structured norm file
                 struct_file = self.fzip['struct_rcv']
@@ -48,13 +52,6 @@ class ModernBase(ABC):
             # Read EventId from template library file
             self._df_tmplts = pd.read_csv(dh.TEMPLATE_LIB, usecols=['EventId'],
                                 engine='c', na_filter=False, memory_map=True)
-        elif not self.training:
-            # Read EventId from template library file
-            self._df_tmplts = pd.read_csv(dh.TEMPLATE_LIB, usecols=['EventId'],
-                                engine='c', na_filter=False, memory_map=True)
-        else:
-            # The in-memory template lib from parser module
-            self._df_tmplts = df_tmplts
 
         # For prediction only.
         if not self.training:
@@ -169,15 +166,15 @@ class ModernBase(ABC):
 
 
     @property
-    def df_raws_ori(self):
+    def df_raws_o(self):
         """ Get the original structured norm data"""
-        return self._df_raws_ori
+        return self._df_raws_o
 
 
-    @df_raws_ori.setter
-    def df_raws_ori(self, df_raws_ori):
+    @df_raws_o.setter
+    def df_raws_o(self, df_raws_o):
         """ Set the original structured norm data"""
-        self._df_raws_ori = df_raws_ori
+        self._df_raws_o = df_raws_o
 
 
     @property

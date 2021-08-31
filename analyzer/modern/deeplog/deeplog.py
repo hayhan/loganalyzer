@@ -367,7 +367,7 @@ class DeepLog(ModernBase):
         # original (aka. the 1st parsing result) structured norm.
         if self.rcv:
             if GC.conf['general']['aim']:
-                content_lst = self._df_raws_ori['Content'].tolist()
+                content_lst = self._df_raws_o['Content'].tolist()
             else:
                 content_lst = pd.read_csv(self.fzip['struct'], usecols=['Content'],
                                     engine='c', na_filter=False, memory_map=True)
