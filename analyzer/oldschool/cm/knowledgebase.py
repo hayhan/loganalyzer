@@ -1,4 +1,4 @@
-# Licensed under the MIT License - see License.txt
+# Licensed under the MIT License - see LICENSE.txt
 """ Domain knowledge base for CM / DOCSIS.
 """
 from typing import List

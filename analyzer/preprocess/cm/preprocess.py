@@ -1,4 +1,4 @@
-# Licensed under the MIT License - see License.txt
+# Licensed under the MIT License - see LICENSE.txt
 """ Derived class of preprocess. LOG_TYPE specific.
 """
 import os
@@ -535,6 +535,7 @@ class Preprocess(PreprocessBase):
                 newline = ptn_obj.sub(' '+mtch.group(0), newline)
 
         return newline
+
 
     def exceptions_tmplt(self):
         """ Do some exceptional works of template update """

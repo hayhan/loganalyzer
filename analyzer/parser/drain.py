@@ -1,4 +1,4 @@
-# Licensed under the MIT License - see License.txt
+# Licensed under the MIT License - see LICENSE.txt
 """ This file implements Drain algorithm of log parsing/clustering.
     Reference paper: [Arxiv'18] A Directed Acyclic Graph Approach
     to Online Log Parsing, 2018.

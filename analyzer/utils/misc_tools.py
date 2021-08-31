@@ -1,4 +1,4 @@
-# Licensed under the MIT License - see License.txt
+# Licensed under the MIT License - see LICENSE.txt
 """ Miscellaneous tools for debugging, cleaning logs, etc. """
 import os
 import collections

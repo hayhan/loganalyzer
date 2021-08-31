@@ -1,4 +1,4 @@
-# Licensed under the MIT License - see License.txt
+# Licensed under the MIT License - see LICENSE.txt
 """ API for preprocess module.
 """
 from importlib import import_module

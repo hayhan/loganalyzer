@@ -1,4 +1,4 @@
-# Licensed under the MIT License - see License.txt
+# Licensed under the MIT License - see LICENSE.txt
 """ The misc stuff. LOG_TYPE specific.
 """
 __all__ = [

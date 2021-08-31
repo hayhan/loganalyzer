@@ -1,4 +1,4 @@
-# Licensed under the MIT License - see License.txt
+# Licensed under the MIT License - see LICENSE.txt
 """ Class of parser that wraps Drain """
 import sys
 import re
@@ -179,7 +179,7 @@ class Parser():
         GC.conf['general']['head_offset'] = self._log_head_offset
 
         log.debug("Learned log head offset: %d, at line %d.",
-                 self._log_head_offset, lineoffset)
+                  self._log_head_offset, lineoffset)
 
 
     # pylint: disable=too-many-locals:too-many-branches

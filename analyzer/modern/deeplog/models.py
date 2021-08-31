@@ -1,4 +1,4 @@
-# Licensed under the MIT License - see License.txt
+# Licensed under the MIT License - see LICENSE.txt
 """ The DeepLog models for exec path & parameter anomaly detection
     Reference paper: [CCS'17] DeepLog: Anomaly Detection and Diagnosis
     from System Logs through Deep Learning, 2017.

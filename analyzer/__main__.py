@@ -1,4 +1,4 @@
-# Licensed under the MIT License - see License.txt
+# Licensed under the MIT License - see LICENSE.txt
 """ Top-level script environment for Loganalyzer.
 
 This is what's executed when you run:

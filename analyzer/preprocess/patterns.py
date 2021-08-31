@@ -1,4 +1,4 @@
-# Licensed under the MIT License - see License.txt
+# Licensed under the MIT License - see LICENSE.txt
 """ The re patterns for preprocess module. Common for all LOG_TYPEs.
 """
 import re

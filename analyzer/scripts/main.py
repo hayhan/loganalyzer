@@ -1,4 +1,4 @@
-# Licensed under the MIT License - see License.txt
+# Licensed under the MIT License - see LICENSE.txt
 """ Loganalyzer command line interface (scripts).
 """
 import logging
@@ -64,12 +64,12 @@ def cli(ctx, log_level, ignore_warnings):
     # Lazy loading of the second level sub-commands
 
     # Set invoke_without_command=True in group property otherwise cli()
-    # cannot be invoked without sub-command. We dont need this use case.
+    # cannot be invoked without sub-command. We dont have this use case.
     # https://click.palletsprojects.com/en/latest/commands/
 
     # pylint:disable=import-outside-toplevel
     if ctx.invoked_subcommand is None:
-        click.echo('I was invoked without subcommand')
+        click.echo('I was invoked without sub command.')
 
     elif ctx.invoked_subcommand == 'config':
         from . import config as mod
@@ -94,9 +94,11 @@ def cli(ctx, log_level, ignore_warnings):
         cli_oldschool.add_command(cli_run_oss)
 
     elif ctx.invoked_subcommand == 'loglab':
+        parse_st: datetime = datetime.now()
         from . import loglab as mod
         cli_loglab.add_command(mod.cli_loglab_train)
         cli_loglab.add_command(mod.cli_loglab_predict)
+        print('import costs {!s}\n'.format(datetime.now()-parse_st))
 
     elif ctx.invoked_subcommand == 'deeplog':
         from . import deeplog as mod
@@ -110,12 +112,14 @@ def cli(ctx, log_level, ignore_warnings):
         cli_loglizer.add_command(mod.cli_loglizer_train)
         cli_loglizer.add_command(mod.cli_loglizer_validate)
         cli_loglizer.add_command(mod.cli_loglizer_predict)
-        print('Purge costs {!s}\n'.format(datetime.now()-parse_st))
+        print('import costs {!s}\n'.format(datetime.now()-parse_st))
 
     elif ctx.invoked_subcommand == 'utils':
         from . import utils as mod
         cli_utils.add_command(mod.cli_chkdup)
         cli_utils.add_command(mod.cli_normts)
+    else:
+        click.echo('Cannot happen.')
 
 
 @cli.group("config", short_help="Show or edit the config file")

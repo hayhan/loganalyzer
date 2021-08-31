@@ -1,4 +1,4 @@
-# Licensed under the MIT License - see License.txt
+# Licensed under the MIT License - see LICENSE.txt
 """ Command line tool to check various things about a Loganalyzer
     package installation.
 """

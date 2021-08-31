@@ -1,4 +1,4 @@
-# Licensed under the MIT License - see License.txt
+# Licensed under the MIT License - see LICENSE.txt
 """ Loganalyzer: A Python package for log analyzing.
 
 * Code: Link TBD
