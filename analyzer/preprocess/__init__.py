@@ -2,5 +2,5 @@
 """ Preprocess package.
 """
 from .preprocess_base import *
-from .patterns import *
+#from .patterns import *
 from .preprocess_api import *

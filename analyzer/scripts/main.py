@@ -3,6 +3,7 @@
 """
 import logging
 import warnings
+from datetime import datetime
 import click
 from analyzer import __version__
 
@@ -36,7 +37,8 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
     is_eager=True,
     help="Print version and exit.",
 )
-def cli(log_level, ignore_warnings):
+@click.pass_context
+def cli(ctx, log_level, ignore_warnings):
     """ Loganalyzer command line interface (CLI).
 
     Loganalyzer is a Python package for log analyzing.
@@ -58,6 +60,62 @@ def cli(log_level, ignore_warnings):
 
     if ignore_warnings:
         warnings.simplefilter("ignore")
+
+    # Lazy loading of the second level sub-commands
+
+    # Set invoke_without_command=True in group property otherwise cli()
+    # cannot be invoked without sub-command. We dont need this use case.
+    # https://click.palletsprojects.com/en/latest/commands/
+
+    # pylint:disable=import-outside-toplevel
+    if ctx.invoked_subcommand is None:
+        click.echo('I was invoked without subcommand')
+
+    elif ctx.invoked_subcommand == 'config':
+        from . import config as mod
+        cli_config.add_command(mod.cli_show_config)
+        cli_config.add_command(mod.cli_edit_config)
+        cli_config.add_command(mod.cli_default_config)
+        cli_config.add_command(mod.cli_update_config)
+
+    elif ctx.invoked_subcommand == 'preprocess':
+        from . import preprocess as mod
+        cli_preprocess.add_command(mod.cli_gen_new)
+        cli_preprocess.add_command(mod.cli_gen_norm)
+
+    elif ctx.invoked_subcommand == 'parser':
+        from . import parser as mod
+        cli_template.add_command(mod.cli_updt_tmplt)
+        cli_template.add_command(mod.cli_del_tmplt)
+        cli_template.add_command(mod.cli_sort_tmplt)
+
+    elif ctx.invoked_subcommand == 'oldschool':
+        from .oldschool import cli_run_oss
+        cli_oldschool.add_command(cli_run_oss)
+
+    elif ctx.invoked_subcommand == 'loglab':
+        from . import loglab as mod
+        cli_loglab.add_command(mod.cli_loglab_train)
+        cli_loglab.add_command(mod.cli_loglab_predict)
+
+    elif ctx.invoked_subcommand == 'deeplog':
+        from . import deeplog as mod
+        cli_deeplog.add_command(mod.cli_deeplog_train)
+        cli_deeplog.add_command(mod.cli_deeplog_validate)
+        cli_deeplog.add_command(mod.cli_deeplog_predict)
+
+    elif ctx.invoked_subcommand == 'loglizer':
+        parse_st: datetime = datetime.now()
+        from . import loglizer as mod
+        cli_loglizer.add_command(mod.cli_loglizer_train)
+        cli_loglizer.add_command(mod.cli_loglizer_validate)
+        cli_loglizer.add_command(mod.cli_loglizer_predict)
+        print('Purge costs {!s}\n'.format(datetime.now()-parse_st))
+
+    elif ctx.invoked_subcommand == 'utils':
+        from . import utils as mod
+        cli_utils.add_command(mod.cli_chkdup)
+        cli_utils.add_command(mod.cli_normts)
 
 
 @cli.group("config", short_help="Show or edit the config file")
@@ -254,9 +312,9 @@ def cli_utils():
     $ analyzer utils normts
     """
 
-# pylint:disable=too-many-locals
+
 def add_subcommands():
-    """ add subcommands dynamically """
+    """ Add the first level sub-commands only. Lazy load others. """
     # pylint:disable=import-outside-toplevel
 
     from .info import cli_info
@@ -264,66 +322,6 @@ def add_subcommands():
 
     from .check import cli_check
     cli.add_command(cli_check)
-
-    from .config import cli_show_config
-    cli_config.add_command(cli_show_config)
-
-    from .config import cli_edit_config
-    cli_config.add_command(cli_edit_config)
-
-    from .config import cli_default_config
-    cli_config.add_command(cli_default_config)
-
-    from .config import cli_update_config
-    cli_config.add_command(cli_update_config)
-
-    from .preprocess import cli_gen_new
-    cli_preprocess.add_command(cli_gen_new)
-
-    from .preprocess import cli_gen_norm
-    cli_preprocess.add_command(cli_gen_norm)
-
-    from .parser import cli_updt_tmplt
-    cli_template.add_command(cli_updt_tmplt)
-
-    from .parser import cli_del_tmplt
-    cli_template.add_command(cli_del_tmplt)
-
-    from .parser import cli_sort_tmplt
-    cli_template.add_command(cli_sort_tmplt)
-
-    from .oldschool import cli_run_oss
-    cli_oldschool.add_command(cli_run_oss)
-
-    from .loglab import cli_loglab_train
-    cli_loglab.add_command(cli_loglab_train)
-
-    from .loglab import cli_loglab_predict
-    cli_loglab.add_command(cli_loglab_predict)
-
-    from .deeplog import cli_deeplog_train
-    cli_deeplog.add_command(cli_deeplog_train)
-
-    from .deeplog import cli_deeplog_validate
-    cli_deeplog.add_command(cli_deeplog_validate)
-
-    from .deeplog import cli_deeplog_predict
-    cli_deeplog.add_command(cli_deeplog_predict)
-
-    from .loglizer import cli_loglizer_train
-    cli_loglizer.add_command(cli_loglizer_train)
-
-    from .loglizer import cli_loglizer_validate
-    cli_loglizer.add_command(cli_loglizer_validate)
-
-    from .loglizer import cli_loglizer_predict
-    cli_loglizer.add_command(cli_loglizer_predict)
-
-    from .utils import cli_chkdup
-    cli_utils.add_command(cli_chkdup)
-
-    from .utils import cli_normts
-    cli_utils.add_command(cli_normts)
 
 
 add_subcommands()
