@@ -82,7 +82,7 @@ def cli(ctx, log_level, ignore_warnings):
         cli_preprocess.add_command(mod.cli_gen_new)
         cli_preprocess.add_command(mod.cli_gen_norm)
 
-    elif ctx.invoked_subcommand == 'parser':
+    elif ctx.invoked_subcommand == 'template':
         from . import parser as mod
         cli_template.add_command(mod.cli_updt_tmplt)
         cli_template.add_command(mod.cli_del_tmplt)
