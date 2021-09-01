@@ -71,7 +71,6 @@ def cli_normts():  # pylint: disable=too-many-locals
             GC.conf['general']['training'] = False
             GC.conf['general']['metrics'] = False
             GC.conf['general']['context'] = 'OLDSCHOOL'
-            GC.conf['general']['intmdt'] = True
 
             # Sync the config update in memory to file?
             # GC.write()

@@ -29,7 +29,6 @@ def cli_run_oss(learn_ts):
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = False
     GC.conf['general']['context'] = 'OLDSCHOOL'
-    GC.conf['general']['intmdt'] = True
 
     # Sync the config update in memory to file. Really necessary?
     # GC.write()

@@ -50,7 +50,6 @@ def cli_updt_tmplt(src, training, overwrite, current):
     GC.conf['general']['training'] = training
     GC.conf['general']['metrics'] = False
     GC.conf['general']['context'] = 'TEMPUPDT'
-    GC.conf['general']['intmdt'] = True
 
     # Sync the config update in memory to file. Really necessary?
     # GC.write()

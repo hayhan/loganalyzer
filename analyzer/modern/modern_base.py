@@ -47,11 +47,11 @@ class ModernBase(ABC):
                 struct_file = self.fzip['struct']
 
             # Read columns from normalized / structured log file
-            self._df_raws = pd.read_csv(struct_file,
-                                engine='c', na_filter=False, memory_map=True)
+            self._df_raws = pd.read_csv(struct_file, engine='c',
+                                        na_filter=False, memory_map=True)
             # Read EventId from template library file
-            self._df_tmplts = pd.read_csv(dh.TEMPLATE_LIB, usecols=['EventId'],
-                                engine='c', na_filter=False, memory_map=True)
+            self._df_tmplts = pd.read_csv(dh.TEMPLATE_LIB, engine='c',
+                                        na_filter=False, memory_map=True)
 
         # For prediction only.
         if not self.training:

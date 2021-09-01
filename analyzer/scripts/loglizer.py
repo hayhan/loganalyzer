@@ -122,7 +122,6 @@ def cli_loglizer_train(model, inc, adm, debug):
     GC.conf['general']['training'] = True
     GC.conf['general']['metrics'] = False
     GC.conf['general']['context'] = 'LOGLIZER'
-    GC.conf['general']['intmdt'] = True
 
     # By default, use the model defined in config file
     if model != "NOPE":
@@ -188,7 +187,6 @@ def cli_loglizer_validate(model, adm, debug, src):
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = True
     GC.conf['general']['context'] = 'LOGLIZER'
-    GC.conf['general']['intmdt'] = True
 
     # By default, use the model defined in config file
     if model != "NOPE":
@@ -273,7 +271,6 @@ def cli_loglizer_predict(model, adm, debug):
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = False
     GC.conf['general']['context'] = 'LOGLIZER'
-    GC.conf['general']['intmdt'] = True
 
     # By default, use the model defined in config file
     if model != "NOPE":

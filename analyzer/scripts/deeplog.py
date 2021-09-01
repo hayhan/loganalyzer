@@ -69,7 +69,6 @@ def cli_deeplog_train(adm, debug):
     GC.conf['general']['training'] = True
     GC.conf['general']['metrics'] = False
     GC.conf['general']['context'] = 'DEEPLOG'
-    GC.conf['general']['intmdt'] = True
 
     # Sync the config update in memory to file. Really necessary?
     # GC.write()
@@ -138,7 +137,6 @@ def cli_deeplog_validate(adm, debug, src):
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = True
     GC.conf['general']['context'] = 'DEEPLOG'
-    GC.conf['general']['intmdt'] = True
 
     # Sync the config update in memory to file. Really necessary?
     # GC.write()
@@ -218,7 +216,6 @@ def cli_deeplog_predict(adm, learn_ts, debug):
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = False
     GC.conf['general']['context'] = 'DEEPLOG'
-    GC.conf['general']['intmdt'] = True
 
     # Sync the config update in memory to file. Really necessary?
     # GC.write()

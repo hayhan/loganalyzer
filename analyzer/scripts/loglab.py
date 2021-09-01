@@ -71,7 +71,6 @@ def cli_loglab_train(model, adm, mykfold, debug):
     GC.conf['general']['training'] = True
     GC.conf['general']['metrics'] = False
     GC.conf['general']['context'] = 'LOGLAB'
-    GC.conf['general']['intmdt'] = True
 
     if mykfold:
         GC.conf['loglab']['mykfold'] = True
@@ -160,7 +159,6 @@ def cli_loglab_predict(model, adm, learn_ts, debug, feat):
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = False
     GC.conf['general']['context'] = 'LOGLAB'
-    GC.conf['general']['intmdt'] = True
 
     # By default, use the model defined in config file
     if model != "NOPE":
