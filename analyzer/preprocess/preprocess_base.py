@@ -318,8 +318,10 @@ class PreprocessBase(ABC):
         for rawf in raw_in_lst:
             with open(rawf, 'r', encoding='utf-8-sig') as rawin:
                 self._rawlogs += rawin.readlines()
-            # Add newline in case no one at end of preceding file
-            self._rawlogs.append('\n')
+            # Get the last line of preceding file to check if the line
+            # feed exists at the end.
+            if self._rawlogs[-1][-1] != '\n':
+                self._rawlogs[-1] += '\n'
 
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
@@ -344,8 +346,10 @@ class PreprocessBase(ABC):
                 # print(rawf)
                 with open(rawf, 'r', encoding='utf-8-sig') as rawin:
                     self._rawlogs += rawin.readlines()
-                # Add newline in case no one at end of preceding file
-                self._rawlogs.append('\n')
+                # Get the last line of preceding file to check if the
+                # line feed exists at the end.
+                if self._rawlogs[-1][-1] != '\n':
+                    self._rawlogs[-1] += '\n'
 
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
@@ -380,8 +384,10 @@ class PreprocessBase(ABC):
                             else:
                                 print("Error: The timestamp is wrong!")
                         self._rawlogs.append(line)
-                # Add newline in case no one at end of preceding file
-                self._rawlogs.append('\n')
+                # Get the last line of preceding file to check if the
+                # line feed exists at the end.
+                if self._rawlogs[-1][-1] != '\n':
+                    self._rawlogs[-1] += '\n'
 
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
@@ -426,8 +432,10 @@ class PreprocessBase(ABC):
                             else:
                                 print("Error: The timestamp is wrong!")
                         self._rawlogs.append(line)
-                # Add newline in case no one at end of preceding file
-                self._rawlogs.append('\n')
+                # Get the last line of preceding file to check if the
+                # line feed exists at the end.
+                if self._rawlogs[-1][-1] != '\n':
+                    self._rawlogs[-1] += '\n'
 
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:

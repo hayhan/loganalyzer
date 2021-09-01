@@ -548,8 +548,10 @@ class Preprocess(PreprocessBase):
         rawlogs: List[str] = []
         with open(src1, 'r', encoding='utf-8-sig') as rawfile:
             rawlogs = rawfile.readlines()
-        # Add newline in case no one at the end of the heading file
-        rawlogs.append('\n')
+        # Get the last line of preceding file to check if the line feed
+        # exists at the end.
+        if rawlogs[-1][-1] != '\n':
+            rawlogs[-1] += '\n'
 
         self._rawlogs = rawlogs + self._rawlogs
 
