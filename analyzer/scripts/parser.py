@@ -108,7 +108,7 @@ def cli_del_tmplt():
     except OSError as error:
         print(error)
 
-    log.info("The template lib is removed.")  
+    log.info("The template lib is removed.")
 
 # ----------------------------------------------------------------------
 # analyzer template sort
