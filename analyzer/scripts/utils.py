@@ -28,10 +28,10 @@ log = logging.getLogger(__name__)
     help="Source path and name, e.g. persist vocab_loglab.txt",
     show_default=True,
 )
-def cli_chkdup(src):
-    """ Check duplicates in files """
-    path, name = src
-    mt.check_duplicates(path, name)
+def cli_chk_duplicate(src):
+    """ Check duplicate lines in a file """
+    subd, name = src
+    mt.check_duplicates(subd, name)
 
     log.info("Check duplicates done.")
 
@@ -40,7 +40,7 @@ def cli_chkdup(src):
 # analyzer utils normts
 # ----------------------------------------------------------------------
 @click.command(name="normts")
-def cli_normts():  # pylint: disable=too-many-locals
+def cli_norm_timestamp():  # pylint: disable=too-many-locals
     """ Normalize timestamps of raw logs. """
     tmp_dir = dh.TMP_DATA
     work_dir = dh.COOKED_DATA
@@ -118,3 +118,33 @@ def cli_normts():  # pylint: disable=too-many-locals
                 fout.writelines(out_logs)
 
     log.info("Normalization done.")
+
+
+# ----------------------------------------------------------------------
+# analyzer utils eidlog
+# ----------------------------------------------------------------------
+@click.command(name="eidlog")
+@click.option(
+    "--eid",
+    required=True,
+    help="The event id to be matched in raw log file.",
+    show_default=True,
+)
+@click.option(
+    "--training/--no-training",
+    default=True,
+    help="Select train or test data file in data/cooked.",
+    show_default=True,
+)
+def cli_eid_log(eid, training):
+    """ Find the logs that match the given event id in raw log file. """
+    # Populate the in-memory config singleton with config file
+    GC.read()
+    # Set the items here
+    GC.conf['general']['training'] = training
+    GC.conf['general']['metrics'] = False
+
+    # Sync the config update in memory to file?
+    # GC.write()
+
+    mt.find_logs_by_eid(eid, training)

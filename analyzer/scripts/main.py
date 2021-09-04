@@ -111,8 +111,9 @@ def cli(ctx, log_level, ignore_warnings):
 
     elif ctx.invoked_subcommand == 'utils':
         from . import utils as mod
-        cli_utils.add_command(mod.cli_chkdup)
-        cli_utils.add_command(mod.cli_normts)
+        cli_utils.add_command(mod.cli_chk_duplicate)
+        cli_utils.add_command(mod.cli_norm_timestamp)
+        cli_utils.add_command(mod.cli_eid_log)
     else:
         click.echo('Cannot happen.')
 
@@ -122,13 +123,13 @@ def cli_config():
     """ Show or edit the config file.
 
     \b
-    - The sub-command `show` will print the config content
+    - The sub-command `show` prints the config content
     \b
-    - The sub-command `edit` will open the config content in vim editor
+    - The sub-command `edit` opens the config content in vim editor
     \b
-    - The sub-command `default` will default the config content
+    - The sub-command `default` defaults the config content
     \b
-    - The sub-command `updt` will update the item in the config directly
+    - The sub-command `updt` updates the item in the config directly
       The option `type` sets the value type, e.g. int/bool/str(default)
 
     \b
@@ -148,16 +149,16 @@ def cli_preprocess():
     """ Clean, restruct and normalize raw logs.
 
     \b
-    - The option `src` will denote the raw data source folder. We use
-      all log files under data/raw by default
+    - The option `src` denotes the raw data source folder. We use all
+      log files under data/raw by default.
     \b
-    - The option `current` will use existing data/cooked/train.txt or
+    - The option `current` uses existing data/cooked/train.txt or the
       test.txt directly.
     \b
-    - The option `training` will denote the training or test phase.
+    - The option `training` denotes the training or test phase.
     \b
-    - The option `overwrite` will generate new log data again. Otherwise
-      it will use existing new log file.
+    - The option `overwrite` generates new log data again. Otherwise it
+      uses existing new log file.
 
     \b
     Examples
@@ -175,15 +176,15 @@ def cli_template():
     """ Parse logs, generate and update templates.
 
     \b
-    - The option `src` will denote the raw data source folder. We use
-      all log files under data/raw by default
+    - The option `src` denotes the raw data source folder. We use all
+      log files under data/raw by default.
     \b
-    - The option `current` will use existing data/cooked/train.txt or
+    - The option `current` uses existing data/cooked/train.txt or the
       test.txt directly.
     \b
-    - The option `overwrite` will delete the template lib firstly.
+    - The option `overwrite` deletes the template lib firstly.
     \b
-    - The option `training` will denote the training or test phase.
+    - The option `training` denotes the training or test phase.
 
     \b
     Examples
@@ -203,7 +204,7 @@ def cli_oldschool():
     """ Oldschool for analyzing logs, and maintaining of knowledge-base.
 
     \b
-    - The option `learn-ts` will learn the width of timestamp
+    - The option `learn-ts` learns the width of timestamp.
 
     \b
     Examples
@@ -219,16 +220,16 @@ def cli_loglab():
     """ Multi-classification of log anomalies.
 
     \b
-    - The option `model` will train / predict using the model assigned
-      here instead of the one in the config file.
+    - The option `model` trains/predicts using the model assigned here
+      instead of the one in the config file.
     \b
-    - The option `mykfold` will use kfold cross-verification manually
+    - The option `mykfold` uses kfold cross-verification manually
     \b
-    - The option `adm` will train/predict using all defined models
+    - The option `adm` trains/predicts using all defined models
     \b
-    - The option `learn-ts` will learn the width of timestamp
+    - The option `learn-ts` learns the width of timestamp
     \b
-    - The option `feat` will display the features of test logs
+    - The option `feat` displays the features of test logs
 
     \b
     Examples
@@ -246,12 +247,12 @@ def cli_deeplog():
     """ DeepLog method of log anomaly detection.
 
     \b
-    - The option `adm` will train/predict using all defined models param
+    - The option `adm` trains/predicts using all defined models param
     \b
-    - The option `learn-ts` will learn the width of timestamp
+    - The option `learn-ts` learns the width of timestamp
     \b
-    - The option `src` will validate the given folder, otherwise it will
-      validate the existing test.txt in data/cooked.
+    - The option `src` validates the given folder, otherwise it will
+      validate the existing test.txt in data/cooked directory.
 
     \b
     Examples
@@ -270,15 +271,15 @@ def cli_loglizer():
     """ Loglizer method of log anomaly detection.
 
     \b
-    - The option `model` will train / predict using the model assigned
-      here instead of the one in the config file.
+    - The option `model` trains/predicts using the model assigned here
+      instead of the one in the config file.
     \b
-    - The option `inc` will train models incrementally in one shot per
-      the file list
+    - The option `inc` trains models incrementally in one shot per the
+      file list.
     \b
-    - The option `adm` will train/predict using all defined models param
+    - The option `adm` trains/predicts using all defined models param
     \b
-    - The option `src` will validate the given folder, otherwise it will
+    - The option `src` validates the given folder, otherwise it will
       validate the existing test.txt in data/cooked.
 
     \b
@@ -298,17 +299,23 @@ def cli_utils():
     """ Some utils for helping debug/clean logs.
 
     \b
-    - The sub command chkcup will check duplicates in a file.
+    - The sub-command `chkcup` checks duplicate lines in a file in one
+      of folder in data directory. The folder is under data directory.
     \b
-    - The sub command normts will normalize timestamp.
+    - The sub-command `normts` normalizes timestamps of logs in data/tmp
+      directory.
+    \b
+    - The sub-command `eidlog` finds all the logs that match the given
+      event id in the raw log file.
 
     \b
     Examples
     --------
 
     \b
-    $ analyzer utils chkdup --src path name
+    $ analyzer utils chkdup --src folder filename
     $ analyzer utils normts
+    $ analyzer utils eidlog --eid value [--training/--no-training]
     """
 
 

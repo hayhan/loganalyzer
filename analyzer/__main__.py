@@ -3,7 +3,7 @@
 
 This is what's executed when you run:
 
-    python -m analyzer
+    'python -m analyzer' or simply 'analyzer'
 
 See https://docs.python.org/3/library/__main__.html
 """

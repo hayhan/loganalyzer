@@ -27,12 +27,11 @@ the following sub-packages (e.g. `analyzer.parser`):
 """
 
 __all__ = ["__version__"]
-# __version__ = "1.0.0"
 
 import pkg_resources
 
 try:
     __version__ = pkg_resources.get_distribution(__name__).version
 except pkg_resources.DistributionNotFound:
-    # package is not installed
-    pass
+    # Package is not installed, so use hard-coded version instead
+    __version__ = "2.0.0"
