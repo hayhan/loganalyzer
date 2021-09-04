@@ -565,7 +565,7 @@ class Drain:
         Attributes
         ----------
         message_lst  : the log/template token list
-        id_lst       : the log line index list
+        id_lst       : the log line index list, 1 based
         clust_lst    : the cluster list
         out_cell_lst : the output cell list
         rtn          : the root node
@@ -943,20 +943,21 @@ class Drain:
         #
         # Build the tree by using templates from library
         #
-        for _, line in self._df_tmplts.iterrows():
+        for eid, line in zip(self._df_tmplts['EventId'].tolist(),
+                             self._df_tmplts['EventTemplate'].tolist()):
             # Split the template into token list
             # Note, reserve the trailing spaces of each log if it has
-            log_t = line['EventTemplate'].strip('\r\n')
+            log_t = line.strip('\r\n')
             token_count = len(log_t.split())
             message_lst = log_t.split(None, token_count-1)
 
             # Read the old template id for current template
-            tid_old = line['EventId']
+            eid_old = eid
 
             # Add new cluster to the tree, and no log id for template
             # The template in each cluster is NOT new
             self.add_cluster(message_lst, [], log_clust_lst, out_cell_lst,
-                             root_node, False, tid_old)
+                             root_node, False, eid_old)
 
         # Load the raw log data
         self.load_data()
@@ -968,14 +969,12 @@ class Drain:
         #
         # Process the raw log data
         #
-        for _, line in self._df_raws.iterrows():
-
-            log_id = line['LineId']
-            # Save the current processing log_id for debugging purpose
-            self.log_id = log_id
+        for idx, line in enumerate(self._df_raws['Content'].tolist()):
+            # For debugging purpose
+            self.log_id = idx + 1
 
             # Reserve trailing spaces of each log if it has
-            log_t = self.preprocess(line['Content']).strip('\r\n')
+            log_t = self.preprocess(line).strip('\r\n')
             token_count = len(log_t.split())
             message_lst = log_t.split(None, token_count-1)
 
@@ -985,11 +984,11 @@ class Drain:
             if match_clust is None:
                 # Match no existing log cluster, so add a new one
                 # The template in each cluster is new
-                self.add_cluster(message_lst, [log_id], log_clust_lst,
+                self.add_cluster(message_lst, [idx+1], log_clust_lst,
                                  out_cell_lst, root_node, True, 0)
             else:
                 # Match an existing cluster, add new log message to it
-                self.update_cluster(message_lst, log_id, log_clust_lst, match_clust)
+                self.update_cluster(message_lst, idx+1, log_clust_lst, match_clust)
 
             pbar.update(1)
 

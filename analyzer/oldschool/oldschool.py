@@ -82,10 +82,20 @@ class OSS():
         pbar = tqdm(total=self._df_raws.shape[0], unit='Logs', disable=False,
                     bar_format='{l_bar}{bar:40}{r_bar}{bar:-40b}')
 
-        for rowidx, line in self._df_raws.iterrows():
-            log_content_l = line['Content'].strip().split()
-            log_event_tmplt_l = line['EventTemplate'].strip().split()
-            event_id = line['EventId']
+        # Prepare for the iteration. Extract info from dataframe.
+        if self._log_head_offset > 0:
+            timelst = self._df_raws['Time'].tolist()
+        else:
+            timelst = list(range(self._df_raws.shape[0]))
+
+        eidlst = self._df_raws['EventId'].tolist()
+        tmpltlst = self._df_raws['EventTemplate'].tolist()
+        contentlst = self._df_raws['Content'].tolist()
+
+        # Do not iterate dataframe using iterrows(). It's very slow.
+        for time, eid, tmplt, content in zip(timelst, eidlst, tmpltlst, contentlst):
+            log_content_l = content.strip().split()
+            log_event_tmplt_l = tmplt.strip().split()
 
             pbar.update(1)
 
@@ -103,21 +113,21 @@ class OSS():
             # Now we can search in knowledge-base for the current log
             log_fault, \
             log_desc, \
-            log_sugg = kb.domain_knowledge(event_id, param_list)
+            log_sugg = kb.domain_knowledge(eid, param_list)
 
             # If current log is fault, store the timestamp, the log
             # descrition and suggestion
             if log_fault:
                 # Check if the timestamps are in the logs
                 if self._log_head_offset > 0:
-                    time_stamp = line['Time']
+                    time_stamp = time
                 else:
                     # Use line number to replace timestamp in original
                     # test.txt. rowidx is the line number (0-based) in
                     # norm structured data/file
 
                     # Retrive the line number (1-based) in the test file
-                    time_stamp = self._map_norm_raw[rowidx]
+                    time_stamp = self._map_norm_raw[time]
 
                 # Store the info of each anomaly log
                 log_time_l.append(time_stamp)

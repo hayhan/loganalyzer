@@ -122,7 +122,7 @@ class Loglab(ModernBase):
 
 
     # pylint: disable=too-many-locals
-    def extract_feature(self, data_df, eid_voc, eid_logs, sample_offset=0):
+    def extract_feature(self, data_df, eid_voc, eid_logs):
         """ Extract feature in one sample
 
         Arguments
@@ -130,7 +130,6 @@ class Loglab(ModernBase):
         data_df: data frame structured logs
         eid_voc: event id vocabulary
         eid_logs: event ids in structured logs
-        sample_offset: the offset of current sample in the monolith
 
         Returns
         -------
@@ -141,17 +140,17 @@ class Loglab(ModernBase):
         # Initialize the matrix for one sample
         event_count_vec = np.zeros((1,len(eid_voc)))
 
-        # pylint: disable=too-many-nested-blocks
-        for axis, line in data_df.iterrows():
-            #
-            # The sliced pandas dataframe of one sample still contrains
-            # the absolute index of monolith. Convert it to the relative
-            # index of log in current sample.
-            axis -= sample_offset
+        # Prepare for the iteration. Extract info from dataframe.
+        eidlst = data_df['EventId'].tolist()
+        tmpltlst = data_df['EventTemplate'].tolist()
+        contentlst = data_df['Content'].tolist()
 
-            log_content_l = line['Content'].strip().split()
-            log_event_tmplt_l = line['EventTemplate'].strip().split()
-            event_id = line['EventId']
+        # pylint: disable=too-many-nested-blocks
+        # Do not iterate dataframe using iterrows(). It's very slow.
+        for axis, (eid, tmplt, content) in enumerate(zip(eidlst, tmpltlst, contentlst)):
+
+            log_content_l = content.strip().split()
+            log_event_tmplt_l = tmplt.strip().split()
 
             if len(log_content_l) != len(log_event_tmplt_l):
                 continue
@@ -165,12 +164,12 @@ class Loglab(ModernBase):
             # print(param_list)
 
             # Now we search in the knowledge base for the current log
-            typical_log_hit, _, _ = kb.domain_knowledge(event_id, param_list)
+            typical_log_hit, _, _ = kb.domain_knowledge(eid, param_list)
 
             # If current log is hit in KB, we call it typical log and
             # add window around it.
             if typical_log_hit:
-                # print('line {} hit, eid {}.'.format(axis+1, event_id))
+                # print('line {} hit, eid {}.'.format(axis+1, eid))
 
                 # Capture the logs within the window. The real window
                 # size around typical log is 2*WINDOW_SIZE+1. That is,
@@ -178,7 +177,7 @@ class Loglab(ModernBase):
                 # after current typical log.
 
                 # The axis part, it is also the typical log
-                event_count_vec[0, eid_voc.index(event_id)] = self.weight
+                event_count_vec[0, eid_voc.index(eid)] = self.weight
 
                 # The upper part of the window
                 for i in range(self.win_size):
@@ -264,7 +263,7 @@ class Loglab(ModernBase):
 
             # Do feature extraction for current sample
             event_count_matrix[idx], _ \
-                = self.extract_feature(data_df_sample, eid_voc, eid_sample, samoffset)
+                = self.extract_feature(data_df_sample, eid_voc, eid_sample)
 
             # Calc offset for the next sample in the monolith
             samoffset += saminfo[0]
