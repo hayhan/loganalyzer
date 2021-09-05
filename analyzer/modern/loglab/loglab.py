@@ -164,7 +164,7 @@ class Loglab(ModernBase):
             # print(param_list)
 
             # Now we search in the knowledge base for the current log
-            typical_log_hit, _, _ = kb.domain_knowledge(eid, param_list)
+            typical_log_hit, _ = kb.domain_knowledge(eid, param_list)
 
             # If current log is hit in KB, we call it typical log and
             # add window around it.

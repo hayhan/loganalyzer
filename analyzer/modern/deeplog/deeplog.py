@@ -346,7 +346,7 @@ class DeepLog(ModernBase):
         # print(param_list)
 
         # Now we can search in the knowledge base for the current log
-        log_fault, _, _ = kb.domain_knowledge(eid, param_list)
+        log_fault, _ = kb.domain_knowledge(eid, param_list)
 
         return log_fault
 

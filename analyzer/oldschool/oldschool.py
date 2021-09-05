@@ -111,9 +111,7 @@ class OSS():
             # print(param_list)
 
             # Now we can search in knowledge-base for the current log
-            log_fault, \
-            log_desc, \
-            log_sugg = kb.domain_knowledge(eid, param_list)
+            log_fault, log_sugg = kb.domain_knowledge(eid, param_list)
 
             # If current log is fault, store the timestamp, the log
             # descrition and suggestion
@@ -131,7 +129,7 @@ class OSS():
 
                 # Store the info of each anomaly log
                 log_time_l.append(time_stamp)
-                log_desc_l.append(log_desc)
+                log_desc_l.append(content)
                 log_sugg_l.append(log_sugg)
 
         pbar.close()

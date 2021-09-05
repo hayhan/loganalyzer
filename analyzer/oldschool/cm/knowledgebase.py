@@ -5,6 +5,8 @@ from typing import List
 from analyzer.utils.lang_helper import SWITCH
 
 
+__all__ = ["domain_knowledge"]
+
 # The context values
 # b2079e76: "RNG-RSP UsChanId= <*> Adj: power= <*> Stat= <*> "
 context_store = {'b2079e76': 0}
@@ -23,13 +25,11 @@ def domain_knowledge(template_id: str, param_list: List[str]):
     Returns
     -------
     log_fault: True if a real fault is deteced
-    log_description: brief description for the fault
     log_suggestion: suggestion for the possible cause
     """
 
     # Reset for each log/line
     log_fault: bool = False
-    log_description: str = ""
     log_suggestion: str = ""
 
     # Although run only once with 'for' here while we can use 'break'
@@ -44,30 +44,24 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # Check qam and fec status
             if param_list[3] == 'n' or param_list[4] == 'n':
                 log_fault = True
-                log_description = "QAM/FEC is not locked on DS channle {0}, freq {1}\n" \
-                                  .format(param_list[0], param_list[2])
-                log_suggestion = "Low power, big noise ...\n"
+                log_suggestion = "Low power, big noise. QAM/FEC unlocked.\n"
             # SNR threshold. QAM64 18+3=21dB, QAM256 24+3=27dB.
             if (param_list[7] == 'Qam64' and int(param_list[5]) <= 21) or \
                (param_list[7] == 'Qam256' and int(param_list[5]) <= 27):
                 log_fault = True
-                log_description += "SNR is low below the threshold and it's not stable\n"
                 log_suggestion += "Low power, noise or bad board design all contribute " \
                                   "to low SNR\n"
             # Check the rx power. -15dBmV ~ +15dBmV per spec.
             if int(param_list[6]) > 15 or int(param_list[6]) < -15:
                 log_fault = True
-                log_description += "DS Power is out of range of -15dBmV ~ +15dBmV per " \
-                                   "spec on freq {0}".format(param_list[2])
                 log_suggestion += "Adjust the attanuator on DS link. The DS power at 0dBmV " \
-                                  "is better."
+                                  "is better. It is out of the +/-15dBmV range now."
             break
 
         if case('c481c3c2'):
             # TEMPLATE: "Telling application we lost lock on QAM \
             #            channel <*>"
             log_fault = True
-            log_description = "Lost lock happens on QAM channel {0}".format(param_list[0])
             log_suggestion = "Disconnected/Bad RF cable, low DS power, etc. Replace cable, " \
                              "decrease DS attanuation ..."
             break
@@ -76,7 +70,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "Telling application we lost lock on QAM \
             #            primary channel <*>"
             log_fault = True
-            log_description = "Lost lock happens on QAM primary channel {0}".format(param_list[0])
             log_suggestion = "Disconnected/Bad RF cable, low DS power, etc. Replace cable, " \
                              "decrease DS attanuation ..."
             break
@@ -85,7 +78,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "Telling application we lost lock on channel \
             #            <*> ( lostbits= <*> )"
             log_fault = True
-            log_description = "Lost lock happens on OFDM channel {0}".format(param_list[0])
             log_suggestion = "Disconnected/Bad RF cable, low DS power, etc. Replace cable, " \
                              "decrease DS attanuation ..."
             break
@@ -96,15 +88,12 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "BcmCmDsChan:: DsLockFail: rxid= <*> dcid= <*> \
             #            enter recovery state"
             log_fault = True
-            log_description = "DS unlock happens on h/w channel {0}, dcid {1}" \
-                              .format(param_list[0], param_list[1])
-            log_suggestion = "Downstream is broken ..."
+            log_suggestion = "Downstream is broken and cannot be locked..."
             break
 
         if case('565f2f45'):
             # TEMPLATE: "1st try PLC NOT locked! Retrying..."
             log_fault = True
-            log_description = "Downstream OFDM PLC channel is not stable, trying to re-lock."
             log_suggestion = "RF cable cut, weak downstream OFDM signal, or have noises ..."
             break
 
@@ -112,7 +101,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "BcmDocsisCmHalIf:: HandleStatusIndication: \
             #            WARNING - <*> lost PLC Lock"
             log_fault = True
-            log_description = "Downstream OFDM {0} PLC channel lost lock.".format(param_list[0])
             log_suggestion = "RF cable cut, weak downstream OFDM signal, or have noises ..."
             break
 
@@ -120,8 +108,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "BcmCmDsChanOfdm:: DsLockFail: rxid= <*> dcid= \
             #            <*>"
             log_fault = True
-            log_description = "Downstream OFDM channel {0} lock fails on dcid {1}." \
-                              .format(param_list[0], param_list[1])
             log_suggestion = "RF cable cut, weak downstream OFDM signal, or have noises ..."
             break
 
@@ -130,9 +116,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            hwRxId= <*> dcid= <*> profId= <*> ( <*> ) \
             #            reason= <*>"
             log_fault = True
-            log_description = "Downstream OFDM channel {0} FEC lock fail on dcid {1} " \
-                              "profile {2}, the reason is {3}" \
-                              .format(param_list[0], param_list[1], param_list[2], param_list[3])
             log_suggestion = "RF cable cut, weak downstream OFDM signal, or have noises ..."
             break
 
@@ -141,7 +124,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "Cable disconnected, Publishing 'cable cut' \
             #            event."
             log_fault = True
-            log_description = "Cable disconnected"
             log_suggestion = "Cable disconnected, or no any signals on the cable."
             break
 
@@ -149,7 +131,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "Informing RG CM energy detected = <*>"
             if param_list[0] == '0':
                 log_fault = True
-                log_description = "Cable disconnected"
                 log_suggestion = "Cable disconnected, or no any signals on the cable."
             break
 
@@ -160,39 +141,27 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "BcmCmDsChan:: RecoverChan: retry -> hwRxId= \
             #            <*> freq= <*> dcid= <*>"
             log_fault = True
-            log_description = "Try to recover DS SC-QAM channel {0} frequency {1} dcid {2}." \
-                              .format(param_list[0], param_list[1], param_list[2])
-            log_suggestion = "DS SC-QAM chan {0} dcid {1} is broken and is trying to recover." \
-                             .format(param_list[0], param_list[2])
+            log_suggestion = "DS SC-QAM chan is broken and is trying to recover."
             break
 
         if case('78a18bef'):
             # TEMPLATE: "BcmCmDsChan:: RecoverChan: rxid= <*> dcid= <*>"
             log_fault = True
-            log_description = "Try to recover DS SC-QAM channel {0} dcid {1}." \
-                              .format(param_list[0], param_list[1])
-            log_suggestion = "DS SC-QAM chan {0} dcid {1} is broken and is trying to recover." \
-                             .format(param_list[0], param_list[1])
+            log_suggestion = "DS SC-QAM chan is broken and is trying to recover."
             break
 
         if case('635494bb'):
             # TEMPLATE: "BcmCmDsChanOfdm:: RecoverChan: rxid= <*> \
             #            dcid= <*>"
             log_fault = True
-            log_description = "Try to recover OFDM channel {0} dcid {1}." \
-                              .format(param_list[0], param_list[1])
-            log_suggestion = "OFDM chan {0} dcid {1} is broken and is trying to recover." \
-                             .format(param_list[0], param_list[1])
+            log_suggestion = "DS OFDM chan is broken and is trying to recover."
             break
 
         if case('a379e6bc'):
             # TEMPLATE: "BcmCmDsChanOfdm:: RecoverPlc: rxid= <*> dcid= \
             #            <*> freq= <*>"
             log_fault = True
-            log_description = "Try to recover OFDM PLC channel {0} dcid {1} freq {2}." \
-                              .format(param_list[0], param_list[1], param_list[2])
-            log_suggestion = "OFDM PLC chan {0} dcid {1} is broken and is trying to recover." \
-                             .format(param_list[0], param_list[1])
+            log_suggestion = "DS OFDM PLC chan is broken and is trying to recover."
             break
 
         # --------------------------------------------------------------
@@ -207,19 +176,12 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # reached but ignore it here.
             if float(param_list[4]) <= 17 or float(param_list[4]) >= 51:
                 log_fault = True
-                log_description = "US Tx Power is out of range of 17dBmV ~ 51dBmV on " \
-                                  "US channel {0} ucid {1} freq {2}\n" \
-                                  .format(param_list[0], param_list[1], param_list[5])
                 log_suggestion = "Adjust the attanuator on US link. The US Tx power " \
                                  "within 20~50 dBmV is better.\n"
             # Check the data path of tx
             if param_list[9] == 'n':
                 log_fault = True
-                log_description += "US path has no data, Ranging is NOT ok on " \
-                                   "channel {0} ucid {1} freq {2}" \
-                                   .format(param_list[0], param_list[1], param_list[5])
-                log_suggestion += "Ranging issue, check the ranging process with other " \
-                                  "warnings / errors."
+                log_suggestion += "Data path on upstream is not OK."
             break
 
         if case('9701dcb3'):
@@ -227,9 +189,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            cannot use ucid= <*>, chanHiEdgeFreqHz(= <*> \
             #            ) > \maximumDiplexerFrequencyHz= ( <*> )"
             log_fault = True
-            log_description = "Some usable US chan ucid {0} freq {1} is beyond the hightest " \
-                              "diplexer US range {2}." \
-                              .format(param_list[0], param_list[1], param_list[2])
             log_suggestion = "Change the diplexer setting by \"CM/CmHal> diplexer_settings 1\" " \
                              "and disable diplexer auto switch by \"CM/NonVol/CM DOCSIS 3.1 " \
                              "NonVol> enable noDiplexerAutoSwitch 1\". Then write and reboot " \
@@ -255,7 +214,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            unusable; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= \
             #            <*>; CM-VER= <*>; "
             log_fault = True
-            log_description = "Invalid UCDs or not usable UCDs are received on CM."
             log_suggestion = "No any UCDs or the received UCDs are invalid. E.g. the upstream " \
                              "channel freq > diplexer band edge."
             break
@@ -266,8 +224,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # "RNG-RSP UsChanId= <*> Adj: power= <*> Stat= <*> "
             if param_list[1] == 'Abort':
                 log_fault = True
-                log_description = "The ranging process is terminated by CMTS on ucid {0}" \
-                                  .format(param_list[0])
                 # Check the context info, such as the power adjustment
                 # of last time
                 if context_store['b2079e76'] >= 0:
@@ -283,8 +239,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            <*> ucid= <*> received RNG-RSP with status= \
             #            ABORT."
             log_fault = True
-            log_description = "The ranging process is terminated by CMTS on " \
-                              "hwTxid {0} / ucid {1}".format(param_list[0], param_list[1])
             log_suggestion = "Adjust the US attnuation according to previous suggestion."
             break
 
@@ -293,7 +247,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            Response - Re-initializing MAC; CM-MAC= <*>; \
             #            CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
             log_fault = True
-            log_description = "Ranging is Aborted by CMTS and MAC will be reset"
             log_suggestion = "Attanuation of upstream is too low or high usually. " \
                              "Adjust the US attnuation according to previous suggestion."
             break
@@ -302,7 +255,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "BcmCmUsRangingState:: T2NoInitMaintEvent: \
             #            ERROR - no Init Maint map op -> restart error"
             log_fault = True
-            log_description = "CM cannot receive broadcast init ranging opportunities"
             log_suggestion = "MAPs are not received on downstream (bad SNR?) " \
                              "or MAP flushing because of CM transmiter problems."
             break
@@ -312,7 +264,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            T3 time-out; CM-MAC= <*>; CMTS-MAC= <*>; \
             #            CM-QOS= <*>; CM-VER= <*>; "
             log_fault = True
-            log_description = "T3 time out happens. CM cannot receive RNG-RSP from CMTS."
             log_suggestion = "Usually the US attnuation is too high or low, or some kind " \
                              "of CMTS issues ..."
             break
@@ -323,7 +274,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; \
             #            CM-VER= <*>; "
             log_fault = True
-            log_description = "T3 time out happens for Unicast Maintenance Ranging."
             log_suggestion = "Usually the US attnuation is too high or low, or some " \
                              "kind of CMTS issues ..."
             break
@@ -334,7 +284,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; \
             #            CM-VER= <*>; "
             log_fault = True
-            log_description = "Retries exhausted for Unicast Maintenance Ranging."
             log_suggestion = "Usually the US attnuation is too high or low, or some " \
                              "kind of CMTS issues ..."
             break
@@ -344,7 +293,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            exceeded; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= \
             #            <*>; CM-VER= <*>; "
             log_fault = True
-            log_description = "Retries exhausted for Broadcast Initial Ranging."
             log_suggestion = "Usually the US attnuation is too high or low, or some " \
                              "kind of CMTS issues ..."
             break
@@ -360,7 +308,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            exhausted; CM-MAC= <*>; CMTS-MAC= <*>; \
             #            CM-QOS= <*>; CM-VER= <*>; "
             log_fault = True
-            log_description = "T3 time out happens. CM cannot receive RNG-RSP from CMTS."
             log_suggestion = "Usually the US attnuation is too high or low, or some kind " \
                              "of CMTS issues ..."
             break
@@ -369,7 +316,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "BcmCmUsRangingState:: T3NoRngRspEvent: ERROR \
             #            - No initial ranging response from CMTS."
             log_fault = True
-            log_description = "T3 time out because of no Initial RNG-RSP from CMTS."
             log_suggestion = "Usually the US attnuation is too high or low, or some kind " \
                              "of CMTS issues ..."
             break
@@ -379,7 +325,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            <*> ucid= <*> no RNG-RSP timeout during <*> \
             #            ranging."
             log_fault = True
-            log_description = "T3 time out because of no {%s} RNG-RSP from CMTS." % param_list[2]
             log_suggestion = "Usually the US attnuation is too high or low, or some kind " \
                              "of CMTS issues ..."
             break
@@ -392,8 +337,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            ERROR - txid= <*> ucid= <*> no Station Maint \
             #            map op error."
             log_fault = True
-            log_description = "T4 timeout happens on Tx channel {0} ucid {1}" \
-                              .format(param_list[0], param_list[1])
             log_suggestion = "Usually downstream or upstream has big issues and " \
                              "mac reset might happen."
             break
@@ -405,7 +348,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; \
             #            CM-VER= <*>; "
             log_fault = True
-            log_description = "T4 timeout happens."
             log_suggestion = "Usually downstream or upstream has big issues and " \
                              "mac reset might happen."
             break
@@ -415,20 +357,17 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            txid= <*> ucid= <*> reason= <*> ( <*> )"
             if param_list[3] == 'T4NoStationMaintTimeout':
                 log_fault = True
-                log_description = "T4 timeout on one US channel."
                 log_suggestion = "Usually downstream or upstream has big issues and " \
                                  "mac reset might happen."
 
             elif param_list[3] == 'MaxT3NoRngRspTimeouts':
                 log_fault = True
-                log_description = "16 consective no unicast RNG-RSP on one US channel."
                 log_suggestion = "Usually happens when the US channel is broken down. " \
                                  "E.g. US RF cut, noise / distortion on US channel " \
                                  "because of some external spliter / combiner / filter."
 
             elif param_list[3] == 'RngRspAbortStatus':
                 log_fault = True
-                log_description = "RNG-RSP with Abort."
                 log_suggestion = "Usually US attenuation is too high, low or other " \
                                  "reasons that CMTS is not happy with the RNG-REQ."
             break
@@ -444,7 +383,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "BcmCmUsSetsState:: UsTimeRefFail: txid= <*> \
             #            ucid= <*> lost upstream time sync."
             log_fault = True
-            log_description = "Failed to establish upstream time sync."
             log_suggestion = "Usually upstream is broken, cut off, etc."
             break
 
@@ -452,15 +390,12 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "BcmCmUsRangingState:: RngRspMsgEvent: txid= \
             #            <*> ucid= <*> detected bogus RNG-RSP sid= <*> "
             log_fault = True
-            log_description = "Detected bogus RNG-RSP sid {0} on txid {1} / ucid {2}" \
-                              .format(param_list[2], param_list[0], param_list[1])
             log_suggestion = "Upstream maybe not stable with high attenuation."
             break
 
         if case('a3d3e790'):
             # TEMPLATE: "Partial Service Upstream Channels:"
             log_fault = True
-            log_description = "Upstream partial service."
             log_suggestion = "Some upstream channels are impaired or filtered."
             break
 
@@ -472,7 +407,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            ifft_sts_irq:UpstreamPhyChannelNumber= <*>, \
             #            symbol overrun"
             log_fault = True
-            log_description = "HW channel {0} (OFDMA) has symbol overrun.".format(param_list[0])
             log_suggestion = "The upstream pipe is messing up. TCOFDMA block has issues."
             break
 
@@ -480,7 +414,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "Resetting TCOFDM core <*>.."
             # TEMPLATE: "Performing full reset on TCOFDM core <*>.."
             log_fault = True
-            log_description = "Reseting TCOFDM core {0}..".format(param_list[0])
             log_suggestion = "The upstream pipe is messing up. TCOFDMA block has issues."
             break
 
@@ -492,7 +425,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            <*> event_code= <*> ( <*> ) "
             if param_list[2] == 'kCmIsUpstreamPartialService':
                 log_fault = True
-                log_description = "Upstream partial service."
                 log_suggestion = "Some upstream channels are impaired or filtered."
             break
 
@@ -504,49 +436,41 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            reinit MAC # <*>: <*>"
             if param_list[1] == 'T4NoStationMaintTimeout':
                 log_fault = True
-                log_description = "MAC reset because of T4 timeout."
                 log_suggestion = "Usually downstream or upstream has big issues and " \
                                  "mac reset might happen."
 
             elif param_list[1] == 'NoMddTimeout':
                 log_fault = True
-                log_description = "MAC reset because of No MDD timeout."
                 log_suggestion = "Usually CM scans and locks a non-primary DS channel. " \
                                  "If every DS channel has this MDD timeout, most probably " \
                                  "CMTS has issues. Then try to reboot CMTS."
 
             elif param_list[1] == 'NegOrBadRegRsp':
                 log_fault = True
-                log_description = "MAC reset because of invalid values in REG-RSP."
                 log_suggestion = "Some incorrect settings on CM like diplexer might " \
                                  "introduce the wrong values in REG-RSP."
 
             elif param_list[1] == 'MaxT3NoRngRspTimeouts':
                 log_fault = True
-                log_description = "MAC reset because of 16 consective no unicast RNG-RSP."
                 log_suggestion = "This usually happens when no unicast RNG-RSP on all US " \
                                  "channels. E.g. upstream cable is broken."
 
             elif param_list[1] == 'RngRspAbortStatus':
                 log_fault = True
-                log_description = "MAC reset because of Abort in RNG-RSP."
                 log_suggestion = "This usually happens when CMTS is not happy with RNG-REQ " \
                                  "although NO T3 timeout on all US channels. E.g. US Tx " \
                                  "power reaches the max or min."
 
             elif param_list[1] == 'BogusUsTarget':
                 log_fault = True
-                log_description = "MAC reset because of no usable UCDs."
                 log_suggestion = "This usually happens when no usable UCDs exist."
 
             elif param_list[1] == 'DsLockFail':
                 log_fault = True
-                log_description = "MAC reset because of DS lock fails."
                 log_suggestion = "This usually happens when CM tries to lock DS but RF cut off. " \
 
             elif param_list[1] == 'T1NoUcdTimeout':
                 log_fault = True
-                log_description = "MAC reset because of T1NoUcdTimeout."
                 log_suggestion = "This usually happens when no usable UCDs collected on CM. " \
 
             break
@@ -564,8 +488,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "BcmCmDsChanOfdm:: MddKeepAliveFailTrans: \
             #            rxid= <*> dcid= <*>"
             log_fault = True
-            log_description = "MDD cannot be received on h/w channel {0}, dcid {1}" \
-                              .format(param_list[0], param_list[1])
             log_suggestion = "Usually downstream is broken, rf cable cut, etc ..."
             break
 
@@ -573,8 +495,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "Logging event: MDD message timeout; CM-MAC= \
             #            <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
             log_fault = True
-            log_description = "MDD timeout on CM {0} / CMTS {1}" \
-                              .format(param_list[0], param_list[1])
             log_suggestion = "Usually downstream has some problems ..."
             break
 
@@ -588,8 +508,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            the CM MUST abort the attempt, to utilize the \
             #            current downstream channel"
             log_fault = True
-            log_description = "No MDD received after scaning / locking primary downstream " \
-                              "channel."
             log_suggestion = "You need reboot the CMTS if you always see the MDD timeout " \
                              "after scaning / locking EVERY downstream channel."
             break
@@ -602,7 +520,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            response; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= \
             #            <*>; CM-VER= <*>; "
             log_fault = True
-            log_description = "DHCP provisioning fails on CM WAN Interface"
             log_suggestion = "Check DHCP Server behind CMTS, or DS/US signal quality."
             break
 
@@ -611,8 +528,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            ERROR - IP helper returned DhcpInitFailed \
             #            error! Restarting!"
             log_fault = True
-            log_description = "CM cannot be provisioned to get the IP address from DHCP " \
-                              "server on CMTS side"
             log_suggestion = "Usually DHCP server down on CMTS side or upstream signal " \
                              "qulity is not good enough"
             break
@@ -621,8 +536,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "Tftp Client:: Send: ERROR - Request Retries > \
             #            kTftpMaxRequestRetryCount ( <*> ) !"
             log_fault = True
-            log_description = "Tftp client on CM cannot connect to the Tftp server behind " \
-                              "the CMTS."
             log_suggestion = "Check the Tftp server settings behind the CMTS."
             break
 
@@ -634,7 +547,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            Failed to send the REG-ACK message to the \
             #            CMTS!"
             log_fault = True
-            log_description = "REG-ACK send failure."
             log_suggestion = "Something wrong that REG-ACK cannot or does not send. " \
                              "E.g. Wrong diplexer settings that makes the REG-RSP has " \
                              "some bad values. Then CM refuses to send the ACK."
@@ -645,7 +557,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            ERROR - MAC Management Message was NOT sent \
             #            after <*> seconds!"
             log_fault = True
-            log_description = "MMM cannot be sent out."
             log_suggestion = "Usually some issue happened in upstream MAC module."
             break
 
@@ -653,7 +564,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # TEMPLATE: "Logging event: Registration failure, \
             #            re-scanning downstream"
             log_fault = True
-            log_description = "Registration failure, re-scanning downstream."
             log_suggestion = "Registration failure, re-scanning downstream. Need see other " \
                              "error or warning logs to decide what happened."
             break
@@ -664,7 +574,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
         if case('3aad57b2'):
             # TEMPLATE: "Bandwidth request failure! Status = <*>"
             log_fault = True
-            log_description = "CM cannot request Upstream bandwidth from CMTS to send data."
             log_suggestion = "Usually upstream signal qulity is not good enough while " \
                              "Ranging is good."
             break
@@ -677,7 +586,6 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             #            SAID; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= \
             #            <*>; CM-VER= <*>; "
             log_fault = True
-            log_description = "BPI+ Auth failed."
             log_suggestion = "Check the BPI+ keys on CM, or disable it via CM Config file on CMTS."
             break
 
@@ -699,4 +607,4 @@ def domain_knowledge(template_id: str, param_list: List[str]):
             # 'if True'
             break
 
-    return log_fault, log_description, log_suggestion
+    return log_fault, log_suggestion
