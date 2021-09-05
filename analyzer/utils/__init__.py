@@ -7,5 +7,5 @@ the `analyzer.utils` namespace is empty.
 
 Examples::
 
-    import analyzer.utils.config_helper
+    import analyzer.utils.yaml_helper
 """
