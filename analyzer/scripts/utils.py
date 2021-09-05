@@ -103,7 +103,8 @@ def cli_norm_timestamp():  # pylint: disable=too-many-locals
                     if pattern_timestamp.match(line):
                         #
                         dt_obj = datetime.fromtimestamp(dt_timestamp)
-                        dt_format = '[' + dt_obj.strftime("%Y%m%d-%H:%M:%S.%f")[0:21] + '] '
+                        dt_format = '[' + dt_obj.strftime(dh.STD_TIMESTAMP_FORMAT)\
+                                     [0:dh.STD_TIMESTAMP_LENGTH-3] + '] '
                         # This works even log_offset is zero, aka. no
                         # old timestamp.
                         newline = pattern_timestamp.sub(dt_format, line, count=1)

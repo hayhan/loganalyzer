@@ -61,6 +61,8 @@ ABN_LABEL_LENGTH = 5
 SEG_LABEL_LENGTH = 9
 # Length of abnormal label 'cxxx ', including the last space
 CLASS_LABEL_LENGTH = 5
+# Standard timestamp format, excluding '[' and '] '
+STD_TIMESTAMP_FORMAT = "%Y%m%d-%H:%M:%S.%f"
 
 
 def get_files_io():

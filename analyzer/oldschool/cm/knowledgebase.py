@@ -2,33 +2,12 @@
 """ Domain knowledge base for CM / DOCSIS.
 """
 from typing import List
+from analyzer.utils.lang_helper import SWITCH
 
 
 # The context values
+# b2079e76: "RNG-RSP UsChanId= <*> Adj: power= <*> Stat= <*> "
 context_store = {'b2079e76': 0}
-
-class SWITCH:
-    """
-    switch/case of python at http://code.activestate.com/recipes/410692/
-    """
-    def __init__(self, value):
-        self.value = value
-        self.fall = False
-
-    def __iter__(self):
-        """Return the match method once, then stop"""
-        yield self.match
-        raise StopIteration
-
-    def match(self, *args):
-        """Indicate whether or not to enter a case suite"""
-        if self.fall or not args:
-            return True
-        elif self.value in args:
-            self.fall = True
-            return True
-        else:
-            return False
 
 
 # pylint: disable=too-many-branches:too-many-statements

@@ -133,7 +133,7 @@ class Loglab(ModernBase):
 
         Returns
         -------
-        event_count_vec: one line matrix, aka. one sampe
+        event_count_vec: one line matrix, aka. one sample
         class_vec: empty
         """
 
