@@ -59,6 +59,10 @@ class PreprocessBase(ABC):
         # To skip the BOM when decoding the file, use utf-8-sig codec.
         # https://docs.python.org/3/library/codecs.html
         #
+        if not os.path.exists(self.fzip['raw']):
+            print(f"The {dh.get_data_type()}.txt doesn't exist in cooked folder!!!")
+            sys.exit(1)
+
         with open(self.fzip['raw'], 'r', encoding='utf-8-sig') as rawfile:
             self._rawlogs = rawfile.readlines()
 
