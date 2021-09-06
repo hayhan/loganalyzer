@@ -47,6 +47,7 @@ VOCAB_LOGLAB = os.path.join(PERSIST_DATA, 'vocab_loglab.npy')
 VOCAB_DEEPLOG = os.path.join(PERSIST_DATA, 'vocab_deeplog.npy')
 VOCAB_LOGLIZER = os.path.join(PERSIST_DATA, 'vocab_loglizer.npy')
 VOCAB_LOGLIZER_STATIC = os.path.join(PERSIST_DATA, 'vocab_loglizer_static.npy')
+KB_NO_PARA = os.path.join(PERSIST_DATA, 'kb_no_para.yaml')
 
 # Skip file list when concatenates raw log files under data/raw
 SKIP_FILE_LIST = ['README.md', 'desc.txt', 'train.lst', 'validate.lst']

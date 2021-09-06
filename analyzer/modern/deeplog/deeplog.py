@@ -68,6 +68,8 @@ class DeepLog(ModernBase):
         self.exec_model: str = ''
         self.load_para()
 
+        self.kbase = kb.Kb()
+
         ModernBase.__init__(self, df_raws, df_tmplts)
 
 
@@ -316,8 +318,7 @@ class DeepLog(ModernBase):
         return results_dict
 
 
-    @staticmethod
-    def para_anomaly_det(content, eid, template):
+    def para_anomaly_det(self, content, eid, template):
         """ Detect the parameter anomaly by using the OSS
 
         Arguments
@@ -346,7 +347,7 @@ class DeepLog(ModernBase):
         # print(param_list)
 
         # Now we can search in the knowledge base for the current log
-        log_fault, _ = kb.domain_knowledge(eid, param_list)
+        log_fault, _ = self.kbase.domain_knowledge(eid, param_list)
 
         return log_fault
 

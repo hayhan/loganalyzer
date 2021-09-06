@@ -43,6 +43,8 @@ class Loglab(ModernBase):
         self._segll: List[tuple] = []
         self.onnx_model: str = os.path.join(dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx')
 
+        self.kbase = kb.Kb()
+
         ModernBase.__init__(self, df_raws, df_tmplts)
 
 
@@ -164,7 +166,7 @@ class Loglab(ModernBase):
             # print(param_list)
 
             # Now we search in the knowledge base for the current log
-            typical_log_hit, _ = kb.domain_knowledge(eid, param_list)
+            typical_log_hit, _ = self.kbase.domain_knowledge(eid, param_list)
 
             # If current log is hit in KB, we call it typical log and
             # add window around it.

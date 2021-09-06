@@ -19,6 +19,7 @@ __all__ = ["OSS"]
 
 log = logging.getLogger(__name__)
 
+# pylint: disable=too-many-instance-attributes
 class OSS():
     """ The oldshcool class """
     def __init__(self, df_raws):
@@ -30,6 +31,8 @@ class OSS():
         self._df_raws = df_raws
         self._summary_df = pd.DataFrame(
             columns=['Time/LineNum', 'Description', 'Suggestion'])
+
+        self.kbase = kb.Kb()
 
 
     @property
@@ -111,7 +114,7 @@ class OSS():
             # print(param_list)
 
             # Now we can search in knowledge-base for the current log
-            log_fault, log_sugg = kb.domain_knowledge(eid, param_list)
+            log_fault, log_sugg = self.kbase.domain_knowledge(eid, param_list)
 
             # If current log is fault, store the timestamp, the log
             # descrition and suggestion

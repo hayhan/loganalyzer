@@ -1,0 +1,254 @@
+# This file contains tempaltes whose parameters are not cared. The first
+# column is event id and the second column is root cause analysis and
+# suggestions.
+
+# ----------------------------------------------------------------------
+# Downstream channel status, lock failures
+# ----------------------------------------------------------------------
+
+# TEMPLATE: "Telling application we lost lock on QAM channel <*>"
+'c481c3c2': "Disconnected/Bad RF cable, low DS power, etc. Replace cable
+             or decrease DS attanuation ..."
+
+# TEMPLATE: "Telling application we lost lock on QAM primary channel <*>"
+'b90344c4': "Disconnected/Bad RF cable, low DS power, etc. Replace cable
+             or decrease DS attanuation ..."
+
+# TEMPLATE: "Telling application we lost lock on channel <*> ( lostbits= <*> )"
+'4df6cac3': "Disconnected/Bad RF cable, low DS power, etc. Replace cable
+             or decrease DS attanuation ..."
+
+# TEMPLATE: "BcmCmDsChan:: DsLockFail: hwRxId= <*> dcid= <*> -> enter kDsOperLockToRescueCmts state"
+'9f88e081': "Downstream is broken and cannot be locked..."
+
+# TEMPLATE: "BcmCmDsChan:: DsLockFail: rxid= <*> dcid= <*> enter recovery state"
+'8f5e5fd4': "Downstream is broken and cannot be locked..."
+
+# TEMPLATE: "1st try PLC NOT locked! Retrying..."
+'565f2f45': "RF cable cut, weak downstream OFDM signal, or noises ..."
+
+# TEMPLATE: "BcmDocsisCmHalIf:: HandleStatusIndication: WARNING - <*> lost PLC Lock"
+'a8db0840': "RF cable cut, weak downstream OFDM signal, or noises ..."
+
+# TEMPLATE: "BcmCmDsChanOfdm:: DsLockFail: rxid= <*> dcid= <*>"
+'f228dfa5': "RF cable cut, weak downstream OFDM signal, or noises ..."
+
+# TEMPLATE: "BcmCmDsOfdmProfileState:: FecLockFail: hwRxId= <*> dcid= <*> profId= <*> ( <*> ) reason= <*>"
+'7f7e47ee': "RF cable cut, weak downstream OFDM signal, or noises ..."
+
+# TEMPLATE: "Cable disconnected"
+'fc738c74': "Cable disconnected, or no any signals on the cable."
+
+# TEMPLATE: "Cable disconnected, Publishing 'cable cut' event."
+'87a34b02': "Cable disconnected, or no any signals on the cable."
+
+# ----------------------------------------------------------------------
+# Recover ds channels
+# ----------------------------------------------------------------------
+
+# TEMPLATE: "BcmCmDsChan:: RecoverChan: retry -> hwRxId= <*> freq= <*> dcid= <*>"
+'8673876f': "DS SC-QAM chan is broken and is trying to recover."
+
+# TEMPLATE: "BcmCmDsChan:: RecoverChan: rxid= <*> dcid= <*>"
+'78a18bef': "DS SC-QAM chan is broken and is trying to recover."
+
+# TEMPLATE: "BcmCmDsChanOfdm:: RecoverChan: rxid= <*> dcid= <*>"
+'635494bb': "DS OFDM chan is broken and is trying to recover."
+
+# TEMPLATE: "BcmCmDsChanOfdm:: RecoverPlc: rxid= <*> dcid= <*> freq= <*>"
+'a379e6bc': "DS OFDM PLC chan is broken and is trying to recover."
+
+# ----------------------------------------------------------------------
+# Upstream channel status
+# ----------------------------------------------------------------------
+
+# TEMPLATE: "BcmCmDocsisCtlThread:: IsUpstreamFreqUsable: cannot use ucid= <*>, chanHiEdgeFreqHz(= <*> ) > maximumDiplexerFrequencyHz= ( <*> )"
+'9701dcb3': "Change diplexer setting by \"CM/CmHal> diplexer_settings
+             1\" and disable diplexer auto switch by \"CM/NonVol/CM
+             DOCSIS 3.1 NonVol> enable noDiplexerAutoSwitch 1\". Write
+             and reboot the board. If the issue persists, check the
+             \"CM/NonVol/CM DOCSIS NonVol> diplexer_mask_hw_provision\"
+             and correct the bitmasks according to the schematics."
+
+# ----------------------------------------------------------------------
+# Ranging, ucd, T1/T2/T3/T4 ... timeout, us partial service
+# ----------------------------------------------------------------------
+
+# TEMPLATE: "BcmCmMultiUsHelper:: TmUcdRxTimerEvent: ERROR -, T1 expired and no usable ucd's received -> restart error"
+'2bdf39df': "No any UCDs or the received UCDs are invalid. E.g. upstream
+             channel freq > diplexer band edge."
+
+# TEMPLATE: "BcmCmMultiUsHelper:: TmUcdRxTimerEvent: ERROR - UCD rx timer expired and no usable ucd's received. -> restart timer."
+'2b02d4ac': "No any UCDs or the received UCDs are invalid. E.g. upstream
+             channel freq > diplexer band edge."
+
+# TEMPLATE: "Logging event: No UCDs Received - Timeout; ; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'9beb20c5': "No any UCDs or the received UCDs are invalid. E.g. upstream
+             channel freq > diplexer band edge."
+
+# TEMPLATE: "Logging event: UCD invalid or channel unusable; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'140fe4f6': "No any UCDs or the received UCDs are invalid. E.g. upstream
+             channel freq > diplexer band edge."
+
+# TEMPLATE: "BcmCmUsRangingState:: RngRspMsgEvent: txid= <*> ucid= <*> received RNG-RSP with status= ABORT."
+'6ce4761e': "Adjust the US attnuation according to previous suggestion."
+
+# TEMPLATE: "Logging event: Unicast Ranging Received Abort Response - Re-initializing MAC; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'247a95a1': "Attanuation of upstream is too low or high usually. Adjust
+             the US attnuation according to previous suggestion."
+
+# TEMPLATE: "BcmCmUsRangingState:: T2NoInitMaintEvent: ERROR - no Init Maint map op -> restart error"
+'85511099': "MAPs are not received on downstream (bad SNR?) or MAP
+             flusing because of CM transmiter problems."
+
+# TEMPLATE: "Logging event: No Ranging Response received - T3 time-out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'67d9799e': "Usually the US attnuation is too high or low, or some kind
+             of CMTS issues ..."
+
+# TEMPLATE: "Logging event: Started Unicast Maintenance Ranging - No Response received - T3 time-out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'738aa70f': "Usually the US attnuation is too high or low, or some kind
+             of CMTS issues ..."
+
+# TEMPLATE: "Logging event: Unicast Maintenance Ranging attempted - No response - Retries exhausted; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'b52f1595': "Usually the US attnuation is too high or low, or some kind
+             of CMTS issues ..."
+
+# TEMPLATE: "Logging event: B-INIT-RNG Failure - Retries exceeded; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'18157661': "Usually the US attnuation is too high or low, or some kind
+             of CMTS issues ..."
+
+# TEMPLATE: "BcmCmUsRangingState:: T3NoRngRspEvent: ERROR - no more RNG-REQ retries."
+'bd66bf4c': "Usually the US attnuation is too high or low, or some kind
+             of CMTS issues ..."
+
+# TEMPLATE: "Logging event: <*> consecutive T3 timeouts while trying to range on upstream channel <*>; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'ea78b302': "Usually the US attnuation is too high or low, or some kind
+             of CMTS issues ..."
+
+# TEMPLATE: "Logging event: Ranging Request Retries exhausted; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'b5dae8ef': "Usually the US attnuation is too high or low, or some kind
+             of CMTS issues ..."
+
+# TEMPLATE: "BcmCmUsRangingState:: T3NoRngRspEvent: ERROR - No initial ranging response from CMTS."
+'4bd32394': "Usually the US attnuation is too high or low, or some kind
+             of CMTS issues ..."
+
+# TEMPLATE: "BcmCmUsRangingState:: T3NoRngRspEvent: txid= <*> ucid= <*> no RNG-RSP timeout during <*> ranging."
+'9006eea9': "Usually the US attnuation is too high or low, or some kind
+             of CMTS issues ..."
+
+# TEMPLATE: "BcmCmUsRangingState:: T4NoStationMaintEvent: ERROR - no Station Maint map op error. hwTxId= <*> docs ucid= <*>"
+'2fc6ea2f': "Usually downstream or upstream has big issues and mac reset
+             might happen."
+
+# TEMPLATE: "BcmCmUsRangingState:: T4NoStationMaintEvent: ERROR - txid= <*> ucid= <*> no Station Maint map op error."
+'b73d84d3': "Usually downstream or upstream has big issues and mac reset
+             might happen."
+
+# TEMPLATE: "Logging event: Received Response to Broadcast Maintenance Request, But no Unicast Maintenance opportunities received - T4 time out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'a8b689c1': "Usually downstream or upstream has big issues and mac reset
+             might happen."
+
+# TEMPLATE: "BcmCmUsSetsState:: UsTimeRefFail: txid= <*> ucid= <*> failed to establish upstream time sync."
+'e58582d7': "Usually upstream is broken, cut off, etc."
+
+# TEMPLATE: "BcmCmUsSetsState:: UsTimeRefFail: Failed to establish upstream time sync."
+'6c23502a': "Usually upstream is broken, cut off, etc."
+
+# TEMPLATE: "BcmCmUsSetsState:: UsTimeRefFail: Lost upstream time sync."
+'55932cf1': "Usually upstream is broken, cut off, etc."
+
+# TEMPLATE: "BcmCmUsSetsState:: UsTimeRefFail: txid= <*> ucid= <*> lost upstream time sync."
+'d3ae406c': "Usually upstream is broken, cut off, etc."
+
+# TEMPLATE: "BcmCmUsRangingState:: RngRspMsgEvent: txid= <*> ucid= <*> detected bogus RNG-RSP sid= <*> "
+'f2b4cdbf': "Upstream maybe not stable with high attenuation."
+
+# TEMPLATE: "Partial Service Upstream Channels:"
+'a3d3e790': "Some upstream channels are impaired or filtered."
+
+# ----------------------------------------------------------------------
+# OFDMA / Tcofdm
+# ----------------------------------------------------------------------
+
+# TEMPLATE: "BcmProcessTcofdmInterrupts:IrqMainStatus:ifft_sts_irq:UpstreamPhyChannelNumber= <*>, symbol overrun"
+'cf8606ae': "The upstream pipe is messing up. TCOFDMA block has issues."
+
+# TEMPLATE: "Resetting TCOFDM core <*>.."
+'f80f8e58': "The upstream pipe is messing up. TCOFDMA block has issues."
+
+# TEMPLATE: "Performing full reset on TCOFDM core <*>.."
+'552d7db9': "The upstream pipe is messing up. TCOFDMA block has issues."
+
+# ----------------------------------------------------------------------
+# MDD
+# ----------------------------------------------------------------------
+
+# TEMPLATE: "BcmCmDsChan:: MddKeepAliveFailTrans: hwRxId= <*> dcid= <*>"
+'85b2bfec': "Usually downstream is broken, rf cable cut, etc ..."
+
+# TEMPLATE: "BcmCmDsChan:: MddKeepAliveFailTrans: rxid= <*> dcid= <*>"
+'8f310cda': "Usually downstream is broken, rf cable cut, etc ..."
+
+# TEMPLATE: "BcmCmDsChanOfdm:: MddKeepAliveFailTrans: hwRxId= <*> dcid= <*>"
+'c4c2729c': "Usually downstream is broken, rf cable cut, etc ..."
+
+# TEMPLATE: "BcmCmDsChanOfdm:: MddKeepAliveFailTrans: rxid= <*> dcid= <*>"
+'169f89c8': "Usually downstream is broken, rf cable cut, etc ..."
+
+# TEMPLATE: "Logging event: MDD message timeout; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'877bf6cc': "Usually downstream has some problems ..."
+
+# TEMPLATE: "BcmCmMacDomainSetsState:: TmNoMddEvent:, MDD timeout during kGatherInitialPriDsMddSets"
+'758f2a6a': "You need reboot the CMTS if you always see the MDD timeout
+             after scaning / locking EVERY downstream channel."
+
+# TEMPLATE: "BcmCmDocsisCtlMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ), No MDD timeout == > If no MDDs are detected on the candidate, Primary Downstream Channel, then the CM MUST abort the attempt, to utilize the current downstream channel"
+'10ab4b85': "You need reboot the CMTS if you always see the MDD timeout
+             after scaning / locking EVERY downstream channel."
+
+# ----------------------------------------------------------------------
+# DHCP, TFTP, TOD, IP, Networks
+# ----------------------------------------------------------------------
+
+# TEMPLATE: "Logging event: DHCP FAILED - Request sent, No response; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'48c6430a': "Check DHCP Server behind CMTS, or DS/US signal quality."
+
+# TEMPLATE: "BcmCmDocsisCtlThread:: IpInitErrorEvent: ERROR - IP helper returned DhcpInitFailed error! Restarting!"
+'36cb1e87': "Usually DHCP server down on CMTS side or upstream signal
+             qulity is not good enough."
+
+# TEMPLATE: "Tftp Client:: Send: ERROR - Request Retries > kTftpMaxRequestRetryCount ( <*> ) !"
+'50c4cbad': "Check the Tftp server settings behind the CMTS."
+
+# ----------------------------------------------------------------------
+# Registration
+# ----------------------------------------------------------------------
+
+# TEMPLATE: "BcmCmDocsisCtlThread:: TxRegAckMsg: ERROR - Failed to send the REG-ACK message to the CMTS!"
+'5fe4fd5b': "Something wrong that REG-ACK cannot or does not send. E.g.
+             Wrong diplexer settings that makes the REG-RSP has some bad
+             values. Then CM refuses to send the ACK."
+
+# TEMPLATE: "BcmDocsisCmHalIf:: TransmitManagementMessage: ERROR - MAC Management Message was NOT sent after <*> seconds!"
+'3bd0cdca': "Usually some issue happened in upstream MAC module."
+
+# TEMPLATE: "Logging event: Registration failure, re-scanning downstream"
+'2fee035d': "Registration failure, re-scanning downstream. Need see
+             other error or warning logs to decide what happened."
+
+# ----------------------------------------------------------------------
+# QoS
+# ----------------------------------------------------------------------
+
+# TEMPLATE: "Bandwidth request failure! Status = <*>"
+'3aad57b2': "Usually upstream signal qulity is not good enough while
+             Ranging is good."
+
+# ----------------------------------------------------------------------
+# BPI+
+# ----------------------------------------------------------------------
+
+# TEMPLATE: "Logging event: Auth Reject - Unauthorized SAID; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'c44cfdfa': "Check the BPI+ keys on CM, or disable it via CM Config file
+             on CMTS."
