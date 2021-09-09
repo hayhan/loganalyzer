@@ -128,7 +128,7 @@ class Parser():
         # For in-memory template lib, it is always the same as the data
         # in lib file except 'Occurrences' for training. It is probably
         # different for prediction as we dont overwrite lib file with
-        # the parsing result. So reload the non-updated version.
+        # the parsing result, so reload the non-updated version instead.
         if self.training:
             # Column: EventIdOld/EventId/EventTemplate/Occurrences
             self._df_tmplts = my_parser.df_tmplts

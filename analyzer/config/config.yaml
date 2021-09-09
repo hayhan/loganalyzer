@@ -10,7 +10,7 @@ general:
     max_line: 500       # Max number of lines that is used for timestamp learning
     rcv_mess: false     # Recover the messed logs because of multi-thread breaking
 
-# Section: templte
+# Section: template
 template:
     size: 2000          # The max size of template library
 
