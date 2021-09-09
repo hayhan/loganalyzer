@@ -79,3 +79,7 @@ see https://pytorch.org/ for install instructions. The version is 1.5.0 or above
 At the top directory of loganalyzer clone, run command below to install the analyzer package. Then you can use the "analyzer" command. Type "analyzer --help" for sub commands and options.
 
 pip install .
+
+To generate html api documents, run command below under docs directory:
+
+make html
