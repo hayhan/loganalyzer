@@ -13,8 +13,8 @@ import analyzer.utils.data_helper as dh
 
 __all__ = ["ModernBase"]
 
-
 log = logging.getLogger(__name__)
+
 
 # pylint: disable=too-many-instance-attributes
 class ModernBase(ABC):
@@ -57,7 +57,6 @@ class ModernBase(ABC):
         if not self.training:
             self._map_norm_raw: List[int] = []
             self._map_norm_rcv: List[int] = []
-
 
     def load_vocab(self, vocab_file: str, event_id_lib: List[str]):
         """ Generate/Load/Update vocabulary of eid (event id)
@@ -164,66 +163,55 @@ class ModernBase(ABC):
 
         return event_id_shuffled
 
-
     @property
     def df_raws_o(self):
         """ Get the original structured norm data"""
         return self._df_raws_o
-
 
     @df_raws_o.setter
     def df_raws_o(self, df_raws_o):
         """ Set the original structured norm data"""
         self._df_raws_o = df_raws_o
 
-
     @property
     def map_norm_raw(self):
         """ Get mapping between norm and raw """
         return self._map_norm_raw
-
 
     @map_norm_raw.setter
     def map_norm_raw(self, map_norm_raw: List[int]):
         """ Set mapping between norm and raw """
         self._map_norm_raw = map_norm_raw
 
-
     @property
     def map_norm_rcv(self):
         """ Get mapping between norm and recovered norm """
         return self._map_norm_rcv
-
 
     @map_norm_rcv.setter
     def map_norm_rcv(self, map_norm_rcv: List[int]):
         """ Set mapping between norm and recovered norm """
         self._map_norm_rcv = map_norm_rcv
 
-
     @abstractmethod
     def load_para(self):
         """ Load/Update model parameters.
         """
-
 
     @abstractmethod
     def load_data(self):
         """ Extract features, vectoring, and compose data matrix.
         """
 
-
     @abstractmethod
     def train(self):
         """ Train the model.
         """
 
-
     @abstractmethod
     def evaluate(self):
         """ Validate the model.
         """
-
 
     @abstractmethod
     def predict(self):

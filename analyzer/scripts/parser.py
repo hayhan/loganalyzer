@@ -13,6 +13,7 @@ from analyzer.parser import Parser
 
 log = logging.getLogger(__name__)
 
+
 # ----------------------------------------------------------------------
 # analyzer template updt
 # ----------------------------------------------------------------------

@@ -15,7 +15,7 @@ from tqdm import tqdm
 
 __all__ = ["Para", "Drain"]
 
-# pylint: disable=too-many-lines
+
 # pylint: disable=too-many-instance-attributes:too-few-public-methods
 # pylint: disable=too-many-arguments:too-many-public-methods
 # pylint: disable=too-many-boolean-expressions:too-many-branches
@@ -140,14 +140,12 @@ class Drain:
         self.log_id = 0
         self.tree = ''
 
-
     @staticmethod
     def has_numbers(string):
         """ Check the digits in string """
         # return any(char.isdigit() for char in string)
         # Let us only check the 1st char in string
         return string[0].isdigit()
-
 
     @staticmethod
     def has_pun(string): # pylint: disable=unused-argument
@@ -159,7 +157,6 @@ class Drain:
         """
         # We do not check the special char
         return None
-
 
     @staticmethod
     def last_token_pun(string):
@@ -174,14 +171,12 @@ class Drain:
             return False
         return True
 
-
     @staticmethod
     def delete_all_files(dir_path):
         """ Delete a folder """
         file_list = os.listdir(dir_path)
         for file_name in file_list:
             os.remove(dir_path+file_name)
-
 
     def tree_search(self, rtn, seq):
         """
@@ -221,7 +216,6 @@ class Drain:
                         self.pointer[len(seq)] = ret_log_cluster
         return ret_log_cluster
 
-
     def key_tree_search(self, seq):
         """
         Browses the tree in order to find a matching cluster to a log
@@ -250,7 +244,6 @@ class Drain:
             if cur_sim >= log_cluster.sim_t:
                 ret_log_cluster = log_cluster
         return ret_log_cluster
-
 
     def token_tree_search(self, rtn, seq):
         """
@@ -286,7 +279,6 @@ class Drain:
             token_layer_node = len_layer_nd.child_node['<*>']
 
         return token_layer_node
-
 
     def add_seq_to_tree(self, rtn, log_clust):
         """
@@ -379,7 +371,6 @@ class Drain:
             token_layer_node.child_node = [log_clust]
         else:
             token_layer_node.child_node.append(log_clust)
-
 
     def seq_dist(self, seq1, seq2):
         """
@@ -486,7 +477,6 @@ class Drain:
 
         return sim, para_num
 
-
     def fast_match(self, log_clust_lst, seq):
         """
         Find the most suitable log cluster in the leaf node,
@@ -518,7 +508,6 @@ class Drain:
             ret_log_clust = max_clust
 
         return ret_log_clust
-
 
     @staticmethod
     def get_template(seq1, seq2):
@@ -555,7 +544,6 @@ class Drain:
                 new_tmplt.append('<*>')
 
         return new_tmplt, updt_token_num
-
 
     def add_cluster(self, message_lst, id_lst, clust_lst, out_cell_lst, rtn,
                     is_new_tmplt, old_tid):
@@ -613,7 +601,6 @@ class Drain:
         # Update the cache
         self.pointer[len(message_lst)] = new_clust
 
-
     def update_cluster(self, message_lst, log_idx, clust_lst, match_clust):
         """
         Update the cluster in the tree
@@ -648,7 +635,6 @@ class Drain:
             if self.para.sim_t_m < 1:
                 self.adjust_output_cell(match_clust, clust_lst)
 
-
     def print_tree(self, node, dep):
         """
         Print a tree with depth 'dep', root node is in depth 0
@@ -674,7 +660,6 @@ class Drain:
             return
         for child in node.child_node:
             self.print_tree(node.child_node[child], dep+1)
-
 
     @staticmethod
     def lcs(seq1, seq2):
@@ -702,7 +687,6 @@ class Drain:
                 seq1_len -= 1
                 seq2_len -= 1
         return result
-
 
     def adjust_output_cell(self, log_clust, log_clust_lst):
         """ Adjust the output cell """
@@ -735,7 +719,6 @@ class Drain:
 
             remove_out_cell.log_id_lst = None
             remove_out_cell.active = False
-
 
     def output_result(self, log_clust_lst):
         """ Output the template library and structured logs """
@@ -812,14 +795,12 @@ class Drain:
                                  os.path.basename(self.para.raw_file) + '_structured.csv'),
                                  index=False)
 
-
     @property
     def df_raws(self):
         """ Get raws (structured) in pandas dataframe
             Column: LineId/Time/Content/EventIdOld/EventId/EventTemplate
         """
         return self._df_raws
-
 
     @property
     def df_tmplts(self):
@@ -828,14 +809,12 @@ class Drain:
         """
         return self._df_tmplts
 
-
     @property
     def df_tmplts_o(self):
         """ Get templates (non-updated version) in pandas dataframe
             Column: EventIdOld/EventId/EventTemplate
         """
         return self._df_tmplts_o
-
 
     @staticmethod
     def generate_logformat_regex(logformat):
@@ -867,7 +846,6 @@ class Drain:
         regex = re.compile('^' + regex + '$')
         return headers, regex
 
-
     def log_to_dataframe(self, regex, headers):
         """ Function to transform log file to dataframe """
         log_messages = []
@@ -893,12 +871,10 @@ class Drain:
         logdf['LineId'] = [i + 1 for i in range(linecount)]
         return logdf
 
-
     def load_data(self):
         """ Read the raw log data to dataframe """
         headers, regex = self.generate_logformat_regex(self.para.log_format)
         self._df_raws = self.log_to_dataframe(regex, headers)
-
 
     def preprocess(self, line):
         """ Pre-process the log in Drain domain """
@@ -909,7 +885,6 @@ class Drain:
             line = cur_rex.sub(self.para.rex[cur_rex], line)
         return line
 
-
     def load_template_lib(self):
         """ Read the templates from the library to dataframe """
         if self.para.inc_updt and os.path.exists(self.para.tmplt_lib):
@@ -918,7 +893,6 @@ class Drain:
         else:
             # Only initialize an empty dataframe
             self._df_tmplts = pd.DataFrame()
-
 
     def main_process(self):
         """ The main entry """

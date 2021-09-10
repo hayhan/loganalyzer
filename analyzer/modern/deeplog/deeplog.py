@@ -21,10 +21,11 @@ from .models import DeepLogExec
 # Import the knowledge base for the corresponding log type
 kb = import_module("analyzer.oldschool." + dh.LOG_TYPE + ".knowledgebase")
 
+
 __all__ = ["DeepLog"]
 
-
 log = logging.getLogger(__name__)
+
 
 class DeepLogExecDataset(Dataset):
     """ A map-style dataset and embed DataLoader by the way
@@ -66,36 +67,31 @@ class DeepLog(ModernBase):
         self._segdl: List[int] = []
         self._labels: List[int] = []
         self.exec_model: str = ''
-        self.load_para()
 
+        self.load_para()
         self.kbase = kb.Kb()
 
         ModernBase.__init__(self, df_raws, df_tmplts)
-
 
     @property
     def segdl(self):
         """ Get the segment info """
         return self._segdl
 
-
     @segdl.setter
     def segdl(self, segdl: List[int]):
         """ Set the segment info """
         self._segdl = segdl
-
 
     @property
     def labels(self):
         """ Get the label vector in norm data """
         return self._labels
 
-
     @labels.setter
     def labels(self, labels: List[int]):
         """ Set the raw line index in norm data """
         self._labels = labels
-
 
     def load_para(self):
         """ Load/Update model parameters """
@@ -110,7 +106,6 @@ class DeepLog(ModernBase):
         self.model_para['device'] = GC.conf['deeplog']['device']
         self.exec_model = os.path.join(dh.PERSIST_DATA,
                           'deeplog_exec_model_'+str(self.model_para['group'])+'.pt')
-
 
     def load_data(self):
         """
@@ -198,7 +193,6 @@ class DeepLog(ModernBase):
         # <Label> the label of target event
         return data_dict, voc_size
 
-
     @staticmethod
     def slice_logs(eidx_logs, labels, win_size):
         """ Slice event index vector in structured data into sequences
@@ -245,7 +239,6 @@ class DeepLog(ModernBase):
                         "Label": results_df["Label"].to_numpy(dtype='int32')}
 
         return results_dict
-
 
     @staticmethod
     def slice_logs_multi(eidx_logs, labels, win_size, session_vec, no_metrics):
@@ -317,7 +310,6 @@ class DeepLog(ModernBase):
 
         return results_dict
 
-
     def para_anomaly_det(self, content, eid, template):
         """ Detect the parameter anomaly by using the OSS
 
@@ -351,7 +343,6 @@ class DeepLog(ModernBase):
 
         return log_fault
 
-
     def load_oss_data(self):
         """ Load data for OSS para value detection
 
@@ -379,7 +370,6 @@ class DeepLog(ModernBase):
         template_lst = self._df_raws['EventTemplate'].tolist()
 
         return content_lst, eid_lst, template_lst
-
 
     def get_ready(self, is_shuffle=True):
         """ Get work ready before training/validation/prediction
@@ -409,7 +399,6 @@ class DeepLog(ModernBase):
             num_layers=2, num_dir=self.model_para['num_dir'])
 
         return model, data_loader, device
-
 
     # pylint: disable=too-many-locals
     def predict_core(self, model, data_loader, device, mnp_vec):
@@ -464,7 +453,6 @@ class DeepLog(ModernBase):
         # print(len(anomaly_line))
         return anomaly_line
 
-
     # pylint: disable=too-many-locals
     def evaluate_core(self, model, data_loader, device):
         """ The evaluate core
@@ -518,7 +506,6 @@ class DeepLog(ModernBase):
 
         return _t_p, _f_p, _t_n, _f_n, _anomaly_pred
 
-
     def train_core(self, model, data_loader, device):
         """ The trining core.
         """
@@ -561,7 +548,6 @@ class DeepLog(ModernBase):
             print("Epoch {}/{}, train loss: {:.5f}"
                   .format(epoch+1, self.model_para['num_epochs'], epoch_loss))
 
-
     def train(self):
         """ Train model.
         """
@@ -583,7 +569,6 @@ class DeepLog(ModernBase):
 
         # Serialize the model
         torch.save(model.state_dict(), self.exec_model)
-
 
     def evaluate(self):
         """ Validate model.
@@ -614,7 +599,6 @@ class DeepLog(ModernBase):
             print('Test Dataset Validation  ==>',
                   'Precision: {:.2f}%, Recall: {:.2f}%, F1: {:.2f}%'
                   .format(precision, recall, f_1))
-
 
     def predict(self):
         """ Predict using model.

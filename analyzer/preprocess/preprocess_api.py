@@ -4,6 +4,7 @@
 from importlib import import_module
 import analyzer.utils.data_helper as dh
 
+
 __all__ = ["pp"]
 
 # Load derived preprocess class module of LOG_TYPE

@@ -12,9 +12,10 @@ from analyzer.preprocess import PreprocessBase
 from . import patterns as ptn
 
 
-__all__ = [
-    "Preprocess",
-]
+__all__ = ["Preprocess"]
+
+log = logging.getLogger(__name__)
+
 
 # ---------------------------------------------
 # Terminologies:
@@ -23,13 +24,10 @@ __all__ = [
 # empty line   - LF or CRLF only in one line
 # ---------------------------------------------
 
-log = logging.getLogger(__name__)
-
 class Preprocess(PreprocessBase):
     """ The class of preprocess. """
     def __init__(self):
         PreprocessBase.__init__(self)
-
 
     def preprocess_ts(self):
         """ Preprocess before learning timestamp width.
@@ -75,7 +73,6 @@ class Preprocess(PreprocessBase):
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['norm'], 'w', encoding='utf-8') as fnorm:
                 fnorm.writelines(self._normlogs)
-
 
     # pylint: disable=too-many-locals；too-many-statements
     # pylint: disable=too-many-branches
@@ -432,7 +429,6 @@ class Preprocess(PreprocessBase):
 
         print('Purge costs {!s}\n'.format(datetime.now()-parse_st))
 
-
     @staticmethod
     def format_ds_chan_table(newline: str, table_messed: bool, last_ln_messed: bool):
         """ Format one item of ds channel table """
@@ -481,7 +477,6 @@ class Preprocess(PreprocessBase):
                     lineview[5] + ' power ' + lineview[6] + ' mod ' + lineview[7]
         return newline, last_ln_messed
 
-
     @staticmethod
     def format_us_chan_table(newline: str):
         """ Format one item of us channel table """
@@ -520,7 +515,6 @@ class Preprocess(PreprocessBase):
                         lineview[8]
         return newline
 
-
     @staticmethod
     def split_token_apart(newline: str, ptn_left: Pattern[str], ptn_right: Pattern[str]):
         """ Split some token apart per the regx patterns """
@@ -535,7 +529,6 @@ class Preprocess(PreprocessBase):
                 newline = ptn_obj.sub(' '+mtch.group(0), newline)
 
         return newline
-
 
     def exceptions_tmplt(self):
         """ Do some exceptional works of template update """

@@ -10,6 +10,7 @@ __all__ = [
     "PTN_SPEC_TOKEN",
 ]
 
+
 #
 # Regular expression dict for optional preprocessing (can be empty {})
 # Compiling ptnobj_p0~6 into a big one will slow down the preprocess

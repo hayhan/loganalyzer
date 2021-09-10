@@ -24,14 +24,14 @@ from analyzer.config import GlobalConfig as GC
 import analyzer.utils.data_helper as dh
 from analyzer.modern import ModernBase
 
-
 # Import the knowledge base for the corresponding log type
 kb = import_module("analyzer.oldschool." + dh.LOG_TYPE + ".knowledgebase")
 
+
 __all__ = ["Loglab"]
 
-
 log = logging.getLogger(__name__)
+
 
 class Loglab(ModernBase):
     """ The class of Loglab technique """
@@ -47,18 +47,15 @@ class Loglab(ModernBase):
 
         ModernBase.__init__(self, df_raws, df_tmplts)
 
-
     @property
     def segll(self):
         """ Get the segment info """
         return self._segll
 
-
     @segll.setter
     def segll(self, segll: List[tuple]):
         """ Set the segment info """
         self._segll = segll
-
 
     def load_para(self):
         """ Load/Update model parameters """
@@ -66,7 +63,6 @@ class Loglab(ModernBase):
         self.win_size = GC.conf['loglab']['window_size']
         self.weight = GC.conf['loglab']['weight']
         self.onnx_model = os.path.join(dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx')
-
 
     def load_data(self):
         """
@@ -121,7 +117,6 @@ class Loglab(ModernBase):
                 self.extract_feature(self._df_raws, event_id_voc, event_id_logs)
 
         return event_matrix, class_vector
-
 
     # pylint: disable=too-many-locals
     def extract_feature(self, data_df, eid_voc, eid_logs):
@@ -215,7 +210,6 @@ class Loglab(ModernBase):
 
         return event_count_vec, class_vec
 
-
     def extract_feature_multi(self, data_df, eid_voc, eid_logs):
         """
         Extract features in a monolith which always has multi samples
@@ -276,7 +270,6 @@ class Loglab(ModernBase):
 
         return event_count_matrix, class_vec
 
-
     @staticmethod
     def print_ecm(ecm, eid_voc):
         """ Print non-zero values in event count matrix
@@ -284,7 +277,6 @@ class Loglab(ModernBase):
         for idx, val in enumerate(ecm[0]):
             if val != 0.:
                 print("ECM: idx -> {}, eid -> {}, val -> {}".format(idx, eid_voc[idx], val))
-
 
     @staticmethod
     def mykfold(y_train, monolith_data, model):
@@ -314,7 +306,6 @@ class Loglab(ModernBase):
             y_test_pred = model.predict(x_test)
             if y_test != y_test_pred:
                 print(f"raw sample index {test_begin+1} of class {y_test} -> {y_test_pred}")
-
 
     def train(self):
         """ Train the model.
@@ -412,12 +403,10 @@ class Loglab(ModernBase):
         with open(self.onnx_model, "wb") as fout:
             fout.write(onx.SerializeToString())
 
-
     def evaluate(self):
         """ Validate the model.
         """
         log.info("Not implemented.")
-
 
     def predict(self):
         """ Predict using the trained model.
@@ -455,7 +444,6 @@ class Loglab(ModernBase):
         label_name = sess.get_outputs()[1].name
         y_pred_prob = sess.run([label_name], {input_name: x_test.astype(np.float32)})[0]
         print(y_pred_prob)
-
 
     def check_feature(self):
         """ Check the features of the dataset.

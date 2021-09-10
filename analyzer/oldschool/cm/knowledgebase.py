@@ -26,7 +26,6 @@ class Kb(KbBase):
 
         KbBase.__init__(self)
 
-
     # pylint: disable=too-many-branches:too-many-statements
     def domain_knowledge(self, template_id: str, param_list: List[str]):
         """

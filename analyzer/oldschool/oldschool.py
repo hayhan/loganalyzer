@@ -14,10 +14,11 @@ from analyzer.config import GlobalConfig as GC
 # Load knowledge-base of LOG_TYPE
 kb = import_module("analyzer.oldschool." + dh.LOG_TYPE + ".knowledgebase")
 
+
 __all__ = ["OSS"]
 
-
 log = logging.getLogger(__name__)
+
 
 # pylint: disable=too-many-instance-attributes
 class OSS():
@@ -34,18 +35,15 @@ class OSS():
 
         self.kbase = kb.Kb()
 
-
     @property
     def map_norm_raw(self):
         """ Get the raw line index in norm data """
         return self._map_norm_raw
 
-
     @map_norm_raw.setter
     def map_norm_raw(self, map_norm_raw: List[int]):
         """ Set the raw line index in norm data """
         self._map_norm_raw = map_norm_raw
-
 
     def invalid_log_warning(self):
         """ Warning message which is saved into txt file
@@ -59,7 +57,6 @@ class OSS():
         # Save empty summary data frame to file
         self._summary_df.to_csv(self.fzip['sum'], index=False,
             columns=["Time/LineNum", "Description", "Suggestion"])
-
 
     # pylint: disable=too-many-locals
     def analyze(self):

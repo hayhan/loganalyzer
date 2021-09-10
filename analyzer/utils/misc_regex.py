@@ -11,6 +11,7 @@ __all__ = [
     "PTN_IP_V6",
 ]
 
+
 PTN_LIBC_CTIME = re.compile(
     # The libc ctime format
     r'(Mon|Tue|Wed|Thu|Fri|Sat|Sun) '

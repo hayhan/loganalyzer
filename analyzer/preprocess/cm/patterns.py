@@ -3,6 +3,7 @@
 """
 import re
 
+
 __all__ = [
     "PTN_BFC_TS",
     "PTN_CLEAN_CHAR",
@@ -28,6 +29,7 @@ __all__ = [
     "PTN_SPLIT_RIGHT_TS",
     "PTN_SESSION",
 ]
+
 
 # ----------------------------------------------------------------------
 # Patterns for timestamp, console prompt, thread tag and others

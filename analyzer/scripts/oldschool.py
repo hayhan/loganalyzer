@@ -11,6 +11,7 @@ from analyzer.oldschool import OSS
 
 log = logging.getLogger(__name__)
 
+
 # ----------------------------------------------------------------------
 # analyzer oldschool run
 # ----------------------------------------------------------------------

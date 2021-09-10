@@ -13,6 +13,7 @@ from analyzer.modern.deeplog import DeepLog
 
 log = logging.getLogger(__name__)
 
+
 # Parameter groups for DeepLog Exec/LSTM model
 PARA_GROUPS = {
     0: {'win_size': 15, 'batch_size': 32, 'num_epochs': 150, 'hidden_size': 128,

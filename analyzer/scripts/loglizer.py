@@ -14,6 +14,7 @@ from analyzer.modern.loglizer import Loglizer
 
 log = logging.getLogger(__name__)
 
+
 # Classical models (static) for Loglizer
 CML_STC_MODELS = {
     'DT': {'win_size': 10000, 'win_step': 5000},
@@ -21,6 +22,7 @@ CML_STC_MODELS = {
     'SVM': {'win_size': 10000, 'win_step': 5000},
     'RFC': {'win_size': 10000, 'win_step': 5000},
 }
+
 
 # Classical models (incremental/partial) for Loglizer
 CML_INC_MODELS = {

@@ -3,6 +3,7 @@
 """
 import re
 
+
 __all__ = [
     "PTN_STD_TS",
     "PTN_SEG_LABEL",
@@ -10,6 +11,7 @@ __all__ = [
     "PTN_ABN_LABEL",
     "PTN_NESTED_LINE",
 ]
+
 
 PTN_STD_TS = re.compile(
     # Standard timestamp from console tool, e.g. [20190719-08:58:23.738]

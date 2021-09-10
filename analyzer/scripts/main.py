@@ -16,6 +16,7 @@ def print_version(ctx, param, value):  # pylint:disable=unused-argument
     print(f"Loganalyzer version {__version__}")
     ctx.exit()
 
+
 # https://click.palletsprojects.com/en/latest/documentation/#help-parameter-customization
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 

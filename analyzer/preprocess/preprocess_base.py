@@ -12,12 +12,11 @@ from analyzer.config import GlobalConfig as GC
 import analyzer.utils.data_helper as dh
 from . import patterns as ptn
 
-__all__ = [
-    "PreprocessBase",
-]
 
+__all__ = ["PreprocessBase"]
 
 log = logging.getLogger(__name__)
+
 
 class PreprocessBase(ABC):
     """ The base class of preprocess. """
@@ -48,7 +47,6 @@ class PreprocessBase(ABC):
             self._map_new_raw: List[int] = []
             self._map_norm_raw: List[int] = []
 
-
     def load_raw_logs(self):
         """ Read raw data file into memory """
         #
@@ -66,7 +64,6 @@ class PreprocessBase(ABC):
         with open(self.fzip['raw'], 'r', encoding='utf-8-sig') as rawfile:
             self._rawlogs = rawfile.readlines()
 
-
     def _main_timestamp_regx(self):
         """ Get timestamp regx pattern object. """
         if self.context in ['LOGLAB', 'OLDSCHOOL', 'DEEPLOG'] \
@@ -74,7 +71,6 @@ class PreprocessBase(ABC):
             self.ptn_main_ts = re.compile(r'.{%d}' % self._log_head_offset)
         else:
             self.ptn_main_ts = ptn.PTN_STD_TS
-
 
     def _get_timestamp_info(self):
         """ Get updated timestamp info. """
@@ -92,7 +88,6 @@ class PreprocessBase(ABC):
         # Update main timestamp pattern object
         self._main_timestamp_regx()
 
-
     @staticmethod
     def _hand_over_label(curr_line_ts: str):
         """
@@ -107,12 +102,10 @@ class PreprocessBase(ABC):
             last_label_removed = True
         return last_label, last_label_removed
 
-
     @property
     def log_head_offset(self):
         """ Get log head offset info. """
         return self._log_head_offset
-
 
     @log_head_offset.setter
     def log_head_offset(self, head_offset: int):
@@ -127,36 +120,30 @@ class PreprocessBase(ABC):
         """
         self._log_head_offset = head_offset
 
-
     @property
     def normlogs(self):
         """ Get norm logs. """
         return self._normlogs
-
 
     @property
     def labels(self):
         """ Get the labels ('abn: ') vector. """
         return self._labels
 
-
     @property
     def map_norm_raw(self):
         """ Get the raw line index in norm data """
         return self._map_norm_raw
-
 
     @property
     def segdl(self):
         """ Get the segment info of deeplog """
         return self._segdl
 
-
     @property
     def segll(self):
         """ Get the segment info of loglab """
         return self._segll
-
 
     @abstractmethod
     def preprocess_ts(self):
@@ -166,13 +153,11 @@ class PreprocessBase(ABC):
         Not for Loglizer as it requires timestamps for windowing.
         """
 
-
     @abstractmethod
     def preprocess_new(self):
         """
         Preprocess to generate the new log data. Clean the raw log data.
         """
-
 
     def preprocess_norm(self): # pylint: disable=too-many-branches
         """
@@ -261,7 +246,6 @@ class PreprocessBase(ABC):
                 with open(self.fzip['map_norm_raw'], 'wb') as fridx:
                     pickle.dump(self._map_norm_raw, fridx)
 
-
     def extract_labels(self):
         """
         Extract the abnormal label vector from norm data.
@@ -307,7 +291,6 @@ class PreprocessBase(ABC):
                 with open(self.fzip['labels'], 'wb') as fout:
                     pickle.dump(self._labels, fout)
 
-
     def cat_files_lst(self, raw_dir: str, file_names: List[str]):
         """
         Cat multi raw log files in the file list under raw_dir into a
@@ -330,7 +313,6 @@ class PreprocessBase(ABC):
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
                 monolith.writelines(self._rawlogs)
-
 
     def cat_files_dir(self, raw_dir: str):
         """
@@ -358,7 +340,6 @@ class PreprocessBase(ABC):
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
                 monolith.writelines(self._rawlogs)
-
 
     def cat_files_deeplog(self, raw_dir: str):
         """
@@ -396,7 +377,6 @@ class PreprocessBase(ABC):
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
                 monolith.writelines(self._rawlogs)
-
 
     def cat_files_loglab(self):
         """
@@ -444,7 +424,6 @@ class PreprocessBase(ABC):
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
                 monolith.writelines(self._rawlogs)
-
 
     def segment_deeplog(self):
         """
@@ -495,7 +474,6 @@ class PreprocessBase(ABC):
 
             with open(self.fzip['norm'], 'w+', encoding='utf-8') as fout:
                 fout.writelines(self._normlogs)
-
 
     def segment_loglab(self):
         """

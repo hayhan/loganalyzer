@@ -16,10 +16,11 @@ from analyzer.parser import Para, Drain
 ptn = import_module("analyzer.parser." + dh.LOG_TYPE + ".patterns")
 msc = import_module("analyzer.parser." + dh.LOG_TYPE + ".misc")
 
+
 __all__ = ["Parser"]
 
-
 log = logging.getLogger(__name__)
+
 
 # pylint: disable=too-many-instance-attributes
 class Parser():
@@ -40,14 +41,12 @@ class Parser():
         self._df_raws = None
         self._df_tmplts = None
 
-
     @property
     def df_raws(self):
         """ Get raws (structured) in pandas dataframe
             Column: LineId/Time/Content/EventIdOld/EventId/EventTemplate
         """
         return self._df_raws
-
 
     @property
     def df_tmplts(self):
@@ -56,30 +55,25 @@ class Parser():
         """
         return self._df_tmplts
 
-
     @property
     def map_norm_raw(self):
         """ Get the raw line index in norm data """
         return self._map_norm_raw
-
 
     @map_norm_raw.setter
     def map_norm_raw(self, map_norm_raw: List[int]):
         """ Set the raw line index in norm data """
         self._map_norm_raw = map_norm_raw
 
-
     @property
     def map_norm_rcv(self):
         """ Get the norm line index in mess recovered norm data """
         return self._map_norm_rcv
 
-
     @property
     def norm_rcv(self):
         """ Get the mess recovered norm data """
         return self._norm_rcv
-
 
     def parse(self):
         """ Parse, generate and update templates """
@@ -136,7 +130,6 @@ class Parser():
             # Column: EventIdOld/EventId/EventTemplate
             self._df_tmplts = my_parser.df_tmplts_o
 
-
     def learn_timestamp(self):
         """ Learn the width of timestamp. Run parse beforehand. """
         # Load event id from template library
@@ -178,7 +171,6 @@ class Parser():
 
         return log_start_offset, idx
 
-
     def det_timestamp(self):
         """ Get the width of timestamp and update config setting """
         self._log_head_offset, lineoffset = self.learn_timestamp()
@@ -187,7 +179,6 @@ class Parser():
 
         log.debug("Learned log head offset: %d, at line %d.",
                   self._log_head_offset, lineoffset)
-
 
     # pylint: disable=too-many-locals:too-many-branches
     # pylint: disable=too-many-statements

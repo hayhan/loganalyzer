@@ -13,6 +13,7 @@ from analyzer import __version__
 
 log = logging.getLogger(__name__)
 
+
 # See setup.cfg
 LOGANALYZER_DEPENDENCIES = [
     # required

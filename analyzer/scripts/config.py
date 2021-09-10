@@ -10,6 +10,7 @@ from analyzer.config import GlobalConfig as GC, CONFIG_FILE
 
 log = logging.getLogger(__name__)
 
+
 # ----------------------------------------------------------------------
 # analyzer config show
 # ----------------------------------------------------------------------

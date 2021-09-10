@@ -4,6 +4,7 @@ import os
 import sys
 from analyzer.config import GlobalConfig as GC
 
+
 __all__ = [
     "ANALYZER_DATA",
     "RAW_DATA",

@@ -10,16 +10,15 @@ __all__ = ["KbBase"]
 
 log = logging.getLogger(__name__)
 
+
 class KbBase(ABC):
     """ The base class of knowledge-base """
     def __init__(self):
         pass
 
-
     @abstractmethod
     def domain_knowledge(self, template_id: str, param_list: List[str]):
         """ Load knowledge-bases """
-
 
     def place_holder(self):
         """ Place holder """

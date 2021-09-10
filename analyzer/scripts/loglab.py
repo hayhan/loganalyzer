@@ -11,6 +11,7 @@ from analyzer.modern.loglab import Loglab
 
 log = logging.getLogger(__name__)
 
+
 # Classical models for Loglab
 CML_MODELS = {
     'RFC': {'win_size': 10, 'weight': 2},

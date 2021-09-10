@@ -7,6 +7,7 @@ __all__ = [
     "SCAN_RANGE",
 ]
 
+
 # Special templates, for case 2 of recovering of messed logs
 SPECIAL_ID = ['b9c1fdb1']
 

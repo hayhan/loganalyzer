@@ -26,10 +26,11 @@ from analyzer.config import GlobalConfig as GC
 import analyzer.utils.data_helper as dh
 from analyzer.modern import ModernBase
 
+
 __all__ = ["Loglizer"]
 
-
 log = logging.getLogger(__name__)
+
 
 # pylint: disable=too-many-instance-attributes
 class Loglizer(ModernBase):
@@ -46,18 +47,15 @@ class Loglizer(ModernBase):
 
         ModernBase.__init__(self, df_raws, df_tmplts)
 
-
     @property
     def labels(self):
         """ Get the label info """
         return self._labels
 
-
     @labels.setter
     def labels(self, labels: List[int]):
         """ Set the label info """
         self._labels = labels
-
 
     def load_para(self):
         """ Load/Update model parameters """
@@ -72,7 +70,6 @@ class Loglizer(ModernBase):
         else:
             log.error("Model is not supported. Exit.")
             sys.exit(1)
-
 
     def load_data(self):
         """
@@ -158,7 +155,6 @@ class Loglizer(ModernBase):
         # Return the (x, y) to feed models
         return ecm, labels
 
-
     def slice_data(self, raw_data):
         """
         Slice data using sliding window
@@ -226,7 +222,6 @@ class Loglizer(ModernBase):
 
         return start_end_index_list, inst_number
 
-
     @staticmethod
     def all_log_idx(start_end_index_list: List[tuple], inst_number: int):
         """
@@ -244,7 +239,6 @@ class Loglizer(ModernBase):
                 expanded_indexes_list[i].append(j)
 
         return expanded_indexes_list
-
 
     # pylint: disable=too-many-arguments
     def build_matrix(self, event_id_logs, event_id_voc, raw_data,
@@ -294,7 +288,6 @@ class Loglizer(ModernBase):
 
         return event_count_matrix, labels
 
-
     def fit_transform(self, x_seq, term_weighting=None,
                       normalization=None):
         """ Fit and transform the data matrix
@@ -340,7 +333,6 @@ class Loglizer(ModernBase):
         # np.savetxt(x_data_file, x_new, fmt="%s")
         print('Final train data shape: {}-by-{}\n'.format(x_new.shape[0], x_new.shape[1]))
         return x_new
-
 
     def transform(self, x_seq, term_weighting=None, normalization=None,
                   use_train_factor=True):
@@ -391,7 +383,6 @@ class Loglizer(ModernBase):
         print('Test data shape: {}-by-{}\n'.format(x_new.shape[0], x_new.shape[1]))
 
         return x_new
-
 
     # pylint: disable=too-many-branches
     def train(self):
@@ -478,7 +469,6 @@ class Loglizer(ModernBase):
         print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'\
             .format(precision, recall, f1))
 
-
     def evaluate(self):
         """ Validate the model.
         """
@@ -503,7 +493,6 @@ class Loglizer(ModernBase):
 
         print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'\
             .format(precision, recall, f1))
-
 
     # pylint: disable=too-many-locals
     def predict(self):

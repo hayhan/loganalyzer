@@ -7,6 +7,7 @@ import collections
 import pandas as pd
 import analyzer.utils.data_helper as dh
 
+
 __all__ = [
     "sort_tmplt_lib",
     "check_duplicates",
