@@ -159,8 +159,8 @@ class Loglizer(ModernBase):
         """
         Slice data using sliding window
 
-        Args:
-        --------
+        Arguments
+        ---------
         raw_data: np array of (label, time) of each log
 
         Returns

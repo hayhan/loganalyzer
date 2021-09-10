@@ -249,12 +249,14 @@ class PreprocessBase(ABC):
     def extract_labels(self):
         """
         Extract the abnormal label vector from norm data.
+
         Use cases:
-            1) Template generation from scratch
-            2) Loglizer training and validation
-            3) DeepLog validation
+        1) Template generation from scratch
+        2) Loglizer training and validation
+        3) DeepLog validation
+
         Note:
-            Do not call this func for predition
+        Do not call this func for predition
         """
         norm_logs: List[str] = []
 

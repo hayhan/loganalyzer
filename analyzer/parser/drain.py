@@ -149,13 +149,13 @@ class Drain:
 
     @staticmethod
     def has_pun(string): # pylint: disable=unused-argument
-        """ Check if there is special character
+        """ Check if there is special character """
 
-        pun_str = "#$&'*+,/<=>@^_`|~)"
-        pun_chars = set(pun_str)
-        return any(char in pun_chars for char in string)
-        """
-        # We do not check the special char
+        # pun_str = "#$&'*+,/<=>@^_`|~)"
+        # pun_chars = set(pun_str)
+        # return any(char in pun_chars for char in string)
+
+        # Do not check the special char now
         return None
 
     @staticmethod
@@ -183,11 +183,14 @@ class Drain:
         Browses the tree in order to find a matching cluster to a log
         sequence. It does not generate new node.
 
-        Attributes
+        Parameters
         ----------
-        rtn    : Root node
-        seq    : Log sequence to test
-        return : The matching log cluster
+        rtn : Root node
+        seq : Log sequence to test
+
+        Returns
+        -------
+        The matching log cluster
         """
         ret_log_cluster = None
 
@@ -221,10 +224,13 @@ class Drain:
         Browses the tree in order to find a matching cluster to a log
         sequence. It does not generate new node.
 
-        Attributes
+        Parameters
         ----------
-        seq    : Log sequence to test
-        return : The matching log cluster
+        seq : Log sequence to test
+
+        Returns
+        -------
+        The matching log cluster
         """
         seq_len = len(seq)
 
@@ -250,11 +256,14 @@ class Drain:
         Browse the tree in order to find a matching cluster to a log
         sequence. It does not generate new node.
 
-        Attributes
+        Parameters
         ----------
-        rtn    : Root node
-        seq    : Log sequence to test
-        return : The token layer node
+        rtn : Root node
+        seq : Log sequence to test
+
+        Returns
+        -------
+        The token layer node
         """
         seq_len = len(seq)
         len_layer_nd = rtn.child_node[seq_len]
@@ -285,11 +294,10 @@ class Drain:
         A log sequence cannot be matched by an existing cluster, so add
         the new corresponding log cluster to the tree.
 
-        Attributes
+        Parameters
         ----------
         rtn       : Root node
         log_clust : the new Log cluster
-        return    : None
         """
         seq_len = len(log_clust.log_tmplt)
         if seq_len not in rtn.child_node:
@@ -313,54 +321,37 @@ class Drain:
         token_last_key = '-1_Drain_' + token_last
 
         if token_first_key in len_layer_nd.child_node:
-            # The first index token already exists, just retrive it
             token_layer_node = len_layer_nd.child_node[token_first_key]
         elif token_last_key in len_layer_nd.child_node and self.has_numbers(token_first):
-            # The last index token already exists, just retrive it
             token_layer_node = len_layer_nd.child_node[token_last_key]
         else:
-            # Add the new index node to the token layer
+            # Add new index node to the token layer
             if len(len_layer_nd.child_node) == self.para.max_child:
-                # Length layer node reaches the max, retrive the <*>
-                # node instead
                 token_layer_node = len_layer_nd.child_node['<*>']
             else:
                 # Add new index node starting from here
                 if self.has_numbers(token_first):
-                    # The first token is a var, then check the last one
                     if self.has_numbers(token_last):
-                        # The last token is a var too, then retrive the
-                        # <*> token layer node
                         token_layer_node = len_layer_nd.child_node['<*>']
                     else:
-                        # Last token is not var, use it as split token
                         new_node = Node(digit_or_token=token_last_key)
                         len_layer_nd.child_node[token_last_key] = new_node
                         token_layer_node = new_node
-
                 else:
-                    # The first token is not a var
                     if self.has_numbers(token_last):
-                        # The last token is a var
                         new_node = Node(digit_or_token=token_first_key)
                         len_layer_nd.child_node[token_first_key] = new_node
                         token_layer_node = new_node
-
                     else:
-                        # The last token is not a var
                         if self.has_pun(token_last):
-                            # The last token has punctuations
                             new_node = Node(digit_or_token=token_first_key)
                             len_layer_nd.child_node[token_first_key] = new_node
                             token_layer_node = new_node
-
                         elif self.has_pun(token_first):
-                            # The first token has puns, the last has not
                             new_node = Node(digit_or_token=token_last_key)
                             len_layer_nd.child_node[token_last_key] = new_node
                             token_layer_node = new_node
                         else:
-                            # The first and last token have no puns
                             new_node = Node(digit_or_token=token_first_key)
                             len_layer_nd.child_node[token_first_key] = new_node
                             token_layer_node = new_node
@@ -377,14 +368,16 @@ class Drain:
         Calculate the simlilarity between the template and raw log.
         The seq1 is template
 
-        Attributes
+        Parameters
         ----------
-        seq1   : the template
-        seq2   : the raw log
-        return : sim that represents the similarity \
-                 para_num, the num of parameters
-        """
+        seq1 : the template
+        seq2 : the raw log
 
+        Returns
+        -------
+        1) sim that represents the similarity
+        2) para_num, the num of parameters
+        """
         assert len(seq1) == len(seq2)
 
         sim_tokens = 0
@@ -482,13 +475,15 @@ class Drain:
         Find the most suitable log cluster in the leaf node,
         token-wise comparison, used to find the most similar cluster
 
-        Attributes
+        Parameters
         ----------
         log_clust_lst : the cluster list
         seq           : the raw log
-        return        : the matched log cluster
-        """
 
+        Returns
+        -------
+        the matched log cluster
+        """
         ret_log_clust = None
 
         max_sim = -1
@@ -503,7 +498,6 @@ class Drain:
                 max_para_num = cur_para_num
                 max_clust = log_clust
 
-        # If similarity is larger than sim_t
         if max_clust is not None and max_sim >= max_clust.sim_t:
             ret_log_clust = max_clust
 
@@ -515,12 +509,15 @@ class Drain:
         Get the new template after comparing the raw log and template.
         The seq1 is raw log and the seq2 is template.
 
-        Attributes
+        Parameters
         ----------
-        seq1   : the raw log
-        seq2   : the template
-        return : new_tmplt that represents the new template \
-                 updt_token_num, num of tokens that are replaced by <*>
+        seq1 : the raw log
+        seq2 : the template
+
+        Returns
+        -------
+        1) new_tmplt that represents the new template
+        2) updt_token_num, num of tokens that are replaced by <*>
         """
         # This func converts the 1st/last token to <*> too. It does not
         # conflict with the <*> token node in paper Fig. 2. The former's
@@ -550,7 +547,7 @@ class Drain:
         """
         Add new cluster to the tree
 
-        Attributes
+        Parameters
         ----------
         message_lst  : the log/template token list
         id_lst       : the log line index list, 1 based
@@ -605,7 +602,7 @@ class Drain:
         """
         Update the cluster in the tree
 
-        Attributes
+        Parameters
         ----------
         message_lst : the log/template token list
         log_idx     : the log line id, 1 based
