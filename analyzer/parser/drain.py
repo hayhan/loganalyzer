@@ -272,8 +272,8 @@ class Drain:
         token_first = seq[0]
         token_last = seq[-1]
 
-        token_first_key = '00_Drain_' + token_first
-        token_last_key = '-1_Drain_' + token_last
+        token_first_key = ''.join(['00_Drain_', token_first])
+        token_last_key = ''.join(['-1_Drain_', token_last])
 
         # Check if the tokens are in the children nodes
         token_layer_node = None
@@ -317,8 +317,8 @@ class Drain:
         token_first = log_clust.log_tmplt[0]
         token_last = log_clust.log_tmplt[-1]
 
-        token_first_key = '00_Drain_' + token_first
-        token_last_key = '-1_Drain_' + token_last
+        token_first_key = ''.join(['00_Drain_', token_first])
+        token_last_key = ''.join(['-1_Drain_', token_last])
 
         if token_first_key in len_layer_nd.child_node:
             token_layer_node = len_layer_nd.child_node[token_first_key]

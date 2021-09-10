@@ -222,7 +222,7 @@ class Parser():
             if (eido != '0') or (not m1_found and not header_care):
                 # new_temp_logs[idx] = temp
                 self._map_norm_rcv.append(idx)
-                self._norm_rcv.append(time_logs[idx]+temp+'\n')
+                self._norm_rcv.append(''.join([time_logs[idx], temp, '\n']))
                 continue
 
             # We get here only when condition below:
@@ -232,14 +232,14 @@ class Parser():
                 if idx - m1_idx > msc.SCAN_RANGE:
                     # new_temp_logs[idx] = temp
                     self._map_norm_rcv.append(idx)
-                    self._norm_rcv.append(time_logs[idx]+temp+'\n')
+                    self._norm_rcv.append(''.join([time_logs[idx], temp, '\n']))
                     m1_found = False
                     continue
                 # Note the eido == 0 here
-                temp_o1 = o1_head + temp
+                temp_o1 = ''.join([o1_head, temp])
                 # new_temp_logs[idx] = temp_o1
                 self._map_norm_rcv.append(idx)
-                self._norm_rcv.append(time_logs[idx]+temp_o1+'\n')
+                self._norm_rcv.append(''.join([time_logs[idx], temp_o1, '\n']))
                 m1_found = False
                 continue
 
@@ -255,7 +255,7 @@ class Parser():
                     m1_idx = idx
                     # new_temp_logs[idx] = temp_o2
                     self._map_norm_rcv.append(idx)
-                    self._norm_rcv.append(time_logs[idx]+temp_o2+'\n')
+                    self._norm_rcv.append(''.join([time_logs[idx], temp_o2, '\n']))
                     if eid_o2 in msc.SPECIAL_ID:
                         # The case 2:
                         # Remove one trailing spaces in o1_head
@@ -268,7 +268,7 @@ class Parser():
             # encountering case 3.
             if not m1_found:
                 # Skip writing the empty line to norm pred file
-                # self._norm_rcv.append(time_logs[idx]+'\n')
+                # self._norm_rcv.append(''.join([time_logs[idx], '\n']))
                 # new_temp_logs[idx] = ''
 
                 # We write down the skipped line/log number, which will

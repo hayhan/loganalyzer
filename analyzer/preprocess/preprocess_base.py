@@ -203,13 +203,11 @@ class PreprocessBase(ABC):
             if ptn.PTN_NESTED_LINE.match(newline):
                 # Concatenate current line to last_line. rstrip() will
                 # strip LF or CRLF too
-                last_line = last_line.rstrip()
-                last_line += ', '
-                last_line += newline.lstrip()
+                last_line = ''.join([last_line.rstrip(), ', ', newline.lstrip()])
             else:
                 # If current is primary line, then concatenating ends
                 if self._reserve_ts and match_ts and (last_line != ''):
-                    last_line = last_line_ts + last_line
+                    last_line = ''.join([last_line_ts, last_line])
                 # Bypass appending the first empty line. This empty line
                 # will be in the in-memory _normlogs although it will be
                 # removed after writing to a file. It brings troubles to
@@ -233,7 +231,7 @@ class PreprocessBase(ABC):
 
         # Write the last line of norm dataset
         if self._reserve_ts and match_ts and (last_line != ''):
-            last_line = last_line_ts + last_line
+            last_line = ''.join([last_line_ts, last_line])
         self._normlogs.append(last_line)
 
         # Conditionally save the normlogs and rawln idx to files
@@ -307,10 +305,9 @@ class PreprocessBase(ABC):
         for rawf in raw_in_lst:
             with open(rawf, 'r', encoding='utf-8-sig') as rawin:
                 self._rawlogs += rawin.readlines()
-            # Get the last line of preceding file to check if the line
-            # feed exists at the end.
+            # Make sure preceding file has line feed at EOF
             if self._rawlogs[-1][-1] != '\n':
-                self._rawlogs[-1] += '\n'
+                self._rawlogs[-1] = ''.join([self._rawlogs[-1], '\n'])
 
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
@@ -334,10 +331,9 @@ class PreprocessBase(ABC):
                 # print(rawf)
                 with open(rawf, 'r', encoding='utf-8-sig') as rawin:
                     self._rawlogs += rawin.readlines()
-                # Get the last line of preceding file to check if the
-                # line feed exists at the end.
+                # Make sure preceding file has line feed at EOF
                 if self._rawlogs[-1][-1] != '\n':
-                    self._rawlogs[-1] += '\n'
+                    self._rawlogs[-1] = ''.join([self._rawlogs[-1], '\n'])
 
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
@@ -367,14 +363,13 @@ class PreprocessBase(ABC):
                             if match_ts:
                                 curr_line_ts = match_ts.group(0)
                                 newline = ptn.PTN_STD_TS.sub('', line, count=1)
-                                line = curr_line_ts + 'segsign: ' + newline
+                                line = ''.join([curr_line_ts, 'segsign: ', newline])
                             else:
                                 print("Error: The timestamp is wrong!")
                         self._rawlogs.append(line)
-                # Get the last line of preceding file to check if the
-                # line feed exists at the end.
+                # Make sure preceding file has line feed at EOF
                 if self._rawlogs[-1][-1] != '\n':
-                    self._rawlogs[-1] += '\n'
+                    self._rawlogs[-1] = ''.join([self._rawlogs[-1], '\n'])
 
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
@@ -414,14 +409,13 @@ class PreprocessBase(ABC):
                             if match:
                                 curline_ts = match.group(0)
                                 newline = ptn.PTN_STD_TS.sub('', line, count=1)
-                                line = curline_ts + classname + ' ' + newline
+                                line = ''.join([curline_ts, classname, ' ', newline])
                             else:
                                 print("Error: The timestamp is wrong!")
                         self._rawlogs.append(line)
-                # Get the last line of preceding file to check if the
-                # line feed exists at the end.
+                # Make sure preceding file has line feed at EOF
                 if self._rawlogs[-1][-1] != '\n':
-                    self._rawlogs[-1] += '\n'
+                    self._rawlogs[-1] = ''.join([self._rawlogs[-1], '\n'])
 
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
             with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:

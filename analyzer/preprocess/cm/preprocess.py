@@ -149,7 +149,7 @@ class Preprocess(PreprocessBase):
                 # labeled line if it is removed.
                 if self.context in ['LOGLAB', 'DEEPLOG'] and (self.training or self.metrics) \
                     and last_label_removed:
-                    curr_line_ts += last_label
+                    curr_line_ts = ''.join([curr_line_ts, last_label])
                     # Reset
                     last_label_removed = False
                     last_label = ''
@@ -254,7 +254,7 @@ class Preprocess(PreprocessBase):
                 if newline in ['\n', '\r\n']:
                     in_log_block3 = False
                 else:
-                    newline = ' ' + newline
+                    newline = ''.join([' ', newline])
 
             #
             # Indent a block of lines from primary to embedded. Note:
@@ -266,17 +266,17 @@ class Preprocess(PreprocessBase):
             elif in_log_block4:
                 if ptn.PTN_BLOCK_INDENT2_END.match(newline):
                     # Special line ends the block
-                    newline = ' ' + newline
+                    newline = ''.join([' ', newline])
                     in_log_block4 = False
                 else:
-                    newline = ' ' + newline
+                    newline = ''.join([' ', newline])
 
             #
             # Indent some specific lines
             #
             elif ptn.PTN_PRI_TO_NESTED.match(newline):
                 # Indent this line
-                newline = ' ' + newline
+                newline = ''.join([' ', newline])
 
             #
             # Format DS channel status table
@@ -405,13 +405,13 @@ class Preprocess(PreprocessBase):
             # ----------------------------------------------------------
             if self.context in ['DEEPLOG'] and (self.training or self.metrics):
                 if ptn.PTN_SESSION.match(newline):
-                    newline = 'segsign: ' + newline
+                    newline = ''.join(['segsign: ', newline])
 
             # ----------------------------------------------------------
             # Add back the timestamp if it exists and store new line
             # ----------------------------------------------------------
             if self._reserve_ts and match_ts:
-                newline = curr_line_ts + newline
+                newline = ''.join([curr_line_ts, newline])
             self._newlogs.append(newline)
 
             # The raw line index list in the new file
@@ -429,8 +429,7 @@ class Preprocess(PreprocessBase):
 
         print('Purge costs {!s}\n'.format(datetime.now()-parse_st))
 
-    @staticmethod
-    def format_ds_chan_table(newline: str, table_messed: bool, last_ln_messed: bool):
+    def format_ds_chan_table(self, newline: str, table_messed: bool, last_ln_messed: bool):
         """ Format one item of ds channel table """
         # ---raw table---
         # Active Downstream Channel Diagnostics:
@@ -471,14 +470,30 @@ class Preprocess(PreprocessBase):
             # Then they will share same log template after clustering.
             lineview[7] = 'OFDM_PLC\n'              # OFDM PLC
 
-        newline = 'DS channel status' + ' rxid ' + lineview[0] + ' dcid ' + \
-                    lineview[1] + ' freq ' + lineview[2] + ' qam ' + \
-                    lineview[3] + ' fec ' + lineview[4] + ' snr ' + \
-                    lineview[5] + ' power ' + lineview[6] + ' mod ' + lineview[7]
+        newline = ''.join(self.ds_chan_log(lineview))
         return newline, last_ln_messed
 
     @staticmethod
-    def format_us_chan_table(newline: str):
+    def ds_chan_log(lineview: List[str]):
+        """ New format for downstream channel table """
+        yield 'DS channel status rxid '
+        yield lineview[0]
+        yield ' dcid '
+        yield lineview[1]
+        yield ' freq '
+        yield lineview[2]
+        yield ' qam '
+        yield lineview[3]
+        yield ' fec '
+        yield lineview[4]
+        yield ' snr '
+        yield lineview[5]
+        yield ' power '
+        yield lineview[6]
+        yield ' mod '
+        yield lineview[7]
+
+    def format_us_chan_table(self, newline: str):
         """ Format one item of us channel table """
         # ---raw table---
         # Active Upstream Channels:
@@ -499,21 +514,59 @@ class Preprocess(PreprocessBase):
         if lineview[6] == '-':
             # This line is for OFDMA channel, split it again
             lineview = newline.split(None, 10)
-            newline = 'US channel status' + ' txid ' + lineview[0] + ' ucid ' + \
-                        lineview[1] + ' dcid ' + lineview[2] + ' rngsid ' + \
-                        lineview[3] + ' power ' + lineview[4] + ' freqstart ' + \
-                        lineview[5] + ' freqend ' +lineview[7] + ' symrate ' + \
-                        lineview[8] + ' phytype ' + lineview[9] + ' txdata ' + \
-                        lineview[10]
+            newline = ''.join(self.us_chan_log_ofdma(lineview))
         else:
             # For SC-QAM channels
-            newline = 'US channel status' + ' txid ' + lineview[0] + ' ucid ' + \
-                        lineview[1] + ' dcid ' + lineview[2] + ' rngsid ' + \
-                        lineview[3] + ' power ' + lineview[4] + ' freqstart ' + \
-                        lineview[5] + ' freqend ' +lineview[5] + ' symrate ' + \
-                        lineview[6] + ' phytype ' + lineview[7] + ' txdata ' + \
-                        lineview[8]
+            newline = ''.join(self.us_chan_log_scqam(lineview))
         return newline
+
+    @staticmethod
+    def us_chan_log_ofdma(lineview: List[str]):
+        """ New format for upstream ofdma channel table """
+        yield 'US channel status txid '
+        yield lineview[0]
+        yield ' ucid '
+        yield lineview[1]
+        yield ' dcid '
+        yield lineview[2]
+        yield ' rngsid '
+        yield lineview[3]
+        yield ' power '
+        yield lineview[4]
+        yield ' freqstart '
+        yield lineview[5]
+        yield ' freqend '
+        yield lineview[7]
+        yield ' symrate '
+        yield lineview[8]
+        yield ' phytype '
+        yield lineview[9]
+        yield ' txdata '
+        yield lineview[10]
+
+    @staticmethod
+    def us_chan_log_scqam(lineview: List[str]):
+        """ New format for upstream scqam channel table """
+        yield 'US channel status txid '
+        yield lineview[0]
+        yield ' ucid '
+        yield lineview[1]
+        yield ' dcid '
+        yield lineview[2]
+        yield ' rngsid '
+        yield lineview[3]
+        yield ' power '
+        yield lineview[4]
+        yield ' freqstart '
+        yield lineview[5]
+        yield ' freqend '
+        yield lineview[5]
+        yield ' symrate '
+        yield lineview[6]
+        yield ' phytype '
+        yield lineview[7]
+        yield ' txdata '
+        yield lineview[8]
 
     @staticmethod
     def split_token_apart(newline: str, ptn_left: Pattern[str], ptn_right: Pattern[str]):
@@ -521,12 +574,12 @@ class Preprocess(PreprocessBase):
         for ptn_obj in ptn_left:
             mtch = ptn_obj.search(newline)
             if mtch:
-                newline = ptn_obj.sub(mtch.group(0)+' ', newline)
+                newline = ptn_obj.sub(''.join([mtch.group(0), ' ']), newline)
 
         for ptn_obj in ptn_right:
             mtch = ptn_obj.search(newline)
             if mtch:
-                newline = ptn_obj.sub(' '+mtch.group(0), newline)
+                newline = ptn_obj.sub(''.join([' ', mtch.group(0)]), newline)
 
         return newline
 
@@ -541,10 +594,9 @@ class Preprocess(PreprocessBase):
         rawlogs: List[str] = []
         with open(src1, 'r', encoding='utf-8-sig') as rawfile:
             rawlogs = rawfile.readlines()
-        # Get the last line of preceding file to check if the line feed
-        # exists at the end.
+        # Make sure preceding file has line feed at EOF
         if rawlogs[-1][-1] != '\n':
-            rawlogs[-1] += '\n'
+            rawlogs[-1] = ''.join([rawlogs[-1], '\n'])
 
         self._rawlogs = rawlogs + self._rawlogs
 

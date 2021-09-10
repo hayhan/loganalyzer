@@ -145,7 +145,7 @@ class OSS():
         with open(self.fzip['top'], 'w') as outfile:
             if len(summary_top) > 0:
                 for idx, item in enumerate(summary_top):
-                    outfile.write(str(idx+1) + ') ' + item)
+                    outfile.write(''.join([str(idx+1), ') ', item]))
                     outfile.write('\n')
             else:
                 outfile.write("Oops, the wrong logs are not in the knowledge-base. \
