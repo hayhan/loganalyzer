@@ -889,7 +889,9 @@ class Drain:
             self._df_tmplts_o = pd.read_csv(self.para.tmplt_lib)
         else:
             # Only initialize an empty dataframe
-            self._df_tmplts = pd.DataFrame()
+            self._df_tmplts = \
+            self._df_tmplts_o = pd.DataFrame(columns=['EventIdOld', 'EventId',
+                                                      'EventTemplate'])
 
     def main_process(self):
         """ The main entry """
