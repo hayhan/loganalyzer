@@ -61,15 +61,15 @@ STD_TIMESTAMP_LENGTH = 24
 ABN_LABEL_LENGTH = 5
 # Length of segment label 'segsign: ', including the last space
 SEG_LABEL_LENGTH = 9
-# Length of abnormal label 'cxxx ', including the last space
+# Length of class label 'cxxx ', including the last space
 CLASS_LABEL_LENGTH = 5
 # Standard timestamp format, excluding '[' and '] '
 STD_TIMESTAMP_FORMAT = "%Y%m%d-%H:%M:%S.%f"
 
 
 def get_files_io():
-    """ Collect the files of input / output. Mainly for debugging except
-        analyzing results.
+    """ Collection of input/output files. Mainly for debugging purpose
+        except the analyzing results.
     """
     if GC.conf['general']['training']:
         files_zip = {
@@ -81,7 +81,6 @@ def get_files_io():
             'segdl': os.path.join(TRAIN_DATA, 'train_norm.txt_seginf_deeplog.pkl'),
             'struct': os.path.join(TRAIN_DATA, 'train_norm.txt_structured.csv'),
             'output': TRAIN_DATA
-
         }
     else:
         files_zip = {

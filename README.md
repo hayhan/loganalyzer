@@ -3,10 +3,10 @@
 ## **Usage**
 
 ### Raw log format prerequisite
-Add timestamp like this one "[20190719-08:58:23.748] " at the start of each line. This not always necessary as we support arbitrary timestamp format including no timestamp for prediction of Loglab, DeepLog and OSS (Old School System) now. Loglizer always needs this standard timestamp.
+Add timestamp like this one "[20190719-08:58:23.748] " at the start of each line. This not always necessary as we support arbitrary timestamp format including no timestamp for prediction of Loglab, DeepLog and OSS (Old School System) now. While Loglizer always needs this standard timestamp.
 
 ### Label your training logs
-Put a string "abn: " after the timestamp for the anomaly log. If it is a multi-line log, we just label the first line. The labeling is needed for Loglizer but not for the training and predition of Loglab, DeepLog, and OSS. While for validation purpose, the labeling is needed in DeepLog.
+Put a string "abn: " after the timestamp for the anomaly log. If it is a multi-line log, we just label the first line. The labeling is needed for Loglizer but not for the training and prediction of Loglab, DeepLog, and OSS. While for validation purpose, the labeling is needed in DeepLog. For Loglab, you need classify the trianing log files into different groups with label "cxxx" as folder names. See examples in data/raw/cm/loglab.
 
 ### Train / Validate the model
 
@@ -68,7 +68,7 @@ analyzer/oldschool/LOG_TYPE/
 
 **# Basics packages**
 
-pip install --upgrade numpy scipy scikit-learn pandas matplotlib tqdm skl2onnx onnxruntime
+pip install --upgrade numpy scipy scikit-learn pandas matplotlib tqdm skl2onnx onnxruntime pyyaml click sphinx
 
 **# PyTorch**
 
@@ -80,6 +80,6 @@ At the top directory of loganalyzer clone, run command below to install the anal
 
 pip install .
 
-To generate html api documents, run command below under docs directory:
+To get api documents of html format, run command below in docs directory:
 
 make html
