@@ -11,6 +11,7 @@ Welcome to loganalyzer's documentation!
    :caption: Contents:
 
    modules
+   papers
 
 
 Indices and tables
