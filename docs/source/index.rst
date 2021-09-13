@@ -7,11 +7,13 @@ Welcome to loganalyzer's documentation!
 =======================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Contents
 
-   modules
+   overview
+   installation
    papers
+   modules
 
 
 Indices and tables
