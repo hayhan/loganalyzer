@@ -17,7 +17,7 @@ class KbBase(ABC):
         pass
 
     @abstractmethod
-    def domain_knowledge(self, template_id: str, param_list: List[str]):
+    def domain_knowledge(self, template_id: str, params: List[str]):
         """ Load knowledge-bases """
 
     def place_holder(self):
