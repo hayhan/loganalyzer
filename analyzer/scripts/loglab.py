@@ -88,11 +88,8 @@ def cli_loglab_train(model, adm, mykfold, debug):
     # Concatenate the logs under data/raw/LOG_TYPE/loglab
     ppobj.cat_files_loglab()
 
-    # Process the raw data and generate new data
-    ppobj.preprocess_new()
-
-    # Normalize the new data to generate norm data
-    ppobj.preprocess_norm()
+    # Process the raw data and generate norm data
+    ppobj.preprocess()
 
     # Extract class info and remove them from norm data
     ppobj.segment_loglab()
@@ -180,11 +177,8 @@ def cli_loglab_predict(model, adm, learn_ts, debug, feat):
         ps_ts_obj.parse()
         ps_ts_obj.det_timestamp()
 
-    # Process the raw data and generate new data
-    ppobj.preprocess_new()
-
-    # Normalize the new data to generate norm data
-    ppobj.preprocess_norm()
+    # Process the raw data and generate norm data
+    ppobj.preprocess()
 
     # Parse the norm data
     psobj = Parser(ppobj.normlogs)

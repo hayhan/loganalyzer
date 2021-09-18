@@ -61,11 +61,8 @@ def train_general(adm, filelst, debug, sel = 'stc'):
 
     ppobj.cat_files_lst(os.path.join(dh.RAW_DATA, 'labeled'), filelst)
 
-    # Process the raw data and generate new data
-    ppobj.preprocess_new()
-
-    # Normalize the new data to generate norm data
-    ppobj.preprocess_norm()
+    # Process the raw data and generate norm data
+    ppobj.preprocess()
 
     # Extract label info and remove them from norm data
     ppobj.extract_labels()
@@ -214,11 +211,8 @@ def cli_loglizer_validate(model, adm, debug, src):
         # Load existing test.txt for validation
         ppobj.load_raw_logs()
 
-    # Process the raw data and generate new data
-    ppobj.preprocess_new()
-
-    # Normalize the new data to generate norm data
-    ppobj.preprocess_norm()
+    # Process the raw data and generate norm data
+    ppobj.preprocess()
 
     # Remove the abnormal labels from norm data if any exist
     ppobj.extract_labels()
@@ -286,11 +280,8 @@ def cli_loglizer_predict(model, adm, debug):
     # Load existing test.txt for prediction
     ppobj.load_raw_logs()
 
-    # Process the raw data and generate new data
-    ppobj.preprocess_new()
-
-    # Normalize the new data to generate norm data
-    ppobj.preprocess_norm()
+    # Process the raw data and generate norm data
+    ppobj.preprocess()
 
     # Parse the norm data
     psobj = Parser(ppobj.normlogs)

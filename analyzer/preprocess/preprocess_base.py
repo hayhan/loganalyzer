@@ -244,6 +244,13 @@ class PreprocessBase(ABC):
                 with open(self.fzip['map_norm_raw'], 'wb') as fridx:
                     pickle.dump(self._map_norm_raw, fridx)
 
+    def preprocess(self):
+        """
+        Preprocess in whole.
+        """
+        self.preprocess_new()
+        self.preprocess_norm()
+
     def extract_labels(self):
         """
         Extract the abnormal label vector from norm data.
@@ -523,3 +530,7 @@ class PreprocessBase(ABC):
 
             with open(self.fzip['norm'], 'w+', encoding='utf-8') as fout:
                 fout.writelines(self._normlogs)
+
+    @abstractmethod
+    def exceptions_tmplt(self):
+        """ Do some exceptional works of template update """

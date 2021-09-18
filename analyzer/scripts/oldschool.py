@@ -46,11 +46,8 @@ def cli_run_oss(learn_ts):
         ps_ts_obj.parse()
         ps_ts_obj.det_timestamp()
 
-    # Process the raw data and generate new data
-    ppobj.preprocess_new()
-
-    # Normalize the new data to generate norm data
-    ppobj.preprocess_norm()
+    # Process the raw data and generate norm data
+    ppobj.preprocess()
 
     # Parse the norm data
     psobj = Parser(ppobj.normlogs)

@@ -79,11 +79,8 @@ def cli_updt_tmplt(src, training, overwrite, current):
         # Load existing tran.txt or test.txt
         ppobj.load_raw_logs()
 
-    # Process the raw data and generate new data
-    ppobj.preprocess_new()
-
-    # Normalize the new data to generate norm data
-    ppobj.preprocess_norm()
+    # Process the raw data and generate norm data
+    ppobj.preprocess()
 
     # Remove the abnormal labels from norm data if any exist.
     ppobj.extract_labels()

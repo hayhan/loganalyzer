@@ -79,11 +79,8 @@ def cli_deeplog_train(adm, debug):
     # Concatenate the logs under data/raw/LOG_TYPE/normal
     ppobj.cat_files_deeplog(os.path.join(dh.RAW_DATA, 'normal'))
 
-    # Process the raw data and generate new data
-    ppobj.preprocess_new()
-
-    # Normalize the new data to generate norm data
-    ppobj.preprocess_norm()
+    # Process the raw data and generate norm data
+    ppobj.preprocess()
 
     # Extract segment info and remove them from norm data
     ppobj.segment_deeplog()
@@ -153,11 +150,8 @@ def cli_deeplog_validate(adm, debug, src):
         # Load existing test.txt for validation
         ppobj.load_raw_logs()
 
-    # Process the raw data and generate new data
-    ppobj.preprocess_new()
-
-    # Normalize the new data to generate norm data
-    ppobj.preprocess_norm()
+    # Process the raw data and generate norm data
+    ppobj.preprocess()
 
     # Remove the abnormal labels from norm data if any exist. And then
     # extract segment info. Do NOT inverse them.
@@ -233,11 +227,8 @@ def cli_deeplog_predict(adm, learn_ts, debug):
         ps_ts_obj.parse()
         ps_ts_obj.det_timestamp()
 
-    # Process the raw data and generate new data
-    ppobj.preprocess_new()
-
-    # Normalize the new data to generate norm data
-    ppobj.preprocess_norm()
+    # Process the raw data and generate norm data
+    ppobj.preprocess()
 
     # Parse the norm data
     psobj = Parser(ppobj.normlogs)
