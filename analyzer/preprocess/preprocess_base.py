@@ -356,7 +356,7 @@ class PreprocessBase(ABC):
             for filename in files:
                 if filename in dh.SKIP_FILE_LIST:
                     continue
-                self.cat_files_segment(dirpath, filename, dh.SESSION_LABEL)
+                self.cat_segment(dirpath, filename, dh.SESSION_LABEL, self._rawlogs)
 
         # Conditionally save the rawlogs to train.txt or test.txt.
         self.cond_save_strings(self.fzip['raw'], self._rawlogs)
@@ -370,31 +370,31 @@ class PreprocessBase(ABC):
         self._rawlogs = []
 
         loglab_dir = os.path.join(dh.RAW_DATA, 'loglab')
-        # Note: name the class folder as 'cxxx', and training log
-        # files in it as '*_xxx.txt'. Concatenate files under dir
+        # Note: name the class folder as 'cxxx', and the training log
+        # files in it as '*_xxx.txt'. Concatenate the files under dir
         # data/raw/LOG_TYPE/loglab/c001/ ... /cxxx/.
         for dirpath, _, files in sorted(os.walk(loglab_dir, topdown=True)):
             # print(f'Found directory: {dirpath}')
             # Extract class name (sub-folder cxxx, dirpath[-4:])
             classname = re.split(r'[\\|/]', dirpath.strip('[\\|/]'))[-1]
             if not ptn.PTN_CLASS_LABEL.match(classname):
-                # Skip loglab itself and non-standard class name
-                # sub-folders if any exists.
+                # Skip loglab itself and non-standard class name sub
+                # folders if any exists.
                 continue
-            # Sort the files per the file name string[-7:-4], aka.
-            # the 3 digits num part.
+            # Sort the files per the file name string[-7:-4], aka. the 3
+            # digits num part.
             for filename in sorted(files, key=lambda x:x[-7:-4]):
-                self.cat_files_segment(dirpath, filename, ''.join([classname, ' ']))
+                self.cat_segment(dirpath, filename, ''.join([classname, ' ']), self._rawlogs)
 
         # Conditionally save the rawlogs to train.txt.
         self.cond_save_strings(self.fzip['raw'], self._rawlogs)
 
-    def cat_files_segment(self, dirpath: str, filename: str, seglabel: str):
+    def cat_segment(self, dpath: str, fname: str, seglabel: str, mono: List[str]):
         """
         Cat files and insert segment labels to mark the original file
         boundary.
         """
-        rawf = os.path.join(dirpath, filename)
+        rawf = os.path.join(dpath, fname)
         # print(rawf)
         with open(rawf, 'r', encoding='utf-8-sig') as rawin:
             for idx, line in enumerate(rawin):
@@ -407,9 +407,9 @@ class PreprocessBase(ABC):
                         line = ''.join([cur_line_ts, seglabel, newline])
                     else:
                         print("Error: The timestamp is wrong!")
-                self._rawlogs.append(line)
+                mono.append(line)
         # Make sure preceding file has line feed at EOF
-        self.add_line_feed(self._rawlogs)
+        self.add_line_feed(mono)
 
     @staticmethod
     def add_line_feed(strlns: List[str]):
