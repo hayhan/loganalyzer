@@ -16,6 +16,8 @@ Dependency
 - skl2onnx
 - onnxruntime
 - sphinx
+- pytest
+- pytest-benchmark
 - pytorch >= 1.5.0
 
 Installation

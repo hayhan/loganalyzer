@@ -68,7 +68,7 @@ analyzer/oldschool/LOG_TYPE/
 
 **# Basics packages**
 
-pip install --upgrade numpy scipy scikit-learn pandas matplotlib tqdm skl2onnx onnxruntime pyyaml click sphinx
+pip install --upgrade numpy scipy scikit-learn pandas matplotlib tqdm skl2onnx onnxruntime pyyaml click sphinx pytest pytest-benchmark
 
 **# PyTorch**
 
