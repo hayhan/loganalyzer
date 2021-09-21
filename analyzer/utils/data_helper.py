@@ -65,6 +65,8 @@ SEG_LABEL_LENGTH = 9
 CLASS_LABEL_LENGTH = 5
 # Standard timestamp format, excluding '[' and '] '
 STD_TIMESTAMP_FORMAT = "%Y%m%d-%H:%M:%S.%f"
+# The segment label in DeepLog
+SESSION_LABEL = 'segsign: '
 
 
 def get_files_io():

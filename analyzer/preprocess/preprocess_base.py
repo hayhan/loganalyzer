@@ -302,7 +302,7 @@ class PreprocessBase(ABC):
         """
         Cat multi raw log files in the file list under raw_dir into a
         monolith. Based on the config settings, monolith file is either
-        data/train.txt or data/test.txt .
+        data/cooked/train.txt or data/cooked/test.txt.
         """
         raw_in_lst: List[str] = []
         self._rawlogs = []
@@ -313,19 +313,17 @@ class PreprocessBase(ABC):
             with open(rawf, 'r', encoding='utf-8-sig') as rawin:
                 self._rawlogs += rawin.readlines()
             # Make sure preceding file has line feed at EOF
-            if self._rawlogs[-1][-1] != '\n':
-                self._rawlogs[-1] = ''.join([self._rawlogs[-1], '\n'])
+            self.add_line_feed(self._rawlogs)
 
-        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
-            with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
-                monolith.writelines(self._rawlogs)
+        # Conditionally save the rawlogs to train.txt or test.txt.
+        self.cond_save_strings(self.fzip['raw'], self._rawlogs)
 
     def cat_files_dir(self, raw_dir: str):
         """
         Cat all raw log files under raw_dir (including sub-dirs) into a
-        monolith for template gen / update and Loglizer. Monolith file
-        is either data/train.txt or data/test.txt based on the config
-        settings.
+        monolith for template gen/update and Loglizer. Monolith file is
+        either data/cooked/train.txt or data/cooked/test.txt based on
+        the config settings.
         """
         self._rawlogs = []
 
@@ -339,19 +337,17 @@ class PreprocessBase(ABC):
                 with open(rawf, 'r', encoding='utf-8-sig') as rawin:
                     self._rawlogs += rawin.readlines()
                 # Make sure preceding file has line feed at EOF
-                if self._rawlogs[-1][-1] != '\n':
-                    self._rawlogs[-1] = ''.join([self._rawlogs[-1], '\n'])
+                self.add_line_feed(self._rawlogs)
 
-        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
-            with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
-                monolith.writelines(self._rawlogs)
+        # Conditionally save the rawlogs to train.txt or test.txt.
+        self.cond_save_strings(self.fzip['raw'], self._rawlogs)
 
     def cat_files_deeplog(self, raw_dir: str):
         """
         Cat all raw log files under raw_dir (including sub-dirs) into a
         a monolith. This is used for DeepLog training and validation by
-        considering session labels. Monolith is either data/train.txt or
-        data/test.txt based on the config settings.
+        considering session labels. Monolith is either the data/cooked/
+        train.txt or data/cooked/test.txt based on the config settings.
         """
         self._rawlogs = []
 
@@ -360,27 +356,10 @@ class PreprocessBase(ABC):
             for filename in files:
                 if filename in dh.SKIP_FILE_LIST:
                     continue
-                rawf = os.path.join(dirpath, filename)
-                # print(rawf)
-                with open(rawf, 'r', encoding='utf-8-sig') as rawin:
-                    for idx, line in enumerate(rawin):
-                        # Insert 'segsign: ' to start line of each file
-                        if idx == 0:
-                            match_ts = ptn.PTN_STD_TS.match(line)
-                            if match_ts:
-                                curr_line_ts = match_ts.group(0)
-                                newline = ptn.PTN_STD_TS.sub('', line, count=1)
-                                line = ''.join([curr_line_ts, 'segsign: ', newline])
-                            else:
-                                print("Error: The timestamp is wrong!")
-                        self._rawlogs.append(line)
-                # Make sure preceding file has line feed at EOF
-                if self._rawlogs[-1][-1] != '\n':
-                    self._rawlogs[-1] = ''.join([self._rawlogs[-1], '\n'])
+                self.cat_files_segment(dirpath, filename, dh.SESSION_LABEL)
 
-        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
-            with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
-                monolith.writelines(self._rawlogs)
+        # Conditionally save the rawlogs to train.txt or test.txt.
+        self.cond_save_strings(self.fzip['raw'], self._rawlogs)
 
     def cat_files_loglab(self):
         """
@@ -405,28 +384,49 @@ class PreprocessBase(ABC):
             # Sort the files per the file name string[-7:-4], aka.
             # the 3 digits num part.
             for filename in sorted(files, key=lambda x:x[-7:-4]):
-                rawf = os.path.join(dirpath, filename)
-                # print(rawf)
-                with open(rawf, 'r', encoding='utf-8-sig') as rawin:
-                    for idx, line in enumerate(rawin):
-                        # Insert class_name to the start line of
-                        # each file
-                        if idx == 0:
-                            match = ptn.PTN_STD_TS.match(line)
-                            if match:
-                                curline_ts = match.group(0)
-                                newline = ptn.PTN_STD_TS.sub('', line, count=1)
-                                line = ''.join([curline_ts, classname, ' ', newline])
-                            else:
-                                print("Error: The timestamp is wrong!")
-                        self._rawlogs.append(line)
-                # Make sure preceding file has line feed at EOF
-                if self._rawlogs[-1][-1] != '\n':
-                    self._rawlogs[-1] = ''.join([self._rawlogs[-1], '\n'])
+                self.cat_files_segment(dirpath, filename, ''.join([classname, ' ']))
 
+        # Conditionally save the rawlogs to train.txt.
+        self.cond_save_strings(self.fzip['raw'], self._rawlogs)
+
+    def cat_files_segment(self, dirpath: str, filename: str, seglabel: str):
+        """
+        Cat files and insert segment labels to mark the original file
+        boundary.
+        """
+        rawf = os.path.join(dirpath, filename)
+        # print(rawf)
+        with open(rawf, 'r', encoding='utf-8-sig') as rawin:
+            for idx, line in enumerate(rawin):
+                # Insert segment label to the start line of each file
+                if idx == 0:
+                    match_ts = ptn.PTN_STD_TS.match(line)
+                    if match_ts:
+                        cur_line_ts = match_ts.group(0)
+                        newline = ptn.PTN_STD_TS.sub('', line, count=1)
+                        line = ''.join([cur_line_ts, seglabel, newline])
+                    else:
+                        print("Error: The timestamp is wrong!")
+                self._rawlogs.append(line)
+        # Make sure preceding file has line feed at EOF
+        self.add_line_feed(self._rawlogs)
+
+    @staticmethod
+    def add_line_feed(strlns: List[str]):
+        """
+        Add line feed at the end of last string if it has no one.
+        """
+        if strlns[-1][-1] != '\n':
+            strlns[-1] = ''.join([strlns[-1], '\n'])
+
+    @staticmethod
+    def cond_save_strings(filepath: str, strings: List[str]):
+        """
+        Conditionally save strings to file per config file settings.
+        """
         if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
-            with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
-                monolith.writelines(self._rawlogs)
+            with open(filepath, 'w', encoding='utf-8') as fout:
+                fout.writelines(strings)
 
     def segment_deeplog(self):
         """
@@ -533,4 +533,6 @@ class PreprocessBase(ABC):
 
     @abstractmethod
     def exceptions_tmplt(self):
-        """ Do some exceptional works of template update """
+        """
+        Do some exceptional works of template update.
+        """

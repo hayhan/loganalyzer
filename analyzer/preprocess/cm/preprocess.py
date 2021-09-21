@@ -70,9 +70,7 @@ class Preprocess(PreprocessBase):
 
         # Conditionally save the normlogs to a file per the config file
         # Note: preprocess_norm will overwrite the normlogs
-        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
-            with open(self.fzip['norm'], 'w', encoding='utf-8') as fnorm:
-                fnorm.writelines(self._normlogs)
+        self.cond_save_strings(self.fzip['norm'], self._normlogs)
 
     # pylint: disable=too-many-locals；too-many-statements
     # pylint: disable=too-many-branches
@@ -423,9 +421,7 @@ class Preprocess(PreprocessBase):
         pbar.close()
 
         # Conditionally save the newlogs to a file per the config file
-        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
-            with open(self.fzip['new'], 'w', encoding='utf-8') as fnew:
-                fnew.writelines(self._newlogs)
+        self.cond_save_strings(self.fzip['new'], self._newlogs)
 
         print('Purge costs {!s}\n'.format(datetime.now()-parse_st))
 
@@ -595,11 +591,9 @@ class Preprocess(PreprocessBase):
         with open(src1, 'r', encoding='utf-8-sig') as rawfile:
             rawlogs = rawfile.readlines()
         # Make sure preceding file has line feed at EOF
-        if rawlogs[-1][-1] != '\n':
-            rawlogs[-1] = ''.join([rawlogs[-1], '\n'])
+        self.add_line_feed(rawlogs)
 
         self._rawlogs = rawlogs + self._rawlogs
 
-        if GC.conf['general']['intmdt'] or not GC.conf['general']['aim']:
-            with open(self.fzip['raw'], 'w', encoding='utf-8') as monolith:
-                monolith.writelines(self._rawlogs)
+        # Conditionally save the rawlogs to file per config.
+        self.cond_save_strings(self.fzip['raw'], self._rawlogs)
