@@ -9,6 +9,8 @@ __all__ = [
 class SWITCH:
     """
     switch/case of python at http://code.activestate.com/recipes/410692/
+    Python 3.10 has native switch/case statement. Use the simulated one
+    here for back compatible.
     """
     def __init__(self, value):
         self.value = value

@@ -78,7 +78,8 @@ class Para:
     """ Class of parameters """
     def __init__(self, log_format, rex, rex_s_token, raw_file, tmplt_lib,
                  outdir='./', max_child=120, sim_t_m=1, over_wr_lib=False,
-                 intmdt=True, aim=True, inc_updt=1, prt_tree=0, nopgbar=0):
+                 intmdt=True, aim=True, inc_updt=True, prt_tree=False,
+                 nopgbar=False):
         """
         Attributes
         ----------

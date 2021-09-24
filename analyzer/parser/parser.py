@@ -25,7 +25,7 @@ log = logging.getLogger(__name__)
 # pylint: disable=too-many-instance-attributes
 class Parser():
     """ The parser class """
-    def __init__(self, rawlogs: List[str], rcv: bool = False):
+    def __init__(self, rawlogs: List[str], rcv: bool = False, dbg: bool = False):
         self.fzip: dict = dh.get_files_io()
         self.training: bool = GC.conf['general']['training']
         self.metrics: bool = GC.conf['general']['metrics']
@@ -33,6 +33,7 @@ class Parser():
         self.intmdt: bool = GC.conf['general']['intmdt']
         self.aim: bool = GC.conf['general']['aim']
         self.rcv: bool = rcv
+        self.dbg: bool = dbg
         self._rawlogs: List[str] = rawlogs  # Norm data from preprocess
         self._log_head_offset: int = GC.conf['general']['head_offset']
         self._map_norm_raw: List[int] = []
@@ -108,7 +109,7 @@ class Parser():
         my_para = Para(
             log_format, ptn_hard_para, ptn.PTN_SPEC_TOKEN, raw_file, dh.TEMPLATE_LIB,
             outdir=self.fzip['output'], over_wr_lib=self.training, intmdt=self.intmdt,
-            aim=self.aim, inc_updt=1, prt_tree=0, nopgbar=0
+            aim=self.aim, inc_updt=True, prt_tree=self.dbg, nopgbar=False
         )
 
         my_parser = Drain(my_para, self._rawlogs)

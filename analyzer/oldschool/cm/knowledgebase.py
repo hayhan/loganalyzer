@@ -61,7 +61,7 @@ class Kb(KbBase):
             # Downstream channel status, lock failures
             # ----------------------------------------------------------
             if case('bd6df2e3'):
-                # TEMPLATE:
+                # <TEMPLATE>
                 # "DS channel status rxid <*> dcid <*> freq <*> qam \
                 # <*> fec <*> snr <*> power <*> mod <*>"
                 #
@@ -83,7 +83,7 @@ class Kb(KbBase):
                 break
 
             if case('2f06ae53'):
-                # TEMPLATE:
+                # <TEMPLATE>
                 # "Informing RG CM energy detected = <*>"
                 #
                 if params[0] == '0':
@@ -95,7 +95,7 @@ class Kb(KbBase):
             # Upstream channel status
             # ----------------------------------------------------------
             if case('6e45cf29'):
-                # TEMPLATE:
+                # <TEMPLATE>
                 # "US channel status txid <*> ucid <*> dcid <*> rngsid \
                 # <*> power <*> freqstart <*> freqend <*> symrate <*> \
                 # phytype <*> txdata <*>"
@@ -117,10 +117,10 @@ class Kb(KbBase):
             # Ranging, ucd, T1/T2/T3/T4 ... timeout, us partial service
             # ----------------------------------------------------------
             if case('33de59d1'):
-                # TEMPLATE:
+                # <TEMPLATE>
                 # "RNG-RSP UsChanId= <*> Stat= <*> "
                 #
-                # Context TEMPLATE ('b2079e76'):
+                # <Context TEMPLATE> ('b2079e76')
                 # "RNG-RSP UsChanId= <*> Adj: power= <*> Stat= <*> "
                 #
                 if params[1] == 'Abort':
@@ -135,7 +135,7 @@ class Kb(KbBase):
                 break
 
             if case('24b26703'):
-                # TEMPLATE:
+                # <TEMPLATE>
                 # "BcmCmUsRangingState:: CommonRngErrorHandler: txid= \
                 # <*> ucid= <*> reason= <*> ( <*> )"
                 #
@@ -160,7 +160,7 @@ class Kb(KbBase):
             # DocsisMsgACT
             # ----------------------------------------------------------
             if case('755bd6ed'):
-                # TEMPLATE:
+                # <TEMPLATE>
                 # "BcmCm3dfDocsisMsgACT:: HandleEvent() @time= <*> \
                 # event_code= <*> ( <*> ) "
                 #
@@ -173,7 +173,7 @@ class Kb(KbBase):
             # Reinit MAC
             # ----------------------------------------------------------
             if case('ec4a6237'):
-                # TEMPLATE:
+                # <TEMPLATE>
                 # "BcmCmDocsisCtlThread:: SyncRestartErrorEvent: \
                 # reinit MAC # <*>: <*>"
                 #
@@ -222,7 +222,7 @@ class Kb(KbBase):
             # Context updates
             # ----------------------------------------------------------
             if case('b2079e76'):
-                # TEMPLATE:
+                # <TEMPLATE>
                 # "RNG-RSP UsChanId= <*> Adj: power= <*> Stat= <*> "
                 #
                 if params[2] == 'Continue':

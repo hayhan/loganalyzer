@@ -2,8 +2,8 @@
 """
 Utility functions and classes used throughout Loganalyzer.
 
-You have to import sub-modules of `analyzer.utils` directly,
-the `analyzer.utils` namespace is empty.
+You have to import sub-modules of `analyzer.utils` directly.
+The `analyzer.utils` namespace is empty.
 
 Examples::
 

@@ -1,5 +1,5 @@
 # As of 2021, preserving comments in yaml updating is still not supported with PyYAML.
-# Consider pyckage ruamel.yaml which is a derivative of PyYAML and supports round trip
+# Consider package ruamel.yaml which is a derivative of PyYAML and supports round trip
 # preservation of comments.
 # Section: general
 general:

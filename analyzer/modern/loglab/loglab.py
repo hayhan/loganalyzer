@@ -406,7 +406,7 @@ class Loglab(ModernBase):
     def evaluate(self):
         """ Validate the model.
         """
-        log.info("Not implemented.")
+        log.info("Place holder.")
 
     def predict(self):
         """ Predict using the trained model.

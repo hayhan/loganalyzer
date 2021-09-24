@@ -43,7 +43,14 @@ log = logging.getLogger(__name__)
     help="Use existing train.txt or test.txt.",
     show_default=True,
 )
-def cli_updt_tmplt(src, training, overwrite, current):
+@click.option(
+    "--debug",
+    default=False,
+    is_flag=True,
+    help="Debug messages.",
+    show_default=True,
+)
+def cli_updt_tmplt(src, training, overwrite, current, debug):
     """ Generate, update the template lib from raw data. """
     # Populate the in-memory config singleton with config file
     GC.read()
@@ -86,7 +93,7 @@ def cli_updt_tmplt(src, training, overwrite, current):
     ppobj.extract_labels()
 
     # Parsing using the norm data
-    psobj = Parser(ppobj.normlogs)
+    psobj = Parser(ppobj.normlogs, dbg=debug)
     psobj.parse()
 
     log.info("The templates are generated / updated.")

@@ -104,8 +104,9 @@ class DeepLog(ModernBase):
         self.model_para['num_dir'] = GC.conf['deeplog']['num_dir']
         self.model_para['num_workers'] = GC.conf['deeplog']['num_workers']
         self.model_para['device'] = GC.conf['deeplog']['device']
-        self.exec_model = os.path.join(dh.PERSIST_DATA,
-                          'deeplog_exec_model_'+str(self.model_para['group'])+'.pt')
+        self.exec_model = os.path.join(
+            dh.PERSIST_DATA, 'deeplog_exec_model_'+str(self.model_para['group'])+'.pt'
+        )
 
     def load_data(self):
         """
@@ -233,10 +234,12 @@ class DeepLog(ModernBase):
         # logsnum - window_size
 
         results_df = pd.DataFrame(results_lst, columns=["SeqIdx", "EventSeq", "Target", "Label"])
-        results_dict = {"SeqIdx": results_df["SeqIdx"].to_numpy(dtype='int32'),
-                        "EventSeq": np.array(results_df["EventSeq"].tolist(), dtype='int32'),
-                        "Target": results_df["Target"].to_numpy(dtype='int32'),
-                        "Label": results_df["Label"].to_numpy(dtype='int32')}
+        results_dict = {
+            "SeqIdx": results_df["SeqIdx"].to_numpy(dtype='int32'),
+            "EventSeq": np.array(results_df["EventSeq"].tolist(), dtype='int32'),
+            "Target": results_df["Target"].to_numpy(dtype='int32'),
+            "Label": results_df["Label"].to_numpy(dtype='int32')
+        }
 
         return results_dict
 
@@ -303,10 +306,12 @@ class DeepLog(ModernBase):
             session_offset += session_size
 
         results_df = pd.DataFrame(results_lst, columns=["SeqIdx", "EventSeq", "Target", "Label"])
-        results_dict = {"SeqIdx": results_df["SeqIdx"].to_numpy(dtype='int32'),
-                        "EventSeq": np.array(results_df["EventSeq"].tolist(), dtype='int32'),
-                        "Target": results_df["Target"].to_numpy(dtype='int32'),
-                        "Label": results_df["Label"].to_numpy(dtype='int32')}
+        results_dict = {
+            "SeqIdx": results_df["SeqIdx"].to_numpy(dtype='int32'),
+            "EventSeq": np.array(results_df["EventSeq"].tolist(), dtype='int32'),
+            "Target": results_df["Target"].to_numpy(dtype='int32'),
+            "Label": results_df["Label"].to_numpy(dtype='int32')
+        }
 
         return results_dict
 

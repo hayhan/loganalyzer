@@ -71,7 +71,7 @@ SESSION_LABEL = 'segsign: '
 
 def get_files_io():
     """ Collection of input/output files. Mainly for debugging purpose
-        except the analyzing results.
+        except for model persistence and analyzing results.
     """
     if GC.conf['general']['training']:
         files_zip = {

@@ -64,7 +64,7 @@ def cli(ctx, log_level, ignore_warnings):
     # Lazy loading of the second level sub-commands
 
     # Set invoke_without_command=True in group property otherwise cli()
-    # cannot be invoked without sub-command. We dont have this use case.
+    # cannot be invoked without sub-command. Do not enable it currently.
     # https://click.palletsprojects.com/en/latest/commands/
 
     # pylint:disable=import-outside-toplevel
@@ -192,7 +192,7 @@ def cli_template():
     --------
 
     \b
-    $ analyzer template updt [--src folder]
+    $ analyzer template updt [--src folder] [--debug]
     $ analyzer template updt [--current] [--overwrite]
     $ analyzer template updt [--training/no-training]
     $ analyzer template del
