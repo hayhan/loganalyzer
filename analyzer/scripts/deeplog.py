@@ -5,7 +5,9 @@ import os
 import logging
 import click
 import analyzer.utils.data_helper as dh
+import analyzer.utils.yaml_helper as yh
 from analyzer.config import GlobalConfig as GC
+from analyzer.config import overload as overload_conf
 from analyzer.preprocess import pp
 from analyzer.parser import Parser
 from analyzer.modern.deeplog import DeepLog
@@ -14,20 +16,14 @@ from analyzer.modern.deeplog import DeepLog
 log = logging.getLogger(__name__)
 
 
-# Parameter groups for DeepLog Exec/LSTM model
-PARA_GROUPS = {
-    0: {'win_size': 15, 'batch_size': 32, 'num_epochs': 150, 'hidden_size': 128,
-        'topk': 10, 'num_dir': 1, 'num_workers': 0, 'device': 'cpu'},
-    1: {'win_size': 10, 'batch_size': 32, 'num_epochs': 150, 'hidden_size': 128,
-        'topk': 10, 'num_dir': 1, 'num_workers': 0, 'device': 'cpu'},
-}
-
+# Load profile for exercising DeepLog Exec/LSTM model
+PARA_GROUPS: dict = yh.read_yaml(dh.EXEC_DEEPLOG)
 
 def exercise_all_para_groups(dlobj):
     """ Train/Predict all the model parameter groups """
     for group, attr in PARA_GROUPS.items():
         GC.conf['deeplog']['para_group'] = group
-        GC.conf['deeplog']['window_size'] = attr['win_size']
+        GC.conf['deeplog']['window_size'] = attr['window_size']
         GC.conf['deeplog']['batch_size'] = attr['batch_size']
         GC.conf['deeplog']['num_epochs'] = attr['num_epochs']
         GC.conf['deeplog']['hidden_size'] = attr['hidden_size']
@@ -64,8 +60,10 @@ def exercise_all_para_groups(dlobj):
 )
 def cli_deeplog_train(adm, debug):
     """ Train the model for deeplog """
-    # Populate the in-memory config singleton with config file
+    # Populate the in-memory config singleton with the base config file
     GC.read()
+    # Update with the overloaded config file
+    overload_conf()
     # Set the items here
     GC.conf['general']['training'] = True
     GC.conf['general']['metrics'] = False
@@ -129,8 +127,10 @@ def cli_deeplog_train(adm, debug):
 )
 def cli_deeplog_validate(adm, debug, src):
     """ Validate the model for deeplog """
-    # Populate the in-memory config singleton with config file
+    # Populate the in-memory config singleton with the base config file
     GC.read()
+    # Update with the overloaded config file
+    overload_conf()
     # Set the items here
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = True
@@ -205,8 +205,10 @@ def cli_deeplog_validate(adm, debug, src):
 )
 def cli_deeplog_predict(adm, learn_ts, debug):
     """ Predict logs by using deeplog model """
-    # Populate the in-memory config singleton with config file
+    # Populate the in-memory config singleton with the base config file
     GC.read()
+    # Update with the overloaded config file
+    overload_conf()
     # Set the items here
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = False

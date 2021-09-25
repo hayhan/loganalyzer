@@ -7,6 +7,7 @@ import click
 import analyzer.utils.data_helper as dh
 import analyzer.utils.misc_tools as mt
 from analyzer.config import GlobalConfig as GC
+from analyzer.config import overload as overload_conf
 from analyzer.preprocess import pp
 from analyzer.parser import Parser
 
@@ -52,8 +53,10 @@ log = logging.getLogger(__name__)
 )
 def cli_updt_tmplt(src, training, overwrite, current, debug):
     """ Generate, update the template lib from raw data. """
-    # Populate the in-memory config singleton with config file
+    # Populate the in-memory config singleton with the base config file
     GC.read()
+    # Update with the overloaded config file
+    overload_conf()
     # Set the items here
     GC.conf['general']['training'] = training
     GC.conf['general']['metrics'] = False

@@ -4,14 +4,17 @@
 import os
 import analyzer.utils.data_helper as dh
 from analyzer.config import GlobalConfig as GC
+from analyzer.config import overload as overload_conf
 from analyzer.preprocess import pp
 from analyzer.parser import Parser
 
 
 def test_learn_timestamp():
     """ Detect timestamp width """
-    # Populate the in-memory config singleton with config file
+    # Populate the in-memory config singleton with the base config file
     GC.read()
+    # Update with the overloaded config file
+    overload_conf()
     # Set the items here
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = False

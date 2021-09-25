@@ -6,6 +6,7 @@ import logging
 import click
 import analyzer.utils.data_helper as dh
 from analyzer.config import GlobalConfig as GC
+from analyzer.config import overload as overload_conf
 from analyzer.preprocess import pp
 
 
@@ -37,8 +38,10 @@ log = logging.getLogger(__name__)
 )
 def cli_gen_new(src, training, current):
     """ Preprocess the raw log file to generate new log file. """
-    # Populate the in-memory config singleton with config file
+    # Populate the in-memory config singleton with the base config file
     GC.read()
+    # Update with the overloaded config file
+    overload_conf()
     # Set the items here
     GC.conf['general']['training'] = training
     GC.conf['general']['metrics'] = False
@@ -94,8 +97,10 @@ def cli_gen_new(src, training, current):
 )
 def cli_gen_norm(src, training, overwrite, current):
     """ Preprocess the raw log file to generate norm log file. """
-    # Populate the in-memory config singleton with config file
+    # Populate the in-memory config singleton with the base config file
     GC.read()
+    # Update with the overloaded config file
+    overload_conf()
     # Set the items here
     GC.conf['general']['training'] = training
     GC.conf['general']['metrics'] = False

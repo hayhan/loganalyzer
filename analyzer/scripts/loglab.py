@@ -3,7 +3,10 @@
 """
 import logging
 import click
+import analyzer.utils.data_helper as dh
+import analyzer.utils.yaml_helper as yh
 from analyzer.config import GlobalConfig as GC
+from analyzer.config import overload as overload_conf
 from analyzer.preprocess import pp
 from analyzer.parser import Parser
 from analyzer.modern.loglab import Loglab
@@ -12,19 +15,14 @@ from analyzer.modern.loglab import Loglab
 log = logging.getLogger(__name__)
 
 
-# Classical models for Loglab
-CML_MODELS = {
-    'RFC': {'win_size': 10, 'weight': 2},
-    'LR': {'win_size': 10, 'weight': 2},
-    'SVM': {'win_size': 10, 'weight': 2},
-}
-
+# Load profile (Classical models) for exercising Loglab
+CML_MODELS: dict = yh.read_yaml(dh.EXEC_LOGLAB)
 
 def exercise_all_models(llobj):
     """ Train/Predict all the models defined by Loglab """
     for model, attr in CML_MODELS.items():
         GC.conf['loglab']['model'] = model
-        GC.conf['loglab']['window_size'] = attr['win_size']
+        GC.conf['loglab']['window_size'] = attr['window_size']
         GC.conf['loglab']['weight'] = attr['weight']
 
         if GC.conf['general']['training']:
@@ -66,8 +64,10 @@ def exercise_all_models(llobj):
 )
 def cli_loglab_train(model, adm, mykfold, debug):
     """ Train the model for loglab """
-    # Populate the in-memory config singleton with config file
+    # Populate the in-memory config singleton with the base config file
     GC.read()
+    # Update with the overloaded config file
+    overload_conf()
     # Set the items here
     GC.conf['general']['training'] = True
     GC.conf['general']['metrics'] = False
@@ -151,8 +151,10 @@ def cli_loglab_train(model, adm, mykfold, debug):
 )
 def cli_loglab_predict(model, adm, learn_ts, debug, feat):
     """ Predict logs by using loglab model """
-    # Populate the in-memory config singleton with config file
+    # Populate the in-memory config singleton with the base config file
     GC.read()
+    # Update with the overloaded config file
+    overload_conf()
     # Set the items here
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = False

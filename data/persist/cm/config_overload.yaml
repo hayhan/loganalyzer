@@ -1,0 +1,12 @@
+# Overload some parameters of the base config file if needed. Note the
+# overloaded config here is a sub-set of the base config.
+
+# Section: general
+general:
+    max_line: 500       # Max number of lines that is used for timestamp learning
+
+# Section: loglab
+loglab:
+    model: RFC          # Classical machine learning models
+    window_size: 10     # 1/2 window around the axis, unit is log
+    weight: 2           # Typical log weight

@@ -17,11 +17,12 @@ CONFIG_FILE_DEFAULT = Path(__file__).resolve().parent / "config.default.yaml"
 class GlobalConfig:
     """ Loganalyzer global configuration. """
     # Expose this class dict intentionally for read and update.
-    conf = {}
+    conf: dict = {}
 
     @classmethod
     def read(cls, path=CONFIG_FILE):
         """ Reads from YAML file. Populate the conf member. """
+        # Read the base config file
         cls.conf = yh.read_yaml(path)
 
     @classmethod

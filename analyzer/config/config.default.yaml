@@ -1,6 +1,10 @@
 # As of 2021, preserving comments in yaml updating is still not supported with PyYAML.
 # Consider package ruamel.yaml which is a derivative of PyYAML and supports round trip
 # preservation of comments.
+
+# The base config file. Overload the existing elements in data/persist/LOG_TYPE/
+# config_overload.yaml if needed.
+
 # Section: general
 general:
     log_type: cm        # Sub-folder of log platform must be consistent with name here

@@ -4,6 +4,7 @@
 import logging
 import click
 from analyzer.config import GlobalConfig as GC
+from analyzer.config import overload as overload_conf
 from analyzer.preprocess import pp
 from analyzer.parser import Parser
 from analyzer.oldschool import OSS
@@ -24,8 +25,10 @@ log = logging.getLogger(__name__)
 )
 def cli_run_oss(learn_ts):
     """ Run the oldshool system module to analyze logs """
-    # Populate the in-memory config singleton with config file
+    # Populate the in-memory config singleton with the base config file
     GC.read()
+    # Update with the overloaded config file
+    overload_conf()
     # Set the items here
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = False

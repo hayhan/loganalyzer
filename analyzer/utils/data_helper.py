@@ -30,9 +30,10 @@ except KeyError:
 try:
     LOG_TYPE = GC.conf['general']['log_type']
 except KeyError:
-    # Populate the config dict in memory with config file contents.
-    # Suppose this only happens once as we always update GC
-    # dict in memory in the running.
+    # Populate the config dict in memory with config file contents. We
+    # only need log_type and training attributes here, so import the
+    # base config file is enough. Actually the overload config file can
+    # not be loaded here by design.
     GC.read()
     LOG_TYPE = GC.conf['general']['log_type']
 
@@ -44,11 +45,19 @@ TRAIN_DATA = os.path.join(ANALYZER_DATA, 'train', LOG_TYPE)
 TEST_DATA = os.path.join(ANALYZER_DATA, 'test', LOG_TYPE)
 TMP_DATA = os.path.join(ANALYZER_DATA, 'tmp')
 TEMPLATE_LIB = os.path.join(PERSIST_DATA, 'template_lib.csv')
+# Vocabularies
 VOCAB_LOGLAB = os.path.join(PERSIST_DATA, 'vocab_loglab.npy')
 VOCAB_DEEPLOG = os.path.join(PERSIST_DATA, 'vocab_deeplog.npy')
 VOCAB_LOGLIZER = os.path.join(PERSIST_DATA, 'vocab_loglizer.npy')
 VOCAB_LOGLIZER_STATIC = os.path.join(PERSIST_DATA, 'vocab_loglizer_static.npy')
+# KB for typical log templates in which parameters are not cared
 KB_NO_PARA = os.path.join(PERSIST_DATA, 'kb_no_para.yaml')
+# Model parameters for exercising
+EXEC_LOGLAB = os.path.join(PERSIST_DATA, 'exec_para_loglab.yaml')
+EXEC_DEEPLOG = os.path.join(PERSIST_DATA, 'exec_para_deeplog.yaml')
+EXEC_LOGLIZER = os.path.join(PERSIST_DATA, 'exec_para_loglizer.yaml')
+# Overload parameters of config file
+CONFIG_OVERLOAD = os.path.join(PERSIST_DATA, 'config_overload.yaml')
 
 # Skip file list when concatenates raw log files under data/raw
 SKIP_FILE_LIST = ['README.md', 'desc.txt', 'train.lst', 'validate.lst']
@@ -71,7 +80,7 @@ SESSION_LABEL = 'segsign: '
 
 def get_files_io():
     """ Collection of input/output files. Mainly for debugging purpose
-        except for model persistence and analyzing results.
+        except for the analyzing results.
     """
     if GC.conf['general']['training']:
         files_zip = {

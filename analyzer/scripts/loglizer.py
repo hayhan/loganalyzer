@@ -6,7 +6,9 @@ import sys
 import logging
 import click
 import analyzer.utils.data_helper as dh
+import analyzer.utils.yaml_helper as yh
 from analyzer.config import GlobalConfig as GC
+from analyzer.config import overload as overload_conf
 from analyzer.preprocess import pp
 from analyzer.parser import Parser
 from analyzer.modern.loglizer import Loglizer
@@ -15,23 +17,14 @@ from analyzer.modern.loglizer import Loglizer
 log = logging.getLogger(__name__)
 
 
-# Classical models (static) for Loglizer
-CML_STC_MODELS = {
-    'DT': {'win_size': 10000, 'win_step': 5000},
-    'LR': {'win_size': 10000, 'win_step': 5000},
-    'SVM': {'win_size': 10000, 'win_step': 5000},
-    'RFC': {'win_size': 10000, 'win_step': 5000},
-}
+# Load profile for exercising Loglizer
+EXEC_PROFILE: dict = yh.read_yaml(dh.EXEC_LOGLIZER)
 
+# Classical models (static) for Loglizer
+CML_STC_MODELS: dict = EXEC_PROFILE['stc']
 
 # Classical models (incremental/partial) for Loglizer
-CML_INC_MODELS = {
-    'MultinomialNB': {'win_size': 10000, 'win_step': 5000},
-    'Perceptron': {'win_size': 10000, 'win_step': 5000},
-    'SGDC_SVM': {'win_size': 10000, 'win_step': 5000},
-    'SGDC_LR': {'win_size': 10000, 'win_step': 5000},
-}
-
+CML_INC_MODELS: dict = EXEC_PROFILE['inc']
 
 def exercise_all_models(lzobj, sel='all'):
     """ Train/Predict all the models defined by Loglizer """
@@ -44,8 +37,8 @@ def exercise_all_models(lzobj, sel='all'):
 
     for model, attr in myiter:
         GC.conf['loglizer']['model'] = model
-        GC.conf['loglizer']['window_size'] = attr['win_size']
-        GC.conf['loglizer']['window_step'] = attr['win_step']
+        GC.conf['loglizer']['window_size'] = attr['window_size']
+        GC.conf['loglizer']['window_step'] = attr['window_step']
 
         if GC.conf['general']['training']:
             lzobj.train()
@@ -115,8 +108,10 @@ def train_general(adm, filelst, debug, sel = 'stc'):
 )
 def cli_loglizer_train(model, inc, adm, debug):
     """ Train the model for loglizer """
-    # Populate the in-memory config singleton with config file
+    # Populate the in-memory config singleton with the base config file
     GC.read()
+    # Update with the overloaded config file
+    overload_conf()
     # Set the items here
     GC.conf['general']['training'] = True
     GC.conf['general']['metrics'] = False
@@ -180,8 +175,10 @@ def cli_loglizer_train(model, inc, adm, debug):
 )
 def cli_loglizer_validate(model, adm, debug, src):
     """ Validate the model for loglizer """
-    # Populate the in-memory config singleton with config file
+    # Populate the in-memory config singleton with the base config file
     GC.read()
+    # Update with the overloaded config file
+    overload_conf()
     # Set the items here
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = True
@@ -261,8 +258,10 @@ def cli_loglizer_validate(model, adm, debug, src):
 )
 def cli_loglizer_predict(model, adm, debug):
     """ Predict logs by using loglizer model """
-    # Populate the in-memory config singleton with config file
+    # Populate the in-memory config singleton with the base config file
     GC.read()
+    # Update with the overloaded config file
+    overload_conf()
     # Set the items here
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = False

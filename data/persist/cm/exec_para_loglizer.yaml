@@ -1,0 +1,31 @@
+# Profile of different kind of models and parameters for exercising
+
+# Static models
+stc:
+    DT:
+        window_size: 10000
+        window_step: 5000
+    LR:
+        window_size: 10000
+        window_step: 5000
+    SVM:
+        window_size: 10000
+        window_step: 5000
+    RFC:
+        window_size: 10000
+        window_step: 5000
+
+# Incremental (partial) models
+inc:
+    MultinomialNB:
+        window_size: 10000
+        window_step: 5000
+    Perceptron:
+        window_size: 10000
+        window_step: 5000
+    SGDC_SVM:
+        window_size: 10000
+        window_step: 5000
+    SGDC_LR:
+        window_size: 10000
+        window_step: 5000

@@ -1,0 +1,13 @@
+# Profile of different kind of models and parameters for exercising
+
+RFC:
+    window_size: 10
+    weight: 2
+
+LR:
+    window_size: 10
+    weight: 2
+
+SVM:
+    window_size: 10
+    weight: 2
