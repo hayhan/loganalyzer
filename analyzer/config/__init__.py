@@ -2,4 +2,3 @@
 """ Global config package.
 """
 from .config import *
-from .overload import *

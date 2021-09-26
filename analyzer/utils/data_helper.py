@@ -125,3 +125,34 @@ def get_data_type():
         datatype = 'test'
 
     return datatype
+
+
+class GCO:
+    """
+    Handle overloaded config file. Take the module as helper instead of
+    the derived class of GlobalConfig to be back compatible and avoid
+    confusing. It only updates the global in-memory conf dict. It either
+    cannot be merged with GlobalConfig for design reason. GlobalConfig
+    should not depend on LOG_TYPE, but we have to depend on LOG_TYPE
+    here to load the overloaded config file.
+    """
+    @classmethod
+    def read(cls):
+        """ Overloaded version of read config file """
+        GC.read()
+        if os.path.exists(CONFIG_OVERLOAD):
+            cls.overload()
+
+    @classmethod
+    def overload(cls):
+        """ Update im-momory conf with the overloaded config file. """
+        conf_overload: dict = GC.read_conf(CONFIG_OVERLOAD)
+        for sec, attr in conf_overload.items():
+            for key, val in attr.items():
+                try:
+                    _ = GC.conf[sec][key]
+                    GC.conf[sec][key] = val
+                except KeyError:
+                    print("Overloaded config file has section/key that "
+                          "don't exist in base config!!! Abort!!!")
+                    sys.exit(1)

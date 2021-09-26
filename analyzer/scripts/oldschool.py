@@ -3,8 +3,8 @@
 """
 import logging
 import click
+import analyzer.utils.data_helper as dh
 from analyzer.config import GlobalConfig as GC
-from analyzer.config import overload as overload_conf
 from analyzer.preprocess import pp
 from analyzer.parser import Parser
 from analyzer.oldschool import OSS
@@ -26,9 +26,9 @@ log = logging.getLogger(__name__)
 def cli_run_oss(learn_ts):
     """ Run the oldshool system module to analyze logs """
     # Populate the in-memory config singleton with the base config file
-    GC.read()
-    # Update with the overloaded config file
-    overload_conf()
+    # and then update with the overloaded config file. Use GC.read() if
+    # only want the base config file.
+    dh.GCO.read()
     # Set the items here
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = False

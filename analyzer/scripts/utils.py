@@ -11,7 +11,6 @@ import click
 import analyzer.utils.data_helper as dh
 import analyzer.utils.misc_tools as mt
 from analyzer.config import GlobalConfig as GC
-from analyzer.config import overload as overload_conf
 from analyzer.preprocess import pp
 from analyzer.parser import Parser
 
@@ -68,9 +67,9 @@ def cli_norm_timestamp():  # pylint: disable=too-many-locals
             copyfile(rawf, dstf)
 
             # Populate the in-memory config singleton with the base config file
-            GC.read()
-            # Update with the overloaded config file
-            overload_conf()
+            # and then update with the overloaded config file. Use GC.read() if
+            # only want the base config file.
+            dh.GCO.read()
             # Set the items here
             GC.conf['general']['training'] = False
             GC.conf['general']['metrics'] = False
@@ -144,9 +143,9 @@ def cli_norm_timestamp():  # pylint: disable=too-many-locals
 def cli_eid_log(eid, training):
     """ Find the logs that match the given event id in raw log file. """
     # Populate the in-memory config singleton with the base config file
-    GC.read()
-    # Update with the overloaded config file
-    overload_conf()
+    # and then update with the overloaded config file. Use GC.read() if
+    # only want the base config file.
+    dh.GCO.read()
     # Set the items here
     GC.conf['general']['training'] = training
     GC.conf['general']['metrics'] = False

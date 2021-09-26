@@ -7,7 +7,6 @@ import click
 import analyzer.utils.data_helper as dh
 import analyzer.utils.yaml_helper as yh
 from analyzer.config import GlobalConfig as GC
-from analyzer.config import overload as overload_conf
 from analyzer.preprocess import pp
 from analyzer.parser import Parser
 from analyzer.modern.deeplog import DeepLog
@@ -61,9 +60,9 @@ def exercise_all_para_groups(dlobj):
 def cli_deeplog_train(adm, debug):
     """ Train the model for deeplog """
     # Populate the in-memory config singleton with the base config file
-    GC.read()
-    # Update with the overloaded config file
-    overload_conf()
+    # and then update with the overloaded config file. Use GC.read() if
+    # only want the base config file.
+    dh.GCO.read()
     # Set the items here
     GC.conf['general']['training'] = True
     GC.conf['general']['metrics'] = False
@@ -128,9 +127,9 @@ def cli_deeplog_train(adm, debug):
 def cli_deeplog_validate(adm, debug, src):
     """ Validate the model for deeplog """
     # Populate the in-memory config singleton with the base config file
-    GC.read()
-    # Update with the overloaded config file
-    overload_conf()
+    # and then update with the overloaded config file. Use GC.read() if
+    # only want the base config file.
+    dh.GCO.read()
     # Set the items here
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = True
@@ -206,9 +205,9 @@ def cli_deeplog_validate(adm, debug, src):
 def cli_deeplog_predict(adm, learn_ts, debug):
     """ Predict logs by using deeplog model """
     # Populate the in-memory config singleton with the base config file
-    GC.read()
-    # Update with the overloaded config file
-    overload_conf()
+    # and then update with the overloaded config file. Use GC.read() if
+    # only want the base config file.
+    dh.GCO.read()
     # Set the items here
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = False

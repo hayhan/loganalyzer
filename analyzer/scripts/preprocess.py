@@ -6,7 +6,6 @@ import logging
 import click
 import analyzer.utils.data_helper as dh
 from analyzer.config import GlobalConfig as GC
-from analyzer.config import overload as overload_conf
 from analyzer.preprocess import pp
 
 
@@ -39,16 +38,17 @@ log = logging.getLogger(__name__)
 def cli_gen_new(src, training, current):
     """ Preprocess the raw log file to generate new log file. """
     # Populate the in-memory config singleton with the base config file
-    GC.read()
-    # Update with the overloaded config file
-    overload_conf()
+    # and then update with the overloaded config file. Use GC.read() if
+    # only want the base config file.
+    dh.GCO.read()
+    print(GC.conf)
     # Set the items here
     GC.conf['general']['training'] = training
     GC.conf['general']['metrics'] = False
     GC.conf['general']['context'] = 'TEMPUPDT'
     # Sync the config update in memory to file. Really necessary?
     # GC.write()
-
+    exit(1)
     ppobj = pp.Preprocess()
 
     # Get the raw data files from data/raw folder and cat/save them to
@@ -98,9 +98,9 @@ def cli_gen_new(src, training, current):
 def cli_gen_norm(src, training, overwrite, current):
     """ Preprocess the raw log file to generate norm log file. """
     # Populate the in-memory config singleton with the base config file
-    GC.read()
-    # Update with the overloaded config file
-    overload_conf()
+    # and then update with the overloaded config file. Use GC.read() if
+    # only want the base config file.
+    dh.GCO.read()
     # Set the items here
     GC.conf['general']['training'] = training
     GC.conf['general']['metrics'] = False

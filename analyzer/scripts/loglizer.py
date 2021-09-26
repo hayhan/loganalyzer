@@ -8,7 +8,6 @@ import click
 import analyzer.utils.data_helper as dh
 import analyzer.utils.yaml_helper as yh
 from analyzer.config import GlobalConfig as GC
-from analyzer.config import overload as overload_conf
 from analyzer.preprocess import pp
 from analyzer.parser import Parser
 from analyzer.modern.loglizer import Loglizer
@@ -109,9 +108,9 @@ def train_general(adm, filelst, debug, sel = 'stc'):
 def cli_loglizer_train(model, inc, adm, debug):
     """ Train the model for loglizer """
     # Populate the in-memory config singleton with the base config file
-    GC.read()
-    # Update with the overloaded config file
-    overload_conf()
+    # and then update with the overloaded config file. Use GC.read() if
+    # only want the base config file.
+    dh.GCO.read()
     # Set the items here
     GC.conf['general']['training'] = True
     GC.conf['general']['metrics'] = False
@@ -176,9 +175,9 @@ def cli_loglizer_train(model, inc, adm, debug):
 def cli_loglizer_validate(model, adm, debug, src):
     """ Validate the model for loglizer """
     # Populate the in-memory config singleton with the base config file
-    GC.read()
-    # Update with the overloaded config file
-    overload_conf()
+    # and then update with the overloaded config file. Use GC.read() if
+    # only want the base config file.
+    dh.GCO.read()
     # Set the items here
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = True
@@ -259,9 +258,9 @@ def cli_loglizer_validate(model, adm, debug, src):
 def cli_loglizer_predict(model, adm, debug):
     """ Predict logs by using loglizer model """
     # Populate the in-memory config singleton with the base config file
-    GC.read()
-    # Update with the overloaded config file
-    overload_conf()
+    # and then update with the overloaded config file. Use GC.read() if
+    # only want the base config file.
+    dh.GCO.read()
     # Set the items here
     GC.conf['general']['training'] = False
     GC.conf['general']['metrics'] = False
