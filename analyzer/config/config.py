@@ -22,13 +22,13 @@ class GlobalConfig:
     @classmethod
     def read(cls, path=CONFIG_FILE):
         """ Reads from YAML file. Populate the conf member. """
-        # Read the base config file
+        # Read the config file
         cls.conf = cls.read_conf(path)
 
     @classmethod
     def read_conf(cls, path=CONFIG_FILE):
         """ Reads from YAML file. Return data dict format. """
-        # Read the base config file
+        # Read the config file
         return yh.read_yaml(path)
 
     @classmethod

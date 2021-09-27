@@ -491,8 +491,8 @@ class Loglizer(ModernBase):
         precision, recall, f1, _ = \
             precision_recall_fscore_support(y_test, y_test_pred, average='binary')
 
-        print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'\
-            .format(precision, recall, f1))
+        print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'
+              .format(precision, recall, f1))
 
     # pylint: disable=too-many-locals
     def predict(self):

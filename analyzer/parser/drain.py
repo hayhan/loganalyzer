@@ -770,18 +770,21 @@ class Drain:
 
         # Save the template file to data/train or data/test directory
         if self.para.intmdt or not self.para.aim:
-            self._df_tmplts.to_csv(os.path.join(self.para.save_path,
-                                   os.path.basename(self.para.raw_file) + '_templates.csv'),
-                                   columns=['EventId', 'EventTemplate', 'Occurrences'],
-                                   index=False)
+            self._df_tmplts.to_csv(
+                os.path.join(self.para.save_path,
+                os.path.basename(self.para.raw_file) + '_templates.csv'),
+                columns=['EventId', 'EventTemplate', 'Occurrences'], index=False
+            )
 
         # Backup the template library and then update it in data/persist
         # Only do for train data and when template lib inc update enable
         if self.para.over_wr_lib and self.para.inc_updt:
             if os.path.exists(self.para.tmplt_lib):
                 shutil.copy(self.para.tmplt_lib, self.para.tmplt_lib+'.old')
-            self._df_tmplts.to_csv(self.para.tmplt_lib, index=False,
-                                   columns=['EventIdOld', 'EventId', 'EventTemplate'])
+            self._df_tmplts.to_csv(
+                self.para.tmplt_lib,
+                columns=['EventIdOld', 'EventId', 'EventTemplate'], index=False
+            )
 
         # Save the structured file to data/train or data/test directory
         self._df_raws['EventIdOld'] = log_templateids_old
@@ -789,9 +792,10 @@ class Drain:
         self._df_raws['EventTemplate'] = log_templates
         # self._df_raws.drop(['Content'], inplace=True, axis=1)
         if self.para.intmdt or not self.para.aim:
-            self._df_raws.to_csv(os.path.join(self.para.save_path,
-                                 os.path.basename(self.para.raw_file) + '_structured.csv'),
-                                 index=False)
+            self._df_raws.to_csv(
+                os.path.join(self.para.save_path,
+                os.path.basename(self.para.raw_file) + '_structured.csv'), index=False
+            )
 
     @property
     def df_raws(self):
@@ -891,8 +895,9 @@ class Drain:
         else:
             # Only initialize an empty dataframe
             self._df_tmplts = \
-            self._df_tmplts_o = pd.DataFrame(columns=['EventIdOld', 'EventId',
-                                                      'EventTemplate'])
+            self._df_tmplts_o = pd.DataFrame(
+                columns=['EventIdOld', 'EventId', 'EventTemplate']
+            )
 
     def main_process(self):
         """ The main entry """

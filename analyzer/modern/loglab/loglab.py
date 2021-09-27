@@ -368,8 +368,8 @@ class Loglab(ModernBase):
         # Randomize the training samples
         monolith_data = utils.shuffle(monolith_data)
         if self.dbg:
-            print(f"monolith_data:\n{monolith_data}\nlen of monolith_data:\
-                  {(monolith_data).shape}")
+            print(f"monolith_data: {monolith_data}\n"
+                  f"len of monolith_data: {(monolith_data).shape}")
 
         print("Training...")
 

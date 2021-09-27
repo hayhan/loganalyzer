@@ -20,6 +20,7 @@ LOGANALYZER_DEPENDENCIES = [
     "numpy",
     "scipy",
     "sklearn",
+    "torch",
     "pandas",
     "matplotlib",
     "skl2onnx",
@@ -32,6 +33,9 @@ LOGANALYZER_DEPENDENCIES = [
     "pep8",
     "autopep8",
     "flake8",
+    "sphinx",
+    "pytest",
+    "pytest_benchmark",
 ]
 
 LOGANALYZER_ENV_VARIABLES = ["ANALYZER_DATA"]

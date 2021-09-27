@@ -8,18 +8,21 @@ Add timestamp like this one "[20190719-08:58:23.748] " at the start of each line
 ### Label your training logs
 Put a string "abn: " after the timestamp for the anomaly log. If it is a multi-line log, we just label the first line. The labeling is needed for Loglizer but not for the training and prediction of Loglab, DeepLog, and OSS. While for validation purpose, the labeling is needed in DeepLog. For Loglab, you need classify the trianing log files into different groups with label "cxxx" as folder names. See examples in data/raw/cm/loglab.
 
+### Configuration files
+
+Configuration files include a base one at analyzer/config/config.yaml and an overloaded one at data/persist/LOG_TYPE/config_overload.yaml, which is a sub-set of the former one. The system loads the based config firstly and then update the in-memory contents with the overloaded one.
+
 ### Train / Validate the model
 
 **# Loglizer**
 
-1) copy the labeled training/validation log files to data/raw/LOG_TYPE/labeled/. Change the file list in train.lst and validate.lst.
+1) put the labeled training or validation log files to data/raw/LOG_TYPE/labeled/. Change the file list in train.lst and validate.lst.
 2) run "analyzer loglizer train" or "analyzer loglizer validate"
-3) parameters can be changed in config file, e.g. select different model, window size, etc. run "analyzer config show/edit/..."
 
 **# DeepLog**
 
-1) put the training/validation log files to data/raw/LOG_TYPE/normal/
-2) run "analyzer loglizer train/validate"
+1) put the training or validation log files to data/raw/LOG_TYPE/normal/
+2) run "analyzer deeplog train" or "analyzer deeplog validate"
 
 **# Loglab**
 
@@ -54,7 +57,7 @@ Put a string "abn: " after the timestamp for the anomaly log. If it is a multi-l
 
 ## **Porting to Other Log Producing Systems**
 
-LOG_TYPE currently supports 'cm' only. To analyze other system's logs, we need port application dependent files in new LOG_TYPE folders:
+LOG_TYPE currently supports 'cm' only. To analyze other system's logs, you need port application dependent files in new LOG_TYPE folders:
 
 analyzer/preprocess/LOG_TYPE/
 analyzer/parser/LOG_TYPE/
@@ -68,7 +71,10 @@ analyzer/oldschool/LOG_TYPE/
 
 **# Basics packages**
 
-pip install --upgrade numpy scipy scikit-learn pandas matplotlib tqdm skl2onnx onnxruntime pyyaml click sphinx pytest pytest-benchmark
+$ pip install --upgrade numpy scipy scikit-learn pandas matplotlib tqdm skl2onnx onnxruntime pyyaml click sphinx pytest pytest-benchmark
+
+*Following packages are optional:*
+pep8 autopep8 pylint flake8
 
 **# PyTorch**
 
@@ -76,10 +82,10 @@ see https://pytorch.org/ for install instructions. The version is 1.5.0 or above
 
 **# Installation**
 
-At the top directory of loganalyzer clone, run command below to install the analyzer package. Then you can use the "analyzer" command. Type "analyzer --help" for sub commands and options.
+At the top directory of loganalyzer clone, run command below (pay attention to the dot) to install the analyzer package. Then you can use the "analyzer" command. Type "analyzer --help" for sub commands and options.
 
-pip install .
+$ pip install .
 
-To get api documents of html format, run command below in docs directory:
+To get api documents of html format, run commands below in docs directory. The generated html pages are under docs/build/html/.
 
-make html
+$ sphinx-apidoc -f -o source ../analyzer & make html

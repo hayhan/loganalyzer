@@ -52,8 +52,8 @@ class OSS():
 
         # Save the warning message to the top summary file
         with open(self.fzip['top'], 'w') as fio:
-            fio.write("You sbumitted a wrong log, which is NOT from {}. Please check." \
-                    .format(dh.LOG_TYPE))
+            fio.write("You sbumitted a wrong log, which is NOT from {}. Please check."
+                      .format(dh.LOG_TYPE))
         # Save empty summary data frame to file
         self._summary_df.to_csv(self.fzip['sum'], index=False,
             columns=["Time/LineNum", "Description", "Suggestion"])
@@ -148,8 +148,8 @@ class OSS():
                     outfile.write(''.join([str(idx+1), ') ', item]))
                     outfile.write('\n')
             else:
-                outfile.write("Oops, the wrong logs are not in the knowledge-base. \
-                               Feed Back Please by clicking the link above.")
+                outfile.write("Oops, the wrong logs are not in the knowledge-base. "
+                              "Feed Back Please by clicking the link above.")
 
         # Save the summary data frame to file
         self._summary_df.to_csv(self.fzip['sum'], index=False,

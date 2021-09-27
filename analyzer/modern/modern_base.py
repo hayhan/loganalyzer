@@ -76,8 +76,8 @@ class ModernBase(ABC):
 
             # We should not get here for prediction
             if not self.training:
-                print("Warning: No existing vocabulary for prediction. \
-                       Something wrong!")
+                print("Warning: No existing vocabulary for prediction. "
+                      "Something wrong!")
 
             # Init STIDLE: Shuffled Template Id List Expanded. Pad ZEROs
             # at the end of event_id_templates to expand the size to
