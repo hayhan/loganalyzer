@@ -41,14 +41,13 @@ def cli_gen_new(src, training, current):
     # and then update with the overloaded config file. Use GC.read() if
     # only want the base config file.
     dh.GCO.read()
-    print(GC.conf)
     # Set the items here
     GC.conf['general']['training'] = training
     GC.conf['general']['metrics'] = False
     GC.conf['general']['context'] = 'TEMPUPDT'
     # Sync the config update in memory to file. Really necessary?
     # GC.write()
-    exit(1)
+
     ppobj = pp.Preprocess()
 
     # Get the raw data files from data/raw folder and cat/save them to
