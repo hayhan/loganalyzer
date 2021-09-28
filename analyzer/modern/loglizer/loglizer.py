@@ -107,8 +107,8 @@ class Loglizer(ModernBase):
 
         # Do not calc the num of logs that are anomalies for prediction
         if self.training or self.metrics:
-            print('The number of anomaly logs is %d, but it requires further processing'
-                  % sum(raw_data[:, 0]))
+            print(f"The number of anomaly logs is {sum(raw_data[:, 0])}, "
+                  f"but it requires further processing")
 
         # --------------------------------------------------------------
         # Load vocab, aka STIDLE: Shuffled Template Id List Expanded
@@ -217,8 +217,8 @@ class Loglizer(ModernBase):
             # print(start_end_index_list)
 
         inst_number = len(start_end_index_list)
-        print('There are {} instances (sliding windows) in this dataset, cost {!s}\n'
-              .format(inst_number, datetime.now()-parse_st))
+        print(f"There are {inst_number} instances (sliding windows) "
+              f"in this dataset, cost {datetime.now()-parse_st}.\n")
 
         return start_end_index_list, inst_number
 
@@ -248,7 +248,7 @@ class Loglizer(ModernBase):
         """
         # Count the overall num of log events.
         event_num = len(list(set(event_id_logs)))
-        print('There are %d log events' %event_num)
+        print(f"There are {event_num} log events")
 
         # Get labels and event count of each sliding window
         labels = []
@@ -279,7 +279,7 @@ class Loglizer(ModernBase):
         # Do not calc the num of instances that have anomalies on test
         # dataset w/o validating.
         if self.training or self.metrics:
-            print("Among all instances, %d are anomalies"%sum(labels))
+            print(f"Among all instances, {sum(labels)} are anomalies")
         # assert event_count_matrix.shape[0] == len(labels)
 
         if self.dbg:
@@ -331,7 +331,7 @@ class Loglizer(ModernBase):
 
         # x_data_file = self.fzip['output'] + 'train_x_data.txt'
         # np.savetxt(x_data_file, x_new, fmt="%s")
-        print('Final train data shape: {}-by-{}\n'.format(x_new.shape[0], x_new.shape[1]))
+        print(f"Final train data shape: {x_new.shape[0]}-by-{x_new.shape[1]}\n")
         return x_new
 
     def transform(self, x_seq, term_weighting=None, normalization=None,
@@ -380,7 +380,7 @@ class Loglizer(ModernBase):
 
         # x_data_file = self.fzip['output'] + 'test_x_data.txt'
         # np.savetxt(x_data_file, x_new, fmt="%s")
-        print('Test data shape: {}-by-{}\n'.format(x_new.shape[0], x_new.shape[1]))
+        print(f"Test data shape: {x_new.shape[0]}-by-{x_new.shape[1]}\n")
 
         return x_new
 
@@ -390,7 +390,7 @@ class Loglizer(ModernBase):
         """
         # Update selected model and its parameters
         self.load_para()
-        print("===> Train Model: {}\n".format(self.model))
+        print(f"===> Train Model: {self.model}\n")
 
         # --------------------------------------------------------------
         # Load data, extract features and build event count matrix
@@ -420,11 +420,11 @@ class Loglizer(ModernBase):
             else:
                 # SGDC_LR
                 model = SGDClassifier(loss='log', max_iter=1000)
-            print("First time training...: {}\n".format(self.model))
+            print(f"First time training...: {self.model}\n")
         # Incremental training ...
         elif self.inc_updt:
             model = joblib.load(inc_fit_model_file)
-            print("Incremental training...: {}\n".format(self.model))
+            print(f"Incremental training...: {self.model}\n")
         # Normal training ...
         else:
             if self.model == 'DT':
@@ -439,7 +439,7 @@ class Loglizer(ModernBase):
             else:
                 # Random Forest Classifier
                 model = RandomForestClassifier(n_estimators=100)
-            print("Normal training...: {}\n".format(self.model))
+            print(f"Normal training...: {self.model}\n")
 
         # --------------------------------------------------------------
         # Fit and persist the model
@@ -466,15 +466,14 @@ class Loglizer(ModernBase):
         precision, recall, f1, _ = \
             precision_recall_fscore_support(y_train, y_train_pred, average='binary')
 
-        print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'\
-            .format(precision, recall, f1))
+        print(f"Precision: {precision:.3f}, recall: {recall:.3f}, F1-measure: {f1:.3f}\n")
 
     def evaluate(self):
         """ Validate the model.
         """
         # Update selected model and its parameters
         self.load_para()
-        print("===> Validate Model: {}\n".format(self.model))
+        print(f"===> Validate Model: {self.model}\n")
 
         # Extract features, build event count matrix
         x_test, y_test = self.load_data()
@@ -491,8 +490,7 @@ class Loglizer(ModernBase):
         precision, recall, f1, _ = \
             precision_recall_fscore_support(y_test, y_test_pred, average='binary')
 
-        print('Precision: {:.3f}, recall: {:.3f}, F1-measure: {:.3f}\n'
-              .format(precision, recall, f1))
+        print(f"Precision: {precision:.3f}, recall: {recall:.3f}, F1-measure: {f1:.3f}\n")
 
     # pylint: disable=too-many-locals
     def predict(self):
@@ -500,7 +498,7 @@ class Loglizer(ModernBase):
         """
         # Update selected model and its parameters
         self.load_para()
-        print("===> Predict Model: {}\n".format(self.model))
+        print(f"===> Predict Model: {self.model}\n")
 
         # Extract features, build event count matrix
         x_test, _ = self.load_data()

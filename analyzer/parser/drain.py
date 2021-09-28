@@ -838,7 +838,7 @@ class Drain:
                 regex += splitter
             else:
                 header = splitters[k].strip('<').strip('>')
-                regex += '(?P<%s>.*?)' % header
+                regex += f'(?P<{header}>.*?)'
                 headers.append(header)
         # For customized logformat, use it as rex pattern directly.
         # An example of logformat: '(?P<Time>.{m})(?P<Content>.*?)'
@@ -976,10 +976,11 @@ class Drain:
             os.makedirs(self.para.save_path)
 
         self.output_result(log_clust_lst)
-        print('Parsing done. [Time taken: {!s}]\n'.format(datetime.now() - start_time))
+        print(f"Parsing done. [Time taken: {datetime.now() - start_time}]\n")
 
         # Print the tree to a file for debugging...
         if self.para.prt_tree:
             self.print_tree(root_node, 0)
-            with open(os.path.join(self.para.save_path, 'tree.txt'), 'w') as drain_tree:
+            with open(os.path.join(self.para.save_path, 'tree.txt'), 'w',
+                encoding='utf-8') as drain_tree:
                 drain_tree.write(self.tree)

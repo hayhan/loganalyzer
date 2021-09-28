@@ -91,7 +91,7 @@ class Parser():
                 # OSS as we only display the timestamps. For Loglizer,
                 # we should calculate the time window and should take
                 # care when this change affacts it in the future.
-                log_format = '(?P<Time>.{%d})(?P<Content>.*?)' % self._log_head_offset
+                log_format = f'(?P<Time>.{{{self._log_head_offset}}})(?P<Content>.*?)'
             else:
                 log.info("Not %s log, Return right now.", dh.LOG_TYPE)
                 sys.exit(0)

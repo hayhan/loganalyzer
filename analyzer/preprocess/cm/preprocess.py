@@ -108,7 +108,7 @@ class Preprocess(PreprocessBase):
         last_label_removed: bool = False
         last_label: str = ''
 
-        print("Pre-processing the raw {0} dataset ...".format(self.datatype))
+        print(f"Pre-processing the raw {self.datatype} dataset ...")
         parse_st: datetime = datetime.now()
 
         #
@@ -423,7 +423,7 @@ class Preprocess(PreprocessBase):
         # Conditionally save the newlogs to a file per the config file
         self.cond_save_strings(self.fzip['new'], self._newlogs)
 
-        print('Purge costs {!s}\n'.format(datetime.now()-parse_st))
+        print(f"Purge costs {datetime.now()-parse_st}\n")
 
     def format_ds_chan_table(self, newline: str, table_messed: bool, last_ln_messed: bool):
         """ Format one item of ds channel table """

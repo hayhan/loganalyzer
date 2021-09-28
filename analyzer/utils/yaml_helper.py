@@ -34,7 +34,7 @@ def read_yaml(filename, logger=None):
     if logger is not None:
         logger.info(f"Reading {path}")
 
-    text = path.read_text()
+    text = path.read_text(encoding='utf-8')
     return yaml.safe_load(text)
 
 
@@ -56,7 +56,7 @@ def read_yaml_pretty(filename, logger=None):
     if logger is not None:
         logger.info(f"Reading {path}")
 
-    text = path.read_text()
+    text = path.read_text(encoding='utf-8')
     dict_format = yaml.safe_load(text)
     pretty_doc = yaml.safe_dump(dict_format, indent=4, sort_keys=False,
                                 default_flow_style=False)
@@ -84,7 +84,7 @@ def write_yaml(dictionary, filename, logger=None, sort_keys=False):
     path.parent.mkdir(exist_ok=True)
     if logger is not None:
         logger.info(f"Writing {path}")
-    path.write_text(text)
+    path.write_text(text, encoding='utf-8')
 
 
 def make_path(path):

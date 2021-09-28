@@ -165,7 +165,7 @@ class DeepLog(ModernBase):
             try:
                 event_idx_logs.append(event_id_voc.index(tid))
             except ValueError:
-                print("Warning: Event ID {} is not in vocabulary!!!".format(tid))
+                print(f"Warning: Event ID {tid} is not in vocabulary!!!")
                 event_idx_logs.append(self.libsize-1)
 
         # --------------------------------------------------------------
@@ -220,7 +220,7 @@ class DeepLog(ModernBase):
         """
 
         results_lst = []
-        print("Slicing the single-session logs with window {} ...".format(win_size))
+        print(f"Slicing the single-session logs with window {win_size} ...")
 
         logsnum = len(eidx_logs)
         i = 0
@@ -273,7 +273,7 @@ class DeepLog(ModernBase):
         """
 
         results_lst = []
-        print("Slicing the multi-session logs with window {} ...".format(win_size))
+        print(f"Slicing the multi-session logs with window {win_size} ...")
 
         session_offset = 0
 
@@ -550,8 +550,8 @@ class DeepLog(ModernBase):
 
             pbar.close()
             epoch_loss = epoch_loss / batch_cnt
-            print("Epoch {}/{}, train loss: {:.5f}"
-                  .format(epoch+1, self.model_para['num_epochs'], epoch_loss))
+            print(f"Epoch {epoch+1}/{self.model_para['num_epochs']}, "
+                  f"train loss: {epoch_loss:.5f}")
 
     def train(self):
         """ Train model.
@@ -569,8 +569,7 @@ class DeepLog(ModernBase):
         t_p, f_p, t_n, f_n, _ = \
             self.evaluate_core(model, train_data_loader, device)
 
-        print('Train Dataset Validation ==> TP: {}, FP: {}, TN: {}, FN: {}'
-              .format(t_p, f_p, t_n, f_n))
+        print(f"Train Dataset Validation ==> TP: {t_p}, FP: {f_p}, TN: {t_n}, FN: {f_n}")
 
         # Serialize the model
         torch.save(model.state_dict(), self.exec_model)
@@ -592,8 +591,7 @@ class DeepLog(ModernBase):
         t_p, f_p, t_n, f_n, _ = \
             self.evaluate_core(model, test_data_loader, device)
 
-        print('Test Dataset Validation  ==> TP: {}, FP: {}, TN: {}, FN: {}'
-              .format(t_p, f_p, t_n, f_n))
+        print(f"Test Dataset Validation ==> TP: {t_p}, FP: {f_p}, TN: {t_n}, FN: {f_n}")
 
         # Calc the metrics for dataset with anomalies
         if t_p + f_p != 0 and t_p + f_n != 0:
@@ -601,9 +599,8 @@ class DeepLog(ModernBase):
             recall = 100 * t_p / (t_p + f_n)
             f_1 = 2 * precision * recall / (precision + recall)
 
-            print('Test Dataset Validation  ==>',
-                  'Precision: {:.2f}%, Recall: {:.2f}%, F1: {:.2f}%'
-                  .format(precision, recall, f_1))
+            print(f"Test Dataset Validation ==> "
+                  f"Precision: {precision:.2f}%, Recall: {recall:.2f}%, F1: {f_1:.2f}%")
 
     def predict(self):
         """ Predict using model.
@@ -637,6 +634,6 @@ class DeepLog(ModernBase):
 
         # Write to file. It is 1-based line num in raw file. Map the
         # anomaly_line in norm file to the raw test data file.
-        with open(self.fzip['rst_dlog'], 'w') as fout:
+        with open(self.fzip['rst_dlog'], 'w', encoding='utf-8') as fout:
             for item in anomaly_line:
-                fout.write('%s\n' % (self._map_norm_raw[item]))
+                fout.write(f"{self._map_norm_raw[item]}\n")

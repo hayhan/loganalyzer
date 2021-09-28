@@ -92,11 +92,11 @@ def cli_norm_timestamp():  # pylint: disable=too-many-locals
             # Read the width of timestamp, we just learned
             log_offset = GC.conf['general']['head_offset']
             if log_offset < 0:
-                print("Warning: It looks file {} is not {} log.".format(filename, dh.LOG_TYPE))
+                print(f"Warning: It looks file {filename} is not {dh.LOG_TYPE} log.")
                 continue
 
             # Pattern for detected timestamp, aka. the log head offset
-            pattern_timestamp = re.compile(r'.{%d}' % log_offset)
+            pattern_timestamp = re.compile(rf'.{{{log_offset}}}')
 
             # Replace the old timestamp (including no timestamp) with
             # the standard format.

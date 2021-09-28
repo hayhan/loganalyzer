@@ -132,7 +132,7 @@ class ModernBase(ABC):
                         updt_cnt += 1
                 # Set the update flag
                 update_flag = True
-                print("%d new template IDs are inserted to STIDLE." % updt_cnt)
+                print(f"{updt_cnt} new template IDs are inserted to STIDLE.")
 
             # Case 2):
             # Find non ZEROs in EventIdOld that aren't equal to the ones
@@ -147,7 +147,7 @@ class ModernBase(ABC):
             if updt_cnt > 0:
                 # Set the update flag
                 update_flag = True
-                print("%d existing template IDs are updated in STIDLE." % updt_cnt)
+                print(f"{updt_cnt} existing template IDs are updated in STIDLE.")
 
             # Case 3):
             # TBD

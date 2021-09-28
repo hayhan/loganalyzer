@@ -101,7 +101,7 @@ class Loglab(ModernBase):
             try:
                 event_idx_logs.append(event_id_voc.index(tid))
             except ValueError:
-                print("Warning: Event ID {} is not in vocabulary!!!".format(tid))
+                print(f"Warning: Event ID {tid} is not in vocabulary!!!")
                 event_idx_logs.append(self.libsize-1)
 
         # --------------------------------------------------------------
@@ -276,7 +276,7 @@ class Loglab(ModernBase):
         """
         for idx, val in enumerate(ecm[0]):
             if val != 0.:
-                print("ECM: idx -> {}, eid -> {}, val -> {}".format(idx, eid_voc[idx], val))
+                print(f"ECM: idx -> {idx}, eid -> {eid_voc[idx]}, val -> {val}")
 
     @staticmethod
     def mykfold(y_train, monolith_data, model):
@@ -313,7 +313,7 @@ class Loglab(ModernBase):
         # Update selected model and its parameters
         self.load_para()
 
-        print("===> Train Loglab Model: {}\n".format(self.model))
+        print(f"===> Train Loglab Model: {self.model}\n")
 
         # --------------------------------------------------------------
         # Load data and do feature extraction on the training dataset
@@ -414,7 +414,7 @@ class Loglab(ModernBase):
         # Update selected model and its parameters
         self.load_para()
 
-        print("===> Predict With Loglab Model: {}\n".format(self.model))
+        print(f"===> Predict With Loglab Model: {self.model}\n")
 
         # --------------------------------------------------------------
         # Load data and do feature extraction on the test dataset

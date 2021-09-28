@@ -48,12 +48,12 @@ class OSS():
     def invalid_log_warning(self):
         """ Warning message which is saved into txt file
         """
-        print("The submitted log is NOT from {}.".format(dh.LOG_TYPE))
+        print(f"The submitted log is NOT from {dh.LOG_TYPE}.")
 
         # Save the warning message to the top summary file
-        with open(self.fzip['top'], 'w') as fio:
-            fio.write("You sbumitted a wrong log, which is NOT from {}. Please check."
-                      .format(dh.LOG_TYPE))
+        with open(self.fzip['top'], 'w', encoding='utf-8') as fio:
+            fio.write(f"You sbumitted a wrong log, which is NOT from {dh.LOG_TYPE}.")
+
         # Save empty summary data frame to file
         self._summary_df.to_csv(self.fzip['sum'], index=False,
             columns=["Time/LineNum", "Description", "Suggestion"])
@@ -142,7 +142,7 @@ class OSS():
         summary_top = list(dict.fromkeys(log_sugg_l))
 
         # Save the top summary to a file
-        with open(self.fzip['top'], 'w') as outfile:
+        with open(self.fzip['top'], 'w', encoding='utf-8') as outfile:
             if len(summary_top) > 0:
                 for idx, item in enumerate(summary_top):
                     outfile.write(''.join([str(idx+1), ') ', item]))

@@ -68,7 +68,7 @@ class PreprocessBase(ABC):
         """ Get timestamp regx pattern object. """
         if self.context in ['LOGLAB', 'OLDSCHOOL', 'DEEPLOG'] \
             and not (self.training or self.metrics):
-            self.ptn_main_ts = re.compile(r'.{%d}' % self._log_head_offset)
+            self.ptn_main_ts = re.compile(rf'.{{{self._log_head_offset}}}')
         else:
             self.ptn_main_ts = ptn.PTN_STD_TS
 
@@ -84,7 +84,7 @@ class PreprocessBase(ABC):
             self._reserve_ts = False
         else:
             # Not a LOG_TYPE log file
-            sys.exit("It looks not {} log!".format(dh.LOG_TYPE))
+            sys.exit(f"It looks not {dh.LOG_TYPE} log!")
         # Update main timestamp pattern object
         self._main_timestamp_regx()
 
