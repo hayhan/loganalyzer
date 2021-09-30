@@ -4,7 +4,7 @@
     from System Logs through Deep Learning, 2017.
 """
 import torch
-import torch.nn as nn
+from torch import nn
 
 
 __all__ = ["DeepLogExec"]

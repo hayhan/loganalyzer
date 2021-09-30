@@ -10,8 +10,8 @@ import numpy as np
 import pandas as pd
 from torch.utils.data import DataLoader, Dataset
 import torch
-import torch.nn as nn
-import torch.optim as optim
+from torch import nn
+from torch import optim
 from tqdm import tqdm
 from analyzer.config import GlobalConfig as GC
 import analyzer.utils.data_helper as dh
