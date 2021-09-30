@@ -1,7 +1,9 @@
 # Licensed under the MIT License - see LICENSE.txt
 """ Miscellaneous tools for debugging, cleaning logs, etc. """
 import os
+import re
 from typing import List
+from datetime import datetime
 import pickle
 import collections
 import pandas as pd
@@ -11,7 +13,8 @@ import analyzer.utils.data_helper as dh
 __all__ = [
     "sort_tmplt_lib",
     "check_duplicates",
-    'find_logs_by_eid',
+    "find_logs_by_eid",
+    "norm_timestamp",
 ]
 
 
@@ -25,13 +28,15 @@ def sort_tmplt_lib():
     sorted_df.to_csv(sorted_tmplt_lib, index=False)
 
 
-def check_duplicates(folder: str, file: str):
-    """ Check duplicate lines in a file """
-    file_loc: str = os.path.join(dh.ANALYZER_DATA, folder, dh.LOG_TYPE, file)
-    with open(file_loc, 'r', encoding='utf-8') as fout:
-        ele: List[str] = fout.readlines()
+def check_duplicates(strings: List[str]):
+    """ Check duplicate lines in a txt file """
+    dup_set: List[List[int]] = []
+    for item, count in collections.Counter(strings).items():
+        if count > 1 and item not in ['0\n']:
+            indices = [i for i, x in enumerate(strings) if x == item]
+            dup_set.append(indices)
 
-    print({item: count for item, count in collections.Counter(ele).items() if count > 1})
+    return dup_set
 
 
 def find_logs_by_eid(event_id: str, training: str):
@@ -60,3 +65,30 @@ def find_logs_by_eid(event_id: str, training: str):
                 print(time, eid)
             else:
                 print(map_norm_raw[time], eid)
+
+
+def norm_timestamp(rawfile: str, newfile: str, log_offset: int, dt_ts: float):
+    """ Replace the timestamps with standard ones in a log file """
+    # Pattern for old timestamp, aka. the log head offset
+    pattern_timestamp = re.compile(rf'.{{{log_offset}}}')
+
+    # Replace old timestamp (including no timestamp) with standard one.
+    out_logs: List[str] = []
+    with open(rawfile, 'r', encoding='utf-8-sig') as rawin:
+        for line in rawin:
+            if pattern_timestamp.match(line):
+                #
+                dt_obj = datetime.fromtimestamp(dt_ts)
+                dt_format = '[' + dt_obj.strftime(dh.STD_TIMESTAMP_FORMAT)\
+                             [0:dh.STD_TIMESTAMP_LENGTH-3] + '] '
+                # Works even log_offset is zero, aka. no old timestamp.
+                newline = pattern_timestamp.sub(dt_format, line, count=1)
+                # Increase 100ms per line
+                dt_ts += 0.100000
+            else:
+                # Messed lines, skip
+                continue
+            out_logs.append(newline)
+
+    with open(newfile, 'w', encoding='utf-8') as fout:
+        fout.writelines(out_logs)

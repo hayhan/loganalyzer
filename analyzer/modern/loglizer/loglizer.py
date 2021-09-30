@@ -240,7 +240,7 @@ class Loglizer(ModernBase):
 
         return expanded_indexes_list
 
-    # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-arguments:too-many-locals
     def build_matrix(self, event_id_logs, event_id_voc, raw_data,
                      inst_number, expanded_indexes_list):
         """
@@ -283,8 +283,11 @@ class Loglizer(ModernBase):
         # assert event_count_matrix.shape[0] == len(labels)
 
         if self.dbg:
+            label_vec = np.reshape(labels, (len(labels), 1))
+            monolith_data = np.hstack((event_count_matrix, label_vec))
+
             np.savetxt(os.path.join(self.fzip['output'], 'ecm_loglizer.txt'),
-                       event_count_matrix, fmt="%s")
+                       monolith_data, fmt="%s")
 
         return event_count_matrix, labels
 

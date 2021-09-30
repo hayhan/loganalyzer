@@ -2,7 +2,6 @@
 """ CLI interface to utils.
 """
 import os
-import re
 import logging
 from typing import List
 from datetime import datetime
@@ -26,13 +25,46 @@ log = logging.getLogger(__name__)
     "--src",
     nargs=2,
     type=str,
-    help="Source path and name, e.g. persist vocab_loglab.txt",
+    required=True,
+    help="Source path and name, e.g. persist vocab_loglab.npy.txt",
     show_default=True,
 )
-def cli_chk_duplicate(src):
-    """ Check duplicate lines in a file """
+@click.option(
+    "--ecm",
+    help="Checking duplicates of featrue vector in event matrix.",
+    show_default=True,
+)
+def cli_chk_duplicate(src, ecm):
+    """ Check duplicate lines in a txt file """
     subd, name = src
-    mt.check_duplicates(subd, name)
+
+    file_loc: str = os.path.join(dh.ANALYZER_DATA, subd, dh.LOG_TYPE, name)
+    with open(file_loc, 'r', encoding='utf-8') as fout:
+        strings: List[str] = fout.readlines()
+
+    dups: List[List[int]] = []
+
+    # The saved ecm has label vector at last column. Split matrix apart
+    # into body and label vector.
+    if ecm in ['loglab', 'loglizer']:
+        mtx: List[str] = []
+        labels: List[str] = []
+        dups_with_label: List[List[str]] = []
+
+        for line in strings:
+            cells = line.strip('\r\n').split()
+            labels.append(''.join(['Class_', cells[-1][:-2]]))
+            mtx.append(' '.join(cells[:-1]))
+
+        dups = mt.check_duplicates(mtx)
+
+        for dup in dups:
+            dups_with_label.append([''.join([str(idx+1), '/', labels[idx]]) for idx in dup])
+        print("Duplicate sets:\n", dups_with_label)
+
+    else:
+        dups = mt.check_duplicates(strings)
+        print("Duplicate sets:\n", dups)
 
     log.info("Check duplicates done.")
 
@@ -66,9 +98,6 @@ def cli_norm_timestamp():  # pylint: disable=too-many-locals
 
             copyfile(rawf, dstf)
 
-            # Populate the in-memory config singleton with the base config file
-            # and then update with the overloaded config file. Use GC.read() if
-            # only want the base config file.
             dh.GCO.read()
             # Set the items here
             GC.conf['general']['training'] = False
@@ -95,31 +124,8 @@ def cli_norm_timestamp():  # pylint: disable=too-many-locals
                 print(f"Warning: It looks file {filename} is not {dh.LOG_TYPE} log.")
                 continue
 
-            # Pattern for detected timestamp, aka. the log head offset
-            pattern_timestamp = re.compile(rf'.{{{log_offset}}}')
-
-            # Replace the old timestamp (including no timestamp) with
-            # the standard format.
-            out_logs: List[str] = []
-            with open(rawf, 'r', encoding='utf-8-sig') as rawin:
-                for line in rawin:
-                    if pattern_timestamp.match(line):
-                        #
-                        dt_obj = datetime.fromtimestamp(dt_timestamp)
-                        dt_format = '[' + dt_obj.strftime(dh.STD_TIMESTAMP_FORMAT)\
-                                     [0:dh.STD_TIMESTAMP_LENGTH-3] + '] '
-                        # This works even log_offset is zero, aka. no
-                        # old timestamp.
-                        newline = pattern_timestamp.sub(dt_format, line, count=1)
-                        # Increase 100ms per line
-                        dt_timestamp += 0.100000
-                    else:
-                        # Messed lines, skip
-                        continue
-                    out_logs.append(newline)
-
-            with open(newf, 'w', encoding='utf-8') as fout:
-                fout.writelines(out_logs)
+            # Normalize the timestamps and save to a new file
+            mt.norm_timestamp(rawf, newf, log_offset, dt_timestamp)
 
     log.info("Normalization done.")
 

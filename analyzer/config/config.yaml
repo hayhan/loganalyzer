@@ -1,4 +1,4 @@
-# The base config file. Overload the existing elements in data/persist/LOG_TYPE/
+# The base config file. Overload the existing values here with data/persist/LOG_TYPE/
 # config_overload.yaml if needed.
 
 # Section: general

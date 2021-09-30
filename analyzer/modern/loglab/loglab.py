@@ -322,10 +322,6 @@ class Loglab(ModernBase):
         # x_train data type is float while y_train is integer here
         x_train, y_train = self.load_data()
 
-        # Save the event count matrix
-        if self.dbg:
-            np.savetxt(os.path.join(self.fzip['output'], 'ecm_loglab.txt'), x_train, fmt="%s")
-
         # Visualize the sparse matrix
         # plt.spy(x_train, markersize=1)
         # plt.show()
@@ -364,6 +360,11 @@ class Loglab(ModernBase):
         # Monolith dataset is type of float including the last column,
         # which is class labels.
         monolith_data = np.hstack((x_train, class_vec))
+
+        # Save the event count matrix for debugging before randomization
+        if self.dbg:
+            np.savetxt(os.path.join(self.fzip['output'], 'ecm_loglab.txt'),
+                       monolith_data, fmt="%s")
 
         # Randomize the training samples
         monolith_data = utils.shuffle(monolith_data)

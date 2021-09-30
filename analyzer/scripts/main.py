@@ -24,7 +24,7 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 @click.group("analyzer", context_settings=CONTEXT_SETTINGS)
 @click.option(
     "--log-level",
-    default="info",
+    default="warning",
     help="Logging verbosity level.",
     type=click.Choice(["debug", "info", "warning", "error"]),
 )
@@ -303,8 +303,9 @@ def cli_utils():
     """ Some utils for helping debug/clean logs.
 
     \b
-    - The sub-command `chkcup` checks duplicate lines in a file in one
-      of folder in data directory. The folder is under data directory.
+    - The sub-command `chkdup` checks duplicate lines in a txt file in a
+      folder in data directory. e.g. --src train ecm_loglab.txt.
+      The option `ecm` is for checking event matrix of loglab/loglizer.
     \b
     - The sub-command `normts` normalizes timestamps of logs in data/tmp
       directory.
@@ -317,7 +318,7 @@ def cli_utils():
     --------
 
     \b
-    $ analyzer utils chkdup --src folder filename
+    $ analyzer utils chkdup --src folder fname [--ecm loglab/loglizer]
     $ analyzer utils normts
     $ analyzer utils eidlog --eid value [--training/--no-training]
     """

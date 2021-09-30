@@ -40,7 +40,7 @@ class PreprocessBase(ABC):
         # the standard format
         self._reserve_ts: bool = True
         self._log_head_offset: int = GC.conf['general']['head_offset']
-        self.ptn_main_ts : Pattern = ptn.PTN_STD_TS
+        self.ptn_main_ts: Pattern = ptn.PTN_STD_TS
 
         # For prediction only. Does not include Loglizer.
         if not self.training:
