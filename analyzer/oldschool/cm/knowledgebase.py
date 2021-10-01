@@ -68,13 +68,13 @@ class Kb(KbBase):
                 # Check qam and fec status
                 if params[3] == 'n' or params[4] == 'n':
                     log_fault = True
-                    log_sugg = "Low power, big noise. QAM/FEC unlocked.\n"
+                    log_sugg = "Low power, big noise. QAM/FEC unlocked. "
                 # SNR threshold. QAM64 18+3=21dB, QAM256 24+3=27dB.
                 if (params[7] == 'Qam64' and int(params[5]) <= 21) or \
                     (params[7] == 'Qam256' and int(params[5]) <= 27):
                     log_fault = True
                     log_sugg += ("Low power, noise or bad board design all contribute "
-                                 "to low SNR\n")
+                                 "to low SNR. ")
                 # Check the rx power. -15dBmV ~ +15dBmV per spec.
                 if int(params[6]) > 15 or int(params[6]) < -15:
                     log_fault = True
@@ -106,7 +106,7 @@ class Kb(KbBase):
                 if float(params[4]) <= 17 or float(params[4]) >= 51:
                     log_fault = True
                     log_sugg = ("Adjust the attanuator on US link. The US Tx power "
-                                "within 20~50 dBmV is better.\n")
+                                "within 20~50 dBmV is better. ")
                 # Check the data path of tx
                 if params[9] == 'n':
                     log_fault = True

@@ -10,13 +10,11 @@ import pickle
 import numpy as np
 from tqdm import tqdm
 # import matplotlib.pyplot as plt
-from sklearn import utils
 # from sklearn.preprocessing import StandardScaler
-from sklearn import svm
+from sklearn import svm, utils
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import KFold
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import KFold, cross_val_score
 from skl2onnx import convert_sklearn
 from skl2onnx.common.data_types import FloatTensorType
 import onnxruntime as rt

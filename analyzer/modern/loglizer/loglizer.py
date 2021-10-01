@@ -11,12 +11,10 @@ import joblib
 import numpy as np
 import pandas as pd
 from scipy.special import expit
-from sklearn import tree
-from sklearn import svm
+from sklearn import tree, svm
 from sklearn.naive_bayes import MultinomialNB
-#from sklearn.linear_model import Perceptron
-from sklearn.linear_model import SGDClassifier
-from sklearn.linear_model import LogisticRegression
+# from sklearn.linear_model import Perceptron
+from sklearn.linear_model import SGDClassifier, LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import precision_recall_fscore_support
 from skl2onnx import convert_sklearn

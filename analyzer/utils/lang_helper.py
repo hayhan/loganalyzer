@@ -17,16 +17,14 @@ class SWITCH:
         self.fall = False
 
     def __iter__(self):
-        """Return the match method once, then stop"""
+        """ Return the match method once, then stop """
         yield self.match
-        raise StopIteration
 
     def match(self, *args):
-        """Indicate whether or not to enter a case suite"""
+        """ Indicate whether or not to enter a case suite """
         if self.fall or not args:
             return True
-        elif self.value in args:
+        if self.value in args:
             self.fall = True
             return True
-        else:
-            return False
+        return False

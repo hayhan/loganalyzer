@@ -11,7 +11,7 @@ __all__ = ["GlobalConfig", "CONFIG_FILE"]
 log = logging.getLogger(__name__)
 
 CONFIG_FILE = Path(__file__).resolve().parent / "config.yaml"
-CONFIG_FILE_DEFAULT = Path(__file__).resolve().parent / "config.default.yaml"
+CONFIG_FILE_DEFAULT = Path(__file__).resolve().parent / "config_default.yaml"
 
 
 class GlobalConfig:

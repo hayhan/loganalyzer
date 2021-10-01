@@ -35,13 +35,13 @@ class DeepLogExec(nn.Module):
                            bidirectional=(self.num_directions == 2))
         self.predict_layer = nn.Linear(self.hidden_size * self.num_directions, num_classes)
 
-    def forward(self, *_input):
+    def forward(self, *input_):
         """ Override the forward function
 
-        The _input[0] is a 3-D tensor
+        The input_[0] is a 3-D tensor
         (batch_size x seq_len x input_size): EventSeq.
 
-        The _output of LSTM is a 3-D tensor
+        The output_ of LSTM is a 3-D tensor
         (batch_size x seq_len x hidden_size).
 
         The Linear predict layer connects to the last hidden state of
@@ -51,11 +51,11 @@ class DeepLogExec(nn.Module):
         The Linear predict layer input dimension is 2-D tensor
         (batch_size x hidden_size)
 
-        The _output of predict layer is a 2-D tensor
+        The output_ of predict layer is a 2-D tensor
         (batch_size x num_classes).
         """
-        h_0 = torch.zeros(self.num_layers, _input[0].size(0), self.hidden_size).to(self.device)
-        c_0 = torch.zeros(self.num_layers, _input[0].size(0), self.hidden_size).to(self.device)
-        _output, _ = self.rnn(_input[0].float(), (h_0, c_0))
-        _output = self.predict_layer(_output[:, -1, :])
-        return _output
+        h_0 = torch.zeros(self.num_layers, input_[0].size(0), self.hidden_size).to(self.device)
+        c_0 = torch.zeros(self.num_layers, input_[0].size(0), self.hidden_size).to(self.device)
+        output_, _ = self.rnn(input_[0].float(), (h_0, c_0))
+        output_ = self.predict_layer(output_[:, -1, :])
+        return output_
