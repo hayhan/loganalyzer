@@ -18,6 +18,7 @@ Dependency
 - sphinx
 - pytest
 - pytest-benchmark
+- umap-learn
 - pytorch >= 1.5.0
 
 Installation

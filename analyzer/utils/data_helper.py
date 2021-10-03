@@ -141,12 +141,12 @@ class GCO:
         """ Overloaded version of read config file """
         GC.read()
         if os.path.exists(CONFIG_OVERLOAD):
-            cls.overload()
+            cls.overload(CONFIG_OVERLOAD)
 
     @classmethod
-    def overload(cls):
+    def overload(cls, config_file_overload: str):
         """ Update im-momory conf with the overloaded config file. """
-        conf_overload: dict = GC.read_conf(CONFIG_OVERLOAD)
+        conf_overload: dict = GC.read_conf(config_file_overload)
         for sec, attr in conf_overload.items():
             for key, val in attr.items():
                 try:

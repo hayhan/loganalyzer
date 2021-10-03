@@ -28,7 +28,11 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
     help="Logging verbosity level.",
     type=click.Choice(["debug", "info", "warning", "error"]),
 )
-@click.option("--ignore-warnings", is_flag=True, help="Ignore warnings?")
+@click.option(
+    "--ignore-warnings",
+    is_flag=True,
+    help="Ignore warnings?"
+)
 @click.option(
     "--version",
     is_flag=True,
@@ -115,6 +119,7 @@ def cli(ctx, log_level, ignore_warnings):
         cli_utils.add_command(mod.cli_chk_duplicate)
         cli_utils.add_command(mod.cli_norm_timestamp)
         cli_utils.add_command(mod.cli_eid_log)
+        cli_utils.add_command(mod.cli_visualize_data)
     else:
         click.echo('Cannot happen.')
 
@@ -312,6 +317,10 @@ def cli_utils():
     \b
     - The sub-command `eidlog` finds all the logs that match the given
       event id in the raw log file.
+    \b
+    - The sub-command `viz` reduces the dimensionality of dataset and
+      then visualizes the data. The option `src` indicates the path of
+      event matrix. The option `ecm` indicates loglab/loglizer.
 
     \b
     Examples
@@ -321,6 +330,7 @@ def cli_utils():
     $ analyzer utils chkdup --src folder fname [--ecm loglab/loglizer]
     $ analyzer utils normts
     $ analyzer utils eidlog --eid value [--training/--no-training]
+    $ analyzer utils viz --src folder fname [--ecm loglab/loglizer]
     """
 
 

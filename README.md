@@ -71,7 +71,7 @@ analyzer/oldschool/LOG_TYPE/
 
 **# Basics packages**
 
-$ pip install --upgrade numpy scipy scikit-learn pandas matplotlib tqdm skl2onnx onnxruntime pyyaml click sphinx pytest pytest-benchmark
+$ pip install --upgrade numpy scipy scikit-learn pandas matplotlib tqdm skl2onnx onnxruntime pyyaml click sphinx pytest pytest-benchmark umap-learn
 
 *Following packages are optional:*
 pep8 autopep8 pylint flake8

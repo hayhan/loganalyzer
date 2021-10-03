@@ -36,6 +36,7 @@ LOGANALYZER_DEPENDENCIES = [
     "sphinx",
     "pytest",
     "pytest_benchmark",
+    "umap",
 ]
 
 LOGANALYZER_ENV_VARIABLES = ["ANALYZER_DATA"]

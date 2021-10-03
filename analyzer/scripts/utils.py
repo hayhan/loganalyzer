@@ -2,13 +2,16 @@
 """ CLI interface to utils.
 """
 import os
+import sys
 import logging
 from typing import List
 from datetime import datetime
 from shutil import copyfile
 import click
+import numpy as np
 import analyzer.utils.data_helper as dh
 import analyzer.utils.misc_tools as mt
+import analyzer.utils.visualization as vz
 from analyzer.config import GlobalConfig as GC
 from analyzer.preprocess import pp
 from analyzer.parser import Parser
@@ -39,6 +42,9 @@ def cli_chk_duplicate(src, ecm):
     subd, name = src
 
     file_loc: str = os.path.join(dh.ANALYZER_DATA, subd, dh.LOG_TYPE, name)
+    if not os.path.exists(file_loc):
+        print("File does not exist!!!")
+        sys.exit(1)
     with open(file_loc, 'r', encoding='utf-8') as fout:
         strings: List[str] = fout.readlines()
 
@@ -160,3 +166,50 @@ def cli_eid_log(eid, training):
     # GC.write()
 
     mt.find_logs_by_eid(eid, training)
+
+
+# ----------------------------------------------------------------------
+# analyzer utils viz
+# ----------------------------------------------------------------------
+@click.command(name="viz")
+@click.option(
+    "--src",
+    nargs=2,
+    type=str,
+    required=True,
+    help="Source path and name, e.g. train vocab_loglab.txt",
+    show_default=True,
+)
+@click.option(
+    "--ecm",
+    help="Indicates loglab or loglizer.",
+    show_default=True,
+)
+def cli_visualize_data(src, ecm):
+    """ Visualize dataset """
+    subd, name = src
+
+    file_loc: str = os.path.join(dh.ANALYZER_DATA, subd, dh.LOG_TYPE, name)
+    if not os.path.exists(file_loc):
+        print("File does not exist!!!")
+        sys.exit(1)
+    with open(file_loc, 'r', encoding='utf-8') as fout:
+        strings: List[str] = fout.readlines()
+
+    # The saved ecm has label vector at last column. Remove it.
+    if ecm in ['loglab', 'loglizer']:
+        mtx: List[List[str]] = []
+        labels: List[float] = []
+        for line in strings:
+            cells = line.strip('\r\n').split()
+            mtx.append(cells[:-1])
+            labels.append(float(cells[-1]))
+
+        mtx_2d = np.array(mtx, dtype=float)
+        print(mtx_2d.dtype, mtx_2d.shape, labels)
+        vz.visualize_with_umap(mtx_2d, labels)
+
+    else:
+        print("Reserve for other kind of dataset.")
+
+    log.info("Visualization done.")
