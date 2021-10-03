@@ -27,5 +27,5 @@ def visualize_with_umap(dataset, labels):
     plt.scatter(embedding[:, 0], embedding[:, 1], c=labels, cmap='Spectral', s=5)
     plt.gca().set_aspect('equal', 'datalim')
     plt.colorbar(boundaries=np.arange(11)-0.5).set_ticks(np.arange(10))
-    plt.title('UMAP projection of the Digits dataset', fontsize=24)
+    plt.title('UMAP projection of the dataset', fontsize=24)
     plt.show()
