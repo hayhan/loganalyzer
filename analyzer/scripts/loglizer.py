@@ -126,6 +126,9 @@ def cli_loglizer_train(model, inc, adm, debug):
     # Fetch logs under data/raw/LOG_TYPE/labeled per the list,
     # which provides a time sequence according to timestamps.
     file_loc = os.path.join(dh.RAW_DATA, 'labeled', 'train.lst')
+    if not os.path.exists(file_loc):
+        print("The train.lst doesn't exist!!!")
+        sys.exit(1)
     with open(file_loc, 'r', encoding='utf-8') as fin:
         filelst = [x.strip() for x in fin]
 
@@ -199,6 +202,9 @@ def cli_loglizer_validate(model, adm, debug, src):
         # Concatenate logs under data/raw/LOG_TYPE/src per the list,
         # which provides a time sequence according to timestamps.
         file_loc = os.path.join(dh.RAW_DATA, src, 'validate.lst')
+        if not os.path.exists(file_loc):
+            print("The validate.lst doesn't exist!!!")
+            sys.exit(1)
         with open(file_loc, 'r', encoding='utf-8') as fin:
             filelst = [x.strip() for x in fin]
 
