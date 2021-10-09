@@ -21,4 +21,4 @@ class KbBase(ABC):
         """ Load knowledge-bases """
 
     def place_holder(self):
-        """ Place holder """
+        """ Place holder to mute warning from PEP 8 """

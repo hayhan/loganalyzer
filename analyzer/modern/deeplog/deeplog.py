@@ -89,7 +89,7 @@ class DeepLog(ModernBase):
 
     @labels.setter
     def labels(self, labels: List[int]):
-        """ Set the raw line index in norm data """
+        """ Set the label vector in norm data """
         self._labels = labels
 
     def load_para(self):

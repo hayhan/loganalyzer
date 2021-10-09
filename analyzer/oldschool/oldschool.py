@@ -20,12 +20,10 @@ __all__ = ["OSS"]
 log = logging.getLogger(__name__)
 
 
-# pylint: disable=too-many-instance-attributes
 class OSS():
     """ The oldshcool class """
     def __init__(self, df_raws):
         self.fzip: dict = dh.get_files_io()
-        self.intmdt: bool = GC.conf['general']['intmdt']
         self.aim: bool = GC.conf['general']['aim']
         self._log_head_offset: int = GC.conf['general']['head_offset']
         self._map_norm_raw: List[int] = []
@@ -72,7 +70,7 @@ class OSS():
             self.invalid_log_warning()
             sys.exit(1)
 
-        # Use in-memory data by default unless config file tells
+        # Use in-memory data by default unless config tells us to do so.
         if not GC.conf['general']['aim']:
             self._df_raws = pd.read_csv(self.fzip['struct'])
             with open(self.fzip['map_norm_raw'], 'rb') as fin:
