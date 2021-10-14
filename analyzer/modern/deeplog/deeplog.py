@@ -62,7 +62,6 @@ class DeepLog(ModernBase):
     # pylint: disable=too-many-arguments
     def __init__(self, df_raws, df_tmplts, dbg: bool = False):
         self.model_para: dict = {}
-        self.dbg: bool = dbg
         self._segdl: List[int] = []
         self._labels: List[int] = []
         self.exec_model: str = ''
@@ -70,7 +69,7 @@ class DeepLog(ModernBase):
         self.load_para()
         self.kbase = kb.Kb()
 
-        ModernBase.__init__(self, df_raws, df_tmplts)
+        ModernBase.__init__(self, df_raws, df_tmplts, dbg)
 
     @property
     def segdl(self):

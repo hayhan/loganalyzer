@@ -133,7 +133,8 @@ def cli_loglizer_train(model, inc, adm, debug):
         filelst = [x.strip() for x in fin]
 
     if inc:
-        if not adm and GC.conf['loglizer']['model'] not in \
+        adm = True
+        if GC.conf['loglizer']['model'] not in \
             ['MultinomialNB', 'Perceptron', 'SGDC_SVM', 'SGDC_LR']:
             print("The model cannot be used for incremental learning.")
             sys.exit(1)

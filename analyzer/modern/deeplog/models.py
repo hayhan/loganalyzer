@@ -1,5 +1,5 @@
 # Licensed under the MIT License - see LICENSE.txt
-""" The DeepLog models for exec path & parameter anomaly detection
+""" The DeepLog models for exec path & parameter anomaly detection.
     Reference paper: [CCS'17] DeepLog: Anomaly Detection and Diagnosis
     from System Logs through Deep Learning, 2017.
 """
@@ -41,7 +41,7 @@ class DeepLogExec(nn.Module):
         The input_[0] is a 3-D tensor
         (batch_size x seq_len x input_size): EventSeq.
 
-        The output_ of LSTM is a 3-D tensor
+        The output of LSTM is a 3-D tensor
         (batch_size x seq_len x hidden_size).
 
         The Linear predict layer connects to the last hidden state of
@@ -51,7 +51,7 @@ class DeepLogExec(nn.Module):
         The Linear predict layer input dimension is 2-D tensor
         (batch_size x hidden_size)
 
-        The output_ of predict layer is a 2-D tensor
+        The output of predict layer is a 2-D tensor
         (batch_size x num_classes).
         """
         h_0 = torch.zeros(self.num_layers, input_[0].size(0), self.hidden_size).to(self.device)

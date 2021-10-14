@@ -871,3 +871,4 @@ a3bf48e6,a3bf48e6,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [( <*>- <*> )
 4bee6c62,4bee6c62,SetLldOnEmc: LLD on EMC enabled!
 368641b8,368641b8,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] prof= [( <*> -> <*> )]
 2e58da72,2e58da72,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ]
+32f83a38,32f83a38,BcmCmUsRangingState:: ConfigInitialRanging: txid= <*> ucid= <*> retry= <*> adjust tx power to <*> dBmV.

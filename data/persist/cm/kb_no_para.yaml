@@ -101,6 +101,10 @@
 '85511099': "MAPs are not received on downstream (bad SNR?) or MAP
              flusing because of CM transmiter problems."
 
+# TEMPLATE: "Logging event: No Maintenance Broadcasts for Ranging opportunities received - T2 time-out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'84606ff3': "CMTS does not broadcast ranging opportunities in MAPs, or
+             this kind of MAPs cannot be received by CM."
+
 # TEMPLATE: "Logging event: No Ranging Response received - T3 time-out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
 '67d9799e': "Usually the US attnuation is too high or low, or some kind
              of CMTS issues ..."

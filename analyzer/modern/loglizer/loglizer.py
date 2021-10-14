@@ -38,12 +38,11 @@ class Loglizer(ModernBase):
         self.win_size: int = GC.conf['loglizer']['window_size']
         self.step_size: int = GC.conf['loglizer']['window_step']
         self.inc_updt: bool = False
-        self.dbg: bool = dbg
         self._labels: List[int] = []
         self.win_idx: List[tuple] = []
         self.onnx_model: str = os.path.join(dh.PERSIST_DATA, 'loglizer_'+self.model+'.onnx')
 
-        ModernBase.__init__(self, df_raws, df_tmplts)
+        ModernBase.__init__(self, df_raws, df_tmplts, dbg)
 
     @property
     def labels(self):

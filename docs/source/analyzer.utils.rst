@@ -36,6 +36,14 @@ analyzer.utils.misc\_tools module
    :undoc-members:
    :show-inheritance:
 
+analyzer.utils.visualization module
+-----------------------------------
+
+.. automodule:: analyzer.utils.visualization
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 analyzer.utils.yaml\_helper module
 ----------------------------------
 

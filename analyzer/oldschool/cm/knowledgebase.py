@@ -134,26 +134,56 @@ class Kb(KbBase):
                                     "upstream attnuation.")
                 break
 
-            if case('24b26703'):
-                # <TEMPLATE>
+            if case('24b26703') or case('430b6239'):
+                # <TEMPLATE> - new
                 # "BcmCmUsRangingState:: CommonRngErrorHandler: txid= \
                 # <*> ucid= <*> reason= <*> ( <*> )"
                 #
-                if params[3] == 'T4NoStationMaintTimeout':
+                # <TEMPLATE> - old
+                # "BcmCmUsRangingState:: CommonRngErrorHandler: \
+                # reason= <*> ( <*> ) hwTxId= <*> docs ucid= <*>"
+                #
+                if template_id == '24b26703':
+                    param = params[3]
+                else:
+                    param = params[1]
+
+                if param == 'T2NoInitMaintTimeout':
+                    log_fault = True
+                    log_sugg = ("CMTS does not broadcast ranging opportunities in MAPs, "
+                                "or this kind of MAPs cannot be received by CM.")
+
+                elif param == 'T4NoStationMaintTimeout':
                     log_fault = True
                     log_sugg = ("Usually downstream or upstream has big issues and "
                                 "mac reset might happen.")
 
-                elif params[3] == 'MaxT3NoRngRspTimeouts':
+                elif param == 'MaxT3NoRngRspTimeouts':
                     log_fault = True
                     log_sugg = ("Usually happens when the US channel is broken down. "
                                 "E.g. US RF cut, noise / distortion on US channel "
                                 "because of some external spliter / combiner / filter.")
 
-                elif params[3] == 'RngRspAbortStatus':
+                elif param == 'RngRspAbortStatus':
                     log_fault = True
                     log_sugg = ("Usually US attenuation is too high, low or other "
                                 "reasons that CMTS is not happy with the RNG-REQ.")
+                break
+
+            if case('51c5ad8f'):
+                # <TEMPLATE>
+                # "BcmCmUsChanTimerMuxACT:: HandleEvent() @time= <*> \
+                # fTimerType= <*> ( <*> ) hwTxId= <*> docs ucid= <*>"
+                #
+                if params[2] == 'kT2NoInitMaint':
+                    log_fault = True
+                    log_sugg = ("CMTS does not broadcast ranging opportunities in MAPs, "
+                                "or this kind of MAPs cannot be received by CM.")
+
+                elif params[2] == 'kT3NoRngRsp':
+                    log_fault = True
+                    log_sugg = ("CMTS does not send back RNG-RSP or the RNG-REQ is not "
+                                "sent correctly from CM.")
                 break
 
             # ----------------------------------------------------------

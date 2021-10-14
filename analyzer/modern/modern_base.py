@@ -19,13 +19,14 @@ log = logging.getLogger(__name__)
 # pylint: disable=too-many-instance-attributes
 class ModernBase(ABC):
     """ The base class of modern analyzing techniques. """
-    def __init__(self, df_raws, df_tmplts):
+    def __init__(self, df_raws, df_tmplts, dbg: bool = False):
         self.fzip: dict = dh.get_files_io()
         self.training: bool = GC.conf['general']['training']
         self.metrics: bool = GC.conf['general']['metrics']
         self.context: str = GC.conf['general']['context']
         self.rcv: bool = GC.conf['general']['rcv_mess']
         self.libsize: int = GC.conf['template']['size']
+        self.dbg: bool = dbg
 
         # The in-memory structured norm raw logs from parser module
         self._df_raws = df_raws
@@ -157,9 +158,10 @@ class ModernBase(ABC):
 
             # Update the STIDLE file
             if update_flag:
-                shutil.copy(vocab_file+'.txt', vocab_file+'.txt.old')
                 np.save(vocab_file, event_id_shuffled)
-                np.savetxt(vocab_file+'.txt', event_id_shuffled, fmt="%s")
+                if self.dbg:
+                    shutil.copy(vocab_file+'.txt', vocab_file+'.txt.old')
+                    np.savetxt(vocab_file+'.txt', event_id_shuffled, fmt="%s")
 
         return event_id_shuffled
 

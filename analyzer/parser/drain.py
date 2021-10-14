@@ -23,14 +23,14 @@ class Logcluster:
     """ A log cluster/group which maps to a sinale template/event.
         Similarity layer, each cluster/group has its own threshold sim_t
     """
-    def __init__(self, log_tmplt='', sim_t=0.1, outcell=None, is_tmplt_new=True, tmplt_id_old=0):
+    def __init__(self, log_tmplt='', sim_t=0.1, outcell=None, is_tmplt_new=True, tmplt_id_old='0'):
         """
         Attributes
         ----------
         updt_cnt       : the token update count
         is_tmplt_new   : New template that does not exist in library
         tmplt_updt_cnt : the tmplate update count
-        tmplt_id_old   : load id from template lib or 0 for a new leaf
+        tmplt_id_old   : load id from template lib or '0' for a new leaf
         """
         self.log_tmplt = log_tmplt
         self.updt_cnt = 0
@@ -56,7 +56,7 @@ class Node:
                        : <*> - others-node within each length layer node
         """
         if child_node is None:
-            child_node = dict()
+            child_node = {}
         self.child_node = child_node
         self.digit_or_token = digit_or_token
 
@@ -134,7 +134,7 @@ class Drain:
         """
         self.para = para
         self.raws = raws
-        self.pointer = dict()
+        self.pointer = {}
         self._df_raws = None
         self._df_tmplts = None
         self._df_tmplts_o = None
@@ -587,8 +587,8 @@ class Drain:
         new_clust.sim_t = 0.6 * (len(message_lst)-para_num) / float(len(message_lst))
         new_clust.initst = new_clust.sim_t
 
-        # When the number of para_num is large, the group tends
-        # to accept more log messages to generate the template
+        # When the number of para_num is large, the group tends to
+        # accept more log messages to generate the template.
         new_clust.base = max(2, para_num + 1)
 
         clust_lst.append(new_clust)
@@ -742,8 +742,7 @@ class Drain:
                 log_templateids[log_id] = tmplt_id
                 log_templateids_old[log_id] = tmplt_id_old
 
-            # Merge the duplicate templates
-            # The row[0/1/2/3] maps to items below:
+            # Merge duplicate templates. row[0/1/2/3] has mapping below:
             # [tmplt_id_old, tmplt_id, tmplt_str, occurrence]
             tmplt_unique = True
             for row in tmplt_event_lst:
@@ -777,7 +776,7 @@ class Drain:
             )
 
         # Backup the template library and then update it in data/persist
-        # Only do for train data and when template lib inc update enable
+        # Only do for train data & when template lib inc update enabled
         if self.para.over_wr_lib and self.para.inc_updt:
             if os.path.exists(self.para.tmplt_lib):
                 shutil.copy(self.para.tmplt_lib, self.para.tmplt_lib+'.old')
@@ -964,7 +963,7 @@ class Drain:
                 # Match no existing log cluster, so add a new one
                 # The template in each cluster is new
                 self.add_cluster(message_lst, [idx+1], log_clust_lst,
-                                 out_cell_lst, root_node, True, 0)
+                                 out_cell_lst, root_node, True, '0')
             else:
                 # Match an existing cluster, add new log message to it
                 self.update_cluster(message_lst, idx+1, log_clust_lst, match_clust)

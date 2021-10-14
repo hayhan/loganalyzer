@@ -37,13 +37,12 @@ class Loglab(ModernBase):
         self.model: str = GC.conf['loglab']['model']
         self.win_size: int = GC.conf['loglab']['window_size']
         self.weight: int = GC.conf['loglab']['weight']
-        self.dbg: bool = dbg
         self._segll: List[tuple] = []
         self.onnx_model: str = os.path.join(dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx')
 
         self.kbase = kb.Kb()
 
-        ModernBase.__init__(self, df_raws, df_tmplts)
+        ModernBase.__init__(self, df_raws, df_tmplts, dbg)
 
     @property
     def segll(self):
