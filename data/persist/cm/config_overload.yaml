@@ -9,4 +9,4 @@ general:
 loglab:
     model: RFC          # Classical machine learning models
     window_size: 10     # 1/2 window around the axis, unit is log
-    weight: 2           # Typical log weight
+    weight: 5           # Typical log weight
