@@ -24,8 +24,9 @@ def visualize_with_umap(dataset, labels):
     assert np.all(embedding == reducer.embedding_)
     print(embedding.shape)
 
+    target_len = len(set(labels))
     plt.scatter(embedding[:, 0], embedding[:, 1], c=labels, cmap='Spectral', s=5)
     plt.gca().set_aspect('equal', 'datalim')
-    plt.colorbar(boundaries=np.arange(11)-0.5).set_ticks(np.arange(10))
+    plt.colorbar(boundaries=np.arange(target_len+1)-0.5).set_ticks(np.arange(target_len))
     plt.title('UMAP projection of the dataset', fontsize=24)
     plt.show()

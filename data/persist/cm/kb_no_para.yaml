@@ -171,6 +171,18 @@
 # TEMPLATE: "Partial Service Upstream Channels:"
 'a3d3e790': "Some upstream channels are impaired or filtered."
 
+# TEMPLATE: "BcmCmMultiUsHelper:: TargetNextDocs3CandidateUcid:, error: upstream settings not found or not usable for target ucid= <*>!, try next candidate ucid."
+'6f24bdf6': "The UCID cannot be used in the upstream active channel
+             settings. This UCID is not collected from UCDs."
+
+# TEMPLATE: "BcmCmMultiUsHelper:: TargetNextDocs3CandidateUcid:, error: no more candidate ucid's. continue downstream scanning."
+'de088ffe': "All UCIDs that are associated with current primary DS are
+             tried. Scan next primary DS channel."
+
+# TEMPLATE: "BcmCmDocsisCtlThread:: TargetNextDocs3CandidateUcid: All candidate upstream chans tried. Target next ds."
+'b4b09e4b': "All UCIDs that are associated with current primary DS are
+             tried. Scan next primary DS channel."
+
 # ----------------------------------------------------------------------
 # OFDMA / Tcofdm
 # ----------------------------------------------------------------------

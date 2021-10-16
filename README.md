@@ -14,42 +14,42 @@ Configuration files include a base one at analyzer/config/config.yaml and an ove
 
 ### Train / Validate the model
 
-**# Loglizer**
+**Loglizer**
 
 1) put the labeled training or validation log files to data/raw/LOG_TYPE/labeled/. Change the file list in train.lst and validate.lst.
 2) run "analyzer loglizer train" or "analyzer loglizer validate"
 
-**# DeepLog**
+**DeepLog**
 
 1) put the training or validation log files to data/raw/LOG_TYPE/normal/
 2) run "analyzer deeplog train" or "analyzer deeplog validate"
 
-**# Loglab**
+**Loglab**
 
 1) put the training log files (already classified) to data/raw/LOG_TYPE/loglab/
 2) run "analyzer loglab train"
 
 ### Prediction
 
-**# Loglizer**
+**Loglizer**
 
 1) copy the raw logs file to data/cooked/LOG_TYPE/test.txt.
 2) run "analyzer loglizer predict"
 3) anomalies are save to data/test/LOG_TYPE/results_loglizer.csv
 
-**# DeepLog**
+**DeepLog**
 
 1) copy the raw logs file to data/cooked/LOG_TYPE/test.txt.
 2) run "analyzer deeplog predict"
 3) anomalies are save to data/test/LOG_TYPE/results_deeplog.txt
 
-**# Loglab**
+**Loglab**
 
 1) copy the raw logs file to data/cooked/LOG_TYPE/test.txt.
 2) run "analyzer loglab predict"
 3) anomalies are save to data/test/LOG_TYPE/results_loglab.txt
 
-**# Old School System (OSS)**
+**Old School System (OSS)**
 
 1) copy the raw logs file to data/cooked/LOG_TYPE/test.txt.
 2) run "analyzer oldschool run"
@@ -65,27 +65,39 @@ analyzer/oldschool/LOG_TYPE/
 
 ## **Running Environment**
 
-**# Python version**
+Activate python virtual environment to install and run following commands.
+
+**Python version**
 
 3.6 or above
 
-**# Basics packages**
+**Basics packages**
 
 $ pip install --upgrade numpy scipy scikit-learn pandas matplotlib tqdm skl2onnx onnxruntime pyyaml click sphinx pytest pytest-benchmark umap-learn
 
 *Following packages are optional:*
 pep8 autopep8 pylint flake8
 
-**# PyTorch**
+**PyTorch**
 
 see https://pytorch.org/ for install instructions. The version is 1.5.0 or above.
 
-**# Installation**
+**Installation**
 
-At the top directory of loganalyzer clone, run command below (pay attention to the dot) to install the analyzer package. Then you can use the "analyzer" command. Type "analyzer --help" for sub commands and options.
+At the top directory of loganalyzer clone, run commands below (pay attention to the dot) to install the analyzer package. Then export environment var ANALYZER_DATA. Now you can use the "analyzer" command. Type "analyzer --help" for sub commands and options.
 
 $ pip install .
 
-To get api documents of html format, run commands below in docs directory. The generated html pages are under docs/build/html/.
+[Linux or macOS]
+$ export ANALYZER_DATA=path_to_your_clone_dir/data
 
-$ sphinx-apidoc -f -o source ../analyzer & make html
+[Windows PowerShell]
+C:\\> $env:ANALYZER_DATA="path_to_your_clone_dir\data"
+
+To get api documents of html format, run commands below in docs directory of your clone. The generated html pages are under docs/build/html/.
+
+[Linux or macOS]
+$ sphinx-apidoc -f -o source ../analyzer && make html
+
+[Windows PowerShell]
+C:\\> sphinx-apidoc -f -o source ..\analyzer; .\make.bat html
