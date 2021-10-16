@@ -65,7 +65,7 @@ analyzer/oldschool/LOG_TYPE/
 
 ## **Running Environment**
 
-Activate python virtual environment to install and run following commands.
+Activate python virtual environment firstly and then run following commands.
 
 **Python version**
 
@@ -84,7 +84,7 @@ see https://pytorch.org/ for install instructions. The version is 1.5.0 or above
 
 **Installation**
 
-At the top directory of loganalyzer clone, run commands below (pay attention to the dot) to install the analyzer package. Then export environment var ANALYZER_DATA. Now you can use the "analyzer" command. Type "analyzer --help" for sub commands and options.
+At the top directory of loganalyzer clone, run commands below (pay attention to the dot) to install the analyzer package. Then export environment var ANALYZER_DATA. Also, extract raw.7z in data. Now you can use the "analyzer" command. Type "analyzer --help" for sub commands and options.
 
 $ pip install .
 

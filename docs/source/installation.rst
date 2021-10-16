@@ -4,33 +4,53 @@ Install & Run
 Dependency
 ----------
 
-- python >= 3.6
-- numpy
-- scipy
-- scikit-learn 
-- pandas
-- matplotlib
-- tqdm
-- click
-- pyyaml
-- skl2onnx
-- onnxruntime
-- sphinx
-- pytest
-- pytest-benchmark
-- umap-learn
-- pytorch >= 1.5.0
+::
+
+ - python >= 3.6
+ - numpy
+ - scipy
+ - scikit-learn
+ - pandas
+ - matplotlib
+ - tqdm
+ - click
+ - pyyaml
+ - skl2onnx
+ - onnxruntime
+ - sphinx
+ - pytest
+ - pytest-benchmark
+ - umap-learn
+ - pytorch >= 1.5.0
 
 Installation
 ------------
 
-At the top directory of loganalyzer clone, run command below to install the analyzer package. Then you can use the "analyzer" command. Type "analyzer --help" for sub commands and options.
+::
 
-pip install .
+ At the top directory of loganalyzer clone, run commands below
+ (pay attention to the dot) to install the analyzer package. Then
+ export environment var ANALYZER_DATA. Also, extract raw.7z in
+ data. Now you can use the "analyzer" command. Type "analyzer --help"
+ for sub commands and options.
 
-To get api documents of html format, run command below in docs directory:
+ $ pip install .
 
-make html
+ [Linux or macOS]
+ $ export ANALYZER_DATA=path_to_your_clone_dir/data
+
+ [Windows PowerShell]
+ C:\> $env:ANALYZER_DATA="path_to_your_clone_dir\data"
+
+ To get api documents of html format, run commands below in docs
+ directory of your clone. The generated html pages are under
+ docs/build/html/.
+
+ [Linux or macOS]
+ $ sphinx-apidoc -f -o source ../analyzer && make html
+
+ [Windows PowerShell]
+ C:\> sphinx-apidoc -f -o source ..\analyzer; .\make.bat html
 
 Command line interface
 ----------------------

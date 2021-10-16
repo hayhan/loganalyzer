@@ -872,3 +872,6 @@ a3bf48e6,a3bf48e6,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [( <*>- <*> )
 368641b8,368641b8,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] prof= [( <*> -> <*> )]
 2e58da72,2e58da72,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ]
 32f83a38,32f83a38,BcmCmUsRangingState:: ConfigInitialRanging: txid= <*> ucid= <*> retry= <*> adjust tx power to <*> dBmV.
+d195dc77,d195dc77,BcmPortForwardSnoop:: AddProxyRule: WARNING - <*> <*> <*> <*> <*> <*> <*> <*> <*> NAT_CMNat
+70fa25a2,70fa25a2,Logging event: TCS Partial Service; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
+fc2c6c27,fc2c6c27,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [( <*>- <*> ) <*> <*> ] prof= [( <*> -> <*> ) ( <*> -> <*> )]

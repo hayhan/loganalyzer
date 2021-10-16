@@ -160,7 +160,6 @@ class ModernBase(ABC):
             if update_flag:
                 np.save(vocab_file, event_id_shuffled)
                 if self.dbg:
-                    shutil.copy(vocab_file+'.txt', vocab_file+'.txt.old')
                     np.savetxt(vocab_file+'.txt', event_id_shuffled, fmt="%s")
 
         return event_id_shuffled
