@@ -34,6 +34,8 @@ log = logging.getLogger(__name__)
 )
 @click.option(
     "--ecm",
+    default=False,
+    is_flag=True,
     help="Checking duplicates of featrue vector in event matrix.",
     show_default=True,
 )
@@ -52,7 +54,7 @@ def cli_chk_duplicate(src, ecm):
 
     # The saved ecm has label vector at last column. Split matrix apart
     # into body and label vector.
-    if ecm in ['loglab', 'loglizer']:
+    if ecm:
         mtx: List[str] = []
         labels: List[str] = []
         dups_with_label: List[List[str]] = []
@@ -180,12 +182,7 @@ def cli_eid_log(eid, training):
     help="Source path and name, e.g. train vocab_loglab.txt",
     show_default=True,
 )
-@click.option(
-    "--ecm",
-    help="Indicates loglab or loglizer.",
-    show_default=True,
-)
-def cli_visualize_data(src, ecm):
+def cli_visualize_data(src):
     """ Visualize dataset """
     subd, name = src
 
@@ -197,19 +194,15 @@ def cli_visualize_data(src, ecm):
         strings: List[str] = fout.readlines()
 
     # The saved ecm has label vector at last column. Remove it.
-    if ecm in ['loglab', 'loglizer']:
-        mtx: List[List[str]] = []
-        labels: List[float] = []
-        for line in strings:
-            cells = line.strip('\r\n').split()
-            mtx.append(cells[:-1])
-            labels.append(float(cells[-1]))
+    mtx: List[List[str]] = []
+    labels: List[float] = []
+    for line in strings:
+        cells = line.strip('\r\n').split()
+        mtx.append(cells[:-1])
+        labels.append(float(cells[-1]))
 
-        mtx_2d = np.array(mtx, dtype=float)
-        print(mtx_2d.dtype, mtx_2d.shape, labels)
-        vz.visualize_with_umap(mtx_2d, labels)
-
-    else:
-        print("Reserve for other kind of dataset.")
+    mtx_2d = np.array(mtx, dtype=float)
+    print(mtx_2d.dtype, mtx_2d.shape, labels)
+    vz.visualize_with_umap(mtx_2d, labels)
 
     log.info("Visualization done.")

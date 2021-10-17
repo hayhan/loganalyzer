@@ -17,10 +17,10 @@ stc:
 
 # Incremental (partial) models
 inc:
-    MultinomialNB:
+    MNB:
         window_size: 10000
         window_step: 5000
-    Perceptron:
+    PTN:
         window_size: 10000
         window_step: 5000
     SGDC_SVM:

@@ -44,7 +44,7 @@ def exercise_all_para_groups(dlobj):
 # ----------------------------------------------------------------------
 @click.command(name="train")
 @click.option(
-    "--adm",
+    "--all-para",
     default=False,
     is_flag=True,
     help="Train all defined model parameter groups.",
@@ -57,7 +57,7 @@ def exercise_all_para_groups(dlobj):
     help="Debug messages.",
     show_default=True,
 )
-def cli_deeplog_train(adm, debug):
+def cli_deeplog_train(all_para, debug):
     """ Train the model for deeplog """
     # Populate the in-memory config singleton with the base config file
     # and then update with the overloaded config file. Use GC.read() if
@@ -92,7 +92,7 @@ def cli_deeplog_train(adm, debug):
     # Hand over segment info for training
     dlobj.segdl = ppobj.segdl
 
-    if adm:
+    if all_para:
         exercise_all_para_groups(dlobj)
     else:
         dlobj.train()
@@ -105,7 +105,7 @@ def cli_deeplog_train(adm, debug):
 # ----------------------------------------------------------------------
 @click.command(name="validate")
 @click.option(
-    "--adm",
+    "--all-para",
     default=False,
     is_flag=True,
     help="Validate all defined model parameter groups.",
@@ -124,7 +124,7 @@ def cli_deeplog_train(adm, debug):
     help="Validate all the files in the given folder.",
     show_default=True,
 )
-def cli_deeplog_validate(adm, debug, src):
+def cli_deeplog_validate(all_para, debug, src):
     """ Validate the model for deeplog """
     # Populate the in-memory config singleton with the base config file
     # and then update with the overloaded config file. Use GC.read() if
@@ -170,7 +170,7 @@ def cli_deeplog_validate(adm, debug, src):
     dlobj.segdl = ppobj.segdl
     dlobj.labels = ppobj.labels
 
-    if adm:
+    if all_para:
         exercise_all_para_groups(dlobj)
     else:
         dlobj.evaluate()
@@ -183,7 +183,7 @@ def cli_deeplog_validate(adm, debug, src):
 # ----------------------------------------------------------------------
 @click.command(name="predict")
 @click.option(
-    "--adm",
+    "--all-para",
     default=False,
     is_flag=True,
     help="Predict all defined model parameter groups.",
@@ -202,7 +202,7 @@ def cli_deeplog_validate(adm, debug, src):
     help="Debug messages.",
     show_default=True,
 )
-def cli_deeplog_predict(adm, learn_ts, debug):
+def cli_deeplog_predict(all_para, learn_ts, debug):
     """ Predict logs by using deeplog model """
     # Populate the in-memory config singleton with the base config file
     # and then update with the overloaded config file. Use GC.read() if
@@ -260,7 +260,7 @@ def cli_deeplog_predict(adm, learn_ts, debug):
         # Hand over mapping between raw and norm for prediction
         dlobj.map_norm_raw = ppobj.map_norm_raw
 
-    if adm:
+    if all_para:
         exercise_all_para_groups(dlobj)
     else:
         dlobj.predict()

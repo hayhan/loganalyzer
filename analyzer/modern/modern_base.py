@@ -5,7 +5,6 @@ import os
 import logging
 from abc import ABC, abstractmethod
 from typing import List
-import shutil
 import numpy as np
 from analyzer.config import GlobalConfig as GC
 import analyzer.utils.data_helper as dh

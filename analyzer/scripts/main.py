@@ -101,6 +101,7 @@ def cli(ctx, log_level, ignore_warnings):
         from . import loglab as mod
         cli_loglab.add_command(mod.cli_loglab_train)
         cli_loglab.add_command(mod.cli_loglab_predict)
+        cli_loglab.add_command(mod.cli_loglab_show)
 
     elif ctx.invoked_subcommand == 'deeplog':
         from . import deeplog as mod
@@ -113,6 +114,7 @@ def cli(ctx, log_level, ignore_warnings):
         cli_loglizer.add_command(mod.cli_loglizer_train)
         cli_loglizer.add_command(mod.cli_loglizer_validate)
         cli_loglizer.add_command(mod.cli_loglizer_predict)
+        cli_loglizer.add_command(mod.cli_loglizer_show)
 
     elif ctx.invoked_subcommand == 'utils':
         from . import utils as mod
@@ -234,20 +236,21 @@ def cli_loglab():
     \b
     - The option `mykfold` uses kfold cross-verification manually
     \b
-    - The option `adm` trains/predicts using all defined models
-    \b
     - The option `learn-ts` learns the width of timestamp
     \b
     - The option `feat` displays the features of test logs
+    \b
+    - The sub-command `show` prints the supported models
 
     \b
     Examples
     --------
 
     \b
-    $ analyzer loglab train [--model name] [--mykfold] [--adm] [--debug]
-    $ analyzer loglab predict [--model name] [--adm] [--debug]
+    $ analyzer loglab train [--model name] [--mykfold] [--debug]
+    $ analyzer loglab predict [--model name] [--debug]
     $ analyzer loglab predict [--learn-ts/--no-learn-ts] [--feat]
+    $ analyzer loglab show
     """
 
 
@@ -256,7 +259,7 @@ def cli_deeplog():
     """ DeepLog method of log anomaly detection.
 
     \b
-    - The option `adm` trains/predicts using all defined models param
+    - The option `all-para` trains/predicts with all groups of para
     \b
     - The option `learn-ts` learns the width of timestamp
     \b
@@ -268,9 +271,9 @@ def cli_deeplog():
     --------
 
     \b
-    $ analyzer deeplog train [--adm] [--debug]
-    $ analyzer deeplog validate [--adm] [--src folder] [--debug]
-    $ analyzer deeplog predict [--adm] [--debug]
+    $ analyzer deeplog train [--all-para] [--debug]
+    $ analyzer deeplog validate [--all-para] [--src folder] [--debug]
+    $ analyzer deeplog predict [--all-para] [--debug]
     $ analyzer deeplog predict [--learn-ts/--no-learn-ts]
     """
 
@@ -286,20 +289,21 @@ def cli_loglizer():
     - The option `inc` trains models incrementally in one shot per the
       file list.
     \b
-    - The option `adm` trains/predicts using all defined models param
-    \b
     - The option `src` validates the given folder, otherwise it will
       validate the existing test.txt in data/cooked.
+    \b
+    - The sub-command `show` prints the supported models
 
     \b
     Examples
     --------
 
     \b
-    $ analyzer loglizer train [--model name] [--inc] [--adm] [--debug]
-    $ analyzer loglizer validate [--model name] [--adm] [--debug]
+    $ analyzer loglizer train [--model name] [--inc] [--debug]
+    $ analyzer loglizer validate [--model name] [--debug]
     $ analyzer loglizer validate [--src folder]
-    $ analyzer loglizer predict [--model name] [--adm] [--debug]
+    $ analyzer loglizer predict [--model name] [--debug]
+    $ analyzer loglizer show
     """
 
 
@@ -320,17 +324,17 @@ def cli_utils():
     \b
     - The sub-command `viz` reduces the dimensionality of dataset and
       then visualizes the data. The option `src` indicates the path of
-      event matrix. The option `ecm` indicates loglab/loglizer.
+      event matrix.
 
     \b
     Examples
     --------
 
     \b
-    $ analyzer utils chkdup --src folder fname [--ecm loglab/loglizer]
+    $ analyzer utils chkdup --src folder fname [--ecm]
     $ analyzer utils normts
     $ analyzer utils eidlog --eid value [--training/--no-training]
-    $ analyzer utils viz --src folder fname [--ecm loglab/loglizer]
+    $ analyzer utils viz --src folder fname
     """
 
 

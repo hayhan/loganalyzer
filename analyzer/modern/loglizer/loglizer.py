@@ -62,7 +62,7 @@ class Loglizer(ModernBase):
         self.onnx_model = os.path.join(dh.PERSIST_DATA, 'loglizer_'+self.model+'.onnx')
         if self.model in ['DT', 'LR', 'SVM', 'RFC']:
             self.inc_updt = False
-        elif self.model in ['MultinomialNB', 'Perceptron', 'SGDC_SVM', 'SGDC_LR']:
+        elif self.model in ['MNB', 'PTN', 'SGDC_SVM', 'SGDC_LR']:
             self.inc_updt = True
         else:
             log.error("Model is not supported. Exit.")
@@ -411,9 +411,9 @@ class Loglizer(ModernBase):
 
         # Incremental training at the 1st time
         if self.inc_updt and not os.path.exists(inc_fit_model_file):
-            if self.model == 'MultinomialNB':
+            if self.model == 'MNB':
                 model = MultinomialNB(alpha=1.0, fit_prior=True, class_prior=None)
-            elif self.model == 'Perceptron':
+            elif self.model == 'PTN':
                 model = SGDClassifier(loss='perceptron', max_iter=1000)
             elif self.model == 'SGDC_SVM':
                 model = SGDClassifier(loss='hinge', max_iter=1000)

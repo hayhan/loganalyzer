@@ -41,13 +41,6 @@ def exercise_all_models(llobj):
     show_default=True,
 )
 @click.option(
-    "--adm",
-    default=False,
-    is_flag=True,
-    help="Train all defined models.",
-    show_default=True,
-)
-@click.option(
     "--mykfold",
     default=False,
     is_flag=True,
@@ -61,7 +54,7 @@ def exercise_all_models(llobj):
     help="Debug messages.",
     show_default=True,
 )
-def cli_loglab_train(model, adm, mykfold, debug):
+def cli_loglab_train(model, mykfold, debug):
     """ Train the model for loglab """
     # Populate the in-memory config singleton with the base config file
     # and then update with the overloaded config file. Use GC.read() if
@@ -76,7 +69,7 @@ def cli_loglab_train(model, adm, mykfold, debug):
         GC.conf['loglab']['mykfold'] = True
 
     # By default, use the model defined in config file
-    if model != "NOPE":
+    if model not in ["NOPE", "ALL"]:
         GC.conf['loglab']['model'] = model
 
     # Sync the config update in memory to file. Really necessary?
@@ -103,7 +96,7 @@ def cli_loglab_train(model, adm, mykfold, debug):
     # Hand over segment info for training
     llobj.segll = ppobj.segll
 
-    if adm:
+    if model == 'ALL':
         exercise_all_models(llobj)
     else:
         llobj.train()
@@ -119,13 +112,6 @@ def cli_loglab_train(model, adm, mykfold, debug):
     "--model",
     default="NOPE",
     help="Select model to train.",
-    show_default=True,
-)
-@click.option(
-    "--adm",
-    default=False,
-    is_flag=True,
-    help="Predict using all defined models.",
     show_default=True,
 )
 @click.option(
@@ -148,7 +134,7 @@ def cli_loglab_train(model, adm, mykfold, debug):
     help="Display the features of test logs.",
     show_default=True,
 )
-def cli_loglab_predict(model, adm, learn_ts, debug, feat):
+def cli_loglab_predict(model, learn_ts, debug, feat):
     """ Predict logs by using loglab model """
     # Populate the in-memory config singleton with the base config file
     # and then update with the overloaded config file. Use GC.read() if
@@ -160,7 +146,7 @@ def cli_loglab_predict(model, adm, learn_ts, debug, feat):
     GC.conf['general']['context'] = 'LOGLAB'
 
     # By default, use the model defined in config file
-    if model != "NOPE":
+    if model not in ["NOPE", "ALL"]:
         GC.conf['loglab']['model'] = model
 
     # Sync the config update in memory to file. Really necessary?
@@ -193,9 +179,28 @@ def cli_loglab_predict(model, adm, learn_ts, debug, feat):
 
     if feat:
         llobj.check_feature()
-    elif adm:
+    elif model == 'ALL':
         exercise_all_models(llobj)
     else:
         llobj.predict()
 
     log.info("The logs are predicted using loglab.")
+
+
+# ----------------------------------------------------------------------
+# analyzer loglab show
+# ----------------------------------------------------------------------
+@click.command(name="show")
+def cli_loglab_show():
+    """ Show supported models """
+    desc: str = (
+        "\n-----------Supported models-----------\n"
+        "- RFC : Random Forrest Classification\n"
+        "- LR  : Logistic Regression\n"
+        "- SVM : Supported Vector Machine\n"
+        "- ALL : Train all models in one shot"
+        "\n--------------------------------------\n"
+    )
+    print(desc)
+
+    log.info("Show supported models done.")

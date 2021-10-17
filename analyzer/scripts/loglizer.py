@@ -47,7 +47,7 @@ def exercise_all_models(lzobj, sel='all'):
             lzobj.predict()
 
 
-def train_general(adm, filelst, debug, sel = 'stc'):
+def train_general(is_all, filelst, debug, sel = 'stc'):
     """ General part shared between static and incremental train """
     ppobj = pp.Preprocess()
 
@@ -68,7 +68,7 @@ def train_general(adm, filelst, debug, sel = 'stc'):
     # Hand over the label info
     lzobj.labels = ppobj.labels
 
-    if adm:
+    if is_all:
         exercise_all_models(lzobj, sel)
     else:
         lzobj.train()
@@ -92,20 +92,13 @@ def train_general(adm, filelst, debug, sel = 'stc'):
     show_default=True,
 )
 @click.option(
-    "--adm",
-    default=False,
-    is_flag=True,
-    help="Train all defined model parameter groups.",
-    show_default=True,
-)
-@click.option(
     "--debug",
     default=False,
     is_flag=True,
     help="Debug messages.",
     show_default=True,
 )
-def cli_loglizer_train(model, inc, adm, debug):
+def cli_loglizer_train(model, inc, debug):
     """ Train the model for loglizer """
     # Populate the in-memory config singleton with the base config file
     # and then update with the overloaded config file. Use GC.read() if
@@ -117,7 +110,7 @@ def cli_loglizer_train(model, inc, adm, debug):
     GC.conf['general']['context'] = 'LOGLIZER'
 
     # By default, use the model defined in config file
-    if model != "NOPE":
+    if model not in ["NOPE", "ALL"]:
         GC.conf['loglizer']['model'] = model
 
     # Sync the config update in memory to file. Really necessary?
@@ -133,15 +126,14 @@ def cli_loglizer_train(model, inc, adm, debug):
         filelst = [x.strip() for x in fin]
 
     if inc:
-        adm = True
         if GC.conf['loglizer']['model'] not in \
-            ['MultinomialNB', 'Perceptron', 'SGDC_SVM', 'SGDC_LR']:
+            ['MNB', 'PTN', 'SGDC_SVM', 'SGDC_LR']:
             print("The model cannot be used for incremental learning.")
             sys.exit(1)
         for file in filelst:
-            train_general(adm, [file], debug, sel = 'inc')
+            train_general(model=='ALL', [file], debug, sel = 'inc')
     else:
-        train_general(adm, filelst, debug, sel = 'stc')
+        train_general(model=='ALL', filelst, debug, sel = 'stc')
 
     log.info("The loglizer model training done.")
 
@@ -157,13 +149,6 @@ def cli_loglizer_train(model, inc, adm, debug):
     show_default=True,
 )
 @click.option(
-    "--adm",
-    default=False,
-    is_flag=True,
-    help="Validate all defined model parameter groups.",
-    show_default=True,
-)
-@click.option(
     "--debug",
     default=False,
     is_flag=True,
@@ -176,7 +161,7 @@ def cli_loglizer_train(model, inc, adm, debug):
     help="Validate all the files in the given folder.",
     show_default=True,
 )
-def cli_loglizer_validate(model, adm, debug, src):
+def cli_loglizer_validate(model, debug, src):
     """ Validate the model for loglizer """
     # Populate the in-memory config singleton with the base config file
     # and then update with the overloaded config file. Use GC.read() if
@@ -188,7 +173,7 @@ def cli_loglizer_validate(model, adm, debug, src):
     GC.conf['general']['context'] = 'LOGLIZER'
 
     # By default, use the model defined in config file
-    if model != "NOPE":
+    if model not in ["NOPE", "ALL"]:
         GC.conf['loglizer']['model'] = model
 
     # Sync the config update in memory to file. Really necessary?
@@ -230,7 +215,7 @@ def cli_loglizer_validate(model, adm, debug, src):
     # Hand over label info for validation
     lzobj.labels = ppobj.labels
 
-    if adm:
+    if model == 'ALL':
         exercise_all_models(lzobj)
     else:
         lzobj.evaluate()
@@ -249,20 +234,13 @@ def cli_loglizer_validate(model, adm, debug, src):
     show_default=True,
 )
 @click.option(
-    "--adm",
-    default=False,
-    is_flag=True,
-    help="Predict all defined model parameter groups.",
-    show_default=True,
-)
-@click.option(
     "--debug",
     default=False,
     is_flag=True,
     help="Debug messages.",
     show_default=True,
 )
-def cli_loglizer_predict(model, adm, debug):
+def cli_loglizer_predict(model, debug):
     """ Predict logs by using loglizer model """
     # Populate the in-memory config singleton with the base config file
     # and then update with the overloaded config file. Use GC.read() if
@@ -274,7 +252,7 @@ def cli_loglizer_predict(model, adm, debug):
     GC.conf['general']['context'] = 'LOGLIZER'
 
     # By default, use the model defined in config file
-    if model != "NOPE":
+    if model not in ["NOPE", "ALL"]:
         GC.conf['loglizer']['model'] = model
 
     # Sync the config update in memory to file. Really necessary?
@@ -295,9 +273,35 @@ def cli_loglizer_predict(model, adm, debug):
     # Predict using loglizer model
     lzobj = Loglizer(psobj.df_raws, psobj.df_tmplts, dbg=debug)
 
-    if adm:
+    if model == 'ALL':
         exercise_all_models(lzobj)
     else:
         lzobj.predict()
 
     log.info("The logs are predicted using loglizer.")
+
+
+# ----------------------------------------------------------------------
+# analyzer loglizer show
+# ----------------------------------------------------------------------
+@click.command(name="show")
+def cli_loglizer_show():
+    """ Show supported models """
+    desc: str = (
+        "\n----------Supported models (Static)----------\n"
+        "- DT       : Decision Tree\n"
+        "- RFC      : Random Forrest Classification\n"
+        "- LR       : Logistic Regression\n"
+        "- SVM      : Supported Vector Machine\n"
+        "- ALL      : Train all models in one shot"
+        "\n----------Supported models (Partial)--------\n"
+        "- MNB      : Multinomial Naive Bayes\n"
+        "- PTN      : Linear perceptron classifier\n"
+        "- SGDC_SVM : Stochastic gradient descent SVM\n"
+        "- SGDC_LR  : Stochastic gradient descent LR\n"
+        "- ALL      : Train all models in one shot"
+        "\n--------------------------------------------\n"
+    )
+    print(desc)
+
+    log.info("The logs are predicted using loglab.")
