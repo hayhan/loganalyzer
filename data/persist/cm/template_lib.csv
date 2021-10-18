@@ -234,7 +234,7 @@ b2971bd7,b2971bd7,OFDM DS clock source.
 959229ce,959229ce,BcmCmDsChanOfdm:: TmDpdInstallEvent: rxid= <*> dcid= <*>
 934b7aeb,934b7aeb,RNG-RSP UsChanId= <*> Adj: tim= <*> Stat= <*> 
 6d8c6d64,6d8c6d64,"BcmCmDocsisCtlThread:: InstallDocsis11RegRspConfig:, REG-RSP/MP specifies ranging for all active us chan via tcc cmds. -> Stop tx."
-ce4fa38e,ce4fa38e,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [( <*>- <*> )] prof= [( <*> -> <*> )]
+4974a073,4974a073,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= <*> dcid= <*> prof= <*>
 a2da1924,a2da1924,BcmCmDsChanOfdm:: StartOcdDpdGathering: rxid= <*> dcid= <*> via <*>
 13ded8f9,13ded8f9,BcmCmDsOfdmProfileState:: RefreshDpdSets: rxid= <*> dcid= <*> prof= <*> ( <*> )
 96a3f5df,96a3f5df,Logging event: <*> profile assignment change. <*> Chan ID: <*>; Previous Profile: <*> New Profile: <*>.; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
@@ -326,7 +326,7 @@ a8f178a2,a8f178a2,RNG-RSP UsChanId= <*> Stat= <*> or ds freq= <*>
 94e6bdc9,94e6bdc9,BcmCmUsRangingState:: RngRspMsgEvent: txid= <*> ucid= <*> ds freq override= <*> Hz. current ds freq= <*> Hz.
 3401caac,3401caac,"Startup UCD Selection Info:, high priority candidate ucid list = <*>, low priority candidate ucid list = <*>, happy home ucid set = <*> "
 16720b0f,16720b0f,FirstRngRsp <*> - adjustment was <*>
-6f4b5032,6f4b5032,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [( <*>- <*> ) <*>]
+e0262db9,e0262db9,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= <*> dcid= <*>
 7376b542,7376b542,BcmCmMultiDsHelper:: DsLockOk: hwRxId= <*> dcid= <*> <*>
 8f5e5fd4,8f5e5fd4,BcmCmDsChan:: DsLockFail: rxid= <*> dcid= <*> enter recovery state
 65b804bd,65b804bd,BcmCmDocsisCtlThread:: DetectRccInstallDone: partial service outcome.
@@ -653,17 +653,13 @@ b4b09e4b,b4b09e4b,BcmCmDocsisCtlThread:: TargetNextDocs3CandidateUcid: All candi
 681abef8,681abef8,BcmCmMultiUsHelper:: DynamicRangeWindowQtrDb: ERROR! Received a DRW set before TCC installation...Ignoring as this violates spec: 
 eab4069f,eab4069f,"The CMTS is required to not include the Dynamic Range Window Upper Edge TLV in RNG-RSP messages sent, to a CM prior to sending the CM a REG-RSP-MP message."
 69a85a31,69a85a31,BcmCmDsChanOfdm:: DsLockOk: rxid= <*> dcid= <*> PLC found
-421fe512,421fe512,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [( <*>- <*> ) <*> ] prof= [( <*> -> <*> ) ( <*> -> <*> )]
 a86fc591,a86fc591,BcmCmMultiUsHelper:: ExecuteTccCmdList: CM calculated value for P_hi ( <*> )( <*> )( <*> ) differs from CMTS provided P_hi value ( <*> )( <*> )
 32ef269d,32ef269d,Logging event: <*> Mismatch Between Calculated Value for P1.6hi Compared to CCAP Provided Value; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
 446464e9,446464e9,BcmCmDsOfdmProfileState:: TmDpdInstallEvent: rxid= <*> dcid= <*> Profile <*> calling FecLockOk()
 265c7a92,265c7a92,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: REG_ACK ( <*> ), fka reserved: <*>, MSG PDU:, primary sid: <*>, confirmation code: <*>, receive channel config: T= <*> ( <*> ) L= <*> ( <*> ) V=, primary ds channel: T= <*> ( <*> ) L= <*> ( <*> ) V= <*> ( <*> ) "
 3f6196fe,3f6196fe,BcmCmUsChan:: TccChangeCmd: txid= <*> ucid= <*> TCC changed upstream profile assignments
-bed8f3e4,bed8f3e4,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [( <*>- <*> )]
 b888cc7c,b888cc7c,Ofdm1: <*> LOCK in <*> ms!
-2ebdb73b,2ebdb73b,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [ <*> ]
 e9d14eee,e9d14eee,Abnormal_UART_RX_Bytes_ <*>
-b9c05b52,b9c05b52,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [ <*> ] prof= [( <*> -> <*> )]
 f3038809,f3038809,BcmCmDocsisCtlThread:: OcdChangeCmdSync: This id <*> is a invalid ID or it is not an OFDM channel.
 c29aa301,c29aa301,"No temperature message responses received from RG after <*> attempts, halting messages."
 fd25ad9c,fd25ad9c,BcmPortForwardSnoop:: RemoveProxyRule: WARNING - Entry Not Found
@@ -678,6 +674,62 @@ b03d06cd,b03d06cd,"No exact match of { <*>, <*>, <*>, <*>, <*>}. Reporting next 
 2b02d4ac,2b02d4ac,BcmCmMultiUsHelper:: TmUcdRxTimerEvent: ERROR - UCD rx timer expired and no usable ucd's received. -> restart timer.
 2bdf39df,2bdf39df,"BcmCmMultiUsHelper:: TmUcdRxTimerEvent: ERROR -, T1 expired and no usable ucd's received -> restart error"
 9beb20c5,9beb20c5,Logging event: No UCDs Received - Timeout; ; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
+1f3bc80a,1f3bc80a,"BcmCmUsRangingState:: ConfigRngReqMsg:, hw rng mode = kInitialRanging, fRngMode = kBcastInitRng, hwTxId = <*>, docs ucid = <*>, docs dcid = <*>, using O-INIT-RNG-REQ format"
+efbff1c8,efbff1c8,"== Beginning initial ranging for Docsis UCID <*> ==, Minimum transmit power is <*> dBmV, Maximum transmit power is <*>dBmV, Stored power level for UCID <*> is <*> dBmV, Using per transmitter stored initial upstream power = <*> dBmV hwTxId = <*> docsis UCID = <*>"
+d6e9b7e3,d6e9b7e3,RNG-RSP UsChanId= <*> Adj: tim= <*> freq= <*> Stat= <*> ( CmdPwr ( UsChanId-dBmV ): <*> )
+f562d232,f562d232,BcmDocsisTimeOfDayThread:: SetTodServerIpAddress: ToD servers: <*>; <*>
+23d88ee4,23d88ee4,SpecA - IP Stack address is <*>
+eb6716ea,eb6716ea,TLV- <*>[ <*> ]: <*> -> <*> ( i32 ) <*> ignoring.
+be2918a2,be2918a2,Selecting HTTP protocol for software upgrade
+8a2baa55,8a2baa55,Logging event: TLV- <*> - unrecognized OID; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
+723a3938,723a3938,WARNING! Not counting MTA against max CPE! This is an eDOCSIS violation!
+4829d6b6,4829d6b6,"BcmCmUsChan:: InitChanTimerEvent: ERROR -, TCC cmd failed to complete before initializing channel timer expiration., == TCC command ==, TCC ref id = <*>, action = <*> ( <*> ), us chan id = <*>, new us chan id = <*> ( <*> ), ranging sid = <*>, ranging strategy = <*> ( <*> ), dyn ranging window = <*> ( <*> ), rng mode ( CM spec ) = <*> ( <*> ), UCD = <suppressed for brevity>, ranging params = ( <*> ), TCC Error:, error code = <*>, description = "
+8946d229,8946d229,CmDownloadMatchBuffer - Organization Name Match Succeed
+57a0f177,57a0f177,Non-Vol BPI Settings successfully written to the device.
+99386c34,99386c34,Manufacturer CVC verified
+9875dcca,9875dcca,At least one CVC is valid.
+27faf8dc,27faf8dc,BPI31 initialization completed. Calling ConfigOperational().
+8ef21225,8ef21225,Enabling network access for all CPE
+35236937,35236937,Match found. No further action to be done
+df86b31d,df86b31d,"BcmSoamThread:: SyncCmOperationalNote: WARNING - L2VPN Settings List is NULL or empty, disabled SOAM Thread."
+8d7330f2,8d7330f2,A software upgrade filename was specified in the config file.
+8e4331dc,8e4331dc,The s/w filename specified in the config file is the same as what we already have; skipping s/w update.
+3b7acc85,3b7acc85,BcmDocsisCmHalIf:: RemoveCpe: WARNING - Failed to remove CPE MAC address from learning table!
+554068e3,554068e3,eRouter WAN IPv4 address: <*>
+88d6aa5a,88d6aa5a,Set up multicast forwarding for global addresses.
+ad4ecdba,ad4ecdba,"Initializing Quarantine D31 DS MAC structures to <*>, fState = <*>, fDesiredState = <*>"
+197f3019,197f3019,BcmCmUsRangingState:: TestAndApplyOtfUcdRangingStrategy: resetting ranging state and re-starting station maint iuc <*> or <*> ( a.k.a. unicast initial ranging...
+1881bb52,1881bb52,"Primary Channel: <*>, Interleave depth: <*>, QAM_Mode: <*>, AnnexMode: <*>, Ranging Response received - T3 time-out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+25b218fd,25b218fd,OCD/DPD Filtering being configured for hwRxId= <*> on FilCh= <*>[ PLC= <*>/ProfA= <*> ] -> filter enable = <*> TimeMs= <*>
+44375da8,44375da8,Docsis3.1 UCD Change Detected:UpstreamChan= <*>
+0906d189,0906d189,BcmProcessTcofdmInterrupts:IrqMainStatus:lost_sts_irq:UpstreamPhyChannelNumber= <*>
+ec24dbb6,ec24dbb6,BcmProcessTcofdmInterrupts:IrqMainStatus:ready_sts_irq:UpstreamPhyChannelNumber= <*>
+3040aecf,3040aecf,BcmProcessTcofdmInterrupts:IrqMainStatus:ifft_sts_irq:UpstreamPhyChannelNumber= <*>
+1f1e8e02,1f1e8e02,Docsis3ConfigureUpstream[ <*> ]: calling Docsis31ConfigureUpstream() for ofdma install
+d777aa37,d777aa37,Bcm3390A0UcdSwWorkaround:START: TCOFDM UCD Change Timing Control SW Workaround ..
+3610f2ac,3610f2ac,Bcm3390A0UcdSwWorkaround:Reading current Snapshot from timing control....
+79fc29fe,79fc29fe,Bcm3390A0UcdSwWorkaround:Resetting TIM data path ...
+29860d95,29860d95,Bcm3390A0UcdSwWorkaround:Writing Back Snapshot to timing control....
+f4509084,f4509084,Bcm3390A0UcdSwWorkaround:Reading/Writing Minislot Spacing and SymblsPerFrame to timing control....
+52b073c1,52b073c1,Bcm3390A0UcdSwWorkaround:END: TCOFDM UCD Change Timing Control SW Workaround ..
+1e8aea89,1e8aea89,CmHalAcquireDownstSync:OFDMA channel:Calling start ds sync acquisition
+65b225f1,65b225f1,CmHalStartDsSyncAcquisition:OFDM channel sync not ready
+14cf0684,14cf0684,BcmProcessTcofdmInterrupts:IrqMainStatus:tim_sts_irq:UpstreamPhyChannelNumber= <*> TimIrqStatus= <*>
+1ca43a17,1ca43a17,BcmProcessTcofdmInterrupts:TimIrqStatus:snapshot_err:UpstreamPhyChannelNumber= <*>:TimIrqStatus= <*>
+1b0fbe39,1b0fbe39,Docsis3 Bandwidth Request Failed
+92e893cc,92e893cc,CmHalAcquireDownstSync:Calling start ds sync acquisition
+c5a7d203,c5a7d203,DocsisCmHalIf:: SetPrimarySid: Setting the Primary SID for usHwChannel <*> to <*>
+54a14307,54a14307,BcmCmDocsisCtlThread:: DbcAckPendingTimerEvent: Retransmitting DBC-RSP
+f58db473,f58db473,BcmCmDocsisCtlThread:: DbcAckPendingTimerEvent: ERROR - Failed to receive DBC-ACK from CMTS!
+6727de02,6727de02,Logging event: DBC-ACK not received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
+93a1ee79,93a1ee79,Partial service - not invoking D31PowerSave.
+46bf553d,46bf553d,"sfid <*>, emc enabled <*>"
+4bee6c62,4bee6c62,SetLldOnEmc: LLD on EMC enabled!
+bc84a466,bc84a466,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= <*>
+a78ea9e6,a78ea9e6,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= <*> prof= <*>
+32f83a38,32f83a38,BcmCmUsRangingState:: ConfigInitialRanging: txid= <*> ucid= <*> retry= <*> adjust tx power to <*> dBmV.
+d195dc77,d195dc77,BcmPortForwardSnoop:: AddProxyRule: WARNING - <*> <*> <*> <*> <*> <*> <*> <*> <*> NAT_CMNat
+70fa25a2,70fa25a2,Logging event: TCS Partial Service; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
 82152c13,82152c13,BcmBfeeEvalThread SUSPEND 
 458cc8ae,458cc8ae,CmVisualization SUSPEND 
 af7f25b7,af7f25b7,BcmCmDsChanOfdm:: StartOcdDpdGathering: starting OCD/DPD gathering on PLC on hwRxId= <*>
@@ -689,7 +741,6 @@ f7fdfd74,f7fdfd74,BcmBfeeEvalThread LAUNCH
 e3247add,e3247add,CmVisualization LAUNCH 
 15a92a70,15a92a70,BcmBfeeEvalThread AUTH 
 3280d150,3280d150,CmVisualization AUTH 
-8a2baa55,8a2baa55,Logging event: TLV- <*> - unrecognized OID; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
 160d2df9,160d2df9,Reason = 'CM registered'
 47f70fc6,47f70fc6,SCtarting Diffie-Hellman calc. 
 da3588bb,da3588bb,mSnmpAgent enabling management
@@ -766,7 +817,6 @@ fc5fc3f6,fc5fc3f6,EMTA: reluctantly accepting any offer after <*> unsuccessful a
 0fef8009,0fef8009,Skipping interface discovery for eRouter mode.
 f2902d1a,f2902d1a,"Receive Channel Config:, Primary DS channel assignment vector: <*>, OFDM profile assignments:, <*> -> <*>, <*> -> <*> "
 54b1d1ec,54b1d1ec,BcmCmDocsisCtlThread:: TestAndLaunchBpkm: BPI disabled via manufacturing setting.
-554068e3,554068e3,eRouter WAN IPv4 address: <*>
 0f9c848c,0f9c848c,"BcmCmDsidHelper:: ExecuteDsidCommandList: ERROR - DSID command adds an already installed DSID:, CM DSID command:, action: <*> ( <*> ), == Mcast settings ==, Mcast Enabled: Yes, Add Client MAC Addr: <*>"
 710285ff,710285ff,"Existing DSID:, == Mcast settings ==, Mcast Enabled: Yes, Add Client MAC Addr: <*>"
 2994c0c7,2994c0c7,"BcmCmDocsisCtlThread:: TccConnTimerEvent:, Channel init timer expired but neither registration nor DBC in progress. ignoring..."
@@ -782,10 +832,8 @@ c7de456f,c7de456f,AltWan mode enabled; enabling traffic between EMTA <-> Router 
 63e8e393,63e8e393,Setting networked standby context to 'DOCSIS halt'
 0557a19f,0557a19f,Abnormal_DoS_Attack:_IdlePercent= <*>_WAN_DQM_FULL= <*>_LAN_DQM_FULL= <*>
 1eef0c5b,1eef0c5b,BcmCmDsChanOfdm:: StopTmOcdDpdGather: rxid= <*> dcid= <*>
-88588513,88588513,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [( <*>- <*> )] prof= [( <*> -> <*> ) ( <*> -> <*> )]
 2aa021f8,2aa021f8,"bfcSerialConsoleMode set to read-only, disabling console input."
 ed731c22,ed731c22,"bfcSerialConsoleMode set to read-write, enabling console."
-be2918a2,be2918a2,Selecting HTTP protocol for software upgrade
 fd4b8d41,fd4b8d41,Starting software update...
 a6640930,a6640930,Logging event: SW Download INIT - Via NMS
 1ccadd06,1ccadd06,Trying to create a buffer of <*> bytes ( <*>k ) to store the image...
@@ -815,63 +863,8 @@ cf2c9b23,cf2c9b23,Reason = 'MAC Reset'
 fb91cf2a,fb91cf2a,BFE goodbye failed!
 21322e61,21322e61,"BcmCmDocsisCtlThread:: RegRspMsgEvent: ERROR -, REG-RSP/MP response code NOT ok! rsp code = <*> ( <*> ) "
 1694c6d2,1694c6d2,"MAC MGT header:, dest addr: <*>, src addr: <*>, msg len: <*> ( <*> ), DSAP: <*>, SSAP: <*>, control: <*>, version: <*>, msg_type: REG_ACK ( <*> ), fka reserved: <*>, MSG PDU:, primary sid: <*>, confirmation code: <*>"
-4829d6b6,4829d6b6,"BcmCmUsChan:: InitChanTimerEvent: ERROR -, TCC cmd failed to complete before initializing channel timer expiration., == TCC command ==, TCC ref id = <*>, action = <*> ( <*> ), us chan id = <*>, new us chan id = <*> ( <*> ), ranging sid = <*>, ranging strategy = <*> ( <*> ), dyn ranging window = <*> ( <*> ), rng mode ( CM spec ) = <*> ( <*> ), UCD = <suppressed for brevity>, ranging params = ( <*> ), TCC Error:, error code = <*>, description = "
-93a1ee79,93a1ee79,Partial service - not invoking D31PowerSave.
-54a14307,54a14307,BcmCmDocsisCtlThread:: DbcAckPendingTimerEvent: Retransmitting DBC-RSP
 213c623b,213c623b,OpenSSL_addX509Header(): Public Key is NULL. Return.
 c2a5d8cf,c2a5d8cf,"BcmBfcProcessCvc:: CmCodeVerificationCertificate:: ParseAndValidate: ERROR - Failed on rsaDecryptSignature, status= <*>"
 b75807f9,b75807f9,BcmBfcProcessCvc:: ProcessConfigFileSpecifiedCvc: ERROR - Config file manufacturer CVC is rejected.
 147936b5,147936b5,BcmBfcProcessCvc:: ProcessConfigFileManufAndCosignerCvcs: ERROR - Reject config file MFG CVC!
 f1db80b8,f1db80b8,Logging event: Configuration File CVC Validation Failure
-f58db473,f58db473,BcmCmDocsisCtlThread:: DbcAckPendingTimerEvent: ERROR - Failed to receive DBC-ACK from CMTS!
-6727de02,6727de02,Logging event: DBC-ACK not received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
-c5a7d203,c5a7d203,DocsisCmHalIf:: SetPrimarySid: Setting the Primary SID for usHwChannel <*> to <*>
-1f3bc80a,1f3bc80a,"BcmCmUsRangingState:: ConfigRngReqMsg:, hw rng mode = kInitialRanging, fRngMode = kBcastInitRng, hwTxId = <*>, docs ucid = <*>, docs dcid = <*>, using O-INIT-RNG-REQ format"
-efbff1c8,efbff1c8,"== Beginning initial ranging for Docsis UCID <*> ==, Minimum transmit power is <*> dBmV, Maximum transmit power is <*>dBmV, Stored power level for UCID <*> is <*> dBmV, Using per transmitter stored initial upstream power = <*> dBmV hwTxId = <*> docsis UCID = <*>"
-d6e9b7e3,d6e9b7e3,RNG-RSP UsChanId= <*> Adj: tim= <*> freq= <*> Stat= <*> ( CmdPwr ( UsChanId-dBmV ): <*> )
-f562d232,f562d232,BcmDocsisTimeOfDayThread:: SetTodServerIpAddress: ToD servers: <*>; <*>
-23d88ee4,23d88ee4,SpecA - IP Stack address is <*>
-eb6716ea,eb6716ea,TLV- <*>[ <*> ]: <*> -> <*> ( i32 ) <*> ignoring.
-723a3938,723a3938,WARNING! Not counting MTA against max CPE! This is an eDOCSIS violation!
-8946d229,8946d229,CmDownloadMatchBuffer - Organization Name Match Succeed
-57a0f177,57a0f177,Non-Vol BPI Settings successfully written to the device.
-99386c34,99386c34,Manufacturer CVC verified
-9875dcca,9875dcca,At least one CVC is valid.
-27faf8dc,27faf8dc,BPI31 initialization completed. Calling ConfigOperational().
-8ef21225,8ef21225,Enabling network access for all CPE
-35236937,35236937,Match found. No further action to be done
-df86b31d,df86b31d,"BcmSoamThread:: SyncCmOperationalNote: WARNING - L2VPN Settings List is NULL or empty, disabled SOAM Thread."
-8d7330f2,8d7330f2,A software upgrade filename was specified in the config file.
-8e4331dc,8e4331dc,The s/w filename specified in the config file is the same as what we already have; skipping s/w update.
-3b7acc85,3b7acc85,BcmDocsisCmHalIf:: RemoveCpe: WARNING - Failed to remove CPE MAC address from learning table!
-88d6aa5a,88d6aa5a,Set up multicast forwarding for global addresses.
-ad4ecdba,ad4ecdba,"Initializing Quarantine D31 DS MAC structures to <*>, fState = <*>, fDesiredState = <*>"
-197f3019,197f3019,BcmCmUsRangingState:: TestAndApplyOtfUcdRangingStrategy: resetting ranging state and re-starting station maint iuc <*> or <*> ( a.k.a. unicast initial ranging...
-1881bb52,1881bb52,"Primary Channel: <*>, Interleave depth: <*>, QAM_Mode: <*>, AnnexMode: <*>, Ranging Response received - T3 time-out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-25b218fd,25b218fd,OCD/DPD Filtering being configured for hwRxId= <*> on FilCh= <*>[ PLC= <*>/ProfA= <*> ] -> filter enable = <*> TimeMs= <*>
-44375da8,44375da8,Docsis3.1 UCD Change Detected:UpstreamChan= <*>
-0906d189,0906d189,BcmProcessTcofdmInterrupts:IrqMainStatus:lost_sts_irq:UpstreamPhyChannelNumber= <*>
-ec24dbb6,ec24dbb6,BcmProcessTcofdmInterrupts:IrqMainStatus:ready_sts_irq:UpstreamPhyChannelNumber= <*>
-3040aecf,3040aecf,BcmProcessTcofdmInterrupts:IrqMainStatus:ifft_sts_irq:UpstreamPhyChannelNumber= <*>
-1f1e8e02,1f1e8e02,Docsis3ConfigureUpstream[ <*> ]: calling Docsis31ConfigureUpstream() for ofdma install
-d777aa37,d777aa37,Bcm3390A0UcdSwWorkaround:START: TCOFDM UCD Change Timing Control SW Workaround ..
-3610f2ac,3610f2ac,Bcm3390A0UcdSwWorkaround:Reading current Snapshot from timing control....
-79fc29fe,79fc29fe,Bcm3390A0UcdSwWorkaround:Resetting TIM data path ...
-29860d95,29860d95,Bcm3390A0UcdSwWorkaround:Writing Back Snapshot to timing control....
-f4509084,f4509084,Bcm3390A0UcdSwWorkaround:Reading/Writing Minislot Spacing and SymblsPerFrame to timing control....
-52b073c1,52b073c1,Bcm3390A0UcdSwWorkaround:END: TCOFDM UCD Change Timing Control SW Workaround ..
-1e8aea89,1e8aea89,CmHalAcquireDownstSync:OFDMA channel:Calling start ds sync acquisition
-65b225f1,65b225f1,CmHalStartDsSyncAcquisition:OFDM channel sync not ready
-14cf0684,14cf0684,BcmProcessTcofdmInterrupts:IrqMainStatus:tim_sts_irq:UpstreamPhyChannelNumber= <*> TimIrqStatus= <*>
-1ca43a17,1ca43a17,BcmProcessTcofdmInterrupts:TimIrqStatus:snapshot_err:UpstreamPhyChannelNumber= <*>:TimIrqStatus= <*>
-1b0fbe39,1b0fbe39,Docsis3 Bandwidth Request Failed
-92e893cc,92e893cc,CmHalAcquireDownstSync:Calling start ds sync acquisition
-a3bf48e6,a3bf48e6,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [( <*>- <*> )] dcid= [( <*>- <*> )]
-46bf553d,46bf553d,"sfid <*>, emc enabled <*>"
-4bee6c62,4bee6c62,SetLldOnEmc: LLD on EMC enabled!
-368641b8,368641b8,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] prof= [( <*> -> <*> )]
-2e58da72,2e58da72,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ]
-32f83a38,32f83a38,BcmCmUsRangingState:: ConfigInitialRanging: txid= <*> ucid= <*> retry= <*> adjust tx power to <*> dBmV.
-d195dc77,d195dc77,BcmPortForwardSnoop:: AddProxyRule: WARNING - <*> <*> <*> <*> <*> <*> <*> <*> <*> NAT_CMNat
-70fa25a2,70fa25a2,Logging event: TCS Partial Service; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
-fc2c6c27,fc2c6c27,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= [ <*> ] dcid= [( <*>- <*> ) <*> <*> ] prof= [( <*> -> <*> ) ( <*> -> <*> )]

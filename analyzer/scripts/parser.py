@@ -105,7 +105,7 @@ def cli_updt_tmplt(src, training, overwrite, current, debug):
 # ----------------------------------------------------------------------
 @click.command(name="del")
 @click.confirmation_option(
-    prompt='Are you sure you want to delete the template lib?'
+    prompt="Are you sure you want to delete the template lib?"
 )
 def cli_del_tmplt():
     """ Delete the template lib. """
@@ -122,5 +122,5 @@ def cli_del_tmplt():
 # ----------------------------------------------------------------------
 @click.command(name="sort")
 def cli_sort_tmplt():
-    """ Sor the template lib for debugging. """
+    """ Sort the template lib for debugging. """
     mt.sort_tmplt_lib()

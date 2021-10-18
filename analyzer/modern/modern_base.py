@@ -91,7 +91,8 @@ class ModernBase(ABC):
             event_id_shuffled.append('ffffffff')
 
             np.save(vocab_file, event_id_shuffled)
-            np.savetxt(vocab_file+'.txt', event_id_shuffled, fmt="%s")
+            if self.dbg:
+                np.savetxt(vocab_file+'.txt', event_id_shuffled, fmt="%s")
 
             return event_id_shuffled
 

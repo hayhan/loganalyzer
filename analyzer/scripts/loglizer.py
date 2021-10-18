@@ -126,7 +126,7 @@ def cli_loglizer_train(model, inc, debug):
         filelst = [x.strip() for x in fin]
 
     if inc:
-        if GC.conf['loglizer']['model'] not in \
+        if model != 'ALL' and GC.conf['loglizer']['model'] not in \
             ['MNB', 'PTN', 'SGDC_SVM', 'SGDC_LR']:
             print("The model cannot be used for incremental learning.")
             sys.exit(1)
