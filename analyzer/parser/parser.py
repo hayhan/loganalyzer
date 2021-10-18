@@ -181,7 +181,7 @@ class Parser():
         log.debug("Learned log head offset: %d, at line %d.",
                   self._log_head_offset, lineoffset)
 
-    # pylint: disable=too-many-locals:too-many-branches
+    # pylint: disable=too-many-locals,too-many-branches
     # pylint: disable=too-many-statements
     def rcv_mess(self):
         """ Recover messed logs (test.txt) caused by multi threads

@@ -26,7 +26,7 @@ class Kb(KbBase):
 
         KbBase.__init__(self)
 
-    # pylint: disable=too-many-branches:too-many-statements
+    # pylint: disable=too-many-branches,too-many-statements
     def domain_knowledge(self, template_id: str, params: List[str]):
         """
         The knowledge base for each meaningful log template

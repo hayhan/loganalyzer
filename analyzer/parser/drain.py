@@ -1,7 +1,7 @@
 # Licensed under the MIT License - see LICENSE.txt
 """ This file implements Drain algorithm of log parsing/clustering.
-    Reference paper: [Arxiv'18] A Directed Acyclic Graph Approach
-    to Online Log Parsing, 2018.
+    Reference paper: [Arxiv'18] A Directed Acyclic Graph Approach to
+    Online Log Parsing, 2018.
 """
 import re
 import os
@@ -16,9 +16,9 @@ from tqdm import tqdm
 __all__ = ["Para", "Drain"]
 
 
-# pylint: disable=too-many-instance-attributes:too-few-public-methods
-# pylint: disable=too-many-arguments:too-many-public-methods
-# pylint: disable=too-many-boolean-expressions:too-many-branches
+# pylint: disable=too-many-instance-attributes,too-few-public-methods
+# pylint: disable=too-many-arguments,too-many-public-methods
+# pylint: disable=too-many-boolean-expressions,too-many-branches
 class Logcluster:
     """ A log cluster/group which maps to a sinale template/event.
         Similarity layer, each cluster/group has its own threshold sim_t

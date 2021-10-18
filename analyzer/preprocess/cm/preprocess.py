@@ -72,7 +72,7 @@ class Preprocess(PreprocessBase):
         # Note: preprocess_norm will overwrite the normlogs
         self.cond_save_strings(self.fzip['norm'], self._normlogs)
 
-    # pylint: disable=too-many-locals；too-many-statements
+    # pylint: disable=too-many-locals,too-many-statements
     # pylint: disable=too-many-branches
     def preprocess_new(self):
         """ Preprocess to generate the new log data.

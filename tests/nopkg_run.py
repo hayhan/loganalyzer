@@ -10,9 +10,9 @@ from utils import PROJ
 
 sys.path.append(PROJ)
 
-# pylint:disable=wrong-import-position
+# pylint: disable=wrong-import-position
 from analyzer.scripts.main import cli
 
 
 if __name__ == "__main__":
-    cli()  # pylint:disable=no-value-for-parameter
+    cli()  # pylint: disable=no-value-for-parameter

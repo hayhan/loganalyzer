@@ -237,7 +237,7 @@ class Loglizer(ModernBase):
 
         return expanded_indexes_list
 
-    # pylint: disable=too-many-arguments:too-many-locals
+    # pylint: disable=too-many-arguments,too-many-locals
     def build_matrix(self, event_id_logs, event_id_voc, raw_data,
                      inst_number, expanded_indexes_list):
         """

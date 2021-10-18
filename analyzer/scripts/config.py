@@ -90,7 +90,7 @@ def cli_default_config(filename):
     show_default=True,
 )
 @click.option(
-    "--type",
+    "--mytype",
     default="str",
     help="Annotate the value type.",
     show_default=True,
@@ -108,16 +108,15 @@ def cli_default_config(filename):
     help="Indicates the overloaded config file instead of the base one.",
     show_default=True,
 )
-# pylint:disable=redefined-builtin
-def cli_update_config(filename, type, item, overload):
+def cli_update_config(filename, mytype, item, overload):
     """ Update the key-value pair. """
     if item is None:
         print("Please define at least the key-value pair.")
         sys.exit()
     sect, key, val = item
-    if type == "int":
+    if mytype == "int":
         val = int(val)
-    elif type == "bool":
+    elif mytype == "bool":
         val = val in ('True', 'true', '1')
 
     if overload and os.path.exists(CONFIG_OVERLOAD):

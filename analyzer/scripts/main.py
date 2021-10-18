@@ -9,7 +9,7 @@ from analyzer import __version__
 
 # We implement the --version following the example from here:
 # https://click.palletsprojects.com/en/latest/options/#callbacks-and-eager-options
-def print_version(ctx, param, value):  # pylint:disable=unused-argument
+def print_version(ctx, param, value):  # pylint: disable=unused-argument
     """ Version info. """
     if not value or ctx.resilient_parsing:
         return
@@ -71,7 +71,7 @@ def cli(ctx, log_level, ignore_warnings):
     # cannot be invoked without sub-command. Do not enable it currently.
     # https://click.palletsprojects.com/en/latest/commands/
 
-    # pylint:disable=import-outside-toplevel
+    # pylint: disable=import-outside-toplevel
     if ctx.invoked_subcommand is None:
         click.echo('I was invoked without sub command.')
 
@@ -138,7 +138,7 @@ def cli_config():
     - The sub-command `default` defaults the config content
     \b
     - The sub-command `updt` updates the item in the config directly
-      The option `type` sets the value type, e.g. int/bool/str(default)
+      The option `mytype` sets value type, e.g. int/bool/str(default)
     \b
     - The option `overload` indicates the overloaded config file
 
@@ -150,7 +150,7 @@ def cli_config():
     $ analyzer config show [--overload]
     $ analyzer config edit [--overload]
     $ analyzer config default
-    $ analyzer config updt --item key1 key2 val [--type int/bool/str]
+    $ analyzer config updt --item key1 key2 val [--mytype int/bool/str]
     $ analyzer config updt --overload
     """
 
@@ -323,24 +323,24 @@ def cli_utils():
       event id in the raw log file.
     \b
     - The sub-command `viz` reduces the dimensionality of dataset and
-      then visualizes the data. The option `src` indicates the path of
-      event matrix.
+      then visualizes the data (ecm). The option `src` indicates path
+      of event matrix. The option `label` annotates each dot.
 
     \b
     Examples
     --------
 
     \b
-    $ analyzer utils chkdup --src folder fname [--ecm]
+    $ analyzer utils chkdup --src folder file [--ecm]
     $ analyzer utils normts
     $ analyzer utils eidlog --eid value [--training/--no-training]
-    $ analyzer utils viz --src folder fname
+    $ analyzer utils viz --src folder file [--label]
     """
 
 
 def add_subcommands():
     """ Add the first level sub-commands only. Lazy load others. """
-    # pylint:disable=import-outside-toplevel
+    # pylint: disable=import-outside-toplevel
 
     from .info import cli_info
     cli.add_command(cli_info)

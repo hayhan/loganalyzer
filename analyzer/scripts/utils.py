@@ -29,7 +29,7 @@ log = logging.getLogger(__name__)
     nargs=2,
     type=str,
     required=True,
-    help="Source path and name, e.g. persist vocab_loglab.npy.txt",
+    help="Folder and file in data, e.g. persist vocab_loglab.npy.txt",
     show_default=True,
 )
 @click.option(
@@ -179,10 +179,17 @@ def cli_eid_log(eid, training):
     nargs=2,
     type=str,
     required=True,
-    help="Source path and name, e.g. train vocab_loglab.txt",
+    help="Indicate folder and file in data, e.g. train vocab_loglab.txt.",
     show_default=True,
 )
-def cli_visualize_data(src):
+@click.option(
+    "--label",
+    default=False,
+    is_flag=True,
+    help="Annotate each dot in the plot with target label.",
+    show_default=True,
+)
+def cli_visualize_data(src, label):
     """ Visualize dataset """
     subd, name = src
 
@@ -195,14 +202,14 @@ def cli_visualize_data(src):
 
     # The saved ecm has label vector at last column. Remove it.
     mtx: List[List[str]] = []
-    labels: List[float] = []
+    targets: List[float] = []
     for line in strings:
         cells = line.strip('\r\n').split()
         mtx.append(cells[:-1])
-        labels.append(float(cells[-1]))
+        targets.append(float(cells[-1]))
 
     mtx_2d = np.array(mtx, dtype=float)
-    print(mtx_2d.dtype, mtx_2d.shape, labels)
-    vz.visualize_with_umap(mtx_2d, labels)
+    print(mtx_2d.dtype, mtx_2d.shape, targets)
+    vz.visualize_with_umap(mtx_2d, targets, label)
 
     log.info("Visualization done.")

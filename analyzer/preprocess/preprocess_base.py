@@ -18,7 +18,7 @@ __all__ = ["PreprocessBase"]
 log = logging.getLogger(__name__)
 
 
-# pylint: disable=too-many-instance-attributes:too-many-public-methods
+# pylint: disable=too-many-instance-attributes,too-many-public-methods
 class PreprocessBase(ABC):
     """ The base class of preprocess. """
     def __init__(self):

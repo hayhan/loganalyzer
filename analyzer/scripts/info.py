@@ -94,7 +94,7 @@ def get_info_version():
     info = {"version": __version__}
     try:
         path = sys.modules["analyzer"].__path__[0]
-    except:  # pylint:disable=bare-except
+    except:  # pylint: disable=bare-except
         path = "unknown"
     info["path"] = path
 
