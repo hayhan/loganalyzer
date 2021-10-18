@@ -200,13 +200,13 @@ def cli_visualize_data(src, label):
     with open(file_loc, 'r', encoding='utf-8') as fout:
         strings: List[str] = fout.readlines()
 
-    # The saved ecm has label vector at last column. Remove it.
+    # The saved ecm has label vector at last column. Split them.
     mtx: List[List[str]] = []
-    targets: List[float] = []
+    targets: List[int] = []
     for line in strings:
         cells = line.strip('\r\n').split()
         mtx.append(cells[:-1])
-        targets.append(float(cells[-1]))
+        targets.append(int(cells[-1][:-2]))
 
     mtx_2d = np.array(mtx, dtype=float)
     print(mtx_2d.dtype, mtx_2d.shape, targets)

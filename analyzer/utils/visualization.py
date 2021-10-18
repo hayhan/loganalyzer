@@ -14,7 +14,7 @@ __all__ = [
 
 
 # https://umap-learn.readthedocs.io/en/latest/basic_usage.html
-def visualize_with_umap(dataset: np.ndarray, targets: List[float], label: bool):
+def visualize_with_umap(dataset: np.ndarray, targets: List[int], label: bool):
     """ Visaulize dataset with umap """
     reducer = umap.UMAP(random_state=42)
     reducer.fit(dataset)
