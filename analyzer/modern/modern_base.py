@@ -29,7 +29,7 @@ class ModernBase(ABC):
 
         # The in-memory structured norm raw logs from parser module
         self._df_raws = df_raws
-        self._df_raws_o = []  # used for the messed logs recovering
+        self._df_raws_o = None  # used for the messed logs recovering
 
         # The in-memory template lib from parser module
         self._df_tmplts = df_tmplts

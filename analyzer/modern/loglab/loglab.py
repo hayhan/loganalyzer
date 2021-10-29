@@ -37,6 +37,7 @@ class Loglab(ModernBase):
         self.model: str = GC.conf['loglab']['model']
         self.win_size: int = GC.conf['loglab']['window_size']
         self.weight: int = GC.conf['loglab']['weight']
+        self.feature: str = GC.conf['loglab']['feature']
         self._segll: List[tuple] = []
         self.onnx_model: str = os.path.join(dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx')
 
@@ -107,23 +108,23 @@ class Loglab(ModernBase):
         # For training or validation, always handle multi-sample logs
         if self.training or self.metrics:
             event_matrix, class_vector = \
-                self.extract_feature_multi(self._df_raws, event_id_voc, event_id_logs)
-        # For prediction, we need to suppose it is always one sample
+                self.extract_feature_multi(self._df_raws, event_id_voc)
+        # For prediction, we suppose logs are not multi-target mixed
         else:
             event_matrix, class_vector = \
-                self.extract_feature(self._df_raws, event_id_voc, event_id_logs)
+                self.extract_feature(self._df_raws, event_id_voc)
 
         return event_matrix, class_vector
 
     # pylint: disable=too-many-locals
-    def extract_feature(self, data_df, eid_voc, eid_logs):
-        """ Extract feature in one sample
+    def extract_feature(self, data_df, eid_voc):
+        """
+        Extract feature in one sample
 
         Arguments
         ---------
         data_df: data frame structured logs
         eid_voc: event id vocabulary
-        eid_logs: event ids in structured logs
 
         Returns
         -------
@@ -131,17 +132,47 @@ class Loglab(ModernBase):
         class_vec: empty
         """
 
+        if self.feature == 'binary':
+            event_count_vec = self.feature_core_binary(data_df, eid_voc)
+        elif self.feature == 'count':
+            event_count_vec = self.feature_core_count(data_df, eid_voc)
+        else:
+            print("Feature extraction algorithm is not support!!! Abort!!!")
+            sys.exit(1)
+
+        # Empty target class for prediction
+        class_vec = []
+
+        if self.dbg:
+            self.print_ecm(event_count_vec, eid_voc)
+
+        return event_count_vec, class_vec
+
+    def feature_core_binary(self, data_df, eid_voc):
+        """
+        Feature extraction core that does not count the event. It only
+        indicates if the event appears or not.
+
+        Arguments
+        ---------
+        data_df: data frame structured logs
+        eid_voc: event id vocabulary
+
+        Returns
+        -------
+        event_count_vec: one line matrix, aka. one sample
+        """
+
         # Initialize the matrix for one sample
         event_count_vec = np.zeros((1,len(eid_voc)))
 
         # Prepare for the iteration. Extract info from dataframe.
-        eidlst = data_df['EventId'].tolist()
-        tmpltlst = data_df['EventTemplate'].tolist()
-        contentlst = data_df['Content'].tolist()
+        eid_logs = data_df['EventId'].tolist()
+        tmplt_logs = data_df['EventTemplate'].tolist()
+        content_logs = data_df['Content'].tolist()
 
-        # pylint: disable=too-many-nested-blocks
         # Do not iterate dataframe using iterrows(). It's very slow.
-        for axis, (eid, tmplt, content) in enumerate(zip(eidlst, tmpltlst, contentlst)):
+        for axis, (eid, tmplt, content) in enumerate(zip(eid_logs, tmplt_logs, content_logs)):
 
             log_content_l = content.strip().split()
             log_event_tmplt_l = tmplt.strip().split()
@@ -163,7 +194,7 @@ class Loglab(ModernBase):
             # If current log is hit in KB, we call it typical log and
             # add window around it.
             if typical_log_hit:
-                # print('line {} hit, eid {}.'.format(axis+1, eid))
+                # print(f"line {axis+1} hit, eid {eid}.")
 
                 # Capture the logs within the window. The real window
                 # size around typical log is 2*WINDOW_SIZE+1. That is,
@@ -173,54 +204,160 @@ class Loglab(ModernBase):
                 # The axis part, it is also the typical log
                 event_count_vec[0, eid_voc.index(eid)] = self.weight
 
-                # The upper part of the window
-                for i in range(self.win_size):
-                    if axis - (i+1) >= 0:
-                        # Skip the event id which is not in the tempalte
-                        # lib/vocabulary. This usually happens in the
-                        # logs for prediction.
-                        try:
-                            feature_idx = eid_voc.index(eid_logs[axis-(i+1)])
-                            if event_count_vec[0, feature_idx] == 0:
-                                event_count_vec[0, feature_idx] = 1
-                        except ValueError:
-                            continue
+                self.window_binary(axis, eid_voc, eid_logs, event_count_vec)
 
-                # The under part of the window
-                for i in range(self.win_size):
-                    if axis + (i+1) < len(eid_logs):
-                        # Skip the event id which is not in the tempalte
-                        # lib/vocabulary. This usually happens in the
-                        # logs for prediction.
-                        try:
-                            feature_idx = eid_voc.index(eid_logs[axis+(i+1)])
-                            if event_count_vec[0, feature_idx] == 0:
-                                event_count_vec[0, feature_idx] = 1
-                        except ValueError:
-                            continue
+        return event_count_vec
 
-        # Empty target class for prediction
-        class_vec = []
-
-        if self.dbg:
-            self.print_ecm(event_count_vec, eid_voc)
-
-        return event_count_vec, class_vec
-
-    def extract_feature_multi(self, data_df, eid_voc, eid_logs):
+    def feature_core_count(self, data_df, eid_voc):
         """
-        Extract features in a monolith which always has multi samples
+        Feature extraction core that counts the event and calculates the
+        ratio to the whole sample that windows sweep.
+
+        Arguments
+        ---------
+        data_df: data frame structured logs
+        eid_voc: event id vocabulary
+
+        Returns
+        -------
+        event_count_vec: one line matrix, aka. one sample
+        """
+
+        # Initialize the matrix for one sample
+        event_count_vec = np.zeros((1,len(eid_voc)))
+
+        # Prepare for the iteration. Extract info from dataframe.
+        eid_logs = data_df['EventId'].tolist()
+        tmplt_logs = data_df['EventTemplate'].tolist()
+        content_logs = data_df['Content'].tolist()
+
+        # Do not iterate dataframe using iterrows(). It's very slow.
+        for axis, (eid, tmplt, content) in enumerate(zip(eid_logs, tmplt_logs, content_logs)):
+
+            log_content_l = content.strip().split()
+            log_event_tmplt_l = tmplt.strip().split()
+
+            if len(log_content_l) != len(log_event_tmplt_l):
+                continue
+
+            # Traverse all <*> tokens in log_event_tmplt_l and save the
+            # index. Consider cases like '<*>;', '<*>,', etc. Remove the
+            # unwanted ';,' in knowledgebase.
+            idx_list = [idx for idx, value in enumerate(log_event_tmplt_l) if '<*>' in value]
+            # print(idx_list)
+            param_list = [log_content_l[idx] for idx in idx_list]
+            # print(param_list)
+
+            # Now we search in the knowledge base for the current log
+            typical_log_hit, _ = self.kbase.domain_knowledge(eid, param_list)
+
+            # If current log is hit in KB, we call it typical log and
+            # add window around it.
+            if typical_log_hit:
+                # print(f"line {axis+1} hit, eid {eid}.")
+
+                # Capture the logs within the window. The real window
+                # size around typical log is 2*WINDOW_SIZE+1. That is,
+                # there are WINDOW_SIZE logs respectively before and
+                # after current typical log.
+
+                # The axis part, it is also the typical log
+                event_count_vec[0, eid_voc.index(eid)] = self.weight
+
+                self.window_count(axis, eid_voc, eid_logs, event_count_vec)
+
+        return event_count_vec
+
+    def window_binary(self, axis, eid_voc, eid_logs, event_count_vec):
+        """
+        Indicate event in binary manner within window.
+
+        Arguments
+        ---------
+        axis: the window axis
+        data_df: data frame structured logs
+        eid_voc: event id vocabulary
+        event_count_vec: one line matrix, aka. one sample
+        """
+
+        # The upper part of the window
+        for i in range(self.win_size):
+            if axis - (i+1) >= 0:
+                # Skip the event id which is not in the tempalte lib or
+                # eid vocabulary. This usually happens in the logs for
+                # prediction.
+                try:
+                    feature_idx = eid_voc.index(eid_logs[axis-(i+1)])
+                    if event_count_vec[0, feature_idx] == 0:
+                        event_count_vec[0, feature_idx] = 1
+                except ValueError:
+                    continue
+
+        # The under part of the window
+        for i in range(self.win_size):
+            if axis + (i+1) < len(eid_logs):
+                # Skip the event id which is not in the tempalte lib or
+                # eid vocabulary. This usually happens in the logs for
+                # prediction.
+                try:
+                    feature_idx = eid_voc.index(eid_logs[axis+(i+1)])
+                    if event_count_vec[0, feature_idx] == 0:
+                        event_count_vec[0, feature_idx] = 1
+                except ValueError:
+                    continue
+
+    def window_count(self, axis, eid_voc, eid_logs, event_count_vec):
+        """
+        counts the event and calculates the ratio to the whole sample
+        that windows sweep.
+
+        Arguments
+        ---------
+        axis: the window axis
+        data_df: data frame structured logs
+        eid_voc: event id vocabulary
+        event_count_vec: one line matrix, aka. one sample
+        """
+
+        # The upper part of the window
+        for i in range(self.win_size):
+            if axis - (i+1) >= 0:
+                # Skip the event id which is not in the tempalte lib or
+                # eid vocabulary. This usually happens in the logs for
+                # prediction.
+                try:
+                    feature_idx = eid_voc.index(eid_logs[axis-(i+1)])
+                    if event_count_vec[0, feature_idx] == 0:
+                        event_count_vec[0, feature_idx] = 1
+                except ValueError:
+                    continue
+
+        # The under part of the window
+        for i in range(self.win_size):
+            if axis + (i+1) < len(eid_logs):
+                # Skip the event id which is not in the tempalte lib or
+                # eid vocabulary. This usually happens in the logs for
+                # prediction.
+                try:
+                    feature_idx = eid_voc.index(eid_logs[axis+(i+1)])
+                    if event_count_vec[0, feature_idx] == 0:
+                        event_count_vec[0, feature_idx] = 1
+                except ValueError:
+                    continue
+
+    def extract_feature_multi(self, data_df, eid_voc):
+        """
+        Extract features in a monolith which always has multi samples.
 
         Arguments
         ---------
         data_df: data frame structured logs, monolith
         eid_voc: event id vocabulary
-        eid_logs: event ids in structured logs, monolith
 
         Returns
         -------
         event_count_matrix: multi-line (samples) for training/validation
-        class_vector: vector of target class for each sample, int
+        class_vec: vector of target class for each sample, int
         """
 
         # Load the sample info vector we generate in logparser module
@@ -241,7 +378,7 @@ class Loglab(ModernBase):
         print("Extracting features...")
 
         # A lower overhead progress bar
-        pbar = tqdm(total=len(self._segll), unit='Lines', disable=False,
+        pbar = tqdm(total=len(self._segll), unit='Lines', disable=self.dbg,
                     bar_format='{l_bar}{bar:40}{r_bar}{bar:-40b}')
 
         # Traverse each sample in the monolith of training dataset
@@ -251,12 +388,11 @@ class Loglab(ModernBase):
             class_vec.append(int(saminfo[1][1:]))
 
             # Slice event id and dataframe of a sample from the monolith
-            eid_sample = eid_logs[samoffset: samoffset+saminfo[0]]
             data_df_sample = data_df[samoffset: samoffset+saminfo[0]]
 
             # Do feature extraction for current sample
             event_count_matrix[idx], _ \
-                = self.extract_feature(data_df_sample, eid_voc, eid_sample)
+                = self.extract_feature(data_df_sample, eid_voc)
 
             # Calc offset for the next sample in the monolith
             samoffset += saminfo[0]

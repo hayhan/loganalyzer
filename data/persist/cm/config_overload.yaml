@@ -10,3 +10,4 @@ loglab:
     model: RFC          # Classical machine learning models
     window_size: 10     # 1/2 window around the axis, unit is log
     weight: 5           # Typical log weight
+    feature: binary     # Feature extraction algorithm, e.g. binary or count

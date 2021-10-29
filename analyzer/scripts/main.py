@@ -7,6 +7,9 @@ import click
 from analyzer import __version__
 
 
+log = logging.getLogger(__name__)
+
+
 # We implement the --version following the example from here:
 # https://click.palletsprojects.com/en/latest/options/#callbacks-and-eager-options
 def print_version(ctx, param, value):  # pylint: disable=unused-argument
@@ -65,7 +68,7 @@ def cli(ctx, log_level, ignore_warnings):
     if ignore_warnings:
         warnings.simplefilter("ignore")
 
-    # Lazy loading of the second level sub-commands
+    # Lazy loading of heavy weight sub-commands
 
     # Set invoke_without_command=True in group property otherwise cli()
     # cannot be invoked without sub-command. Do not enable it currently.
@@ -73,7 +76,7 @@ def cli(ctx, log_level, ignore_warnings):
 
     # pylint: disable=import-outside-toplevel
     if ctx.invoked_subcommand is None:
-        click.echo('I was invoked without sub command.')
+        log.info("I was invoked without sub-command.")
 
     elif ctx.invoked_subcommand == 'config':
         from . import config as mod
@@ -123,7 +126,7 @@ def cli(ctx, log_level, ignore_warnings):
         cli_utils.add_command(mod.cli_eid_log)
         cli_utils.add_command(mod.cli_visualize_data)
     else:
-        click.echo('Cannot happen.')
+        log.info("Light weight sub-command was loaded.")
 
 
 @cli.group("config", short_help="Show or edit the config file")
@@ -339,7 +342,7 @@ def cli_utils():
 
 
 def add_subcommands():
-    """ Add the first level sub-commands only. Lazy load others. """
+    """ Add light weight sub-commands only. Lazily load heavy ones. """
     # pylint: disable=import-outside-toplevel
 
     from .info import cli_info
