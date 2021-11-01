@@ -143,7 +143,8 @@ def cli_config():
     - The sub-command `updt` updates the item in the config directly
       The option `mytype` sets value type, e.g. int/bool/str(default)
     \b
-    - The option `overload` indicates the overloaded config file
+    - The option `overload` indicates the overloaded config file,
+      otherwise the base config file is the target.
 
     \b
     Examples

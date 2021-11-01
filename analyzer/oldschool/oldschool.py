@@ -82,28 +82,28 @@ class OSS():
 
         # Prepare for the iteration. Extract info from dataframe.
         if self._log_head_offset > 0:
-            timelst = self._df_raws['Time'].tolist()
+            time_logs = self._df_raws['Time'].tolist()
         else:
-            timelst = list(range(self._df_raws.shape[0]))
+            time_logs = list(range(self._df_raws.shape[0]))
 
-        eidlst = self._df_raws['EventId'].tolist()
-        tmpltlst = self._df_raws['EventTemplate'].tolist()
-        contentlst = self._df_raws['Content'].tolist()
+        eid_logs = self._df_raws['EventId'].tolist()
+        tmplt_logs = self._df_raws['EventTemplate'].tolist()
+        cont_logs = self._df_raws['Content'].tolist()
 
         # Do not iterate dataframe using iterrows(). It's very slow.
-        for time, eid, tmplt, content in zip(timelst, eidlst, tmpltlst, contentlst):
+        for time, eid, tmplt, content in zip(time_logs, eid_logs, tmplt_logs, cont_logs):
             log_content_l = content.strip().split()
-            log_event_tmplt_l = tmplt.strip().split()
+            log_tmplt_l = tmplt.strip().split()
 
             pbar.update(1)
 
-            if len(log_content_l) != len(log_event_tmplt_l):
+            if len(log_content_l) != len(log_tmplt_l):
                 continue
 
-            # Traverse all <*> tokens in log_event_tmplt_l and save the
-            # index. Consider cases like '<*>;', '<*>,', etc. Remove the
-            # unwanted ';,' in knowledgebase.
-            idx_list = [idx for idx, value in enumerate(log_event_tmplt_l) if '<*>' in value]
+            # Traverse all <*> tokens in log_tmplt_l and save the index.
+            # Consider cases like '<*>;', '<*>,', etc. Remove unwanted
+            # char ';,' from param in knowledgebase if needed.
+            idx_list = [idx for idx, value in enumerate(log_tmplt_l) if '<*>' in value]
             # print(idx_list)
             param_list = [log_content_l[idx] for idx in idx_list]
             # print(param_list)

@@ -72,6 +72,7 @@ class Loglab(ModernBase):
                       matrix for prediction
         class_vector: vector of target class for each sample
         """
+
         # --------------------------------------------------------------
         # Load data from parser or files
         # --------------------------------------------------------------
@@ -116,7 +117,6 @@ class Loglab(ModernBase):
 
         return event_matrix, class_vector
 
-    # pylint: disable=too-many-locals
     def extract_feature(self, data_df, eid_voc):
         """
         Extract feature in one sample
@@ -128,7 +128,7 @@ class Loglab(ModernBase):
 
         Returns
         -------
-        event_count_vec: one line matrix, aka. one sample
+        event_count_vec: one line matrix, aka. event count in one sample
         class_vec: empty
         """
 
@@ -137,7 +137,7 @@ class Loglab(ModernBase):
         elif self.feature == 'count':
             event_count_vec = self.feature_core_count(data_df, eid_voc)
         else:
-            print("Feature extraction algorithm is not support!!! Abort!!!")
+            print("This feature extraction is not supported!!! Abort!!!")
             sys.exit(1)
 
         # Empty target class for prediction
@@ -148,10 +148,11 @@ class Loglab(ModernBase):
 
         return event_count_vec, class_vec
 
+    # pylint: disable=too-many-locals
     def feature_core_binary(self, data_df, eid_voc):
         """
         Feature extraction core that does not count the event. It only
-        indicates if the event appears or not.
+        checks if the event appears or not.
 
         Arguments
         ---------
@@ -160,7 +161,7 @@ class Loglab(ModernBase):
 
         Returns
         -------
-        event_count_vec: one line matrix, aka. one sample
+        event_count_vec: one line matrix, aka. event count in one sample
         """
 
         # Initialize the matrix for one sample
@@ -169,21 +170,21 @@ class Loglab(ModernBase):
         # Prepare for the iteration. Extract info from dataframe.
         eid_logs = data_df['EventId'].tolist()
         tmplt_logs = data_df['EventTemplate'].tolist()
-        content_logs = data_df['Content'].tolist()
+        cont_logs = data_df['Content'].tolist()
 
         # Do not iterate dataframe using iterrows(). It's very slow.
-        for axis, (eid, tmplt, content) in enumerate(zip(eid_logs, tmplt_logs, content_logs)):
+        for axis, (eid, tmplt, content) in enumerate(zip(eid_logs, tmplt_logs, cont_logs)):
 
             log_content_l = content.strip().split()
-            log_event_tmplt_l = tmplt.strip().split()
+            log_tmplt_l = tmplt.strip().split()
 
-            if len(log_content_l) != len(log_event_tmplt_l):
+            if len(log_content_l) != len(log_tmplt_l):
                 continue
 
-            # Traverse all <*> tokens in log_event_tmplt_l and save the
-            # index. Consider cases like '<*>;', '<*>,', etc. Remove the
-            # unwanted ';,' in knowledgebase.
-            idx_list = [idx for idx, value in enumerate(log_event_tmplt_l) if '<*>' in value]
+            # Traverse all <*> tokens in log_tmplt_l and save the index.
+            # Consider cases like '<*>;', '<*>,', etc. Remove unwanted
+            # char ';,' from param in knowledgebase if needed.
+            idx_list = [idx for idx, value in enumerate(log_tmplt_l) if '<*>' in value]
             # print(idx_list)
             param_list = [log_content_l[idx] for idx in idx_list]
             # print(param_list)
@@ -211,7 +212,7 @@ class Loglab(ModernBase):
     def feature_core_count(self, data_df, eid_voc):
         """
         Feature extraction core that counts the event and calculates the
-        ratio to the whole sample that windows sweep.
+        ratio to the whole sample that window sweeps.
 
         Arguments
         ---------
@@ -220,30 +221,37 @@ class Loglab(ModernBase):
 
         Returns
         -------
-        event_count_vec: one line matrix, aka. one sample
+        event_count_vec: one line matrix, aka. event count in one sample
         """
 
         # Initialize the matrix for one sample
         event_count_vec = np.zeros((1,len(eid_voc)))
+        # Event/log character, 0: n/a, 1: aux, 2: typical
+        event_char_voc: List[int] = [0] * len(eid_voc)
+        # Event/log status in sample, 0: not counted, 1: counted
+        event_stat_logs: List[int] = [0] * data_df.shape[0]
+
+        # The edges that window sweeps in one samples
+        edges = {'low': -1, 'high': -1}
 
         # Prepare for the iteration. Extract info from dataframe.
         eid_logs = data_df['EventId'].tolist()
         tmplt_logs = data_df['EventTemplate'].tolist()
-        content_logs = data_df['Content'].tolist()
+        cont_logs = data_df['Content'].tolist()
 
         # Do not iterate dataframe using iterrows(). It's very slow.
-        for axis, (eid, tmplt, content) in enumerate(zip(eid_logs, tmplt_logs, content_logs)):
+        for axis, (eid, tmplt, content) in enumerate(zip(eid_logs, tmplt_logs, cont_logs)):
 
             log_content_l = content.strip().split()
-            log_event_tmplt_l = tmplt.strip().split()
+            log_tmplt_l = tmplt.strip().split()
 
-            if len(log_content_l) != len(log_event_tmplt_l):
+            if len(log_content_l) != len(log_tmplt_l):
                 continue
 
-            # Traverse all <*> tokens in log_event_tmplt_l and save the
-            # index. Consider cases like '<*>;', '<*>,', etc. Remove the
-            # unwanted ';,' in knowledgebase.
-            idx_list = [idx for idx, value in enumerate(log_event_tmplt_l) if '<*>' in value]
+            # Traverse all <*> tokens in log_tmplt_l and save the index.
+            # Consider cases like '<*>;', '<*>,', etc. Remove unwanted
+            # char ';,' from param in knowledgebase if needed.
+            idx_list = [idx for idx, value in enumerate(log_tmplt_l) if '<*>' in value]
             # print(idx_list)
             param_list = [log_content_l[idx] for idx in idx_list]
             # print(param_list)
@@ -256,28 +264,39 @@ class Loglab(ModernBase):
             if typical_log_hit:
                 # print(f"line {axis+1} hit, eid {eid}.")
 
+                # Update edges when window sweeps
+                self.edges_update(axis, edges, len(eid_logs))
+
                 # Capture the logs within the window. The real window
                 # size around typical log is 2*WINDOW_SIZE+1. That is,
                 # there are WINDOW_SIZE logs respectively before and
                 # after current typical log.
 
                 # The axis part, it is also the typical log
-                event_count_vec[0, eid_voc.index(eid)] = self.weight
+                event_char_voc[eid_voc.index(eid)] = 2
+                if event_stat_logs[axis] == 0:
+                    event_count_vec[0, eid_voc.index(eid)] += 1
+                    event_stat_logs[axis] = 1
 
-                self.window_count(axis, eid_voc, eid_logs, event_count_vec)
+                self.window_count(axis, eid_voc, eid_logs, event_count_vec,
+                                  event_char_voc, event_stat_logs)
+
+        # Scale and weight the event count values
+        self.weight_count(edges['high']-edges['low']+1,
+                          event_char_voc, event_count_vec)
 
         return event_count_vec
 
     def window_binary(self, axis, eid_voc, eid_logs, event_count_vec):
         """
-        Indicate event in binary manner within window.
+        Check event in binary manner within window, axis exclusive.
 
         Arguments
         ---------
         axis: the window axis
         data_df: data frame structured logs
         eid_voc: event id vocabulary
-        event_count_vec: one line matrix, aka. one sample
+        event_count_vec: one line matrix, aka. event count in one sample
         """
 
         # The upper part of the window
@@ -306,17 +325,20 @@ class Loglab(ModernBase):
                 except ValueError:
                     continue
 
-    def window_count(self, axis, eid_voc, eid_logs, event_count_vec):
+    # pylint: disable=too-many-arguments
+    def window_count(self, axis, eid_voc, eid_logs, event_count_vec,
+                     event_char_voc, event_stat_logs):
         """
-        counts the event and calculates the ratio to the whole sample
-        that windows sweep.
+        counts the event within window, axis exclusive.
 
         Arguments
         ---------
         axis: the window axis
         data_df: data frame structured logs
         eid_voc: event id vocabulary
-        event_count_vec: one line matrix, aka. one sample
+        event_count_vec: one line matrix, aka. event count in one sample
+        event_char_voc: event charactor, 0: n/a, 1: aux, 2: typical
+        event_stat_logs: log status in sample, 0: not counted 1: counted
         """
 
         # The upper part of the window
@@ -327,8 +349,11 @@ class Loglab(ModernBase):
                 # prediction.
                 try:
                     feature_idx = eid_voc.index(eid_logs[axis-(i+1)])
-                    if event_count_vec[0, feature_idx] == 0:
-                        event_count_vec[0, feature_idx] = 1
+                    if event_char_voc[feature_idx] == 0:
+                        event_char_voc[feature_idx] = 1
+                    if event_stat_logs[axis-(i+1)] == 0:
+                        event_count_vec[0, feature_idx] += 1
+                        event_stat_logs[axis-(i+1)] = 1
                 except ValueError:
                     continue
 
@@ -340,10 +365,56 @@ class Loglab(ModernBase):
                 # prediction.
                 try:
                     feature_idx = eid_voc.index(eid_logs[axis+(i+1)])
-                    if event_count_vec[0, feature_idx] == 0:
-                        event_count_vec[0, feature_idx] = 1
+                    if event_char_voc[feature_idx] == 0:
+                        event_char_voc[feature_idx] = 1
+                    if event_stat_logs[axis+(i+1)] == 0:
+                        event_count_vec[0, feature_idx] += 1
+                        event_stat_logs[axis+(i+1)] = 1
                 except ValueError:
                     continue
+
+    def edges_update(self, axis: int, edges: dict, sample_len: int):
+        """
+        Update edges that window sweeps within one sample.
+
+        Arguments
+        ---------
+        axis: the window axis
+        edges: the low and high edges that window sweeps
+        sample_len: length of sample
+        """
+
+        if edges['low'] == -1:
+            tmp = axis - self.win_size
+            edges['low'] = tmp if tmp >= 0 else 0
+
+        tmp = axis + self.win_size
+        edges['high'] = tmp if tmp < sample_len else sample_len - 1
+
+    def weight_count(self, sweep_len: int, event_char_voc: List[int], event_count_vec):
+        """
+        Scale and weight the event count values in one sample.
+
+        Arguments
+        ---------
+        sweep_len: the number of logs that window sweeps in one sample
+        event_char_voc: event charactor, 0: n/a, 1: aux, 2: typical
+        event_count_vec: one line matrix, aka. event count in one sample
+        """
+
+        for i, char in enumerate(event_char_voc):
+            if bool(event_count_vec[0, i]) ^ bool(char):
+                print("Something wrong in event counting!!! Abort!!!")
+                sys.exit(1)
+            if char == 1:
+                master_weight = 1
+            elif char == 2:
+                master_weight = self.weight
+            else:
+                # char == 0 or undefined values (should not happen)
+                continue
+
+            event_count_vec[0, i] = event_count_vec[0, i]/sweep_len + master_weight
 
     def extract_feature_multi(self, data_df, eid_voc):
         """
