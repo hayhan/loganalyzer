@@ -27,7 +27,8 @@ loglab:
     window_size: 10     # 1/2 window around the axis, unit is log
     weight: 2           # Typical log weight
     mykfold: false      # Selection of kfold implementation
-    feature: binary     # Feature extraction algorithm, e.g. binary or count
+    feature: BIN        # Feature extraction algorithm, e.g. BIN or CNT
+    cover_doc: true     # Cover full sample to calc ratio in algorithm CNT
 
 # Section: deeplog
 deeplog:

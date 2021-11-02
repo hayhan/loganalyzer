@@ -38,6 +38,7 @@ class Loglab(ModernBase):
         self.win_size: int = GC.conf['loglab']['window_size']
         self.weight: int = GC.conf['loglab']['weight']
         self.feature: str = GC.conf['loglab']['feature']
+        self.cover_doc: bool = GC.conf['loglab']['cover_doc']
         self._segll: List[tuple] = []
         self.onnx_model: str = os.path.join(dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx')
 
@@ -132,9 +133,9 @@ class Loglab(ModernBase):
         class_vec: empty
         """
 
-        if self.feature == 'binary':
+        if self.feature == 'BIN':
             event_count_vec = self.feature_core_binary(data_df, eid_voc)
-        elif self.feature == 'count':
+        elif self.feature == 'CNT':
             event_count_vec = self.feature_core_count(data_df, eid_voc)
         else:
             print("This feature extraction is not supported!!! Abort!!!")
@@ -264,8 +265,10 @@ class Loglab(ModernBase):
             if typical_log_hit:
                 # print(f"line {axis+1} hit, eid {eid}.")
 
-                # Update edges when window sweeps
-                self.edges_update(axis, edges, len(eid_logs))
+                if self.cover_doc:
+                    # Update edges when window sweeps, otherwise we only
+                    # sum the total counted logs together
+                    self.edges_update(axis, edges, len(eid_logs))
 
                 # Capture the logs within the window. The real window
                 # size around typical log is 2*WINDOW_SIZE+1. That is,
@@ -281,9 +284,13 @@ class Loglab(ModernBase):
                 self.window_count(axis, eid_voc, eid_logs, event_count_vec,
                                   event_char_voc, event_stat_logs)
 
+        if self.cover_doc:
+            denom = edges['high']-edges['low']+1
+        else:
+            denom = self.num_logs_counted(event_char_voc, event_count_vec)
+
         # Scale and weight the event count values
-        self.weight_count(edges['high']-edges['low']+1,
-                          event_char_voc, event_count_vec)
+        self.weight_count(denom, event_char_voc, event_count_vec)
 
         return event_count_vec
 
@@ -329,7 +336,7 @@ class Loglab(ModernBase):
     def window_count(self, axis, eid_voc, eid_logs, event_count_vec,
                      event_char_voc, event_stat_logs):
         """
-        counts the event within window, axis exclusive.
+        Count the event within window, axis exclusive.
 
         Arguments
         ---------
@@ -391,7 +398,8 @@ class Loglab(ModernBase):
         tmp = axis + self.win_size
         edges['high'] = tmp if tmp < sample_len else sample_len - 1
 
-    def weight_count(self, sweep_len: int, event_char_voc: List[int], event_count_vec):
+    def weight_count(self, sweep_len: int, event_char_voc: List[int],
+                     event_count_vec: np.ndarray):
         """
         Scale and weight the event count values in one sample.
 
@@ -415,6 +423,28 @@ class Loglab(ModernBase):
                 continue
 
             event_count_vec[0, i] = event_count_vec[0, i]/sweep_len + master_weight
+
+    @staticmethod
+    def num_logs_counted(event_char_voc: List[int], event_count_vec: np.ndarray):
+        """
+        Sum the number of counted event in one sample.
+
+        Arguments
+        ---------
+        event_char_voc: event charactor, 0: n/a, 1: aux, 2: typical
+        event_count_vec: one line matrix, aka. event count in one sample
+
+        Returns
+        -------
+        num: the number of counted event in one sample
+        """
+
+        num: int = 0
+        for i, char in enumerate(event_char_voc):
+            if char != 0:
+                num += event_count_vec[0, i]
+
+        return num
 
     def extract_feature_multi(self, data_df, eid_voc):
         """
