@@ -30,7 +30,6 @@ __all__ = ["Loglizer"]
 log = logging.getLogger(__name__)
 
 
-# pylint: disable=too-many-instance-attributes
 class Loglizer(ModernBase):
     """ The class of Loglizer technique """
     def __init__(self, df_raws, df_tmplts, dbg: bool = False):

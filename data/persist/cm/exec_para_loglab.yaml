@@ -3,11 +3,17 @@
 RFC:
     window_size: 10
     weight: 2
+    feature: CNT
+    cover_doc: true
 
 LR:
     window_size: 10
     weight: 2
+    feature: CNT
+    cover_doc: true
 
 SVM:
     window_size: 10
     weight: 2
+    feature: CNT
+    cover_doc: true

@@ -4,7 +4,7 @@
 import os
 import sys
 import logging
-from typing import List
+from typing import List, Dict
 from importlib import import_module
 import pickle
 import numpy as np
@@ -37,10 +37,13 @@ class Loglab(ModernBase):
         self.model: str = GC.conf['loglab']['model']
         self.win_size: int = GC.conf['loglab']['window_size']
         self.weight: int = GC.conf['loglab']['weight']
-        self.feature: str = GC.conf['loglab']['feature']
-        self.cover_doc: bool = GC.conf['loglab']['cover_doc']
         self._segll: List[tuple] = []
         self.onnx_model: str = os.path.join(dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx')
+
+        self.feat: Dict[str, bool] = {
+            'name': GC.conf['loglab']['feature'],
+            'cover': GC.conf['loglab']['cover_doc']
+        }
 
         self.kbase = kb.Kb()
 
@@ -62,6 +65,11 @@ class Loglab(ModernBase):
         self.win_size = GC.conf['loglab']['window_size']
         self.weight = GC.conf['loglab']['weight']
         self.onnx_model = os.path.join(dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx')
+
+        self.feat = {
+            'name': GC.conf['loglab']['feature'],
+            'cover': GC.conf['loglab']['cover_doc']
+        }
 
     def load_data(self):
         """
@@ -133,9 +141,9 @@ class Loglab(ModernBase):
         class_vec: empty
         """
 
-        if self.feature == 'BIN':
+        if self.feat['name'] == 'BIN':
             event_count_vec = self.feature_core_binary(data_df, eid_voc)
-        elif self.feature == 'CNT':
+        elif self.feat['name'] == 'CNT':
             event_count_vec = self.feature_core_count(data_df, eid_voc)
         else:
             print("This feature extraction is not supported!!! Abort!!!")
@@ -265,7 +273,7 @@ class Loglab(ModernBase):
             if typical_log_hit:
                 # print(f"line {axis+1} hit, eid {eid}.")
 
-                if self.cover_doc:
+                if self.feat['cover']:
                     # Update edges when window sweeps, otherwise we only
                     # sum the total counted logs together
                     self.edges_update(axis, edges, len(eid_logs))
@@ -284,7 +292,7 @@ class Loglab(ModernBase):
                 self.window_count(axis, eid_voc, eid_logs, event_count_vec,
                                   event_char_voc, event_stat_logs)
 
-        if self.cover_doc:
+        if self.feat['cover']:
             denom = edges['high']-edges['low']+1
         else:
             denom = self.num_logs_counted(event_char_voc, event_count_vec)
@@ -575,11 +583,11 @@ class Loglab(ModernBase):
                         class_weight=None, solver='liblinear', max_iter=100,
                         multi_class='auto')
         elif self.model == 'SVM':
-            # model = svm.LinearSVC(penalty='l1', tol=0.1, C=1, dual=False,
-            #             class_weight=None, max_iter=1000,
-            #             multi_class='ovr')
+            model = svm.LinearSVC(penalty='l2', tol=0.0001, C=1, dual=True,
+                        class_weight=None, max_iter=4000,
+                        multi_class='ovr')
+            # model = svm.LinearSVC()
             # model = svm.SVC()
-            model = svm.LinearSVC()
         else:
             print("The model name is not defined. Exit.")
             sys.exit(1)

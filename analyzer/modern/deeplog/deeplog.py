@@ -59,7 +59,6 @@ class DeepLogExecDataset(Dataset):
 
 class DeepLog(ModernBase):
     """ The class of DeepLog technique """
-    # pylint: disable=too-many-arguments
     def __init__(self, df_raws, df_tmplts, dbg: bool = False):
         self.model_para: dict = {}
         self._segdl: List[int] = []
@@ -456,7 +455,6 @@ class DeepLog(ModernBase):
         # print(len(anomaly_line))
         return anomaly_line
 
-    # pylint: disable=too-many-locals
     def evaluate_core(self, model, data_loader, device):
         """ The evaluate core
         """

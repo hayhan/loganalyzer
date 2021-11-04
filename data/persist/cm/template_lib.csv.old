@@ -868,3 +868,6 @@ c2a5d8cf,c2a5d8cf,"BcmBfcProcessCvc:: CmCodeVerificationCertificate:: ParseAndVa
 b75807f9,b75807f9,BcmBfcProcessCvc:: ProcessConfigFileSpecifiedCvc: ERROR - Config file manufacturer CVC is rejected.
 147936b5,147936b5,BcmBfcProcessCvc:: ProcessConfigFileManufAndCosignerCvcs: ERROR - Reject config file MFG CVC!
 f1db80b8,f1db80b8,Logging event: Configuration File CVC Validation Failure
+8bf03a88,8bf03a88,Primary DS is <*> QAM Annex B - adjusting by <*> PPM
+382cc52c,382cc52c,RNG-RSP UsChanId= <*> Adj: tim= <*> power= <*> freq= <*> Stat= <*> OFDMA eq adj 
+b9779998,b9779998,RNG-RSP UsChanId= <*> Adj: tim= <*> Stat= <*> ( CmdPwr ( UsChanId-dBmV ): <*> )

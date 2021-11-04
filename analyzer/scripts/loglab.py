@@ -23,6 +23,8 @@ def exercise_all_models(llobj):
         GC.conf['loglab']['model'] = model
         GC.conf['loglab']['window_size'] = attr['window_size']
         GC.conf['loglab']['weight'] = attr['weight']
+        GC.conf['loglab']['feature'] = attr['feature']
+        GC.conf['loglab']['cover_doc'] = attr['cover_doc']
 
         if GC.conf['general']['training']:
             llobj.train()
