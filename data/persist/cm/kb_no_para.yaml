@@ -33,6 +33,9 @@
 # TEMPLATE: "BcmCmDsChanOfdm:: DsLockFail: rxid= <*> dcid= <*>"
 'f228dfa5': "RF cable cut, weak downstream OFDM signal, or noises ..."
 
+# TEMPLATE: "BcmCmDsOfdmProfileState:: FecLockFail: hwRxId= <*> dcid= <*> profId= <*> ( <*> )"
+'c62e9d36': "RF cable cut, weak downstream OFDM signal, or noises ..."
+
 # TEMPLATE: "BcmCmDsOfdmProfileState:: FecLockFail: hwRxId= <*> dcid= <*> profId= <*> ( <*> ) reason= <*>"
 '7f7e47ee': "RF cable cut, weak downstream OFDM signal, or noises ..."
 
@@ -41,6 +44,10 @@
 
 # TEMPLATE: "Cable disconnected, Publishing 'cable cut' event."
 '87a34b02': "Cable disconnected, or no any signals on the cable."
+
+# TEMPLATE: "OFDM channel <*> Profile <*> marked BAD due to <*> out of the last <*> ms intervals containing uncorrectable codewords"
+'f90b0b13': "OFDM channel MER margin is low and uncorrectable codewords
+             is increasing. Channel quality is poor."
 
 # ----------------------------------------------------------------------
 # Recover ds channels

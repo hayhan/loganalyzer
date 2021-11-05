@@ -4,16 +4,16 @@ RFC:
     window_size: 10
     weight: 2
     feature: CNT
-    cover_doc: true
+    cover: FULL
 
 LR:
     window_size: 10
     weight: 2
     feature: CNT
-    cover_doc: true
+    cover: FULL
 
 SVM:
     window_size: 10
     weight: 2
     feature: CNT
-    cover_doc: true
+    cover: FULL

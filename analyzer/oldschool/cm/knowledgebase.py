@@ -249,6 +249,28 @@ class Kb(KbBase):
                 break
 
             # ----------------------------------------------------------
+            # CM-STATUS / CM-STATUS-ACK
+            # ----------------------------------------------------------
+            if case('89db902a'):
+                # <TEMPLATE>
+                # "CM-STATUS-ACK trans= <*> event= <*> ( <*> )"
+                #
+                if params[2] == 'kCmEvDsOfdmProfNcpLockFail':
+                    log_fault = True
+                    log_sugg = "Usually downstream channel quality is poor."
+
+                elif params[2] == 'kCmEvDsOfdmProfLockFail':
+                    log_fault = True
+                    log_sugg = "Usually downstream channel quality is poor."
+
+                elif params[2] == 'kCmEvNonPriDsMddFail':
+                    log_fault = True
+                    log_sugg = ("CM cannot receive MDD on non-primary DS. Either CMTS "
+                                "does not send or CM DS channel quality is poor.")
+
+                break
+
+            # ----------------------------------------------------------
             # Context updates
             # ----------------------------------------------------------
             if case('b2079e76'):

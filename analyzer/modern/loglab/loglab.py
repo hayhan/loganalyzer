@@ -38,11 +38,16 @@ class Loglab(ModernBase):
         self.win_size: int = GC.conf['loglab']['window_size']
         self.weight: int = GC.conf['loglab']['weight']
         self._segll: List[tuple] = []
-        self.onnx_model: str = os.path.join(dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx')
 
-        self.feat: Dict[str, bool] = {
+        # Trained models for deployment, aka. for prediction
+        self.onnx_model: str = os.path.join(
+            dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx'
+        )
+
+        # Core feature extraction and covering methods
+        self.feat: Dict[str, str] = {
             'name': GC.conf['loglab']['feature'],
-            'cover': GC.conf['loglab']['cover_doc']
+            'cover': GC.conf['loglab']['cover']
         }
 
         self.kbase = kb.Kb()
@@ -64,11 +69,14 @@ class Loglab(ModernBase):
         self.model = GC.conf['loglab']['model']
         self.win_size = GC.conf['loglab']['window_size']
         self.weight = GC.conf['loglab']['weight']
-        self.onnx_model = os.path.join(dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx')
+
+        self.onnx_model = os.path.join(
+            dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx'
+        )
 
         self.feat = {
             'name': GC.conf['loglab']['feature'],
-            'cover': GC.conf['loglab']['cover_doc']
+            'cover': GC.conf['loglab']['cover']
         }
 
     def load_data(self):
@@ -273,9 +281,9 @@ class Loglab(ModernBase):
             if typical_log_hit:
                 # print(f"line {axis+1} hit, eid {eid}.")
 
-                if self.feat['cover']:
+                if self.feat['cover'] == 'FULL':
                     # Update edges when window sweeps, otherwise we only
-                    # sum the total counted logs together
+                    # sum the total counted logs together, aka. PART
                     self.edges_update(axis, edges, len(eid_logs))
 
                 # Capture the logs within the window. The real window
@@ -292,10 +300,13 @@ class Loglab(ModernBase):
                 self.window_count(axis, eid_voc, eid_logs, event_count_vec,
                                   event_char_voc, event_stat_logs)
 
-        if self.feat['cover']:
+        if self.feat['cover'] == 'FULL':
             denom = edges['high']-edges['low']+1
-        else:
+        elif self.feat['cover'] == 'PART':
             denom = self.num_logs_counted(event_char_voc, event_count_vec)
+        else:
+            print("Cover method is not supported!!! Abort!!!")
+            sys.exit(1)
 
         # Scale and weight the event count values
         self.weight_count(denom, event_char_voc, event_count_vec)

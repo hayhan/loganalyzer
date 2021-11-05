@@ -11,4 +11,4 @@ loglab:
     window_size: 10     # 1/2 window around the axis, unit is log
     weight: 5           # Typical log weight
     feature: CNT        # Feature extraction algorithm, e.g. BIN or CNT
-    cover_doc: true     # Cover full sample to calc ratio in algorithm CNT
+    cover: FULL         # Cover FULL sample or PART to calc ratio in algorithm CNT

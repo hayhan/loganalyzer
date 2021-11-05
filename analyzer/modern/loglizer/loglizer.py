@@ -39,7 +39,9 @@ class Loglizer(ModernBase):
         self.inc_updt: bool = False
         self._labels: List[int] = []
         self.win_idx: List[tuple] = []
-        self.onnx_model: str = os.path.join(dh.PERSIST_DATA, 'loglizer_'+self.model+'.onnx')
+        self.onnx_model: str = os.path.join(
+            dh.PERSIST_DATA, 'loglizer_'+self.model+'.onnx'
+        )
 
         ModernBase.__init__(self, df_raws, df_tmplts, dbg)
 
@@ -58,7 +60,10 @@ class Loglizer(ModernBase):
         self.model = GC.conf['loglizer']['model']
         self.win_size = GC.conf['loglizer']['window_size']
         self.step_size = GC.conf['loglizer']['window_step']
-        self.onnx_model = os.path.join(dh.PERSIST_DATA, 'loglizer_'+self.model+'.onnx')
+        self.onnx_model = os.path.join(
+            dh.PERSIST_DATA, 'loglizer_'+self.model+'.onnx'
+        )
+
         if self.model in ['DT', 'LR', 'SVM', 'RFC']:
             self.inc_updt = False
         elif self.model in ['MNB', 'PTN', 'SGDC_SVM', 'SGDC_LR']:
