@@ -366,7 +366,7 @@ class Preprocess(PreprocessBase):
             #
             # It is time to remove empty line
             #
-            if newline in ['\n', '\r\n']:
+            if newline in ['\n', '\r\n', '']:
                 if not last_line_empty:
                     con_empty_ln_cnt = 1
                 else:
