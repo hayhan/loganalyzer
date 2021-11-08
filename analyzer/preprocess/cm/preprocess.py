@@ -4,7 +4,7 @@
 import os
 from datetime import datetime
 import logging
-from typing import List, Pattern
+from typing import List, Dict, Pattern
 from tqdm import tqdm
 import analyzer.utils.data_helper as dh
 from analyzer.config import GlobalConfig as GC
@@ -72,8 +72,7 @@ class Preprocess(PreprocessBase):
         # Note: preprocess_norm will overwrite the normlogs
         self.cond_save_strings(self.fzip['norm'], self._normlogs)
 
-    # pylint: disable=too-many-locals,too-many-statements
-    # pylint: disable=too-many-branches
+    # pylint: disable=too-many-statements, disable=too-many-branches
     def preprocess_new(self):
         """ Preprocess to generate the new log data.
             Clean the raw log data.
@@ -91,22 +90,25 @@ class Preprocess(PreprocessBase):
         #-------------------------------
         # Local state variables
         #-------------------------------
-        heading_clean: bool = False
-        remove_line: bool = False
-        in_ds_stat_table: bool = False
-        in_us_stat_table: bool = False
-        table_messed: bool = False
-        table_entry_processed: bool = False
-        last_ln_messed: bool = False
-        in_log_table: bool = False
-        in_log_block: bool = False
-        in_log_block2: bool = False
-        in_log_block3: bool = False
-        in_log_block4: bool = False
-        last_line_empty: bool = False
-        con_empty_ln_cnt: int = 0
-        last_label_removed: bool = False
         last_label: str = ''
+        con_empty_ln_cnt: int = 0
+
+        stat: Dict[str, bool] = {
+            'head_clean': False,
+            'remove_line': False,
+            'in_ds_stat_tbl': False,
+            'in_us_stat_tbl': False,
+            'tbl_messed': False,
+            'tbl_entry_done': False,
+            'last_ln_messed': False,
+            'last_ln_empty': False,
+            'last_label_removed': False,
+            'in_log_tbl': False,
+            'in_log_blk': False,
+            'in_log_blk2': False,
+            'in_log_blk3': False,
+            'in_log_blk4': False
+        }
 
         print(f"Pre-processing the raw {self.datatype} dataset ...")
         parse_st: datetime = datetime.now()
@@ -140,16 +142,16 @@ class Preprocess(PreprocessBase):
                     and not (self.training or self.metrics) \
                     and not ptn.PTN_FUZZY_TIME.search(curr_line_ts):
                     if idx == 0:
-                        heading_clean = True
+                        stat['head_clean'] = True
                     continue
                 newline = self.ptn_main_ts.sub('', line, count=1)
                 # Inherit segment labels (segsign: or cxxx) from last
                 # labeled line if it is removed.
                 if self.context in ['LOGLAB', 'DEEPLOG'] and (self.training or self.metrics) \
-                    and last_label_removed:
+                    and stat['last_label_removed']:
                     curr_line_ts = ''.join([curr_line_ts, last_label])
                     # Reset
-                    last_label_removed = False
+                    stat['last_label_removed'] = False
                     last_label = ''
             elif self._reserve_ts:
                 # If we intend to reserve the main timestamp but does
@@ -157,7 +159,7 @@ class Preprocess(PreprocessBase):
                 # the timestamp is messed up, the timestamp format is
                 # not recognized, or no timestamp at all at the head.
                 if idx == 0:
-                    heading_clean = True
+                    stat['head_clean'] = True
                 continue
             else:
                 # No main timestamp in the log file or we do not want to
@@ -172,21 +174,22 @@ class Preprocess(PreprocessBase):
             #
             # Remove some heading lines at the start of log file
             #
-            if (idx == 0 or heading_clean) \
+            if (idx == 0 or stat['head_clean']) \
                 and (ptn.PTN_NESTED_LINE.match(newline) or newline in ['\n', '\r\n']):
-                heading_clean = True
+                stat['head_clean'] = True
                 # Take care if the removed line has segment label. Hand
                 # it over to the next line.
                 if self.context in ['LOGLAB', 'DEEPLOG'] and (self.training or self.metrics):
-                    last_label, last_label_removed = self._hand_over_label(curr_line_ts)
+                    last_label, stat['last_label_removed'] \
+                        = self._hand_over_label(curr_line_ts)
                 continue
-            if heading_clean:
-                heading_clean = False
+            if stat['head_clean']:
+                stat['head_clean'] = False
 
             # Because of host system code bug of no endl, some primary
             # logs are concatenated to the former one. Split them and
             # only reserve the last log in the same line. Skip the match
-            # at position 0 if exits as I will remove it later.
+            # at position 0 if exits as we will remove it later.
             if ptn.PTN_BFC_TS.search(newline, 2):
                 match_g = ptn.PTN_BFC_TS.finditer(newline, 2)
                 *_, last_match = match_g
@@ -207,29 +210,29 @@ class Preprocess(PreprocessBase):
             # Remove unwanted log blocks. Specific lines end the block
             #
             if ptn.PTN_BLOCK_RM_START.match(newline):
-                in_log_block = True
+                stat['in_log_blk'] = True
                 # Delete current line
-                remove_line = True
-            elif in_log_block:
+                stat['remove_line'] = True
+            elif stat['in_log_blk']:
                 if ptn.PTN_BLOCK_RM_END.match(newline):
-                    in_log_block = False
+                    stat['in_log_blk'] = False
                 else:
                     # Delete current line
-                    remove_line = True
+                    stat['remove_line'] = True
 
             #
             # Remove unwanted log blocks. Primary line ends the block
             #
             elif ptn.PTN_BLOCK_RM_PRI.match(newline):
-                in_log_block2 = True
+                stat['in_log_blk2'] = True
                 # Delete current line
-                remove_line = True
-            elif in_log_block2:
+                stat['remove_line'] = True
+            elif stat['in_log_blk2']:
                 if not ptn.PTN_NESTED_LINE.match(newline) and newline not in ['\n', '\r\n']:
-                    in_log_block2 = False
+                    stat['in_log_blk2'] = False
                 else:
                     # Delete current line
-                    remove_line = True
+                    stat['remove_line'] = True
 
             #
             # Remove line starting with specific patterns
@@ -238,19 +241,20 @@ class Preprocess(PreprocessBase):
                 # Take care if the removed line has segment label. Hand
                 # it over to the next line.
                 if self.context in ['LOGLAB', 'DEEPLOG'] and (self.training or self.metrics):
-                    last_label, last_label_removed = self._hand_over_label(curr_line_ts)
-                remove_line = True
+                    last_label, stat['last_label_removed'] \
+                        = self._hand_over_label(curr_line_ts)
+                stat['remove_line'] = True
 
             #
             # Indent a block of lines from primary to embedded. Note:
             # Do not indent the first line. Empty line ends the block.
             #
             elif ptn.PTN_BLOCK_INDENT.match(newline):
-                in_log_block3 = True
-            elif in_log_block3:
+                stat['in_log_blk3'] = True
+            elif stat['in_log_blk3']:
                 # Empty line ends the block
                 if newline in ['\n', '\r\n']:
-                    in_log_block3 = False
+                    stat['in_log_blk3'] = False
                 else:
                     newline = ''.join([' ', newline])
 
@@ -260,12 +264,12 @@ class Preprocess(PreprocessBase):
             # ends the block.
             #
             elif ptn.PTN_BLOCK_INDENT2.match(newline):
-                in_log_block4 = True
-            elif in_log_block4:
+                stat['in_log_blk4'] = True
+            elif stat['in_log_blk4']:
                 if ptn.PTN_BLOCK_INDENT2_END.match(newline):
                     # Special line ends the block
                     newline = ''.join([' ', newline])
-                    in_log_block4 = False
+                    stat['in_log_blk4'] = False
                 else:
                     newline = ''.join([' ', newline])
 
@@ -280,46 +284,47 @@ class Preprocess(PreprocessBase):
             # Format DS channel status table
             #
             elif ptn.PTN_DS_CHAN_TABLE.match(newline):
-                in_ds_stat_table = True
+                stat['in_ds_stat_tbl'] = True
                 # Remove the title line
-                remove_line = True
-            elif in_ds_stat_table and in_log_table:
+                stat['remove_line'] = True
+            elif stat['in_ds_stat_tbl'] and stat['in_log_tbl']:
                 if (not ptn.PTN_NESTED_LINE.match(newline)) and (newline not in ['\n', '\r\n']):
                     # Table is messed by other thread if gets into here.
                     # Normal channel status row should be nested. Messed
                     # table may have empty lines in the middle of table.
-                    table_messed = True
+                    stat['tbl_messed'] = True
                     # Remove this line here, do not leave it to the
                     # "Remove table block"
-                    remove_line = True
-                elif newline in ['\n', '\r\n'] and table_entry_processed and (not last_ln_messed):
+                    stat['remove_line'] = True
+                elif newline in ['\n', '\r\n'] and stat['tbl_entry_done'] \
+                    and (not stat['last_ln_messed']):
                     # Suppose table ended with empty line but also need
-                    # consider the case of messed table.
-                    # The 'table_entry_processed', 'last_ln_messed' and
-                    # 'table_messed' are used here to process the messed
-                    # table case. Leave reset of 'in_log_table' to the
-                    # "Remove table block".
-                    in_ds_stat_table = False
-                    table_messed = False
-                    table_entry_processed = False
+                    # consider case of messed table. 'tbl_entry_done',
+                    # 'last_ln_messed' and 'tbl_messed' are used here to
+                    # process the messed table case. Leave reset of the
+                    # 'in_log_tbl' to the "Remove table block".
+                    stat['in_ds_stat_tbl'] = False
+                    stat['tbl_messed'] = False
+                    stat['tbl_entry_done'] = False
                 elif newline not in ['\n', '\r\n']:
                     # The real table row, that is, nested line
-                    table_entry_processed = True
-                    newline, last_ln_messed \
-                        = self.format_ds_chan_table(newline, table_messed, last_ln_messed)
+                    stat['tbl_entry_done'] = True
+                    newline, stat['last_ln_messed'] = self.format_ds_chan_table(
+                        newline, stat['tbl_messed'], stat['last_ln_messed']
+                    )
 
             #
             # Format US channel status table
             #
             elif ptn.PTN_US_CHAN_TABLE.match(newline):
-                in_us_stat_table = True
+                stat['in_us_stat_tbl'] = True
                 # Remove the title line
-                remove_line = True
-            elif in_us_stat_table and in_log_table:
+                stat['remove_line'] = True
+            elif stat['in_us_stat_tbl'] and stat['in_log_tbl']:
                 if newline in ['\n', '\r\n']:
                     # Suppose table ended with empty line. Leave reset
-                    # of in_log_table to "remove table block".
-                    in_us_stat_table = False
+                    # of in_log_tbl to "remove table block".
+                    stat['in_us_stat_tbl'] = False
                 else:
                     newline = self.format_us_chan_table(newline)
 
@@ -327,26 +332,26 @@ class Preprocess(PreprocessBase):
             # Remove table block
             #
             if ptn.PTN_TABLE_TITLE_COMMON.match(newline):
-                in_log_table = True
+                stat['in_log_tbl'] = True
                 # Remove the title line
-                remove_line = True
-            elif in_log_table:
+                stat['remove_line'] = True
+            elif stat['in_log_tbl']:
                 if newline in ['\n', '\r\n']:
                     # Suppose table ended with empty line
-                    # Note: we also reset the in_log_table for the DS/US
-                    # channel status table above
-                    if (not in_ds_stat_table) or (in_ds_stat_table and \
-                        table_entry_processed and (not last_ln_messed)):
-                        in_log_table = False
-                elif not (in_ds_stat_table or in_us_stat_table):
+                    # Note: we also reset the in_log_tbl for the DS/US
+                    # channel status tables above
+                    if (not stat['in_ds_stat_tbl']) or (stat['in_ds_stat_tbl'] \
+                        and stat['tbl_entry_done'] and (not stat['last_ln_messed'])):
+                        stat['in_log_tbl'] = False
+                elif not (stat['in_ds_stat_tbl'] or stat['in_us_stat_tbl']):
                     # Still table line, remove it
-                    remove_line = True
+                    stat['remove_line'] = True
 
             #
             # Remove title line of specific tables
             #
             elif ptn.PTN_TABLE_TITLE.match(newline):
-                remove_line = True
+                stat['remove_line'] = True
 
             #
             # Convert some specific nested lines as primary
@@ -355,10 +360,10 @@ class Preprocess(PreprocessBase):
                 newline = newline.lstrip()
 
             #
-            # Convert a nested line as primary if two more empty lines
-            # procede.
+            # Convert nested as primary if two more empty lines procede
             #
-            elif ptn.PTN_NESTED_LINE.match(newline) and last_line_empty and (con_empty_ln_cnt>=2):
+            elif ptn.PTN_NESTED_LINE.match(newline) and stat['last_ln_empty'] \
+                and (con_empty_ln_cnt>=2):
                 # Try to see if there are any exceptions
                 if not ptn.PTN_NESTED_LINE_EXCEPTION.match(newline):
                     newline = newline.lstrip()
@@ -367,7 +372,7 @@ class Preprocess(PreprocessBase):
             # It is time to remove empty line
             #
             if newline in ['\n', '\r\n', '']:
-                if not last_line_empty:
+                if not stat['last_ln_empty']:
                     con_empty_ln_cnt = 1
                 else:
                     con_empty_ln_cnt += 1
@@ -375,19 +380,20 @@ class Preprocess(PreprocessBase):
                 # Take care if the removed line has segment label. Hand
                 # it over to the next line
                 if self.context in ['LOGLAB', 'DEEPLOG'] and (self.training or self.metrics):
-                    last_label, last_label_removed = self._hand_over_label(curr_line_ts)
+                    last_label, stat['last_label_removed'] \
+                        = self._hand_over_label(curr_line_ts)
 
-                # Update last_line_empty for the next line processing
-                last_line_empty = True
-                remove_line = True
+                # Update last_ln_empty for the next line processing
+                stat['last_ln_empty'] = True
+                stat['remove_line'] = True
             else:
-                last_line_empty = False
+                stat['last_ln_empty'] = False
 
             #
             # Line removing (including empty) should precede here
             #
-            if remove_line:
-                remove_line = False
+            if stat['remove_line']:
+                stat['remove_line'] = False
                 continue
 
             #
@@ -445,7 +451,7 @@ class Preprocess(PreprocessBase):
         if table_messed:
             # Need consider the last colomn of DS channel status,
             # aka. lineview[7]
-            if lineview[7] not in ['Qam64\n', 'Qam256\n', 'OFDM PLC\n', 'Qam64\r\n', \
+            if lineview[7] not in ['Qam64\n', 'Qam256\n', 'OFDM PLC\n', 'Qam64\r\n',
                 'Qam256\r\n', 'OFDM PLC\r\n']:
                 # Current line is messed and the last colomn might be
                 # concatednated by other thread printings inadvertently

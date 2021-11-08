@@ -320,36 +320,23 @@ class Loglab(ModernBase):
         Arguments
         ---------
         axis: the window axis
-        data_df: data frame structured logs
         eid_voc: event id vocabulary
+        eid_logs: event id logs
         event_count_vec: one line matrix, aka. event count in one sample
         """
 
-        # The upper part of the window
         for i in range(self.win_size):
+            # The upper part of the window
             if axis - (i+1) >= 0:
-                # Skip the event id which is not in the tempalte lib or
-                # eid vocabulary. This usually happens in the logs for
-                # prediction.
-                try:
-                    feature_idx = eid_voc.index(eid_logs[axis-(i+1)])
-                    if event_count_vec[0, feature_idx] == 0:
-                        event_count_vec[0, feature_idx] = 1
-                except ValueError:
-                    continue
+                self.window_binary_core(
+                    axis-(i+1), eid_voc, eid_logs, event_count_vec
+                )
 
-        # The under part of the window
-        for i in range(self.win_size):
+            # The under part of the window
             if axis + (i+1) < len(eid_logs):
-                # Skip the event id which is not in the tempalte lib or
-                # eid vocabulary. This usually happens in the logs for
-                # prediction.
-                try:
-                    feature_idx = eid_voc.index(eid_logs[axis+(i+1)])
-                    if event_count_vec[0, feature_idx] == 0:
-                        event_count_vec[0, feature_idx] = 1
-                except ValueError:
-                    continue
+                self.window_binary_core(
+                    axis+(i+1), eid_voc, eid_logs, event_count_vec
+                )
 
     # pylint: disable=too-many-arguments
     def window_count(self, axis, eid_voc, eid_logs, event_count_vec,
@@ -360,44 +347,77 @@ class Loglab(ModernBase):
         Arguments
         ---------
         axis: the window axis
-        data_df: data frame structured logs
         eid_voc: event id vocabulary
+        eid_logs: event id logs
         event_count_vec: one line matrix, aka. event count in one sample
         event_char_voc: event charactor, 0: n/a, 1: aux, 2: typical
         event_stat_logs: log status in sample, 0: not counted 1: counted
         """
 
-        # The upper part of the window
         for i in range(self.win_size):
+            # The upper part of the window
             if axis - (i+1) >= 0:
-                # Skip the event id which is not in the tempalte lib or
-                # eid vocabulary. This usually happens in the logs for
-                # prediction.
-                try:
-                    feature_idx = eid_voc.index(eid_logs[axis-(i+1)])
-                    if event_char_voc[feature_idx] == 0:
-                        event_char_voc[feature_idx] = 1
-                    if event_stat_logs[axis-(i+1)] == 0:
-                        event_count_vec[0, feature_idx] += 1
-                        event_stat_logs[axis-(i+1)] = 1
-                except ValueError:
-                    continue
+                self.window_count_core(
+                    axis-(i+1), eid_voc, eid_logs, event_count_vec,
+                    event_char_voc, event_stat_logs
+                )
 
-        # The under part of the window
-        for i in range(self.win_size):
+            # The under part of the window
             if axis + (i+1) < len(eid_logs):
-                # Skip the event id which is not in the tempalte lib or
-                # eid vocabulary. This usually happens in the logs for
-                # prediction.
-                try:
-                    feature_idx = eid_voc.index(eid_logs[axis+(i+1)])
-                    if event_char_voc[feature_idx] == 0:
-                        event_char_voc[feature_idx] = 1
-                    if event_stat_logs[axis+(i+1)] == 0:
-                        event_count_vec[0, feature_idx] += 1
-                        event_stat_logs[axis+(i+1)] = 1
-                except ValueError:
-                    continue
+                self.window_count_core(
+                    axis+(i+1), eid_voc, eid_logs, event_count_vec,
+                    event_char_voc, event_stat_logs
+                )
+
+    @staticmethod
+    def window_binary_core(idx, eid_voc, eid_logs, event_count_vec):
+        """
+        The core of windowing to do binary event count.
+
+        Arguments
+        ---------
+        idx: the index
+        eid_voc: event id vocabulary
+        eid_logs: event id logs
+        event_count_vec: one line matrix, aka. event count in one sample
+        """
+
+        # Skip the event id which is not in the tempalte lib or eid
+        # vocabulary. This usually happens in the logs for prediction.
+        try:
+            feature_idx = eid_voc.index(eid_logs[idx])
+            if event_count_vec[0, feature_idx] == 0:
+                event_count_vec[0, feature_idx] = 1
+        except ValueError:
+            pass
+
+    @staticmethod
+    def window_count_core(idx, eid_voc, eid_logs, event_count_vec,
+                          event_char_voc, event_stat_logs):
+        """
+        The core of windowing to do event count.
+
+        Arguments
+        ---------
+        idx: the index
+        eid_voc: event id vocabulary
+        eid_logs: event id logs
+        event_count_vec: one line matrix, aka. event count in one sample
+        event_char_voc: event charactor, 0: n/a, 1: aux, 2: typical
+        event_stat_logs: log status in sample, 0: not counted 1: counted
+        """
+
+        # Skip the event id which is not in the tempalte lib or eid
+        # vocabulary. This usually happens in the logs for prediction.
+        try:
+            feature_idx = eid_voc.index(eid_logs[idx])
+            if event_char_voc[feature_idx] == 0:
+                event_char_voc[feature_idx] = 1
+            if event_stat_logs[idx] == 0:
+                event_count_vec[0, feature_idx] += 1
+                event_stat_logs[idx] = 1
+        except ValueError:
+            pass
 
     def edges_update(self, axis: int, edges: dict, sample_len: int):
         """
