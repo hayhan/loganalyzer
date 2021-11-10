@@ -728,8 +728,8 @@ f58db473,f58db473,BcmCmDocsisCtlThread:: DbcAckPendingTimerEvent: ERROR - Failed
 bc84a466,bc84a466,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= <*>
 a78ea9e6,a78ea9e6,BcmCmMultiDsHelper:: InstallD31Rcc: RCC priDcid= <*> prof= <*>
 32f83a38,32f83a38,BcmCmUsRangingState:: ConfigInitialRanging: txid= <*> ucid= <*> retry= <*> adjust tx power to <*> dBmV.
-d195dc77,d195dc77,BcmPortForwardSnoop:: AddProxyRule: WARNING - <*> <*> <*> <*> <*> <*> <*> <*> <*> NAT_CMNat
-70fa25a2,70fa25a2,Logging event: TCS Partial Service; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
+31f71291,31f71291,BcmPortForwardSnoop:: AddProxyRule: WARNING - <*> <*> <*> <*> <*> <*> <*> <*> <*> <*>
+936d6f38,936d6f38,Logging event: <*> Partial Service; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; 
 82152c13,82152c13,BcmBfeeEvalThread SUSPEND 
 458cc8ae,458cc8ae,CmVisualization SUSPEND 
 af7f25b7,af7f25b7,BcmCmDsChanOfdm:: StartOcdDpdGathering: starting OCD/DPD gathering on PLC on hwRxId= <*>

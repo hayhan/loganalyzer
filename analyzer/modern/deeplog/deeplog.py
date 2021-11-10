@@ -153,10 +153,10 @@ class DeepLog(ModernBase):
         # voc_size = len(set(event_id_voc))
 
         # Convert event id (hash value) log vector to event index (0
-        # based) log vector. For training data the template library/
+        # based) log vector. For training data, the template library/
         # vocabulary normally contain all the possible event ids. For
-        # validation/test data, they might not retrive some ones. Map
-        # the unknow event ids to the last index in the vocabulary.
+        # validation/test data, they probably miss some unknown ones.
+        # Map the unknown events to the last index in the vocabulary.
         event_idx_logs = []
         for tid in event_id_logs:
             try:
@@ -252,8 +252,8 @@ class DeepLog(ModernBase):
 
         Arguments
         ---------
-        eidx_logs: event index (0 based int) vector mapping to each log
-                   in structured file
+        eidx_logs: event index (0 based int) vector mapping to each \
+                   log in structured data
         labels: the label for each log in validation dataset
         win_size: the sliding window size, and the unit is log
         session_vec: session vector where each element is session size
@@ -275,14 +275,13 @@ class DeepLog(ModernBase):
         session_offset = 0
 
         for _, session_size in enumerate(session_vec):
-            # The window only applies in each session and do not cross
-            # the session boundary. The SeqIdx is not necessary to be
-            # continuous with step one across sessions. We did not use
-            # the SeqIdx field in the later train/validate/predict. For
-            # simplicity, the SeqIdx will be reset to 0 to count again
-            # when across the session boundary. Change this behavior if
-            # we want to utilize the sequence or sample index across
-            # multiple sessions.
+            # The window only applies in each session and doesn't cross
+            # session boundary. SeqIdx no needs to be continuous with
+            # with step one across sessions. We do not use SeqIdx field
+            # in the later train/validate/predict. For simplicity, the
+            # SeqIdx will reset to 0 to count again when across session
+            # boundary. Change this behavior if we want to utilize the
+            # sequence or sample index across multiple sessions.
             i = 0
             while (i + win_size) < session_size:
                 sequence = eidx_logs[i + session_offset: i + session_offset + win_size]
@@ -290,8 +289,7 @@ class DeepLog(ModernBase):
                 seq_label = labels[i + session_offset + win_size]
 
                 if not no_metrics:
-                    # Check every word in the sequence as well as the
-                    # target label.
+                    # Check each word in the seq as well as target label
                     seq_labels = labels[i + session_offset: i + session_offset + win_size + 1]
                     if seq_labels.count(1) > 0:
                         seq_label = 1

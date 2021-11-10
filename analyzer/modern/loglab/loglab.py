@@ -102,23 +102,14 @@ class Loglab(ModernBase):
         event_id_voc: List[str] = self.load_vocab(dh.VOCAB_LOGLAB, event_id_lib)
         # event_id_voc = event_id_lib
 
-        # Count the non-zero event id number in the vocabulary. Suppose
-        # at least one zero element exists in the voc.
-        # voc_size = len(set(event_id_voc)) - 1
-        # voc_size = len(set(event_id_voc))
-
-        # Convert event id (hash value) log vector to event index (0
-        # based) log vector. For training data the template library/
-        # vocabulary normally contain all the possible event ids. For
-        # validation/test data, they might not retrive some ones. Map
-        # the unknow event ids to the last index in the vocabulary.
-        event_idx_logs = []
+        # Check if event ids are all in vocab. For training data, the
+        # template library/vocabulary normally contain all the possible
+        # event ids. For validation/test data, they may not contain all.
         for tid in event_id_logs:
             try:
-                event_idx_logs.append(event_id_voc.index(tid))
+                event_id_voc.index(tid)
             except ValueError:
                 print(f"Warning: Event ID {tid} is not in vocabulary!!!")
-                event_idx_logs.append(self.libsize-1)
 
         # --------------------------------------------------------------
         # Extract features
