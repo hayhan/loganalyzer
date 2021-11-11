@@ -871,3 +871,12 @@ f1db80b8,f1db80b8,Logging event: Configuration File CVC Validation Failure
 8bf03a88,8bf03a88,Primary DS is <*> QAM Annex B - adjusting by <*> PPM
 382cc52c,382cc52c,RNG-RSP UsChanId= <*> Adj: tim= <*> power= <*> freq= <*> Stat= <*> OFDMA eq adj 
 b9779998,b9779998,RNG-RSP UsChanId= <*> Adj: tim= <*> Stat= <*> ( CmdPwr ( UsChanId-dBmV ): <*> )
+ea8af186,ea8af186,***kUseAllDataIucPresent***
+f0030a50,f0030a50,* indicates currently configured primary downstream channel
+a6254dd7,a6254dd7,******** CM is OPERATIONAL ********
+db56c337,db56c337,* IsTRCLocked == false triggered ActiveChan = <*>
+8c0549d0,8c0549d0,*** ERROR:BcmDocsis3InstallMulticastDsid:Multicast DSID already installed dsid = <*> ***
+b1569c26,b1569c26,* Starting latency compensation thread.
+f88d8ddf,f88d8ddf,*Reset OcdSettings and DpdSettingsMap used by CmHal
+28699e69,28699e69,"* LEAP ApVersion: ChpId= <*>, RevId= <*>, LeapRAMVersion= <*> *"
+da2af600,da2af600,**** rpc_erouter_alt_wan_mode_set <*>

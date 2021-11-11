@@ -67,7 +67,7 @@ PTN_FUZZY_TIME = re.compile(
 # Pattern for removing specific lines
 # ----------------------------------------------------------------------
 PTN_LINE_RM = re.compile(
-    r'\*|BCM3390\d+|RAM Windows size \d+ mb|'
+    r'\*+$|BCM3390\d+|RAM Windows size \d+ mb|'
     r'\+{10}|\+-{5}|'
     r'BCM339[0-9]+[a-zA-Z]*[0-9] Bootloader version|'
     r'RCC->|'
