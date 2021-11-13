@@ -21,8 +21,10 @@ __all__ = [
     "PTN_BLOCK_RM_START",
     "PTN_BLOCK_RM_END",
     "PTN_TABLE_TITLE_COMMON",
-    "PTN_DS_CHAN_TABLE",
-    "PTN_US_CHAN_TABLE",
+    "PTN_DS_CHAN_TABLE_START",
+    "PTN_DS_CHAN_TABLE_END",
+    "PTN_US_CHAN_TABLE_START",
+    "PTN_US_CHAN_TABLE_END",
     "PTN_SPLIT_LEFT",
     "PTN_SPLIT_RIGHT",
     "PTN_SPLIT_LEFT_TS",
@@ -112,11 +114,11 @@ PTN_TABLE_TITLE = re.compile(
     r' *DSID settings->|'
     r' *dsid +action +reseq|'
     # r' *Active Downstream Channel Diagnostics|'
-    r' *rx id +dcid +freq|'
-    r' *plc +prfA|'
+    # r' *rx id +dcid +freq|'
+    # r' *plc +prfA|'
     # r' *Active Upstream Channels:|'
-    r' *rng +pwr|'
-    r' *txid +ucid +dcid +sid|'
+    # r' *rng +pwr|'
+    # r' *txid +ucid +dcid +sid|'
     r' {5}US chan ID {5}Tx Power \(dBmV\)'
 )
 
@@ -218,8 +220,10 @@ PTN_TABLE_TITLE_COMMON = re.compile(
 )
 
 # DS/US channel status tables
-PTN_DS_CHAN_TABLE = re.compile(r'Active Downstream Channel Diagnostics\:')
-PTN_US_CHAN_TABLE = re.compile(r'Active Upstream Channels\:')
+PTN_DS_CHAN_TABLE_START = re.compile(r'Active Downstream Channel Diagnostics:')
+PTN_DS_CHAN_TABLE_END = re.compile(r'\* indicates currently configured')
+PTN_US_CHAN_TABLE_START = re.compile(r'Active Upstream Channels:')
+PTN_US_CHAN_TABLE_END = re.compile(r'Dynamic range window top:')
 
 # ----------------------------------------------------------------------
 # Patterns for spliting tokens. They cannot be built as a big one.

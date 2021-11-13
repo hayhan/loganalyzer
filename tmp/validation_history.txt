@@ -1524,70 +1524,9 @@ Test Dataset Validation  ==> TP: 615, FP: 217, TN: 822, FN: 54
 Test Dataset Validation  ==> Precision: 73.92%, Recall: 91.93%, F1: 81.95%
 
 
---------------v2.0.0, 20/17/2021-------------
-(log_env) wh935220@bld-bei-014:~/workspace/loganalyzer$ analyzer loglab train --model ALL
-Pre-processing the raw train dataset ...
-100%|████████████████████████████████████████| 91237/91237 [00:02<00:00, 44443.37Lines/s]
-Purge costs 0:00:02.140312
+--------------v2.0.0, 10/17/2021-------------
 
-Parsing file: /home/wh935220/workspace/loganalyzer/data/cooked/cm/train_norm.txt
-100%|████████████████████████████████████████| 53614/53614 [00:05<00:00, 9437.40Logs/s]
-Parsing done. [Time taken: 0:00:06.421572]
-
-===> Train Loglab Model: RFC
-
-Building shuffled EventId list of templates.
-Extracting features...
-100%|████████████████████████████████████████| 152/152 [00:04<00:00, 34.41Lines/s]
-Training...
-[1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1.]
-Mean: 1.0
-
-===> Train Loglab Model: LR
-
-Loading shuffled EventId list of templates.
-Extracting features...
-100%|████████████████████████████████████████| 152/152 [00:04<00:00, 34.77Lines/s]
-Training...
-[1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1.]
-Mean: 1.0
-
-===> Train Loglab Model: SVM
-
-Loading shuffled EventId list of templates.
-Extracting features...
-100%|████████████████████████████████████████| 152/152 [00:04<00:00, 36.66Lines/s]
-Training...
-[1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
- 1. 1. 1. 1. 1. 1. 1. 1.]
-Mean: 1.0
-
-
-(log_env) wh935220@bld-bei-014:~/workspace/loganalyzer$ analyzer loglizer train --model ALL
-Pre-processing the raw train dataset ...
-100%|████████████████████████████████████████| 1001195/1001195 [00:19<00:00, 51138.42Lines/s]
-Purge costs 0:00:20.109999
-
-Parsing file: /home/wh935220/workspace/loganalyzer/data/cooked/cm/train_norm.txt
-100%|████████████████████████████████████████| 507252/507252 [00:48<00:00, 10408.11Logs/s]
-Parsing done. [Time taken: 0:00:53.860411]
+Loglizer:
 
 ===> Train Model: DT
 
@@ -1652,14 +1591,6 @@ Normal training...: RFC
 Train validation:
 Precision: 0.998, recall: 0.999, F1-measure: 0.999
 
-(log_env) wh935220@bld-bei-014:~/workspace/loganalyzer$ analyzer loglizer train --model ALL --inc
-Pre-processing the raw train dataset ...
-100%|████████████████████████████████████████| 82146/82146 [00:01<00:00, 43219.65Lines/s]
-Purge costs 0:00:01.966689
-
-Parsing file: /home/wh935220/workspace/loganalyzer/data/cooked/cm/train_norm.txt
-100%|████████████████████████████████████████| 49219/49219 [00:05<00:00, 9265.20Logs/s]
-Parsing done. [Time taken: 0:00:06.004333]
 
 ===> Train Model: MNB
 
@@ -1725,13 +1656,6 @@ First time training...: SGDC_LR
 Train validation:
 Precision: 0.890, recall: 0.857, F1-measure: 0.873
 
-Pre-processing the raw train dataset ...
-100%|████████████████████████████████████████| 3068/3068 [00:00<00:00, 31446.42Lines/s]
-Purge costs 0:00:00.103740
-
-Parsing file: /home/wh935220/workspace/loganalyzer/data/cooked/cm/train_norm.txt
-100%|████████████████████████████████████████| 1740/1740 [00:00<00:00, 10164.99Logs/s]
-Parsing done. [Time taken: 0:00:00.231522]
 
 ===> Train Model: MNB
 
@@ -1797,13 +1721,6 @@ Incremental training...: SGDC_LR
 Train validation:
 Precision: 1.000, recall: 0.923, F1-measure: 0.960
 
-Pre-processing the raw train dataset ...
-100%|████████████████████████████████████████| 640017/640017 [00:12<00:00, 51572.30Lines/s]
-Purge costs 0:00:12.758790
-
-Parsing file: /home/wh935220/workspace/loganalyzer/data/cooked/cm/train_norm.txt
-100%|████████████████████████████████████████| 318278/318278 [00:30<00:00, 10449.28Logs/s]
-Parsing done. [Time taken: 0:00:33.490663]
 
 ===> Train Model: MNB
 
@@ -1869,13 +1786,6 @@ Incremental training...: SGDC_LR
 Train validation:
 Precision: 0.998, recall: 1.000, F1-measure: 0.999
 
-Pre-processing the raw train dataset ...
-100%|████████████████████████████████████████| 275964/275964 [00:05<00:00, 54382.49Lines/s]
-Purge costs 0:00:05.223888
-
-Parsing file: /home/wh935220/workspace/loganalyzer/data/cooked/cm/train_norm.txt
-100%|████████████████████████████████████████| 138015/138015 [00:12<00:00, 10864.59Logs/s]
-Parsing done. [Time taken: 0:00:14.019740]
 
 ===> Train Model: MNB
 
@@ -1941,15 +1851,7 @@ Incremental training...: SGDC_LR
 Train validation:
 Precision: 1.000, recall: 1.000, F1-measure: 1.000
 
-
-(log_env) wh935220@bld-bei-014:~/workspace/loganalyzer$ analyzer deeplog train --all-para
-Pre-processing the raw train dataset ...
-100%|████████████████████████████████████████| 362617/362617 [00:06<00:00, 57940.37Lines/s]
-Purge costs 0:00:06.392144
-
-Parsing file: /home/wh935220/workspace/loganalyzer/data/cooked/cm/train_norm.txt
-100%|████████████████████████████████████████| 123423/123423 [00:09<00:00, 12582.30Logs/s]
-Parsing done. [Time taken: 0:00:10.944906]
+DeepLog:
 
 ===> Start training the execution path model ...
 Building shuffled EventId list of templates.
@@ -1988,3 +1890,52 @@ Epoch 149/150, train loss: 0.15923
 Epoch 150/150, train loss: 0.16598
 100% 3774/3774 [00:44<00:00, 84.03Batches/s]
 Train Dataset Validation ==> TP: 0, FP: 32, TN: 120711, FN: 0
+
+
+--------------v2.0.0, 10/17/2021-------------
+
+commit e131d4a5
+---------------
+DeepLog:
+
+===> Start training the execution path model ...
+Building shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+100% 3773/3773 [02:02<00:00, 30.84Batches/s]
+Epoch 1/150, train loss: 2.02911
+100% 3773/3773 [02:01<00:00, 30.99Batches/s]
+Epoch 2/150, train loss: 0.48611
+100% 3773/3773 [02:04<00:00, 30.36Batches/s]
+Epoch 3/150, train loss: 0.32713
+...
+Epoch 100/150, train loss: 0.12688
+100% 3773/3773 [02:04<00:00, 30.26Batches/s]
+Epoch 101/150, train loss: 0.12225
+100% 3773/3773 [02:06<00:00, 29.81Batches/s]
+...
+100% 3773/3773 [02:02<00:00, 30.73Batches/s]
+Epoch 150/150, train loss: 0.14006
+100% 3773/3773 [00:49<00:00, 76.89Batches/s]
+Train Dataset Validation ==> TP: 0, FP: 33, TN: 120682, FN: 0
+
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 10 ...
+100% 3815/3815 [01:35<00:00, 39.88Batches/s]
+Epoch 1/150, train loss: 2.21747
+100% 3815/3815 [01:35<00:00, 39.85Batches/s]
+Epoch 2/150, train loss: 0.59904
+100% 3815/3815 [01:36<00:00, 39.45Batches/s]
+Epoch 3/150, train loss: 0.40019
+...
+100% 3815/3815 [01:37<00:00, 39.19Batches/s]
+Epoch 100/150, train loss: 0.13910
+100% 3815/3815 [01:38<00:00, 38.75Batches/s]
+Epoch 101/150, train loss: 0.14365
+...
+100% 3815/3815 [01:39<00:00, 38.38Batches/s]
+Epoch 149/150, train loss: 0.14719
+100% 3815/3815 [01:40<00:00, 38.08Batches/s]
+Epoch 150/150, train loss: 0.15002
+100% 3815/3815 [00:44<00:00, 86.22Batches/s]
+Train Dataset Validation ==> TP: 0, FP: 7, TN: 122048, FN: 0

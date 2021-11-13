@@ -3,7 +3,7 @@
 
 # Section: general
 general:
-    max_line: 500       # Max number of lines that is used for timestamp learning
+    max_line: 1000      # Max number of lines that is used for timestamp learning
 
 # Section: loglab
 loglab:

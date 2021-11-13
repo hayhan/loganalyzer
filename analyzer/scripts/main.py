@@ -170,7 +170,7 @@ def cli_preprocess():
     - The option `current` uses existing data/cooked/train.txt or the
       test.txt directly.
     \b
-    - The option `training` denotes the training or test phase.
+    - The option `training/no-training` sets training or test phase.
     \b
     - The option `overwrite` generates new log data again. Otherwise it
       uses existing new log file.
@@ -199,7 +199,7 @@ def cli_template():
     \b
     - The option `overwrite` deletes the template lib firstly.
     \b
-    - The option `training` denotes the training or test phase.
+    - The option `training/no-training` sets training or test phase.
 
     \b
     Examples

@@ -98,9 +98,7 @@ class Preprocess(PreprocessBase):
             'remove_line': False,
             'in_ds_stat_tbl': False,
             'in_us_stat_tbl': False,
-            'tbl_messed': False,
-            'tbl_entry_done': False,
-            'last_ln_messed': False,
+            'tbl_hdr_done': False,
             'last_ln_empty': False,
             'last_label_removed': False,
             'in_log_tbl': False,
@@ -189,8 +187,12 @@ class Preprocess(PreprocessBase):
             # Because of host system code bug of no endl, some primary
             # logs are concatenated to the former one. Split them and
             # only reserve the last log in the same line. Skip the match
-            # at position 0 if exits as we will remove it later.
-            if ptn.PTN_BFC_TS.search(newline, 2):
+            # at position 0 if exits as we will remove it later. Also
+            # exclude the case that tables are involved.
+            if ptn.PTN_BFC_TS.search(newline, 2) \
+                and not ptn.PTN_NESTED_LINE.match(newline) \
+                and not ptn.PTN_TABLE_TITLE_COMMON.match(newline):
+                #
                 match_g = ptn.PTN_BFC_TS.finditer(newline, 2)
                 *_, last_match = match_g
                 newline = newline[last_match.start() :]
@@ -283,67 +285,49 @@ class Preprocess(PreprocessBase):
             #
             # Format DS channel status table
             #
-            elif ptn.PTN_DS_CHAN_TABLE.match(newline):
+            elif ptn.PTN_DS_CHAN_TABLE_START.match(newline):
                 stat['in_ds_stat_tbl'] = True
                 # Remove the title line
                 stat['remove_line'] = True
-            elif stat['in_ds_stat_tbl'] and stat['in_log_tbl']:
-                if (not ptn.PTN_NESTED_LINE.match(newline)) and (newline not in ['\n', '\r\n']):
-                    # Table is messed by other thread if gets into here.
-                    # Normal channel status row should be nested. Messed
-                    # table may have empty lines in the middle of table.
-                    stat['tbl_messed'] = True
-                    # Remove this line here, do not leave it to the
-                    # "Remove table block"
-                    stat['remove_line'] = True
-                elif newline in ['\n', '\r\n'] and stat['tbl_entry_done'] \
-                    and (not stat['last_ln_messed']):
-                    # Suppose table ended with empty line but also need
-                    # consider case of messed table. 'tbl_entry_done',
-                    # 'last_ln_messed' and 'tbl_messed' are used here to
-                    # process the messed table case. Leave reset of the
-                    # 'in_log_tbl' to the "Remove table block".
-                    stat['in_ds_stat_tbl'] = False
-                    stat['tbl_messed'] = False
-                    stat['tbl_entry_done'] = False
-                elif newline not in ['\n', '\r\n']:
-                    # The real table row, that is, nested line
-                    stat['tbl_entry_done'] = True
-                    newline, stat['last_ln_messed'] = self.format_ds_chan_table(
-                        newline, stat['tbl_messed'], stat['last_ln_messed']
-                    )
+            elif stat['in_ds_stat_tbl']:
+                newline, \
+                stat['in_ds_stat_tbl'], \
+                stat['tbl_hdr_done'], \
+                stat['remove_line'] \
+                    = self.format_chan_stat_table(
+                    newline, stat['in_ds_stat_tbl'], stat['tbl_hdr_done'],
+                    stat['remove_line'], ptn.PTN_DS_CHAN_TABLE_END.match(newline), 'DS'
+                )
 
             #
             # Format US channel status table
             #
-            elif ptn.PTN_US_CHAN_TABLE.match(newline):
+            elif ptn.PTN_US_CHAN_TABLE_START.match(newline):
                 stat['in_us_stat_tbl'] = True
                 # Remove the title line
                 stat['remove_line'] = True
-            elif stat['in_us_stat_tbl'] and stat['in_log_tbl']:
-                if newline in ['\n', '\r\n']:
-                    # Suppose table ended with empty line. Leave reset
-                    # of in_log_tbl to "remove table block".
-                    stat['in_us_stat_tbl'] = False
-                else:
-                    newline = self.format_us_chan_table(newline)
+            elif stat['in_us_stat_tbl']:
+                newline, \
+                stat['in_us_stat_tbl'], \
+                stat['tbl_hdr_done'], \
+                stat['remove_line'] \
+                    = self.format_chan_stat_table(
+                    newline, stat['in_us_stat_tbl'], stat['tbl_hdr_done'],
+                    stat['remove_line'], ptn.PTN_US_CHAN_TABLE_END.match(newline), 'US'
+                )
 
             #
-            # Remove table block
+            # Remove other tables. Should be behind DS/Us chan tables.
             #
-            if ptn.PTN_TABLE_TITLE_COMMON.match(newline):
+            elif ptn.PTN_TABLE_TITLE_COMMON.match(newline):
                 stat['in_log_tbl'] = True
                 # Remove the title line
                 stat['remove_line'] = True
             elif stat['in_log_tbl']:
                 if newline in ['\n', '\r\n']:
                     # Suppose table ended with empty line
-                    # Note: we also reset the in_log_tbl for the DS/US
-                    # channel status tables above
-                    if (not stat['in_ds_stat_tbl']) or (stat['in_ds_stat_tbl'] \
-                        and stat['tbl_entry_done'] and (not stat['last_ln_messed'])):
-                        stat['in_log_tbl'] = False
-                elif not (stat['in_ds_stat_tbl'] or stat['in_us_stat_tbl']):
+                    stat['in_log_tbl'] = False
+                else:
                     # Still table line, remove it
                     stat['remove_line'] = True
 
@@ -431,7 +415,37 @@ class Preprocess(PreprocessBase):
 
         print(f"Purge costs {datetime.now()-parse_st}\n")
 
-    def format_ds_chan_table(self, newline: str, table_messed: bool, last_ln_messed: bool):
+    # pylint: disable=too-many-arguments
+    def format_chan_stat_table(self, line: str, in_ch_stat_tbl: bool, tbl_hdr_done: bool,
+                               remove_line: bool, is_table_end: bool, chan: str):
+        """ Common entry for ds/us channel status table formating """
+        if is_table_end:
+            # End the table with specific line and reset states
+            in_ch_stat_tbl = False
+            tbl_hdr_done = False
+        elif (not ptn.PTN_NESTED_LINE.match(line)) and (line not in ['\n', '\r\n']):
+            # Table is messed by other thread if gets into here. Normal
+            # channel status row should be nested. This line comes from
+            # another thread. Remove or keep it?
+            # remove_line = True
+            pass
+        elif ptn.PTN_TABLE_TITLE_COMMON.match(line):
+            # End the table header and remove the common title
+            tbl_hdr_done = True
+            remove_line = True
+        elif not tbl_hdr_done:
+            # Remove the line (including empty) in table header
+            remove_line = True
+        elif line not in ['\n', '\r\n']:
+            # Format the table contents now
+            if chan == 'DS':
+                line, remove_line = self.format_ds_chan_table(line, remove_line)
+            else:
+                line, remove_line = self.format_us_chan_table(line, remove_line)
+
+        return line, in_ch_stat_tbl, tbl_hdr_done, remove_line
+
+    def format_ds_chan_table(self, line: str, remove_line: bool):
         """ Format one item of ds channel table """
         # ---raw table---
         # Active Downstream Channel Diagnostics:
@@ -447,33 +461,44 @@ class Preprocess(PreprocessBase):
         # ---one item after cooking---
         # DS channel status, rxid 0, dcid 1, freq 300000000, qam y,
         # fec y, snr 35, power 3, mod Qam256
-        lineview: List[str] = newline.split(None, 7)
-        if table_messed:
-            # Need consider the last colomn of DS channel status,
-            # aka. lineview[7]
-            if lineview[7] not in ['Qam64\n', 'Qam256\n', 'OFDM PLC\n', 'Qam64\r\n',
-                'Qam256\r\n', 'OFDM PLC\r\n']:
-                # Current line is messed and the last colomn might be
-                # concatednated by other thread printings inadvertently
-                # and the next line will be empty. Update last_ln_messed
-                # for next line processing.
-                last_ln_messed = True
-                if lineview[7][3] == '6':           # Qam64
-                    lineview[7] = 'Qam64\n'
-                elif lineview[7][3] == '2':         # Q256
-                    lineview[7] = 'Qam256\n'
-                else:
-                    lineview[7] = 'OFDM PLC\n'      # OFDM PLC
+        lineview: List[str] = line.split(None, 7)
+
+        # Make sure the line has right num of tokens. If it has smaller
+        # num, the line either is from another thread or some of tokens
+        # at the begining of this line are eaten by console prompt.
+        try:
+            _ = lineview[7]
+        except IndexError:
+            # Bail out early and remove this line
+            remove_line = True
+            return line, remove_line
+
+        # The last column of current line might be concatednated by
+        # other thread outputs inadvertently.
+        if lineview[7] not in ['Qam64\n', 'Qam256\n', 'OFDM PLC\n', 'Unknown\n',
+            'Qam64\r\n', 'Qam256\r\n', 'OFDM PLC\r\n', 'Unknown\r\n']:
+            if lineview[7][3] == '6':
+                lineview[7] = 'Qam64\n'
+            elif lineview[7][3] == '2':
+                lineview[7] = 'Qam256\n'
+            elif lineview[7][0] == 'O':
+                lineview[7] = 'OFDM PLC\n'
+            elif lineview[7][0] == 'U':
+                lineview[7] = 'Unknown\n'
             else:
-                last_ln_messed = False
+                # Current line is severely broken, or it is a nested
+                # line from another thread. Unrecoverable, remove it.
+                # Bail out early and remove this line
+                remove_line = True
+                return line, remove_line
 
         if lineview[7][0] == 'O':
             # Keep OFDM channel status log length as same as QAM channel
             # Then they will share same log template after clustering.
-            lineview[7] = 'OFDM_PLC\n'              # OFDM PLC
+            lineview[7] = 'OFDM_PLC\n'
 
-        newline = ''.join(self.ds_chan_log(lineview))
-        return newline, last_ln_messed
+        line = ''.join(self.ds_chan_log(lineview))
+        return line, remove_line
 
     @staticmethod
     def ds_chan_log(lineview: List[str]):
@@ -495,7 +520,7 @@ class Preprocess(PreprocessBase):
         yield ' mod '
         yield lineview[7]
 
-    def format_us_chan_table(self, newline: str):
+    def format_us_chan_table(self, line: str, remove_line: bool):
         """ Format one item of us channel table """
         # ---raw table---
         # Active Upstream Channels:
@@ -512,15 +537,33 @@ class Preprocess(PreprocessBase):
         # US channel status, txid 0, ucid 101, dcid 1, rngsid 0x2,
         # power 18, freq_start 9.000, freq_end 9.000, symrate 5120000,
         # phytype 3, txdata y
-        lineview: List[str] = newline.split(None, 8)
+        lineview: List[str] = line.split(None, 8)
+
+        # Make sure the line has right num of tokens
+        try:
+            _ = lineview[8]
+        except IndexError:
+            # Bail out early and remove this line
+            remove_line = True
+            return line, remove_line
+
         if lineview[6] == '-':
             # This line is for OFDMA channel, split it again
-            lineview = newline.split(None, 10)
-            newline = ''.join(self.us_chan_log_ofdma(lineview))
+            lineview = line.split(None, 10)
+
+            # Make sure the line has right num of tokens
+            try:
+                _ = lineview[10]
+            except IndexError:
+                # Bail out early and remove this line
+                remove_line = True
+                return line, remove_line
+
+            line = ''.join(self.us_chan_log_ofdma(lineview))
         else:
             # For SC-QAM channels
-            newline = ''.join(self.us_chan_log_scqam(lineview))
-        return newline
+            line = ''.join(self.us_chan_log_scqam(lineview))
+        return line, remove_line
 
     @staticmethod
     def us_chan_log_ofdma(lineview: List[str]):
@@ -571,19 +614,19 @@ class Preprocess(PreprocessBase):
         yield lineview[8]
 
     @staticmethod
-    def split_token_apart(newline: str, ptn_left: Pattern[str], ptn_right: Pattern[str]):
+    def split_token_apart(line: str, ptn_left: Pattern[str], ptn_right: Pattern[str]):
         """ Split some token apart per the regx patterns """
         for ptn_obj in ptn_left:
-            mtch = ptn_obj.search(newline)
+            mtch = ptn_obj.search(line)
             if mtch:
-                newline = ptn_obj.sub(''.join([mtch.group(0), ' ']), newline)
+                line = ptn_obj.sub(''.join([mtch.group(0), ' ']), line)
 
         for ptn_obj in ptn_right:
-            mtch = ptn_obj.search(newline)
+            mtch = ptn_obj.search(line)
             if mtch:
-                newline = ptn_obj.sub(''.join([' ', mtch.group(0)]), newline)
+                line = ptn_obj.sub(''.join([' ', mtch.group(0)]), line)
 
-        return newline
+        return line
 
     def exceptions_tmplt(self):
         """ Do some exceptional works of template update """
