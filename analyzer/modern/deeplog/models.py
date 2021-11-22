@@ -18,7 +18,8 @@ class DeepLogExec(nn.Module):
     """ DeepLog model for exec path anomaly detection
     """
     # pylint: disable=too-many-arguments
-    def __init__(self, device, num_classes, hidden_size=100, num_layers=2, num_dir=1):
+    def __init__(self, device, num_classes, input_size=1, hidden_size=100,
+                 num_layers=2, num_dir=1):
         """ Initialization
         """
         super().__init__()
@@ -26,11 +27,12 @@ class DeepLogExec(nn.Module):
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         self.num_directions = num_dir
-        # The cell input dimension is 1 because we use an integer to
-        # repsent an event. The batch_first is True, then the LSTM input
-        # & output first Dimension is batch. The input & output part of
-        # (h_n, c_n) are not affected by batch_first.
-        self.rnn = nn.LSTM(input_size=1, hidden_size=self.hidden_size,
+        # The cell input dimension is 1 if input element is scalar, aka.
+        # event index in vocabulary, otherwise the element is one-hot.
+        # The batch_first is True, then the LSTM input & output first
+        # Dimension is batch. The input & output part of (h_n, c_n) are
+        # not affected by batch_first.
+        self.rnn = nn.LSTM(input_size, hidden_size=self.hidden_size,
                            num_layers=self.num_layers, batch_first=True,
                            bidirectional=(self.num_directions == 2))
         self.predict_layer = nn.Linear(self.hidden_size * self.num_directions, num_classes)

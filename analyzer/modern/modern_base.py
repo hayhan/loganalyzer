@@ -81,9 +81,9 @@ class ModernBase(ABC):
 
             # Init STIDLE: Shuffled Template Id List Expanded. Pad ZEROs
             # at the end of event_id_templates to expand the size to
-            # TEMPLATE_LIB_SIZE. event_id_shuffled is a new list copy.
+            # TEMPLATE_LIB_SIZE-1. event_id_shuffled is a new list copy.
             event_id_shuffled = event_id_lib \
-                                + ['0'] * (self.libsize - len(event_id_lib) -1)
+                                + ['0']*(self.libsize-len(event_id_lib)-1)
 
             # Shuffle the expanded list event_id_shuffled in-place
             np.random.default_rng().shuffle(event_id_shuffled)

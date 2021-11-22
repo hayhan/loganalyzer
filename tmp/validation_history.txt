@@ -1939,3 +1939,41 @@ Epoch 149/150, train loss: 0.14719
 Epoch 150/150, train loss: 0.15002
 100% 3815/3815 [00:44<00:00, 86.22Batches/s]
 Train Dataset Validation ==> TP: 0, FP: 7, TN: 122048, FN: 0
+
+--------------v2.0.0, 11/22/2021-------------
+
+-------one-hot vector--------
+DeepLog:
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+100% 3773/3773 [01:39<00:00, 38.07Batches/s]
+Epoch 1/5, train loss: 2.38774
+100% 3773/3773 [01:40<00:00, 37.70Batches/s]
+Epoch 2/5, train loss: 0.56789
+100% 3773/3773 [01:41<00:00, 37.32Batches/s]
+Epoch 3/5, train loss: 0.30855
+100% 3773/3773 [01:39<00:00, 37.81Batches/s]
+Epoch 4/5, train loss: 0.21873
+100% 3773/3773 [01:41<00:00, 37.35Batches/s]
+Epoch 5/5, train loss: 0.17918
+100% 3773/3773 [00:37<00:00, 100.38Batches/s]
+Train Dataset Validation ==> TP: 0, FP: 80, TN: 120635, FN: 0
+
+-------index in vocab--------
+DeepLog:
+===> Start training the execution path model ...
+Loading shuffled EventId list of templates.
+Slicing the multi-session logs with window 15 ...
+100% 3773/3773 [01:53<00:00, 33.16Batches/s]
+Epoch 1/5, train loss: 2.22002
+100% 3773/3773 [01:52<00:00, 33.60Batches/s]
+Epoch 2/5, train loss: 0.54866
+100% 3773/3773 [01:53<00:00, 33.12Batches/s]
+Epoch 3/5, train loss: 0.35657
+100% 3773/3773 [01:53<00:00, 33.27Batches/s]
+Epoch 4/5, train loss: 0.28468
+100% 3773/3773 [01:54<00:00, 32.86Batches/s]
+Epoch 5/5, train loss: 0.24762
+100% 3773/3773 [00:47<00:00, 79.41Batches/s]
+Train Dataset Validation ==> TP: 0, FP: 491, TN: 120224, FN: 0

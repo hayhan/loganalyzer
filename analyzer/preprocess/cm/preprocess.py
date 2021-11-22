@@ -81,7 +81,7 @@ class Preprocess(PreprocessBase):
         # For prediction, the timestamp in the test log is unknown or
         # even does not exist. The preprocess will try to learn the
         # width of the unknown timestamp in advance. So here get the
-        # updated info instead of the default one in cofig file.
+        # updated info instead of the default one in config file.
         self._get_timestamp_info()
 
         # Reset newlogs in case it is not empty

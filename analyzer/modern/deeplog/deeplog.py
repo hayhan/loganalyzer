@@ -101,6 +101,7 @@ class DeepLog(ModernBase):
         self.model_para['num_dir'] = GC.conf['deeplog']['num_dir']
         self.model_para['num_workers'] = GC.conf['deeplog']['num_workers']
         self.model_para['device'] = GC.conf['deeplog']['device']
+        self.model_para['one_hot'] = GC.conf['deeplog']['one_hot']
         self.exec_model = os.path.join(
             dh.PERSIST_DATA, 'deeplog_exec_model_'+str(self.model_para['group'])+'.pt'
         )
@@ -120,7 +121,7 @@ class DeepLog(ModernBase):
         -------
         data_dict:
         <SeqIdx> the sequence / sample idx
-        <EventSeq> array of [seq_num x window_size] event sequence
+        <EventSeq> array of index, [seq_num x window_size]
         <Target> the target event index for each event sequence
         <Label> the label of target event
         voc_size: the number of non zero event id in the vocabulary
@@ -176,23 +177,19 @@ class DeepLog(ModernBase):
                 with open(self.fzip['segdl'], 'rb') as fin:
                     self._segdl = pickle.load(fin)
 
-            data_dict = self.slice_logs_multi(event_idx_logs, self._labels,
-                                              self.model_para['win_size'],
-                                              self._segdl, self.training)
+            data_dict = self.slice_logs_multi(event_idx_logs)
         # For prediction, we need to suppose it is always one session
         else:
-            data_dict = self.slice_logs(event_idx_logs, self._labels,
-                                        self.model_para['win_size'])
+            data_dict = self.slice_logs(event_idx_logs)
 
         # data_dict:
         # <SeqIdx> the sequence index
-        # <EventSeq> array of [seq_num x window_size] event sequence
+        # <EventSeq> array of index, [seq_num x window_size]
         # <Target> the target event index for each window sequence
         # <Label> the label of target event
         return data_dict, voc_size
 
-    @staticmethod
-    def slice_logs(eidx_logs, labels, win_size):
+    def slice_logs(self, eidx_logs):
         """ Slice event index vector in structured data into sequences
 
         Note
@@ -203,45 +200,45 @@ class DeepLog(ModernBase):
         ---------
         eidx_logs: event index (0 based int) vector mapping to each \
                    log in structured data
-        labels: the label for each log in validation dataset
-        win_size: the window size, aka. sequence length
 
         Returns
         -------
-        results_dict:
+        data_dict:
         <SeqIdx> the sequence / sample idx, \
                  aka. log line number [0 ~ (logsnum-win_size-1)]
-        <EventSeq> array of [seq_num x win_size] event sequence
+        <EventSeq> array of index, [seq_num x window_size]
         <Target> the target event index for each event sequence
         <Label> the label of target event
         """
 
-        results_lst = []
+        win_size = self.model_para['win_size']
+        data_lst = []
         print(f"Slicing the single-session logs with window {win_size} ...")
 
         logsnum = len(eidx_logs)
         i = 0
         while (i + win_size) < logsnum:
             sequence = eidx_logs[i: i + win_size]
-            results_lst.append([i, sequence, eidx_logs[i + win_size], labels[i + win_size]])
+            data_lst.append(
+                [i, sequence, eidx_logs[i + win_size], self._labels[i + win_size]]
+            )
             i += 1
 
         # For training, the last window has no target and its label.
         # Simply disgard it. So the total num of sequences equals
         # logsnum - window_size
 
-        results_df = pd.DataFrame(results_lst, columns=["SeqIdx", "EventSeq", "Target", "Label"])
-        results_dict = {
-            "SeqIdx": results_df["SeqIdx"].to_numpy(dtype='int32'),
-            "EventSeq": np.array(results_df["EventSeq"].tolist(), dtype='int32'),
-            "Target": results_df["Target"].to_numpy(dtype='int32'),
-            "Label": results_df["Label"].to_numpy(dtype='int32')
+        data_df = pd.DataFrame(data_lst, columns=["SeqIdx", "EventSeq", "Target", "Label"])
+        data_dict = {
+            "SeqIdx": data_df["SeqIdx"].to_numpy(dtype='int32'),
+            "EventSeq": np.array(data_df["EventSeq"].tolist(), dtype='int32'),
+            "Target": data_df["Target"].to_numpy(dtype='int32'),
+            "Label": data_df["Label"].to_numpy(dtype='int32')
         }
 
-        return results_dict
+        return data_dict
 
-    @staticmethod
-    def slice_logs_multi(eidx_logs, labels, win_size, session_vec, no_metrics):
+    def slice_logs_multi(self, eidx_logs):
         """ Slice event index vector in structured file into sequences
 
         Note
@@ -254,27 +251,24 @@ class DeepLog(ModernBase):
         ---------
         eidx_logs: event index (0 based int) vector mapping to each \
                    log in structured data
-        labels: the label for each log in validation dataset
-        win_size: the sliding window size, and the unit is log
-        session_vec: session vector where each element is session size
-        no_metrics: do not consider metrics
 
         Returns
         -------
-        results_dict:
+        data_dict:
         <SeqIdx> the sequence / sample idx. This is different from
                  single-file logs version.
-        <EventSeq> array of [seq_num x window_size] event sequence
+        <EventSeq> array of index, [seq_num x window_size]
         <Target> the target event index for each event sequence
         <Label> the label of target event
         """
 
-        results_lst = []
+        win_size = self.model_para['win_size']
+        data_lst = []
         print(f"Slicing the multi-session logs with window {win_size} ...")
 
         session_offset = 0
 
-        for _, session_size in enumerate(session_vec):
+        for _, session_size in enumerate(self._segdl):
             # The window only applies in each session and doesn't cross
             # session boundary. SeqIdx no needs to be continuous with
             # with step one across sessions. We do not use SeqIdx field
@@ -286,29 +280,32 @@ class DeepLog(ModernBase):
             while (i + win_size) < session_size:
                 sequence = eidx_logs[i + session_offset: i + session_offset + win_size]
                 # The target word label. It is always 0 for training.
-                seq_label = labels[i + session_offset + win_size]
+                seq_label = self._labels[i + session_offset + win_size]
 
-                if not no_metrics:
+                # For validation, aka training==false && metric==true
+                if not self.training:
                     # Check each word in the seq as well as target label
-                    seq_labels = labels[i + session_offset: i + session_offset + win_size + 1]
+                    seq_labels = \
+                        self._labels[i + session_offset: i + session_offset + win_size + 1]
                     if seq_labels.count(1) > 0:
                         seq_label = 1
 
-                results_lst.append([i, sequence, eidx_logs[i + session_offset + win_size],
-                                    seq_label])
+                data_lst.append(
+                    [i, sequence, eidx_logs[i + session_offset + win_size], seq_label]
+                )
                 i += 1
             # The session first log offset in the concatenated monolith
             session_offset += session_size
 
-        results_df = pd.DataFrame(results_lst, columns=["SeqIdx", "EventSeq", "Target", "Label"])
-        results_dict = {
-            "SeqIdx": results_df["SeqIdx"].to_numpy(dtype='int32'),
-            "EventSeq": np.array(results_df["EventSeq"].tolist(), dtype='int32'),
-            "Target": results_df["Target"].to_numpy(dtype='int32'),
-            "Label": results_df["Label"].to_numpy(dtype='int32')
+        data_df = pd.DataFrame(data_lst, columns=["SeqIdx", "EventSeq", "Target", "Label"])
+        data_dict = {
+            "SeqIdx": data_df["SeqIdx"].to_numpy(dtype='int32'),
+            "EventSeq": np.array(data_df["EventSeq"].tolist(), dtype='int32'),
+            "Target": data_df["Target"].to_numpy(dtype='int32'),
+            "Label": data_df["Label"].to_numpy(dtype='int32')
         }
 
-        return results_dict
+        return data_dict
 
     def para_anomaly_det(self, content, eid, template):
         """ Detect the parameter anomaly by using the OSS
@@ -386,17 +383,26 @@ class DeepLog(ModernBase):
         #
         data_loader = DeepLogExecDataset(
             data_dict, batch_size=self.model_para['batch_size'],
-            shuffle=is_shuffle, num_workers=self.model_para['num_workers']).loader
+            shuffle=is_shuffle, num_workers=self.model_para['num_workers']
+        ).loader
 
         #
         # Build DeepLog Model for Execution Path Anomaly Detection
         #
         device = torch.device(
-            'cuda' if self.model_para['device'] != 'cpu' and torch.cuda.is_available() else 'cpu')
+            'cuda' if self.model_para['device'] != 'cpu' and torch.cuda.is_available() else 'cpu'
+        )
+
+        if self.model_para['one_hot']:
+            input_dim = self.libsize
+        else:
+            input_dim = 1
 
         model = DeepLogExec(
-            device, num_classes=voc_size, hidden_size=self.model_para['hidden_size'],
-            num_layers=2, num_dir=self.model_para['num_dir'])
+            device, num_classes=voc_size, input_size=input_dim,
+            hidden_size=self.model_para['hidden_size'],
+            num_layers=2, num_dir=self.model_para['num_dir']
+        )
 
         return model, data_loader, device
 
@@ -414,8 +420,7 @@ class DeepLog(ModernBase):
         with torch.no_grad():
             for batch_in in data_loader:
                 # print(batch_in['EventSeq'])
-                seq = batch_in['EventSeq'].clone().detach()\
-                      .view(-1, self.model_para['win_size'], 1).to(device)
+                seq = self.d2_d3(batch_in['EventSeq'], device)
                 output = model(seq)
                 # pred_prob = output.softmax(dim=-1)
                 # pred_sort = torch.argsort(pred_prob, 1, True)
@@ -466,8 +471,7 @@ class DeepLog(ModernBase):
             # Progress bar
             pbar = tqdm(total=batch_cnt, unit='Batches', disable=False, ncols=0)
             for batch_in in data_loader:
-                seq = batch_in['EventSeq'].clone().detach()\
-                      .view(-1, self.model_para['win_size'], 1).to(device)
+                seq = self.d2_d3(batch_in['EventSeq'], device)
                 output = model(seq)
                 # pred_prob = output.softmax(dim=-1)
                 # pred_sort = torch.argsort(pred_prob, 1, True)
@@ -526,8 +530,8 @@ class DeepLog(ModernBase):
                 # tensor (batch_size x seq_len). The tensor of the input
                 # sequences to model should be 3-Dimension as below:
                 # (batch_size x seq_len x input_size).
-                seq = batch_in['EventSeq'].clone().detach()\
-                      .view(-1, self.model_para['win_size'], 1).to(device)
+                seq = self.d2_d3(batch_in['EventSeq'], device)
+
                 output = model(seq)
                 # The output is 2-D tensor (batch_size x num_classes)
                 # The batch_in['Target'] is a 1-D tensor (batch_size)
@@ -546,6 +550,39 @@ class DeepLog(ModernBase):
             epoch_loss = epoch_loss / batch_cnt
             print(f"Epoch {epoch+1}/{self.model_para['num_epochs']}, "
                   f"train loss: {epoch_loss:.5f}")
+
+    def d2_d3(self, tensor_2d, device):
+        """
+        Convert 2-D input tensor to 3-D. Also use input data in scalar
+        or one-hot vector based on config setting.
+
+        For scalar, the input_size is 1. For one-hot, the input_size is
+        the size of template/vocabulary. Also the element type is float
+        in the returned 3-D tensor.
+
+        Note:
+        Do the 2-D to 3-D conversion and one-hot vectoring in the batch
+        instead of in the whole data set in one shot. The latter will
+        consume considerable memory and time.
+
+        Arguments
+        ---------
+        tensor_2d: the 2-D tensor, [seq_num x win_size]
+        device: cpu or gpu
+
+        Returns
+        -------
+        tensor_3d: the 3-D tensor, [seq_num x win_size x input_size]
+        """
+
+        if self.model_para['one_hot']:
+            tensor_3d = nn.functional.one_hot(tensor_2d.long(), num_classes=self.libsize)\
+                        .float().clone().detach().requires_grad_(True).to(device)
+        else:
+            tensor_3d = tensor_2d.float().clone().detach().requires_grad_(True)\
+                        .view(-1, self.model_para['win_size'], 1).to(device)
+
+        return tensor_3d
 
     def train(self):
         """ Train model.

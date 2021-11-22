@@ -4,20 +4,22 @@
 0:
     window_size: 15
     batch_size: 32
-    num_epochs: 150
+    num_epochs: 100
     hidden_size: 128
     topk: 10
     num_dir: 1
     num_workers: 0
     device: cpu
+    one_hot: true
 
 # Group 1
 1:
     window_size: 10
     batch_size: 32
-    num_epochs: 150
+    num_epochs: 100
     hidden_size: 128
     topk: 10
     num_dir: 1
     num_workers: 0
     device: cpu
+    one_hot: true
