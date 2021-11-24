@@ -200,7 +200,7 @@ def cli_loglab_show():
         "- RFC : Random Forrest Classification\n"
         "- LR  : Logistic Regression\n"
         "- SVM : Supported Vector Machine\n"
-        "- ALL : Train all models in one shot"
+        "- ALL : Exercise all models in one shot"
         "\n--------------------------------------\n"
     )
     print(desc)

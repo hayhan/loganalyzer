@@ -470,8 +470,7 @@ class Preprocess(PreprocessBase):
             _ = lineview[7]
         except IndexError:
             # Bail out early and remove this line
-            remove_line = True
-            return line, remove_line
+            return line, True
 
         # The last column of current line might be concatednated by
         # other thread outputs inadvertently.
@@ -489,8 +488,7 @@ class Preprocess(PreprocessBase):
                 # Current line is severely broken, or it is a nested
                 # line from another thread. Unrecoverable, remove it.
                 # Bail out early and remove this line
-                remove_line = True
-                return line, remove_line
+                return line, True
 
         if lineview[7][0] == 'O':
             # Keep OFDM channel status log length as same as QAM channel
@@ -544,26 +542,43 @@ class Preprocess(PreprocessBase):
             _ = lineview[8]
         except IndexError:
             # Bail out early and remove this line
-            remove_line = True
-            return line, remove_line
+            return line, True
 
         if lineview[6] == '-':
-            # This line is for OFDMA channel, split it again
+            # For OFDMA channel, split it again. Suppose no messing.
             lineview = line.split(None, 10)
-
-            # Make sure the line has right num of tokens
-            try:
-                _ = lineview[10]
-            except IndexError:
-                # Bail out early and remove this line
-                remove_line = True
-                return line, remove_line
+            # Split the last column again if it is an old stat table
+            if lineview[10] not in ['y\n', 'n\n', 'y\r\n', 'n\r\n']:
+                lineview[10], is_ok = self.format_legacy_table(lineview[10])
+                if not is_ok:
+                    # Bail out early and remove this line
+                    return line, True
 
             line = ''.join(self.us_chan_log_ofdma(lineview))
         else:
-            # For SC-QAM channels
+            # For SC-QAM channel. Suppose no messing.
+            # Split the last column again if it is an old stat table
+            if lineview[8] not in ['y\n', 'n\n', 'y\r\n', 'n\r\n']:
+                lineview[8], is_ok = self.format_legacy_table(lineview[8])
+                if not is_ok:
+                    # Bail out early and remove this line
+                    return line, True
+
             line = ''.join(self.us_chan_log_scqam(lineview))
         return line, remove_line
+
+    @staticmethod
+    def format_legacy_table(last_col: str):
+        """ Format legacy channel table, openbfc 17.4 and older """
+        status: bool = True
+        subview = last_col.split(None, 2)
+        if subview[1][0] == 'y':
+            last_col = 'y\n'
+        elif subview[1][0] == 'n':
+            last_col = 'n\n'
+        else:
+            status = False
+        return last_col, status
 
     @staticmethod
     def us_chan_log_ofdma(lineview: List[str]):

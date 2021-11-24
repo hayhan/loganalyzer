@@ -293,13 +293,13 @@ def cli_loglizer_show():
         "- RFC      : Random Forrest Classification\n"
         "- LR       : Logistic Regression\n"
         "- SVM      : Supported Vector Machine\n"
-        "- ALL      : Train all models in one shot"
+        "- ALL      : Exercise all models in one shot"
         "\n----------Supported models (Partial)--------\n"
         "- MNB      : Multinomial Naive Bayes\n"
         "- PTN      : Linear perceptron classifier\n"
         "- SGDC_SVM : Stochastic gradient descent SVM\n"
         "- SGDC_LR  : Stochastic gradient descent LR\n"
-        "- ALL      : Train all models in one shot"
+        "- ALL      : Exercise all models in one shot"
         "\n--------------------------------------------\n"
     )
     print(desc)

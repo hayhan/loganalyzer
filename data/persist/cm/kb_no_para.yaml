@@ -104,6 +104,10 @@
 '247a95a1': "Attanuation of upstream is too low or high usually. Adjust
              the US attnuation according to previous suggestion."
 
+# TEMPLATE: "BcmCmUsRangingState:: RngRspMsgEvent: Received a RNG-RSP with ABORT! Going elsewhere... hwTxId= <*> docs ucid= <*>"
+'cfd8841a': "Usually US attanuation or pre-eq is not good, or CMTS has
+             some issues."
+
 # TEMPLATE: "BcmCmUsRangingState:: T2NoInitMaintEvent: ERROR - no Init Maint map op -> restart error"
 '85511099': "MAPs are not received on downstream (bad SNR?) or MAP
              flusing because of CM transmiter problems."
@@ -173,7 +177,12 @@
 'd3ae406c': "Usually upstream is broken, cut off, etc."
 
 # TEMPLATE: "BcmCmUsRangingState:: RngRspMsgEvent: txid= <*> ucid= <*> detected bogus RNG-RSP sid= <*> "
-'f2b4cdbf': "Upstream maybe not stable with high attenuation."
+'f2b4cdbf': "Upstream maybe not stable with low/high attenuation, or
+             pre-eq is not good. CMTS might abort the ranging."
+
+# TEMPLATE: "BcmCmUsRangingState:: RngRspMsgEvent: detected bogus RNG-RSP sid= <*> hwTxId= <*> docs ucid= <*> "
+'810f1910': "Upstream maybe not stable with low/high attenuation, or
+             pre-eq is not good. CMTS might abort the ranging."
 
 # TEMPLATE: "Partial Service Upstream Channels:"
 'a3d3e790': "Some upstream channels are impaired or filtered."
@@ -189,6 +198,12 @@
 # TEMPLATE: "BcmCmDocsisCtlThread:: TargetNextDocs3CandidateUcid: All candidate upstream chans tried. Target next ds."
 'b4b09e4b': "All UCIDs that are associated with current primary DS are
              tried. Scan next primary DS channel."
+
+# TEMPLATE: "BcmCmUsRangingState:: CommonRngErrorHandler: txid= <*> ucid= <*> all pri us svc flow tx chan are down. -> restart error!"
+'e7adb958': "All upstream channels down, DOCSIS mac will reset."
+
+# TEMPLATE: "BcmCmUsRangingState:: CommonRngErrorHandler: all pri us svc flow tx chan are down. -> restart error!"
+'982008a9': "All upstream channels down, DOCSIS mac will reset."
 
 # ----------------------------------------------------------------------
 # OFDMA / Tcofdm
@@ -229,6 +244,10 @@
 # TEMPLATE: "BcmCmDocsisCtlMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ), No MDD timeout == > If no MDDs are detected on the candidate, Primary Downstream Channel, then the CM MUST abort the attempt, to utilize the current downstream channel"
 '10ab4b85': "You need reboot the CMTS if you always see the MDD timeout
              after scaning / locking EVERY downstream channel."
+
+# TEMPLATE: "BcmCmDsChanOfdm:: CheckMddKeepAliveStatus: Initiating channel recovery action due to no keepalive MDD received in <*> ms"
+'f8b94060': "Usually downstream is broken, rf cable cut, OFDM shutdown
+             on CMTS, etc ..."
 
 # ----------------------------------------------------------------------
 # DHCP, TFTP, TOD, IP, Networks

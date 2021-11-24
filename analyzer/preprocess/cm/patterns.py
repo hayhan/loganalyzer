@@ -166,7 +166,8 @@ PTN_BLOCK_INDENT2 = re.compile(
 PTN_BLOCK_INDENT2_END = re.compile(
     r'Using clamped minimum transmit power|'
     r'Using bottom of DRW initial upstream power|'
-    r'Using per transmitter stored initial upstream power'
+    r'Using per transmitter stored initial upstream power|'
+    r'TCC ranging parameters specified power offset of'
 )
 
 # ----------------------------------------------------------------------
@@ -223,7 +224,8 @@ PTN_TABLE_TITLE_COMMON = re.compile(
 PTN_DS_CHAN_TABLE_START = re.compile(r'Active Downstream Channel Diagnostics:')
 PTN_DS_CHAN_TABLE_END = re.compile(r'\* indicates currently configured')
 PTN_US_CHAN_TABLE_START = re.compile(r'Active Upstream Channels:')
-PTN_US_CHAN_TABLE_END = re.compile(r'Dynamic range window top:')
+# PTN_US_CHAN_TABLE_END = re.compile(r'Dynamic range window ')
+PTN_US_CHAN_TABLE_END = re.compile(r'\S')
 
 # ----------------------------------------------------------------------
 # Patterns for spliting tokens. They cannot be built as a big one.

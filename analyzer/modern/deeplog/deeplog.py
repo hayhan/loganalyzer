@@ -159,12 +159,17 @@ class DeepLog(ModernBase):
         # validation/test data, they probably miss some unknown ones.
         # Map the unknown events to the last index in the vocabulary.
         event_idx_logs = []
+        new_eids = set()
         for tid in event_id_logs:
             try:
                 event_idx_logs.append(event_id_voc.index(tid))
             except ValueError:
-                print(f"Warning: Event ID {tid} is not in vocabulary!!!")
+                new_eids.add(tid)
                 event_idx_logs.append(self.libsize-1)
+
+        if len(new_eids) != 0:
+            for ele in new_eids:
+                print(f"Warning: Event ID {ele} is not in vocabulary!!!")
 
         # --------------------------------------------------------------
         # Extract features

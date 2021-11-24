@@ -105,11 +105,16 @@ class Loglab(ModernBase):
         # Check if event ids are all in vocab. For training data, the
         # template library/vocabulary normally contain all the possible
         # event ids. For validation/test data, they may not contain all.
+        new_eids = set()
         for tid in event_id_logs:
             try:
                 event_id_voc.index(tid)
             except ValueError:
-                print(f"Warning: Event ID {tid} is not in vocabulary!!!")
+                new_eids.add(tid)
+
+        if len(new_eids) != 0:
+            for ele in new_eids:
+                print(f"Warning: Event ID {ele} is not in vocabulary!!!")
 
         # --------------------------------------------------------------
         # Extract features

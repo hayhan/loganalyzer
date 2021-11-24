@@ -880,3 +880,17 @@ b1569c26,b1569c26,* Starting latency compensation thread.
 f88d8ddf,f88d8ddf,*Reset OcdSettings and DpdSettingsMap used by CmHal
 28699e69,28699e69,"* LEAP ApVersion: ChpId= <*>, RevId= <*>, LeapRAMVersion= <*> *"
 da2af600,da2af600,**** rpc_erouter_alt_wan_mode_set <*>
+e3c2087a,e3c2087a,BcmCm3dfMsgTx:: ComputeEnabledOnEventParamSet() - auto reset to off conditions true
+2169a02a,2169a02a,for event type= <*> and id param value= <*> -> erase from on event set.
+92cc3f72,92cc3f72,BcmCmDsChanOfdm:: MddKeepAliveFailTrans: Recovering OFDM channel after MDD keepalinve failure
+810f1910,810f1910,BcmCmUsRangingState:: RngRspMsgEvent: detected bogus RNG-RSP sid= <*> hwTxId= <*> docs ucid= <*> 
+f1efba03,f1efba03,Dynamic range window value: <*> ( <*> dBmV )
+80f6eb04,80f6eb04,"BcmSoamThread:: SyncCmNotOperationalNote: WARNING - the CM is unregistered, stop SOAM service."
+3bfef7f7,3bfef7f7,SpecA restarted.
+3756c8a2,3756c8a2,BcmSetDocsis3TransmitMode= <*>
+7d6bc906,7d6bc906,mongoose set_ports_option: listening on:( IPv4 ) <*>; port: <*>
+c69562d1,c69562d1,MDD Plant US Frequency Range = extended.
+6575fe56,6575fe56,... TCOFDM - DTR is now locked.... 
+88505fc1,88505fc1,Writing to NXP <*>// <*> register <*> - GainSetting = <*> CurrentSetting = <*>
+8d55c883,8d55c883,"The DTR FCW is <*>, - that value is good ( within <*> ppm )"
+c7a06ac5,c7a06ac5,Strange bits were set in the LcbLeIrqSts register = <*>
