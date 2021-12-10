@@ -80,6 +80,9 @@ def train_general(is_all, filelst, debug, sel = 'stc'):
 @click.command(name="train")
 @click.option(
     "--model",
+    type=click.Choice(['DT', 'RFC', 'LR', 'SVM',
+                       'MNB', 'PTN', 'SGDC_SVM', 'SGDC_LR',
+                       'ALL', 'NOPE']),
     default="NOPE",
     help="Select model to train.",
     show_default=True,
@@ -144,6 +147,9 @@ def cli_loglizer_train(model, inc, debug):
 @click.command(name="validate")
 @click.option(
     "--model",
+    type=click.Choice(['DT', 'RFC', 'LR', 'SVM',
+                       'MNB', 'PTN', 'SGDC_SVM', 'SGDC_LR',
+                       'ALL', 'NOPE']),
     default="NOPE",
     help="Select model to validate.",
     show_default=True,
@@ -229,6 +235,9 @@ def cli_loglizer_validate(model, debug, src):
 @click.command(name="predict")
 @click.option(
     "--model",
+    type=click.Choice(['DT', 'RFC', 'LR', 'SVM',
+                       'MNB', 'PTN', 'SGDC_SVM', 'SGDC_LR',
+                       'ALL', 'NOPE']),
     default="NOPE",
     help="Select model to predict.",
     show_default=True,

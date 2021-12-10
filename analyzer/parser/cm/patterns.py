@@ -26,7 +26,7 @@ ptnobj_p5 = re.compile(
     # The filename string of image
     r'(?<= Filename: )\S+|'
     # OFDM channels CH32 and CH33, maybe different for 3391 and later
-    r'CH\d{2}|'
+    r'C[hH]\d{2}|'
     # QAM/FEC lock status
     r'(QAM lock failure)|(FEC lock failure)|'
     # priDcid, dcid and prof list like priDcid= [ 197 26 1 ], etc.

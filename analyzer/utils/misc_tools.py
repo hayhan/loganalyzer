@@ -92,3 +92,5 @@ def norm_timestamp(rawfile: str, newfile: str, log_offset: int, dt_ts: float):
 
     with open(newfile, 'w', encoding='utf-8') as fout:
         fout.writelines(out_logs)
+
+    return dt_ts

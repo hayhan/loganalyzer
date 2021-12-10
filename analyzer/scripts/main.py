@@ -192,7 +192,8 @@ def cli_template():
 
     \b
     - The option `src` denotes the raw data source folder. We use all
-      log files under data/raw by default.
+      log files under data/raw by default, otherwise write down the
+      folder name explicitly under data/raw.
     \b
     - The option `current` uses existing data/cooked/train.txt or the
       test.txt directly.

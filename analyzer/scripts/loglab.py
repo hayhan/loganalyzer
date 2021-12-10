@@ -38,6 +38,7 @@ def exercise_all_models(llobj):
 @click.command(name="train")
 @click.option(
     "--model",
+    type=click.Choice(['RFC', 'LR', 'SVM', 'ALL', 'NOPE']),
     default="NOPE",
     help="Select model to train.",
     show_default=True,
@@ -112,6 +113,7 @@ def cli_loglab_train(model, mykfold, debug):
 @click.command(name="predict")
 @click.option(
     "--model",
+    type=click.Choice(['RFC', 'LR', 'SVM', 'ALL', 'NOPE']),
     default="NOPE",
     help="Select model to train.",
     show_default=True,

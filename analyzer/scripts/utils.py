@@ -86,12 +86,12 @@ def cli_norm_timestamp():  # pylint: disable=too-many-locals
     tmp_dir = dh.TMP_DATA
     work_dir = dh.COOKED_DATA
 
+    # Get current system time
+    dt_timestamp = datetime.now().timestamp()
+
     # Support sub-folders
     for dirpath, _, files in sorted(os.walk(tmp_dir, topdown=True)):
         # print(f'Found directory: {dirpath}')
-
-        # Get the current system time
-        dt_timestamp = datetime.now().timestamp()
 
         for filename in files:
             # Skip hidden files if any exist
@@ -133,7 +133,7 @@ def cli_norm_timestamp():  # pylint: disable=too-many-locals
                 continue
 
             # Normalize the timestamps and save to a new file
-            mt.norm_timestamp(rawf, newf, log_offset, dt_timestamp)
+            dt_timestamp = mt.norm_timestamp(rawf, newf, log_offset, dt_timestamp)
 
     log.info("Normalization done.")
 
