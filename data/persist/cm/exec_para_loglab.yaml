@@ -2,18 +2,18 @@
 
 RFC:
     window_size: 10
-    weight: 2
+    weight: 5
     feature: CNT
     cover: FULL
 
 LR:
     window_size: 10
-    weight: 2
+    weight: 5
     feature: CNT
     cover: FULL
 
 SVM:
     window_size: 10
-    weight: 2
+    weight: 5
     feature: CNT
     cover: FULL

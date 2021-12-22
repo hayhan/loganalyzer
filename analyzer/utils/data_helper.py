@@ -60,7 +60,7 @@ EXEC_LOGLIZER = os.path.join(PERSIST_DATA, 'exec_para_loglizer.yaml')
 CONFIG_OVERLOAD = os.path.join(PERSIST_DATA, 'config_overload.yaml')
 
 # Skip file list when concatenates raw log files under data/raw
-SKIP_FILE_LIST = ['README.md', 'desc.txt', 'train.lst', 'validate.lst']
+SKIP_FILE_LIST = ['README.md', 'classes.yaml', 'train.lst', 'validate.lst']
 
 # Max length of customized timestamp in logs for prediction
 MAX_TIMESTAMP_LENGTH = 50
@@ -108,7 +108,7 @@ def get_files_io():
             'struct_rcv': os.path.join(TEST_DATA, 'test_norm_rcv.txt_structured.csv'),
             'top': os.path.join(TEST_DATA, 'analysis_summary_top.txt'),
             'sum': os.path.join(TEST_DATA, 'analysis_summary.csv'),
-            'rst_llab': os.path.join(TEST_DATA, 'results_loglab.txt'),
+            'rst_llab': os.path.join(TEST_DATA, 'results_loglab.csv'),
             'rst_dlog': os.path.join(TEST_DATA, 'results_deeplog.txt'),
             'rst_llzr': os.path.join(TEST_DATA, 'results_loglizer.csv'),
             'dbg': os.path.join(TEST_DATA, 'debug.csv'),

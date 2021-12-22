@@ -29,6 +29,7 @@ loglab:
     mykfold: false      # Selection of kfold implementation
     feature: BIN        # Feature extraction algorithm, e.g. BIN or CNT
     cover: FULL         # Cover FULL sample or PART to calc ratio in algorithm CNT
+    topk: 3             # Top classes with highest probabilities in prediction
 
 # Section: deeplog
 deeplog:

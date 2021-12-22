@@ -3,8 +3,9 @@
 """
 import os
 import sys
+import csv
 import logging
-from typing import List, Dict
+from typing import List, Dict, Tuple
 from importlib import import_module
 import pickle
 import numpy as np
@@ -20,6 +21,7 @@ from skl2onnx.common.data_types import FloatTensorType
 import onnxruntime as rt
 from analyzer.config import GlobalConfig as GC
 import analyzer.utils.data_helper as dh
+import analyzer.utils.yaml_helper as yh
 from analyzer.modern import ModernBase
 
 # Import the knowledge base for the corresponding log type
@@ -31,12 +33,14 @@ __all__ = ["Loglab"]
 log = logging.getLogger(__name__)
 
 
+# pylint: disable=too-many-instance-attributes,too-many-public-methods
 class Loglab(ModernBase):
     """ The class of Loglab technique """
     def __init__(self, df_raws, df_tmplts, dbg: bool = False):
         self.model: str = GC.conf['loglab']['model']
         self.win_size: int = GC.conf['loglab']['window_size']
         self.weight: int = GC.conf['loglab']['weight']
+        self.topk: int = GC.conf['loglab']['topk']
         self._segll: List[tuple] = []
 
         # Trained models for deployment, aka. for prediction
@@ -646,7 +650,7 @@ class Loglab(ModernBase):
         if GC.conf['loglab']['mykfold']:
             self.mykfold(y_train, monolith_data, model)
         else:
-            # Initialise the number of folds k for doing CV
+            # Initialize the number of folds k for doing CV
             kfold = KFold(n_splits=monolith_data.shape[0])
             x_train = monolith_data[:, :-1]
             y_train = monolith_data[:, -1].astype(int)
@@ -689,8 +693,6 @@ class Loglab(ModernBase):
         # --------------------------------------------------------------
         # Load data and do feature extraction on the test dataset
         # --------------------------------------------------------------
-        # Update the parameters of selected model
-        self.load_para()
 
         x_test, _ = self.load_data()
 
@@ -705,7 +707,7 @@ class Loglab(ModernBase):
         sess = rt.InferenceSession(self.onnx_model)
         input_name = sess.get_inputs()[0].name
 
-        # Target class
+        # Target class w/ highest probability, aka. top 1
         label_name = sess.get_outputs()[0].name
         y_pred = sess.run([label_name], {input_name: x_test.astype(np.float32)})[0]
         print(y_pred)
@@ -713,7 +715,52 @@ class Loglab(ModernBase):
         # Probability of each target class
         label_name = sess.get_outputs()[1].name
         y_pred_prob = sess.run([label_name], {input_name: x_test.astype(np.float32)})[0]
-        print(y_pred_prob)
+
+        # Models like SVM have have prob output format of numpy array.
+        # Others have format of list[dict]. Convert them all to dict.
+        if isinstance(y_pred_prob, np.ndarray):
+            y_pred_prob = dict(enumerate(y_pred_prob.flatten(), 1))
+        else:
+            y_pred_prob = y_pred_prob[0]
+
+        # Get the top n classes
+        y_pred_prob_top: List[Tuple[int, float]] = \
+            sorted(y_pred_prob.items(), key=lambda kv: kv[1], reverse=True)[:self.topk]
+
+        print(y_pred_prob_top)
+
+        class_map = self.load_class_map()
+
+        # Save top n descriptions to analysis_summary.csv that is shared
+        # between oldschool and loglab. This will ease the logwebserver.
+        with open(self.fzip['sum'], 'w', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            writer.writerow(['No.', 'Prob', 'Target', 'Reference', 'Description'])
+            for i, top in enumerate(y_pred_prob_top):
+                tgt = ''.join(['c', f"{top[0]:03d}"])
+                writer.writerow(
+                    [i+1, top[1], tgt, class_map[tgt]['refs'], class_map[tgt]['desc']]
+                )
+
+        # Save top 1 description to analysis_summary_top.txt to ease the
+        # logwebserver too.
+        with open(self.fzip['top'], 'w', encoding='utf-8') as file:
+            tgt = ''.join(['c', f"{y_pred_prob_top[0][0]:03d}"])
+            contents = f"The top hit class with probability of {y_pred_prob_top[0][1]}. "\
+                       f"(some models may not normalize it within [0, 1]).\n\n"\
+                       f"Analysis result:\n"\
+                       f"{class_map[tgt]['desc']}\n\n"\
+                       f"Reference:\n"\
+                       f"{class_map[tgt]['refs']}\n"
+
+            file.write(contents)
+
+    @staticmethod
+    def load_class_map():
+        """ Load the mappings between target class and its description
+        """
+        class_map: dict = yh.read_yaml(os.path.join(dh.RAW_DATA, 'loglab', 'classes.yaml'))
+        return class_map
 
     def check_feature(self):
         """ Check the features of the dataset.
