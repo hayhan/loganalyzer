@@ -747,11 +747,12 @@ class Loglab(ModernBase):
         with open(self.fzip['top'], 'w', encoding='utf-8') as file:
             tgt = ''.join(['c', f"{y_pred_prob_top[0][0]:03d}"])
             contents = f"The top hit class with probability of {y_pred_prob_top[0][1]}. "\
-                       f"(some models may not normalize it within [0, 1]).\n\n"\
-                       f"Analysis result:\n"\
-                       f"{class_map[tgt]['desc']}\n\n"\
-                       f"Reference:\n"\
-                       f"{class_map[tgt]['refs']}\n"
+                       f"(some models may not normalize it within [0, 1]). The summary "\
+                       f"comes from the top 1 class. See table below for all top 3 hits.\n"\
+                       f"[Analysis Result]\n"\
+                       f"{class_map[tgt]['desc']}\n"\
+                       f"[Reference]\n"\
+                       f"{class_map[tgt]['refs']}"
 
             file.write(contents)
 
@@ -759,7 +760,7 @@ class Loglab(ModernBase):
     def load_class_map():
         """ Load the mappings between target class and its description
         """
-        class_map: dict = yh.read_yaml(os.path.join(dh.RAW_DATA, 'loglab', 'classes.yaml'))
+        class_map: dict = yh.read_yaml(os.path.join(dh.PERSIST_DATA, 'classes_loglab.yaml'))
         return class_map
 
     def check_feature(self):

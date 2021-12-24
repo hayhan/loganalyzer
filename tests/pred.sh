@@ -12,4 +12,4 @@ source $SHELL_FOLDER/../../pyVirtEnvs/log_env/bin/activate
 export ANALYZER_DATA=$SHELL_FOLDER/../data
 
 #analyzer oldschool run
-analyzer loglab predict --model RFC
+analyzer loglab predict

@@ -60,7 +60,7 @@ EXEC_LOGLIZER = os.path.join(PERSIST_DATA, 'exec_para_loglizer.yaml')
 CONFIG_OVERLOAD = os.path.join(PERSIST_DATA, 'config_overload.yaml')
 
 # Skip file list when concatenates raw log files under data/raw
-SKIP_FILE_LIST = ['README.md', 'classes.yaml', 'train.lst', 'validate.lst']
+SKIP_FILE_LIST = ['README.md', 'train.lst', 'validate.lst']
 
 # Max length of customized timestamp in logs for prediction
 MAX_TIMESTAMP_LENGTH = 50

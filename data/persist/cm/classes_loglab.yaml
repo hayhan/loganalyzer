@@ -1,0 +1,312 @@
+# This file contains info about target classes
+
+c001:
+    desc: "RF cut off on both DS & US, or on DS only. Or some operations
+           on CMTS that make channels of DS & US or only DS unusable
+           physically."
+    refs: "N/A"
+
+# // CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# loglab_rfcut_ds_us_001.txt
+# loglab_rfcut_ds_us_003.txt
+
+# - CMTS: triton; DS: 32 sc-qam; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# loglab_rfcut_ds_us_002.txt
+# loglab_rfcut_ds_us_004.txt
+# loglab_rfcut_ds_us_007.txt
+
+# // CMTS: triton; DS: 32 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
+# loglab_rfcut_ds_us_005.txt
+# loglab_rfcut_ds_us_006.txt
+
+# // CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam; no eMTA; ipv4 only
+# loglab_rfcut_ds_us_008.txt
+# loglab_rfcut_ds_us_009.txt
+
+# // CMTS: triton; DS: 32 sc-qam, 2 ofdm; US: 8 sc-qam; no eMTA; ipv4 only
+# loglab_rfcut_ds_us_010.txt
+# loglab_rfcut_ds_us_011.txt
+
+# // CMTS: triton; DS: 32 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# loglab_rfcut_ds_us_012.txt
+# loglab_rfcut_ds_us_013.txt
+
+# // CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# loglab_rfcut_ds_us_014.txt
+# loglab_rfcut_ds_us_015.txt
+
+# // CMTS: triton; DS: 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# loglab_rfcut_ds_us_016.txt
+
+# // CMTS: triton; DS: 1 ofdm; US: 1 ofdma; no eMTA; ipv4 only
+# loglab_rfcut_ds_us_017.txt
+# loglab_rfcut_ds_us_020.txt
+
+# // CMTS: triton; DS: 1 sc-qam; US: 1 sc-qam; no eMTA; ipv4 only
+# loglab_rfcut_ds_us_018.txt
+# loglab_rfcut_ds_us_019.txt
+
+c002:
+    desc: "RF cut off on US, CM Tx is broken, or CMTS doesn't associate
+           primary DS with all US in MDD."
+    refs: "CS00011165620"
+
+# // CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# loglab_rfcut_us_001.txt
+# loglab_rfcut_us_002.txt
+
+# // CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam; no eMTA; ipv4 only
+# loglab_rfcut_us_003.txt
+# loglab_rfcut_us_004.txt
+
+# // CMTS: triton; DS: 8 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
+# loglab_rfcut_us_005.txt
+
+# // CMTS: triton; DS: 1 ofdm; US: 1 ofdma; no eMTA; ipv4 only
+# loglab_rfcut_us_006.txt
+# loglab_rfcut_us_007.txt
+# loglab_rfcut_us_010.txt
+
+# // CMTS: triton; DS: 1 sc-qam; US: 1 sc-qam; no eMTA; ipv4 only
+# loglab_rfcut_us_008.txt
+# loglab_rfcut_us_009.txt
+
+c003:
+    desc: "US attenuation is high."
+    refs: "N/A"
+
+# // CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# loglab_attn_us_high_001.txt
+# loglab_attn_us_high_002.txt
+
+# // CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 1 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# loglab_attn_us_high_003.txt
+# loglab_attn_us_high_004.txt
+# loglab_attn_us_high_005.txt
+
+# // CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# loglab_attn_us_high_006.txt
+
+c004:
+    desc: "DS partial service because one or more sc-qam channels cannot
+           be locked. DS channel status of quality might be poor. Or
+           annex mode is wrong that causes all DS sc-qam locking fail
+           except ofdm (e.g. Annex other mode should not be enabled on
+           D31 modems)."
+    refs: "CS00012214671"
+
+# // CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# loglab_psv_ds_001.txt
+# loglab_psv_ds_002.txt
+
+# // CMTS: triton; DS: 32 sc-qam; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# loglab_psv_ds_003.txt
+
+# // CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# loglab_psv_ds_004.txt
+
+# // CMTS: triton; DS: 2 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
+# loglab_psv_ds_005.txt
+
+# // CMTS: triton; DS: 2 sc-qam, 2 ofdm; US: 8 sc-qam; no eMTA; ipv4 only
+# loglab_psv_ds_006.txt
+# loglab_psv_ds_007.txt
+
+# // CMTS: triton; DS: 32 sc-qam, 2 ofdm; US: 2 ofdma; no eMTA; ipv4 only
+# // Annex mode is set as B in CM nonvol but DS sc-qam is A. So all sc-qam DS channels cannot be locked.
+# loglab_psv_ds_008.txt
+
+c005:
+    desc: "Diplexer wrong setting. Adjust diplexer settings per DS/US
+           band allocation."
+    refs: "N/A"
+
+# // CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# loglab_diplexer_001.txt
+# loglab_diplexer_003.txt
+# loglab_diplexer_004.txt
+# loglab_diplexer_005.txt
+# loglab_diplexer_006.txt
+# loglab_diplexer_007.txt
+# loglab_diplexer_008.txt
+
+# // CMTS: triton; DS: 32 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
+# loglab_diplexer_002.txt
+# loglab_diplexer_012.txt
+# loglab_diplexer_013.txt
+
+# // CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# loglab_diplexer_009.txt
+# loglab_diplexer_010.txt
+
+# // CMTS: triton; DS: 16 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
+# loglab_diplexer_011.txt
+
+# // CMTS: triton; DS: 1 ofdm; US: 1 ofdma; no eMTA; ipv4 only
+# loglab_diplexer_014.txt
+# loglab_diplexer_015.txt
+
+# // CMTS: triton; DS: 1 sc-qam; US: 1 sc-qam; no eMTA; ipv4 only
+# loglab_diplexer_016.txt
+# loglab_diplexer_017.txt
+
+c006:
+    desc: "US symbol overrun. Need SW fixes in modem."
+    refs: "CS00009833999, CS00010750259, CS00011191978, CS00011311284,
+           CS00011335775,
+           SWCM-52447, SWCM-52574, SWCM-54663, SWCM-54685, SWCM-54690,
+           SWCM-54691, SWCM-55020, SWCM-55411"
+
+# loglab_symbol_overrun_001.txt
+# ...
+# loglab_symbol_overrun_026.txt
+
+c007:
+    desc: "No MDD on all DS channels. Usually happens on Proteus/Trojan2
+           /Triton/Triton2. Reboot CMTS to fix it."
+    refs: "N/A"
+
+# loglab_no_mdd_001.txt
+# ...
+# loglab_no_mdd_006.txt
+
+c008:
+    desc: "Bogus range response. Usually upstream is not stable, e.g.
+           under very high attenuation or some upstream channels are not
+           correctly filtered."
+    refs: "N/A"
+
+# loglab_bogus_rngrsp_001.txt
+# ...
+# loglab_bogus_rngrsp_007.txt
+
+c009:
+    desc: "US partial service because some upstream channels cannot be
+           used by modem. Check possible noises, filters."
+    refs: "N/A"
+
+# loglab_psv_us_001.txt
+# ...
+# loglab_psv_us_010.txt
+
+c010:
+    desc: "(OFDMA) T2 timeouts before T3 reaches max tries, aka. initial
+           maint raning, in DBC process. Usually it is CMTS issue in DBC
+           or MAP flush happens (seldom) on CM."
+    refs: "CS00010988212"
+
+# // Logs from CS00010988212. Add 1 ofdma chan via DBC.
+# loglab_dbc_ofdma_t2t3_001.txt
+# ...
+# loglab_dbc_ofdma_t2t3_006.txt
+
+# // Logs from simulation on ref board. Add 1 ofdma chan via DBC.
+# loglab_dbc_ofdma_t2t3_007.txt
+# ...
+# loglab_dbc_ofdma_t2t3_010.txt
+
+# // Logs from simulation on ref board. Add 1 ofdma & 1 scqam us chan via DBC.
+# loglab_dbc_ofdma_t2t3_011.txt
+# ...
+# loglab_dbc_ofdma_t2t3_016.txt
+
+c011:
+    desc: "(SCQAM) T2 timeouts before T3 reaches max tries, aka. initial
+           maint raning, in DBC process.  Usually it is CMTS issue in
+           DBC or MAP flush happens (seldom) on CM."
+    refs: "CS00010988212"
+
+# // Logs from simulation on ref board. Add 1 scqam us chan via DBC.
+# loglab_dbc_scqam_t2t3_001.txt
+# ...
+# loglab_dbc_scqam_t2t3_005.txt
+
+# // Logs from simulation on ref board. Add 2 scqam us chan via DBC.
+# loglab_dbc_scqam_t2t3_006.txt
+# ...
+# loglab_dbc_scqam_t2t3_009.txt
+
+c012:
+    desc: "T2 timeout on all usable us channels after primary ds locks.
+           Usually it is CMTS issue in DBC or MAP flush happens (seldom)
+           on CM."
+    refs: "N/A"
+
+# // Primary scqam ds + 4 us channels
+# loglab_init_rng_t2_001.txt
+# loglab_init_rng_t2_002.txt
+
+# // Primary scqam/ofdm ds + scqam/ofdma us channels
+# loglab_init_rng_t2_003.txt
+# ...
+# loglab_init_rng_t2_008.txt
+
+c013:
+    desc: "T2 timeout on all usable us channels in TCC installation.
+           Partial service. Usually it is CMTS issue in DBC or MAP flush
+           happens (seldom) on CM."
+    refs: "N/A"
+
+# // T2 timeout on scqam
+# loglab_tcc_t2_001.txt
+# ...
+# loglab_tcc_t2_003.txt
+
+# // T2 timeout on scqam & ofdma
+# loglab_tcc_t2_004.txt
+# ...
+# loglab_tcc_t2_010.txt
+
+c014:
+    desc: "Unicast ranging continue w/o abort and T4 timeout. Probably
+           something wrong with pre-eq. CMTS also should abort ranging
+           before T4."
+    refs: "CS00010583877"
+
+# loglab_no_rng_abort_t4_001.txt
+# ...
+# loglab_no_rng_abort_t4_009.txt
+
+c015:
+    desc: "Bandwidth request failure because of utf UCD, DRW violation
+           and restarting unicast ranging. This will cause traffic
+           interrupt. Avoid utf UCD, DRW violation or restart unicast
+           maint ranging."
+    refs: "CS00010987597"
+
+# loglab_drw_otf_ucd_bw_req_failure_001.txt
+# ...
+# loglab_drw_otf_ucd_bw_req_failure_008.txt
+
+c016:
+    desc: "Device reporting OFDM Profile recovery on very low SNR, e.g.
+           20dB on Profiles. Needs patches from SWCM-52509 & SWCM-53170,
+           then it will only report failures in CM-STATUS correctly."
+    refs: "CS00009831546, CS00009763980,
+           SWCM-52509, SWCM-53170"
+
+# loglab_ofdm_low_margin_wrong_report_001.txt
+# ...
+# loglab_ofdm_low_margin_wrong_report_008.txt
+
+c017:
+    desc: "OFDM channel shutdown but CM resets MAC instead of entering
+           partial service. CMTS issue."
+    refs: "CS00004877901"
+
+# loglab_shutdown_ofdm_no_partial_001.txt
+# loglab_shutdown_ofdm_no_partial_002.txt
+# loglab_shutdown_ofdm_no_partial_003.txt
+# loglab_shutdown_ofdm_no_partial_004.txt
+
+c018:
+    desc: "Swap line card on CMTS. CM mac reset as expected but FEC
+           unlock on OFDM. CM sends opt-rsp but no opt-ack from CMTS.
+           CM is in partial service. CMTS needs firware patch."
+    refs: "CS00004780695"
+
+# loglab_linecard_ofdm_opt_001.txt
+# loglab_linecard_ofdm_opt_002.txt
+# loglab_linecard_ofdm_opt_003.txt
+# loglab_linecard_ofdm_opt_004.txt
+# loglab_linecard_ofdm_opt_005.txt
