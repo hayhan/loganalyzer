@@ -42,6 +42,7 @@ class Loglab(ModernBase):
         self.weight: int = GC.conf['loglab']['weight']
         self.topk: int = GC.conf['loglab']['topk']
         self._segll: List[tuple] = []
+        self._log_head_offset: int = GC.conf['general']['head_offset']
 
         # Trained models for deployment, aka. for prediction
         self.onnx_model: str = os.path.join(
@@ -73,6 +74,7 @@ class Loglab(ModernBase):
         self.model = GC.conf['loglab']['model']
         self.win_size = GC.conf['loglab']['window_size']
         self.weight = GC.conf['loglab']['weight']
+        self.topk: int = GC.conf['loglab']['topk']
 
         self.onnx_model = os.path.join(
             dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx'
@@ -685,6 +687,11 @@ class Loglab(ModernBase):
     def predict(self):
         """ Predict using the trained model.
         """
+        # Bail out early for wrong LOG_TYPE
+        if self._log_head_offset < 0:
+            self.invalid_log_warning()
+            sys.exit(1)
+
         # Update selected model and its parameters
         self.load_para()
 
@@ -758,10 +765,24 @@ class Loglab(ModernBase):
 
     @staticmethod
     def load_class_map():
-        """ Load the mappings between target class and its description
+        """ Load the mappings between target class and its description.
         """
         class_map: dict = yh.read_yaml(os.path.join(dh.PERSIST_DATA, 'classes_loglab.yaml'))
         return class_map
+
+    def invalid_log_warning(self):
+        """ Save invalid log warning to file and then webgui can access.
+        """
+        print(f"The submitted log is NOT from {dh.LOG_TYPE}.")
+
+        # Save warning message to analysis_summary_top.txt
+        with open(self.fzip['top'], 'w', encoding='utf-8') as file:
+            file.write(f"You sbumitted a wrong log, which is NOT from {dh.LOG_TYPE}.")
+
+        # Save top n descriptions title to analysis_summary.csv
+        with open(self.fzip['sum'], 'w', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            writer.writerow(['No.', 'Prob', 'Target', 'Reference', 'Description'])
 
     def check_feature(self):
         """ Check the features of the dataset.

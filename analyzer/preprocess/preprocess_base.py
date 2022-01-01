@@ -83,8 +83,11 @@ class PreprocessBase(ABC):
         elif self._log_head_offset == 0:
             self._reserve_ts = False
         else:
-            # Not a LOG_TYPE log file
-            sys.exit(f"It looks not {dh.LOG_TYPE} log!")
+            # Not a LOG_TYPE log file. It's OK to exit for console app.
+            # But for webgui app, it's not good as no any info send to
+            # later modules.
+            # sys.exit(f"It looks not {dh.LOG_TYPE} log!")
+            print(f"It looks not {dh.LOG_TYPE} log!")
         # Update main timestamp pattern object
         self._main_timestamp_regx()
 
@@ -169,6 +172,10 @@ class PreprocessBase(ABC):
             Overwrite this func if multi-line log has a different format
             instead of primary/nested combination.
         """
+        # Bail out early for the wrong LOG_TYPE
+        if self._log_head_offset < 0:
+            return
+
         # Reset normlogs in case it is not empty
         self._normlogs = []
 

@@ -21,4 +21,3 @@ then
 else
     analyzer oldschool run
 fi
-

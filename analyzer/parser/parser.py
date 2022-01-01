@@ -94,7 +94,10 @@ class Parser():
                 log_format = f'(?P<Time>.{{{self._log_head_offset}}})(?P<Content>.*?)'
             else:
                 log.info("Not %s log, Return right now.", dh.LOG_TYPE)
-                sys.exit(0)
+                # It's OK to exit for console app. But for webgui app,
+                # it's not good as no any info send to later modules.
+                # sys.exit(1)
+                return
         else:
             log_format = '<Time> <Content>'
 

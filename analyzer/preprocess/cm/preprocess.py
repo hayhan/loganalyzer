@@ -83,6 +83,9 @@ class Preprocess(PreprocessBase):
         # width of the unknown timestamp in advance. So here get the
         # updated info instead of the default one in config file.
         self._get_timestamp_info()
+        # Bail out early for the wrong LOG_TYPE
+        if self._log_head_offset < 0:
+            return
 
         # Reset newlogs in case it is not empty
         self._newlogs = []

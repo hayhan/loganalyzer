@@ -64,9 +64,8 @@ class OSS():
         log_sugg_l: List[str] = []
         log_time_l: List[str] = []
 
-        # Check the timestamp width we learned
+        # Bail out early for wrong LOG_TYPE
         if self._log_head_offset < 0:
-            # Not LOG_TYPE log defined in config file. Return right now.
             self.invalid_log_warning()
             sys.exit(1)
 
