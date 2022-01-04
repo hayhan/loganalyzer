@@ -777,7 +777,7 @@ class Loglab(ModernBase):
 
         # Save warning message to analysis_summary_top.txt
         with open(self.fzip['top'], 'w', encoding='utf-8') as file:
-            file.write(f"You sbumitted a wrong log, which is NOT from {dh.LOG_TYPE}.")
+            file.write(f"You sbumitted logs which are NOT from {dh.LOG_TYPE}.")
 
         # Save top n descriptions title to analysis_summary.csv
         with open(self.fzip['sum'], 'w', newline='', encoding='utf-8') as file:

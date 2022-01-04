@@ -50,7 +50,7 @@ class OSS():
 
         # Save the warning message to the top summary file
         with open(self.fzip['top'], 'w', encoding='utf-8') as fio:
-            fio.write(f"You sbumitted a wrong log, which is NOT from {dh.LOG_TYPE}.")
+            fio.write(f"You sbumitted logs which are NOT from {dh.LOG_TYPE}.")
 
         # Save empty summary data frame to file
         self._summary_df.to_csv(self.fzip['sum'], index=False,
