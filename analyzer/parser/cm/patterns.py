@@ -36,7 +36,7 @@ ptnobj_p5 = re.compile(
 ptnobj_p6 = re.compile(
     # List of intergers and tuples like xxx = 1 2 3 4, (12-11.1) (10-11)
     # as well as Numbers including hex, decimal and integer.
-    r'(?<=value=)(( [a-f0-9]{2}){14})'
+    r'(?<=value=)(( [a-f0-9]{2}){6,14})'
     r'|(?<=HEX:)([A-F0-9]{2} )+'
     r'|( \( \d+\.?(\d+)?-\d+\.?(\d+)? \))+|( \d+){2,}|0x[A-Fa-f0-9]+'
     r'|(?<=[^A-Za-z0-9\.])(\-?\+?\d+\.?(\d+)?\*?)|(?<=\.\.)(\d+)'

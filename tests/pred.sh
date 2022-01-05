@@ -14,7 +14,7 @@ export ANALYZER_DATA=$SHELL_FOLDER/../data
 # echo $1 > $SHELL_FOLDER/../data/test/cm/tmp.txt
 
 # Use '=' instead of '==' to be back compatible with sh. It was also
-# verified with shell_exec() in php where '==' doesn't seem to  work.
+# verified with shell_exec() in php where '==' doesn't seem to work.
 if [ $1 = machine ]
 then
     analyzer loglab predict

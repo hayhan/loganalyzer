@@ -918,3 +918,14 @@ c2a5d8cf,c2a5d8cf,"BcmBfcProcessCvc:: CmCodeVerificationCertificate:: ParseAndVa
 b75807f9,b75807f9,BcmBfcProcessCvc:: ProcessConfigFileSpecifiedCvc: ERROR - Config file manufacturer CVC is rejected.
 147936b5,147936b5,BcmBfcProcessCvc:: ProcessConfigFileManufAndCosignerCvcs: ERROR - Reject config file MFG CVC!
 f1db80b8,f1db80b8,Logging event: Configuration File CVC Validation Failure
+d3f77bf5,d3f77bf5,"BcmDhcpServerIf:: ProcessPacket: ( DHCP ServerIf Instance( <*> ) for IP <*> ) Received a Discover; client id htype= <*>, value= <*> requesting Ip address: <*> outside of pool range!"
+897b5321,897b5321,"BcmDhcpServerIf:: ElapsedTimeSec: ( DHCP ServerIf Instance( <*> ) for IP <*> ) Lease <*> : htype= <*>, value= <*> has EXPIRED!"
+89e33564,89e33564,"===== Read Leap AIF Status =====, CfgMode: <*> CPPM= <*>( Completed ); CABLE= <*>( Connected ), LnaInfo: <*> = > LnaMode= <*>, LnaInfo_pga: <*> == > PGA_Tilt= <*>, PGA_Gain= <*>, PGA2_Tilt= <*>, PGA2_GAIN= <*>, FreqStartHz: <*> hz, FreqStopHz: <*> hz, Composite Power: <*> <*>/ <*> dB == > <*> dB, CPPM Max Power: <*> <*>/ <*> dB == > <*> dB, CPPM Min Power: <*> <*>/ <*> dB == > <*> dB"
+b7484ef9,b7484ef9,Cable Disconnect ThresHold: <*> <*>/ <*> dB == > <*> dB ( InitVal= <*> dB )
+cab3505e,cab3505e,CPPM ThresHold: <*> <*>/ <*> dB ( InitVal= <*> )
+75ac1b08,75ac1b08,CPPM ThresHold Hysteresis: <*> ( InitVal= <*> )
+b8bdf783,b8bdf783,FreqStep code( <*>= <*>Mhz ): <*> ( InitVal= <*> )
+48d21370,48d21370,BcmCmDocsisCtlThread:: ResumePreRegSequence: Enabling forwarding from IP stack to CPE interfaces in dual-stack.
+ac12f850,ac12f850,BcmCmUsRangingState:: T3NoRngRspEvent: txid= <*> ucid= <*> error: last ranging burst crc is equal to current ranging burst crc! reset DTR.
+aaf07bf1,aaf07bf1,Error: rx unexpected reply
+d99eecae,d99eecae,req = <*> next = <*>
