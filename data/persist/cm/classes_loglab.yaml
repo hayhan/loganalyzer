@@ -72,7 +72,8 @@ c002:
 # loglab_rfcut_us_009.txt
 
 c003:
-    desc: "US attenuation is high."
+    desc: "US attenuation is high. Adjust the attenuator along the
+           upstream path to CMTS."
     refs: "N/A"
 
 # // CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
@@ -118,7 +119,11 @@ c004:
 
 c005:
     desc: "Diplexer wrong setting. Adjust diplexer settings per DS/US
-           band allocation."
+           band allocation of CMTS and schematics of the CM board. E.g.
+           \"CM/NonVol/CM DOCSIS NonVol> diplexer_mask_hw_provision\"
+           sets the diplexer per HW and \"CM/CmHal> diplexer_settings\"
+           selects which one to activate. After setting done, write
+           nonvol and reboot the CM board."
     refs: "N/A"
 
 # // CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
