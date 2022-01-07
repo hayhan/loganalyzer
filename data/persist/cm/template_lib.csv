@@ -929,3 +929,9 @@ b8bdf783,b8bdf783,FreqStep code( <*>= <*>Mhz ): <*> ( InitVal= <*> )
 ac12f850,ac12f850,BcmCmUsRangingState:: T3NoRngRspEvent: txid= <*> ucid= <*> error: last ranging burst crc is equal to current ranging burst crc! reset DTR.
 aaf07bf1,aaf07bf1,Error: rx unexpected reply
 d99eecae,d99eecae,req = <*> next = <*>
+7b7abd29,7b7abd29,No DHCPv6 ADVERTISE received!DHCPv6 failed to complete!
+e3b1e335,e3b1e335,"IPv6 address acquisition failed..., freeing <*>"
+cc5c6c0f,cc5c6c0f,"Logging event: DHCP failed - DHCP Solicit sent, No DHCP Advertise received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+3d7612e4,3d7612e4,DHCPv6 and DHCPv4 have both failed in DPM mode
+d09708d2,d09708d2,"Stopping DHCP/ToD/TFTP ( client requested )..., freeing <*>"
+d0e79689,d0e79689,BcmDhcpV6ClientIf:: ReleaseAddresses: ERROR - Addresses acquisition in progress; halting...

@@ -310,3 +310,25 @@ c018:
 # loglab_linecard_ofdm_opt_003.txt
 # loglab_linecard_ofdm_opt_004.txt
 # loglab_linecard_ofdm_opt_005.txt
+
+c019:
+    desc: "DHCP provisioning failure on CM primary ip stack, e.g. no
+           DHCP offers. Usually something wrong on the provisioning
+           server behind CMTS. Software issues on CM side might also
+           introduce this failure."
+    refs: "N/A"
+
+# // DHCPv4, discover send but no offer received
+# loglab_provision_failure_dhcp_001.txt
+# ...
+# loglab_provision_failure_dhcp_008.txt
+
+# // DHCPv6, DHCP solicit sent, no DHCP advertise received
+# loglab_provision_failure_dhcp_009.txt
+# ...
+# loglab_provision_failure_dhcp_016.txt
+
+# // Dual mode, no DHCP advertise and DHCP offer
+# loglab_provision_failure_dhcp_017.txt
+# ...
+# loglab_provision_failure_dhcp_024.txt

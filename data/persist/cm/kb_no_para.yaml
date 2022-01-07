@@ -253,12 +253,37 @@
 # DHCP, TFTP, TOD, IP, Networks
 # ----------------------------------------------------------------------
 
+# TEMPLATE: "Logging event: DHCP FAILED - Discover sent, no offer received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'a55798dc': "Check DHCP Server behind CMTS, or DS/US signal quality."
+
+# TEMPLATE: "BcmDhcpClientIf:: SendDiscover: WARNING - Sent Discover <*> times for lease with client id htype= <*>, value= <*>; too many tries. Giving up..."
+'84f00e9f': "Check DHCP Server behind CMTS, or DS/US signal quality."
+
 # TEMPLATE: "Logging event: DHCP FAILED - Request sent, No response; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
 '48c6430a': "Check DHCP Server behind CMTS, or DS/US signal quality."
+
+# TEMPLATE: "BcmDhcpClientIf:: SendRequest: WARNING - Sent Request <*> times for lease with client id htype= <*>, value= <*>; too many tries. Giving up..."
+'9cfcf057': "Check DHCP Server behind CMTS, or DS/US signal quality."
 
 # TEMPLATE: "BcmCmDocsisCtlThread:: IpInitErrorEvent: ERROR - IP helper returned DhcpInitFailed error! Restarting!"
 '36cb1e87': "Usually DHCP server down on CMTS side or upstream signal
              qulity is not good enough."
+
+# TEMPLATE: "Logging event: DHCP failed - DHCP Solicit sent, No DHCP Advertise received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'cc5c6c0f': "Check DHCP Server behind CMTS, or DS/US signal quality."
+
+# TEMPLATE: "DHCPv4 failed in IPv4 only provisioning mode"
+'27746b53': "Check DHCP Server behind CMTS, or DS/US signal quality."
+
+# TEMPLATE: "No DHCPv6 ADVERTISE received!DHCPv6 failed to complete!"
+'7b7abd29': "Check DHCP Server behind CMTS, or DS/US signal quality."
+
+# TEMPLATE: "IPv6 address acquisition failed..., freeing <*>"
+'e3b1e335': "Check DHCP Server behind CMTS, or DS/US signal quality."
+
+# TEMPLATE: "DHCPv6 and DHCPv4 have both failed in DPM mode"
+'3d7612e4': "DHCPv4 and v6 provisioning failed. Check DHCP server and
+             cable DS/US signal qualities firstly."
 
 # TEMPLATE: "Tftp Client:: Send: ERROR - Request Retries > kTftpMaxRequestRetryCount ( <*> ) !"
 '50c4cbad': "Check the Tftp server settings behind the CMTS."
