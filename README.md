@@ -47,7 +47,7 @@ Configuration files include a base one at analyzer/config/config.yaml and an ove
 
 1) copy the raw logs file to data/cooked/LOG_TYPE/test.txt.
 2) run "analyzer loglab predict"
-3) anomalies are save to data/test/LOG_TYPE/results_loglab.txt
+3) results are save to data/test/LOG_TYPE/analysis_summary.csv and analysis_summary_top.txt.
 
 **Old School System (OSS)**
 

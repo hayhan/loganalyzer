@@ -88,6 +88,11 @@ c003:
 # // CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
 # loglab_attn_us_high_006.txt
 
+# // D30
+# loglab_attn_us_high_007.txt
+...
+# loglab_attn_us_high_012.txt
+
 c004:
     desc: "DS partial service because one or more sc-qam channels cannot
            be locked. DS channel status of quality might be poor. Or
@@ -337,3 +342,22 @@ c019:
 # loglab_provision_failure_dhcp_017.txt
 # ...
 # loglab_provision_failure_dhcp_024.txt
+
+c020:
+    desc: "DOCSIS scanning on cable without any power. It is in cable
+           cut state, or frentend of ds in the modem has broken."
+    refs: "N/A"
+
+# loglab_scanning_no_power_001.txt
+# ...
+# loglab_scanning_no_power_005.txt
+
+c021:
+    desc: "DOCSIS scanning on cable with power, but cannot lock any of
+           them. Usually the annex mode is wrongly set on the CM or no
+           primary ds frequencies are provided on the CMTS."
+    refs: "N/A"
+
+# loglab_scanning_with_power_001.txt
+# ...
+# loglab_scanning_with_power_001.txt

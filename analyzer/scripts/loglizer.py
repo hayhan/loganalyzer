@@ -313,4 +313,4 @@ def cli_loglizer_show():
     )
     print(desc)
 
-    log.info("The logs are predicted using loglab.")
+    log.info("Show supported models done.")

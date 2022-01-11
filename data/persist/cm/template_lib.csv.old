@@ -158,7 +158,7 @@ cf7849a7,cf7849a7,Vendor CM Agent w/ BRCM Factory Support resetting to default s
 c985caa8,c985caa8,Vendor CM Agent w/ BRCM Factory Support destroying <*>
 4f367ad0,4f367ad0,AgentCleanupViews for IP stack <*>
 8888fc3d,8888fc3d,Allowing DOCS-CABLE-DEVICE-MIB IP filters.
-da55bd85,da55bd85,Vendor CM Agent w/ BRCM Factory Support deferring traps.
+e80c9481,e80c9481,Vendor <*> Agent w/ BRCM Factory Support deferring traps.
 d1e3d1e2,d1e3d1e2,eRouter Linux WAN Down
 c15c3bfa,c15c3bfa,EmtaSnmpAgent:: SoftReset
 528e92ba,528e92ba,Pausing trap thread
@@ -204,7 +204,7 @@ cba3c503,cba3c503,"US: <*> SC-QAM ( <*> ), <*> OFDMA ( <*> )"
 594a8f8e,594a8f8e,Restoring OFDM DS MAC settings
 a82bff10,a82bff10,Initializing Quarantine D31 DS MAC structures to <*>
 985c33fc,985c33fc,Disabling SNMP link status checking.
-b6ad3257,b6ad3257,Vendor CM Agent w/ BRCM Factory Support disabling management.
+421c21ec,421c21ec,Vendor CM Agent w/ BRCM Factory Support <*> management.
 478f4035,478f4035,CmSnmpAgent <*> management
 94397c6b,94397c6b,BcmBfcForwardAssistManager:: OperatingConfigBitsEnable: New Config = <*>
 1bae9b58,1bae9b58,BcmIgmpThread:: Stopping Igmp Thread...:  
@@ -935,3 +935,9 @@ cc5c6c0f,cc5c6c0f,"Logging event: DHCP failed - DHCP Solicit sent, No DHCP Adver
 3d7612e4,3d7612e4,DHCPv6 and DHCPv4 have both failed in DPM mode
 d09708d2,d09708d2,"Stopping DHCP/ToD/TFTP ( client requested )..., freeing <*>"
 d0e79689,d0e79689,BcmDhcpV6ClientIf:: ReleaseAddresses: ERROR - Addresses acquisition in progress; halting...
+ebd77eda,ebd77eda,BcmCmDocsisCtlThread:: ScanNextQd: Default scanning algorithm has been 'round the horn' <*> times without locking! Resetting!
+441ebbc6,441ebbc6,Vendor CPE Agent w/ BRCM Factory Support disabling management.
+3c559dac,3c559dac,"CmSnmpAgent waiting for packets, events, and traps to clear..."
+1b570c22,1b570c22,CM Resetting due to <*> full downstream scan without locking.
+6216d881,6216d881,BcmDocsisCmHalIf:: IfAdminStatus: CM-MAC ifAdminStatus set to 'down' - disabling US & DS HW assist.
+fc9e721c,fc9e721c,BcmEcosBfcApplication:: DeInitialize(): Rebooting now so we don't trip all over ourselves...Soft reset.

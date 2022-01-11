@@ -45,9 +45,28 @@
 # TEMPLATE: "Cable disconnected, Publishing 'cable cut' event."
 '87a34b02': "Cable disconnected, or no any signals on the cable."
 
+# TEMPLATE: "Cable disconnected, Cable still disconnected. Check again in <*> seconds."
+'bb99a5c5': "Cable is still disconnected, or no any signals on the
+             cable. Check again later."
+
+# TEMPLATE: "Setting networked standby context to 'cable cut'"
+'899ed4f3': "Cable disconnected, or no any signals on the cable."
+
+# TEMPLATE: "networked standby, Cable cut detected, entering RF disconnect mode., Will check for reconnect in <*> seconds."
+'f9be4de5': "Cable disconnected, or no any signals on the cable."
+
 # TEMPLATE: "OFDM channel <*> Profile <*> marked BAD due to <*> out of the last <*> ms intervals containing uncorrectable codewords"
 'f90b0b13': "OFDM channel MER margin is low and uncorrectable codewords
              is increasing. Channel quality is poor."
+
+# TEMPLATE: "BcmCmDocsisCtlThread:: ScanNextQd: Default scanning algorithm has been 'round the horn' <*> times without locking! Resetting!"
+'ebd77eda': "DOCSIS scanning on all frequencies without locking. The
+             annex mode might be wrong."
+
+# TEMPLATE: "CM Resetting due to <*> full downstream scan without locking."
+'1b570c22': "CM resets / reboots because full DOCSIS scanning done but
+             without locking any downstream channel. The annex mode
+             might be wrong."
 
 # ----------------------------------------------------------------------
 # Recover ds channels
