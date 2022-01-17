@@ -54,7 +54,7 @@ class OSS():
 
         # Save empty summary data frame to file
         self._summary_df.to_csv(self.fzip['sum'], index=False,
-            columns=["Time/LineNum", "Description", "Suggestion"])
+            columns=["Time/LineNum", "Severity", "Description", "Suggestion"])
 
     # pylint: disable=too-many-locals
     def analyze(self):
@@ -63,6 +63,7 @@ class OSS():
         log_desc_l: List[str] = []
         log_sugg_l: List[str] = []
         log_time_l: List[str] = []
+        log_seve_l: List[str] = []
 
         # Bail out early for wrong LOG_TYPE
         if self._log_head_offset < 0:
@@ -108,11 +109,12 @@ class OSS():
             # print(param_list)
 
             # Now we can search in knowledge-base for the current log
-            log_fault, log_sugg = self.kbase.domain_knowledge(eid, param_list)
+            log_seve, _, log_sugg \
+                = self.kbase.domain_knowledge(eid, param_list)
 
             # If current log is fault, store the timestamp, the log
             # descrition and suggestion
-            if log_fault:
+            if log_seve != 'info':
                 # Check if the timestamps are in the logs
                 if self._log_head_offset > 0:
                     time_stamp = time
@@ -126,12 +128,14 @@ class OSS():
 
                 # Store the info of each anomaly log
                 log_time_l.append(time_stamp)
+                log_seve_l.append(log_seve)
                 log_desc_l.append(content)
                 log_sugg_l.append(log_sugg)
 
         pbar.close()
         # Store the results to dataframe and file
         self._summary_df['Time/LineNum'] = log_time_l
+        self._summary_df['Severity'] = log_seve_l
         self._summary_df['Description'] = log_desc_l
         self._summary_df['Suggestion'] = log_sugg_l
 
@@ -150,4 +154,4 @@ class OSS():
 
         # Save the summary data frame to file
         self._summary_df.to_csv(self.fzip['sum'], index=False,
-            columns=["Time/LineNum", "Description", "Suggestion"])
+            columns=["Time/LineNum", "Severity", "Description", "Suggestion"])

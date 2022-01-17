@@ -2,18 +2,30 @@
 
 RFC:
     window_size: 10
-    weight: 5
+    weight:
+        fatal: 7
+        error: 5
+        warning: 3
+        info: 1
     feature: CNT
     cover: FULL
 
 LR:
     window_size: 10
-    weight: 5
+    weight:
+        fatal: 7
+        error: 5
+        warning: 3
+        info: 1
     feature: CNT
     cover: FULL
 
 SVM:
     window_size: 10
-    weight: 5
+    weight:
+        fatal: 7
+        error: 5
+        warning: 3
+        info: 1
     feature: CNT
     cover: FULL

@@ -1,70 +1,126 @@
-# This file contains tempaltes whose parameters are not cared. The first
-# column is event id and the second column is root cause analysis and
-# suggestions.
+# This file contains tempaltes whose parameters are not cared. Severity
+# field includes 'fatal', 'error', 'warning'. Context field indicates if
+# the template has meaningful context within window. Usually it is true,
+# but some special template should not consider context, e.g. some event
+# from interrupt.
 
 # ----------------------------------------------------------------------
 # Downstream channel status, lock failures
 # ----------------------------------------------------------------------
 
 # TEMPLATE: "Telling application we lost lock on QAM channel <*>"
-'c481c3c2': "Disconnected/Bad RF cable, low DS power, etc. Replace cable
+'c481c3c2':
+    severity: error
+    contxt: true
+    descpt: "Disconnected/Bad RF cable, low DS power, etc. Replace cable
              or decrease DS attanuation ..."
 
 # TEMPLATE: "Telling application we lost lock on QAM primary channel <*>"
-'b90344c4': "Disconnected/Bad RF cable, low DS power, etc. Replace cable
+'b90344c4':
+    severity: error
+    contxt: true
+    descpt: "Disconnected/Bad RF cable, low DS power, etc. Replace cable
              or decrease DS attanuation ..."
 
 # TEMPLATE: "Telling application we lost lock on channel <*> ( lostbits= <*> )"
-'4df6cac3': "Disconnected/Bad RF cable, low DS power, etc. Replace cable
+'4df6cac3':
+    severity: error
+    contxt: true
+    descpt: "Disconnected/Bad RF cable, low DS power, etc. Replace cable
              or decrease DS attanuation ..."
 
 # TEMPLATE: "BcmCmDsChan:: DsLockFail: hwRxId= <*> dcid= <*> -> enter kDsOperLockToRescueCmts state"
-'9f88e081': "Downstream is broken and cannot be locked..."
+'9f88e081':
+    severity: error
+    contxt: true
+    descpt: "Downstream is broken and cannot be locked..."
 
 # TEMPLATE: "BcmCmDsChan:: DsLockFail: rxid= <*> dcid= <*> enter recovery state"
-'8f5e5fd4': "Downstream is broken and cannot be locked..."
+'8f5e5fd4':
+    severity: error
+    contxt: true
+    descpt: "Downstream is broken and cannot be locked..."
 
 # TEMPLATE: "1st try PLC NOT locked! Retrying..."
-'565f2f45': "RF cable cut, weak downstream OFDM signal, or noises ..."
+'565f2f45':
+    severity: error
+    contxt: true
+    descpt: "RF cable cut, weak downstream OFDM signal, or noises ..."
 
 # TEMPLATE: "BcmDocsisCmHalIf:: HandleStatusIndication: WARNING - <*> lost PLC Lock"
-'a8db0840': "RF cable cut, weak downstream OFDM signal, or noises ..."
+'a8db0840':
+    severity: error
+    contxt: true
+    descpt: "RF cable cut, weak downstream OFDM signal, or noises ..."
 
 # TEMPLATE: "BcmCmDsChanOfdm:: DsLockFail: rxid= <*> dcid= <*>"
-'f228dfa5': "RF cable cut, weak downstream OFDM signal, or noises ..."
+'f228dfa5':
+    severity: error
+    contxt: true
+    descpt: "RF cable cut, weak downstream OFDM signal, or noises ..."
 
 # TEMPLATE: "BcmCmDsOfdmProfileState:: FecLockFail: hwRxId= <*> dcid= <*> profId= <*> ( <*> )"
-'c62e9d36': "RF cable cut, weak downstream OFDM signal, or noises ..."
+'c62e9d36':
+    severity: error
+    contxt: true
+    descpt: "RF cable cut, weak downstream OFDM signal, or noises ..."
 
 # TEMPLATE: "BcmCmDsOfdmProfileState:: FecLockFail: hwRxId= <*> dcid= <*> profId= <*> ( <*> ) reason= <*>"
-'7f7e47ee': "RF cable cut, weak downstream OFDM signal, or noises ..."
+'7f7e47ee':
+    severity: error
+    contxt: true
+    descpt: "RF cable cut, weak downstream OFDM signal, or noises ..."
 
 # TEMPLATE: "Cable disconnected"
-'fc738c74': "Cable disconnected, or no any signals on the cable."
+'fc738c74':
+    severity: fatal
+    contxt: true
+    descpt: "Cable disconnected, or no any signals on the cable."
 
 # TEMPLATE: "Cable disconnected, Publishing 'cable cut' event."
-'87a34b02': "Cable disconnected, or no any signals on the cable."
+'87a34b02':
+    severity: fatal
+    contxt: true
+    descpt: "Cable disconnected, or no any signals on the cable."
 
 # TEMPLATE: "Cable disconnected, Cable still disconnected. Check again in <*> seconds."
-'bb99a5c5': "Cable is still disconnected, or no any signals on the
+'bb99a5c5':
+    severity: fatal
+    contxt: true
+    descpt: "Cable is still disconnected, or no any signals on the
              cable. Check again later."
 
 # TEMPLATE: "Setting networked standby context to 'cable cut'"
-'899ed4f3': "Cable disconnected, or no any signals on the cable."
+'899ed4f3':
+    severity: error
+    contxt: true
+    descpt: "Cable disconnected, or no any signals on the cable."
 
 # TEMPLATE: "networked standby, Cable cut detected, entering RF disconnect mode., Will check for reconnect in <*> seconds."
-'f9be4de5': "Cable disconnected, or no any signals on the cable."
+'f9be4de5':
+    severity: error
+    contxt: true
+    descpt: "Cable disconnected, or no any signals on the cable."
 
 # TEMPLATE: "OFDM channel <*> Profile <*> marked BAD due to <*> out of the last <*> ms intervals containing uncorrectable codewords"
-'f90b0b13': "OFDM channel MER margin is low and uncorrectable codewords
+'f90b0b13':
+    severity: error
+    contxt: true
+    descpt: "OFDM channel MER margin is low and uncorrectable codewords
              is increasing. Channel quality is poor."
 
 # TEMPLATE: "BcmCmDocsisCtlThread:: ScanNextQd: Default scanning algorithm has been 'round the horn' <*> times without locking! Resetting!"
-'ebd77eda': "DOCSIS scanning on all frequencies without locking. The
+'ebd77eda':
+    severity: fatal
+    contxt: true
+    descpt: "DOCSIS scanning on all frequencies without locking. The
              annex mode might be wrong."
 
 # TEMPLATE: "CM Resetting due to <*> full downstream scan without locking."
-'1b570c22': "CM resets / reboots because full DOCSIS scanning done but
+'1b570c22':
+    severity: fatal
+    contxt: true
+    descpt: "CM resets / reboots because full DOCSIS scanning done but
              without locking any downstream channel. The annex mode
              might be wrong."
 
@@ -73,23 +129,38 @@
 # ----------------------------------------------------------------------
 
 # TEMPLATE: "BcmCmDsChan:: RecoverChan: retry -> hwRxId= <*> freq= <*> dcid= <*>"
-'8673876f': "DS SC-QAM chan is broken and is trying to recover."
+'8673876f':
+    severity: error
+    contxt: true
+    descpt: "DS SC-QAM chan is broken and is trying to recover."
 
 # TEMPLATE: "BcmCmDsChan:: RecoverChan: rxid= <*> dcid= <*>"
-'78a18bef': "DS SC-QAM chan is broken and is trying to recover."
+'78a18bef':
+    severity: error
+    contxt: true
+    descpt: "DS SC-QAM chan is broken and is trying to recover."
 
 # TEMPLATE: "BcmCmDsChanOfdm:: RecoverChan: rxid= <*> dcid= <*>"
-'635494bb': "DS OFDM chan is broken and is trying to recover."
+'635494bb':
+    severity: error
+    contxt: true
+    descpt: "DS OFDM chan is broken and is trying to recover."
 
 # TEMPLATE: "BcmCmDsChanOfdm:: RecoverPlc: rxid= <*> dcid= <*> freq= <*>"
-'a379e6bc': "DS OFDM PLC chan is broken and is trying to recover."
+'a379e6bc':
+    severity: error
+    contxt: true
+    descpt: "DS OFDM PLC chan is broken and is trying to recover."
 
 # ----------------------------------------------------------------------
 # Upstream channel status
 # ----------------------------------------------------------------------
 
 # TEMPLATE: "BcmCmDocsisCtlThread:: IsUpstreamFreqUsable: cannot use ucid= <*>, chanHiEdgeFreqHz(= <*> ) > maximumDiplexerFrequencyHz= ( <*> )"
-'9701dcb3': "Change diplexer setting by \"CM/CmHal> diplexer_settings
+'9701dcb3':
+    severity: error
+    contxt: true
+    descpt: "Change diplexer setting by \"CM/CmHal> diplexer_settings
              1\" and disable diplexer auto switch by \"CM/NonVol/CM
              DOCSIS 3.1 NonVol> enable noDiplexerAutoSwitch 1\". Write
              and reboot the board. If the issue persists, check the
@@ -101,171 +172,303 @@
 # ----------------------------------------------------------------------
 
 # TEMPLATE: "BcmCmMultiUsHelper:: TmUcdRxTimerEvent: ERROR -, T1 expired and no usable ucd's received -> restart error"
-'2bdf39df': "No any UCDs or the received UCDs are invalid. E.g. upstream
+'2bdf39df':
+    severity: error
+    contxt: true
+    descpt: "No any UCDs or the received UCDs are invalid. E.g. upstream
              channel freq > diplexer band edge."
 
 # TEMPLATE: "BcmCmMultiUsHelper:: TmUcdRxTimerEvent: ERROR - UCD rx timer expired and no usable ucd's received. -> restart timer."
-'2b02d4ac': "No any UCDs or the received UCDs are invalid. E.g. upstream
+'2b02d4ac':
+    severity: error
+    contxt: true
+    descpt: "No any UCDs or the received UCDs are invalid. E.g. upstream
              channel freq > diplexer band edge."
 
 # TEMPLATE: "Logging event: No UCDs Received - Timeout; ; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'9beb20c5': "No any UCDs or the received UCDs are invalid. E.g. upstream
+'9beb20c5':
+    severity: error
+    contxt: true
+    descpt: "No any UCDs or the received UCDs are invalid. E.g. upstream
              channel freq > diplexer band edge."
 
 # TEMPLATE: "Logging event: UCD invalid or channel unusable; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'140fe4f6': "No any UCDs or the received UCDs are invalid. E.g. upstream
+'140fe4f6':
+    severity: error
+    contxt: true
+    descpt: "No any UCDs or the received UCDs are invalid. E.g. upstream
              channel freq > diplexer band edge."
 
 # TEMPLATE: "BcmCmUsRangingState:: RngRspMsgEvent: txid= <*> ucid= <*> received RNG-RSP with status= ABORT."
-'6ce4761e': "Adjust the US attnuation according to previous suggestion."
+'6ce4761e':
+    severity: error
+    contxt: true
+    descpt: "Adjust the US attnuation according to previous suggestion."
 
 # TEMPLATE: "Logging event: Unicast Ranging Received Abort Response - Re-initializing MAC; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'247a95a1': "Attanuation of upstream is too low or high usually. Adjust
+'247a95a1':
+    severity: fatal
+    contxt: true
+    descpt: "Attanuation of upstream is too low or high usually. Adjust
              the US attnuation according to previous suggestion."
 
 # TEMPLATE: "BcmCmUsRangingState:: RngRspMsgEvent: Received a RNG-RSP with ABORT! Going elsewhere... hwTxId= <*> docs ucid= <*>"
-'cfd8841a': "Usually US attanuation or pre-eq is not good, or CMTS has
+'cfd8841a':
+    severity: error
+    contxt: true
+    descpt: "Usually US attanuation or pre-eq is not good, or CMTS has
              some issues."
 
 # TEMPLATE: "BcmCmUsRangingState:: T2NoInitMaintEvent: ERROR - no Init Maint map op -> restart error"
-'85511099': "MAPs are not received on downstream (bad SNR?) or MAP
+'85511099':
+    severity: error
+    contxt: true
+    descpt: "MAPs are not received on downstream (bad SNR?) or MAP
              flusing because of CM transmiter problems."
 
 # TEMPLATE: "Logging event: No Maintenance Broadcasts for Ranging opportunities received - T2 time-out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'84606ff3': "CMTS does not broadcast ranging opportunities in MAPs, or
+'84606ff3':
+    severity: error
+    contxt: true
+    descpt: "CMTS does not broadcast ranging opportunities in MAPs, or
              this kind of MAPs cannot be received by CM."
 
 # TEMPLATE: "Logging event: No Ranging Response received - T3 time-out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'67d9799e': "Usually the US attnuation is too high or low, or some kind
+'67d9799e':
+    severity: warning
+    contxt: true
+    descpt: "Usually the US attnuation is too high or low, or some kind
              of CMTS issues ..."
 
 # TEMPLATE: "Logging event: Started Unicast Maintenance Ranging - No Response received - T3 time-out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'738aa70f': "Usually the US attnuation is too high or low, or some kind
+'738aa70f':
+    severity: warning
+    contxt: true
+    descpt: "Usually the US attnuation is too high or low, or some kind
              of CMTS issues ..."
 
 # TEMPLATE: "Logging event: Unicast Maintenance Ranging attempted - No response - Retries exhausted; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'b52f1595': "Usually the US attnuation is too high or low, or some kind
+'b52f1595':
+    severity: error
+    contxt: true
+    descpt: "Usually the US attnuation is too high or low, or some kind
              of CMTS issues ..."
 
 # TEMPLATE: "Logging event: B-INIT-RNG Failure - Retries exceeded; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'18157661': "Usually the US attnuation is too high or low, or some kind
+'18157661':
+    severity: error
+    contxt: true
+    descpt: "Usually the US attnuation is too high or low, or some kind
              of CMTS issues ..."
 
 # TEMPLATE: "BcmCmUsRangingState:: T3NoRngRspEvent: ERROR - no more RNG-REQ retries."
-'bd66bf4c': "Usually the US attnuation is too high or low, or some kind
+'bd66bf4c':
+    severity: error
+    contxt: true
+    descpt: "Usually the US attnuation is too high or low, or some kind
              of CMTS issues ..."
 
 # TEMPLATE: "Logging event: <*> consecutive T3 timeouts while trying to range on upstream channel <*>; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'ea78b302': "Usually the US attnuation is too high or low, or some kind
+'ea78b302':
+    severity: error
+    contxt: true
+    descpt: "Usually the US attnuation is too high or low, or some kind
              of CMTS issues ..."
 
 # TEMPLATE: "Logging event: Ranging Request Retries exhausted; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'b5dae8ef': "Usually the US attnuation is too high or low, or some kind
+'b5dae8ef':
+    severity: error
+    contxt: true
+    descpt: "Usually the US attnuation is too high or low, or some kind
              of CMTS issues ..."
 
 # TEMPLATE: "BcmCmUsRangingState:: T3NoRngRspEvent: ERROR - No initial ranging response from CMTS."
-'4bd32394': "Usually the US attnuation is too high or low, or some kind
+'4bd32394':
+    severity: warning
+    contxt: true
+    descpt: "Usually the US attnuation is too high or low, or some kind
              of CMTS issues ..."
 
 # TEMPLATE: "BcmCmUsRangingState:: T3NoRngRspEvent: txid= <*> ucid= <*> no RNG-RSP timeout during <*> ranging."
-'9006eea9': "Usually the US attnuation is too high or low, or some kind
+'9006eea9':
+    severity: warning
+    contxt: true
+    descpt: "Usually the US attnuation is too high or low, or some kind
              of CMTS issues ..."
 
 # TEMPLATE: "BcmCmUsRangingState:: T4NoStationMaintEvent: ERROR - no Station Maint map op error. hwTxId= <*> docs ucid= <*>"
-'2fc6ea2f': "Usually downstream or upstream has big issues and mac reset
+'2fc6ea2f':
+    severity: error
+    contxt: true
+    descpt: "Usually downstream or upstream has big issues and mac reset
              might happen."
 
 # TEMPLATE: "BcmCmUsRangingState:: T4NoStationMaintEvent: ERROR - txid= <*> ucid= <*> no Station Maint map op error."
-'b73d84d3': "Usually downstream or upstream has big issues and mac reset
+'b73d84d3':
+    severity: error
+    contxt: true
+    descpt: "Usually downstream or upstream has big issues and mac reset
              might happen."
 
 # TEMPLATE: "Logging event: Received Response to Broadcast Maintenance Request, But no Unicast Maintenance opportunities received - T4 time out; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'a8b689c1': "Usually downstream or upstream has big issues and mac reset
+'a8b689c1':
+    severity: error
+    contxt: true
+    descpt: "Usually downstream or upstream has big issues and mac reset
              might happen."
 
 # TEMPLATE: "BcmCmUsSetsState:: UsTimeRefFail: txid= <*> ucid= <*> failed to establish upstream time sync."
-'e58582d7': "Usually upstream is broken, cut off, etc."
+'e58582d7':
+    severity: error
+    contxt: true
+    descpt: "Usually upstream is broken, cut off, etc."
 
 # TEMPLATE: "BcmCmUsSetsState:: UsTimeRefFail: Failed to establish upstream time sync."
-'6c23502a': "Usually upstream is broken, cut off, etc."
+'6c23502a':
+    severity: error
+    contxt: true
+    descpt: "Usually upstream is broken, cut off, etc."
 
 # TEMPLATE: "BcmCmUsSetsState:: UsTimeRefFail: Lost upstream time sync."
-'55932cf1': "Usually upstream is broken, cut off, etc."
+'55932cf1':
+    severity: error
+    contxt: true
+    descpt: "Usually upstream is broken, cut off, etc."
 
 # TEMPLATE: "BcmCmUsSetsState:: UsTimeRefFail: txid= <*> ucid= <*> lost upstream time sync."
-'d3ae406c': "Usually upstream is broken, cut off, etc."
+'d3ae406c':
+    severity: error
+    contxt: true
+    descpt: "Usually upstream is broken, cut off, etc."
 
 # TEMPLATE: "BcmCmUsRangingState:: RngRspMsgEvent: txid= <*> ucid= <*> detected bogus RNG-RSP sid= <*> "
-'f2b4cdbf': "Upstream maybe not stable with low/high attenuation, or
+'f2b4cdbf':
+    severity: error
+    contxt: true
+    descpt: "Upstream maybe not stable with low/high attenuation, or
              pre-eq is not good. CMTS might abort the ranging."
 
 # TEMPLATE: "BcmCmUsRangingState:: RngRspMsgEvent: detected bogus RNG-RSP sid= <*> hwTxId= <*> docs ucid= <*> "
-'810f1910': "Upstream maybe not stable with low/high attenuation, or
+'810f1910':
+    severity: error
+    contxt: true
+    descpt: "Upstream maybe not stable with low/high attenuation, or
              pre-eq is not good. CMTS might abort the ranging."
 
 # TEMPLATE: "Partial Service Upstream Channels:"
-'a3d3e790': "Some upstream channels are impaired or filtered."
+'a3d3e790':
+    severity: warning
+    contxt: true
+    descpt: "Some upstream channels are impaired or filtered."
 
 # TEMPLATE: "BcmCmMultiUsHelper:: TargetNextDocs3CandidateUcid:, error: upstream settings not found or not usable for target ucid= <*>!, try next candidate ucid."
-'6f24bdf6': "The UCID cannot be used in the upstream active channel
+'6f24bdf6':
+    severity: error
+    contxt: true
+    descpt: "The UCID cannot be used in the upstream active channel
              settings. This UCID is not collected from UCDs."
 
 # TEMPLATE: "BcmCmMultiUsHelper:: TargetNextDocs3CandidateUcid:, error: no more candidate ucid's. continue downstream scanning."
-'de088ffe': "All UCIDs that are associated with current primary DS are
+'de088ffe':
+    severity: error
+    contxt: true
+    descpt: "All UCIDs that are associated with current primary DS are
              tried. Scan next primary DS channel."
 
 # TEMPLATE: "BcmCmDocsisCtlThread:: TargetNextDocs3CandidateUcid: All candidate upstream chans tried. Target next ds."
-'b4b09e4b': "All UCIDs that are associated with current primary DS are
+'b4b09e4b':
+    severity: error
+    contxt: true
+    descpt: "All UCIDs that are associated with current primary DS are
              tried. Scan next primary DS channel."
 
 # TEMPLATE: "BcmCmUsRangingState:: CommonRngErrorHandler: txid= <*> ucid= <*> all pri us svc flow tx chan are down. -> restart error!"
-'e7adb958': "All upstream channels down, DOCSIS mac will reset."
+'e7adb958':
+    severity: error
+    contxt: true
+    descpt: "All upstream channels down, DOCSIS mac will reset."
 
 # TEMPLATE: "BcmCmUsRangingState:: CommonRngErrorHandler: all pri us svc flow tx chan are down. -> restart error!"
-'982008a9': "All upstream channels down, DOCSIS mac will reset."
+'982008a9':
+    severity: error
+    contxt: true
+    descpt: "All upstream channels down, DOCSIS mac will reset."
 
 # ----------------------------------------------------------------------
 # OFDMA / Tcofdm
 # ----------------------------------------------------------------------
 
 # TEMPLATE: "BcmProcessTcofdmInterrupts:IrqMainStatus:ifft_sts_irq:UpstreamPhyChannelNumber= <*>, symbol overrun"
-'cf8606ae': "The upstream pipe is messing up. TCOFDMA block has issues."
+'cf8606ae':
+    severity: error
+    contxt: true
+    descpt: "The upstream pipe is messing up. TCOFDMA block has issues."
 
 # TEMPLATE: "Resetting TCOFDM core <*>.."
-'f80f8e58': "The upstream pipe is messing up. TCOFDMA block has issues."
+'f80f8e58':
+    severity: warning
+    contxt: true
+    descpt: "The upstream pipe is messing up. TCOFDMA block has issues."
 
 # TEMPLATE: "Performing full reset on TCOFDM core <*>.."
-'552d7db9': "The upstream pipe is messing up. TCOFDMA block has issues."
+'552d7db9':
+    severity: warning
+    contxt: true
+    descpt: "The upstream pipe is messing up. TCOFDMA block has issues."
 
 # ----------------------------------------------------------------------
 # MDD
 # ----------------------------------------------------------------------
 
 # TEMPLATE: "BcmCmDsChan:: MddKeepAliveFailTrans: hwRxId= <*> dcid= <*>"
-'85b2bfec': "Usually downstream is broken, rf cable cut, etc ..."
+'85b2bfec':
+    severity: error
+    contxt: true
+    descpt: "Usually downstream is broken, rf cable cut, etc ..."
 
 # TEMPLATE: "BcmCmDsChan:: MddKeepAliveFailTrans: rxid= <*> dcid= <*>"
-'8f310cda': "Usually downstream is broken, rf cable cut, etc ..."
+'8f310cda':
+    severity: error
+    contxt: true
+    descpt: "Usually downstream is broken, rf cable cut, etc ..."
 
 # TEMPLATE: "BcmCmDsChanOfdm:: MddKeepAliveFailTrans: hwRxId= <*> dcid= <*>"
-'c4c2729c': "Usually downstream is broken, rf cable cut, etc ..."
+'c4c2729c':
+    severity: error
+    contxt: true
+    descpt: "Usually downstream is broken, rf cable cut, etc ..."
 
 # TEMPLATE: "BcmCmDsChanOfdm:: MddKeepAliveFailTrans: rxid= <*> dcid= <*>"
-'169f89c8': "Usually downstream is broken, rf cable cut, etc ..."
+'169f89c8':
+    severity: error
+    contxt: true
+    descpt: "Usually downstream is broken, rf cable cut, etc ..."
 
 # TEMPLATE: "Logging event: MDD message timeout; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'877bf6cc': "Usually downstream has some problems ..."
+'877bf6cc':
+    severity: warning
+    contxt: true
+    descpt: "Usually downstream has some problems ..."
 
 # TEMPLATE: "BcmCmMacDomainSetsState:: TmNoMddEvent:, MDD timeout during kGatherInitialPriDsMddSets"
-'758f2a6a': "You need reboot the CMTS if you always see the MDD timeout
+'758f2a6a':
+    severity: warning
+    contxt: true
+    descpt: "You need reboot the CMTS if you always see the MDD timeout
              after scaning / locking EVERY downstream channel."
 
 # TEMPLATE: "BcmCmDocsisCtlMsgACT:: HandleEvent() @time= <*> event_code= <*> ( <*> ), No MDD timeout == > If no MDDs are detected on the candidate, Primary Downstream Channel, then the CM MUST abort the attempt, to utilize the current downstream channel"
-'10ab4b85': "You need reboot the CMTS if you always see the MDD timeout
+'10ab4b85':
+    severity: warning
+    contxt: true
+    descpt: "You need reboot the CMTS if you always see the MDD timeout
              after scaning / locking EVERY downstream channel."
 
 # TEMPLATE: "BcmCmDsChanOfdm:: CheckMddKeepAliveStatus: Initiating channel recovery action due to no keepalive MDD received in <*> ms"
-'f8b94060': "Usually downstream is broken, rf cable cut, OFDM shutdown
+'f8b94060':
+    severity: error
+    contxt: true
+    descpt: "Usually downstream is broken, rf cable cut, OFDM shutdown
              on CMTS, etc ..."
 
 # ----------------------------------------------------------------------
@@ -273,54 +476,96 @@
 # ----------------------------------------------------------------------
 
 # TEMPLATE: "Logging event: DHCP FAILED - Discover sent, no offer received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'a55798dc': "Check DHCP Server behind CMTS, or DS/US signal quality."
+'a55798dc':
+    severity: warning
+    contxt: true
+    descpt: "Check DHCP Server behind CMTS, or DS/US signal quality."
 
 # TEMPLATE: "BcmDhcpClientIf:: SendDiscover: WARNING - Sent Discover <*> times for lease with client id htype= <*>, value= <*>; too many tries. Giving up..."
-'84f00e9f': "Check DHCP Server behind CMTS, or DS/US signal quality."
+'84f00e9f':
+    severity: error
+    contxt: true
+    descpt: "Check DHCP Server behind CMTS, or DS/US signal quality."
 
 # TEMPLATE: "Logging event: DHCP FAILED - Request sent, No response; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'48c6430a': "Check DHCP Server behind CMTS, or DS/US signal quality."
+'48c6430a':
+    severity: warning
+    contxt: true
+    descpt: "Check DHCP Server behind CMTS, or DS/US signal quality."
 
 # TEMPLATE: "BcmDhcpClientIf:: SendRequest: WARNING - Sent Request <*> times for lease with client id htype= <*>, value= <*>; too many tries. Giving up..."
-'9cfcf057': "Check DHCP Server behind CMTS, or DS/US signal quality."
+'9cfcf057':
+    severity: error
+    contxt: true
+    descpt: "Check DHCP Server behind CMTS, or DS/US signal quality."
 
 # TEMPLATE: "BcmCmDocsisCtlThread:: IpInitErrorEvent: ERROR - IP helper returned DhcpInitFailed error! Restarting!"
-'36cb1e87': "Usually DHCP server down on CMTS side or upstream signal
+'36cb1e87':
+    severity: fatal
+    contxt: true
+    descpt: "Usually DHCP server down on CMTS side or upstream signal
              qulity is not good enough."
 
 # TEMPLATE: "Logging event: DHCP failed - DHCP Solicit sent, No DHCP Advertise received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'cc5c6c0f': "Check DHCP Server behind CMTS, or DS/US signal quality."
+'cc5c6c0f':
+    severity: warning
+    contxt: true
+    descpt: "Check DHCP Server behind CMTS, or DS/US signal quality."
 
 # TEMPLATE: "DHCPv4 failed in IPv4 only provisioning mode"
-'27746b53': "Check DHCP Server behind CMTS, or DS/US signal quality."
+'27746b53':
+    severity: fatal
+    contxt: true
+    descpt: "Check DHCP Server behind CMTS, or DS/US signal quality."
 
 # TEMPLATE: "No DHCPv6 ADVERTISE received!DHCPv6 failed to complete!"
-'7b7abd29': "Check DHCP Server behind CMTS, or DS/US signal quality."
+'7b7abd29':
+    severity: error
+    contxt: true
+    descpt: "Check DHCP Server behind CMTS, or DS/US signal quality."
 
 # TEMPLATE: "IPv6 address acquisition failed..., freeing <*>"
-'e3b1e335': "Check DHCP Server behind CMTS, or DS/US signal quality."
+'e3b1e335':
+    severity: error
+    contxt: true
+    descpt: "Check DHCP Server behind CMTS, or DS/US signal quality."
 
 # TEMPLATE: "DHCPv6 and DHCPv4 have both failed in DPM mode"
-'3d7612e4': "DHCPv4 and v6 provisioning failed. Check DHCP server and
+'3d7612e4':
+    severity: fatal
+    contxt: true
+    descpt: "DHCPv4 and v6 provisioning failed. Check DHCP server and
              cable DS/US signal qualities firstly."
 
 # TEMPLATE: "Tftp Client:: Send: ERROR - Request Retries > kTftpMaxRequestRetryCount ( <*> ) !"
-'50c4cbad': "Check the Tftp server settings behind the CMTS."
+'50c4cbad':
+    severity: fatal
+    contxt: true
+    descpt: "Check the Tftp server settings behind the CMTS."
 
 # ----------------------------------------------------------------------
 # Registration
 # ----------------------------------------------------------------------
 
 # TEMPLATE: "BcmCmDocsisCtlThread:: TxRegAckMsg: ERROR - Failed to send the REG-ACK message to the CMTS!"
-'5fe4fd5b': "Something wrong that REG-ACK cannot or does not send. E.g.
+'5fe4fd5b':
+    severity: fatal
+    contxt: true
+    descpt: "Something wrong that REG-ACK cannot or does not send. E.g.
              Wrong diplexer settings that makes the REG-RSP has some bad
              values. Then CM refuses to send the ACK."
 
 # TEMPLATE: "BcmDocsisCmHalIf:: TransmitManagementMessage: ERROR - MAC Management Message was NOT sent after <*> seconds!"
-'3bd0cdca': "Usually some issue happened in upstream MAC module."
+'3bd0cdca':
+    severity: fatal
+    contxt: true
+    descpt: "Usually some issue happened in upstream MAC module."
 
 # TEMPLATE: "Logging event: Registration failure, re-scanning downstream"
-'2fee035d': "Registration failure, re-scanning downstream. Need see
+'2fee035d':
+    severity: error
+    contxt: true
+    descpt: "Registration failure, re-scanning downstream. Need see
              other error or warning logs to decide what happened."
 
 # ----------------------------------------------------------------------
@@ -328,7 +573,10 @@
 # ----------------------------------------------------------------------
 
 # TEMPLATE: "Bandwidth request failure! Status = <*>"
-'3aad57b2': "Usually upstream signal qulity is not good enough while
+'3aad57b2':
+    severity: warning
+    contxt: true
+    descpt: "Usually upstream signal qulity is not good enough while
              Ranging is good."
 
 # ----------------------------------------------------------------------
@@ -336,5 +584,8 @@
 # ----------------------------------------------------------------------
 
 # TEMPLATE: "Logging event: Auth Reject - Unauthorized SAID; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'c44cfdfa': "Check the BPI+ keys on CM, or disable it via CM Config file
+'c44cfdfa':
+    severity: fatal
+    contxt: true
+    descpt: "Check the BPI+ keys on CM, or disable it via CM Config file
              on CMTS."

@@ -341,9 +341,9 @@ class DeepLog(ModernBase):
         # print(param_list)
 
         # Now we can search in the knowledge base for the current log
-        log_fault, _ = self.kbase.domain_knowledge(eid, param_list)
+        severity, _, _ = self.kbase.domain_knowledge(eid, param_list)
 
-        return log_fault
+        return severity != 'info'
 
     def load_oss_data(self):
         """ Load data for OSS para value detection

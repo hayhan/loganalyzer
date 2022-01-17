@@ -38,20 +38,23 @@ class Kb(KbBase):
 
         Returns
         -------
-        log_fault: True if a real fault is deteced
+        has_context: take into account context of current log or not
+        log_severity: fatal/error/warning/info
         log_sugg: suggestion for the possible cause
         """
 
         # Reset for each log/line
-        log_fault: bool = False
+        has_context: bool = True
+        log_severity: str = 'info'
         log_sugg: str = ""
 
         # Check tempaltes who have no parameters being cared
         if template_id in self.kb_nopara:
-            log_fault = True
-            log_sugg = self.kb_nopara[template_id]
+            log_severity = self.kb_nopara[template_id]['severity']
+            has_context = self.kb_nopara[template_id]['contxt']
+            log_sugg = self.kb_nopara[template_id]['descpt']
 
-            return log_fault, log_sugg
+            return log_severity, has_context, log_sugg
 
         # Check tempaltes who have parameters being cared.
         # Although runs only once with 'for' here, we can use 'break'.
@@ -67,17 +70,17 @@ class Kb(KbBase):
                 #
                 # Check qam and fec status
                 if params[3] == 'n' or params[4] == 'n':
-                    log_fault = True
+                    log_severity = 'error'
                     log_sugg = "Low power, big noise. QAM/FEC unlocked. "
                 # SNR threshold. QAM64 18+3=21dB, QAM256 24+3=27dB.
                 if (params[7] == 'Qam64' and int(params[5]) <= 21) or \
                     (params[7] == 'Qam256' and int(params[5]) <= 27):
-                    log_fault = True
+                    log_severity = 'error'
                     log_sugg += ("Low power, noise or bad board design all contribute "
                                  "to low SNR. ")
                 # Check the rx power. -15dBmV ~ +15dBmV per spec.
                 if int(params[6]) > 15 or int(params[6]) < -15:
-                    log_fault = True
+                    log_severity = 'warning'
                     log_sugg += ("Adjust the attanuator on DS link. The DS power at 0dBmV "
                                  "is better. It is out of the +/-15dBmV range now.")
                 break
@@ -87,7 +90,7 @@ class Kb(KbBase):
                 # "Informing RG CM energy detected = <*>"
                 #
                 if params[0] == '0':
-                    log_fault = True
+                    log_severity = 'fatal'
                     log_sugg = "Cable disconnected, or no any signals on the cable."
                 break
 
@@ -104,12 +107,12 @@ class Kb(KbBase):
                 # Based on bonding channels and QAMs, 51~61dBmV can be
                 # reached but ignore it here.
                 if float(params[4]) <= 17 or float(params[4]) >= 51:
-                    log_fault = True
+                    log_severity = 'warning'
                     log_sugg = ("Adjust the attanuator on US link. The US Tx power "
                                 "within 20~50 dBmV is better. ")
                 # Check the data path of tx
                 if params[9] == 'n':
-                    log_fault = True
+                    log_severity = 'error'
                     log_sugg += "Data path on upstream is not OK."
                 break
 
@@ -124,7 +127,7 @@ class Kb(KbBase):
                 # "RNG-RSP UsChanId= <*> Adj: power= <*> Stat= <*> "
                 #
                 if params[1] == 'Abort':
-                    log_fault = True
+                    log_severity = 'error'
                     # Check context, Ex. power adjustment of last time
                     if self.context_store['b2079e76'] >= 0:
                         log_sugg = ("Attanuation of upstream is large. Decrease the "
@@ -149,23 +152,23 @@ class Kb(KbBase):
                     param = params[1]
 
                 if param == 'T2NoInitMaintTimeout':
-                    log_fault = True
+                    log_severity = 'error'
                     log_sugg = ("CMTS does not broadcast ranging opportunities in MAPs, "
                                 "or this kind of MAPs cannot be received by CM.")
 
                 elif param == 'T4NoStationMaintTimeout':
-                    log_fault = True
+                    log_severity = 'error'
                     log_sugg = ("Usually downstream or upstream has big issues and "
                                 "mac reset might happen.")
 
                 elif param == 'MaxT3NoRngRspTimeouts':
-                    log_fault = True
+                    log_severity = 'error'
                     log_sugg = ("Usually happens when the US channel is broken down. "
                                 "E.g. US RF cut, noise / distortion on US channel "
                                 "because of some external spliter / combiner / filter.")
 
                 elif param == 'RngRspAbortStatus':
-                    log_fault = True
+                    log_severity = 'error'
                     log_sugg = ("Usually US attenuation is too high, low or other "
                                 "reasons that CMTS is not happy with the RNG-REQ.")
                 break
@@ -176,12 +179,12 @@ class Kb(KbBase):
                 # fTimerType= <*> ( <*> ) hwTxId= <*> docs ucid= <*>"
                 #
                 if params[2] == 'kT2NoInitMaint':
-                    log_fault = True
+                    log_severity = 'error'
                     log_sugg = ("CMTS does not broadcast ranging opportunities in MAPs, "
                                 "or this kind of MAPs cannot be received by CM.")
 
                 elif params[2] == 'kT3NoRngRsp':
-                    log_fault = True
+                    log_severity = 'warning'
                     log_sugg = ("CMTS does not send back RNG-RSP or the RNG-REQ is not "
                                 "sent correctly from CM.")
                 break
@@ -195,7 +198,7 @@ class Kb(KbBase):
                 # event_code= <*> ( <*> ) "
                 #
                 if params[2] == 'kCmIsUpstreamPartialService':
-                    log_fault = True
+                    log_severity = 'warning'
                     log_sugg = "Some upstream channels are impaired or filtered."
                 break
 
@@ -208,42 +211,42 @@ class Kb(KbBase):
                 # reinit MAC # <*>: <*>"
                 #
                 if params[1] == 'T4NoStationMaintTimeout':
-                    log_fault = True
+                    log_severity = 'fatal'
                     log_sugg = ("Usually downstream or upstream has big issues and "
                                 "mac reset might happen.")
 
                 elif params[1] == 'NoMddTimeout':
-                    log_fault = True
+                    log_severity = 'warning'
                     log_sugg = ("Usually CM scans and locks a non-primary DS channel. "
                                 "If every DS channel has this MDD timeout, most probably "
                                 "CMTS has issues. Then try to reboot CMTS.")
 
                 elif params[1] == 'NegOrBadRegRsp':
-                    log_fault = True
+                    log_severity = 'fatal'
                     log_sugg = ("Some incorrect settings on CM like diplexer might "
                                 "introduce the wrong values in REG-RSP.")
 
                 elif params[1] == 'MaxT3NoRngRspTimeouts':
-                    log_fault = True
+                    log_severity = 'fatal'
                     log_sugg = ("It usually happens when no unicast RNG-RSP on all US "
                                 "channels. E.g. upstream cable is broken.")
 
                 elif params[1] == 'RngRspAbortStatus':
-                    log_fault = True
+                    log_severity = 'fatal'
                     log_sugg = ("It usually happens when CMTS is not happy with RNG-REQ "
                                 "although NO T3 timeout on all US channels. E.g. US Tx "
                                 "power reaches the max or min.")
 
                 elif params[1] == 'BogusUsTarget':
-                    log_fault = True
+                    log_severity = 'fatal'
                     log_sugg = "It usually happens when no usable UCDs exist."
 
                 elif params[1] == 'DsLockFail':
-                    log_fault = True
+                    log_severity = 'fatal'
                     log_sugg = "It usually happens when CM tries to lock DS but RF cut off."
 
                 elif params[1] == 'T1NoUcdTimeout':
-                    log_fault = True
+                    log_severity = 'fatal'
                     log_sugg = "It usually happens when no usable UCDs collected on CM."
 
                 break
@@ -256,15 +259,15 @@ class Kb(KbBase):
                 # "CM-STATUS-ACK trans= <*> event= <*> ( <*> )"
                 #
                 if params[2] == 'kCmEvDsOfdmProfNcpLockFail':
-                    log_fault = True
+                    log_severity = 'error'
                     log_sugg = "Usually downstream channel quality is poor."
 
                 elif params[2] == 'kCmEvDsOfdmProfLockFail':
-                    log_fault = True
+                    log_severity = 'error'
                     log_sugg = "Usually downstream channel quality is poor."
 
                 elif params[2] == 'kCmEvNonPriDsMddFail':
-                    log_fault = True
+                    log_severity = 'error'
                     log_sugg = ("CM cannot receive MDD on non-primary DS. Either CMTS "
                                 "does not send or CM DS channel quality is poor.")
 
@@ -287,4 +290,4 @@ class Kb(KbBase):
             if case():
                 break
 
-        return log_fault, log_sugg
+        return log_severity, has_context, log_sugg

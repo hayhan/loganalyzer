@@ -25,9 +25,13 @@ template:
 loglab:
     model: RFC          # Classical machine learning models
     window_size: 10     # 1/2 window around the axis, unit is log
-    weight: 2           # Typical log weight
+    weight:             # Severity weight
+        fatal: 7        # --- Typical
+        error: 5        # --- Typical
+        warning: 3      # --- Typical
+        info: 1         # --- Normal
     mykfold: false      # Selection of kfold implementation
-    feature: BIN        # Feature extraction algorithm, e.g. BIN or CNT
+    feature: CNT        # Feature extraction algorithm, e.g. BIN or CNT
     cover: FULL         # Cover FULL sample or PART to calc ratio in algorithm CNT
     topk: 3             # Top classes with highest probabilities in prediction
 

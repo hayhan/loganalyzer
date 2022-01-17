@@ -39,7 +39,7 @@ class Loglab(ModernBase):
     def __init__(self, df_raws, df_tmplts, dbg: bool = False):
         self.model: str = GC.conf['loglab']['model']
         self.win_size: int = GC.conf['loglab']['window_size']
-        self.weight: int = GC.conf['loglab']['weight']
+        self.weight: Dict[str, int] = GC.conf['loglab']['weight']
         self.topk: int = GC.conf['loglab']['topk']
         self._segll: List[tuple] = []
         self._log_head_offset: int = GC.conf['general']['head_offset']
@@ -209,11 +209,12 @@ class Loglab(ModernBase):
             # print(param_list)
 
             # Now we search in the knowledge base for the current log
-            typical_log_hit, _ = self.kbase.domain_knowledge(eid, param_list)
+            severity, has_contxt, _ \
+                = self.kbase.domain_knowledge(eid, param_list)
 
             # If current log is hit in KB, we call it typical log and
             # add window around it.
-            if typical_log_hit:
+            if severity != 'info':
                 # print(f"line {axis+1} hit, eid {eid}.")
 
                 # Capture the logs within the window. The real window
@@ -222,9 +223,10 @@ class Loglab(ModernBase):
                 # after current typical log.
 
                 # The axis part, it is also the typical log
-                event_count_vec[0, eid_voc.index(eid)] = self.weight
+                event_count_vec[0, eid_voc.index(eid)] = self.weight[severity]
 
-                self.window_binary(axis, eid_voc, eid_logs, event_count_vec)
+                if has_contxt:
+                    self.window_binary(axis, eid_voc, eid_logs, event_count_vec)
 
         return event_count_vec
 
@@ -245,7 +247,7 @@ class Loglab(ModernBase):
 
         # Initialize the matrix for one sample
         event_count_vec = np.zeros((1,len(eid_voc)))
-        # Event/log character, 0: n/a, 1: aux, 2: typical
+        # Event/log character, 0: n/a, >0: severity weight
         event_char_voc: List[int] = [0] * len(eid_voc)
         # Event/log status in sample, 0: not counted, 1: counted
         event_stat_logs: List[int] = [0] * data_df.shape[0]
@@ -276,11 +278,12 @@ class Loglab(ModernBase):
             # print(param_list)
 
             # Now we search in the knowledge base for the current log
-            typical_log_hit, _ = self.kbase.domain_knowledge(eid, param_list)
+            severity, has_contxt, _ \
+                = self.kbase.domain_knowledge(eid, param_list)
 
             # If current log is hit in KB, we call it typical log and
             # add window around it.
-            if typical_log_hit:
+            if severity != 'info':
                 # print(f"line {axis+1} hit, eid {eid}.")
 
                 if self.feat['cover'] == 'FULL':
@@ -293,14 +296,15 @@ class Loglab(ModernBase):
                 # there are WINDOW_SIZE logs respectively before and
                 # after current typical log.
 
-                # The axis part, it is also the typical log
-                event_char_voc[eid_voc.index(eid)] = 2
+                # The axis part, aka. typical log, fatal/error/warning
+                event_char_voc[eid_voc.index(eid)] = self.weight[severity]
                 if event_stat_logs[axis] == 0:
                     event_count_vec[0, eid_voc.index(eid)] += 1
                     event_stat_logs[axis] = 1
 
-                self.window_count(axis, eid_voc, eid_logs, event_count_vec,
-                                  event_char_voc, event_stat_logs)
+                if has_contxt:
+                    self.window_count(axis, eid_voc, eid_logs, event_count_vec,
+                                      event_char_voc, event_stat_logs)
 
         if self.feat['cover'] == 'FULL':
             denom = edges['high']-edges['low']+1
@@ -352,7 +356,7 @@ class Loglab(ModernBase):
         eid_voc: event id vocabulary
         eid_logs: event id logs
         event_count_vec: one line matrix, aka. event count in one sample
-        event_char_voc: event charactor, 0: n/a, 1: aux, 2: typical
+        event_char_voc: event charactor, 0: n/a, >0: severity weight
         event_stat_logs: log status in sample, 0: not counted 1: counted
         """
 
@@ -371,8 +375,7 @@ class Loglab(ModernBase):
                     event_char_voc, event_stat_logs
                 )
 
-    @staticmethod
-    def window_binary_core(idx, eid_voc, eid_logs, event_count_vec):
+    def window_binary_core(self, idx, eid_voc, eid_logs, event_count_vec):
         """
         The core of windowing to do binary event count.
 
@@ -389,12 +392,11 @@ class Loglab(ModernBase):
         try:
             feature_idx = eid_voc.index(eid_logs[idx])
             if event_count_vec[0, feature_idx] == 0:
-                event_count_vec[0, feature_idx] = 1
+                event_count_vec[0, feature_idx] = self.weight['info']
         except ValueError:
             pass
 
-    @staticmethod
-    def window_count_core(idx, eid_voc, eid_logs, event_count_vec,
+    def window_count_core(self, idx, eid_voc, eid_logs, event_count_vec,
                           event_char_voc, event_stat_logs):
         """
         The core of windowing to do event count.
@@ -405,7 +407,7 @@ class Loglab(ModernBase):
         eid_voc: event id vocabulary
         eid_logs: event id logs
         event_count_vec: one line matrix, aka. event count in one sample
-        event_char_voc: event charactor, 0: n/a, 1: aux, 2: typical
+        event_char_voc: event charactor, 0: n/a, >0: severity weight
         event_stat_logs: log status in sample, 0: not counted 1: counted
         """
 
@@ -414,7 +416,7 @@ class Loglab(ModernBase):
         try:
             feature_idx = eid_voc.index(eid_logs[idx])
             if event_char_voc[feature_idx] == 0:
-                event_char_voc[feature_idx] = 1
+                event_char_voc[feature_idx] = self.weight['info']
             if event_stat_logs[idx] == 0:
                 event_count_vec[0, feature_idx] += 1
                 event_stat_logs[idx] = 1
@@ -447,7 +449,7 @@ class Loglab(ModernBase):
         Arguments
         ---------
         sweep_len: the number of logs that window sweeps in one sample
-        event_char_voc: event charactor, 0: n/a, 1: aux, 2: typical
+        event_char_voc: event charactor, 0: n/a, >0: severity weight
         event_count_vec: one line matrix, aka. event count in one sample
         """
 
@@ -455,10 +457,8 @@ class Loglab(ModernBase):
             if bool(event_count_vec[0, i]) ^ bool(char):
                 print("Something wrong in event counting!!! Abort!!!")
                 sys.exit(1)
-            if char == 1:
-                master_weight = 1
-            elif char == 2:
-                master_weight = self.weight
+            if char in self.weight.values():
+                master_weight = char
             else:
                 # char == 0 or undefined values (should not happen)
                 continue
@@ -472,7 +472,7 @@ class Loglab(ModernBase):
 
         Arguments
         ---------
-        event_char_voc: event charactor, 0: n/a, 1: aux, 2: typical
+        event_char_voc: event charactor, 0: n/a, >0: severity weight
         event_count_vec: one line matrix, aka. event count in one sample
 
         Returns
