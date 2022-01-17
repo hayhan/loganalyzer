@@ -406,13 +406,13 @@
 
 # TEMPLATE: "Resetting TCOFDM core <*>.."
 'f80f8e58':
-    severity: warning
+    severity: notice
     contxt: true
     descpt: "The upstream pipe is messing up. TCOFDMA block has issues."
 
 # TEMPLATE: "Performing full reset on TCOFDM core <*>.."
 '552d7db9':
-    severity: warning
+    severity: notice
     contxt: true
     descpt: "The upstream pipe is messing up. TCOFDMA block has issues."
 

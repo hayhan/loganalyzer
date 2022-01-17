@@ -26,9 +26,10 @@ loglab:
     model: RFC          # Classical machine learning models
     window_size: 10     # 1/2 window around the axis, unit is log
     weight:             # Severity weight
-        fatal: 7        # --- Typical
-        error: 5        # --- Typical
-        warning: 3      # --- Typical
+        fatal: 3        # --- Typical
+        error: 3        # --- Typical
+        warning: 2      # --- Typical
+        notice: 1       # --- Typical
         info: 1         # --- Normal
     mykfold: false      # Selection of kfold implementation
     feature: CNT        # Feature extraction algorithm, e.g. BIN or CNT
