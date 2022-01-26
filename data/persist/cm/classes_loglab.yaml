@@ -6,7 +6,7 @@ c001:
            physically."
     refs: "N/A"
 
-# // CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
 # loglab_rfcut_ds_us_001.txt
 # loglab_rfcut_ds_us_003.txt
 
@@ -15,34 +15,34 @@ c001:
 # loglab_rfcut_ds_us_004.txt
 # loglab_rfcut_ds_us_007.txt
 
-# // CMTS: triton; DS: 32 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
+# - CMTS: triton; DS: 32 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
 # loglab_rfcut_ds_us_005.txt
 # loglab_rfcut_ds_us_006.txt
 
-# // CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam; no eMTA; ipv4 only
+# - CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam; no eMTA; ipv4 only
 # loglab_rfcut_ds_us_008.txt
 # loglab_rfcut_ds_us_009.txt
 
-# // CMTS: triton; DS: 32 sc-qam, 2 ofdm; US: 8 sc-qam; no eMTA; ipv4 only
+# - CMTS: triton; DS: 32 sc-qam, 2 ofdm; US: 8 sc-qam; no eMTA; ipv4 only
 # loglab_rfcut_ds_us_010.txt
 # loglab_rfcut_ds_us_011.txt
 
-# // CMTS: triton; DS: 32 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 32 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
 # loglab_rfcut_ds_us_012.txt
 # loglab_rfcut_ds_us_013.txt
 
-# // CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
 # loglab_rfcut_ds_us_014.txt
 # loglab_rfcut_ds_us_015.txt
 
-# // CMTS: triton; DS: 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
 # loglab_rfcut_ds_us_016.txt
 
-# // CMTS: triton; DS: 1 ofdm; US: 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 1 ofdm; US: 1 ofdma; no eMTA; ipv4 only
 # loglab_rfcut_ds_us_017.txt
 # loglab_rfcut_ds_us_020.txt
 
-# // CMTS: triton; DS: 1 sc-qam; US: 1 sc-qam; no eMTA; ipv4 only
+# - CMTS: triton; DS: 1 sc-qam; US: 1 sc-qam; no eMTA; ipv4 only
 # loglab_rfcut_ds_us_018.txt
 # loglab_rfcut_ds_us_019.txt
 
@@ -51,23 +51,23 @@ c002:
            primary DS with all US in MDD."
     refs: "CS00011165620"
 
-# // CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
 # loglab_rfcut_us_001.txt
 # loglab_rfcut_us_002.txt
 
-# // CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam; no eMTA; ipv4 only
+# - CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam; no eMTA; ipv4 only
 # loglab_rfcut_us_003.txt
 # loglab_rfcut_us_004.txt
 
-# // CMTS: triton; DS: 8 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
+# - CMTS: triton; DS: 8 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
 # loglab_rfcut_us_005.txt
 
-# // CMTS: triton; DS: 1 ofdm; US: 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 1 ofdm; US: 1 ofdma; no eMTA; ipv4 only
 # loglab_rfcut_us_006.txt
 # loglab_rfcut_us_007.txt
 # loglab_rfcut_us_010.txt
 
-# // CMTS: triton; DS: 1 sc-qam; US: 1 sc-qam; no eMTA; ipv4 only
+# - CMTS: triton; DS: 1 sc-qam; US: 1 sc-qam; no eMTA; ipv4 only
 # loglab_rfcut_us_008.txt
 # loglab_rfcut_us_009.txt
 
@@ -76,19 +76,19 @@ c003:
            upstream path to CMTS."
     refs: "N/A"
 
-# // CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
 # loglab_attn_us_high_001.txt
 # loglab_attn_us_high_002.txt
 
-# // CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 1 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 1 sc-qam, 1 ofdma; no eMTA; ipv4 only
 # loglab_attn_us_high_003.txt
 # loglab_attn_us_high_004.txt
 # loglab_attn_us_high_005.txt
 
-# // CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
 # loglab_attn_us_high_006.txt
 
-# // D30
+# - D30
 # loglab_attn_us_high_007.txt
 # ...
 # loglab_attn_us_high_012.txt
@@ -101,25 +101,25 @@ c004:
            D31 modems)."
     refs: "CS00012214671"
 
-# // CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
 # loglab_psv_ds_001.txt
 # loglab_psv_ds_002.txt
 
-# // CMTS: triton; DS: 32 sc-qam; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 32 sc-qam; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
 # loglab_psv_ds_003.txt
 
-# // CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
 # loglab_psv_ds_004.txt
 
-# // CMTS: triton; DS: 2 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
+# - CMTS: triton; DS: 2 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
 # loglab_psv_ds_005.txt
 
-# // CMTS: triton; DS: 2 sc-qam, 2 ofdm; US: 8 sc-qam; no eMTA; ipv4 only
+# - CMTS: triton; DS: 2 sc-qam, 2 ofdm; US: 8 sc-qam; no eMTA; ipv4 only
 # loglab_psv_ds_006.txt
 # loglab_psv_ds_007.txt
 
-# // CMTS: triton; DS: 32 sc-qam, 2 ofdm; US: 2 ofdma; no eMTA; ipv4 only
-# // Annex mode is set as B in CM nonvol but DS sc-qam is A. So all sc-qam DS channels cannot be locked.
+# - CMTS: triton; DS: 32 sc-qam, 2 ofdm; US: 2 ofdma; no eMTA; ipv4 only
+# - Annex mode is set as B in CM nonvol but DS sc-qam is A. So all sc-qam DS channels cannot be locked.
 # loglab_psv_ds_008.txt
 
 c005:
@@ -131,7 +131,7 @@ c005:
            nonvol and reboot the CM board."
     refs: "N/A"
 
-# // CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 32 sc-qam, 1 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
 # loglab_diplexer_001.txt
 # loglab_diplexer_003.txt
 # loglab_diplexer_004.txt
@@ -140,23 +140,23 @@ c005:
 # loglab_diplexer_007.txt
 # loglab_diplexer_008.txt
 
-# // CMTS: triton; DS: 32 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
+# - CMTS: triton; DS: 32 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
 # loglab_diplexer_002.txt
 # loglab_diplexer_012.txt
 # loglab_diplexer_013.txt
 
-# // CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 8 sc-qam, 2 ofdm; US: 8 sc-qam, 1 ofdma; no eMTA; ipv4 only
 # loglab_diplexer_009.txt
 # loglab_diplexer_010.txt
 
-# // CMTS: triton; DS: 16 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
+# - CMTS: triton; DS: 16 sc-qam; US: 8 sc-qam; no eMTA; ipv4 only
 # loglab_diplexer_011.txt
 
-# // CMTS: triton; DS: 1 ofdm; US: 1 ofdma; no eMTA; ipv4 only
+# - CMTS: triton; DS: 1 ofdm; US: 1 ofdma; no eMTA; ipv4 only
 # loglab_diplexer_014.txt
 # loglab_diplexer_015.txt
 
-# // CMTS: triton; DS: 1 sc-qam; US: 1 sc-qam; no eMTA; ipv4 only
+# - CMTS: triton; DS: 1 sc-qam; US: 1 sc-qam; no eMTA; ipv4 only
 # loglab_diplexer_016.txt
 # loglab_diplexer_017.txt
 
@@ -205,17 +205,17 @@ c010:
            or MAP flush happens (seldom) on CM."
     refs: "CS00010988212"
 
-# // Logs from CS00010988212. Add 1 ofdma chan via DBC.
+# - Logs from CS00010988212. Add 1 ofdma chan via DBC.
 # loglab_dbc_ofdma_t2t3_001.txt
 # ...
 # loglab_dbc_ofdma_t2t3_006.txt
 
-# // Logs from simulation on ref board. Add 1 ofdma chan via DBC.
+# - Logs from simulation on ref board. Add 1 ofdma chan via DBC.
 # loglab_dbc_ofdma_t2t3_007.txt
 # ...
 # loglab_dbc_ofdma_t2t3_010.txt
 
-# // Logs from simulation on ref board. Add 1 ofdma & 1 scqam us chan via DBC.
+# - Logs from simulation on ref board. Add 1 ofdma & 1 scqam us chan via DBC.
 # loglab_dbc_ofdma_t2t3_011.txt
 # ...
 # loglab_dbc_ofdma_t2t3_016.txt
@@ -226,12 +226,12 @@ c011:
            DBC or MAP flush happens (seldom) on CM."
     refs: "CS00010988212"
 
-# // Logs from simulation on ref board. Add 1 scqam us chan via DBC.
+# - Logs from simulation on ref board. Add 1 scqam us chan via DBC.
 # loglab_dbc_scqam_t2t3_001.txt
 # ...
 # loglab_dbc_scqam_t2t3_005.txt
 
-# // Logs from simulation on ref board. Add 2 scqam us chan via DBC.
+# - Logs from simulation on ref board. Add 2 scqam us chan via DBC.
 # loglab_dbc_scqam_t2t3_006.txt
 # ...
 # loglab_dbc_scqam_t2t3_009.txt
@@ -242,11 +242,11 @@ c012:
            on CM."
     refs: "N/A"
 
-# // Primary scqam ds + 4 us channels
+# - Primary scqam ds + 4 us channels
 # loglab_init_rng_t2_001.txt
 # loglab_init_rng_t2_002.txt
 
-# // Primary scqam/ofdm ds + scqam/ofdma us channels
+# - Primary scqam/ofdm ds + scqam/ofdma us channels
 # loglab_init_rng_t2_003.txt
 # ...
 # loglab_init_rng_t2_008.txt
@@ -257,12 +257,12 @@ c013:
            happens (seldom) on CM."
     refs: "N/A"
 
-# // T2 timeout on scqam
+# - T2 timeout on scqam
 # loglab_tcc_t2_001.txt
 # ...
 # loglab_tcc_t2_003.txt
 
-# // T2 timeout on scqam & ofdma
+# - T2 timeout on scqam & ofdma
 # loglab_tcc_t2_004.txt
 # ...
 # loglab_tcc_t2_010.txt
@@ -328,17 +328,17 @@ c019:
            introduce this failure."
     refs: "N/A"
 
-# // DHCPv4, discover send but no offer received
+# - DHCPv4, discover send but no offer received
 # loglab_provision_failure_dhcp_001.txt
 # ...
 # loglab_provision_failure_dhcp_008.txt
 
-# // DHCPv6, DHCP solicit sent, no DHCP advertise received
+# - DHCPv6, DHCP solicit sent, no DHCP advertise received
 # loglab_provision_failure_dhcp_009.txt
 # ...
 # loglab_provision_failure_dhcp_016.txt
 
-# // Dual mode, no DHCP advertise and DHCP offer
+# - Dual mode, no DHCP advertise and DHCP offer
 # loglab_provision_failure_dhcp_017.txt
 # ...
 # loglab_provision_failure_dhcp_024.txt
@@ -360,7 +360,7 @@ c021:
 
 # loglab_scanning_with_power_001.txt
 # ...
-# loglab_scanning_with_power_001.txt
+# loglab_scanning_with_power_005.txt
 
 c022:
     desc: "DHCP discovery sending fails because insufficient resources,

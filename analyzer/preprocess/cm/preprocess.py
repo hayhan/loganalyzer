@@ -49,7 +49,8 @@ class Preprocess(PreprocessBase):
             line = ptn.PTN_CLEAN_CHAR.sub('', line)
 
             # Remove empty line
-            if line in ['\n', '\r\n']:
+            # if line in ['\n', '\r\n', '']:
+            if ptn.PTN_EMPTY_LINE.match(line):
                 continue
 
             # Split some tokens apart
@@ -358,7 +359,8 @@ class Preprocess(PreprocessBase):
             #
             # It is time to remove empty line
             #
-            if newline in ['\n', '\r\n', '']:
+            # if newline in ['\n', '\r\n', '']:
+            if ptn.PTN_EMPTY_LINE.match(newline):
                 if not stat['last_ln_empty']:
                     con_empty_ln_cnt = 1
                 else:
