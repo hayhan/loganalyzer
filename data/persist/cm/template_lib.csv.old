@@ -941,3 +941,11 @@ ebd77eda,ebd77eda,BcmCmDocsisCtlThread:: ScanNextQd: Default scanning algorithm 
 1b570c22,1b570c22,CM Resetting due to <*> full downstream scan without locking.
 6216d881,6216d881,BcmDocsisCmHalIf:: IfAdminStatus: CM-MAC ifAdminStatus set to 'down' - disabling US & DS HW assist.
 fc9e721c,fc9e721c,BcmEcosBfcApplication:: DeInitialize(): Rebooting now so we don't trip all over ourselves...Soft reset.
+8fe9c161,8fe9c161,ConsoleMirrorThread:: TftpTransmit: successfully tftp <*> bytes to remote file <*>
+8084335b,8084335b,CM successfully pushed IPv6 <*> to eRouter
+75e0f670,75e0f670,Unexpected fragment sequence number. Got <*> and expected <*>
+69c708c3,69c708c3,BcmCmMacDomainSetsState:: MddMsgEvent: ERROR - MDD parse error.
+73f0c2e4,73f0c2e4,DS chan ID is inconsistent with previous fragment
+d6378aa5,d6378aa5,EMTA: Required CL_OPTION_CCC present in DHCPv6 <*>
+8ac26c24,8ac26c24,"EMTA: CL_OPTION_CCC present, no CL_OPTION_CCCv6. Go v4."
+91181da7,91181da7,BcmDhcpV6ClientIf:: ProcessPacket: ERROR - No router has advertised a prefix that matches <*>

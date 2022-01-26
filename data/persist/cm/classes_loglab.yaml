@@ -361,3 +361,14 @@ c021:
 # loglab_scanning_with_power_001.txt
 # ...
 # loglab_scanning_with_power_001.txt
+
+c022:
+    desc: "DHCP discovery sending fails because insufficient resources,
+           e.g. no enough buffers, or some kind of socket errors. It is
+           different from the failure that modem cannot receive offer or
+           ack."
+    refs: "N/A"
+
+# loglab_dhcp_tx_fail_001.txt
+# ...
+# loglab_dhcp_tx_fail_007.txt

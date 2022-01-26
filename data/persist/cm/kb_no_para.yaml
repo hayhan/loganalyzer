@@ -1,8 +1,8 @@
 # This file contains tempaltes whose parameters are not cared. Severity
-# field includes 'fatal', 'error', 'warning'. Context field indicates if
-# the template has meaningful context within window. Usually it is true,
-# but some special template should not consider context, e.g. some event
-# from interrupt.
+# field includes 'fatal', 'error', 'warning', 'notice'. Context field
+# indicates if template has meaningful context within window. Usually
+# it is true, but some special templates should not consider context,
+# e.g. some events from interrupt.
 
 # ----------------------------------------------------------------------
 # Downstream channel status, lock failures
@@ -505,6 +505,20 @@
     contxt: true
     descpt: "Usually DHCP server down on CMTS side or upstream signal
              qulity is not good enough."
+
+# TEMPLATE: "BcmDhcpClientIf:: SendDhcpPacket: WARNING - Failed to send packet!"
+'2a96b1ea':
+    severity: error
+    contxt: true
+    descpt: "Failed to send dhcp packet. Maybe no resource/buffer or
+             some kind of socket errors on modem side."
+
+# TEMPLATE: BcmDhcpClientIf:: SendDiscover: WARNING - Failed to create/send Discover packet. Will try again later...
+'da30d9e4':
+    severity: error
+    contxt: true
+    descpt: "Failed to send dhcp packet. Maybe no resource/buffer or
+             some kind of socket errors on modem side."
 
 # TEMPLATE: "Logging event: DHCP failed - DHCP Solicit sent, No DHCP Advertise received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
 'cc5c6c0f':
