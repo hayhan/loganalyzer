@@ -10,7 +10,7 @@ Put a string "abn: " after the timestamp for the anomaly log. If it is a multi-l
 
 ### Configuration files
 
-Configuration files include a base one at analyzer/config/config.yaml and an overloaded one at data/persist/LOG_TYPE/config_overload.yaml, which is a sub-set of the former one. The system loads the based config firstly and then update the in-memory contents with the overloaded one.
+Configuration files include a base one at analyzer/config/config.yaml and an overwrite one at data/persist/LOG_TYPE/config_overwrite.yaml, which is a sub-set of the former one. The system loads the based config firstly and then update the in-memory contents with the overwrite one.
 
 ### Train / Validate the model
 

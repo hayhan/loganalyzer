@@ -7,7 +7,7 @@ import logging
 import subprocess
 import click
 from analyzer.config import GlobalConfig as GC, CONFIG_FILE
-from analyzer.utils.data_helper import CONFIG_OVERLOAD
+from analyzer.utils.data_helper import CONFIG_OVERWRITE
 
 
 log = logging.getLogger(__name__)
@@ -24,16 +24,16 @@ log = logging.getLogger(__name__)
     show_default=True,
 )
 @click.option(
-    "--overload",
+    "--overwrite",
     default=False,
     is_flag=True,
-    help="Indicates the overloaded config file instead of the base one.",
+    help="Indicates the overwrite config file instead of the base one.",
     show_default=True,
 )
-def cli_show_config(filename, overload):
+def cli_show_config(filename, overwrite):
     """ Show configuration file. """
-    if overload and os.path.exists(CONFIG_OVERLOAD):
-        filename = CONFIG_OVERLOAD
+    if overwrite and os.path.exists(CONFIG_OVERWRITE):
+        filename = CONFIG_OVERWRITE
     print(GC.read_pretty(filename))
     log.info("Configuration file showed: %s", filename)
 
@@ -49,16 +49,16 @@ def cli_show_config(filename, overload):
     show_default=True,
 )
 @click.option(
-    "--overload",
+    "--overwrite",
     default=False,
     is_flag=True,
-    help="Indicates the overloaded config file instead of the base one.",
+    help="Indicates the overwrite config file instead of the base one.",
     show_default=True,
 )
-def cli_edit_config(filename, overload):
+def cli_edit_config(filename, overwrite):
     """ Edit the configuration file. """
-    if overload and os.path.exists(CONFIG_OVERLOAD):
-        filename = CONFIG_OVERLOAD
+    if overwrite and os.path.exists(CONFIG_OVERWRITE):
+        filename = CONFIG_OVERWRITE
     subprocess.run(["vim", filename], check=False)
     log.info("Configuration file opened in editor: %s", filename)
 
@@ -102,13 +102,13 @@ def cli_default_config(filename):
     show_default=True,
 )
 @click.option(
-    "--overload",
+    "--overwrite",
     default=False,
     is_flag=True,
-    help="Indicates the overloaded config file instead of the base one.",
+    help="Indicates the overwrite config file instead of the base one.",
     show_default=True,
 )
-def cli_update_config(filename, mytype, item, overload):
+def cli_update_config(filename, mytype, item, overwrite):
     """ Update the key-value pair. """
     if item is None:
         print("Please define at least the key-value pair.")
@@ -119,8 +119,8 @@ def cli_update_config(filename, mytype, item, overload):
     elif mytype == "bool":
         val = val in ('True', 'true', '1')
 
-    if overload and os.path.exists(CONFIG_OVERLOAD):
-        filename = CONFIG_OVERLOAD
+    if overwrite and os.path.exists(CONFIG_OVERWRITE):
+        filename = CONFIG_OVERWRITE
 
     GC.read(filename)
     GC.conf[sect][key] = val

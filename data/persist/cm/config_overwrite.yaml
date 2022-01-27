@@ -1,5 +1,5 @@
-# Overload some parameters of the base config file if needed. Note the
-# overloaded config here is a sub-set of the base config.
+# Overwrite some parameters of the base config file if needed. Note the
+# overwrite config here is a sub-set of the base config.
 
 # Section: general
 general:

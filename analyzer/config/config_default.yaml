@@ -2,8 +2,8 @@
 # Consider package ruamel.yaml which is a derivative of PyYAML and supports round trip
 # preservation of comments.
 
-# The base config file. Overload the existing values here with data/persist/LOG_TYPE/
-# config_overload.yaml if needed.
+# The base config file. Overwrite the existing values here with data/persist/LOG_TYPE/
+# config_overwrite.yaml if needed.
 
 # Section: general
 general:

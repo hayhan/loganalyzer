@@ -26,7 +26,7 @@ log = logging.getLogger(__name__)
 def cli_run_oss(learn_ts):
     """ Run the oldshool system module to analyze logs """
     # Populate the in-memory config singleton with the base config file
-    # and then update with the overloaded config file. Use GC.read() if
+    # and then update with the overwrite config file. Use GC.read() if
     # only want the base config file.
     dh.GCO.read()
     # Set the items here

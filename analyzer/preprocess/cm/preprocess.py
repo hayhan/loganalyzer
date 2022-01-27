@@ -30,9 +30,9 @@ class Preprocess(PreprocessBase):
         PreprocessBase.__init__(self)
 
     def preprocess_ts(self):
-        """ Preprocess before learning timestamp width.
-            Only for prediction of (OSS, DeepLog or Loglab)
-            Not for Loglizer as it requires timestamps for windowing
+        """ Preprocess before learning timestamp width. Only for
+            prediction of (OSS, DeepLog and Loglab). Not for Loglizer
+            as it requires timestamps for windowing.
         """
         log.info("Preprocess before timestamp detection.")
 

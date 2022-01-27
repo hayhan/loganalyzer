@@ -32,7 +32,7 @@ try:
 except KeyError:
     # Populate the config dict in memory with config file contents. We
     # only need log_type and training attributes here, so import the
-    # base config file is enough. Actually the overload config file can
+    # base config file is enough. Actually the overwrite config file can
     # not be loaded here by design.
     GC.read()
     LOG_TYPE = GC.conf['general']['log_type']
@@ -56,8 +56,8 @@ KB_NO_PARA = os.path.join(PERSIST_DATA, 'kb_no_para.yaml')
 EXEC_LOGLAB = os.path.join(PERSIST_DATA, 'exec_para_loglab.yaml')
 EXEC_DEEPLOG = os.path.join(PERSIST_DATA, 'exec_para_deeplog.yaml')
 EXEC_LOGLIZER = os.path.join(PERSIST_DATA, 'exec_para_loglizer.yaml')
-# Overload parameters of config file
-CONFIG_OVERLOAD = os.path.join(PERSIST_DATA, 'config_overload.yaml')
+# Overwrite parameters of config file
+CONFIG_OVERWRITE = os.path.join(PERSIST_DATA, 'config_overwrite.yaml')
 
 # Skip file list when concatenates raw log files under data/raw
 SKIP_FILE_LIST = ['README.md', 'train.lst', 'validate.lst']
@@ -129,30 +129,30 @@ def get_data_type():
 
 class GCO:
     """
-    Handle overloaded config file. Take the module as helper instead of
+    Handle overwrite config file. Take the module as helper instead of
     the derived class of GlobalConfig to be back compatible and avoid
     confusing. It only updates the global in-memory conf dict. It either
     cannot be merged with GlobalConfig for design reason. GlobalConfig
     should not depend on LOG_TYPE, but we have to depend on LOG_TYPE
-    here to load the overloaded config file.
+    here to load the overwrite config file.
     """
     @classmethod
     def read(cls):
-        """ Overloaded version of read config file """
+        """ Overwrite version of read config file """
         GC.read()
-        if os.path.exists(CONFIG_OVERLOAD):
-            cls.overload(CONFIG_OVERLOAD)
+        if os.path.exists(CONFIG_OVERWRITE):
+            cls.overwrite(CONFIG_OVERWRITE)
 
     @classmethod
-    def overload(cls, config_file_overload: str):
-        """ Update im-momory conf with the overloaded config file. """
-        conf_overload: dict = GC.read_conf(config_file_overload)
-        for sec, attr in conf_overload.items():
+    def overwrite(cls, config_file_overwrite: str):
+        """ Update im-momory conf with the overwrite config file. """
+        conf_overwrite: dict = GC.read_conf(config_file_overwrite)
+        for sec, attr in conf_overwrite.items():
             for key, val in attr.items():
                 try:
                     _ = GC.conf[sec][key]
                     GC.conf[sec][key] = val
                 except KeyError:
-                    print("Overloaded config file has section/key that "
+                    print("Overwrite config file has section/key that "
                           "don't exist in base config!!! Abort!!!")
                     sys.exit(1)

@@ -11,7 +11,7 @@ from analyzer.parser import Parser
 def test_learn_timestamp():
     """ Detect timestamp width """
     # Populate the in-memory config singleton with the base config file
-    # and then update with the overloaded config file. Use GC.read() if
+    # and then update with the overwrite config file. Use GC.read() if
     # only want the base config file.
     dh.GCO.read()
     # Set the items here

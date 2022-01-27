@@ -157,7 +157,7 @@ def cli_norm_timestamp():  # pylint: disable=too-many-locals
 def cli_eid_log(eid, training):
     """ Find the logs that match the given event id in raw log file. """
     # Populate the in-memory config singleton with the base config file
-    # and then update with the overloaded config file. Use GC.read() if
+    # and then update with the overwrite config file. Use GC.read() if
     # only want the base config file.
     dh.GCO.read()
     # Set the items here

@@ -143,7 +143,7 @@ def cli_config():
     - The sub-command `updt` updates the item in the config directly
       The option `mytype` sets value type, e.g. int/bool/str(default)
     \b
-    - The option `overload` indicates the overloaded config file,
+    - The option `overwrite` indicates the overwrite config file,
       otherwise the base config file is the target.
 
     \b
@@ -151,11 +151,11 @@ def cli_config():
     --------
 
     \b
-    $ analyzer config show [--overload]
-    $ analyzer config edit [--overload]
+    $ analyzer config show [--overwrite]
+    $ analyzer config edit [--overwrite]
     $ analyzer config default
     $ analyzer config updt --item key1 key2 val [--mytype int/bool/str]
-    $ analyzer config updt --overload
+    $ analyzer config updt --overwrite
     """
 
 

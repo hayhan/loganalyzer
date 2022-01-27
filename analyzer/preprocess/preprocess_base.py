@@ -151,15 +151,26 @@ class PreprocessBase(ABC):
     @abstractmethod
     def preprocess_ts(self):
         """
-        Preprocess before learning timestamp width.
-        Only for prediction of (OSS, DeepLog or Loglab).
-        Not for Loglizer as it requires timestamps for windowing.
+        Preprocess before learning timestamp width. Only for prediction
+        of (OSS, DeepLog and Loglab). Not for Loglizer as it requires
+        timestamps for windowing.
+        \b
+        Note:
+            After light washing, need do two things. First, set the log
+            offset value self._log_head_offset and GC.conf['general']
+            ['head_offset'] to zero. Second, save the light washed logs
+            to self._normlogs.
         """
 
     @abstractmethod
     def preprocess_new(self):
         """
         Preprocess to generate the new log data. Clean the raw log data.
+        \b
+        Note:
+            After heavy washing, need do two things. First, save index
+            mapping between raw and new logs to self._map_new_raw. Next,
+            save the heavy washed logs to self._newlogs.
         """
 
     def preprocess_norm(self): # pylint: disable=too-many-branches
@@ -538,8 +549,9 @@ class PreprocessBase(ABC):
             with open(self.fzip['norm'], 'w+', encoding='utf-8') as fout:
                 fout.writelines(self._normlogs)
 
-    @abstractmethod
     def exceptions_tmplt(self):
         """
-        Do some exceptional works of template update.
+        Do some exceptional prework for template update. Overwrite it if
+        you need some works to do in the normal process before template
+        update. It is optional.
         """

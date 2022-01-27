@@ -104,7 +104,7 @@ def train_general(is_all, filelst, debug, sel = 'stc'):
 def cli_loglizer_train(model, inc, debug):
     """ Train the model for loglizer """
     # Populate the in-memory config singleton with the base config file
-    # and then update with the overloaded config file. Use GC.read() if
+    # and then update with the overwrite config file. Use GC.read() if
     # only want the base config file.
     dh.GCO.read()
     # Set the items here
@@ -170,7 +170,7 @@ def cli_loglizer_train(model, inc, debug):
 def cli_loglizer_validate(model, debug, src):
     """ Validate the model for loglizer """
     # Populate the in-memory config singleton with the base config file
-    # and then update with the overloaded config file. Use GC.read() if
+    # and then update with the overwrite config file. Use GC.read() if
     # only want the base config file.
     dh.GCO.read()
     # Set the items here
@@ -252,7 +252,7 @@ def cli_loglizer_validate(model, debug, src):
 def cli_loglizer_predict(model, debug):
     """ Predict logs by using loglizer model """
     # Populate the in-memory config singleton with the base config file
-    # and then update with the overloaded config file. Use GC.read() if
+    # and then update with the overwrite config file. Use GC.read() if
     # only want the base config file.
     dh.GCO.read()
     # Set the items here
