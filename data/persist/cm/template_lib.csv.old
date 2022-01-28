@@ -949,3 +949,13 @@ fc9e721c,fc9e721c,BcmEcosBfcApplication:: DeInitialize(): Rebooting now so we do
 d6378aa5,d6378aa5,EMTA: Required CL_OPTION_CCC present in DHCPv6 <*>
 8ac26c24,8ac26c24,"EMTA: CL_OPTION_CCC present, no CL_OPTION_CCCv6. Go v4."
 91181da7,91181da7,BcmDhcpV6ClientIf:: ProcessPacket: ERROR - No router has advertised a prefix that matches <*>
+e78559e9,e78559e9,BcmCmDsOfdmProfileState:: FecLockFail: hwRxId= <*> dcid= <*> profId= <*> ( <*> ) reason= FEC errors
+8879b91c,8879b91c,At <*> OFDM DCID <*> Profile <*> marked BAD due to <*> out of <*> seconds are errored
+895f81df,895f81df,"At <*> OFDM DCID <*> Profile <*> marked GOOD with <*> out of <*> RxMER margin measurements in the last <*> minutes are less than <*> dB AND, <*> uncorrectable FEC errors since <*>"
+aaee14bd,aaee14bd,Hard-latching diplexer settings. Latch Reason = 'Config file TLV- <*> ( diplexer band edge settings )'
+cdec7c7c,cdec7c7c,Reporting OFDM[ dcid= <*> ] RxMER to the CMTS.
+55ac4fe3,55ac4fe3,"CMSTATUS: QAM/FEC lock failure, <*>,,"
+ddf339ea,ddf339ea,BcmCmDsChan:: MddMsgEvent: rxid= <*> dcid= <*> rx MDD while RecoveryInProg(). QAM and FEC locked. call DsLockOk().
+b1e3db7e,b1e3db7e,"CMSTATUS: QAM/FEC Lock Recovery, <*>,,"
+a4f7b427,a4f7b427,"CMSTATUS: DS OFDM profile failure, <*>,, <*>"
+f75487d0,f75487d0,"CMSTATUS: OFDM profile recovery, <*>,, <*>"

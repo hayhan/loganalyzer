@@ -28,9 +28,11 @@ ptnobj_p5 = re.compile(
     # OFDM channels CH32 and CH33, maybe different for 3391 and later
     r'C[hH]\d{2}|'
     # QAM/FEC lock status
-    r'(QAM lock failure)|(FEC lock failure)|'
+    r'(?<= )((QAM|FEC) lock failure)|'
     # priDcid, dcid and prof list like priDcid= [ 197 26 1 ], etc.
-    r'(?<=([Dd]cid= )|(prof= ))\[[^\]]*\]'
+    r'(?<=([Dd]cid= )|(prof= ))\[[^\]]*\]|'
+    # Time format of 24-hour, e.g. 12:34:56
+    r'(?<= )(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)|24:00:00)(?= |$)'
 )
 
 ptnobj_p6 = re.compile(

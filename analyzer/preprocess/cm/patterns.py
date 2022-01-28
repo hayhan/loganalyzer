@@ -152,7 +152,8 @@ PTN_PRI_TO_NESTED = re.compile(
     r'fTmT4NoUnicastRngOpStdMlsec|'
     r'MSG PDU:|'
     r'to a CM prior to sending|'
-    r'Load Address: '
+    r'Load Address: |'
+    r'[0-9]+ uncorrectable FEC errors'
 )
 
 # ----------------------------------------------------------------------
@@ -253,6 +254,7 @@ ptnobj_l5 = re.compile(r'\((?=(\w|[-+]))')
 ptnobj_l6 = re.compile(r'\[(?=(\w|[-+]))')
 # Split something like 5ms to 5 ms
 ptnobj_l7 = re.compile(r'\d+(?=(ms))')
+ptnobj_l8 = re.compile(r'CMSTATUS:(?=\w)')
 
 # Split Change something like (xx) to (xx )
 ptnobj_r0 = re.compile(r'(?<=\w)\)')
@@ -262,6 +264,7 @@ ptnobj_r1 = re.compile(r'(?<=\w)\]')
 PTN_SPLIT_LEFT = [
     ptnobj_l0, ptnobj_l1, ptnobj_l2, ptnobj_l3,
     ptnobj_l4, ptnobj_l5, ptnobj_l6, ptnobj_l7,
+    ptnobj_l8,
 ]
 PTN_SPLIT_RIGHT = [
     ptnobj_r0, ptnobj_r1,
@@ -269,7 +272,7 @@ PTN_SPLIT_RIGHT = [
 
 PTN_SPLIT_LEFT_TS = [
     ptnobj_l0, ptnobj_l1, ptnobj_l2, ptnobj_l5,
-    ptnobj_l7,
+    ptnobj_l7, ptnobj_l8,
 ]
 PTN_SPLIT_RIGHT_TS = [
     ptnobj_r0,

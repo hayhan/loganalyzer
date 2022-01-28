@@ -280,8 +280,8 @@ c014:
 c015:
     desc: "Bandwidth request failure because of utf UCD, DRW violation
            and restarting unicast ranging. This will cause traffic
-           interrupt. Avoid utf UCD, DRW violation or restart unicast
-           maint ranging."
+           interrupt. Try to avoid utf UCD, DRW violation or restarting
+           of unicast maint ranging."
     refs: "CS00010987597"
 
 # loglab_drw_otf_ucd_bw_req_failure_001.txt
