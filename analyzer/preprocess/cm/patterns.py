@@ -87,6 +87,8 @@ PTN_LINE_RM = re.compile(
     r'Suboption \d:|'
     r'eptAsyncCmd: Ept not initialized|'
     r'\([a-zA-Z0-9]+\)|'
+    r'<<<<<<<<<<<<< rpc_dump_msg |'
+    r'msg 0x|'
     r'Len: \d+ |'
     # Hex line like "  00 10 18 de   f1 b8 c5 2e   14 56  | .........V"
     r'( {2}([0-9a-f]{2} ){1,4}){1,4} {1,52}\| '
@@ -153,7 +155,10 @@ PTN_PRI_TO_NESTED = re.compile(
     r'MSG PDU:|'
     r'to a CM prior to sending|'
     r'Load Address: |'
-    r'[0-9]+ uncorrectable FEC errors'
+    r'[0-9]+ uncorrectable FEC errors|'
+    r'Refresh period is |'
+    r'We will refresh at |'
+    r'req = 0x'
 )
 
 # ----------------------------------------------------------------------
@@ -201,7 +206,8 @@ PTN_NESTED_TO_PRI = re.compile(
 # ----------------------------------------------------------------------
 PTN_BLOCK_RM_PRI = re.compile(
     r' {4}tap values:|'
-    r' *Trimmed Downstream Ambiguity Resolution Frequency List'
+    r' *Trimmed Downstream Ambiguity Resolution Frequency List|'
+    r'=== Default Router List ==='
 )
 
 # ----------------------------------------------------------------------

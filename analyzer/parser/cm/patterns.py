@@ -48,6 +48,7 @@ ptnobj_p7 = re.compile(
     r'\( k[A-Z]\w+ \)|\( [du]cid \)|\( ErrorRecovery \)'
     r'|\( ConsoleCmdOverride \)|\( T4NoStationMaintTimeout \)'
     r'|\( T2NoInitMaintTimeout \)|\( not specified \)'
+    r'|\( no action \)|\( bcast or ucast \)'
 )
 
 ptnobj_p8 = re.compile(r'Stat= (Continue|Success|Abort)')

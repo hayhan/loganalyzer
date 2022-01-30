@@ -200,6 +200,11 @@ class Kb(KbBase):
                 if params[2] == 'kCmIsUpstreamPartialService':
                     log_severity = 'warning'
                     log_sugg = "Some upstream channels are impaired or filtered."
+
+                elif params[2] == 'kCmIsNotUpstreamPartialService':
+                    log_severity = 'notice'
+                    log_sugg = "Just recovered from upstream partial service."
+
                 break
 
             # ----------------------------------------------------------

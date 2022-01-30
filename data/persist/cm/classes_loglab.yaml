@@ -192,7 +192,8 @@ c008:
 
 c009:
     desc: "US partial service because some upstream channels cannot be
-           used by modem. Check possible noises, filters."
+           used by modem. Check possible noises, filters, dynamic range
+           (DRW) settings on CMTS."
     refs: "N/A"
 
 # loglab_psv_us_001.txt
@@ -289,11 +290,14 @@ c015:
 # loglab_drw_otf_ucd_bw_req_failure_008.txt
 
 c016:
-    desc: "Device reporting OFDM Profile recovery on very low SNR, e.g.
+    desc: "Device reporting OFDM profile recovery on very low SNR, e.g.
            20dB on Profiles. Needs patches from SWCM-52509 & SWCM-53170,
-           then it will only report failures in CM-STATUS correctly."
+           then it will only report failures in CM-STATUS correctly. The
+           CM might cannot recover all OFDM profiles after noises gone,
+           see SWCM-53973. Since OpenBFC 20.3, we have new OFDM channel
+           recover scheme, these issue should not exist anymore."
     refs: "CS00009831546, CS00009763980,
-           SWCM-52509, SWCM-53170"
+           SWCM-52509, SWCM-53170, SWCM-53973, SWCM-54221"
 
 # loglab_ofdm_low_margin_wrong_report_001.txt
 # ...

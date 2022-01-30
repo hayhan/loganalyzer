@@ -168,7 +168,7 @@
              and correct the bitmasks according to the schematics."
 
 # ----------------------------------------------------------------------
-# Ranging, ucd, T1/T2/T3/T4 ... timeout, us partial service
+# Ranging, ucd, T1/T2/T3/T4 ... timeout, drw, us partial service
 # ----------------------------------------------------------------------
 
 # TEMPLATE: "BcmCmMultiUsHelper:: TmUcdRxTimerEvent: ERROR -, T1 expired and no usable ucd's received -> restart error"
@@ -393,6 +393,13 @@
     severity: error
     contxt: true
     descpt: "All upstream channels down, DOCSIS mac will reset."
+
+# TEMPLATE: "Logging event: RNG-RSP CCAP Commanded Power in Excess of <*> dB Below the Value Corresponding to the Top of the DRW; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+'9daf0259':
+    severity: warning
+    contxt: true
+    descpt: "CMTS should adjust the DRW for the bonding upstream
+             channels."
 
 # ----------------------------------------------------------------------
 # OFDMA / Tcofdm
