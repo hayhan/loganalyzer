@@ -193,7 +193,7 @@ c008:
 c009:
     desc: "US partial service because some upstream channels cannot be
            used by modem. Check possible noises, filters. The upstream
-           connection may still stable but loses throughput."
+           connection maybe still stable but loses throughput."
     refs: "N/A"
 
 # loglab_psv_us_001.txt
