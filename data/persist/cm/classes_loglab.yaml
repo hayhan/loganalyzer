@@ -192,8 +192,8 @@ c008:
 
 c009:
     desc: "US partial service because some upstream channels cannot be
-           used by modem. Check possible noises, filters, dynamic range
-           (DRW) settings on CMTS."
+           used by modem. Check possible noises, filters. The upstream
+           connection may still stable but loses throughput."
     refs: "N/A"
 
 # loglab_psv_us_001.txt
@@ -279,15 +279,21 @@ c014:
 # loglab_no_rng_abort_t4_009.txt
 
 c015:
-    desc: "Bandwidth request failure because of utf UCD, DRW violation
-           and restarting unicast ranging. This will cause traffic
-           interrupt. Try to avoid utf UCD, DRW violation or restarting
-           of unicast maint ranging."
+    desc: "Bandwidth request failure, or partial/non-partial service
+           warnings are repeatedly triggered because of utf UCD, DRW
+           violation and restarting unicast ranging. This will cause
+           traffic interrupt. Try to avoid utf UCD, DRW violation or
+           restarting of unicast maint ranging."
     refs: "CS00010987597"
 
 # loglab_drw_otf_ucd_bw_req_failure_001.txt
 # ...
 # loglab_drw_otf_ucd_bw_req_failure_008.txt
+
+# - Logs from Comcast
+# loglab_drw_otf_ucd_bw_req_failure_009.txt
+# ...
+# loglab_drw_otf_ucd_bw_req_failure_015.txt
 
 c016:
     desc: "Device reporting OFDM profile recovery on very low SNR, e.g.
