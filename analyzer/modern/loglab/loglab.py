@@ -222,7 +222,7 @@ class Loglab(ModernBase):
                 # there are WINDOW_SIZE logs respectively before and
                 # after current typical log.
 
-                # The axis part, it is also the typical log
+                # The axis, aka. typical log, fatal/error/warning/notice
                 event_count_vec[0, eid_voc.index(eid)] = self.weight[severity]
 
                 if has_contxt:
@@ -296,7 +296,7 @@ class Loglab(ModernBase):
                 # there are WINDOW_SIZE logs respectively before and
                 # after current typical log.
 
-                # The axis part, aka. typical log, fatal/error/warning
+                # The axis, aka. typical log, fatal/error/warning/notice
                 event_char_voc[eid_voc.index(eid)] = self.weight[severity]
                 if event_stat_logs[axis] == 0:
                     event_count_vec[0, eid_voc.index(eid)] += 1
