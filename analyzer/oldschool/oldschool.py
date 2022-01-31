@@ -29,7 +29,7 @@ class OSS():
         self._map_norm_raw: List[int] = []
         self._df_raws = df_raws
         self._summary_df = pd.DataFrame(
-            columns=['Time/LineNum', 'Description', 'Suggestion'])
+            columns=["Time/LineNum", "Severity", "Description", "Suggestion"])
 
         self.kbase = kb.Kb()
 

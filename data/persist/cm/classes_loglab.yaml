@@ -301,7 +301,7 @@ c016:
            then it will only report failures in CM-STATUS correctly. The
            CM might cannot recover all OFDM profiles after noises gone,
            see SWCM-53973. Since OpenBFC 20.3, we have new OFDM channel
-           recover scheme, these issue should not exist anymore."
+           recover scheme, these issues should not exist anymore."
     refs: "CS00009831546, CS00009763980,
            SWCM-52509, SWCM-53170, SWCM-53973, SWCM-54221"
 
