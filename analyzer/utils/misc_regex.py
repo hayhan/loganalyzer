@@ -26,7 +26,7 @@ PTN_SNMP_MIB = re.compile(
 )
 
 PTN_MAC_ADDR = re.compile(
-    r'([A-Fa-f0-9]+\:){5}[A-Fa-f0-9]+'
+    r'([A-Fa-f0-9]{1,2}\:){5}[A-Fa-f0-9]{1,2}'
 )
 
 PTN_IP_V4 = re.compile(
@@ -34,8 +34,8 @@ PTN_IP_V4 = re.compile(
 )
 
 PTN_IP_V6 = re.compile(
-    # IPv6 Address from https://gist.github.com/mnordhoff/2213179
-    # A more elegant rex can be found at
+    # IPv6 Address regex from https://gist.github.com/mnordhoff/2213179
+    # A more elegant regex can be found at
     # https://gist.github.com/dfee/6ed3a4b05cfe7a6faf40a2102408d5d8
     r' (?:(?:[0-9A-Fa-f]{1,4}:){6}(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}'
     r'|(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]'

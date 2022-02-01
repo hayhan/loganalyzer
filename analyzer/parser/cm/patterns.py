@@ -18,9 +18,9 @@ __all__ = [
 
 ptnobj_p0 = ptn.PTN_LIBC_CTIME
 ptnobj_p1 = ptn.PTN_SNMP_MIB
-ptnobj_p2 = ptn.PTN_MAC_ADDR
-ptnobj_p3 = ptn.PTN_IP_V4
-ptnobj_p4 = ptn.PTN_IP_V6
+ptnobj_p2 = ptn.PTN_IP_V4
+ptnobj_p3 = ptn.PTN_IP_V6
+ptnobj_p4 = ptn.PTN_MAC_ADDR
 
 ptnobj_p5 = re.compile(
     # The filename string of image
@@ -59,8 +59,8 @@ PTN_HARD_PARA= {
     ptnobj_p0: '<*>',
     ptnobj_p1: '<*>',
     ptnobj_p2: '<*>',
-    ptnobj_p3: '<*>',
-    ptnobj_p4: ' <*>',
+    ptnobj_p3: ' <*>',
+    ptnobj_p4: '<*>',
     ptnobj_p5: '<*>',
     ptnobj_p6: ' <*>',
     ptnobj_p7: '( <*> )',
