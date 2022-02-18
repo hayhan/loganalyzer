@@ -3,6 +3,7 @@
 """
 import os
 import sys
+import shutil
 import logging
 import subprocess
 import click
@@ -59,7 +60,14 @@ def cli_edit_config(filename, overwrite):
     """ Edit the configuration file. """
     if overwrite and os.path.exists(CONFIG_OVERWRITE):
         filename = CONFIG_OVERWRITE
-    subprocess.run(["vim", filename], check=False)
+
+    cmd_exists = lambda x: shutil.which(x) is not None
+    if cmd_exists("vim"):
+        subprocess.run(["vim", filename], check=False)
+    elif cmd_exists("vi"):
+        subprocess.run(["vi", filename], check=False)
+    else:
+        print("Cannot find vim or vi editor. Try to use updt command.")
     log.info("Configuration file opened in editor: %s", filename)
 
 
