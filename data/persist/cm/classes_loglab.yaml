@@ -333,10 +333,14 @@ c018:
 
 c019:
     desc: "DHCP provisioning failure on CM primary ip stack, e.g. no
-           DHCP offers. Usually something wrong on the provisioning
+           DHCP offers. Something might be wrong on the provisioning
            server behind CMTS. Software issues on CM side might also
-           introduce this failure."
-    refs: "N/A"
+           introduce this failure. E.g. some downstream queue is full
+           and stuck between DSMAC and Host CPU, and then offers are
+           dropped. You can see DS MAC counter increases while cannot
+           observe them with log_packets. Besides, poor US/DS signal
+           quality might also introduce this issue."
+    refs: "CS00012220542, SWCM-56072"
 
 # - DHCPv4, discover send but no offer received
 # loglab_provision_failure_dhcp_001.txt
@@ -351,7 +355,7 @@ c019:
 # - Dual mode, no DHCP advertise and DHCP offer
 # loglab_provision_failure_dhcp_017.txt
 # ...
-# loglab_provision_failure_dhcp_024.txt
+# loglab_provision_failure_dhcp_026.txt
 
 c020:
     desc: "DOCSIS scanning on cable without any power. It is in cable

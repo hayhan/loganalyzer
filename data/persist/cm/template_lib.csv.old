@@ -100,7 +100,7 @@ c151db28,c151db28,"BcmCmDocsisCtlThread:: ConfigureAndStartIpInit: Beginning IP 
 67101bbe,67101bbe,BcmEcosIpHalIf:: FlushDefaultIPv6Routers: Flushing default IPv6 routers
 df84f9ed,df84f9ed,BcmEcosIpHalIf:: FlushNdInfo: Flushing default IPv6 ND info
 25d92504,25d92504,BcmEcosIpHalIf:: FlushFragPackets: Flushing fragmentation packet queues
-7554a71f,7554a71f,Logging event: Honoring MDD; IP provisioning mode = IPv4
+6dd344d9,6dd344d9,Logging event: Honoring MDD; IP provisioning mode = <*>
 b9c1fdb1,b9c1fdb1,CmSnmpAgent:: ResetSyslogServerEvent for Vendor CM Agent w/ BRCM Factory Support
 f8dba164,f8dba164,EMTA: cmEmtaIpProvMode MIB ( <*> ) Honor ip-pref from DHCP server.
 b4458c99,b4458c99,EMTA: option <*> VendorSpec not present.
@@ -408,7 +408,7 @@ d08c981c,d08c981c,BcmDocsisTimeOfDayThread:: HandleToD: Drop this scheduled TOD 
 f058fdeb,f058fdeb,== Starting IP Initialization in Dual Stack provisioning mode ==
 fa7a91dd,fa7a91dd,BcmCmDocsisCtlThread:: SyncCmDhcpInitOkNote: DHCPv4 or DHCPv6 is still acquiring or renewing an address. Not enabling forwarding.
 593d9808,593d9808,BcmCmDocsisCtlThread:: ResumePreRegSequence: Dual stack mode and DHCPv4 is not complete. Not enabling forwarding to CPE.
-a55798dc,a55798dc,"Logging event: DHCP FAILED - Discover sent, no offer received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
+81cbcac8,81cbcac8,"Logging event: DHCP <*> - <*> sent, no <*> received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
 2a96b1ea,2a96b1ea,BcmDhcpClientIf:: SendDhcpPacket: WARNING - Failed to send packet!
 da30d9e4,da30d9e4,BcmDhcpClientIf:: SendDiscover: WARNING - Failed to create/send Discover packet. Will try again later...
 279a65ba,279a65ba,RNG-RSP UsChanId= <*> Adj: tim= <*> power= <*> freq= <*> Stat= <*> 
@@ -980,3 +980,4 @@ c2a5d8cf,c2a5d8cf,"BcmBfcProcessCvc:: CmCodeVerificationCertificate:: ParseAndVa
 b75807f9,b75807f9,BcmBfcProcessCvc:: ProcessConfigFileSpecifiedCvc: ERROR - Config file manufacturer CVC is rejected.
 147936b5,147936b5,BcmBfcProcessCvc:: ProcessConfigFileManufAndCosignerCvcs: ERROR - Reject config file MFG CVC!
 f1db80b8,f1db80b8,Logging event: Configuration File CVC Validation Failure
+88e6867a,88e6867a,Failed to receive router advertisement

@@ -723,7 +723,7 @@ class Loglab(ModernBase):
         label_name = sess.get_outputs()[1].name
         y_pred_prob = sess.run([label_name], {input_name: x_test.astype(np.float32)})[0]
 
-        # Models like SVM have have prob output format of numpy array.
+        # Some model like SVM has prob output format of numpy array.
         # Others have format of list[dict]. Convert them all to dict.
         if isinstance(y_pred_prob, np.ndarray):
             y_pred_prob = dict(enumerate(y_pred_prob.flatten(), 1))

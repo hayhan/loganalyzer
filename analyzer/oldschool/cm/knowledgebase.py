@@ -279,6 +279,21 @@ class Kb(KbBase):
                 break
 
             # ----------------------------------------------------------
+            # DHCP provisioning
+            # ----------------------------------------------------------
+            if case('81cbcac8'):
+                # <TEMPLATE>
+                # "Logging event: DHCP <*> - <*> sent, no <*> \
+                # received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; \
+                # CM-VER= <*>; "
+                #
+                if params[0] in ['FAILED', 'failed']:
+                    log_severity = 'warning'
+                    log_sugg = "Check DHCP Server behind CMTS, or DS/US signal quality."
+
+                break
+
+            # ----------------------------------------------------------
             # Context updates
             # ----------------------------------------------------------
             if case('b2079e76'):

@@ -482,12 +482,6 @@
 # DHCP, TFTP, TOD, IP, Networks
 # ----------------------------------------------------------------------
 
-# TEMPLATE: "Logging event: DHCP FAILED - Discover sent, no offer received; CM-MAC= <*>; CMTS-MAC= <*>; CM-QOS= <*>; CM-VER= <*>; "
-'a55798dc':
-    severity: warning
-    contxt: true
-    descpt: "Check DHCP Server behind CMTS, or DS/US signal quality."
-
 # TEMPLATE: "BcmDhcpClientIf:: SendDiscover: WARNING - Sent Discover <*> times for lease with client id htype= <*>, value= <*>; too many tries. Giving up..."
 '84f00e9f':
     severity: error
