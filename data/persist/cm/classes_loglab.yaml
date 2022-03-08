@@ -355,7 +355,12 @@ c019:
 # - Dual mode, no DHCP advertise and DHCP offer
 # loglab_provision_failure_dhcp_017.txt
 # ...
-# loglab_provision_failure_dhcp_026.txt
+# loglab_provision_failure_dhcp_024.txt
+
+# - Customer board, no DHCP advertise and DHCP offer
+# loglab_provision_failure_dhcp_025.txt
+# ...
+# loglab_provision_failure_dhcp_031.txt
 
 c020:
     desc: "DOCSIS scanning on cable without any power. It is in cable

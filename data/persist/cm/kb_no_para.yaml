@@ -545,6 +545,12 @@
     contxt: true
     descpt: "Check DHCP Server behind CMTS, or DS/US signal quality."
 
+# TEMPLATE: "Failed to receive router advertisement"
+'88e6867a':
+    severity: error
+    contxt: true
+    descpt: "Check DHCP Server behind CMTS, or DS/US signal quality."
+
 # TEMPLATE: "DHCPv6 and DHCPv4 have both failed in DPM mode"
 '3d7612e4':
     severity: fatal

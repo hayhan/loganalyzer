@@ -288,7 +288,7 @@ class Kb(KbBase):
                 # CM-VER= <*>; "
                 #
                 if params[0] in ['FAILED', 'failed']:
-                    log_severity = 'warning'
+                    log_severity = 'error'
                     log_sugg = "Check DHCP Server behind CMTS, or DS/US signal quality."
 
                 break
