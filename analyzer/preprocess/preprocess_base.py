@@ -197,7 +197,9 @@ class PreprocessBase(ABC):
         # Make sure newlogs is not empty. Usually if the preprocess_new
         # thinks the timestamp format is abnormal, it will delete all
         # the lines and leads to an empty newlogs.
-        assert len(self._newlogs) > 0
+        if len(self._newlogs) == 0:
+            print("Timestamps are abnormal, or not standard for training!!!")
+            sys.exit(1)
 
         #-------------------------------
         # Local state variables

@@ -1830,76 +1830,90 @@ Epoch 5/5, train loss: 0.24762
 100% 3773/3773 [00:47<00:00, 79.41Batches/s]
 Train Dataset Validation ==> TP: 0, FP: 491, TN: 120224, FN: 0
 
---------------v2.0.0, 11/23/2021-------------
+--------------v2.0.0, 03/13/2022-------------
 
 -------one-hot vector--------
 ===> Start training the execution path model ...
 Building shuffled EventId list of templates.
 Slicing the multi-session logs with window 15 ...
-100% 3773/3773 [05:11<00:00, 12.13Batches/s]
-Epoch 1/100, train loss: 2.32570
-100% 3773/3773 [03:10<00:00, 19.76Batches/s]
-Epoch 2/100, train loss: 0.57237
-100% 3773/3773 [03:19<00:00, 18.94Batches/s]
-Epoch 3/100, train loss: 0.32451
-100% 3773/3773 [03:13<00:00, 19.47Batches/s]
-Epoch 4/100, train loss: 0.22889
-100% 3773/3773 [03:51<00:00, 16.29Batches/s]
-Epoch 5/100, train loss: 0.18498
+100% 3909/3909 [01:44<00:00, 37.40Batches/s]
+Epoch 1/100, train loss: 2.45620
+100% 3909/3909 [01:43<00:00, 37.71Batches/s]
+Epoch 2/100, train loss: 0.53958
+100% 3909/3909 [01:43<00:00, 37.76Batches/s]
+Epoch 3/100, train loss: 0.29496
+100% 3909/3909 [01:43<00:00, 37.64Batches/s]
+Epoch 4/100, train loss: 0.21899
+100% 3909/3909 [01:45<00:00, 36.89Batches/s]
+Epoch 5/100, train loss: 0.18280
 ...
-100% 3773/3773 [02:29<00:00, 25.15Batches/s]
-Epoch 50/100, train loss: 0.07544
-100% 3773/3773 [02:16<00:00, 27.57Batches/s]
-Epoch 51/100, train loss: 0.07464
-100% 3773/3773 [02:35<00:00, 24.30Batches/s]
-Epoch 52/100, train loss: 0.07477
+100% 3909/3909 [01:46<00:00, 36.88Batches/s]
+Epoch 50/100, train loss: 0.07999
+100% 3909/3909 [01:47<00:00, 36.25Batches/s]
+Epoch 51/100, train loss: 0.07784
+100% 3909/3909 [01:46<00:00, 36.64Batches/s]
+Epoch 52/100, train loss: 0.07854
+100% 3909/3909 [01:44<00:00, 37.41Batches/s]
+Epoch 53/100, train loss: 0.07782
+100% 3909/3909 [01:46<00:00, 36.61Batches/s]
+Epoch 54/100, train loss: 0.07790
+100% 3909/3909 [01:44<00:00, 37.34Batches/s]
+Epoch 55/100, train loss: 0.07737
 ...
-100% 3773/3773 [01:47<00:00, 35.16Batches/s]
-Epoch 95/100, train loss: 0.06902
-100% 3773/3773 [01:47<00:00, 35.12Batches/s]
-Epoch 96/100, train loss: 0.06945
-100% 3773/3773 [01:48<00:00, 34.87Batches/s]
-Epoch 97/100, train loss: 0.07081
-100% 3773/3773 [01:50<00:00, 34.19Batches/s]
-Epoch 98/100, train loss: 0.06984
-100% 3773/3773 [01:49<00:00, 34.47Batches/s]
-Epoch 99/100, train loss: 0.06941
-100% 3773/3773 [01:49<00:00, 34.36Batches/s]
-Epoch 100/100, train loss: 0.07032
-Train Dataset Validation ==> TP: 0, FP: 0, TN: 120715, FN: 0
+100% 3909/3909 [01:45<00:00, 36.98Batches/s]
+Epoch 95/100, train loss: 0.07369
+100% 3909/3909 [01:48<00:00, 35.88Batches/s]
+Epoch 96/100, train loss: 0.07351
+100% 3909/3909 [01:48<00:00, 35.97Batches/s]
+Epoch 97/100, train loss: 0.07292
+100% 3909/3909 [01:49<00:00, 35.82Batches/s]
+Epoch 98/100, train loss: 0.07325
+100% 3909/3909 [01:46<00:00, 36.76Batches/s]
+Epoch 99/100, train loss: 0.07267
+100% 3909/3909 [01:46<00:00, 36.80Batches/s]
+Epoch 100/100, train loss: 0.07346
+100% 3909/3909 [00:41<00:00, 94.24Batches/s]
+Train Dataset Validation ==> TP: 0, FP: 0, TN: 125057, FN: 0
 
 ===> Start training the execution path model ...
 Loading shuffled EventId list of templates.
 Slicing the multi-session logs with window 10 ...
-100% 3815/3815 [01:28<00:00, 43.29Batches/s]
-Epoch 1/100, train loss: 2.15085
-100% 3815/3815 [01:28<00:00, 43.13Batches/s]
-Epoch 2/100, train loss: 0.48124
-100% 3815/3815 [01:27<00:00, 43.83Batches/s]
-Epoch 3/100, train loss: 0.30276
-100% 3815/3815 [01:28<00:00, 43.25Batches/s]
-Epoch 4/100, train loss: 0.23260
-100% 3815/3815 [01:27<00:00, 43.79Batches/s]
-Epoch 5/100, train loss: 0.19576
+100% 3952/3952 [01:26<00:00, 45.94Batches/s]
+Epoch 1/100, train loss: 2.11586
+100% 3952/3952 [01:25<00:00, 46.07Batches/s]
+Epoch 2/100, train loss: 0.53781
+100% 3952/3952 [01:26<00:00, 45.50Batches/s]
+Epoch 3/100, train loss: 0.33825
+100% 3952/3952 [01:26<00:00, 45.68Batches/s]
+Epoch 4/100, train loss: 0.25205
+100% 3952/3952 [01:25<00:00, 46.19Batches/s]
+Epoch 5/100, train loss: 0.21097
+100% 3952/3952 [01:26<00:00, 45.78Batches/s]
 ...
-100% 3815/3815 [01:29<00:00, 42.81Batches/s]
-Epoch 50/100, train loss: 0.09791
-100% 3815/3815 [01:29<00:00, 42.51Batches/s]
-Epoch 51/100, train loss: 0.09755
-100% 3815/3815 [01:27<00:00, 43.62Batches/s]
-Epoch 52/100, train loss: 0.09737
+100% 3952/3952 [01:26<00:00, 45.95Batches/s]
+Epoch 50/100, train loss: 0.10319
+100% 3952/3952 [01:27<00:00, 45.32Batches/s]
+Epoch 51/100, train loss: 0.10362
+100% 3952/3952 [01:27<00:00, 45.37Batches/s]
+Epoch 52/100, train loss: 0.10328
+100% 3952/3952 [01:25<00:00, 46.08Batches/s]
+Epoch 53/100, train loss: 0.10278
+100% 3952/3952 [01:27<00:00, 45.40Batches/s]
+Epoch 54/100, train loss: 0.10307
+100% 3952/3952 [01:27<00:00, 45.42Batches/s]
+Epoch 55/100, train loss: 0.10319
 ...
-100% 3815/3815 [01:27<00:00, 43.52Batches/s]
-Epoch 95/100, train loss: 0.09218
-100% 3815/3815 [01:27<00:00, 43.48Batches/s]
-Epoch 96/100, train loss: 0.09238
-100% 3815/3815 [01:26<00:00, 44.01Batches/s]
-Epoch 97/100, train loss: 0.09213
-100% 3815/3815 [01:27<00:00, 43.80Batches/s]
-Epoch 98/100, train loss: 0.09315
-100% 3815/3815 [01:28<00:00, 43.27Batches/s]
-Epoch 99/100, train loss: 0.09236
-100% 3815/3815 [01:28<00:00, 43.18Batches/s]
-Epoch 100/100, train loss: 0.09224
-100% 3815/3815 [00:35<00:00, 107.08Batches/s]
-Train Dataset Validation ==> TP: 0, FP: 0, TN: 122055, FN: 0
+100% 3952/3952 [01:30<00:00, 43.88Batches/s]
+Epoch 95/100, train loss: 0.09769
+100% 3952/3952 [01:28<00:00, 44.46Batches/s]
+Epoch 96/100, train loss: 0.09770
+100% 3952/3952 [01:28<00:00, 44.83Batches/s]
+Epoch 97/100, train loss: 0.09823
+100% 3952/3952 [01:27<00:00, 44.94Batches/s]
+Epoch 98/100, train loss: 0.09813
+100% 3952/3952 [01:27<00:00, 45.15Batches/s]
+Epoch 99/100, train loss: 0.09844
+100% 3952/3952 [01:29<00:00, 44.20Batches/s]
+Epoch 100/100, train loss: 0.09806
+100% 3952/3952 [00:35<00:00, 111.34Batches/s]
+Train Dataset Validation ==> TP: 0, FP: 0, TN: 126447, FN: 0

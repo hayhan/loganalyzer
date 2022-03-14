@@ -11,15 +11,6 @@ import joblib
 import numpy as np
 import pandas as pd
 from scipy.special import expit
-from sklearn import tree, svm
-from sklearn.naive_bayes import MultinomialNB
-# from sklearn.linear_model import Perceptron
-from sklearn.linear_model import SGDClassifier, LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import precision_recall_fscore_support
-from skl2onnx import convert_sklearn
-from skl2onnx.common.data_types import FloatTensorType
-import onnxruntime as rt
 from analyzer.config import GlobalConfig as GC
 import analyzer.utils.data_helper as dh
 from analyzer.modern import ModernBase
@@ -388,10 +379,22 @@ class Loglizer(ModernBase):
 
         return x_new
 
-    # pylint: disable=too-many-branches
+    # pylint: disable=too-many-branches,import-outside-toplevel
     def train(self):
         """ Train model.
         """
+        # It is not a common practice to import modules inside function
+        # We do so to only constrain the heavy modules loading to train
+        #
+        from sklearn import tree, svm
+        from sklearn.naive_bayes import MultinomialNB
+        # from sklearn.linear_model import Perceptron
+        from sklearn.linear_model import SGDClassifier, LogisticRegression
+        from sklearn.ensemble import RandomForestClassifier
+        from sklearn.metrics import precision_recall_fscore_support
+        from skl2onnx import convert_sklearn
+        from skl2onnx.common.data_types import FloatTensorType
+
         # Update selected model and its parameters
         self.load_para()
         print(f"===> Train Model: {self.model}\n")
@@ -475,6 +478,9 @@ class Loglizer(ModernBase):
     def evaluate(self):
         """ Validate the model.
         """
+        import onnxruntime as rt
+        from sklearn.metrics import precision_recall_fscore_support
+
         # Update selected model and its parameters
         self.load_para()
         print(f"===> Validate Model: {self.model}\n")
@@ -500,6 +506,8 @@ class Loglizer(ModernBase):
     def predict(self):
         """ Predict using model.
         """
+        import onnxruntime as rt
+
         # Update selected model and its parameters
         self.load_para()
         print(f"===> Predict Model: {self.model}\n")

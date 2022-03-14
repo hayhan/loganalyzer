@@ -10,15 +10,6 @@ from importlib import import_module
 import pickle
 import numpy as np
 from tqdm import tqdm
-# import matplotlib.pyplot as plt
-# from sklearn.preprocessing import StandardScaler
-from sklearn import svm, utils
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import KFold, cross_val_score
-from skl2onnx import convert_sklearn
-from skl2onnx.common.data_types import FloatTensorType
-import onnxruntime as rt
 from analyzer.config import GlobalConfig as GC
 import analyzer.utils.data_helper as dh
 import analyzer.utils.yaml_helper as yh
@@ -582,9 +573,22 @@ class Loglab(ModernBase):
             if y_test != y_test_pred:
                 print(f"raw sample index {test_begin+1} of class {y_test} -> {y_test_pred}")
 
+    # pylint: disable=import-outside-toplevel
     def train(self):
         """ Train the model.
         """
+        # It is not a common practice to import modules inside function
+        # We do so to only constrain the heavy modules loading to train
+        #
+        # import matplotlib.pyplot as plt
+        # from sklearn.preprocessing import StandardScaler
+        from sklearn import svm, utils
+        from sklearn.ensemble import RandomForestClassifier
+        from sklearn.linear_model import LogisticRegression
+        from sklearn.model_selection import KFold, cross_val_score
+        from skl2onnx import convert_sklearn
+        from skl2onnx.common.data_types import FloatTensorType
+
         # Update selected model and its parameters
         self.load_para()
 
@@ -687,6 +691,8 @@ class Loglab(ModernBase):
     def predict(self):
         """ Predict using the trained model.
         """
+        import onnxruntime as rt
+
         # Bail out early for wrong LOG_TYPE
         if self._log_head_offset < 0:
             self.invalid_log_warning()
