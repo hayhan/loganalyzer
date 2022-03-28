@@ -34,4 +34,4 @@ try:
     __version__ = pkg_resources.get_distribution(__name__).version
 except pkg_resources.DistributionNotFound:
     # Package is not installed, so use hard-coded version instead
-    __version__ = "2.0.0"
+    __version__ = "2.0.2"

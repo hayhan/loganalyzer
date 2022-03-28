@@ -27,7 +27,7 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 @click.group("analyzer", context_settings=CONTEXT_SETTINGS)
 @click.option(
     "--log-level",
-    default="warning",
+    default="error",
     help="Logging verbosity level.",
     type=click.Choice(["debug", "info", "warning", "error"]),
 )

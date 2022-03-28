@@ -169,7 +169,7 @@ class DeepLog(ModernBase):
 
         if len(new_eids) != 0:
             for ele in new_eids:
-                print(f"Warning: Event ID {ele} is not in vocabulary!!!")
+                log.warning("Warning: Event ID %s is not in vocabulary!!!", ele)
 
         # --------------------------------------------------------------
         # Extract features
