@@ -297,19 +297,19 @@ def cli_loglizer_predict(model, debug):
 def cli_loglizer_show():
     """ Show supported models """
     desc: str = (
-        "\n----------Supported models (Static)----------\n"
+        "\n--------- Supported models (Static) ---------\n"
         "- DT       : Decision Tree\n"
         "- RFC      : Random Forrest Classification\n"
         "- LR       : Logistic Regression\n"
         "- SVM      : Supported Vector Machine\n"
         "- ALL      : Exercise all models in one shot"
-        "\n----------Supported models (Partial)--------\n"
+        "\n--------- Supported models (Partial) --------\n"
         "- MNB      : Multinomial Naive Bayes\n"
         "- PTN      : Linear perceptron classifier\n"
         "- SGDC_SVM : Stochastic gradient descent SVM\n"
         "- SGDC_LR  : Stochastic gradient descent LR\n"
         "- ALL      : Exercise all models in one shot"
-        "\n--------------------------------------------\n"
+        "\n---------------------------------------------\n"
     )
     print(desc)
 

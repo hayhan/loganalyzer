@@ -34,6 +34,7 @@ class Loglab(ModernBase):
         self.topk: int = GC.conf['loglab']['topk']
         self._segll: List[tuple] = []
         self._log_head_offset: int = GC.conf['general']['head_offset']
+        self.host: str = GC.conf['general']['host']
 
         # Trained models for deployment, aka. for prediction
         self.onnx_model: str = os.path.join(
@@ -65,7 +66,8 @@ class Loglab(ModernBase):
         self.model = GC.conf['loglab']['model']
         self.win_size = GC.conf['loglab']['window_size']
         self.weight = GC.conf['loglab']['weight']
-        self.topk: int = GC.conf['loglab']['topk']
+        self.topk = GC.conf['loglab']['topk']
+        self.host = GC.conf['general']['host']
 
         self.onnx_model = os.path.join(
             dh.PERSIST_DATA, 'loglab_'+self.model+'.onnx'
@@ -744,6 +746,22 @@ class Loglab(ModernBase):
 
         class_map = self.load_class_map()
 
+        # Generate reports per the host
+        if self.host == 'EROUTER':
+            self.report_erouter(class_map, y_pred_prob_top)
+        else:
+            self.report_server(class_map, y_pred_prob_top)
+
+    @staticmethod
+    def load_class_map():
+        """ Load the mappings between target class and its description.
+        """
+        class_map: dict = yh.read_yaml(os.path.join(dh.PERSIST_DATA, 'classes_loglab.yaml'))
+        return class_map
+
+    def report_server(self, class_map: dict, y_pred_prob_top: List[Tuple[int, float]]):
+        """ Generate reports for running on the server
+        """
         # Save top n descriptions to analysis_summary.csv that is shared
         # between oldschool and loglab. This will ease the logwebserver.
         with open(self.fzip['sum'], 'w', newline='', encoding='utf-8') as file:
@@ -769,12 +787,19 @@ class Loglab(ModernBase):
 
             file.write(contents)
 
-    @staticmethod
-    def load_class_map():
-        """ Load the mappings between target class and its description.
+    def report_erouter(self, class_map: dict, y_pred_prob_top: List[Tuple[int, float]]):
+        """ Generate reports for running on the erouter (rg/bas-d).
         """
-        class_map: dict = yh.read_yaml(os.path.join(dh.PERSIST_DATA, 'classes_loglab.yaml'))
-        return class_map
+        # Save top 1 description to analysis_summary_top.txt
+        with open(self.fzip['top'], 'w', encoding='utf-8') as file:
+            tgt = ''.join(['c', f"{y_pred_prob_top[0][0]:03d}"])
+            contents = f"The top hit class with probability of {y_pred_prob_top[0][1]}. "\
+                       f"(some models may not normalize it within [0, 1]). The summary "\
+                       f"comes from the top 1 class.\n"\
+                       f"[Analysis Result]\n"\
+                       f"{class_map[tgt]['desc']}\n"
+
+            file.write(contents)
 
     def invalid_log_warning(self):
         """ Save invalid log warning to file and then webgui can access.

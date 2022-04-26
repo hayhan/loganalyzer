@@ -198,12 +198,12 @@ def cli_loglab_predict(model, learn_ts, debug, feat):
 def cli_loglab_show():
     """ Show supported models """
     desc: str = (
-        "\n-----------Supported models-----------\n"
+        "\n----------- Supported models -----------\n"
         "- RFC : Random Forrest Classification\n"
         "- LR  : Logistic Regression\n"
         "- SVM : Supported Vector Machine\n"
         "- ALL : Exercise all models in one shot"
-        "\n--------------------------------------\n"
+        "\n----------------------------------------\n"
     )
     print(desc)
 
