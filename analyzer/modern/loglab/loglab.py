@@ -777,7 +777,7 @@ class Loglab(ModernBase):
         # logwebserver too.
         with open(self.fzip['top'], 'w', encoding='utf-8') as file:
             tgt = ''.join(['c', f"{y_pred_prob_top[0][0]:03d}"])
-            contents = f"The top hit class with probability of {y_pred_prob_top[0][1]}. "\
+            contents = f"The top hit class {tgt} with prob of {y_pred_prob_top[0][1]}. "\
                        f"(some models may not normalize it within [0, 1]). The summary "\
                        f"comes from the top 1 class. See table below for all top 3 hits.\n"\
                        f"[Analysis Result]\n"\
@@ -793,10 +793,8 @@ class Loglab(ModernBase):
         # Save top 1 description to analysis_summary_top.txt
         with open(self.fzip['top'], 'w', encoding='utf-8') as file:
             tgt = ''.join(['c', f"{y_pred_prob_top[0][0]:03d}"])
-            contents = f"The top hit class with probability of {y_pred_prob_top[0][1]}. "\
-                       f"(some models may not normalize it within [0, 1]). The summary "\
-                       f"comes from the top 1 class.\n"\
-                       f"[Analysis Result]\n"\
+            contents = f"The top hit class {tgt} with prob of {y_pred_prob_top[0][1]}. "\
+                       f"(some models may not normalize it within [0, 1]). [Report]: "\
                        f"{class_map[tgt]['desc']}\n"
 
             file.write(contents)
