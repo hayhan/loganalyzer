@@ -795,7 +795,7 @@ class Loglab(ModernBase):
             tgt = ''.join(['c', f"{y_pred_prob_top[0][0]:03d}"])
             contents = f"The top hit class {tgt} with prob of {y_pred_prob_top[0][1]}. "\
                        f"(some models may not normalize it within [0, 1]). [Report]: "\
-                       f"{class_map[tgt]['desc']}\n"
+                       f"{class_map[tgt]['desc']}"
 
             file.write(contents)
 
