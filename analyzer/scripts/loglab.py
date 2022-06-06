@@ -153,6 +153,15 @@ def cli_loglab_predict(model, learn_ts, debug, feat):
     if model not in ["NOPE", "ALL"]:
         GC.conf['loglab']['model'] = model
 
+    # When Loganalyzer runs on eRouter instead of general Laptop, PC or
+    # Server, the logs come from devices directly. No leading timestamps
+    # are added to the raw logs. No need to learn timestamp width. This
+    # also avoids false width learning on the strings that are borken as
+    # well as decreases the time of preprocessing.
+    if GC.conf['general']['host'] == 'EROUTER':
+        GC.conf['general']['head_offset'] = 0
+        learn_ts = False
+
     # Sync the config update in memory to file. Really necessary?
     # GC.write()
 
