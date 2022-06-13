@@ -1,7 +1,7 @@
 # This file contains info about target classes, aka. categories
 
 c001:
-    desc: "<PHY/ENV> RF cut off on both DS & US, or on DS only. Or some
+    desc: "[PHY/ENV] RF cut off on both DS & US, or on DS only. Or some
            operations on CMTS that make channels of DS & US or only DS
            unusable physically."
     refs: "N/A"
@@ -47,7 +47,7 @@ c001:
 # loglab_rfcut_ds_us_019.txt
 
 c002:
-    desc: "<PHY/ENV> RF cut off on US, CM Tx is broken, or CMTS doesn't
+    desc: "[PHY/ENV] RF cut off on US, CM Tx is broken, or CMTS doesn't
            associate primary DS with all US in MDD."
     refs: "CS00011165620"
 
@@ -72,7 +72,7 @@ c002:
 # loglab_rfcut_us_009.txt
 
 c003:
-    desc: "<PHY/ENV> US attenuation is high. Adjust the attenuator along
+    desc: "[PHY/ENV] US attenuation is high. Adjust the attenuator along
            the upstream path to CMTS."
     refs: "N/A"
 
@@ -94,7 +94,7 @@ c003:
 # loglab_attn_us_high_012.txt
 
 c004:
-    desc: "<PHY/ENV> DS partial service because one or more sc-qam
+    desc: "[PHY/ENV] DS partial service because one or more sc-qam
            channels cannot be locked. DS channel status of quality might
            be poor. Or annex mode is wrong that causes all DS sc-qam
            locking fail except ofdm (e.g. Annex other mode should not be
@@ -123,7 +123,7 @@ c004:
 # loglab_psv_ds_008.txt
 
 c005:
-    desc: "<PHY/ENV> US partial service because some upstream channels
+    desc: "[PHY/ENV] US partial service because some upstream channels
            cannot be used by modem. Check possible noises, filters. The
            upstream connection maybe still stable but loses throughput."
     refs: "N/A"
@@ -133,7 +133,7 @@ c005:
 # loglab_psv_us_010.txt
 
 c006:
-    desc: "<PHY/ENV> DOCSIS scanning on cable without any power. It is
+    desc: "[PHY/ENV] DOCSIS scanning on cable without any power. It is
            at cable cut state, or the frentend of ds in the modem has
            broken."
     refs: "N/A"
@@ -143,7 +143,7 @@ c006:
 # loglab_scanning_no_power_005.txt
 
 c007:
-    desc: "<PHY/ENV> DOCSIS scanning on cable with power, but cannot
+    desc: "[PHY/ENV] DOCSIS scanning on cable with power, but cannot
            lock any of them. Usually the annex mode is wrongly set on
            CM or no primary ds frequencies are provided on the CMTS."
     refs: "N/A"
@@ -153,7 +153,7 @@ c007:
 # loglab_scanning_with_power_005.txt
 
 c008:
-    desc: "<PHY/ENV> Bogus range response. Usually upstream is not very
+    desc: "[PHY/ENV] Bogus range response. Usually upstream is not very
            stable, e.g. under very high attenuation or some of upstream
            channels are not correctly filtered."
     refs: "N/A"
@@ -163,7 +163,7 @@ c008:
 # loglab_bogus_rngrsp_007.txt
 
 c009:
-    desc: "<PHY/BOARD> Diplexer wrong setting. Adjust diplexer settings
+    desc: "[PHY/BOARD] Diplexer wrong setting. Adjust diplexer settings
            per DS/US allocation on CMTS and schematics of CM board, e.g.
            \"CM/NonVol/CM DOCSIS NonVol> diplexer_mask_hw_provision\"
            sets the diplexer per HW and \"CM/CmHal> diplexer_settings\"
@@ -201,7 +201,7 @@ c009:
 # loglab_diplexer_017.txt
 
 c010:
-    desc: "<MAC/CMTS> No MDD on all DS channels. Usually happens on the
+    desc: "[MAC/CMTS] No MDD on all DS channels. Usually happens on the
            Proteus/Trojan2/Triton/Triton2. Reboot CMTS to fix it."
     refs: "N/A"
 
@@ -210,7 +210,7 @@ c010:
 # loglab_no_mdd_006.txt
 
 c011:
-    desc: "<MAC/CMTS> T2 timeouts before T3 reaches max tries, that is,
+    desc: "[MAC/CMTS] T2 timeouts before T3 reaches max tries, that is,
            initial maint raning, in DBC process. Or T2 timeouts on all
            the usable us channels after primary ds locks. or T2 timeouts
            on all usable us channels in TCC installation, then get into
@@ -263,7 +263,7 @@ c011:
 # loglab_tcc_t2_043.txt
 
 c012:
-    desc: "<MAC/CMTS> Unicast ranging continue w/o abort and T4 timeout.
+    desc: "[MAC/CMTS] Unicast ranging continue w/o abort and T4 timeout.
            Probably something wrong with pre-eq. CMTS also should abort
            ranging before T4."
     refs: "CS00010583877"
@@ -273,7 +273,7 @@ c012:
 # loglab_no_rng_abort_t4_009.txt
 
 c013:
-    desc: "<MAC/CMTS> Bandwidth request failure, or partial/non-partial
+    desc: "[MAC/CMTS] Bandwidth request failure, or partial/non-partial
            service warnings are repeatedly triggered because of utf UCD,
            DRW violation and restarting unicast ranging. This will cause
            traffic interrupt. Try to avoid utf UCD, DRW violation or
@@ -290,7 +290,7 @@ c013:
 # loglab_drw_otf_ucd_bw_req_failure_015.txt
 
 c014:
-    desc: "<MAC/CMTS> OFDM channel shutdown but CM resets MAC instead of
+    desc: "[MAC/CMTS] OFDM channel shutdown but CM resets MAC instead of
            entering partial service. CMTS issue."
     refs: "CS00004877901"
 
@@ -300,7 +300,7 @@ c014:
 # loglab_shutdown_ofdm_no_partial_004.txt
 
 c015:
-    desc: "<MAC/CMTS> Swap line card on CMTS. CM mac reset as expected but FEC
+    desc: "[MAC/CMTS] Swap line card on CMTS. CM mac reset as expected but FEC
            unlock on OFDM. CM sends opt-rsp but no opt-ack from CMTS.
            CM is in partial service. Need fix on CMTS."
     refs: "CS00004780695"
@@ -312,7 +312,7 @@ c015:
 # loglab_linecard_ofdm_opt_005.txt
 
 c016:
-    desc: "<UPPER> DHCP provisioning failure on the CM primary ip stack,
+    desc: "[UPPER] DHCP provisioning failure on the CM primary ip stack,
            e.g. no DHCP offers. Something might be wrong on the server
            behind CMTS. Software issues on CM side might also introduce
            this failure. E.g. some downstream queue is full and is stuck
@@ -343,7 +343,7 @@ c016:
 # loglab_provision_failure_dhcp_031.txt
 
 c017:
-    desc: "<UPPER> DHCP discovery sending fails because of insufficient
+    desc: "[UPPER] DHCP discovery sending fails because of insufficient
            resources, e.g. no enough buffers, or some kind of socket
            errors. It is different from the failure that modem cannot
            receive offer or ack."
