@@ -1,4 +1,4 @@
-# This file contains info about target classes
+# This file contains info about target classes, aka. categories
 
 c001:
     desc: "<PHY/ENV> RF cut off on both DS & US, or on DS only. Or some
