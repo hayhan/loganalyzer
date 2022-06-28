@@ -5,9 +5,11 @@ import re
 import os
 import sys
 import pickle
-from abc import ABC, abstractmethod
-from typing import List, Pattern, Match
 import logging
+from datetime import datetime
+from abc import ABC, abstractmethod
+from typing import List, Pattern, Match, Any, Dict
+from tqdm import tqdm
 from analyzer.config import GlobalConfig as GC
 import analyzer.utils.data_helper as dh
 from . import patterns as ptn
@@ -17,6 +19,13 @@ __all__ = ["PreprocessBase"]
 
 log = logging.getLogger(__name__)
 
+
+# ---------------------------------------------
+# Terminologies:
+# primary line - no space proceeded
+# nested line  - one or more spaces proceeded
+# empty line   - LF or CRLF only in one line
+# ---------------------------------------------
 
 # pylint: disable=too-many-instance-attributes,too-many-public-methods
 class PreprocessBase(ABC):
@@ -149,6 +158,11 @@ class PreprocessBase(ABC):
         return self._segll
 
     @abstractmethod
+    def process_for_domain(self, line: str, state: Dict[str, Any]):
+        """
+        Special line process for LOG_TYPE
+        """
+
     def preprocess_ts(self):
         """
         Preprocess before learning timestamp width. Only for prediction
@@ -161,8 +175,47 @@ class PreprocessBase(ABC):
             ['head_offset'] to zero. Second, save the light washed logs
             to self._normlogs.
         """
+        log.info("Preprocess before timestamp detection.")
 
-    @abstractmethod
+        # Reset normlogs in case it is not empty
+        self._normlogs = []
+
+        for idx, line in enumerate(self._rawlogs):
+
+            # Remove the NULL char '\0' at the first line if it exists
+            if idx == 0 and line[0] == '\0':
+                continue
+
+            # Remove other timestamps, console prompt and unwanted chars
+            # @abstractmethod: Override it in the derived class
+            line = self.clean_misc_char(line)
+
+            # Remove empty line
+            # if line in ['\n', '\r\n', '']:
+            if ptn.PTN_EMPTY_LINE.match(line):
+                continue
+
+            # Split some tokens apart
+            # @abstractmethod: Override it in the derived class
+            line = self.split_tokens(line, True)
+
+            # Save directly as norm data for parsing / clustering
+            self._normlogs.append(line)
+
+            # Check only part of lines which are usually enough to
+            # determine timestamp
+            if idx >= self.max_line:
+                break
+
+        # Suppose the log head offset is always zero
+        self._log_head_offset = 0
+        GC.conf['general']['head_offset'] = 0
+
+        # Conditionally save the normlogs to a file per the config file
+        # Note: preprocess_norm will overwrite the normlogs
+        self.cond_save_strings(self.fzip['norm'], self._normlogs)
+
+    # pylint: disable=too-many-statements, disable=too-many-branches
     def preprocess_new(self):
         """
         Preprocess to generate the new log data. Clean the raw log data.
@@ -172,8 +225,191 @@ class PreprocessBase(ABC):
             mapping between raw and new logs to self._map_new_raw. Next,
             save the heavy washed logs to self._newlogs.
         """
+        log.info("Preprocess to generate new log data.")
+        # For prediction, the timestamp in the test log is unknown or
+        # even does not exist. The preprocess will try to learn the
+        # width of the unknown timestamp in advance. So here get the
+        # updated info instead of the default one in config file.
+        self._get_timestamp_info()
+        # Bail out early for the wrong LOG_TYPE
+        if self._log_head_offset < 0:
+            return
 
-    def preprocess_norm(self): # pylint: disable=too-many-branches
+        # Reset newlogs in case it is not empty
+        self._newlogs = []
+
+        #-------------------------------
+        # Local state variables
+        #-------------------------------
+        stat: Dict[str, Any] = {
+            'head_clean': False,
+            'remove_line': False,
+            'tbl_hdr_done': False,
+            'last_ln_empty': False,
+            'last_label_removed': False,
+            'con_empty_ln_cnt': 0,
+            'in_stat_tbl': 0,
+            'in_log_blk': 0,
+            'last_label': '',
+            'curr_line_ts': ''
+        }
+
+        print(f"Pre-processing the raw {self.datatype} dataset ...")
+        parse_st: datetime = datetime.now()
+
+        #
+        # A low overhead progress bar
+        # https://github.com/tqdm/tqdm#documentation
+        # If only display statics w/o bar, set ncols=0
+        #
+        pbar = tqdm(total=len(self._rawlogs), unit='Lines', disable=False,
+                    bar_format='{l_bar}{bar:40}{r_bar}{bar:-40b}')
+
+        for idx, line in enumerate(self._rawlogs):
+            # Update the progress bar
+            pbar.update(1)
+
+            # ----------------------------------------------------------
+            # Handle the main timestamp
+            # ----------------------------------------------------------
+
+            # Save the main timestamp if it exists. The newline does not
+            # have the main timestamp before write it back to new file.
+            # The train label and the session label are also considered.
+            # Add them back along with the main timestamp at the end.
+            match_ts = self.ptn_main_ts.match(line)
+            if self._reserve_ts and match_ts:
+                # Strip the main timestamp including train and session
+                # labels if any exist
+                stat['curr_line_ts'] = match_ts.group(0)
+                if self.context in ['LOGLAB', 'OLDSCHOOL', 'DEEPLOG'] \
+                    and not (self.training or self.metrics) \
+                    and not ptn.PTN_FUZZY_TIME.search(stat['curr_line_ts']):
+                    if idx == 0:
+                        stat['head_clean'] = True
+                    continue
+                newline = self.ptn_main_ts.sub('', line, count=1)
+                # Inherit segment labels (segsign: or cxxx) from last
+                # labeled line if it is removed.
+                if self.context in ['LOGLAB', 'DEEPLOG'] and (self.training or self.metrics) \
+                    and stat['last_label_removed']:
+                    stat['curr_line_ts'] = ''.join([stat['curr_line_ts'], stat['last_label']])
+                    # Reset
+                    stat['last_label_removed'] = False
+                    stat['last_label'] = ''
+            elif self._reserve_ts:
+                # If we intend to reserve the main timestamp but does
+                # not match, delete this line. This usually happens when
+                # the timestamp is messed up, the timestamp format is
+                # not recognized, or no timestamp at all at the head.
+                if idx == 0:
+                    stat['head_clean'] = True
+                continue
+            else:
+                # No main timestamp in the log file or we do not want to
+                # reserve it
+                newline = line
+
+            # ----------------------------------------------------------
+            # No main timestamp and train label since then until adding
+            # them back at the end of preprocess_new.
+            # ----------------------------------------------------------
+
+            #
+            # Remove some heading lines at the start of log file
+            #
+            if (idx == 0 or stat['head_clean']) \
+                and (ptn.PTN_NESTED_LINE.match(newline) or newline in ['\n', '\r\n']):
+                stat['head_clean'] = True
+                # Take care if the removed line has segment label. Hand
+                # it over to the next line.
+                if self.context in ['LOGLAB', 'DEEPLOG'] and (self.training or self.metrics):
+                    stat['last_label'], stat['last_label_removed'] \
+                        = self._hand_over_label(stat['curr_line_ts'])
+                continue
+            if stat['head_clean']:
+                stat['head_clean'] = False
+
+            #
+            # Note:
+            # Starting from here, remove one line by using remove_line
+            # in state variable instead of 'continue' directly.
+            #
+
+            #
+            # Line processing for each kind of LOG_TYPE.
+            # @abstractmethod: Override it in the derived class
+            #
+            newline = self.process_for_domain(newline, stat)
+
+            #
+            # It is time to remove empty line
+            #
+            # if newline in ['\n', '\r\n', '']:
+            if ptn.PTN_EMPTY_LINE.match(newline):
+                if not stat['last_ln_empty']:
+                    stat['con_empty_ln_cnt'] = 1
+                else:
+                    stat['con_empty_ln_cnt'] += 1
+
+                # Take care if the removed line has segment label. Hand
+                # it over to the next line
+                if self.context in ['LOGLAB', 'DEEPLOG'] and (self.training or self.metrics):
+                    stat['last_label'], stat['last_label_removed'] \
+                        = self._hand_over_label(stat['curr_line_ts'])
+
+                # Update last_ln_empty for the next line processing
+                stat['last_ln_empty'] = True
+                stat['remove_line'] = True
+            else:
+                stat['last_ln_empty'] = False
+
+            #
+            # Line removing (including empty) should precede here
+            #
+            if stat['remove_line']:
+                stat['remove_line'] = False
+                continue
+
+            #
+            # Split some tokens apart
+            # @abstractmethod: Override it in the derived class
+            #
+            newline = self.split_tokens(newline, False)
+
+            # ----------------------------------------------------------
+            # Add session label 'segsign: ' for DeepLog.
+            # In DeepLog training or validation, use multi-session logs.
+            # The metrics means doing validation on test dataset or not.
+            # ----------------------------------------------------------
+            # @abstractmethod: Override it in the derived class
+            #
+            if self.context in ['DEEPLOG'] and (self.training or self.metrics):
+                if self.match_session_label(newline):
+                    newline = ''.join(['segsign: ', newline])
+
+            # ----------------------------------------------------------
+            # Add back the timestamp if it exists and store new line
+            # ----------------------------------------------------------
+            if self._reserve_ts and match_ts:
+                newline = ''.join([stat['curr_line_ts'], newline])
+            self._newlogs.append(newline)
+
+            # The raw line index list in the new file
+            # Do it only for prediction in DeepLog/Loglab and OSS
+            if self.context in ['LOGLAB', 'OLDSCHOOL', 'DEEPLOG'] \
+                and not (self.training or self.metrics):
+                self._map_new_raw.append(idx+1)
+
+        pbar.close()
+
+        # Conditionally save the newlogs to a file per the config file
+        self.cond_save_strings(self.fzip['new'], self._newlogs)
+
+        print(f"Purge costs {datetime.now()-parse_st}\n")
+
+    # pylint: disable=too-many-branches
+    def preprocess_norm(self):
         """
         Preprocess to generate the norm log data.
         Normalize the new log data, aka. converting multi-line log to
@@ -557,3 +793,32 @@ class PreprocessBase(ABC):
         you need some works to do in the normal process before template
         update. It is optional.
         """
+
+    @staticmethod
+    def split_token_apart(line: str, ptn_left: Pattern[str], ptn_right: Pattern[str]):
+        """
+        Split some token apart per the regx patterns
+        """
+        for ptn_obj in ptn_left:
+            mtch = ptn_obj.search(line)
+            if mtch:
+                line = ptn_obj.sub(''.join([mtch.group(0), ' ']), line)
+
+        for ptn_obj in ptn_right:
+            mtch = ptn_obj.search(line)
+            if mtch:
+                line = ptn_obj.sub(''.join([' ', mtch.group(0)]), line)
+
+        return line
+
+    @abstractmethod
+    def split_tokens(self, line: str, lite: bool):
+        """ Split some token apart per the regx patterns """
+
+    @abstractmethod
+    def clean_misc_char(self, line: str):
+        """ Clean console prompt, unwanted chars, etc """
+
+    @abstractmethod
+    def match_session_label(self, line: str):
+        """ Match session label for DeepLog """

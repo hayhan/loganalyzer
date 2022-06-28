@@ -49,3 +49,13 @@ PTN_NESTED_LINE = re.compile(
     # Pattern for nested line
     r' +|\t+'
 )
+
+PTN_EMPTY_LINE = re.compile(
+    # Pattern for empty line
+    r'^[ \t]*$'
+)
+
+PTN_FUZZY_TIME = re.compile(
+    # Pattern for time format, e.g. 12:34:56, 12-34-56, 12/34/56, etc.
+    r'[0-5][0-9][^a-zA-Z0-9 ][0-5][0-9][^a-zA-Z0-9 ][0-5][0-9]'
+)

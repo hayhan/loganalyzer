@@ -4,6 +4,14 @@ analyzer.preprocess.cm package
 Submodules
 ----------
 
+analyzer.preprocess.cm.misc module
+----------------------------------
+
+.. automodule:: analyzer.preprocess.cm.misc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 analyzer.preprocess.cm.patterns module
 --------------------------------------
 
