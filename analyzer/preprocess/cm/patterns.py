@@ -5,6 +5,7 @@ import re
 
 
 __all__ = [
+    "PTN_STD_TS",
     "PTN_BFC_TS",
     "PTN_CLEAN_CHAR",
     "PTN_LINE_RM",
@@ -31,6 +32,16 @@ __all__ = [
     "PTN_SESSION",
 ]
 
+
+# ----------------------------------------------------------------------
+# Patterns for main / standard timestamp
+# ----------------------------------------------------------------------
+PTN_STD_TS = re.compile(
+    # Standard timestamp from console tool, e.g. [20190719-08:58:23.738]
+    # Also add Loglizer Label, Deeplog segment sign, Loglab class label.
+    r'\[\d{4}\d{2}\d{2}-(([01]\d|2[0-3]):([0-5]\d):([0-5]\d)'
+    r'\.(\d{3})|24:00:00\.000)\] (abn: )?(segsign: )?(c[0-9]{3} )?'
+)
 
 # ----------------------------------------------------------------------
 # Patterns for timestamp, console prompt, thread tag and others

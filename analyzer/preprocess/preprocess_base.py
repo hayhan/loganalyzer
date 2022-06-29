@@ -45,11 +45,11 @@ class PreprocessBase(ABC):
         self._segdl: List[int] = []
         self._segll: List[tuple] = []
 
-        # The main timestamp flag. The default offset value is from
-        # the standard format
+        # The main timestamp flag. The default offset value is from the
+        # standard format. The derived class must override ptn_main_ts.
         self._reserve_ts: bool = True
         self._log_head_offset: int = GC.conf['general']['head_offset']
-        self.ptn_main_ts: Pattern = ptn.PTN_STD_TS
+        self.ptn_main_ts: Pattern = None
 
         # For prediction only. Does not include Loglizer.
         if not self.training:
@@ -78,8 +78,6 @@ class PreprocessBase(ABC):
         if self.context in ['LOGLAB', 'OLDSCHOOL', 'DEEPLOG'] \
             and not (self.training or self.metrics):
             self.ptn_main_ts = re.compile(rf'.{{{self._log_head_offset}}}')
-        else:
-            self.ptn_main_ts = ptn.PTN_STD_TS
 
     def _get_timestamp_info(self):
         """ Get updated timestamp info. """
@@ -527,9 +525,8 @@ class PreprocessBase(ABC):
 
         for line in self._normlogs:
             try:
-                # Suppose the standard timestamp
-                match = ptn.PTN_ABN_LABEL.search(line, dh.STD_TIMESTAMP_LENGTH,
-                        dh.STD_TIMESTAMP_LENGTH+dh.ABN_LABEL_LENGTH)
+                match = ptn.PTN_ABN_LABEL.search(line, self._log_head_offset,
+                        self._log_head_offset+dh.ABN_LABEL_LENGTH)
                 if match:
                     self.labels.append(1)  # Abnormal
                     newline = ptn.PTN_ABN_LABEL.sub('', line, count=1)
@@ -656,10 +653,10 @@ class PreprocessBase(ABC):
             for idx, line in enumerate(rawin):
                 # Insert segment label to the start line of each file
                 if idx == 0:
-                    match_ts = ptn.PTN_STD_TS.match(line)
+                    match_ts = self.ptn_main_ts.match(line)
                     if match_ts:
                         cur_line_ts = match_ts.group(0)
-                        newline = ptn.PTN_STD_TS.sub('', line, count=1)
+                        newline = self.ptn_main_ts.sub('', line, count=1)
                         line = ''.join([cur_line_ts, seglabel, newline])
                     else:
                         print("Error: The timestamp is wrong!")
@@ -691,7 +688,7 @@ class PreprocessBase(ABC):
         the beginging of each file. So we replace the labels with empty
         by max twice below.
 
-        In test dataset for validation, the session label might not
+        In the test dataset for validation, the session label might not
         exist. Make sure we return the correct session vector (aka one
         element representing the session size) in this case.
 
@@ -705,9 +702,8 @@ class PreprocessBase(ABC):
                 self._normlogs = fnorm.readlines()
 
         for idx, line in enumerate(self._normlogs):
-            # Standard format '[20190719-08:58:23.738] ' is always there
-            match = ptn.PTN_SEG_LABEL_1.search(line, dh.STD_TIMESTAMP_LENGTH,
-                    dh.STD_TIMESTAMP_LENGTH+dh.SEG_LABEL_LENGTH)
+            match = ptn.PTN_SEG_LABEL_1.search(line, self._log_head_offset,
+                    self._log_head_offset+dh.SEG_LABEL_LENGTH)
             if match:
                 newline = ptn.PTN_SEG_LABEL_1.sub('', line, count=2)
                 if idx != 0:
@@ -753,9 +749,8 @@ class PreprocessBase(ABC):
                 self._normlogs = fnorm.readlines()
 
         for idx, line in enumerate(self._normlogs):
-            # Standard format '[20190719-08:58:23.738] ' is always there
-            match = ptn.PTN_SEG_LABEL_2.search(line, dh.STD_TIMESTAMP_LENGTH,
-                    dh.STD_TIMESTAMP_LENGTH+dh.CLASS_LABEL_LENGTH)
+            match = ptn.PTN_SEG_LABEL_2.search(line, self._log_head_offset,
+                    self._log_head_offset+dh.CLASS_LABEL_LENGTH)
             if idx == 0 and not match:
                 print("Something is wrong with the monolith file, exit!")
                 sys.exit(1)

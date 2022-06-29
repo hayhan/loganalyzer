@@ -19,6 +19,7 @@ class Preprocess(PreprocessBase):
     """ The class of preprocess. """
     def __init__(self):
         PreprocessBase.__init__(self)
+        self.ptn_main_ts = ptn.PTN_STD_TS
 
     # pylint: disable=too-many-statements, disable=too-many-branches
     def process_for_domain(self, line: str, state: Dict[str, Any]):

@@ -3,6 +3,7 @@
 
 # Section: general
 general:
+    head_offset: 24     # Log head offset. Default value is from standard timestamp
     max_line: 1000      # Max number of lines that is used for timestamp learning
     host: SERVER        # EROUTER for running on rg/bas-d, SERVER for others
 

@@ -64,16 +64,12 @@ SKIP_FILE_LIST = ['README.md', 'train.lst', 'validate.lst']
 
 # Max length of customized timestamp in logs for prediction
 MAX_TIMESTAMP_LENGTH = 50
-# Standard timestamp length including the last space
-STD_TIMESTAMP_LENGTH = 24
 # Length of abnormal label 'abn: ', including the last space
 ABN_LABEL_LENGTH = 5
 # Length of segment label 'segsign: ', including the last space
 SEG_LABEL_LENGTH = 9
 # Length of class label 'cxxx ', including the last space
 CLASS_LABEL_LENGTH = 5
-# Standard timestamp format, excluding '[' and '] '
-STD_TIMESTAMP_FORMAT = "%Y%m%d-%H:%M:%S.%f"
 # The segment label in DeepLog
 SESSION_LABEL = 'segsign: '
 
