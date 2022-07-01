@@ -83,7 +83,7 @@ class Parser():
         if self.context in ['LOGLAB', 'OLDSCHOOL', 'DEEPLOG'] \
             and not (self.training or self.metrics):
             if self._log_head_offset == 0:
-                log_format = '<Content>'
+                log_format = msc.LOG_FORMAT_NOTS
             elif self._log_head_offset > 0:
                 # The customized pattern does not remove trailing spaces
                 # behind timestamp comparing to the standard / default
@@ -91,7 +91,7 @@ class Parser():
                 # OSS as we only display the timestamps. For Loglizer,
                 # we should calculate the time window and should take
                 # care when this change affacts it in the future.
-                log_format = f'(?P<Time>.{{{self._log_head_offset}}})(?P<Content>.*?)'
+                log_format = msc.log_format_custom(self._log_head_offset)
             else:
                 log.info("Not %s log, Return right now.", dh.LOG_TYPE)
                 # It's OK to exit for console app. But for webgui app,
@@ -99,7 +99,7 @@ class Parser():
                 # sys.exit(1)
                 return
         else:
-            log_format = '<Time> <Content>'
+            log_format = msc.LOG_FORMAT_COMPLETE
 
         # Do the 2nd round parsing for the recovered norm data
         if self.rcv:
