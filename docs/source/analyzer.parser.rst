@@ -1,14 +1,6 @@
 analyzer.parser package
 =======================
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   analyzer.parser.cm
-
 Submodules
 ----------
 

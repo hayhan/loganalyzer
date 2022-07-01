@@ -18,7 +18,7 @@ from analyzer.modern import ModernBase
 from .models import DeepLogExec
 
 # Import the knowledge base for the corresponding log type
-kb = import_module("analyzer.oldschool." + dh.LOG_TYPE + ".knowledgebase")
+kb = import_module("analyzer.extensions." + dh.LOG_TYPE + ".knowledgebase")
 
 
 __all__ = ["DeepLog"]

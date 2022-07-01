@@ -2,11 +2,29 @@
 """ Miscellaneous stuff. LOG_TYPE specific.
 """
 __all__ = [
-    "SPECIAL_ID",
-    "HEADER_CARE",
-    "SCAN_RANGE",
 ]
 
+
+# ======================================================================
+# Preprocess module
+# ======================================================================
+
+# Macros for log blocks
+LOG_BLK_RST = 0
+LOG_BLK = 1
+LOG_BLK2 = 2
+LOG_BLK_INDENT = 3
+LOG_BLK_INDENT2 = 4
+LOG_BLK_TITLE = 5
+
+# Macros for channel tables
+LOG_TBL_RST = 0
+LOG_TBL_DS = 1
+LOG_TBL_US =2
+
+# ======================================================================
+# Parser module
+# ======================================================================
 
 # Special templates, for case 2 in the algorithm of recovering messed
 # logs. Search the id in the template lib to match the real templates.
@@ -29,3 +47,7 @@ LOG_FORMAT_NOTS = '<Content>'
 def log_format_custom(timestamp_width: int):
     """ Customized log format """
     return f'(?P<Time>.{{{timestamp_width}}})(?P<Content>.*?)'
+
+# ======================================================================
+# Other modules
+# ======================================================================

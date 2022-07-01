@@ -13,8 +13,8 @@ from analyzer.config import GlobalConfig as GC
 from analyzer.parser import Para, Drain
 
 # Load LOG_TYPE specific patterns
-ptn = import_module("analyzer.parser." + dh.LOG_TYPE + ".patterns")
-msc = import_module("analyzer.parser." + dh.LOG_TYPE + ".misc")
+ptn = import_module("analyzer.extensions." + dh.LOG_TYPE + ".patterns")
+msc = import_module("analyzer.extensions." + dh.LOG_TYPE + ".misc")
 
 
 __all__ = ["Parser"]

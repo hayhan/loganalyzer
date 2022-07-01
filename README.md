@@ -6,11 +6,11 @@
 Add timestamp like this one "[20190719-08:58:23.748] " at the start of each line. This not always necessary as we support arbitrary timestamp format including no timestamp for prediction of Loglab, DeepLog and OSS (Old School System) now. While Loglizer always needs this standard timestamp.
 
 ### Label your training logs
-Put a string "abn: " after the timestamp for the anomaly log. If it is a multi-line log, we just label the first line. The labeling is needed for Loglizer but not for the training and prediction of Loglab, DeepLog, and OSS. While for validation purpose, the labeling is needed in DeepLog. For Loglab, you need classify the trianing log files into different groups with label "cxxx" as folder names. See examples in data/raw/cm/loglab.
+Put a string "abn: " after the timestamp for the anomaly log. If it is a multi-line log, we just label the first line. The labeling is needed for Loglizer but not for the training and prediction of Loglab, DeepLog, and OSS. While for validation purpose, the labeling is needed in DeepLog. For Loglab, we need classify the trianing log files into different groups with label "cxxx" as folder names. See examples in data/raw/cm/loglab or data/raw/ftp/loglab.
 
 ### Configuration files
 
-Configuration files include a base one at analyzer/config/config.yaml and an overwrite one at data/persist/LOG_TYPE/config_overwrite.yaml, which is a sub-set of the former one. The system loads the based config firstly and then update the in-memory contents with the overwrite one.
+Configuration files include a base one at analyzer/config/config.yaml and an overwrite version at data/persist/LOG_TYPE/config_overwrite.yaml, which is a sub-set of the former one. The system loads the based config firstly and then update the in-memory contents with the overwrite one.
 
 ### Train / Validate the model
 
@@ -57,11 +57,7 @@ Configuration files include a base one at analyzer/config/config.yaml and an ove
 
 ## **Porting to Other Log Producing Systems**
 
-LOG_TYPE currently supports 'cm' only. To analyze other system's logs, you need port application dependent files in new LOG_TYPE folders:
-
-analyzer/preprocess/LOG_TYPE/
-analyzer/parser/LOG_TYPE/
-analyzer/oldschool/LOG_TYPE/
+LOG_TYPE currently supports 'cm' and 'ftp'. The former one indicates logs of DOCSIS on Cable Modem. The latter indicates logs of ftp client of Filezilla. To analyze other system's logs, you need port application dependent files in the folder: analyzer/extensions/LOG_TYPE/. Also, make sure the correct LOG_TYPE is set in the config file: analyzer/config/config.yaml.
 
 ## **Running Environment**
 
@@ -80,7 +76,7 @@ pep8 autopep8 pylint flake8
 
 **PyTorch**
 
-see https://pytorch.org/ for install instructions. The version is 1.5.0 or above.
+see https://pytorch.org/ for install instructions. The version is 1.5.0 or above. The DeepLog depends on it.
 
 **Installation**
 

@@ -12,7 +12,7 @@ import analyzer.utils.data_helper as dh
 from analyzer.config import GlobalConfig as GC
 
 # Load knowledge-base of LOG_TYPE
-kb = import_module("analyzer.oldschool." + dh.LOG_TYPE + ".knowledgebase")
+kb = import_module("analyzer.extensions." + dh.LOG_TYPE + ".knowledgebase")
 
 
 __all__ = ["OSS"]

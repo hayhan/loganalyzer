@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    analyzer.config
+   analyzer.extensions
    analyzer.modern
    analyzer.oldschool
    analyzer.parser

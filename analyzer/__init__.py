@@ -24,6 +24,7 @@ the following sub-packages (e.g. `analyzer.parser`):
  modern.deeplog     --- Anomaly detection (Deep Learning)
  modern.loglab      --- Anomaly multi-classification
  utils              --- Utility functions and classes
+ extensions         --- extensions for different log producers
 """
 
 __all__ = ["__version__"]

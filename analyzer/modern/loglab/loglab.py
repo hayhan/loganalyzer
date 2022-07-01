@@ -16,7 +16,7 @@ import analyzer.utils.yaml_helper as yh
 from analyzer.modern import ModernBase
 
 # Import the knowledge base for the corresponding log type
-kb = import_module("analyzer.oldschool." + dh.LOG_TYPE + ".knowledgebase")
+kb = import_module("analyzer.extensions." + dh.LOG_TYPE + ".knowledgebase")
 
 
 __all__ = ["Loglab"]

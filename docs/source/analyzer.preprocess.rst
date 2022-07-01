@@ -1,14 +1,6 @@
 analyzer.preprocess package
 ===========================
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   analyzer.preprocess.cm
-
 Submodules
 ----------
 

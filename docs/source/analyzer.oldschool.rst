@@ -1,14 +1,6 @@
 analyzer.oldschool package
 ==========================
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   analyzer.oldschool.cm
-
 Submodules
 ----------
 
