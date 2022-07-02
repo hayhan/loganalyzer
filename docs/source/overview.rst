@@ -12,4 +12,4 @@ Loganalyzer is a tool to analyze system logs. It includes following modules:
  modern.deeplog     --- Anomaly detection (Deep Learning)
  modern.loglab      --- Anomaly multi-classification
  utils              --- Utility functions and classes
- extensions         --- extensions for different log producers
+ extensions         --- Extensions for different log producers

@@ -57,7 +57,7 @@ Configuration files include a base one at analyzer/config/config.yaml and an ove
 
 ## **Porting to Other Log Producing Systems**
 
-LOG_TYPE currently supports 'cm' and 'ftp'. The former one indicates logs of DOCSIS on Cable Modem. The latter indicates logs of ftp client of Filezilla. To analyze other system's logs, you need port application dependent files in the folder: analyzer/extensions/LOG_TYPE/. Also, make sure the correct LOG_TYPE is set in the config file: analyzer/config/config.yaml.
+LOG_TYPE currently supports 'cm' and 'ftp'. The former one indicates logs of DOCSIS on Cable Modem. The latter indicates logs of ftp client Filezilla. To analyze other system's logs, you need port application dependent files in the folder: analyzer/extensions/LOG_TYPE/. Also, make sure the correct LOG_TYPE is set in the config file: analyzer/config/config.yaml.
 
 ## **Running Environment**
 
