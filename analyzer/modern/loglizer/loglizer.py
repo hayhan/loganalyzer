@@ -7,6 +7,7 @@ import logging
 import pickle
 from typing import List
 from datetime import datetime
+from importlib import import_module
 import joblib
 import numpy as np
 import pandas as pd
@@ -14,6 +15,9 @@ from scipy.special import expit
 from analyzer.config import GlobalConfig as GC
 import analyzer.utils.data_helper as dh
 from analyzer.modern import ModernBase
+
+# Load LOG_TYPE dependent helpers
+msc = import_module("analyzer.extensions." + dh.LOG_TYPE + ".misc")
 
 
 __all__ = ["Loglizer"]
@@ -79,8 +83,15 @@ class Loglizer(ModernBase):
         event_id_logs: List[str] = self._df_raws['EventId'].tolist()
         event_id_lib: List[str] = self._df_tmplts['EventId'].tolist()
 
-        self._df_raws['DT'] = pd.to_datetime(self._df_raws['Time'],
-                                             format="[%Y%m%d-%H:%M:%S.%f]")
+        # Suppose Time column is always there but Date may not
+        if 'Date' in self._df_raws.columns:
+            self._df_raws['Date_Time'] = \
+                self._df_raws['Date'] + "_" + self._df_raws['Time']
+        else:
+            self._df_raws['Date_Time'] = self._df_raws['Time']
+
+        self._df_raws['DT'] = pd.to_datetime(self._df_raws['Date_Time'],
+                                             format=msc.STD_TIMESTAMP_FORMAT2)
         # Convert timestamp to millisecond unit
         self._df_raws['Ms_Elapsed'] = ((self._df_raws['DT']-self._df_raws['DT'][0])
                                        .dt.total_seconds()*1000).astype('int64')
@@ -530,7 +541,7 @@ class Loglizer(ModernBase):
                 end_index = self.win_idx[i][1]
                 anomaly_window_list.append(tuple((start_index, end_index)))
 
-        norm_time_list = self._df_raws['Time'].to_list()
+        norm_time_list = self._df_raws['Date_Time'].to_list()
 
         anomaly_timestamp_list: List[tuple] = []
         for _, anomaly_window in enumerate(anomaly_window_list):

@@ -86,6 +86,15 @@ def cli_norm_timestamp():  # pylint: disable=too-many-locals
     tmp_dir = dh.TMP_DATA
     work_dir = dh.COOKED_DATA
 
+    dh.GCO.read()
+    # Set the items here
+    GC.conf['general']['training'] = False
+    GC.conf['general']['metrics'] = False
+    GC.conf['general']['context'] = 'OLDSCHOOL'
+
+    # Sync the config update in memory to file?
+    # GC.write()
+
     # Get current system time
     dt_timestamp = datetime.now().timestamp()
 
@@ -105,15 +114,6 @@ def cli_norm_timestamp():  # pylint: disable=too-many-locals
             # print(rawf)
 
             copyfile(rawf, dstf)
-
-            dh.GCO.read()
-            # Set the items here
-            GC.conf['general']['training'] = False
-            GC.conf['general']['metrics'] = False
-            GC.conf['general']['context'] = 'OLDSCHOOL'
-
-            # Sync the config update in memory to file?
-            # GC.write()
 
             ppobj = pp.Preprocess()
 

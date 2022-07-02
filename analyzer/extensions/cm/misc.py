@@ -51,3 +51,19 @@ def log_format_custom(timestamp_width: int):
 # ======================================================================
 # Other modules
 # ======================================================================
+
+# The head_offset in config file is the content offset. If log format is
+# '<Time> <Content>', this offset value is also the timestamp width that
+# includes the space in between. If log format is something like below
+# '<Date> <Time> <Level> <Content>', we cannot use head_offset as width.
+# Also for unknown log format (usually unknown timestamp), the offset in
+# config file will be overwritten in memory when learning timestamp. So
+# we record the standard timestamp width here for reference.
+STD_TIMESTAMP_WIDTH = 24
+STD_TIMESTAMP_FORMAT = "%Y%m%d-%H:%M:%S.%f"
+STD_TIMESTAMP_FORMAT2 = "[%Y%m%d-%H:%M:%S.%f]"
+
+def std_timestamp(datetime: str):
+    """ Format standard timestamp """
+    dt_format: str = '[' + datetime[0:STD_TIMESTAMP_WIDTH-3] + '] '
+    return dt_format

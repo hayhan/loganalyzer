@@ -4,11 +4,14 @@ import os
 import re
 from typing import List
 from datetime import datetime
+from importlib import import_module
 import pickle
 import collections
 import pandas as pd
 import analyzer.utils.data_helper as dh
-from analyzer.config import GlobalConfig as GC
+
+# Load LOG_TYPE dependent helpers
+msc = import_module("analyzer.extensions." + dh.LOG_TYPE + ".misc")
 
 
 __all__ = [
@@ -18,16 +21,6 @@ __all__ = [
     "norm_timestamp",
 ]
 
-
-# Standard timestamp format, excluding '[' and '] ' from example below:
-# '[20190719-08:58:23.738] '
-# If the LOG_TYPE has other kind of standard format timestamp, change
-# this format string and finetune the norm_timestamp() below. We can for
-# sure to use abstract method feature in a class to implement multiple
-# versions of timestamp formating for each LOG_TYPE. This is just a tool
-# to normalize timestamps when collecting logs for training and template
-# updating manually, so leave it alone.
-STD_TIMESTAMP_FORMAT = "%Y%m%d-%H:%M:%S.%f"
 
 def sort_tmplt_lib():
     """ Sort the template id for debugging """
@@ -90,8 +83,8 @@ def norm_timestamp(rawfile: str, newfile: str, log_offset: int, dt_ts: float):
             if pattern_timestamp.match(line):
                 dt_obj = datetime.fromtimestamp(dt_ts)
                 # Finetune line below to match your case
-                dt_format = '[' + dt_obj.strftime(STD_TIMESTAMP_FORMAT)\
-                             [0:GC.conf['general']['head_offset']-3] + '] '
+                dt_format = \
+                    msc.std_timestamp(dt_obj.strftime(msc.STD_TIMESTAMP_FORMAT))
                 # Works even log_offset is zero, aka. no old timestamp.
                 newline = pattern_timestamp.sub(dt_format, line, count=1)
                 # Increase 100ms per line
