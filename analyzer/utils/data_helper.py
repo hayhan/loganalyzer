@@ -83,6 +83,7 @@ def get_files_io():
             'raw': os.path.join(COOKED_DATA, 'train.txt'),
             'new': os.path.join(COOKED_DATA, 'train_new.txt'),
             'norm': os.path.join(COOKED_DATA, 'train_norm.txt'),
+            'manu': os.path.join(RAW_DATA, 'others', 'temp_updt_manu.txt'),
             'labels': os.path.join(TRAIN_DATA, 'train_norm.txt_labels.pkl'),
             'segll': os.path.join(TRAIN_DATA, 'train_norm.txt_seginf_loglab.pkl'),
             'segdl': os.path.join(TRAIN_DATA, 'train_norm.txt_seginf_deeplog.pkl'),

@@ -440,7 +440,7 @@ class Drain:
             # 3).
             # Do not accept seq2 if some special tokens are different
             # between the template seq1 and current log seq2. This can
-            # prevent Drain from over-pasering some tokens
+            # prevent Drain from over-parsing some tokens
             for ptn in self.para.rex_s_token:
                 if (ptn.fullmatch(token1) and ptn.fullmatch(token2) and (token1 != token2)) or \
                    (ptn.fullmatch(token1) and ptn.fullmatch(token2) is None) or \

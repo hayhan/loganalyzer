@@ -335,7 +335,7 @@ ptnobj_p8 = re.compile(r'Stat= (Continue|Success|Abort)')
 ptnobj_p9 = re.compile(r'qam [yn] fec [yn] snr')
 ptnobj_p10 = re.compile(r'txdata [yn]')
 
-PTN_HARD_PARA= {
+PTN_HARD_PARA = {
     ptnobj_p0: '<*>',
     ptnobj_p1: '<*>',
     ptnobj_p2: '<*>',
@@ -350,8 +350,8 @@ PTN_HARD_PARA= {
 }
 
 #
-# Regular expression list for special tokens, we want the special tokens
-# are same between template and accepted log at the corresponding offset
+# Regular expression list for special tokens. We want special tokens are
+# same between template and the accepted log at the corresponding offset
 #
 ptnobj_s0 = re.compile(r'[a-zA-Z]+[0-9]*[a-zA-Z]*\:')
 ptnobj_s1 = re.compile(r'[a-zA-Z]+\=')

@@ -1,10 +1,8 @@
 # Licensed under the MIT License - see LICENSE.txt
 """ Derived class of preprocess. LOG_TYPE specific.
 """
-import os
 import logging
 from typing import Any, List, Dict
-import analyzer.utils.data_helper as dh
 from analyzer.preprocess import PreprocessBase
 from . import patterns as ptn
 from . import misc as msc
@@ -402,25 +400,6 @@ class Preprocess(PreprocessBase):
         yield lineview[7]
         yield ' txdata '
         yield lineview[8]
-
-    def exceptions_tmplt(self):
-        """ Do some exceptional works of template update """
-        # Insert data/raw/cm/others/temp_updt_manu.txt to the head of
-        # data/cooked/cm/train.txt when doing template lib gen/update.
-        # This workarounds some similarity threshold issue in Drain
-        # agorithm. Unix cat however will generate trailing ^M char.
-        src1 = os.path.join(dh.RAW_DATA, 'others', 'temp_updt_manu.txt')
-
-        rawlogs: List[str] = []
-        with open(src1, 'r', encoding='utf-8-sig') as rawfile:
-            rawlogs = rawfile.readlines()
-        # Make sure preceding file has line feed at EOF
-        self.add_line_feed(rawlogs)
-
-        self._rawlogs = rawlogs + self._rawlogs
-
-        # Conditionally save the rawlogs to file per config.
-        self.cond_save_strings(self.fzip['raw'], self._rawlogs)
 
     def split_tokens(self, line: str, lite: bool):
         """ Split some token apart per the regx patterns """

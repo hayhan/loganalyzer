@@ -1,0 +1,202 @@
+EventIdOld,EventId,EventTemplate
+0d9f7273,0d9f7273,Command: RETR <*>
+9bbb7ee7,9bbb7ee7,Command: MDTM <*>
+62583947,62583947,Command: STOR <*>
+bbbb0cde,bbbb0cde,Command: open <*> <*>
+4a3a064a,4a3a064a,"Response: fzSftp started, protocol_version= <*>"
+d8edcb60,d8edcb60,Trace: CFtpFileTransferOpData:: Reset( <*> ) in state <*>
+9f4e1949,9f4e1949,Trace: CSftpConnectOpData:: ParseResponse() in state <*>
+c41cd80e,c41cd80e,Trace: We claim version: <*>
+e707104c,e707104c,Trace: Looking up host <*> for SSH connection
+7c5ceaea,7c5ceaea,Trace: Connecting to <*> port <*>
+bdad4f03,bdad4f03,Trace: Doing ECDH key exchange with curve <*> and hash SHA-256 ( <*> )
+6bff3295,6bff3295,"Trace: Server also has <*> host keys, but we don't know any of them"
+1b521440,1b521440,Trace: Using SSH protocol version <*>
+7e6863ae,7e6863ae,Trace: Remote version: <*>
+30498ce2,30498ce2,Trace: <*> <*> SHA256: <*>
+e7ef8faf,e7ef8faf,Trace: CSftpConnectOpData:: Reset( <*> ) in state <*>
+aa38565b,aa38565b,Response: <*> <*> set to <*>
+eeae0906,eeae0906,Trace: tls_layer_impl:: failure( <*> )
+85c8600a,85c8600a,Error: GnuTLS error <*> in gnutls_record_recv: The TLS connection was non-properly terminated.
+390f2e5c,390f2e5c,Trace: Protocol: <*> Key exchange: <*> Cipher: <*> MAC: <*> ALPN: <*>
+d0418603,d0418603,Response: LANG <*>
+127fe195,127fe195,Response: PROT <*>
+f56ad6a5,f56ad6a5,Trace: Protocol: <*> Key exchange: <*> Cipher: <*> MAC: <*> ALPN: 
+3e520777,3e520777,Trace: CFtpListOpData:: ParseResponse() in state <*>
+adaccb3c,adaccb3c,Command: PBSZ <*>
+72b5c229,72b5c229,Response: <*> Opening <*> mode data connection for <*> ( <*> bytes ).
+6ac65c4f,6ac65c4f,Response: <*> Opening <*> mode data connection for file list
+ef85fc45,ef85fc45,Status: Using username <*>
+e4b18107,e4b18107,Status: Disconnected from server
+f3982606,f3982606,Trace: CRealControlSocket:: DoClose( <*> )
+1883b29d,1883b29d,Trace: CControlSocket:: DoClose( <*> )
+f88ad3c8,f88ad3c8,Trace: CFtpControlSocket:: ResetOperation( <*> )
+1aa57897,1aa57897,Trace: CControlSocket:: ResetOperation( <*> )
+cd971738,cd971738,Trace: CFileZillaEnginePrivate:: ResetOperation( <*> )
+f1f6e610,f1f6e610,Trace: CControlSocket:: SendNextCommand()
+baec78e4,baec78e4,Trace: CSftpConnectOpData:: Send() in state <*>
+dba10c2d,dba10c2d,Status: Connecting to <*>
+bfb0c584,bfb0c584,Trace: Connected to <*>
+c6e1a949,c6e1a949,Trace: Host key fingerprint is:
+f4bf36bc,f4bf36bc,Trace: CSftpControlSocket:: SetAsyncRequestReply
+15754104,15754104,Command: Trust new Hostkey: Once
+56955b34,56955b34,Trace: Initialised AES-256 GCM <*> encryption
+2e8c9c59,2e8c9c59,Trace: Initialised AES256 GCM <*> MAC algorithm ( in ETM mode ) ( required by cipher )
+bdb03ac7,bdb03ac7,Command: PASS <*>
+0079d139,0079d139,Trace: Sent password
+7007924d,7007924d,Trace: Password authentication failed
+be077cd8,be077cd8,Status: Access denied 
+4da85d1e,4da85d1e,Error: Authentication failed.
+3bea378e,3bea378e,Error: Critical error: Could not connect to server
+ce66963c,ce66963c,Trace: CFtpLogonOpData:: Send() in state <*>
+0fbcca2b,0fbcca2b,Status: Resolving address of <*>
+01a2ef72,01a2ef72,"Status: Connection established, waiting for welcome message..."
+9adeb820,9adeb820,Trace: CFtpControlSocket:: OnReceive()
+d95401dc,d95401dc,Response: <*> FTP server is ready
+624d807c,624d807c,Trace: CFtpLogonOpData:: ParseResponse() in state <*>
+23ec3b97,23ec3b97,Command: AUTH <*>
+26bd0501,26bd0501,Response: <*> AUTH command ok. Expecting TLS Negotiation.
+5695975f,5695975f,Status: Initializing TLS...
+ba1499c2,ba1499c2,Trace: tls_layer_impl:: client_handshake()
+3983bd72,3983bd72,Trace: tls_layer_impl:: continue_handshake()
+f34e5d75,f34e5d75,Trace: TLS handshakep: About to send CLIENT HELLO
+985ab752,985ab752,Trace: TLS handshakep: Sent CLIENT HELLO
+150645ce,150645ce,Trace: tls_layer_impl:: on_send()
+2fc83746,2fc83746,Trace: tls_layer_impl:: on_read()
+c1fa9692,c1fa9692,Trace: TLS handshakep: <*> SERVER HELLO
+014614fc,014614fc,Trace: TLS handshakep: <*> CERTIFICATE
+8716c445,8716c445,Trace: TLS handshakep: <*> CERTIFICATE STATUS
+c7bc364a,c7bc364a,Trace: TLS handshakep: <*> SERVER KEY EXCHANGE
+f2d57bea,f2d57bea,Trace: TLS handshakep: <*> SERVER HELLO DONE
+211bdf2b,211bdf2b,Trace: TLS handshakep: About to send CLIENT KEY EXCHANGE
+c03cf61c,c03cf61c,Trace: TLS handshakep: Sent CLIENT KEY EXCHANGE
+b4f90080,b4f90080,Trace: TLS handshakep: About to send <*>
+60fd9a9f,60fd9a9f,Trace: TLS handshakep: <*> FINISHED
+761aa8bd,761aa8bd,Trace: TLS Handshake successful
+6e96128a,6e96128a,Trace: tls_layer_impl:: verify_certificate()
+edb64570,edb64570,Trace: System trust store decision: <*>
+eb9324e5,eb9324e5,Trace: Sending certificate_verification_event
+4bb7542c,4bb7542c,Trace: CFtpControlSocket:: SetAsyncRequestReply
+c57092eb,c57092eb,Trace: set_verification_result( <*> )
+834f5858,834f5858,Status: TLS connection established.
+b845efcb,b845efcb,Command: USER <*>
+cd42a9fe,cd42a9fe,Response: <*> Password required for <*>
+7d6e0772,7d6e0772,Response: <*> User logged in.
+4d1e1683,4d1e1683,Command: OPTS UTF8 ON
+575208e7,575208e7,Response: <*> OPTS UTF8 command successful - UTF8 encoding now ON.
+06cc03dc,06cc03dc,Response: <*> <*> command successful.
+8a3b8ae0,8a3b8ae0,Command: PROT P
+223721cf,223721cf,Status: Logged in
+7b9e5459,7b9e5459,Trace: Measured latency of <*> ms
+231a6f07,231a6f07,Trace: CFtpLogonOpData:: Reset( <*> ) in state <*>
+0f3f3faf,0f3f3faf,Trace: CFtpListOpData:: Send() in state <*>
+a120fcda,a120fcda,Status: Retrieving directory listing...
+6857919e,6857919e,Trace: CFtpChangeDirOpData:: Send() in state <*>
+a6d5db76,a6d5db76,Command: PWD
+3d4f4711,3d4f4711,Response: <*> <*> is current directory.
+9f9cf7aa,9f9cf7aa,Trace: CFtpChangeDirOpData:: ParseResponse() in state <*>
+72943fa6,72943fa6,Trace: CFtpChangeDirOpData:: Reset( <*> ) in state <*>
+29f34cbf,29f34cbf,Trace: CFtpListOpData:: SubcommandResult( <*> ) in state <*>
+452677e3,452677e3,Trace: CFtpRawTransferOpData:: Send() in state <*>
+e8bef3d9,e8bef3d9,Command: TYPE <*>
+c32c5571,c32c5571,Trace: CFtpRawTransferOpData:: ParseResponse() in state <*>
+ffd61957,ffd61957,Command: PASV
+258f4fe0,258f4fe0,Response: <*> Entering Passive Mode ( <*> ).
+5646bfc7,5646bfc7,Trace: Binding data connection source IP to control connection source IP <*>
+fc17b34c,fc17b34c,Trace: Trying to resume existing TLS session.
+17721975,17721975,Command: LIST
+38763a24,38763a24,Response: <*> Opening <*> mode data connection.
+c0c6d280,c0c6d280,Trace: TLS Session resumed
+e7100fe1,e7100fe1,Trace: CTransferSocket:: OnConnect
+ec28ab7f,ec28ab7f,"Trace: CTransferSocket:: OnReceive(), m_transferMode= <*>"
+db619605,db619605,Trace: CTransferSocket:: TransferEnd( <*> )
+2e6c6580,2e6c6580,Trace: tls_layer_impl:: shutdown()
+d1a1536f,d1a1536f,Trace: tls_layer_impl:: continue_shutdown()
+8e3d3114,8e3d3114,Response: <*> Transfer <*>
+c156b285,c156b285,Trace: CFtpControlSocket:: TransferEnd()
+c6672afc,c6672afc,Trace: CFtpRawTransferOpData:: Reset( <*> ) in state <*>
+3db341a8,3db341a8,Trace: CFtpListOpData:: Reset( <*> ) in state <*>
+2cdacbad,2cdacbad,Status: Directory listing of <*> successful
+cc2ee51b,cc2ee51b,Trace: CFtpControlSocket:: FileTransfer()
+52a436ac,52a436ac,Trace: CFtpFileTransferOpData:: Send() in state <*>
+e3045f2e,e3045f2e,Status: Starting upload of <*>
+099e004c,099e004c,Command: CWD <*>
+1d673e56,1d673e56,Trace: CFtpFileTransferOpData:: SubcommandResult( <*> ) in state <*>
+7f5d036d,7f5d036d,Trace: CControlSocket:: CheckOverwriteFile()
+92b41e39,92b41e39,Response: <*> Access is denied. 
+c79f425b,c79f425b,Error: Critical file transfer error
+9286687a,9286687a,Response: <*> Please login with USER and PASS.
+e8bb202b,e8bb202b,"Status: Insecure server, it does not support FTP over TLS."
+52dbb961,52dbb961,Response: <*> Login <*>
+e9409df3,e9409df3,Status: Server does not support non-ASCII characters.
+b5fcd240,b5fcd240,Response: <*> Switching to <*> mode.
+ee4bbd0a,ee4bbd0a,Response: <*> Here comes the directory listing.
+d92e3541,d92e3541,Response: <*> Directory send OK.
+f5cff5ac,f5cff5ac,Response: <*> Directory successfully changed.
+63503145,63503145,Response: <*> Permission <*>
+422205b7,422205b7,Status: Retrieving directory listing of <*>
+0e97b89d,0e97b89d,Response: <*> Using authentication type TLS.
+7267db31,7267db31,Trace: TLS handshakep: <*> ENCRYPTED EXTENSIONS
+08f14664,08f14664,Trace: TLS handshakep: <*> CERTIFICATE VERIFY
+421196c4,421196c4,Response: <*> <*> specify the password.
+8592460b,8592460b,Trace: TLS handshakep: <*> NEW SESSION TICKET
+f162266c,f162266c,Trace: gnutls_record_recv returned spurious EAGAIN
+8f72268d,8f72268d,Command: MLSD
+d4d45478,d4d45478,Response: <*> About to start data transfer.
+8fd996a7,8fd996a7,Response: <*> Operation successful
+00143bdf,00143bdf,Response: <*> <*> command successful
+9503af0c,9503af0c,"Response: <*> Service not available, closing connection"
+cd6dfcc6,cd6dfcc6,"Trace: Unexpected reply, no reply was pending."
+0a24da4f,0a24da4f,Status: Connection closed by server
+87570dd1,87570dd1,Command: SYST
+a8cc4dfd,a8cc4dfd,Response: <*> NAME system type: <*>
+36d9cb31,36d9cb31,Command: FEAT
+806a6d30,806a6d30,"Response: <*> System status, or system help"
+7b1b7ed5,7b1b7ed5,Response: UTF8
+ef403568,ef403568,Response: AUTH <*>
+9e76ded3,9e76ded3,Response: PBSZ
+cb73224a,cb73224a,Response: CCC
+2bdbbe10,2bdbbe10,Response: HOST
+c34f02d8,c34f02d8,Response: SIZE
+50058891,50058891,Response: MDTM
+2327c1bb,2327c1bb,Response: REST STREAM
+4cc49e16,4cc49e16,Status: Calculating timezone offset of server...
+3be0190f,3be0190f,Response: <*> File status
+d1d86b72,d1d86b72,Status: Timezone offset of server is <*> seconds.
+8b08b243,8b08b243,Trace: CTransferSocket:: OnSocketError( <*> )
+3a995bbc,3a995bbc,Error: Transfer connection interrupted: ECONNABORTED - Connection aborted
+f4c4b613,f4c4b613,Error: File transfer failed
+81adf417,81adf417,Command: CDUP
+7a841b6a,7a841b6a,Command: PASS 
+e7fae63a,e7fae63a,Response: <*> AUTH command OK. Initializing TLS connection.
+acb934bf,acb934bf,Trace: Hostname does not match certificate SANs
+2dffb141,2dffb141,"Response: <*> Not logged in, password error."
+46c5e32f,46c5e32f,Status: Delaying connection for <*> <*> due to previously failed connection attempt...
+26b1d65e,26b1d65e,Response: <*> Proceed with negotiation.
+09e8e618,09e8e618,Trace: TLS handshakep: <*> CERTIFICATE REQUEST
+46464252,46464252,Error: Could not connect to server
+8f47cad1,8f47cad1,Status: Waiting to retry...
+d2cfc75d,d2cfc75d,Response: <*> User cannot log in.
+78e9131e,78e9131e,Error: Remote certificate not trusted.
+fc48ac37,fc48ac37,Status: Starting download of <*>
+7c213a4a,7c213a4a,"Status: File transfer successful, transferred <*> bytes in <*> seconds"
+088c126a,088c126a,Response: EPRT
+f143b5e1,f143b5e1,Response: EPSV
+27835d9e,27835d9e,Response: PASV
+754949f7,754949f7,Response: PROT
+f5a61006,f5a61006,Response: TVFS
+2417b2a2,2417b2a2,Response: <*> Always in UTF8 mode.
+96727342,96727342,Response: <*> PROT now Private.
+426c1aef,426c1aef,Response: <*> Ok to send data.
+4d4dd231,4d4dd231,Trace: CRealControlSocket:: OnSocketError( <*> )
+f528c07c,f528c07c,Status: Disconnected from server: ECONNABORTED - Connection aborted
+28da6228,28da6228,Response: MLST type*;size*;modify*;perm*;
+fcf37f56,fcf37f56,Response: MLSD
+e581c741,e581c741,Response: MFMT
+dfc2c8b3,dfc2c8b3,Response: <*> AUTH not understood
+eb174418,eb174418,"Response: <*> Anonymous login ok, send your complete email address as your password"
+5b45389b,5b45389b,"Response: <*> Anonymous access granted, restrictions apply"
+4ffdc252,4ffdc252,Response: <*> FEAT: Operation not permitted
+3eb227a8,3eb227a8,Status: Server did not properly shut down TLS connection
+eaac0758,eaac0758,Error: Could not read from socket: ECONNABORTED - Connection aborted
+22ec8bd0,22ec8bd0,Error: Disconnected from server

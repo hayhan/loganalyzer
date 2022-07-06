@@ -784,10 +784,25 @@ class PreprocessBase(ABC):
 
     def exceptions_tmplt(self):
         """
-        Do some exceptional prework for template update. Overwrite it if
-        you need some works to do in the normal process before template
-        update. It is optional.
+        Do some exceptional prework for template update. Overwrite it w/
+        customized implementation if needed or empty the content if not,
+        in the derived class.
         """
+        # Insert data/raw/LOG_TYPE/others/temp_updt_manu.txt to the head
+        # of data/cooked/LOG_TYPE/train.txt when generate or update the
+        # template lib. This workarounds some similarity threshold issue
+        # in the Drain agorithm. Unix cat however will generate trailing
+        # ^M char.
+        rawlogs: List[str] = []
+        with open(self.fzip['manu'], 'r', encoding='utf-8-sig') as rawfile:
+            rawlogs = rawfile.readlines()
+        # Make sure preceding file has line feed at EOF
+        self.add_line_feed(rawlogs)
+
+        self._rawlogs = rawlogs + self._rawlogs
+
+        # Conditionally save the rawlogs to file per config.
+        self.cond_save_strings(self.fzip['raw'], self._rawlogs)
 
     @staticmethod
     def split_token_apart(line: str, ptn_left: Pattern[str], ptn_right: Pattern[str]):
