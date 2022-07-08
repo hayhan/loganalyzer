@@ -133,7 +133,7 @@ b5fcd240,b5fcd240,Response: <*> Switching to <*> mode.
 ee4bbd0a,ee4bbd0a,Response: <*> Here comes the directory listing.
 d92e3541,d92e3541,Response: <*> Directory send OK.
 f5cff5ac,f5cff5ac,Response: <*> Directory successfully changed.
-63503145,63503145,Response: <*> Permission <*>
+8b23502c,8b23502c,Response: <*> Permission denied
 422205b7,422205b7,Status: Retrieving directory listing of <*>
 0e97b89d,0e97b89d,Response: <*> Using authentication type TLS.
 7267db31,7267db31,Trace: TLS handshakep: <*> ENCRYPTED EXTENSIONS
@@ -170,13 +170,10 @@ f4c4b613,f4c4b613,Error: File transfer failed
 7a841b6a,7a841b6a,Command: PASS 
 e7fae63a,e7fae63a,Response: <*> AUTH command OK. Initializing TLS connection.
 acb934bf,acb934bf,Trace: Hostname does not match certificate SANs
-2dffb141,2dffb141,"Response: <*> Not logged in, password error."
 46c5e32f,46c5e32f,Status: Delaying connection for <*> <*> due to previously failed connection attempt...
 26b1d65e,26b1d65e,Response: <*> Proceed with negotiation.
 09e8e618,09e8e618,Trace: TLS handshakep: <*> CERTIFICATE REQUEST
-46464252,46464252,Error: Could not connect to server
 8f47cad1,8f47cad1,Status: Waiting to retry...
-d2cfc75d,d2cfc75d,Response: <*> User cannot log in.
 78e9131e,78e9131e,Error: Remote certificate not trusted.
 fc48ac37,fc48ac37,Status: Starting download of <*>
 7c213a4a,7c213a4a,"Status: File transfer successful, transferred <*> bytes in <*> seconds"

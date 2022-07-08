@@ -1,0 +1,49 @@
+# This file contains tempaltes whose parameters are not cared. Severity
+# field includes 'fatal', 'error', 'warning', 'notice'. Context field
+# indicates if template has meaningful context within window. Usually
+# it is true, but some special templates should not consider context,
+# e.g. some events from interrupt.
+
+
+# TEMPLATE: "Response: <*> Access is denied. "
+'92b41e39':
+    severity: error
+    contxt: true
+    descpt: "Requested action not taken. File unavailable, e.g. file not
+             found, no access)."
+
+# TEMPLATE: "Error: Critical file transfer error"
+'c79f425b':
+    severity: error
+    contxt: true
+    descpt: "File transfer error, e.g. no write access on server."
+
+# TEMPLATE: "Error: File transfer failed"
+'f4c4b613':
+    severity: error
+    contxt: true
+    descpt: "File transfer failed."
+
+# TEMPLATE: "Error: Transfer connection interrupted: ECONNABORTED - Connection aborted"
+'3a995bbc':
+    severity: error
+    contxt: true
+    descpt: "Transfer connection interrupted."
+
+# TEMPLATE: "Error: Critical error: Could not connect to server"
+'3bea378e':
+    severity: error
+    contxt: true
+    descpt: "Could not connect to server."
+
+# TEMPLATE: "Error: Remote certificate not trusted."
+'78e9131e':
+    severity: error
+    contxt: true
+    descpt: "Remote certificate not trusted."
+
+# TEMPLATE: "Trace: tls_layer_impl:: failure( <*> )"
+'eeae0906':
+    severity: error
+    contxt: true
+    descpt: "TLS auth failed."

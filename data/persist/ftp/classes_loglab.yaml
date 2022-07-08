@@ -1,0 +1,26 @@
+# This file contains info about target classes, aka. categories
+
+c001:
+    desc: "[ACCESS] Upload fails because of no write access right on the
+           remote server."
+    refs: "N/A"
+
+# loglab_upload_fail_001.txt
+# ...
+# loglab_upload_fail_006.txt
+
+c002:
+    desc: "[ACCESS] Login fails because of wrong user name or password."
+    refs: "N/A"
+
+# loglab_login_fail_001.txt
+# ...
+# loglab_login_fail_005.txt
+
+c003:
+    desc: "[ACCESS] Login fails because of TLS handshakes."
+    refs: "N/A"
+
+# loglab_auth_fail_001.txt
+# ...
+# loglab_auth_fail_004.txt

@@ -1,0 +1,34 @@
+# Profile of different kind of models and parameters for exercising
+
+RFC:
+    window_size: 10
+    weight:
+        fatal: 3
+        error: 3
+        warning: 2
+        notice: 1
+        info: 1
+    feature: CNT
+    cover: FULL
+
+LR:
+    window_size: 10
+    weight:
+        fatal: 3
+        error: 3
+        warning: 2
+        notice: 1
+        info: 1
+    feature: CNT
+    cover: FULL
+
+SVM:
+    window_size: 10
+    weight:
+        fatal: 3
+        error: 3
+        warning: 2
+        notice: 1
+        info: 1
+    feature: CNT
+    cover: FULL
