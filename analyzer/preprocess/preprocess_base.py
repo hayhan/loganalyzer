@@ -376,13 +376,13 @@ class PreprocessBase(ABC):
             newline = self.split_tokens(newline, False)
 
             # ----------------------------------------------------------
-            # Add session label 'segsign: ' for DeepLog.
-            # In DeepLog training or validation, use multi-session logs.
-            # The metrics means doing validation on test dataset or not.
+            # Add session label 'segsign: ' for DeepLog to slice logs of
+            # multi-session. It applies to predicton as well as training
+            # and validation.
             # ----------------------------------------------------------
             # @abstractmethod: Override it in the derived class
             #
-            if self.context in ['DEEPLOG'] and (self.training or self.metrics):
+            if self.context in ['DEEPLOG']:
                 if self.match_session_label(newline):
                     newline = ''.join(['segsign: ', newline])
 
@@ -684,13 +684,13 @@ class PreprocessBase(ABC):
     def segment_deeplog(self):
         """
         The label can be added by both file concatenation and preprocess
-        of logparser. The same label might be added twice for the log at
+        new modules. The same label might be added twice for the log at
         the beginging of each file. So we replace the labels with empty
         by max twice below.
 
-        In the test dataset for validation, the session label might not
-        exist. Make sure we return the correct session vector (aka one
-        element representing the session size) in this case.
+        In the test dataset for validation/prediction, the session label
+        might not exist. Make sure we return the correct session vector
+        (aka one element representing the session size) in this case.
 
         The segment info format: [segment_size, ...]
         """

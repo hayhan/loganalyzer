@@ -231,6 +231,9 @@ def cli_deeplog_predict(all_para, learn_ts, debug):
     # Process the raw data and generate norm data
     ppobj.preprocess()
 
+    # Extract segment info and remove them from norm data
+    ppobj.segment_deeplog()
+
     # Parse the norm data
     psobj = Parser(ppobj.normlogs)
     psobj.parse()
@@ -254,11 +257,15 @@ def cli_deeplog_predict(all_para, learn_ts, debug):
         dlobj.map_norm_raw = psobj.map_norm_raw
         # Hand over mapping between norm and norm_rcv
         dlobj.map_norm_rcv = psobj.map_norm_rcv
+        # Hand over segment info for predition
+        dlobj.segdl = ppobj.segdl
     else:
         # Predict using deeplog model
         dlobj = DeepLog(psobj.df_raws, psobj.df_tmplts, dbg=debug)
         # Hand over mapping between raw and norm for prediction
         dlobj.map_norm_raw = ppobj.map_norm_raw
+        # Hand over segment info for predition
+        dlobj.segdl = ppobj.segdl
 
     if all_para:
         exercise_all_para_groups(dlobj)

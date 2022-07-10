@@ -42,11 +42,8 @@ class DeepLogExecDataset(Dataset):
     def __getitem__(self, index):
         """ Return a complete data sample at index
         Here it returns a dict that represents a complete sample at the
-        index. The parameter is sample index, which might not be same as
-        the value of self.data_dict["SeqIdx"] because the latter is not
-        continous accross session boundaries. See the comments of func
-        slice_logs for multi-session. After DataLoader processing, the
-        value parts of the dict will be tensors.
+        index. The parameter is sample index. After DataLoader running,
+        the value parts of the dict will be tensors.
         """
         return {k: self.data_dict[k][index] for k in self.keys}
 
@@ -175,17 +172,13 @@ class DeepLog(ModernBase):
         # Extract features
         # --------------------------------------------------------------
 
-        # For train or validation, we always handle multi-session logs
-        if self.training or self.metrics:
-            # Load the session vector we get from preprocess module
-            if not GC.conf['general']['aim']:
-                with open(self.fzip['segdl'], 'rb') as fin:
-                    self._segdl = pickle.load(fin)
+        # Load the session vector we get from preprocess module
+        if not GC.conf['general']['aim']:
+            with open(self.fzip['segdl'], 'rb') as fin:
+                self._segdl = pickle.load(fin)
 
-            data_dict = self.slice_logs_multi(event_idx_logs)
-        # For prediction, we need to suppose it is always one session
-        else:
-            data_dict = self.slice_logs(event_idx_logs)
+        # Slice logs with multi-session support
+        data_dict = self.slice_logs_multi(event_idx_logs)
 
         # data_dict:
         # <SeqIdx> the sequence index
@@ -194,63 +187,13 @@ class DeepLog(ModernBase):
         # <Label> the label of target event
         return data_dict, voc_size
 
-    def slice_logs(self, eidx_logs):
-        """ Slice event index vector in structured data into sequences
-
-        Note
-        ----
-        This is single-session logs version, used by prediction only
-
-        Arguments
-        ---------
-        eidx_logs: event index (0 based int) vector mapping to each \
-                   log in structured data
-
-        Returns
-        -------
-        data_dict:
-        <SeqIdx> the sequence / sample idx, \
-                 aka. log line number [0 ~ (logsnum-win_size-1)]
-        <EventSeq> array of index, [seq_num x window_size]
-        <Target> the target event index for each event sequence
-        <Label> the label of target event
-        """
-
-        win_size = self.model_para['win_size']
-        data_lst = []
-        print(f"Slicing the single-session logs with window {win_size} ...")
-
-        logsnum = len(eidx_logs)
-        i = 0
-        while (i + win_size) < logsnum:
-            sequence = eidx_logs[i: i + win_size]
-            data_lst.append(
-                [i, sequence, eidx_logs[i + win_size], self._labels[i + win_size]]
-            )
-            i += 1
-
-        # For training, the last window has no target and its label.
-        # Simply disgard it. So the total num of sequences equals
-        # logsnum - window_size
-
-        data_df = pd.DataFrame(data_lst, columns=["SeqIdx", "EventSeq", "Target", "Label"])
-        data_dict = {
-            "SeqIdx": data_df["SeqIdx"].to_numpy(dtype='int32'),
-            "EventSeq": np.array(data_df["EventSeq"].tolist(), dtype='int32'),
-            "Target": data_df["Target"].to_numpy(dtype='int32'),
-            "Label": data_df["Label"].to_numpy(dtype='int32')
-        }
-
-        return data_dict
-
     def slice_logs_multi(self, eidx_logs):
         """ Slice event index vector in structured file into sequences
 
         Note
         ----
-        This is multi-session logs version, which is used by train or
-        validation. This version must also be capable of handling the
-        case of one session only.
+        This is multi-session logs version. It must also be capable of
+        handling the case of one session only.
 
         Arguments
         ---------
@@ -260,8 +203,7 @@ class DeepLog(ModernBase):
         Returns
         -------
         data_dict:
-        <SeqIdx> the sequence / sample idx. This is different from
-                 single-file logs version.
+        <SeqIdx> the sequence / sample idx across all sessions
         <EventSeq> array of index, [seq_num x window_size]
         <Target> the target event index for each event sequence
         <Label> the label of target event
@@ -271,24 +213,21 @@ class DeepLog(ModernBase):
         data_lst = []
         print(f"Slicing the multi-session logs with window {win_size} ...")
 
+        seq_idx = 0
         session_offset = 0
 
         for _, session_size in enumerate(self._segdl):
             # The window only applies in each session and doesn't cross
-            # session boundary. SeqIdx no needs to be continuous with
-            # with step one across sessions. We do not use SeqIdx field
-            # in the later train/validate/predict. For simplicity, the
-            # SeqIdx will reset to 0 to count again when across session
-            # boundary. Change this behavior if we want to utilize the
-            # sequence or sample index across multiple sessions.
+            # session boundary.
             i = 0
             while (i + win_size) < session_size:
                 sequence = eidx_logs[i + session_offset: i + session_offset + win_size]
-                # The target word label. It is always 0 for training.
+                # The target word label. It is always 0 for training
+                # and prediction.
                 seq_label = self._labels[i + session_offset + win_size]
 
                 # For validation, aka training==false && metric==true
-                if not self.training:
+                if not self.training and self.metrics:
                     # Check each word in the seq as well as target label
                     seq_labels = \
                         self._labels[i + session_offset: i + session_offset + win_size + 1]
@@ -296,11 +235,18 @@ class DeepLog(ModernBase):
                         seq_label = 1
 
                 data_lst.append(
-                    [i, sequence, eidx_logs[i + session_offset + win_size], seq_label]
+                    [seq_idx, sequence, eidx_logs[i + session_offset + win_size], seq_label]
                 )
                 i += 1
+                seq_idx += 1
             # The session first log offset in the concatenated monolith
             session_offset += session_size
+
+        # The last window has no target in a session. Simply disregard
+        # it. so, the total number of sequences in each session equals
+        # session_size - window_size. The number of all sequences in the
+        # the dataset equals dataset_size - n * window_size. The n means
+        # the number of sessions.
 
         data_df = pd.DataFrame(data_lst, columns=["SeqIdx", "EventSeq", "Target", "Label"])
         data_dict = {
@@ -311,6 +257,68 @@ class DeepLog(ModernBase):
         }
 
         return data_dict
+
+    def target_norm_idx(self, seq_idx: int):
+        """
+        Get the norm index (aka. zero based line index in norm file) of
+        target in a sample sequence.
+
+        Note
+        ----
+        norm_idx = seq_idx + window_size, if there is only one session
+        in the dataset otherwise there is a gap between each session.
+        We suppose each session has a gap prefixed. The i indicates the
+        session index.
+
+        gap_size(i) = window_size, if session_size(i-1) > window_size
+        gap_size(i) = session_size(i-1), otherwise
+
+        norm_idx(i) = seq_idx + window_size + \
+                      gap_size(i) + gap_size(i-1) + ... + gap_size(0)
+
+        E.g. Suppose window_size 5. The following is how logs are sliced
+        in the slice_logs_multi(). Notice the session 2 has no sequence
+        as its session_size <= window_size, however the gap is there.
+
+        Session 0:
+        1 2 3 4 5 6 7 8 9 10
+        seq_idx  sequence          target
+        [0]      1 2 3 4 5         6
+        [1]      2 3 4 5 6         7
+        [2]      3 4 5 6 7         8
+        [3]      4 5 6 7 8         9
+        [4]      5 6 7 8 9         10
+
+        Session 1:
+        11 12 13 14 15 16 17 18
+        seq_idx  sequence          target
+        [5]      11 12 13 14 15    16
+        [6]      12 13 14 15 16    17
+        [7]      13 14 15 16 17    18
+
+        Session 2:
+        19 20 21 22
+        seq_idx  sequence          target
+
+        Session 3:
+        23 24 25 26 27 28 29
+        seq_idx  sequence          target
+        [8]      23 24 25 26 27    28
+        [9]      24 25 26 27 28    29
+
+        Arguments
+        ---------
+        seq_idx: Sequence index (zero based) across multi-session
+
+        Returns
+        -------
+        norm_idx: The norm index (zero based) of target in a sequence
+        """
+
+        win_size = self.model_para['win_size']
+        norm_idx = seq_idx + win_size
+
+        return norm_idx
 
     def para_anomaly_det(self, content, eid, template):
         """ Detect the parameter anomaly by using the OSS
@@ -435,11 +443,13 @@ class DeepLog(ModernBase):
                 # print('debug topk1:', topk_val)
                 seq_pred_sort = pred_sort.tolist()
                 seq_target = batch_in['Target'].tolist()
+                seq_idx_batch = batch_in['SeqIdx'].tolist()
                 # topk_lst = []
                 for i in range(bt_size):
                     # topk_lst.append(seq_pred_sort[i].index(seq_target[i]))
                     # The log (line, 0-based) index of anomaly in norm
-                    norm_idx = i+self.model_para['win_size']+j*self.model_para['batch_size']
+                    norm_idx = self.target_norm_idx(seq_idx_batch[i])
+                    # norm_idx = i+self.model_para['win_size']+j*self.model_para['batch_size']
                     top_idx = seq_pred_sort[i].index(seq_target[i])
 
                     if top_idx >= self.model_para['topk']:
@@ -458,8 +468,8 @@ class DeepLog(ModernBase):
                 # print('debug topk2:', topk_lst)
                 j += 1
 
-        # print(anomaly_pred)
-        # print(anomaly_line)
+        print(anomaly_pred)
+        print(anomaly_line)
         # print(len(anomaly_line))
         return anomaly_line
 
