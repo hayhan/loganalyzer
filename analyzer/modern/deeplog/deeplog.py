@@ -4,7 +4,7 @@
 import os
 import logging
 import pickle
-from typing import List
+from typing import List, Dict, Tuple, Any
 from importlib import import_module
 import numpy as np
 import pandas as pd
@@ -54,13 +54,18 @@ class DeepLogExecDataset(Dataset):
         return self.data_dict["SeqIdx"].shape[0]
 
 
+# pylint: disable=too-many-instance-attributes
 class DeepLog(ModernBase):
     """ The class of DeepLog technique """
     def __init__(self, df_raws, df_tmplts, dbg: bool = False):
-        self.model_para: dict = {}
+        self.model_para: Dict[str, Any] = {}
         self._segdl: List[int] = []
         self._labels: List[int] = []
         self.exec_model: str = ''
+        # Store the accumulated gap sizes for each session
+        self.acc_gaps: List[int] = []
+        # Store the map between session index and sequence range
+        self.map_session_seq: Dict[int, Tuple[int, int]] = {}
 
         self.load_para()
         self.kbase = kb.Kb()
@@ -177,6 +182,11 @@ class DeepLog(ModernBase):
             with open(self.fzip['segdl'], 'rb') as fin:
                 self._segdl = pickle.load(fin)
 
+        # Accumulate and store gaps for each session. See the notes in
+        # the member target_norm_idx(). Prediction only.
+        if not self.training and not self.metrics:
+            self.set_acc_gap_size()
+
         # Slice logs with multi-session support
         data_dict = self.slice_logs_multi(event_idx_logs)
 
@@ -216,7 +226,7 @@ class DeepLog(ModernBase):
         seq_idx = 0
         session_offset = 0
 
-        for _, session_size in enumerate(self._segdl):
+        for session_idx, session_size in enumerate(self._segdl):
             # The window only applies in each session and doesn't cross
             # session boundary.
             i = 0
@@ -237,6 +247,14 @@ class DeepLog(ModernBase):
                 data_lst.append(
                     [seq_idx, sequence, eidx_logs[i + session_offset + win_size], seq_label]
                 )
+
+                # Store the start and end sequence indexes of session
+                if not self.training and not self.metrics:
+                    if i == 0:
+                        start = seq_idx
+                    if i == session_size - win_size - 1:
+                        self.map_session_seq[session_idx] = (start, seq_idx)
+
                 i += 1
                 seq_idx += 1
             # The session first log offset in the concatenated monolith
@@ -258,6 +276,54 @@ class DeepLog(ModernBase):
 
         return data_dict
 
+    def get_session_idx(self, seq_idx: int):
+        """
+        Get the index (zero based) of session that current sequence
+        resides in.
+
+        Arguments
+        ---------
+        seq_idx: Sequence index (zero based) across multi-session
+
+        Returns
+        -------
+        session_idx: The session index
+        """
+        session_idx: int = 0
+
+        # The attribute self.map_session_seq has following format
+        # {session_index, (seq_idx_start, seq_idx_end)}
+        for i, seq_idx_pair in self.map_session_seq.items():
+            if seq_idx_pair[0] <= seq_idx <= seq_idx_pair[1]:
+                session_idx = i
+                break
+
+        return session_idx
+
+    def set_acc_gap_size(self):
+        """
+        Store the values of accumulated gap sizes for all the sessions.
+
+        gap_size(i) = window_size, if session_size(i-1) > window_size
+        gap_size(i) = session_size(i-1), otherwise
+
+        acc_gap_size(i) = \
+            gap_size(i) + gap_size(i-1) + ... + gap_size(0)
+        The i iterates 0 through session_size-1
+
+        Returns
+        -------
+        None: The attribute self.acc_gaps will be updated
+        """
+        win_size: int = self.model_para['win_size']
+        self.acc_gaps = [0] * len(self._segdl)
+
+        for i, _ in enumerate(self._segdl[1:], 1):
+            if self._segdl[i-1] > win_size:
+                self.acc_gaps[i] = self.acc_gaps[i-1] + win_size
+            else:
+                self.acc_gaps[i] = self.acc_gaps[i-1] + self._segdl[i-1]
+
     def target_norm_idx(self, seq_idx: int):
         """
         Get the norm index (aka. zero based line index in norm file) of
@@ -268,7 +334,7 @@ class DeepLog(ModernBase):
         norm_idx = seq_idx + window_size, if there is only one session
         in the dataset otherwise there is a gap between each session.
         We suppose each session has a gap prefixed. The i indicates the
-        session index.
+        index of session that current sequence (seq_idx) resides in.
 
         gap_size(i) = window_size, if session_size(i-1) > window_size
         gap_size(i) = session_size(i-1), otherwise
@@ -315,8 +381,11 @@ class DeepLog(ModernBase):
         norm_idx: The norm index (zero based) of target in a sequence
         """
 
-        win_size = self.model_para['win_size']
-        norm_idx = seq_idx + win_size
+        # Get the session index (zero based) that sequence resides in
+        session_idx: int = self.get_session_idx(seq_idx)
+
+        norm_idx: int = seq_idx + self.model_para['win_size'] + \
+                        self.acc_gaps[session_idx]
 
         return norm_idx
 
@@ -449,7 +518,6 @@ class DeepLog(ModernBase):
                     # topk_lst.append(seq_pred_sort[i].index(seq_target[i]))
                     # The log (line, 0-based) index of anomaly in norm
                     norm_idx = self.target_norm_idx(seq_idx_batch[i])
-                    # norm_idx = i+self.model_para['win_size']+j*self.model_para['batch_size']
                     top_idx = seq_pred_sort[i].index(seq_target[i])
 
                     if top_idx >= self.model_para['topk']:
@@ -468,8 +536,8 @@ class DeepLog(ModernBase):
                 # print('debug topk2:', topk_lst)
                 j += 1
 
-        print(anomaly_pred)
-        print(anomaly_line)
+        # print(anomaly_pred)
+        # print(anomaly_line)
         # print(len(anomaly_line))
         return anomaly_line
 

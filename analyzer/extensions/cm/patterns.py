@@ -352,6 +352,7 @@ PTN_HARD_PARA = {
 #
 # Regular expression list for special tokens. We want special tokens are
 # same between template and the accepted log at the corresponding offset
+# These patterns are used for preventing the Drain from over-parsing.
 #
 ptnobj_s0 = re.compile(r'[a-zA-Z]+[0-9]*[a-zA-Z]*\:')
 ptnobj_s1 = re.compile(r'[a-zA-Z]+\=')
