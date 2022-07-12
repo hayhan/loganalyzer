@@ -3,7 +3,7 @@
 
 # Section: general
 general:
-    log_type: cm        # Sub-folder of log platform must be consistent with name here
+    log_type: ftp       # Sub-folder of log platform must be consistent with name here
     head_offset: 24     # Log head offset. Default value is from standard timestamp
     training: true      # true for training, and false for prediction
     metrics: false

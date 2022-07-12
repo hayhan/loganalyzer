@@ -2,6 +2,7 @@
 """ CLI interface to the deeplog module.
 """
 import os
+import sys
 import logging
 import click
 import analyzer.utils.data_helper as dh
@@ -16,7 +17,11 @@ log = logging.getLogger(__name__)
 
 
 # Load profile for exercising DeepLog Exec/LSTM model
-PARA_GROUPS: dict = yh.read_yaml(dh.EXEC_DEEPLOG)
+try:
+    PARA_GROUPS: dict = yh.read_yaml(dh.EXEC_DEEPLOG)
+except FileNotFoundError:
+    print(f"Exercising profile {dh.EXEC_DEEPLOG} does not exist. Abort.")
+    sys.exit(1)
 
 def exercise_all_para_groups(dlobj):
     """ Train/Predict all the model parameter groups """

@@ -22,3 +22,17 @@ loglab:
         info: 1         # --- Normal
     feature: CNT        # Feature extraction algorithm, e.g. BIN or CNT
     cover: FULL         # Cover FULL sample or PART to calc ratio in algorithm CNT
+
+# Section: deeplog
+deeplog:
+    model: EXEC         # Execution path model. Parameter model PARAM is not implemented
+    window_size: 5      # Sequence length, unit is log
+    batch_size: 32
+    num_epochs: 50
+    num_workers: 0
+    hidden_size: 128    # Hidden size of LSTM
+    topk: 10
+    device: cpu
+    num_dir: 1          # Number of directions of LSTM
+    one_hot: true       # Use one-hot vector instead of event index in vocabulary
+    para_group: 0       # Parameter group number

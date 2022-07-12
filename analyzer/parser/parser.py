@@ -200,8 +200,8 @@ class Parser():
 
         # Load old event id & template of each log from structured norm
         if self._log_head_offset > 0:
-            # Real timestamp plus a space
-            time_logs = (self._df_raws['Time']+' ').values.tolist()
+            # Real timestamp
+            time_logs = (self._df_raws['Time']).values.tolist()
         elif self._log_head_offset == 0:
             # Empty string for each timestamp
             time_logs = [''] * self._df_raws.shape[0]
@@ -220,7 +220,7 @@ class Parser():
         for idx, (eido, temp) in enumerate(zip(eid_old_logs, temp_logs)):
             # Check the first char
             header_care = temp[0] in msc.HEADER_CARE
-            # Check th next log if current log id exists already in lib
+            # Check the next log if current log id exists already in lib
             # or m1 has not been found and the log does not start with
             # the char defined in HEADER_CARE.
             if (eido != '0') or (not m1_found and not header_care):

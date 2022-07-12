@@ -1,0 +1,25 @@
+# Profile of different parameters for exercising
+
+# Group 0
+0:
+    window_size: 5
+    batch_size: 32
+    num_epochs: 50
+    hidden_size: 128
+    topk: 10
+    num_dir: 1
+    num_workers: 0
+    device: cpu
+    one_hot: true
+
+# Group 1
+1:
+    window_size: 3
+    batch_size: 32
+    num_epochs: 50
+    hidden_size: 128
+    topk: 10
+    num_dir: 1
+    num_workers: 0
+    device: cpu
+    one_hot: true

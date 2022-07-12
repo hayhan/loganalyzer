@@ -739,6 +739,7 @@ class DeepLog(ModernBase):
             mnp_vec = list(range(self._df_raws.shape[0]))
 
         # Predict the test data
+        print("Predicting / inferencing ...")
         anomaly_line = self.predict_core(model, test_data_loader, device, mnp_vec)
 
         # Load the line mapping list between raw and norm test file

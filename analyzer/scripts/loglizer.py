@@ -17,7 +17,11 @@ log = logging.getLogger(__name__)
 
 
 # Load profile for exercising Loglizer
-EXEC_PROFILE: dict = yh.read_yaml(dh.EXEC_LOGLIZER)
+try:
+    EXEC_PROFILE: dict = yh.read_yaml(dh.EXEC_LOGLIZER)
+except FileNotFoundError:
+    print(f"Exercising profile {dh.EXEC_LOGLIZER} does not exist. Abort.")
+    sys.exit(1)
 
 # Classical models (static) for Loglizer
 CML_STC_MODELS: dict = EXEC_PROFILE['stc']

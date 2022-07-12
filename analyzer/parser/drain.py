@@ -841,7 +841,7 @@ class Drain:
                 headers.append(header)
         # For customized logformat, use it as rex pattern directly.
         # An example of logformat: '(?P<Time>.{m})(?P<Content>.*?)'
-        # Note, customeized one should not break headers generation.
+        # Note, customized one should not break headers generation.
         if logformat[0] != '<':
             regex = logformat
         regex = re.compile('^' + regex + '$')

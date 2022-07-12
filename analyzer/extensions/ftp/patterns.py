@@ -78,6 +78,15 @@ PTN_SPLIT_RIGHT = [
     ptnobj_r0,
 ]
 
+# ----------------------------------------------------------------------
+# Pattern for adding session label 'segsign: '
+# ----------------------------------------------------------------------
+PTN_SESSION = re.compile(
+    r'Trace: CControlSocket::SendNextCommand\(\)|'
+    r'Trace: CRealControlSocket::OnSocketError|'
+    r'Status: Disconnected from server(\n|\r)'
+)
+
 # ======================================================================
 # Parser module
 # ======================================================================

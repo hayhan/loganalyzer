@@ -50,4 +50,4 @@ class Preprocess(PreprocessBase):
 
     def match_session_label(self, line: str):
         """ Match session label for DeepLog """
-        del line
+        return ptn.PTN_SESSION.match(line)

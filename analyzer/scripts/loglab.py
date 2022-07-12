@@ -1,6 +1,7 @@
 # Licensed under the MIT License - see LICENSE.txt
 """ CLI interface to the loglab module.
 """
+import sys
 import logging
 import click
 import analyzer.utils.data_helper as dh
@@ -15,7 +16,11 @@ log = logging.getLogger(__name__)
 
 
 # Load profile (Classical models) for exercising Loglab
-CML_MODELS: dict = yh.read_yaml(dh.EXEC_LOGLAB)
+try:
+    CML_MODELS: dict = yh.read_yaml(dh.EXEC_LOGLAB)
+except FileNotFoundError:
+    print("Exercising profile {dh.EXEC_LOGLAB} does not exist. Abort.")
+    sys.exit(1)
 
 def exercise_all_models(llobj):
     """ Train/Predict all the models defined by Loglab """
