@@ -17,7 +17,7 @@ stc:
 
 # Incremental (partial) models
 inc:
-    MNB:
+    GNB:
         window_size: 10000
         window_step: 5000
     PTN:

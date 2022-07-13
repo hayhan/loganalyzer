@@ -516,7 +516,11 @@ class DeepLog(ModernBase):
                 # topk_lst = []
                 for i in range(bt_size):
                     # topk_lst.append(seq_pred_sort[i].index(seq_target[i]))
-                    # The log (line, 0-based) index of anomaly in norm
+                    # The log (line, 0-based) index of anomaly in norm.
+                    # Notice that we select the target log as anomaly
+                    # for simplicity. It is more meaningful to consider
+                    # the logs as well in the window of this target in
+                    # the final report.
                     norm_idx = self.target_norm_idx(seq_idx_batch[i])
                     top_idx = seq_pred_sort[i].index(seq_target[i])
 

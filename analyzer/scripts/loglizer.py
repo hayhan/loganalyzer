@@ -85,7 +85,7 @@ def train_general(is_all, filelst, debug, sel = 'stc'):
 @click.option(
     "--model",
     type=click.Choice(['DT', 'RFC', 'LR', 'SVM',
-                       'MNB', 'PTN', 'SGDC_SVM', 'SGDC_LR',
+                       'GNB', 'PTN', 'SGDC_SVM', 'SGDC_LR',
                        'ALL', 'NOPE']),
     default="NOPE",
     help="Select model to train.",
@@ -134,7 +134,7 @@ def cli_loglizer_train(model, inc, debug):
 
     if inc:
         if model != 'ALL' and GC.conf['loglizer']['model'] not in \
-            ['MNB', 'PTN', 'SGDC_SVM', 'SGDC_LR']:
+            ['GNB', 'PTN', 'SGDC_SVM', 'SGDC_LR']:
             print("The model cannot be used for incremental learning.")
             sys.exit(1)
         for file in filelst:
@@ -152,7 +152,7 @@ def cli_loglizer_train(model, inc, debug):
 @click.option(
     "--model",
     type=click.Choice(['DT', 'RFC', 'LR', 'SVM',
-                       'MNB', 'PTN', 'SGDC_SVM', 'SGDC_LR',
+                       'GNB', 'PTN', 'SGDC_SVM', 'SGDC_LR',
                        'ALL', 'NOPE']),
     default="NOPE",
     help="Select model to validate.",
@@ -240,7 +240,7 @@ def cli_loglizer_validate(model, debug, src):
 @click.option(
     "--model",
     type=click.Choice(['DT', 'RFC', 'LR', 'SVM',
-                       'MNB', 'PTN', 'SGDC_SVM', 'SGDC_LR',
+                       'GNB', 'PTN', 'SGDC_SVM', 'SGDC_LR',
                        'ALL', 'NOPE']),
     default="NOPE",
     help="Select model to predict.",
@@ -308,7 +308,7 @@ def cli_loglizer_show():
         "- SVM      : Supported Vector Machine\n"
         "- ALL      : Exercise all models in one shot"
         "\n--------- Supported models (Partial) --------\n"
-        "- MNB      : Multinomial Naive Bayes\n"
+        "- GNB      : Gaussian Naive Bayes\n"
         "- PTN      : Linear perceptron classifier\n"
         "- SGDC_SVM : Stochastic gradient descent SVM\n"
         "- SGDC_LR  : Stochastic gradient descent LR\n"

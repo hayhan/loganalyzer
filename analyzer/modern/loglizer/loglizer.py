@@ -61,7 +61,7 @@ class Loglizer(ModernBase):
 
         if self.model in ['DT', 'LR', 'SVM', 'RFC']:
             self.inc_updt = False
-        elif self.model in ['MNB', 'PTN', 'SGDC_SVM', 'SGDC_LR']:
+        elif self.model in ['GNB', 'PTN', 'SGDC_SVM', 'SGDC_LR']:
             self.inc_updt = True
         else:
             log.error("Model is not supported. Exit.")
@@ -86,7 +86,7 @@ class Loglizer(ModernBase):
         # Suppose Time column is always there but Date may not
         if 'Date' in self._df_raws.columns:
             self._df_raws['Date_Time'] = \
-                self._df_raws['Date'] + "_" + self._df_raws['Time']
+                self._df_raws['Date'] + " " + self._df_raws['Time']
         else:
             self._df_raws['Date_Time'] = self._df_raws['Time']
 
@@ -335,7 +335,7 @@ class Loglizer(ModernBase):
         x_new = x
         # print(x_new)
 
-        # x_data_file = self.fzip['output'] + 'train_x_data.txt'
+        # x_data_file = os.path.join(self.fzip['output'], 'train_x.txt')
         # np.savetxt(x_data_file, x_new, fmt="%s")
         print(f"Final train data shape: {x_new.shape[0]}-by-{x_new.shape[1]}\n")
         return x_new
@@ -369,7 +369,7 @@ class Loglizer(ModernBase):
                     idf_vec = np.load(os.path.join(dh.PERSIST_DATA, 'idf_vector_train_static.npy'))
                 # print(idf_vec)
             else:
-                # Use the idf data of test instead of the one from train data
+                # Use the idf data of test instead of the one from train
                 df_vec = np.sum(x > 0, axis=0)
                 idf_vec = np.log(num_instance / (df_vec + 1e-8))
             idf_matrix = x * np.tile(idf_vec, (num_instance, 1))
@@ -384,7 +384,7 @@ class Loglizer(ModernBase):
         x_new = x
         # print(x_new)
 
-        # x_data_file = self.fzip['output'] + 'test_x_data.txt'
+        # x_data_file = os.path.join(self.fzip['output'], 'test_x.txt')
         # np.savetxt(x_data_file, x_new, fmt="%s")
         print(f"Test data shape: {x_new.shape[0]}-by-{x_new.shape[1]}\n")
 
@@ -398,8 +398,7 @@ class Loglizer(ModernBase):
         # We do so to only constrain the heavy modules loading to train
         #
         from sklearn import tree, svm
-        from sklearn.naive_bayes import MultinomialNB
-        # from sklearn.linear_model import Perceptron
+        from sklearn.naive_bayes import GaussianNB
         from sklearn.linear_model import SGDClassifier, LogisticRegression
         from sklearn.ensemble import RandomForestClassifier
         from sklearn.metrics import precision_recall_fscore_support
@@ -429,8 +428,8 @@ class Loglizer(ModernBase):
 
         # Incremental training at the 1st time
         if self.inc_updt and not os.path.exists(inc_fit_model_file):
-            if self.model == 'MNB':
-                model = MultinomialNB(alpha=1.0, fit_prior=True, class_prior=None)
+            if self.model == 'GNB':
+                model = GaussianNB()
             elif self.model == 'PTN':
                 model = SGDClassifier(loss='perceptron', max_iter=1000)
             elif self.model == 'SGDC_SVM':

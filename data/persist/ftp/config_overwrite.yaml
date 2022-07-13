@@ -36,3 +36,9 @@ deeplog:
     num_dir: 1          # Number of directions of LSTM
     one_hot: true       # Use one-hot vector instead of event index in vocabulary
     para_group: 0       # Parameter group number
+
+# Section: loglizer
+loglizer:
+    model: DT           # Classical machine learning models
+    window_size: 5000   # Time window size, unit is ms
+    window_step: 1000   # Sliding window step, unit is ms
