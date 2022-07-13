@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    analyzer.extensions.cm
+   analyzer.extensions.ftp
 
 Module contents
 ---------------
