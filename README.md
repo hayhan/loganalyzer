@@ -1,6 +1,6 @@
 # **LogAnalyzer**
 
-*LogAnalyzer* is a platform for analyzing various system/app logs. It includes pre-processor, parser, analyzer and post-processor. Currently the analyzer supports [Loglab][link1], [Loglizer][link2] and [DeepLog][link3]. The Loglab is for multi-classification of issues while the Loglizer and DeepLog are only for anomaly detection (aka. binary classifiction).
+*LogAnalyzer* is a platform for analyzing various system/app logs. It includes pre-processor, parser, analyzer and post-processor. Currently the analyzer supports [Loglab][link1], [Loglizer][link2] and [DeepLog][link3]. The Loglab is for multi-classification of issues while the Loglizer and DeepLog are only for anomaly detection (aka. binary classification).
 
 [link1]: https://hayhan.github.io/2023/01/29/loglab.html
 [link2]: https://github.com/logpai/loglizer
