@@ -53,7 +53,7 @@ The Loglizer uses labeled logs for training. Still taking the ftp logs as exampl
 
 Then we can train, validate and predict using Loglizer console commands as following:
 
-Console command "*\$ analyzer loglizer*" shows the help info. "*\$ analyzer loglizer show*" displays the supported models. "*\$ analyzer loglizer train*" trains the model with Decesion Tree by default. "\$ analyzer loglizer train --model ALL" trains all the static models of supported. "\$ analyzer loglizer train --model ALL --inc" trains all partial fit models (aka. incremental training) of supported. "\$ analyzer loglizer validate --src labeled" validates the models using the logs under *data/raw/ftp/labeled/*.
+Console command "*\$ analyzer loglizer*" shows the help info. "*\$ analyzer loglizer show*" displays the supported models. "*\$ analyzer loglizer train*" trains the model with Decesion Tree by default. "*\$ analyzer loglizer train --model ALL*" trains all the static models of supported. "*\$ analyzer loglizer train --model ALL --inc*" trains all partial fit models (aka. incremental training) of supported. "*\$ analyzer loglizer validate --src labeled*" validates the models using the logs under *data/raw/ftp/labeled/*.
 
 To predict with the just trained model, copy the tested raw log file to *data/cooked/LOG_TYPE/test.txt*. and then run "*\$ analyzer loglab predict*". The report for the result is *data/test/LOG_TYPE/results_loglizer.csv*. (LOG_TYPE is ftp in our example).
 
@@ -61,7 +61,7 @@ To predict with the just trained model, copy the tested raw log file to *data/co
 
 The DeepLog uses normal logs (*/data/raw/ftp/normal/*) for training. Checkout the *data/persist/ftp/config_overwrite.yaml* and *data/persist/ftp/exec_para_deeplog.yaml*. We implement exec model of DeepLog using PyTorch and make use of knowledge base (*analyzer/extensions/ftp/knowledgebase.py*) to implement the param model of DeepLog.
 
-Console command "*\$ analyzer deeplog*" shows the help info. "*\$ analyzer deeplog train*" trains the model. "\$ analyzer deeplog validate --src labeled" validates the model using logs under *data/raw/ftp/labeled/*.
+Console command "*\$ analyzer deeplog*" shows the help info. "*\$ analyzer deeplog train*" trains the model. "*\$ analyzer deeplog validate --src labeled*" validates the model using logs under *data/raw/ftp/labeled/*.
 
 To predict with the just trained model, copy the tested raw log file to *data/cooked/LOG_TYPE/test.txt*. Then run "*\$ analyzer deeplog predict*". The report for the result is *data/test/LOG_TYPE/results_deeplog.txt*. (LOG_TYPE is ftp in our example).
 
@@ -73,7 +73,7 @@ LOG_TYPE currently supports 'cm' and 'ftp'. The former one indicates logs of DOC
 
 If your LOG_TYPE logs have very rich formats, e.g. containing tables, embedded multi-lines, etc., you may need to spend some efforts on implementing the *Preprocess::process_for_domain()* in *analyzer/extensions/LOG_TYPE/preprocess.py*. Please refer to the implementation of LOG_TYPE of cm for rich format logs preprocessing.
 
-Take notice that the raw cm training logs are removed from the data/raw.7z in github repo because of proprietary.
+Take notice that the raw cm training logs are removed from the *data/raw.7z* in github repo because of proprietary.
 
 ## **Miscellaneous**
 
@@ -122,7 +122,7 @@ To get api documents of html format, run commands below in docs directory of you
 *\$ sphinx-apidoc -f -o source ../analyzer && make html*
 
 [Windows PowerShell]  
-*C:\\> sphinx-apidoc -f -o source ..\analyzer; .\make.bat html*S
+*C:\\> sphinx-apidoc -f -o source ..\analyzer; .\make.bat html*
 
 [link1]: https://hayhan.github.io/2023/01/29/loglab.html
 [link2]: https://github.com/logpai/loglizer
