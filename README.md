@@ -108,7 +108,7 @@ see https://pytorch.org/ for install instructions. The version is 1.5.0 or above
 
 At the top directory of loganalyzer, run commands below (pay attention to the dot) to install the analyzer package. Then export environment var ANALYZER_DATA. Also, extract *raw.7z* to directory *data/*. Now you can use the "analyzer" command. Run "*\$ analyzer --help*" for sub commands and options.
 
-$ pip install .
+*\$ pip install .*
 
 [Linux or macOS]  
 *\$ export ANALYZER_DATA=path_to_your_clone_dir/data*
