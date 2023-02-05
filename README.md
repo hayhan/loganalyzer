@@ -116,7 +116,7 @@ At the top directory of loganalyzer, run commands below (pay attention to the do
 [Windows PowerShell]  
 *C:\\> $env:ANALYZER_DATA="path_to_your_clone_dir\data"*
 
-To get api documents of html format, run commands below in docs directory of your clone. The generated html pages are under *docs/build/html/*.
+To get api documents of html format, run commands below in *docs* directory of your clone. The generated html pages are under *docs/build/html/*.
 
 [Linux or macOS]  
 *\$ sphinx-apidoc -f -o source ../analyzer && make html*
