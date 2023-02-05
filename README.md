@@ -85,6 +85,10 @@ The timestamp is not necessary for Loglab and DeepLog except Loglizer. But for t
 
 For prediction of Loglab and DeepLog, the timestamp in logs is not necessary and any format is allowed if it exists. The *LogAnalyzer* can learn the width of timestamp, e.g. the "*\$ analyzer loglab predict*" and "*\$ analyzer deeplog predict*" learn the width by default. The option is "*--learn-ts/--no-learn-ts*". It doesn't require to know the format/width of timestamp in advance.
 
+**About prebuild models**
+
+There are prebuild models saved in *data/persist/LOG_TYPE/*. Because of version issue of frameworks/tools (e.g. scikit-learn, PyTorch, onnxruntime), you may experience warnings/errors when do partial fit or predict using them directly. In this case, simply delete the corresponding models in the *persist* folder and re-train them.
+
 ## **Running Environment**
 
 Activate python virtual environment firstly and then run following commands.

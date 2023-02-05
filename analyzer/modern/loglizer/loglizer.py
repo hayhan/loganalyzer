@@ -436,6 +436,9 @@ class Loglizer(ModernBase):
                 model = SGDClassifier(loss='hinge', max_iter=1000)
             else:
                 # SGDC_LR
+                # loss='log' will be removed in sklearn 1.3. Remember to
+                # change to loss='log_loss', which is not supported in
+                # sklearn 0.24.x.
                 model = SGDClassifier(loss='log', max_iter=1000)
             print(f"First time training...: {self.model}\n")
         # Incremental training ...
