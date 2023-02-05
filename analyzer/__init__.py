@@ -1,8 +1,8 @@
 # Licensed under the MIT License - see LICENSE.txt
 """ Loganalyzer: A Python package for log analyzing.
 
-* Code: Link TBD
-* Docs: Link TBD
+* Code: https://github.com/hayhan/loganalyzer
+* Docs: README.md
 
 The top-level `analyzer` namespace is almost empty,
 it only contains this:
