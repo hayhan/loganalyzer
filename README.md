@@ -12,7 +12,7 @@ The platform supports CLI commands / portable APIs to do most of the works inclu
 
 ## **Usage**
 
-We take the logs from ftp app FileZilla client as example to show how to pre-process, parse, build knowledge base, extract features, train and predict. We suppose you already setup the running enviroment otherwise check out the section of [Running Environment](#running-environment) at the end of the doc.
+We take the logs from ftp app FileZilla client as example to show how to pre-process, parse, build knowledge base, extract features, train and predict. We suppose you already setup the running enviroment otherwise check out the section of [Running Environment](#running-environment) at the end of the doc. Then follow the steps below one by one in this section.
 
 ### Prepare data set
 First, extract the *data/raw.7z* to *data/*. The *data/raw/ftp/loglab/* contains log samples in categories (c001/c002/c003) that are used to train Loglab. The *data/raw/ftp/labeled/* contains labeled (string 'abn: ' indicates abnormal) logs that are used to train Loglizer as well as to validate DeepLog. The *data/raw/ftp/normal/* contains normal logs that are used to train DeepLog. The *data/raw/ftp/abnormal/* contrains logs that are used for inference. The *data/raw/ftp/others/* contains some logs for special purposes.
